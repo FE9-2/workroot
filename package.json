@@ -20,7 +20,7 @@
     "date-fns": "^4.1.0",
     "form-data": "^4.0.1",
     "next": "14.2.15",
-    "next-auth": "^4.24.8",
+    "next-auth": "^4.24.10",
     "prettier": "^3.3.3",
     "react": "^18",
     "react-datepicker": "^7.4.0",

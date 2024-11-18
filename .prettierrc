@@ -13,13 +13,5 @@
   "plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
   "importOrder": ["^@/lib/(.*)$", "^@/app/(.*)$", "^@/components/(.*)$", "^[./]"],
   "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true,
-  "overrides": [
-    {
-      "files": "*",
-      "options": {
-        "endOfLine": "lf"
-      }
-    }
-  ]
+  "importOrderSortSpecifiers": true
 }

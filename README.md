@@ -113,12 +113,30 @@ style: 코드 포맷팅 적용
 
 ```json
 {
-  "printWidth": 120,
-  "tabWidth": 2,
-  "singleQuote": false,
-  "trailingComma": "es5",
-  "plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
-  "importOrder": ["^@/lib/(.*)$", "^@/app/(.*)$", "^@/components/(.*)$", "^[./]"]
+  "printWidth": 120, // 한 줄의 최대 길이를 120자로 제한
+  "tabWidth": 2, // 들여쓰기 시 사용할 공백 문자 수
+  "useTabs": false, // 탭 문자 대신 공백 문자 사용
+  "semi": true, // 문장 끝에 세미콜론 추가
+  "singleQuote": false, // 문자열에 작은따옴표 대신 큰따옴표 사용
+  "quoteProps": "as-needed", // 객체 속성에 따옴표 사용 방식 (필요한 경우에만 사용)
+  "trailingComma": "es5", // 객체, 배열 등의 마지막 항목 뒤에 쉼표 추가
+  "bracketSpacing": true, // 객체 리터럴의 괄호 사이에 공백 추가
+  "arrowParens": "always", // 화살표 함수의 매개변수를 항상 괄호로 감싸기
+  "proseWrap": "preserve", // 마크다운 텍스트의 줄바꿈 처리 방식
+  "endOfLine": "lf", // 줄 끝 문자를 LF(Line Feed)로 통일
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports", // 임포트 구문 자동 정렬 플러그인
+    "prettier-plugin-tailwindcss" // Tailwind CSS 클래스 자동 정렬 플러그인
+  ],
+  "importOrder": [
+    // 임포트 구문 정렬 순서 설정
+    "^@/lib/(.*)$", // 1순위: lib 디렉토리 임포트
+    "^@/app/(.*)$", // 2순위: app 디렉토리 임포트
+    "^@/components/(.*)$", // 3순위: components 디렉토리 임포트
+    "^[./]" // 4순위: 상대 경로 임포트
+  ],
+  "importOrderSeparation": true, // 임포트 그룹 사이에 빈 줄 추가
+  "importOrderSortSpecifiers": true // 임포트 구문 내부의 요소들 정렬
 }
 ```
 
