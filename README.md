@@ -202,13 +202,21 @@ const config = {
 git clone [repository-url]
 ```
 
-2. 의존성 설치:
+2. 환경 변수 설정:
+   프로젝트 루트에 .env 파일을 생성하고 다음 내용을 추가합니다:
+
+```bash
+NEXT_PUBLIC_API_URL=your-api-url
+NEXT_PUBLIC_TEAM_ID=your-team-id
+```
+
+3. 의존성 설치:
 
 ```bash
 npm install
 ```
 
-3. 개발 서버 실행:
+4. 개발 서버 실행:
 
 ```bash
 npm run dev
