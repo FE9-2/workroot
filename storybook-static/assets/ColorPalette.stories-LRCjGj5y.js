@@ -1,5 +1,4 @@
 import { R as e } from "./index-DJO9vBfz.js";
-
 const D = {
     primary: {
       green: {

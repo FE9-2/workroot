@@ -1,14 +1,9 @@
-import "../sb-preview/runtime.js";
-import { b as L, a as nr, _ as sr } from "./chunk-XP5HYGXS-BGCqD1aY.js";
-import { _ as tr } from "./iframe-zchCIFEx.js";
-import { r as Y, R as re } from "./index-DJO9vBfz.js";
-import { r as ar } from "./index-DJdX7xnk.js";
-
 const __vite__mapDeps = (
   i,
   m = __vite__mapDeps,
   d = m.f || (m.f = ["./react-18-BWhC85Cb.js", "./index-DJO9vBfz.js", "./index-DJdX7xnk.js"])
 ) => i.map((i) => d[i]);
+import { _ as tr } from "./iframe-zchCIFEx.js";
 import { _ as sr, a as nr, b as L } from "./chunk-XP5HYGXS-BGCqD1aY.js";
 import { r as Y, R as re } from "./index-DJO9vBfz.js";
 import { r as ar } from "./index-DJdX7xnk.js";

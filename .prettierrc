@@ -10,8 +10,5 @@
   "arrowParens": "always",
   "proseWrap": "preserve",
   "endOfLine": "lf",
-  "plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
-  "importOrder": ["^@/lib/(.*)$", "^@/app/(.*)$", "^@/components/(.*)$", "^[./]"],
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true
+  "plugins": ["prettier-plugin-tailwindcss"]
 }

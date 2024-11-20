@@ -1,5 +1,3 @@
-import "../sb-preview/runtime.js";
-
 const __vite__mapDeps = (
   i,
   m = __vite__mapDeps,
@@ -30,6 +28,7 @@ const __vite__mapDeps = (
       "./preview-sWn5TbjZ.js",
     ])
 ) => i.map((i) => d[i]);
+import "../sb-preview/runtime.js";
 (function () {
   const s = document.createElement("link").relList;
   if (s && s.supports && s.supports("modulepreload")) return;
@@ -76,7 +75,7 @@ const R = "modulepreload",
           p[n] = !0;
           const a = n.endsWith(".css"),
             f = a ? '[rel="stylesheet"]' : "";
-          if (!!u)
+          if (u)
             for (let m = i.length - 1; m >= 0; m--) {
               const E = i[m];
               if (E.href === n && (!a || E.rel === "stylesheet")) return;

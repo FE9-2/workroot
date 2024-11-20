@@ -1,5 +1,4 @@
 import { R as s } from "./index-DJO9vBfz.js";
-
 const i = ({ primary: e = !1, size: t = "medium", backgroundColor: o, label: a, ...n }) => {
   const r = e ? "storybook-button--primary" : "storybook-button--secondary";
   return s.createElement(

@@ -1,6 +1,4 @@
-import { B as t } from "./Button-CEEcay1U.js";
 import { R as e } from "./index-DJO9vBfz.js";
-
 import { B as t } from "./Button-CEEcay1U.js";
 const i = ({ user: n, onLogin: a, onLogout: r, onCreateAccount: l }) =>
   e.createElement(

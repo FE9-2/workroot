@@ -1,12 +1,4 @@
-import "../sb-preview/runtime.js";
-import "./iframe-zchCIFEx.js";
-import { useMDXComponents as o } from "./index-BrnU7xv7.js";
-import "./index-DJO9vBfz.js";
-import "./index-DJdX7xnk.js";
-import { ap as a, ao as e } from "./index-DfkMsJpm.js";
-import "./index-DrFu-skq.js";
-import "./index-j_8AUxV0.js";
-
+import { ao as e, ap as a } from "./index-DfkMsJpm.js";
 import { useMDXComponents as o } from "./index-BrnU7xv7.js";
 import "./iframe-zchCIFEx.js";
 import "../sb-preview/runtime.js";
