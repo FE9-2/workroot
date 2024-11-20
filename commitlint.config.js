@@ -21,6 +21,7 @@ module.exports = {
         "style", // 코드 스타일 혹은 포맷 등에 관한 커밋
         "refactor", // 코드 리팩토링에 대한 커밋
         "test", // 테스트 코드 수정에 대한 커밋
+        "remove", // 파일 삭제 대한 커밋
       ],
     ],
     "subject-empty": [2, "never"], // subject가 비어있지 않도록 규칙 설정
