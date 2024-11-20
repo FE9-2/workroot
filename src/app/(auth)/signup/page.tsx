@@ -1,8 +1,8 @@
 "use client";
 
 import { useAuth } from "@/hooks/useAuth";
-import { type SignupSchema, signupSchema } from "@/zod/authSchema";
-import { ROLES } from "@/zod/commonSchema";
+import { type SignupSchema, signupSchema } from "@/schemas/authSchema";
+import { ROLES } from "@/schemas/commonSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useEffect } from "react";
