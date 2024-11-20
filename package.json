@@ -14,7 +14,7 @@
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "chromatic": "npx chromatic --project-token=CHROMATIC_TOKEN"
+    "chromatic": "npx chromatic --project-token=chpt_98c35ab56989af7"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
