@@ -14,7 +14,7 @@
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "chromatic": "npx chromatic --project-token=chpt_98c35ab56989af7"
+    "chromatic": "dotenv -e .env npx chromatic"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -59,6 +59,7 @@
     "@typescript-eslint/parser": "^8.9.0",
     "autoprefixer": "^10.4.20",
     "chromatic": "^11.18.1",
+    "dotenv-cli": "^7.4.3",
     "eslint": "^8.57.1",
     "eslint-config-next": "14.2.15",
     "eslint-config-prettier": "^9.1.0",
@@ -80,7 +81,6 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
       "prettier --write"
     ]
   }
