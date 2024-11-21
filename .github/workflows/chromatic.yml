@@ -36,7 +36,7 @@ jobs:
         id: chromatic
         uses: chromaui/action@v1 # Chromatic의 GitHub Action
         with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }} # Chromatic 프로젝트 토큰
+          projectToken: ${{ env.CHROMATIC_PROJECT_TOKEN }} # 환경 변수 참조
           token: ${{ secrets.GITHUB_TOKEN }} # GitHub 인증 토큰
           onlyChanged: true # 변경된 스토리만 업로드
           autoAcceptChanges: true # Chromatic에서 변경 사항 자동 승인
