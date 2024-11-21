@@ -2,7 +2,7 @@ name: Preview # 워크플로우 이름
 
 on:
   pull_request: # 특정 이벤트 발생 시 실행
-    branches: ["main", "develop"] # main과 develop 브랜치에서 PR 생성 시 실행
+    branches: ["main", "dev"] # main과 dev 브랜치에서 PR 생성 시 실행
 
 permissions: # GitHub Actions의 권한 설정
   contents: write # 콘텐츠를 읽고 쓰는 권한
