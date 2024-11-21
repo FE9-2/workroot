@@ -1,13 +1,7 @@
 "use client";
 
-import { ChangeEvent, InputHTMLAttributes, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
-
-interface CommonInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  name: string;
-  color: string;
-  errors?: string;
-}
 
 interface InputProp {
   type: string;

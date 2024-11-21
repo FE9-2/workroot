@@ -1,7 +1,7 @@
 import CommonInput from "@/app/components/input/CommonInput";
 
 export default {
-  title: "Test/Transparent",
+  title: "Test/Input",
   component: CommonInput,
   args: {
     color: "#d9d9d9",
