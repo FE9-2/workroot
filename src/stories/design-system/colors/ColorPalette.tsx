@@ -1,7 +1,6 @@
-import { Meta, StoryFn } from "@storybook/react";
 import React from "react";
 
-const colors = {
+export const colors = {
   primary: {
     green: {
       100: "#E8F5E9",
@@ -89,7 +88,6 @@ const colors = {
   },
 };
 
-// 주어진 color와 label을 사용하여 색상 박스를 렌더링
 const ColorBox = ({ color, label }: { color: string; label: string }) => (
   <div style={{ margin: "10px", textAlign: "center" }}>
     <div style={{ backgroundColor: color, width: "100px", height: "100px", margin: "0 auto" }}></div>
@@ -98,7 +96,6 @@ const ColorBox = ({ color, label }: { color: string; label: string }) => (
   </div>
 );
 
-// colors 객체를 순회하며 각 색상 카테고리와 색상을 시각적으로 보여줌
 const ColorPalette = () => (
   <div>
     {Object.entries(colors).map(([categoryName, category]) => (
@@ -127,12 +124,4 @@ const ColorPalette = () => (
   </div>
 );
 
-// Storybook에서 이 스토리를 어떻게 보여줄지 설정
-export default {
-  title: "Design System/Colors", // 스토리가 표시될 위치를 정의
-  component: ColorPalette, // 스토리가 사용할 컴포넌트를 정의
-} as Meta;
-
-const Template: StoryFn = () => <ColorPalette />;
-
-export const Default = Template.bind({});
+export default ColorPalette;
