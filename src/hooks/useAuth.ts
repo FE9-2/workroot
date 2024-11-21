@@ -1,6 +1,6 @@
+import { LoginSchema, SignupSchema } from "@/schemas/authSchema";
 import { useUserStore } from "@/store/userStore";
 import { AuthResponse } from "@/types/auth";
-import { LoginSchema, SignupSchema } from "@/zod/authSchema";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
