@@ -5,7 +5,6 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "clean": "rimraf .next out",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "test": "echo \"No tests specified\" && exit 0",
@@ -61,7 +60,6 @@
     "eslint-plugin-storybook": "^0.11.0",
     "postcss": "^8.4.47",
     "prettier-plugin-tailwindcss": "^0.6.8",
-    "rimraf": "^6.0.1",
     "storybook": "^8.4.4",
     "tailwindcss": "^3.4.14",
     "typescript": "^5.6.3"
