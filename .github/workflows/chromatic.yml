@@ -2,7 +2,7 @@ name: Preview # 워크플로우 이름
 
 on:
   pull_request: # 특정 이벤트 발생 시 실행
-    branches: ["main", "develop"] # main과 develop 브랜치에서 PR 생성 시 실행
+    branches: ["main", "dev"] # main과 dev 브랜치에서 PR 생성 시 실행
 
 permissions: # GitHub Actions의 권한 설정
   contents: write # 콘텐츠를 읽고 쓰는 권한
@@ -16,7 +16,7 @@ jobs:
   storybook-preview:
     runs-on: ubuntu-20.04 # 워크플로우 실행 환경 (Ubuntu 20.04)
     env:
-      CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }} # 환경 변수로 설정
+      CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
     steps:
       - name: 저장소 체크아웃
         uses: actions/checkout@v3 # GitHub Actions의 공식 체크아웃 액션
@@ -38,7 +38,7 @@ jobs:
         id: chromatic
         uses: chromaui/action@v1 # Chromatic의 GitHub Action
         with:
-          projectToken: ${{ env.CHROMATIC_PROJECT_TOKEN }} # 환경 변수 참조
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }} # 환경 변수 참조
           token: ${{ secrets.GITHUB_TOKEN }} # GitHub 인증 토큰
           onlyChanged: true # 변경된 스토리만 업로드
           autoAcceptChanges: true # Chromatic에서 변경 사항 자동 승인
