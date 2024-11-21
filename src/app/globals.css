@@ -2,17 +2,101 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Pretendard 폰트 */
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+/* Gothic A1 */
+@import url("https://fonts.googleapis.com/css2?family=Gothic+A1:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
+/* 학교안심 둥근미소 R */
+@font-face {
+  font-family: "HakgyoansimDunggeunmisoTTF-R";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-R.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* 학교안심 둥근미소 B */
+@font-face {
+  font-family: "HakgyoansimDunggeunmisoTTF-B";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-B.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* 기본적인 스타일을 정의 */
 @layer base {
   body {
-    @apply font-sans;
+    @apply font-gothic;
   }
 }
 
+/* 재사용 가능한 컴포넌트 스타일을 정의 */
+@layer components {
+  .font-school-regular {
+    font-family: "HakgyoansimDunggeunmisoTTF-R", sans-serif;
+    font-weight: 400;
+  }
+  .font-school-bold {
+    font-family: "HakgyoansimDunggeunmisoTTF-B", sans-serif;
+    font-weight: 700;
+  }
+}
+
+/* 유틸리티 클래스를 정의 */
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.gothic-thin {
+  font-family: "Gothic A1", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.gothic-extralight {
+  font-family: "Gothic A1", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.gothic-light {
+  font-family: "Gothic A1", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.gothic-regular {
+  font-family: "Gothic A1", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.gothic-medium {
+  font-family: "Gothic A1", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.gothic-semibold {
+  font-family: "Gothic A1", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.gothic-bold {
+  font-family: "Gothic A1", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.gothic-extrabold {
+  font-family: "Gothic A1", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.gothic-black {
+  font-family: "Gothic A1", sans-serif;
+  font-weight: 900;
+  font-style: normal;
 }
