@@ -14,8 +14,8 @@ const config: Config = {
         foreground: "var(--foreground)",
       },
       fontFamily: {
-        sans: [
-          "Pretendard",
+        gothic: [
+          "Gothic A1",
           "-apple-system",
           "BlinkMacSystemFont",
           "system-ui",
@@ -23,7 +23,6 @@ const config: Config = {
           "Apple SD Gothic Neo",
           "sans-serif",
         ],
-        gothic: ["Gothic A1", "sans-serif"],
       },
     },
   },
