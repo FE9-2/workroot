@@ -6,12 +6,12 @@ import Footer from "../components/Footer";
 
 export default function Home() {
   return (
-    <div className="font-school flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col">
       <main className="flex-grow">
         {/* 히어로 섹션 */}
         <section className="bg-gradient-to-r from-blue-500 to-purple-600 py-20 text-white">
           <div className="container mx-auto px-4 text-center">
-            <h1 className="font-school-bold mb-6 text-4xl md:text-6xl">WorkRoot Project</h1>
+            <h1 className="mb-6 text-4xl md:text-6xl">WorkRoot Project</h1>
             <p className="mb-8 text-xl md:text-2xl">Next.js와 함께하는 새로운 웹 경험</p>
             <div className="space-x-4">
               <Link
