@@ -23,6 +23,7 @@ const config: Config = {
           "Apple SD Gothic Neo",
           "sans-serif",
         ],
+        school: ["HakgyoansimDunggeunmisoTTF-R", "HakgyoansimDunggeunmisoTTF-B", "sans-serif"],
       },
     },
   },

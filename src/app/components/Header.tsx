@@ -21,10 +21,10 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-gradient-to-r from-blue-600 to-purple-600 shadow-md">
+    <header className="font-school bg-gradient-to-r from-blue-600 to-purple-600 shadow-md">
       <div className="container mx-auto px-4">
         <nav className="flex h-16 items-center justify-between">
-          <Link href="/" className="text-xl font-bold text-white hover:text-blue-100">
+          <Link href="/" className="font-school-bold text-xl text-white hover:text-blue-100">
             WorkRoot
           </Link>
 
