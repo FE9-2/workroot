@@ -6,6 +6,8 @@
     "build": "next build",
     "start": "next start",
     "clean": "rimraf .next out",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
     "test": "echo \"No tests specified\" && exit 0",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
