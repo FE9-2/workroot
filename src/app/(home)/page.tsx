@@ -3,7 +3,6 @@
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Button from "../components/button/Button";
 
 export default function Home() {
   const [visibleSections, setVisibleSections] = useState(new Set<string>());
@@ -89,11 +88,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        {/* 버튼 */}
-        <Button variant="outlined" width="xs" radius="lg" className="">
-          버튼
-        </Button>
       </main>
     </div>
   );
