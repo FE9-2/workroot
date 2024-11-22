@@ -20,7 +20,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className = "", variant = "solid", width = "md", radius = "lg", disabled, children, ...props }, ref) => {
-    const baseStyles = "inline-flex items-center justify-center rounded-lg transition-colors font-medium h-12";
+    const baseStyles = "inline-flex items-center justify-center transition-colors font-medium h-12";
 
     const variants = {
       solid: [
