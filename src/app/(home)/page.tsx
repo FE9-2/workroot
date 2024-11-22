@@ -38,10 +38,10 @@ export default function Home() {
   }, []);
 
   const sections = [
-    { id: "1", src: "/images/02.svg", alt: "이미지 1" },
-    { id: "2", src: "/images/03.svg", alt: "이미지 2" },
-    { id: "3", src: "/images/04.svg", alt: "이미지 3" },
-    { id: "4", src: "/images/05.svg", alt: "이미지 4" },
+    { id: "1", src: "/images/02.png", alt: "이미지 1" },
+    { id: "2", src: "/images/03.png", alt: "이미지 2" },
+    { id: "3", src: "/images/04.png", alt: "이미지 3" },
+    { id: "4", src: "/images/05.png", alt: "이미지 4" },
   ];
 
   return (
@@ -66,7 +66,7 @@ export default function Home() {
 
           {/* 배경 이미지 */}
           <div className="relative mt-8 aspect-[964/520] w-[320px] sm:w-[70vw] lg:w-[964px]">
-            <Image src="/images/01.svg" alt="Hero Background" layout="fill" className="rounded-lg object-contain" />
+            <Image src="/images/01.png" alt="Hero Background" layout="fill" className="rounded-lg object-contain" />
           </div>
         </section>
 
