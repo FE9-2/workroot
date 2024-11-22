@@ -88,11 +88,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <div className="space-y-4">
-          <p className="font-nexon-light text-2xl text-gray-500">Nexon Lv1 Gothic Light</p>
-          <p className="font-nexon-regular text-2xl text-gray-500">Nexon Lv1 Gothic Regular</p>
-          <p className="font-nexon-bold text-2xl text-gray-500">Nexon Lv1 Gothic Bold</p>
-        </div>
       </main>
     </div>
   );
