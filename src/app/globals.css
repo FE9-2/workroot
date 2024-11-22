@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* textarea 스크롤바 커스텀*/
+textarea::-webkit-scrollbar {
+  width: 4px;
+}
+
+textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
+textarea::-webkit-scrollbar-thumb {
+  background: #c4c4c4;
+  border-radius: 9999px;
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+  background: #ababab;
+}
 /* 학교안심 둥근미소 R */
 @font-face {
   font-family: "HakgyoansimDunggeunmisoTTF-R";

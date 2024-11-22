@@ -5,6 +5,7 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./stories/**/*.{js,ts,jsx,tsx}", // Storybook의 스토리 파일 경로 추가
     "./src/app/globals.css",
     "./src/stories/**/*.{js,ts,jsx,tsx,mdx}",
   ],
@@ -50,7 +51,7 @@ const config: Config = {
           200: "#E6E6E6",
         },
         state: {
-          error: "FC4100",
+          error: "#FC4100",
         },
       },
       fontFamily: {
