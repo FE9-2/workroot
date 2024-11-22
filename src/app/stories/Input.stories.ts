@@ -1,16 +1,20 @@
-import CommonInput from "@/app/components/input/CommonInput";
+import BaseInput from "../components/input/BaseInput";
 
 export default {
   title: "Test/Input",
-  component: CommonInput,
+  component: BaseInput,
   args: {
-    color: "#d9d9d9",
+    name: "input",
+    variant: "white",
+    disabled: false,
+    placeholder: "텍스트 입력",
   },
 };
 
 export const Text = {
   args: {
     type: "text",
+    placeholder: "텍스트 입력",
   },
 };
 export const Password = {

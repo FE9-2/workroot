@@ -30,6 +30,7 @@ export const transparentTextArea = {
 
 export const textArea_with_error = {
   args: {
+    variant: "white",
     borderColor: BorderColor.ERROR,
     placeholder: "에러 상태 테스트",
     errorMessage: "가게 이름(상호명)을 필수로 입력해주세요", // 필수값 검증
