@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import Footer from "../components/Footer";
+import Footer from "../components/layout/Footer";
 
 export default function Home() {
   return (

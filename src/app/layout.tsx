@@ -1,7 +1,7 @@
 import React from "react";
 
 import ClientLayout from "./clientLayout";
-import Header from "./components/Header";
+import Header from "./components/layout/Header";
 import "./globals.css";
 import { metadata } from "./metadata";
 import { viewport } from "./viewport";
@@ -16,8 +16,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <Header />
-        <ClientLayout>{children}</ClientLayout>
+        <ClientLayout>
+          <Header />
+          {children}
+        </ClientLayout>
       </body>
     </html>
   );
