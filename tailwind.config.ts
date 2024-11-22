@@ -6,6 +6,8 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./stories/**/*.{js,ts,jsx,tsx}", // Storybook의 스토리 파일 경로 추가
+    "./src/app/globals.css",
+    "./src/stories/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -53,8 +55,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: [
-          "Pretendard",
+        gothic: [
+          "Gothic A1",
           "-apple-system",
           "BlinkMacSystemFont",
           "system-ui",
@@ -62,6 +64,7 @@ const config: Config = {
           "Apple SD Gothic Neo",
           "sans-serif",
         ],
+        school: ["HakgyoansimDunggeunmisoTTF-R", "HakgyoansimDunggeunmisoTTF-B", "sans-serif"],
       },
     },
   },

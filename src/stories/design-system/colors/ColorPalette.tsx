@@ -1,7 +1,6 @@
-import { Meta, StoryFn } from "@storybook/react";
 import React from "react";
 
-const colors = {
+export const colors = {
   primary: {
     green: {
       100: "#E8F5E9",
@@ -125,11 +124,4 @@ const ColorPalette = () => (
   </div>
 );
 
-export default {
-  title: "Design System/Colors",
-  component: ColorPalette,
-} as Meta;
-
-const Template: StoryFn = () => <ColorPalette />;
-
-export const Default = Template.bind({});
+export default ColorPalette;
