@@ -1,8 +1,6 @@
 import BaseTextArea from "@/app/components/input/BaseTextArea";
 
 enum BorderColor {
-  DEFAULT = "border-grayscale-200",
-  NONE = "border-0",
   ERROR = "border-state-error",
 }
 
@@ -30,7 +28,7 @@ export const transparentTextArea = {
   },
 };
 
-export const textArea_error = {
+export const textArea_with_error = {
   args: {
     borderColor: BorderColor.ERROR,
     placeholder: "에러 상태 테스트",
