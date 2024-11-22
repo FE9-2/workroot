@@ -48,4 +48,3 @@ storybook-static/*
 build-storybook.log
 
 *storybook.log
-.storybook/Configure.mdx
