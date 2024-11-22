@@ -13,9 +13,12 @@ const BaseTextArea = (props: BaseTextAreaProps) => {
       : "bg-transparent border-[0.5px] border-grayscale-200 caret-primary-orange-300 hover:border-grayscale-300 [&:has(textarea:focus)]:border-primary-orange-300";
 
   const textAreaBgStyle = props.variant === "white" ? "bg-background-200" : "bg-transparent";
-  const textareaStyle = `${baseStyle} ${textAreaBgStyle} ${textStyle} ${props.className || ""}`;
 
   const errorStyle = props.errorMessage ? "border-state-error" : "";
+
+  const textareaStyle = `${baseStyle} ${textAreaBgStyle} ${textStyle} ${props.className || ""}`;
+
+  // wrapper에 배경색과 테두리 스타일 적용
   const wrapperStyle = `group p-[14px] lg:py-[18px] relative rounded-lg w-[327px] lg:w-[640px] h-[132px] lg:h-[160px] ${variantStyle} ${errorStyle}`;
 
   return (
