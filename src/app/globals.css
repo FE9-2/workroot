@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Gothic A1 */
-@import url("https://fonts.googleapis.com/css2?family=Gothic+A1:wght@100;200;300;400;500;600;700;800;900&display=swap");
-
 /* 학교안심 둥근미소 R */
 @font-face {
   font-family: "HakgyoansimDunggeunmisoTTF-R";
@@ -21,10 +18,33 @@
   font-style: normal;
 }
 
+/* 넥슨 폰트 */
+@font-face {
+  font-family: "NEXON Lv1 Gothic OTF Light";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Light.woff")
+    format("woff");
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: "NEXON Lv1 Gothic OTF Regular";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Regular.woff")
+    format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "NEXON Lv1 Gothic OTF Bold";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Bold.woff")
+    format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+
 /* 기본적인 스타일을 정의 */
 @layer base {
   body {
-    @apply font-gothic;
+    @apply font-nexon;
   }
 }
 
@@ -38,6 +58,18 @@
     font-family: "HakgyoansimDunggeunmisoTTF-B", sans-serif;
     font-weight: 700;
   }
+  .font-nexon-light {
+    font-family: "NEXON Lv1 Gothic OTF Light", sans-serif;
+    font-weight: 300;
+  }
+  .font-nexon-regular {
+    font-family: "NEXON Lv1 Gothic OTF Regular", sans-serif;
+    font-weight: 400;
+  }
+  .font-nexon-bold {
+    font-family: "NEXON Lv1 Gothic OTF Bold", sans-serif;
+    font-weight: 700;
+  }
 }
 
 /* 유틸리티 클래스를 정의 */
@@ -45,58 +77,4 @@
   .text-balance {
     text-wrap: balance;
   }
-}
-
-.gothic-thin {
-  font-family: "Gothic A1", sans-serif;
-  font-weight: 100;
-  font-style: normal;
-}
-
-.gothic-extralight {
-  font-family: "Gothic A1", sans-serif;
-  font-weight: 200;
-  font-style: normal;
-}
-
-.gothic-light {
-  font-family: "Gothic A1", sans-serif;
-  font-weight: 300;
-  font-style: normal;
-}
-
-.gothic-regular {
-  font-family: "Gothic A1", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.gothic-medium {
-  font-family: "Gothic A1", sans-serif;
-  font-weight: 500;
-  font-style: normal;
-}
-
-.gothic-semibold {
-  font-family: "Gothic A1", sans-serif;
-  font-weight: 600;
-  font-style: normal;
-}
-
-.gothic-bold {
-  font-family: "Gothic A1", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.gothic-extrabold {
-  font-family: "Gothic A1", sans-serif;
-  font-weight: 800;
-  font-style: normal;
-}
-
-.gothic-black {
-  font-family: "Gothic A1", sans-serif;
-  font-weight: 900;
-  font-style: normal;
 }

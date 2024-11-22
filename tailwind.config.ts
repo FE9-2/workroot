@@ -54,20 +54,21 @@ const config: Config = {
         },
       },
       fontFamily: {
-        gothic: [
-          "Gothic A1",
+        nexon: [
+          "NEXON Lv1 Gothic OTF",
+          "sans-serif",
           "-apple-system",
           "BlinkMacSystemFont",
           "system-ui",
           "Helvetica Neue",
           "Apple SD Gothic Neo",
           "sans-serif",
+          "sans-serif",
         ],
         school: ["HakgyoansimDunggeunmisoTTF-R", "HakgyoansimDunggeunmisoTTF-B", "sans-serif"],
       },
     },
   },
-  plugins: [],
 };
 
 export default config;
