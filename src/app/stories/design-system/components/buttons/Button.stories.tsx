@@ -15,10 +15,14 @@ const meta = {
     },
     width: {
       control: "radio",
-      options: ["normal", "wide"],
+      options: ["xs", "sm", "md", "lg"],
     },
     disabled: {
       control: "boolean",
+    },
+    radius: {
+      control: "radio",
+      options: ["lg", "full"],
     },
   },
 } satisfies Meta<typeof Button>;
@@ -30,7 +34,8 @@ export const SolidNormal: Story = {
   args: {
     children: "Solid Button",
     variant: "solid",
-    width: "normal",
+    width: "md",
+    radius: "lg",
   },
 };
 
@@ -38,7 +43,7 @@ export const SolidWide: Story = {
   args: {
     children: "Solid Button",
     variant: "solid",
-    width: "wide",
+    width: "lg",
   },
 };
 
@@ -46,7 +51,7 @@ export const SolidDisabled: Story = {
   args: {
     children: "Solid Button",
     variant: "solid",
-    width: "normal",
+    width: "md",
     disabled: true,
   },
 };
@@ -55,7 +60,8 @@ export const OutlinedNormal: Story = {
   args: {
     children: "Outlined Button",
     variant: "outlined",
-    width: "normal",
+    width: "md",
+    radius: "lg",
   },
 };
 
@@ -63,7 +69,7 @@ export const OutlinedWide: Story = {
   args: {
     children: "Outlined Button",
     variant: "outlined",
-    width: "wide",
+    width: "lg",
   },
 };
 
@@ -71,7 +77,7 @@ export const OutlinedDisabled: Story = {
   args: {
     children: "Outlined Button",
     variant: "outlined",
-    width: "normal",
+    width: "md",
     disabled: true,
   },
 };

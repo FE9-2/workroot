@@ -2,13 +2,14 @@ import React, { ButtonHTMLAttributes } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "solid" | "outlined";
-  width?: "normal" | "wide";
+  width?: "xs" | "sm" | "md" | "lg";
+  radius?: "lg" | "full";
   disabled?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className = "", variant = "solid", width = "normal", disabled, children, ...props }, ref) => {
-    const baseStyles = "inline-flex items-center justify-center rounded-lg transition-colors font-medium h-12";
+  ({ className = "", variant = "solid", width = "md", radius = "lg", disabled, children, ...props }, ref) => {
+    const baseStyles = "inline-flex items-center justify-center transition-colors font-medium h-12";
 
     const variants = {
       solid: [
@@ -26,14 +27,22 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     const widths = {
-      normal: "w-[327px]",
-      wide: "w-[640px]",
+      xs: "w-[80px]",
+      sm: "w-[180px]",
+      md: "w-[327px]",
+      lg: "w-[640px]",
     };
+
+    const radiuses = {
+      lg: "rounded-lg",
+      full: "rounded-full",
+    };
+    console.log(`Computed classes: ${radiuses[radius]}`);
 
     return (
       <button
         ref={ref}
-        className={`${baseStyles} ${variants[variant]} ${widths[width]} ${className}`.trim()}
+        className={`${baseStyles} ${variants[variant]} ${widths[width]} ${radiuses[radius]} ${className}`.trim()}
         disabled={disabled}
         {...props}
       >
@@ -43,6 +52,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 
-Button.displayName = "Button";
+Button.displayName = "DefaultButton"; // 컴포넌트가 개발자 도구에서 DefaultButton로 표시됨
 
 export default Button;
