@@ -25,7 +25,7 @@ export default function Header() {
       <div className="container mx-auto px-4">
         <nav className="flex h-16 items-center justify-between">
           <Link href="/" className="text-xl text-white hover:text-blue-100">
-            WorkRoot
+            Work Root
           </Link>
 
           <ul className="flex items-center space-x-6">
