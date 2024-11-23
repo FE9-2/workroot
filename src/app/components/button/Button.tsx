@@ -1,9 +1,11 @@
-import React, { ButtonHTMLAttributes } from "react";
+import React, { ButtonHTMLAttributes, ReactNode } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "solid" | "outlined";
   width?: "xs" | "sm" | "md" | "lg";
   radius?: "lg" | "full";
+  icon?: ReactNode;
+
   disabled?: boolean;
 }
 
@@ -19,7 +21,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
  */
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className = "", variant = "solid", width = "md", radius = "lg", disabled, children, ...props }, ref) => {
+  ({ className = "", variant = "solid", width = "md", radius = "lg", icon, disabled, children, ...props }, ref) => {
     const baseStyles = "inline-flex items-center justify-center transition-colors font-medium h-12";
 
     const variants = {
@@ -56,6 +58,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled}
         {...props}
       >
+        {icon && (
+          <button className="mr-2 hover:text-primary-orange-200" onClick={() => console.log("click!")}>
+            {icon}
+          </button>
+        )}
         {children}
       </button>
     );

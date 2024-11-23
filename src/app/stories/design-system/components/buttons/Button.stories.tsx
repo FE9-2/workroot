@@ -1,5 +1,6 @@
 import Button from "@/app/components/button/Button";
 import type { Meta, StoryObj } from "@storybook/react";
+import { RiEdit2Fill } from "react-icons/ri";
 
 const meta = {
   title: "Design System/Components/Button",
@@ -23,6 +24,9 @@ const meta = {
     radius: {
       control: "radio",
       options: ["lg", "full"],
+    },
+    icon: {
+      control: "text",
     },
   },
 } satisfies Meta<typeof Button>;
@@ -79,5 +83,15 @@ export const OutlinedDisabled: Story = {
     variant: "outlined",
     width: "md",
     disabled: true,
+  },
+};
+
+export const WithIcon: Story = {
+  args: {
+    children: "Button with Icon",
+    variant: "solid",
+    width: "md",
+    radius: "lg",
+    icon: <RiEdit2Fill />,
   },
 };
