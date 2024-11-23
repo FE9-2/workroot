@@ -1,12 +1,12 @@
-import BaseTextArea from "@/app/components/textarea/BaseTextArea";
 import { Meta, StoryObj } from "@storybook/react";
 import { BaseTextAreaProps } from "@/types/textInput";
+import BaseTextArea from "@/app/components/input/textarea/BaseTextArea";
 
 type StoryProps = BaseTextAreaProps & {
   _storySize?: "mobile" | "desktop";
 };
 const meta = {
-  title: "Design System/Components/TextArea",
+  title: "Design System/Components/TextInput/TextArea",
   component: BaseTextArea,
   parameters: {
     layout: "centered",
