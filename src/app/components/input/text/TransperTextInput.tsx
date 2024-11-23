@@ -1,6 +1,5 @@
-import BaseInput from "./text/BaseInput";
 import { TextInputProps } from "@/types/textInput";
-
+import BaseInput from "./BaseInput";
 const TransperTextInput = (props: TextInputProps) => {
   return <BaseInput {...props} variant="transparent" />;
 };
