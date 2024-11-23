@@ -16,7 +16,6 @@ const BaseTextArea = (props: BaseTextAreaProps) => {
     },
   };
   const defaultSize = "w-[327px] h-[132px] lg:w-[640px] lg:h-[160px]";
-
   const sizeStyles = props.size || defaultSize;
 
   // textareaStyle
@@ -31,7 +30,6 @@ const BaseTextArea = (props: BaseTextAreaProps) => {
   const bgStyle = variantStyles[props.variant].bg;
 
   const textareaStyle = `${baseStyle} ${bgStyle} ${textStyle} ${props.innerClassName || ""}`;
-
   const wrapperStyle = `p-[14px] lg:py-[18px] relative rounded-lg ${sizeStyles} ${variantStyle} ${bgStyle} ${errorStyle} ${props.wrapperClassName}`;
 
   return (
