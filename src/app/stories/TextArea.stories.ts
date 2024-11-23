@@ -1,11 +1,10 @@
-import BaseTextArea from "@/app/components/input/BaseTextArea";
-
+import BaseTextArea from "@/app/components/textarea/BaseTextArea";
 enum BorderColor {
   ERROR = "border-state-error",
 }
 
 export default {
-  title: "Test/TextArea",
+  title: "Design System/TextArea",
   component: BaseTextArea,
   args: {
     placeholder:

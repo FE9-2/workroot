@@ -17,7 +17,7 @@ export interface BaseInputProps {
   className?: string;
   disabled?: boolean;
   errorMessage?: string;
-  errorPosition?: "left" | "right";
+  feedbackMessage?: string;
   beforeIcon?: React.ReactNode;
   afterIcon?: React.ReactNode;
 }
