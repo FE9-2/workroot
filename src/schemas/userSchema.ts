@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { nicknameSchema, phoneSchema, urlSchema } from "./commonSchema";
+import { nicknameSchema, passwordSchema, phoneSchema, urlSchema } from "./commonSchema";
 
 // 내 정보 수정 스키마
 export const userPatchSchema = z.object({
@@ -16,7 +16,7 @@ export type UserPatchSchema = z.infer<typeof userPatchSchema>;
 
 // 비밀번호 변경 스키마
 export const userPasswordSchema = z.object({
-  newPassword: z.string().min(8, "비밀번호는 최소 8자 이상이어야 합니다."),
+  newPassword: passwordSchema,
   currentPassword: z.string().min(1, "현재 비밀번호를 입력해주세요."),
 });
 
