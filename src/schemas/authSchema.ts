@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { ROLES, emailSchema, passwordSchema, phoneSchema, roleSchema } from "./commonSchema";
+import { ROLES, emailSchema, nicknameSchema, passwordSchema, phoneSchema, roleSchema } from "./commonSchema";
 
 export const loginSchema = z.object({
   email: emailSchema,
@@ -15,7 +15,7 @@ const baseSignupSchema = {
   password: passwordSchema,
   confirmPassword: passwordSchema,
   name: z.string().min(1, "이름을 입력해주세요."),
-  nickname: z.string().min(2, "닉네임은 최소 2자 이상이어야 합니다."),
+  nickname: nicknameSchema,
   role: roleSchema,
 };
 
@@ -25,7 +25,7 @@ const ownerSchema = z.object({
   storeName: z.string().min(1, "가게 이름을 입력해주세요."),
   storePhoneNumber: phoneSchema,
   location: z.string().min(1, "가게 위치를 입력해주세요."),
-  phoneNumber: z.string().optional().nullable(),
+  phoneNumber: phoneSchema.optional().nullable(),
 });
 
 // 지원자 스키마
@@ -33,7 +33,7 @@ const applicantSchema = z.object({
   ...baseSignupSchema,
   phoneNumber: phoneSchema,
   storeName: z.string().optional().nullable(),
-  storePhoneNumber: z.string().optional().nullable(),
+  storePhoneNumber: phoneSchema.optional().nullable(),
   location: z.string().optional().nullable(),
 });
 

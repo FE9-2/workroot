@@ -2,8 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useUserStore } from "@/store/userStore";
-import { UserDetail } from "@/types/user";
-import { AuthUser } from "@/types/auth";
+import { UserDetail } from "@/types/response/user";
+import { AuthUser } from "@/types/response/auth";
 import { useEffect } from "react";
 
 async function fetchUser() {
