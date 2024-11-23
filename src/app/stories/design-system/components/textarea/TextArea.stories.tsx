@@ -27,13 +27,12 @@ const meta = {
   },
 } satisfies Meta<StoryProps>;
 
+export default meta;
 // 스토리북 전용 사이즈 매핑
 const storySizeMap = {
   mobile: "w-[327px] h-[132px]",
   desktop: "lg:w-[640px] lg:h-[160px]",
 };
-
-export default meta;
 
 type Story = StoryObj<typeof BaseTextArea>;
 
