@@ -26,7 +26,7 @@ const meta = {
       options: ["lg", "full"],
     },
     icon: {
-      control: "text",
+      control: false,
     },
   },
 } satisfies Meta<typeof Button>;
