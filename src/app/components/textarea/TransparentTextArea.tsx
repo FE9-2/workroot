@@ -1,9 +1,7 @@
 import BaseTextArea from "./BaseTextArea";
-import { BaseTextAreaProps } from "@/types/textInput";
+import { TextAreaProps } from "@/types/textInput";
 
-type TransparentTextAreaProps = Omit<BaseTextAreaProps, "variant">;
-
-const TransparentTextArea = (props: TransparentTextAreaProps) => {
+const TransparentTextArea = (props: TextAreaProps) => {
   return <BaseTextArea {...props} variant="transparent" />;
 };
 

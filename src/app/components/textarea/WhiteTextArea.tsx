@@ -1,9 +1,7 @@
 import BaseTextArea from "./BaseTextArea";
-import { BaseTextAreaProps } from "@/types/textInput";
+import { TextAreaProps } from "@/types/textInput";
 
-type WhiteTextAreaProps = Omit<BaseTextAreaProps, "variant">;
-
-const WhiteTextArea = (props: WhiteTextAreaProps) => {
+const WhiteTextArea = (props: TextAreaProps) => {
   return <BaseTextArea {...props} variant="white" />;
 };
 
