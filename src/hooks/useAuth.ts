@@ -1,7 +1,7 @@
 import { LoginSchema, SignupSchema } from "@/schemas/authSchema";
 import { useUserStore } from "@/store/userStore";
-import { AuthResponse, AuthUser } from "@/types/auth";
-import { UserDetail } from "@/types/user";
+import { AuthResponse, AuthUser } from "@/types/response/auth";
+import { UserDetail } from "@/types/response/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -76,7 +76,7 @@ export const useAuth = () => {
     },
   });
 
-  // 로그아��� mutation
+  // 로그아웃 mutation
   const logoutMutation = useMutation({
     mutationFn: async () => {
       const response = await axios.post<AuthResponse>(
