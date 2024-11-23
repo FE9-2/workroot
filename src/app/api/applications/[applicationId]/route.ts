@@ -1,20 +1,18 @@
 import { AxiosError } from "axios";
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import apiClient from "@/lib/apiClient";
 
-// 내 정보 조회 API
-export async function GET() {
+// 지원서 상세 조회
+export async function GET(req: NextRequest, { params }: { params: { applicationId: string } }) {
   try {
-    // 쿠키에서 액세스 토큰 가져오기
     const accessToken = cookies().get("accessToken")?.value;
 
     if (!accessToken) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    // 내 정보 조회 요청
-    const response = await apiClient.get("/users/me", {
+    const response = await apiClient.get(`/applications/${params.applicationId}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -23,7 +21,7 @@ export async function GET() {
     return NextResponse.json(response.data);
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
-      console.error("GET /api/users/me error:", error);
+      console.error(`GET /api/applications/${params.applicationId} error:`, error);
       if (error.response) {
         return NextResponse.json({ message: error.response.data.message }, { status: error.response.status });
       }
@@ -32,20 +30,18 @@ export async function GET() {
   }
 }
 
-// 내 정보 수정 API
-export async function PATCH(request: Request) {
+// 지원서 상태 수정
+export async function PATCH(req: NextRequest, { params }: { params: { applicationId: string } }) {
   try {
-    // 쿠키에서 액세스 토큰 가져오기
     const accessToken = cookies().get("accessToken")?.value;
 
     if (!accessToken) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    // 요청 본문 파싱
-    const body = await request.json();
-    // 내 정보 수정 요청
-    const response = await apiClient.patch("/users/me", body, {
+    const body = await req.json();
+
+    const response = await apiClient.patch(`/applications/${params.applicationId}`, body, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -54,7 +50,7 @@ export async function PATCH(request: Request) {
     return NextResponse.json(response.data);
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
-      console.error("PATCH /api/users/me error:", error);
+      console.error(`PATCH /api/applications/${params.applicationId} error:`, error);
       if (error.response) {
         return NextResponse.json({ message: error.response.data.message }, { status: error.response.status });
       }

@@ -1,29 +1,31 @@
 import { AxiosError } from "axios";
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import apiClient from "@/lib/apiClient";
 
-// 내 정보 조회 API
-export async function GET() {
+// 알바폼 스크랩
+export async function POST(req: NextRequest, { params }: { params: { formId: string } }) {
   try {
-    // 쿠키에서 액세스 토큰 가져오기
     const accessToken = cookies().get("accessToken")?.value;
 
     if (!accessToken) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    // 내 정보 조회 요청
-    const response = await apiClient.get("/users/me", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await apiClient.post(
+      `/forms/${params.formId}/scrap`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
 
     return NextResponse.json(response.data);
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
-      console.error("GET /api/users/me error:", error);
+      console.error(`POST /api/forms/${params.formId}/scrap error:`, error);
       if (error.response) {
         return NextResponse.json({ message: error.response.data.message }, { status: error.response.status });
       }
@@ -32,20 +34,16 @@ export async function GET() {
   }
 }
 
-// 내 정보 수정 API
-export async function PATCH(request: Request) {
+// 알바폼 스크랩 취소
+export async function DELETE(req: NextRequest, { params }: { params: { formId: string } }) {
   try {
-    // 쿠키에서 액세스 토큰 가져오기
     const accessToken = cookies().get("accessToken")?.value;
 
     if (!accessToken) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    // 요청 본문 파싱
-    const body = await request.json();
-    // 내 정보 수정 요청
-    const response = await apiClient.patch("/users/me", body, {
+    const response = await apiClient.delete(`/forms/${params.formId}/scrap`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -54,7 +52,7 @@ export async function PATCH(request: Request) {
     return NextResponse.json(response.data);
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
-      console.error("PATCH /api/users/me error:", error);
+      console.error(`DELETE /api/forms/${params.formId}/scrap error:`, error);
       if (error.response) {
         return NextResponse.json({ message: error.response.data.message }, { status: error.response.status });
       }

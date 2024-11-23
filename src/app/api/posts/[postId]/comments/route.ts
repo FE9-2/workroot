@@ -1,20 +1,20 @@
 import { AxiosError } from "axios";
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import apiClient from "@/lib/apiClient";
 
-// 내 정보 조회 API
-export async function GET() {
+// 댓글 작성
+export async function POST(req: NextRequest, { params }: { params: { postId: string } }) {
   try {
-    // 쿠키에서 액세스 토큰 가져오기
     const accessToken = cookies().get("accessToken")?.value;
 
     if (!accessToken) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    // 내 정보 조회 요청
-    const response = await apiClient.get("/users/me", {
+    const body = await req.json();
+
+    const response = await apiClient.post(`/posts/${params.postId}/comments`, body, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -23,7 +23,7 @@ export async function GET() {
     return NextResponse.json(response.data);
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
-      console.error("GET /api/users/me error:", error);
+      console.error(`POST /api/posts/${params.postId}/comments error:`, error);
       if (error.response) {
         return NextResponse.json({ message: error.response.data.message }, { status: error.response.status });
       }
@@ -32,20 +32,23 @@ export async function GET() {
   }
 }
 
-// 내 정보 수정 API
-export async function PATCH(request: Request) {
+// 댓글 목록 조회
+export async function GET(req: NextRequest, { params }: { params: { postId: string } }) {
   try {
-    // 쿠키에서 액세스 토큰 가져오기
     const accessToken = cookies().get("accessToken")?.value;
 
     if (!accessToken) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    // 요청 본문 파싱
-    const body = await request.json();
-    // 내 정보 수정 요청
-    const response = await apiClient.patch("/users/me", body, {
+    const { searchParams } = new URL(req.url);
+    const queryParams = {
+      page: searchParams.get("page"),
+      limit: searchParams.get("limit"),
+    };
+
+    const response = await apiClient.get(`/posts/${params.postId}/comments`, {
+      params: queryParams,
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -54,7 +57,7 @@ export async function PATCH(request: Request) {
     return NextResponse.json(response.data);
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
-      console.error("PATCH /api/users/me error:", error);
+      console.error(`GET /api/posts/${params.postId}/comments error:`, error);
       if (error.response) {
         return NextResponse.json({ message: error.response.data.message }, { status: error.response.status });
       }
