@@ -1,12 +1,17 @@
 import BaseInput from "@/app/components/input/BaseInput";
 import { Meta, StoryObj } from "@storybook/react";
+import { BaseInputProps } from "@/types/textInput";
+
+type StoryProps = BaseInputProps & {
+  _storySize?: "mobile" | "desktop";
+};
+
 const meta = {
   title: "Design System/Components/Input",
   component: BaseInput,
   parameters: {
     layout: "centered",
   },
-
   tags: ["autodocs"],
   argTypes: {
     variant: {
@@ -17,18 +22,23 @@ const meta = {
       control: "radio",
       options: ["text", "password"],
     },
-    disabled: {
-      control: "boolean",
-    },
-    size: {
+    _storySize: {
       control: "radio",
       options: ["mobile", "desktop"],
       description: "입력창 크기 설정",
     },
+    disabled: {
+      control: "boolean",
+    },
   },
-} satisfies Meta<typeof BaseInput>;
+} satisfies Meta<StoryProps>;
 
 export default meta;
+
+const storySizeMap = {
+  mobile: "w-[327px] h-[54px]",
+  desktop: "lg:w-[640px] lg:h-[64px]",
+};
 
 type Story = StoryObj<typeof BaseInput>;
 export const Default_Hover_Focus: Story = {
@@ -37,28 +47,33 @@ export const Default_Hover_Focus: Story = {
     variant: "white",
     placeholder: "텍스트 입력",
   },
-  decorators: [
-    (Story: any) => (
+  render: (args) => {
+    const { _storySize, ...rest } = args as StoryProps;
+    const sizeClass = _storySize ? storySizeMap[_storySize] : "";
+
+    const StoryComponent = () => <BaseInput {...rest} size={sizeClass} />;
+
+    return (
       <div className="space-y-4">
         <div>
           <p className="mb-2 text-sm text-gray-500">기본 상태:</p>
-          <Story />
+          <StoryComponent />
         </div>
         <div>
           <p className="mb-2 text-sm text-gray-500">Hover 상태:</p>
           <div className="[&>div>div]:border-gray-200 [&>div>div]:bg-background-300">
-            <Story />
+            <StoryComponent />
           </div>
         </div>
         <div>
           <p className="mb-2 text-sm text-gray-500">Focus 상태:</p>
           <div className="[&>div>div]:border-primary-orange-300">
-            <Story />
+            <StoryComponent />
           </div>
         </div>
       </div>
-    ),
-  ],
+    );
+  },
 };
 
 export const Error: Story = {
