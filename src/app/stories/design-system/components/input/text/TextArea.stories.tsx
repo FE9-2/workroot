@@ -6,7 +6,7 @@ type StoryProps = BaseTextAreaProps & {
   _storySize?: "mobile" | "desktop";
 };
 const meta = {
-  title: "Design System/Components/TextArea",
+  title: "Design System/Components/TextInput/TextArea",
   component: BaseTextArea,
   parameters: {
     layout: "centered",

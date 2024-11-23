@@ -54,10 +54,10 @@ const BaseInput = (props: BaseInputProps) => {
             {eyeOn ? <LuEye className="text-gray-200" /> : <LuEyeOff className="text-gray-200" />}
           </div>
         )}
+        {props.afterIcon && <div>{props.afterIcon}</div>}
         {props.errorMessage && <span className={`${errorTextStyle} right-0 pr-2`}>{props.errorMessage}</span>}
         {props.feedbackMessage && <span className={`${errorTextStyle} left-0 pl-2`}>{props.feedbackMessage}</span>}
       </div>
-      {props.afterIcon && <div className="absolute right-0">{props.afterIcon}</div>}
     </div>
   );
 };

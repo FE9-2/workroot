@@ -2,7 +2,7 @@ import LocationInput from "@/app/components/input/LocationInput";
 import { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
-  title: "Design System/Components/Input/LocationInput",
+  title: "Design System/Components/TextInput/LocationInput",
   component: LocationInput,
   parameters: {
     layout: "centered",

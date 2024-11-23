@@ -26,3 +26,13 @@ export interface BaseInputProps {
 export type TextAreaProps = Omit<BaseTextAreaProps, "variant">;
 
 export type TextInputProps = Omit<BaseInputProps, "variant">;
+export interface BaseFileInputProps {
+  name: string;
+  variant: "upload" | "download";
+  size?: string;
+  file?: File | null;
+  onFileAction?: (file: File | null) => void;
+  placeholder?: string;
+  icon?: React.ReactNode;
+  actionIcon?: React.ReactNode;
+}

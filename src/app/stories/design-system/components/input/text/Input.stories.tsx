@@ -7,7 +7,7 @@ type StoryProps = BaseInputProps & {
 };
 
 const meta = {
-  title: "Design System/Components/Input",
+  title: "Design System/Components/TextInput/TextInput",
   component: BaseInput,
   parameters: {
     layout: "centered",
