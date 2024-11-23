@@ -1,3 +1,7 @@
+import { formSortOptions, formStatusOptions } from "@/constants/formOptions";
+import { oauthProviders } from "@/constants/oauthProviders";
+import { postSortOptions } from "@/constants/postOptions";
+import { userRoles } from "@/constants/userRoles";
 import { z } from "zod";
 
 export const emailSchema = z.string().email("올바른 이메일 형식이 아닙니다.");
@@ -44,12 +48,7 @@ export const phoneSchema = z
     return val;
   });
 
-export const ROLES = {
-  OWNER: "OWNER",
-  APPLICANT: "APPLICANT",
-} as const;
-
-export const roleSchema = z.enum([ROLES.OWNER, ROLES.APPLICANT], {
+export const roleSchema = z.enum([userRoles.OWNER, userRoles.APPLICANT], {
   errorMap: () => ({ message: "사장님 또는 지원자를 선택해주세요" }),
 });
 
@@ -61,56 +60,31 @@ export const nicknameSchema = z
   .max(10, "닉네임은 최대 10자까지 가능합니다.")
   .regex(/^[가-힣a-zA-Z0-9]+$/, "닉네임은 한글, 영문, 숫자만 사용할 수 있습니다.");
 
-export const FORM_SORT_OPTIONS = {
-  MOST_RECENT: "mostRecent",
-  HIGHEST_WAGE: "highestWage",
-  MOST_APPLIED: "mostApplied",
-  MOST_SCRAPPED: "mostScrapped",
-} as const;
-
 export const formSortSchema = z
   .enum([
-    FORM_SORT_OPTIONS.MOST_RECENT,
-    FORM_SORT_OPTIONS.HIGHEST_WAGE,
-    FORM_SORT_OPTIONS.MOST_APPLIED,
-    FORM_SORT_OPTIONS.MOST_SCRAPPED,
+    formSortOptions.MOST_RECENT,
+    formSortOptions.HIGHEST_WAGE,
+    formSortOptions.MOST_APPLIED,
+    formSortOptions.MOST_SCRAPPED,
   ])
   .optional()
-  .default(FORM_SORT_OPTIONS.MOST_RECENT);
-
-export const FORM_STATUS_OPTIONS = {
-  REJECTED: "REJECTED",
-  INTERVIEW_PENDING: "INTERVIEW_PENDING",
-  INTERVIEW_COMPLETED: "INTERVIEW_COMPLETED",
-  HIRED: "HIRED",
-} as const;
+  .default(formSortOptions.MOST_RECENT);
 
 export const formStatusSchema = z
   .enum([
-    FORM_STATUS_OPTIONS.REJECTED,
-    FORM_STATUS_OPTIONS.INTERVIEW_PENDING,
-    FORM_STATUS_OPTIONS.INTERVIEW_COMPLETED,
-    FORM_STATUS_OPTIONS.HIRED,
+    formStatusOptions.REJECTED,
+    formStatusOptions.INTERVIEW_PENDING,
+    formStatusOptions.INTERVIEW_COMPLETED,
+    formStatusOptions.HIRED,
   ])
   .optional()
-  .default(FORM_STATUS_OPTIONS.REJECTED);
-
-export const POST_SORT_OPTIONS = {
-  MOST_RECENT: "mostRecent",
-  MOST_COMMENTED: "mostCommented",
-  MOST_LIKED: "mostLiked",
-} as const;
+  .default(formStatusOptions.REJECTED);
 
 export const postSortSchema = z
-  .enum([POST_SORT_OPTIONS.MOST_RECENT, POST_SORT_OPTIONS.MOST_COMMENTED, POST_SORT_OPTIONS.MOST_LIKED])
+  .enum([postSortOptions.MOST_RECENT, postSortOptions.MOST_COMMENTED, postSortOptions.MOST_LIKED])
   .optional()
-  .default(POST_SORT_OPTIONS.MOST_RECENT);
+  .default(postSortOptions.MOST_RECENT);
 
-export const OAUTH_PROVIDERS = {
-  GOOGLE: "google",
-  KAKAO: "kakao",
-} as const;
-
-export const providerSchema = z.enum([OAUTH_PROVIDERS.GOOGLE, OAUTH_PROVIDERS.KAKAO], {
+export const providerSchema = z.enum([oauthProviders.GOOGLE, oauthProviders.KAKAO], {
   errorMap: () => ({ message: "지원하지 않는 소셜 로그인 제공자입니다." }),
 });
