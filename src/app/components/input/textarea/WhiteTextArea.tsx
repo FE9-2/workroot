@@ -1,13 +1,11 @@
 import BaseTextArea from "./BaseTextArea";
-import { BaseTextAreaProps } from "@/types/textInput";
+import { TextAreaProps } from "@/types/textInput";
 
-type TransparentTextAreaProps = Omit<BaseTextAreaProps, "variant">;
-
-const TransparentTextArea = (props: TransparentTextAreaProps) => {
-  return <BaseTextArea {...props} variant="transparent" />;
+const WhiteTextArea = (props: TextAreaProps) => {
+  return <BaseTextArea {...props} variant="white" />;
 };
 
-export default TransparentTextArea;
+export default WhiteTextArea;
 
 /*
 @name: string // 필수값

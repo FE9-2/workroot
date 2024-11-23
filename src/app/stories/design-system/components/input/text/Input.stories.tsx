@@ -1,13 +1,13 @@
-import BaseInput from "@/app/components/input/BaseInput";
 import { Meta, StoryObj } from "@storybook/react";
 import { BaseInputProps } from "@/types/textInput";
+import BaseInput from "@/app/components/input/text/BaseInput";
 
 type StoryProps = BaseInputProps & {
   _storySize?: "mobile" | "desktop";
 };
 
 const meta = {
-  title: "Design System/Components/Input",
+  title: "Design System/Components/TextInput/TextInput",
   component: BaseInput,
   parameters: {
     layout: "centered",
