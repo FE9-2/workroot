@@ -1,9 +1,7 @@
 export interface BaseTextAreaProps {
   name: string;
   variant: "white" | "transparent";
-  mobileSize?: string;
-  tabletSize?: string;
-  desktopSize?: string;
+  size?: string;
   placeholder?: string;
   disabled?: boolean;
   errorMessage?: string;
@@ -15,9 +13,7 @@ export interface BaseInputProps {
   name: string;
   type: string;
   variant: "white" | "transparent";
-  mobileSize?: string;
-  tabletSize?: string;
-  desktopSize?: string;
+  size?: string;
   placeholder?: string;
   disabled?: boolean;
   errorMessage?: string;

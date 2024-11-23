@@ -20,6 +20,11 @@ const meta = {
     disabled: {
       control: "boolean",
     },
+    size: {
+      control: "radio",
+      options: ["mobile", "desktop"],
+      description: "입력창 크기 설정",
+    },
   },
 } satisfies Meta<typeof BaseInput>;
 

@@ -1,9 +1,10 @@
 import BaseTextArea from "@/app/components/textarea/BaseTextArea";
 import { Meta, StoryObj } from "@storybook/react";
-enum BorderColor {
-  ERROR = "border-state-error",
-}
+import { BaseTextAreaProps } from "@/types/textInput";
 
+type StoryProps = BaseTextAreaProps & {
+  _storySize?: "mobile" | "desktop";
+};
 const meta = {
   title: "Design System/Components/TextArea",
   component: BaseTextArea,
@@ -18,66 +19,55 @@ const meta = {
   tags: ["autodocs"],
   argTypes: {
     variant: { control: "radio", options: ["white", "transparent"], defaultValue: "white" },
+    _storySize: {
+      control: "radio",
+      options: ["mobile", "desktop"],
+      description: "스토리북 전용 사이즈 옵션",
+    },
   },
-} satisfies Meta<typeof BaseTextArea>;
+} satisfies Meta<StoryProps>;
+
+// 스토리북 전용 사이즈 매핑
+const storySizeMap = {
+  mobile: "w-[327px] h-[132px]",
+  desktop: "lg:w-[640px] lg:h-[160px]",
+};
 
 export default meta;
 
 type Story = StoryObj<typeof BaseTextArea>;
 
-export const whiteTextArea: Story = {
+export const Default_Hover_Focus: Story = {
   args: {
     variant: "white",
   },
-  decorators: [
-    (Story: any) => (
+  render: (args) => {
+    const { _storySize, ...rest } = args as StoryProps;
+    const sizeClass = _storySize ? storySizeMap[_storySize] : undefined;
+
+    const StoryComponent = () => <BaseTextArea {...rest} size={sizeClass} />;
+
+    return (
       <div className="space-y-4">
         <div>
           <p className="mb-2 text-sm text-gray-500">기본 상태:</p>
-          <Story />
+          <StoryComponent />
         </div>
         <div>
           <p className="mb-2 text-sm text-gray-500">Hover 상태:</p>
           <div className="[&>div]:bg-background200 [&>div]:border-gray-200">
-            <Story />
+            <StoryComponent />
           </div>
         </div>
         <div>
           <p className="mb-2 text-sm text-gray-500">Focus 상태:</p>
           <div className="[&>div]:border-gray-400">
-            <Story />
+            <StoryComponent />
           </div>
         </div>
       </div>
-    ),
-  ],
-};
-export const transparentTextArea: Story = {
-  args: {
-    variant: "transparent",
+    );
   },
-  decorators: [
-    (Story: any) => (
-      <div className="space-y-4">
-        <div>
-          <p className="mb-2 text-sm text-gray-500">기본 상태:</p>
-          <Story />
-        </div>
-        <div>
-          <p className="mb-2 text-sm text-gray-500">Hover 상태:</p>
-          <div className="[&>div]:bg-background200 [&>div]:border-gray-300">
-            <Story />
-          </div>
-        </div>
-        <div>
-          <p className="mb-2 text-sm text-gray-500">Focus 상태:</p>
-          <div className="[&>div]:border-gray-400">
-            <Story />
-          </div>
-        </div>
-      </div>
-    ),
-  ],
 };
 
 export const textArea_with_error: Story = {
@@ -85,5 +75,13 @@ export const textArea_with_error: Story = {
     variant: "white",
     placeholder: "에러 상태 테스트",
     errorMessage: "가게 이름(상호명)을 필수로 입력해주세요",
+  },
+  render: (args) => {
+    const { _storySize, ...rest } = args as StoryProps;
+    const sizeClass = _storySize ? storySizeMap[_storySize] : undefined;
+
+    const StoryComponent = () => <BaseTextArea {...rest} size={sizeClass} />;
+
+    return <StoryComponent />;
   },
 };

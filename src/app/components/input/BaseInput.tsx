@@ -26,9 +26,9 @@ const BaseInput = (props: BaseInputProps) => {
       focusColor: "[&:has(input:focus)]:border-primary-orange-300 caret-primary-orange-300",
     },
   };
-  const mobileSize = props.mobileSize || "w-[327px] h-[54px]";
-  const tabletSize = props.tabletSize || "md:w-[327px] md:h-[54px]";
-  const desktopSize = props.desktopSize || "lg:w-[640px] lg:h-[64px]";
+  const mobileSize = props.size === "mobile" ? "w-[327px] h-[54px]" : "";
+  const tabletSize = props.size === "tablet" ? "md:w-[327px] md:h-[54px]" : "";
+  const desktopSize = props.size === "desktop" ? "lg:w-[640px] lg:h-[64px]" : "";
 
   // input style
   const baseStyle = "focus:outline-none h-full w-full";

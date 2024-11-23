@@ -15,9 +15,9 @@ const BaseTextArea = (props: BaseTextAreaProps) => {
       hover: "hover:border-gray-300",
     },
   };
-  const mobileSize = props.mobileSize || "w-[327px] h-[132px]";
-  const tabletSize = props.tabletSize || "md:w-[327px] md:h-[132px]";
-  const desktopSize = props.desktopSize || "lg:w-[640px] lg:h-[160px]";
+  const defaultSize = "w-[327px] h-[132px] lg:w-[640px] lg:h-[160px]";
+
+  const sizeStyles = props.size || defaultSize;
 
   // textareaStyle
   const baseStyle = "resize-none focus:outline-none h-full w-full";
@@ -32,7 +32,7 @@ const BaseTextArea = (props: BaseTextAreaProps) => {
 
   const textareaStyle = `${baseStyle} ${bgStyle} ${textStyle} ${props.innerClassName || ""}`;
 
-  const wrapperStyle = `p-[14px] lg:py-[18px] relative rounded-lg ${mobileSize} ${tabletSize} ${desktopSize} ${variantStyle} ${bgStyle} ${errorStyle} ${props.wrapperClassName}`;
+  const wrapperStyle = `p-[14px] lg:py-[18px] relative rounded-lg ${sizeStyles} ${variantStyle} ${bgStyle} ${errorStyle} ${props.wrapperClassName}`;
 
   return (
     <div className={wrapperStyle}>
