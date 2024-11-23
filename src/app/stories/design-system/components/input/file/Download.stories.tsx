@@ -1,4 +1,4 @@
-import DownloadInput from "@/app/components/input/DownloadInput";
+import DownloadInput from "@/app/components/input/file/DownloadInput";
 import { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

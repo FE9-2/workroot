@@ -1,4 +1,4 @@
-import UploadInput from "@/app/components/input/UploadInput";
+import UploadInput from "@/app/components/input/file/UploadInput";
 import { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

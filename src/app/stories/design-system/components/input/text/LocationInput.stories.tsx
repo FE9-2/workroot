@@ -1,4 +1,4 @@
-import LocationInput from "@/app/components/input/LocationInput";
+import LocationInput from "@/app/components/input/text/LocationInput";
 import { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
