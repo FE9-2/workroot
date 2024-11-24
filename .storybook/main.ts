@@ -1,4 +1,8 @@
-import type { StorybookConfig } from "@storybook/nextjs";
+import type { StorybookConfig as BaseStorybookConfig } from "@storybook/nextjs";
+
+interface StorybookConfig extends BaseStorybookConfig {
+  viteFinal?: (config: any) => Promise<any>;
+}
 
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
