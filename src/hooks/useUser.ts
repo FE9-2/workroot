@@ -2,8 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useUserStore } from "@/store/userStore";
-import { UserDetail } from "@/types/user";
-import { AuthUser } from "@/types/auth";
+import { UserResponse } from "@/types/response/user";
 import { useEffect } from "react";
 
 async function fetchUser() {
@@ -37,9 +36,8 @@ export function useUser() {
 
   useEffect(() => {
     if (data?.user) {
-      const UserDetail = data.user as unknown as UserDetail;
-      const user = { ...UserDetail } as unknown as AuthUser;
-      setUser(user);
+      const userResponse = data.user as unknown as UserResponse;
+      setUser(userResponse);
     } else if (!isLoading) {
       setUser(null);
     }

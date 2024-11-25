@@ -1,7 +1,7 @@
 import { LoginSchema, SignupSchema } from "@/schemas/authSchema";
 import { useUserStore } from "@/store/userStore";
-import { AuthResponse, AuthUser } from "@/types/auth";
-import { UserDetail } from "@/types/user";
+import { AuthResponse } from "@/types/response/auth";
+import { UserResponse } from "@/types/response/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -16,20 +16,28 @@ export const useAuth = () => {
   // 토큰 갱신 mutation
   const refreshMutation = useMutation({
     mutationFn: async () => {
-      const response = await axios.post<{ user: UserDetail }>(
-        "/api/auth/refresh",
-        {},
-        {
-          withCredentials: true,
+      try {
+        const response = await axios.post<AuthResponse>(
+          "/api/auth/refresh",
+          {},
+          {
+            withCredentials: true,
+          }
+        );
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response?.status === 400) {
+          // 리프레시 토큰이 없는 경우 조용히 처리
+          setUser(null);
+          return null;
         }
-      );
-      return response.data;
+        throw error;
+      }
     },
     onSuccess: (data) => {
       if (data?.user) {
-        const UserDetail = data.user as unknown as UserDetail;
-        const user = { ...UserDetail } as unknown as AuthUser;
-        setUser(user);
+        const userResponse = data.user as unknown as UserResponse;
+        setUser(userResponse);
         queryClient.invalidateQueries({ queryKey: ["user"] });
       }
     },
@@ -43,43 +51,64 @@ export const useAuth = () => {
   // 회원가입 mutation
   const signupMutation = useMutation<AuthResponse, Error, SignupSchema>({
     mutationFn: async (data: SignupSchema) => {
-      const response = await axios.post<AuthResponse>("/api/auth/signup", data, {
-        withCredentials: true,
-      });
-      return response.data;
+      try {
+        const response = await axios.post<AuthResponse>("/api/auth/signup", data, {
+          withCredentials: true,
+        });
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          // 서버에서 전달된 에러 메시지 사용
+          throw new Error(error.response?.data?.message || "회원가입 중 오류가 발생했습니다.");
+        }
+        throw error;
+      }
     },
     onSuccess: () => {
       toast.success("회원가입이 완료되었습니다!");
       router.push("/login");
     },
     onError: (error: Error) => {
-      toast.error(error.message || "회원가입 중 오류가 발생했습니다.");
+      // error.message에는 서버에서 전달된 메시지가 포함됨
+      toast.error(error.message);
     },
   });
 
   // 로그인 mutation
   const loginMutation = useMutation({
     mutationFn: async (data: LoginSchema) => {
-      const response = await axios.post<AuthResponse>("/api/auth/login", data, {
-        withCredentials: true,
-      });
-      return response.data;
+      try {
+        const response = await axios.post<AuthResponse>("/api/auth/login", data, {
+          withCredentials: true,
+        });
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          // 서버에서 전달된 에러 메시지 사용
+          throw new Error(error.response?.data?.message || "로그인 중 오류가 발생했습니다.");
+        }
+        throw error;
+      }
     },
     onSuccess: (data) => {
-      setUser(data.user as AuthUser);
-      toast.success("로그인되었습니다!");
-      router.push("/");
-      router.refresh();
+      if (data?.user) {
+        const userResponse = data.user as unknown as UserResponse;
+        setUser(userResponse);
+        toast.success("로그인되었습니다!");
+        router.push("/");
+        router.refresh();
+      }
     },
     onError: (error: Error) => {
-      toast.error(error.message || "로그인 중 오류가 발생했습니다.");
+      // error.message에는 서버에서 전달된 메시지가 포함됨
+      toast.error(error.message);
     },
   });
 
-  // 로그아��� mutation
+  // 로그아웃 mutation
   const logoutMutation = useMutation({
     mutationFn: async () => {
-      const response = await axios.post<AuthResponse>(
+      const response = await axios.post(
         "/api/auth/logout",
         {},
         {

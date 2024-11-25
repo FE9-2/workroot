@@ -4,8 +4,22 @@ import { NextResponse } from "next/server";
 import apiClient from "@/lib/apiClient";
 
 export const POST = async (): Promise<NextResponse> => {
+  const cookieStore = cookies();
+  const refreshToken = cookieStore.get("refreshToken");
+
+  if (!refreshToken) {
+    return new NextResponse(
+      JSON.stringify({
+        message: "리프레시 토큰이 없습니다. 다시 로그인해주세요.",
+      }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
+
   try {
-    const refreshToken = cookies().get("refreshToken")?.value;
     // 토큰 갱신
     const refreshResponse = await apiClient.post("/auth/refresh", { refreshToken });
     const { accessToken } = refreshResponse.data;
