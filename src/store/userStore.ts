@@ -1,10 +1,10 @@
-import type { AuthUser } from "@/types/response/auth";
+import type { UserResponse } from "@/types/response/user";
 import { create } from "zustand";
 
 interface UserState {
-  user: AuthUser | null;
+  user: UserResponse | null;
   loading: boolean;
-  setUser: (user: AuthUser | null) => void;
+  setUser: (user: UserResponse | null) => void;
   setLoading: (loading: boolean) => void;
 }
 
