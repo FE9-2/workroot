@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   // 인증이 필요없는 공개 경로들을 정의
-  const publicPatterns = ["/", "/login", "/signup", "/_next", "/favicon.ico", /\.(jpg|jpeg|gif|png|svg)$/];
+  const publicPatterns = ["/", "/login", "/signup", "/test", "/_next", "/favicon.ico", /\.(jpg|jpeg|gif|png|svg)$/];
 
   // 현재 요청된 경로가 공개 경로에 해당하는지 확인
   const isPublicPath = publicPatterns.some((pattern) => {
