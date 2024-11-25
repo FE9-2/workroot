@@ -20,8 +20,10 @@ export interface BaseInputProps {
   feedbackMessage?: string;
   beforeIcon?: React.ReactNode;
   afterIcon?: React.ReactNode;
+  afterString?: string;
   wrapperClassName?: string; // 부가적인 tailwind css 클래스
   innerClassName?: string; // 부가적인 tailwind css 클래스
+  anotherHoverStyle?: string; // 추가적인 hover 스타일 - 없으면 기본값
 }
 
 export interface BaseFileInputProps {
