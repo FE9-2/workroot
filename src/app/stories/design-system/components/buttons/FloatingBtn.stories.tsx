@@ -13,10 +13,7 @@ const meta: Meta<typeof FloatingBtn> = {
       control: "radio",
       options: ["orange", "white"],
     },
-    icon: {
-      control: "text",
-    },
-    label: {
+    children: {
       control: "text",
     },
   },
@@ -25,7 +22,6 @@ const meta: Meta<typeof FloatingBtn> = {
 export default meta;
 type Story = StoryObj<typeof FloatingBtn>;
 
-// Orange 색상의 동그라미 버튼
 export const OrangeCircle: Story = {
   args: {
     variant: "orange",
@@ -33,7 +29,6 @@ export const OrangeCircle: Story = {
   },
 };
 
-// 배경이 흰색인 버튼
 export const WhiteCircle: Story = {
   args: {
     variant: "white",
@@ -41,11 +36,10 @@ export const WhiteCircle: Story = {
   },
 };
 
-// 아이콘과 글자가 있는 버튼
 export const IconWithLabel: Story = {
   args: {
     variant: "orange",
     icon: <RiEdit2Fill />,
-    label: "Edit",
+    children: "Edit",
   },
 };

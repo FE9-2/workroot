@@ -1,6 +1,4 @@
 "use client";
-import { MdOutlineModeEdit } from "react-icons/md";
-import FloatingBtn from "@/app/components/button/FloatingBtn";
 import { useAuth } from "@/hooks/useAuth";
 import { type LoginSchema, loginSchema } from "@/schemas/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -65,10 +63,6 @@ export default function LoginPage() {
             </button>
           </div>
         </form>
-      </div>
-      <div className="ml-5 flex gap-2">
-        <FloatingBtn icon={<MdOutlineModeEdit />} />
-        <FloatingBtn icon={<MdOutlineModeEdit />}>수정하기</FloatingBtn>
       </div>
     </div>
   );
