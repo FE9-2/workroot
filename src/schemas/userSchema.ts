@@ -1,11 +1,11 @@
 import { z } from "zod";
-import { nicknameSchema, passwordSchema, phoneSchema, urlSchema } from "./commonSchema";
+import { nicknameSchema, passwordSchema, mobilePhoneSchema, storePhoneSchema, urlSchema } from "./commonSchema";
 
 // 내 정보 수정 스키마
 export const userPatchSchema = z.object({
   location: z.string().optional(),
-  phoneNumber: phoneSchema.optional(),
-  storePhoneNumber: phoneSchema.optional(),
+  phoneNumber: mobilePhoneSchema.optional(),
+  storePhoneNumber: storePhoneSchema.optional(),
   storeName: z.string().optional(),
   imageUrl: urlSchema.optional(),
   nickname: nicknameSchema.optional(),
