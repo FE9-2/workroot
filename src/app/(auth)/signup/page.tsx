@@ -2,11 +2,11 @@
 
 import { useAuth } from "@/hooks/useAuth";
 import { type SignupSchema, signupSchema } from "@/schemas/authSchema";
-import { ROLES } from "@/schemas/commonSchema";
+import { userRoles } from "@/constants/userRoles";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useEffect } from "react";
 import { FieldErrors, useForm } from "react-hook-form";
+import { useEffect } from "react";
 
 export default function SignupPage() {
   const { signup, isSignupPending } = useAuth();
@@ -14,12 +14,12 @@ export default function SignupPage() {
     register,
     handleSubmit,
     watch,
-    setValue,
     formState: { errors },
+    setValue,
   } = useForm<SignupSchema>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
-      role: ROLES.APPLICANT,
+      role: userRoles.APPLICANT,
       phoneNumber: "",
       storeName: "",
       storePhoneNumber: "",
@@ -31,11 +31,25 @@ export default function SignupPage() {
   const selectedRole = watch("role");
   const formValues = watch();
 
+  useEffect(() => {
+    if (selectedRole === userRoles.APPLICANT) {
+      setValue("storeName", "", { shouldValidate: false });
+      setValue("storePhoneNumber", "", {
+        shouldValidate: false,
+        shouldDirty: false,
+        shouldTouch: false,
+      });
+      setValue("location", "", { shouldValidate: false });
+    } else {
+      setValue("phoneNumber", "", { shouldValidate: false });
+    }
+  }, [selectedRole, setValue]);
+
   const isFormComplete = () => {
     const baseFields = ["email", "password", "confirmPassword", "name", "nickname"];
     const baseFieldsComplete = baseFields.every((field) => formValues[field as keyof SignupSchema]?.trim() !== "");
 
-    if (selectedRole === ROLES.OWNER) {
+    if (selectedRole === userRoles.OWNER) {
       return (
         baseFieldsComplete &&
         formValues.storeName?.trim() !== "" &&
@@ -47,26 +61,8 @@ export default function SignupPage() {
     return baseFieldsComplete && formValues.phoneNumber?.trim() !== "";
   };
 
-  useEffect(() => {
-    if (selectedRole === ROLES.APPLICANT) {
-      setValue("storeName", "");
-      setValue("storePhoneNumber", "");
-      setValue("location", "");
-    } else if (selectedRole === ROLES.OWNER) {
-      setValue("phoneNumber", "");
-    }
-  }, [selectedRole, setValue]);
-
   const onSubmit = (data: SignupSchema) => {
-    if (data.role === ROLES.OWNER) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { phoneNumber, ...ownerData } = data;
-      signup(ownerData as SignupSchema);
-    } else {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { storeName, storePhoneNumber, location, ...applicantData } = data;
-      signup(applicantData as SignupSchema);
-    }
+    signup(data);
   };
 
   const onError = (errors: FieldErrors<SignupSchema>) => {
@@ -134,16 +130,16 @@ export default function SignupPage() {
             </div>
             <div className="flex gap-4">
               <label className="flex items-center">
-                <input {...register("role")} type="radio" value={ROLES.APPLICANT} className="mr-2" defaultChecked />
+                <input {...register("role")} type="radio" value={userRoles.APPLICANT} className="mr-2" defaultChecked />
                 지원자
               </label>
               <label className="flex items-center">
-                <input {...register("role")} type="radio" value={ROLES.OWNER} className="mr-2" />
+                <input {...register("role")} type="radio" value={userRoles.OWNER} className="mr-2" />
                 사장님
               </label>
             </div>
             {errors.role && <p className="mt-1 text-sm text-red-600">{errors.role.message}</p>}
-            {selectedRole === ROLES.APPLICANT && (
+            {selectedRole === userRoles.APPLICANT && (
               <div>
                 <input
                   {...register("phoneNumber")}
@@ -154,7 +150,7 @@ export default function SignupPage() {
                 {errors.phoneNumber && <p className="mt-1 text-sm text-red-600">{errors.phoneNumber.message}</p>}
               </div>
             )}
-            {selectedRole === ROLES.OWNER && (
+            {selectedRole === userRoles.OWNER && (
               <>
                 <div>
                   <input
