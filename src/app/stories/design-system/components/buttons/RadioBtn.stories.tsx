@@ -25,6 +25,6 @@ export const Default: Story = {
     label: "Option 1",
     name: "options",
     value: "option1",
-    checked: false,
+    checked: true,
   },
 };
