@@ -1,16 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { TextInputProps } from "@/types/textInput";
 import { IoLocationSharp } from "react-icons/io5";
-import WhiteTextInput from "./WhiteTextInput";
+import BaseInput from "./BaseInput";
+import { BaseInputProps } from "@/types/textInput";
 
-const LocationInput = ({ type, ...props }: TextInputProps) => {
+const LocationInput = ({ type, variant, ...props }: BaseInputProps) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [feedbackMessage, setFeedbackMessage] = useState("");
   return (
-    <WhiteTextInput
+    <BaseInput
       type="text"
+      variant="white"
       beforeIcon={<IoLocationSharp className="size-4 text-gray-100 lg:size-6" />}
       placeholder="위치를 입력해주세요."
       errorMessage={errorMessage}

@@ -1,5 +1,4 @@
 import { HiUpload } from "react-icons/hi";
-import { useState } from "react";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import BaseFileInput from "./BaseFileInput";
 import { BaseFileInputProps } from "@/types/textInput";
