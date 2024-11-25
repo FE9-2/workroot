@@ -1,5 +1,4 @@
 "use client";
-
 import React, { ButtonHTMLAttributes, ReactNode } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -8,7 +7,6 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   radius?: "lg" | "full";
   icon?: ReactNode;
 }
-
 /**
  * 버튼 컴포넌트
  * @param variant - 버튼 스타일 solid | outlined
@@ -20,7 +18,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
  * @param props - 추가 버튼 속성
  * @returns 버튼 컴포넌트
  */
-const Button = ({
+const Button: React.FC<ButtonProps> = ({
   className = "",
   variant = "solid",
   width = "md",
@@ -29,22 +27,14 @@ const Button = ({
   disabled = false,
   children,
   ...props
-}: ButtonProps) => {
+}) => {
   const baseStyles = "inline-flex items-center justify-center transition-colors font-medium h-12";
 
   const variants = {
-    solid: [
-      "bg-primary-orange-300 text-gray-100",
-      "hover:bg-primary-orange-200",
-      "focus:ring-1 focus:ring-primary-orange-200 focus:outline-none",
-      "disabled:bg-gray-100 disabled:cursor-not-allowed text-white",
-    ].join(" "),
-    outlined: [
-      "border-2 border-primary-orange-300 text-primary-orange-300",
-      "hover:border-primary-orange-200 hover:text-primary-orange-200",
-      "focus:ring-1 focus:ring-primary-orange-200 focus:outline-none",
-      "disabled:border-gray-100 disabled:text-gray-100 disabled:cursor-not-allowed disabled:hover:bg-transparent",
-    ].join(" "),
+    solid:
+      "bg-primary-orange-300 text-gray-100 hover:bg-primary-orange-200 focus:ring-1 focus:ring-primary-orange-200 focus:outline-none disabled:bg-gray-100 disabled:cursor-not-allowed text-white",
+    outlined:
+      "border-2 border-primary-orange-300 text-primary-orange-300 hover:border-primary-orange-200 hover:text-primary-orange-200 focus:ring-1 focus:ring-primary-orange-200 focus:outline-none disabled:border-gray-100 disabled:text-gray-100 disabled:cursor-not-allowed disabled:hover:bg-transparent",
   };
 
   const widths = {
@@ -65,7 +55,7 @@ const Button = ({
       disabled={disabled}
       {...props}
     >
-      {icon && <span className="mr-2">{icon}</span>} {/* 아이콘 렌더링 */}
+      {icon && <span className="mr-2">{icon}</span>}
       {children}
     </button>
   );

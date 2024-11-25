@@ -7,17 +7,25 @@ interface CheckBtnProps extends InputHTMLAttributes<HTMLInputElement> {
   value: string; // 체크박스의 value 속성
   checked?: boolean; // 체크박스가 선택된 상태인지 여부
   disabled?: boolean; // 체크박스가 비활성화된 상태인지 여부
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void; // 체크박스 상태 변화 처리 함수
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const CheckBtn = ({ label, name, value, checked = false, disabled = false, onChange, ...props }: CheckBtnProps) => {
-  const baseStyles = "flex items-center justify-between rounded-lg";
+const CheckBtn: React.FC<CheckBtnProps> = ({
+  label,
+  name,
+  value,
+  checked = false,
+  disabled = false,
+  onChange,
+  ...props
+}) => {
+  const baseStyles = "flex items-center justify-between rounded-lg p-2";
 
   const textColor = disabled ? "text-gray-400" : "text-black";
   const cursorStyle = disabled ? "cursor-not-allowed" : "cursor-pointer";
 
   return (
-    <div className={`${baseStyles} ${cursorStyle} p-2`}>
+    <div className={`${baseStyles} ${cursorStyle}`}>
       <label htmlFor={value} className={`text-sm ${textColor}`}>
         {label}
       </label>

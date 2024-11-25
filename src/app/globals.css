@@ -92,7 +92,6 @@ input[type="checkbox"]:disabled {
   font-family: "HakgyoansimDunggeunmisoTTF-R";
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-R.woff2") format("woff2");
   font-weight: 400;
-  font-style: normal;
 }
 
 /* 학교안심 둥근미소 B */
@@ -100,7 +99,6 @@ input[type="checkbox"]:disabled {
   font-family: "HakgyoansimDunggeunmisoTTF-B";
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-B.woff2") format("woff2");
   font-weight: 700;
-  font-style: normal;
 }
 
 /* 넥슨 폰트 */
@@ -109,14 +107,12 @@ input[type="checkbox"]:disabled {
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Light.woff")
     format("woff");
   font-weight: 300;
-  font-style: normal;
 }
 @font-face {
   font-family: "NEXON Lv1 Gothic OTF Regular";
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Regular.woff")
     format("woff");
   font-weight: 400;
-  font-style: normal;
 }
 @font-face {
   font-family: "NEXON Lv1 Gothic OTF Bold";

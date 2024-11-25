@@ -14,7 +14,7 @@ const BookmarkBtn: React.FC<BookmarkBtnProps> = ({ className = "" }) => {
   };
 
   const baseStyles =
-    "inline-flex items-center justify-center transition-colors rounded-full w-54 h-54 p-4 bg-orange-50";
+    "inline-flex items-center justify-center transition-colors rounded-full h-12 w-12 p-2 bg-orange-50";
 
   const iconStyles = "text-xl text-primary-orange-300";
 

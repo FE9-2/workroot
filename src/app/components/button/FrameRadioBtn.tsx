@@ -11,23 +11,22 @@ interface FrameRadioBtnProps extends ButtonHTMLAttributes<HTMLInputElement> {
   disabled?: boolean; // 라디오 버튼이 비활성화된 상태인지 여부
 }
 
-const FrameRadioBtn = ({ width = "sm", checked = false, disabled = false, ...props }: FrameRadioBtnProps) => {
-  const baseStyles = "flex items-center justify-between rounded-lg border";
+const FrameRadioBtn: React.FC<FrameRadioBtnProps> = ({ width = "sm", checked = false, disabled = false, ...props }) => {
+  const baseStyles = "flex items-center justify-between rounded-lg border px-5 py-4";
 
   const widths = {
-    sm: "w-[252px] px-5 py-4",
-    md: "w-[360px] px-6 py-5",
+    sm: "w-[252px]",
+    md: "w-[360px]",
   };
 
-  const labelTextSize = width === "sm" ? "text-sm" : "text-base";
-  const bgColor = disabled ? "none" : checked ? "bg-primary-orange-50" : "bg-white";
+  const bgColor = disabled ? "bg-gray-200" : checked ? "bg-primary-orange-50" : "bg-white";
   const borderColor = disabled ? "border-gray-200" : "border-primary-orange-300";
   const textColor = disabled ? "text-gray-400" : "text-black";
   const cursorStyle = disabled ? "cursor-not-allowed" : "cursor-pointer";
 
   return (
     <div className={`${baseStyles} ${widths[width]} ${bgColor} ${borderColor} ${cursorStyle}`}>
-      <label htmlFor={props.value} className={`${labelTextSize} ${textColor}`}>
+      <label htmlFor={props.value} className={`text-sm ${textColor}`}>
         {props.label}
       </label>
       <input
