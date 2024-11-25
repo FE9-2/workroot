@@ -1,5 +1,4 @@
 "use client";
-
 import { useAuth } from "@/hooks/useAuth";
 import { type LoginSchema, loginSchema } from "@/schemas/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";

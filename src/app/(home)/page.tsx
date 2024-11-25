@@ -4,8 +4,6 @@ import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-import Footer from "../components/layout/Footer";
-
 export default function Home() {
   const [visibleSections, setVisibleSections] = useState(new Set<string>());
   const observer = useRef<IntersectionObserver | null>(null);
