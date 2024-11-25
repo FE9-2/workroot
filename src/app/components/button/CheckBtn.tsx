@@ -1,3 +1,4 @@
+"use client";
 import React, { InputHTMLAttributes } from "react";
 
 interface CheckBtnProps extends InputHTMLAttributes<HTMLInputElement> {

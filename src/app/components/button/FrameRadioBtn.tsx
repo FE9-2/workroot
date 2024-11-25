@@ -1,3 +1,4 @@
+"use client";
 import React, { ButtonHTMLAttributes } from "react";
 
 interface FrameRadioBtnProps extends ButtonHTMLAttributes<HTMLInputElement> {

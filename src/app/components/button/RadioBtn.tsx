@@ -1,3 +1,4 @@
+"use client";
 import React, { ButtonHTMLAttributes } from "react";
 
 interface RadioBtnProps extends ButtonHTMLAttributes<HTMLInputElement> {

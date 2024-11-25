@@ -16,7 +16,7 @@ const meta = {
     },
     width: {
       control: "radio",
-      options: ["xs", "sm", "md", "lg"],
+      options: ["xs", "sm", "md", "lg", "auto"],
     },
     disabled: {
       control: "boolean",
