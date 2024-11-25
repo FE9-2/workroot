@@ -6,7 +6,7 @@ import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { BsCalendar4 } from "react-icons/bs";
 import { useDropdownOpen } from "@/hooks/useDropdownOpen";
 
-const DatepickerInput = () => {
+const DatePickerInput = () => {
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const { isOpen, handleOpenDropdown } = useDropdownOpen();
   const iconStyle = "text-black-400 size-9";
@@ -30,4 +30,4 @@ const DatepickerInput = () => {
   );
 };
 
-export default DatepickerInput;
+export default DatePickerInput;
