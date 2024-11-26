@@ -3,14 +3,14 @@ import BaseInput from "../text/BaseInput";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale";
-import { SyntheticEvent, useEffect, useState } from "react";
+import { useState } from "react";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { BsCalendar4 } from "react-icons/bs";
 import { useDropdownOpen } from "@/hooks/useDropdownOpen";
 import { useFormContext } from "react-hook-form";
 
 const DatePickerInput = () => {
-  const { register, setValue, watch } = useFormContext();
+  const { setValue, watch } = useFormContext();
   const { isOpen, handleOpenDropdown } = useDropdownOpen();
   const dateValue = watch("datepicker");
 
@@ -59,7 +59,6 @@ const DatePickerInput = () => {
               startDate={startDate}
               endDate={endDate}
               onChange={handleChange}
-              dateFormat="yyyy/MM/dd"
             />
           </div>
         )}
