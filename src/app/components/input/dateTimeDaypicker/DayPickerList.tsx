@@ -9,14 +9,18 @@ const DayPickerList = () => {
   const onClick = (e: MouseEvent<HTMLButtonElement>) => {
     const day = e.currentTarget.textContent;
     if (day) {
-      setSelectedDays((prev) => [...prev, day]);
+      if (selectedDays.includes(day)) {
+        setSelectedDays((prev) => prev.filter((d: string) => d !== day));
+      } else {
+        setSelectedDays((prev) => [...prev, day]); // 눌렀을때 추가
+      }
     }
   };
 
   return (
-    <div>
+    <div className="flex gap-2">
       {days.map((day) => (
-        <DayPickerBtn key={day} selected={selectedDays.includes(day)} onClick={onClick} />
+        <DayPickerBtn key={day} value={day} selected={selectedDays.includes(day)} onClick={onClick} />
       ))}
     </div>
   );

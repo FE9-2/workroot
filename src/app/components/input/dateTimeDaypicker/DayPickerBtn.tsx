@@ -2,9 +2,11 @@ import { MouseEvent } from "react";
 
 const DayPickerBtn = ({
   selected,
+  value,
   onClick,
 }: {
   selected: boolean;
+  value: string;
   onClick: (e: MouseEvent<HTMLButtonElement>) => void;
 }) => {
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -17,8 +19,10 @@ const DayPickerBtn = ({
     <div>
       <button
         onClick={handleClick}
-        className={`h-12 w-[38px] bg-background-200 lg:h-[64px] lg:w-[50px] ${selected ? selectedStyle : defaultStyle}`}
-      ></button>
+        className={`h-12 w-[38px] rounded-xl bg-background-200 lg:h-[64px] lg:w-[50px] lg:rounded-2xl ${selected ? selectedStyle : defaultStyle}`}
+      >
+        {value}
+      </button>
     </div>
   );
 };
