@@ -1,29 +1,29 @@
 import { cn } from "@/lib/tailwindUtil";
+import Button from "@/app/components/button/Button";
+import ReadOnlyInput from "@/app/components/input/text/ReadOnlyInput";
+import { formatDateTime } from "@/utils/formatters";
 import Image from "next/image";
 import Link from "next/link";
-import Button from "@/app/components/button/Button";
-import DisabledInput from "@/app/components/input/text/DisabledInput";
-import { formatDateTime } from "@/utils/formatters";
 
 interface ApplicationDetailModalProps {
-  isOpen: boolean;
   formId: string;
   applicationDate?: string;
   applicationStatus?: string;
   name: string;
   phone: string;
   password: string;
+  isOpen: boolean;
   onClose: () => void;
   className?: string;
 }
 
 const ApplicationDetailModal = ({
-  isOpen,
   formId,
   applicationDate,
   applicationStatus,
   name,
   phone,
+  isOpen,
   onClose,
   className,
 }: ApplicationDetailModalProps) => {
@@ -54,7 +54,7 @@ const ApplicationDetailModal = ({
     <div className="bg-black/50 fixed inset-0 z-50 flex items-center justify-center p-4">
       <div
         className={cn(
-          "relative h-[544px] w-[375px] overflow-hidden rounded-lg bg-white p-6 md:h-[668px] md:w-[440px]",
+          "relative h-[544px] w-[375px] overflow-hidden rounded-3xl bg-white p-6 md:h-[668px] md:w-[440px]",
           className
         )}
       >
@@ -96,7 +96,7 @@ const ApplicationDetailModal = ({
                   <label htmlFor={field.name} className="text-muted-foreground block text-sm md:text-base">
                     {field.label}
                   </label>
-                  <DisabledInput
+                  <ReadOnlyInput
                     name={field.name}
                     type={field.type}
                     value={field.value}

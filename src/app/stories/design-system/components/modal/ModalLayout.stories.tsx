@@ -18,7 +18,7 @@ const ModalTester = () => {
 
   const modalButtons = [
     {
-      label: "지원서 상세",
+      label: "내 지원 내역",
       type: "detail",
       onClick: () =>
         openModal("applicationDetail", {
@@ -32,7 +32,7 @@ const ModalTester = () => {
         }),
     },
     {
-      label: "작성 계속하기",
+      label: "이어쓰기",
       type: "alert",
       onClick: () =>
         openModal("formContinue", {
@@ -43,7 +43,7 @@ const ModalTester = () => {
         }),
     },
     {
-      label: "모집 완료",
+      label: "모집 마감",
       type: "alert",
       onClick: () =>
         openModal("recruitmentClosed", {
@@ -54,23 +54,23 @@ const ModalTester = () => {
         }),
     },
     {
-      label: "지원서 삭제",
+      label: "알바폼 삭제",
       type: "confirm",
       onClick: () =>
         openModal("deleteForm", {
-          title: "지원서 삭제",
-          message: "지원서를 삭제하시겠습니까?",
+          title: "알바폼 삭제할까요?",
+          message: "삭제 후 정보를 복구할 수 없어요.",
           onConfirm: () => console.log("삭제 확인"),
           onCancel: () => console.log("삭제 취소"),
         }),
     },
     {
-      label: "진행 상태 변경",
+      label: "진행상태 선택",
       type: "confirm",
       onClick: () =>
         openModal("selectProgress", {
-          title: "진행 상태 변경",
-          message: "진행 상태를 변경하시겠습니까?",
+          title: "진행상태 선택",
+          message: "현재 진행상태를 알려주세요.",
           onConfirm: () => console.log("상태 변경 확인"),
           onCancel: () => console.log("상태 변경 취소"),
         }),
@@ -85,21 +85,21 @@ const ModalTester = () => {
         }),
     },
     {
-      label: "내 프로필 수정",
+      label: "내 정보 수정",
       type: "form",
       onClick: () =>
         openModal("editMyProfile", {
           fields: ["이름", "이메일", "전화번호"],
-          onSubmit: (data) => console.log("프로필 수정:", data),
+          onSubmit: (data) => console.log("내 정보 수정:", data),
         }),
     },
     {
-      label: "사업자 프로필 수정",
+      label: "사장님 정보 관리",
       type: "form",
       onClick: () =>
         openModal("editOwnerProfile", {
           fields: ["상호명", "대표자명", "사업자등록번호"],
-          onSubmit: (data) => console.log("사업자 프로필 수정:", data),
+          onSubmit: (data) => console.log("사장님 정보 관리:", data),
         }),
     },
   ];

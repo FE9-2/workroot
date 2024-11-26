@@ -2,11 +2,11 @@ import { cn } from "@/lib/tailwindUtil";
 import BaseInput from "./BaseInput";
 import { BaseInputProps } from "@/types/textInput";
 
-interface DisabledInputProps extends Omit<BaseInputProps, "variant"> {
+interface ReadOnlyInputProps extends Omit<BaseInputProps, "variant"> {
   value: string;
 }
 
-const DisabledInput = ({ value, ...props }: DisabledInputProps) => {
+const ReadOnlyInput = ({ value, ...props }: ReadOnlyInputProps) => {
   return (
     <div className="relative w-full">
       <BaseInput
@@ -21,4 +21,4 @@ const DisabledInput = ({ value, ...props }: DisabledInputProps) => {
   );
 };
 
-export default DisabledInput;
+export default ReadOnlyInput;
