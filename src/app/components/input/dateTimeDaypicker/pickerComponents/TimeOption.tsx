@@ -21,7 +21,7 @@ const TimeOption = ({
 
   return (
     <div
-      className={`flex h-[200px] w-full flex-col gap-1 overflow-scroll overflow-x-hidden rounded-lg border p-2 ${className}`}
+      className={`mb-5 flex h-[200px] w-full flex-col gap-1 overflow-scroll overflow-x-hidden rounded-lg border p-2 ${className}`}
     >
       {timeOption.map((time, index) => (
         <TimeItem key={index} time={time} onSelect={handleTimeSelect} />

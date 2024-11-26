@@ -19,7 +19,7 @@ const DayPickerBtn = ({
     <div>
       <button
         onClick={handleClick}
-        className={`h-12 w-[38px] rounded-xl bg-background-200 lg:h-[64px] lg:w-[50px] lg:rounded-2xl ${selected ? selectedStyle : defaultStyle}`}
+        className={`h-12 w-[38px] rounded-xl bg-background-200 focus:outline-none lg:h-[64px] lg:w-[50px] lg:rounded-2xl ${selected ? selectedStyle : defaultStyle}`}
       >
         {value}
       </button>
