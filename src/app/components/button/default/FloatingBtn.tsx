@@ -14,7 +14,7 @@ const FloatingBtn: React.FC<FloatingBtnProps> = ({ variant = "orange", icon, chi
     white: "bg-white text-primary-orange-300 border border-primary-orange-300 hover:bg-gray-100",
   };
 
-  const widthStyles = children ? "w-auto px-4" : "w-12";
+  const widthStyles = children ? "w-auto px-3" : "w-12";
 
   return (
     <button className={`${baseStyles} ${variants[variant]} ${widthStyles} ${className}`.trim()} {...props}>

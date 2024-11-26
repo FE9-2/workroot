@@ -1,9 +1,8 @@
-import Button from "@/app/components/button/Button";
+import Button from "@/app/components/button/default/Button";
 import type { Meta, StoryObj } from "@storybook/react";
 import { RiEdit2Fill } from "react-icons/ri";
-
 const meta = {
-  title: "Design System/Components/Button",
+  title: "Design System/Components/Button/DefaultButton",
   component: Button,
   parameters: {
     layout: "centered",

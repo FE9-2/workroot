@@ -5,7 +5,7 @@ import { useUserStore } from "@/store/userStore";
 import { UserResponse } from "@/types/response/user";
 import { useEffect } from "react";
 
-async function fetchUser() {
+async function fButtonhUser() {
   try {
     const response = await axios.get("/api/users/me", {
       withCredentials: true,
@@ -26,9 +26,9 @@ export function useUser() {
   const setUser = useUserStore((state) => state.setUser);
   const storeUser = useUserStore((state) => state.user);
 
-  const { data, isLoading, error, refetch } = useQuery({
+  const { data, isLoading, error, refButtonh } = useQuery({
     queryKey: ["user"],
-    queryFn: fetchUser,
+    queryFn: fButtonhUser,
     retry: false,
     staleTime: 1000 * 60 * 5, // 5분
     gcTime: 1000 * 60 * 30, // 30분
@@ -57,6 +57,6 @@ export function useUser() {
     isLoading,
     error,
     isAuthenticated,
-    refetch,
+    refButtonh,
   };
 }
