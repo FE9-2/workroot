@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { RiEdit2Fill } from "react-icons/ri";
 
 const meta: Meta<typeof FloatingBtn> = {
-  title: "Design System/Components/FloatingBtn",
+  title: "Design System/Components/Buttons/FloatingBtn",
   component: FloatingBtn,
   parameters: {
     layout: "centered",

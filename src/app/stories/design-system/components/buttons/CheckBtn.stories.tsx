@@ -2,7 +2,7 @@ import CheckBtn from "@/app/components/button/CheckBtn";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof CheckBtn> = {
-  title: "Design System/Components/CheckBtn",
+  title: "Design System/Components/Buttons/CheckBtn",
   component: CheckBtn,
   parameters: {
     layout: "centered",

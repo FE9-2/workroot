@@ -3,7 +3,6 @@ import useModalStore from "@/store/modalStore";
 import AlertModal from "./modals/AlertModal";
 import ConfirmModal from "./modals/ConfirmModal";
 import FormModal from "./modals/FormModal";
-import { useEffect } from "react";
 
 type ImplementedModalType = "alert" | "confirm" | "form";
 

@@ -28,17 +28,17 @@ const AlertModal = ({ isOpen, title, message, onClose, buttonText, onButtonClick
           <div className="flex flex-col items-center text-center">
             <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary-orange-50">
               <Image
-                src="/images/modal/warning-orange-sm.svg"
+                src="/images/modal/empty-orange-sm.svg"
                 alt="warning"
-                width={32}
-                height={32}
+                width={80}
+                height={80}
                 className="block sm:hidden"
               />
               <Image
-                src="/images/modal/warning-orange-md.svg"
+                src="/images/modal/empty-orange-md.svg"
                 alt="warning"
-                width={40}
-                height={40}
+                width={120}
+                height={120}
                 className="hidden sm:block"
               />
             </div>

@@ -2,7 +2,7 @@ import RadioBtn from "@/app/components/button/RadioBtn";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof RadioBtn> = {
-  title: "Design System/Components/RadioBtn",
+  title: "Design System/Components/Buttons/RadioBtn",
   component: RadioBtn,
   parameters: {
     layout: "centered",
