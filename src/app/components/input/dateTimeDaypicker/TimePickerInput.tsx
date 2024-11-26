@@ -27,6 +27,7 @@ const TimePickerInput = () => {
       <div>{isOpen}</div>
       <BaseInput
         type="text"
+        readOnly={true}
         variant="white"
         placeholder="00:00"
         value={timeValue || null}
