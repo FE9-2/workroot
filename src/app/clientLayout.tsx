@@ -22,7 +22,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
             staleTime: 60 * 1000,
             gcTime: 60 * 60 * 1000,
             retry: 1,
-            refButtonhOnWindowFocus: false,
+            refetchOnWindowFocus: false,
           },
           mutations: {
             retry: 1,

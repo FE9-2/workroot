@@ -21,7 +21,7 @@ jobs:
       - name: 저장소 체크아웃
         uses: actions/checkout@v3 # GitHub Actions의 공식 체크아웃 액션
         with:
-          fButtonh-depth: 0 # 전체 Git 기록을 가져옴 (CI 최적화를 위해 기본값은 1)
+          fetch-depth: 0 # 전체 Git 기록을 가져옴 (CI 최적화를 위해 기본값은 1)
 
       - name: 캐시 종속성
         id: cache
