@@ -2,7 +2,7 @@ import { cn } from "@/lib/tailwindUtil";
 import Image from "next/image";
 import { useState } from "react";
 
-interface FormModalProps {
+interface ChangePasswordModalProps {
   isOpen: boolean;
   fields: string[];
   onClose: () => void;
@@ -10,7 +10,7 @@ interface FormModalProps {
   className?: string;
 }
 
-const FormModal = ({ isOpen, fields, onClose, onSubmit, className }: FormModalProps) => {
+const ChangePasswordModal = ({ isOpen, fields, onClose, onSubmit, className }: ChangePasswordModalProps) => {
   const [formData, setFormData] = useState<Record<string, string>>(() =>
     fields.reduce((acc, field) => ({ ...acc, [field]: "" }), {})
   );
@@ -87,4 +87,4 @@ const FormModal = ({ isOpen, fields, onClose, onSubmit, className }: FormModalPr
   );
 };
 
-export default FormModal;
+export default ChangePasswordModal;

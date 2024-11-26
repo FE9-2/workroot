@@ -1,13 +1,12 @@
 import ModalLayout from "@/app/components/modal/ModalLayout";
 import useModalStore from "@/store/modalStore";
 import type { Meta, StoryObj } from "@storybook/react";
-import { useEffect, useState } from "react";
 
 const meta: Meta<typeof ModalLayout> = {
   title: "Design System/Components/Modal/ModalLayout",
   component: ModalLayout,
   parameters: {
-    layout: "fullscreen",
+    layout: "centered",
   },
 };
 
@@ -15,55 +14,119 @@ export default meta;
 type Story = StoryObj<typeof ModalLayout>;
 
 const ModalTester = () => {
-  const [modalType, setModalType] = useState<"alert" | "confirm" | "form">("alert");
   const { openModal } = useModalStore();
 
-  const openAlertModal = () => {
-    openModal("alert", {
-      title: "테스트 알림",
-      message: "이것은 테스트 알림입니다.",
-      buttonText: "확인",
-      onButtonClick: () => console.log("알림 모달: 버튼 클릭"),
-    });
-    setModalType("alert");
-  };
+  const modalButtons = [
+    {
+      label: "지원서 상세",
+      type: "detail",
+      onClick: () =>
+        openModal("applicationDetail", {
+          formId: "123",
+          title: "지원서 상세",
+          applicationDate: "2024-03-21 14:30",
+          applicationStatus: "서류 검토중",
+          name: "홍길동",
+          phone: "010-1234-5678",
+          password: "••••••••",
+        }),
+    },
+    {
+      label: "작성 계속하기",
+      type: "alert",
+      onClick: () =>
+        openModal("formContinue", {
+          title: "작성 중인 지원서",
+          message: "이어서 작성하시겠습니까?",
+          buttonText: "이어서 작성하기",
+          onButtonClick: () => console.log("이어서 작성하기 클릭"),
+        }),
+    },
+    {
+      label: "모집 완료",
+      type: "alert",
+      onClick: () =>
+        openModal("recruitmentClosed", {
+          title: "모집 완료",
+          message: "해당 공고는 모집이 완료되었습니다.",
+          buttonText: "확인",
+          onButtonClick: () => console.log("확인 클릭"),
+        }),
+    },
+    {
+      label: "지원서 삭제",
+      type: "confirm",
+      onClick: () =>
+        openModal("deleteForm", {
+          title: "지원서 삭제",
+          message: "지원서를 삭제하시겠습니까?",
+          onConfirm: () => console.log("삭제 확인"),
+          onCancel: () => console.log("삭제 취소"),
+        }),
+    },
+    {
+      label: "진행 상태 변경",
+      type: "confirm",
+      onClick: () =>
+        openModal("selectProgress", {
+          title: "진행 상태 변경",
+          message: "진행 상태를 변경하시겠습니까?",
+          onConfirm: () => console.log("상태 변경 확인"),
+          onCancel: () => console.log("상태 변경 취소"),
+        }),
+    },
+    {
+      label: "비밀번호 변경",
+      type: "form",
+      onClick: () =>
+        openModal("changePassword", {
+          fields: ["현재 비밀번호", "새 비밀번호", "새 비밀번호 확인"],
+          onSubmit: (data) => console.log("비밀번호 변경:", data),
+        }),
+    },
+    {
+      label: "내 프로필 수정",
+      type: "form",
+      onClick: () =>
+        openModal("editMyProfile", {
+          fields: ["이름", "이메일", "전화번호"],
+          onSubmit: (data) => console.log("프로필 수정:", data),
+        }),
+    },
+    {
+      label: "사업자 프로필 수정",
+      type: "form",
+      onClick: () =>
+        openModal("editOwnerProfile", {
+          fields: ["상호명", "대표자명", "사업자등록번호"],
+          onSubmit: (data) => console.log("사업자 프로필 수정:", data),
+        }),
+    },
+  ];
 
-  const openConfirmModal = () => {
-    openModal("confirm", {
-      title: "확인",
-      message: "정말 삭제하시겠습니까?",
-      onConfirm: () => console.log("확인 모달: 확인 클릭"),
-      onCancel: () => console.log("확인 모달: 취소 클릭"),
-    });
-    setModalType("confirm");
-  };
-
-  const openFormModal = () => {
-    openModal("form", {
-      fields: ["이름", "이메일", "전화번호"],
-      onSubmit: (data) => console.log("폼 모달: 제출된 데이터", data),
-    });
-    setModalType("form");
+  const buttonStyles = {
+    detail: "bg-primary-blue-200 hover:bg-primary-blue-300",
+    alert: "bg-primary-orange-200 hover:bg-primary-orange-300",
+    confirm: "bg-state-error hover:bg-state-error/90",
+    form: "bg-primary-blue-100 hover:bg-primary-blue-200",
   };
 
   return (
-    <div className="p-4">
+    <div className="mx-auto max-w-4xl rounded-lg bg-background-100 p-8 shadow-lg">
       <div className="mb-8 space-y-4">
-        <h2 className="text-xl font-bold">모달 테스트</h2>
-        <p className="text-sm text-gray-600">현재 열린 모달: {modalType}</p>
-        <div className="flex gap-4">
-          <button onClick={openAlertModal} className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
-            알림 모달 열기
-          </button>
-          <button
-            onClick={openConfirmModal}
-            className="rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600"
-          >
-            확인 모달 열기
-          </button>
-          <button onClick={openFormModal} className="rounded-md bg-purple-500 px-4 py-2 text-white hover:bg-purple-600">
-            폼 모달 열기
-          </button>
+        <h2 className="text-xl font-bold text-black-400">모달 테스트</h2>
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+          {modalButtons.map((button, index) => (
+            <button
+              key={index}
+              onClick={button.onClick}
+              className={`rounded-md px-4 py-2 text-sm text-white transition-colors ${
+                buttonStyles[button.type as keyof typeof buttonStyles]
+              }`}
+            >
+              {button.label}
+            </button>
+          ))}
         </div>
       </div>
       <ModalLayout />
@@ -72,5 +135,9 @@ const ModalTester = () => {
 };
 
 export const ModalTest: Story = {
-  render: () => <ModalTester />,
+  render: () => (
+    <div className="min-h-[600px] bg-background-200 p-4">
+      <ModalTester />
+    </div>
+  ),
 };

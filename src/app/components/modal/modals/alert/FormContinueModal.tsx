@@ -1,7 +1,7 @@
 import { cn } from "@/lib/tailwindUtil";
 import Image from "next/image";
 
-interface AlertModalProps {
+interface FormContinueModalProps {
   isOpen: boolean;
   title: string;
   message: string;
@@ -11,7 +11,15 @@ interface AlertModalProps {
   className?: string;
 }
 
-const AlertModal = ({ isOpen, title, message, onClose, buttonText, onButtonClick, className }: AlertModalProps) => {
+const FormContinueModal = ({
+  isOpen,
+  title,
+  message,
+  onClose,
+  buttonText,
+  onButtonClick,
+  className,
+}: FormContinueModalProps) => {
   if (!isOpen) return null;
 
   return (
@@ -28,14 +36,14 @@ const AlertModal = ({ isOpen, title, message, onClose, buttonText, onButtonClick
           <div className="flex flex-col items-center text-center">
             <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary-orange-50">
               <Image
-                src="/images/modal/empty-orange-sm.svg"
+                src="/images/modal/closed-orange-sm.svg"
                 alt="warning"
                 width={80}
                 height={80}
                 className="block sm:hidden"
               />
               <Image
-                src="/images/modal/empty-orange-md.svg"
+                src="/images/modal/closed-orange-md.svg"
                 alt="warning"
                 width={120}
                 height={120}
@@ -57,4 +65,4 @@ const AlertModal = ({ isOpen, title, message, onClose, buttonText, onButtonClick
   );
 };
 
-export default AlertModal;
+export default FormContinueModal;

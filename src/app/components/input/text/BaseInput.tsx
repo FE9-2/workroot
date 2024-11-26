@@ -43,12 +43,21 @@ const BaseInput = (props: BaseInputProps) => {
 
   const wrapperStyle = `relative flex gap-2 items-center justify-between rounded-lg border-[0.5px] p-[14px] lg:py-4 ${variantStyle} ${sizeStyles} ${errorStyle} ${props.wrapperClassName}`;
   const inputStyle = `bg-transparent ${baseStyle} ${textStyle} ${props.innerClassName}`;
+
   return (
     <div>
       <div className={wrapperStyle}>
         {props.beforeIcon && <div className="flex items-center justify-center">{props.beforeIcon}</div>}
         <label className="hidden">{props.name}</label>
-        <input id={props.name} type={inputType} placeholder={props.placeholder} className={inputStyle} />
+        <input
+          id={props.name}
+          type={inputType}
+          value={props.value}
+          placeholder={props.placeholder}
+          disabled={props.disabled}
+          readOnly={props.readOnly}
+          className={inputStyle}
+        />
         {props.type === "password" && (
           <div onClick={toggleType} className="cursor-pointer">
             {eyeOn ? <LuEye className="text-gray-200" /> : <LuEyeOff className="text-gray-200" />}

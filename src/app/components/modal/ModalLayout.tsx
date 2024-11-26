@@ -1,16 +1,25 @@
 import { createPortal } from "react-dom";
 import useModalStore from "@/store/modalStore";
-import AlertModal from "./modals/AlertModal";
-import ConfirmModal from "./modals/ConfirmModal";
-import FormModal from "./modals/FormModal";
-
-type ImplementedModalType = "alert" | "confirm" | "form";
+import FormContinueModal from "./modals/alert/FormContinueModal";
+import ApplicationDetailModal from "./modals/alert/ApplicationDetailModal";
+import RecruitmentClosedModal from "./modals/alert/RecruitmentClosedModal";
+import DeleteFormModal from "./modals/confirm/DeleteFormModal";
+import SelectProgressModal from "./modals/confirm/SelectProgressModal";
+import ChangePasswordModal from "./modals/form/ChangePasswordModal";
+import EditMyProfileModal from "./modals/form/EditMyProfileModal";
+import EditOwnerProfileModal from "./modals/form/EditOwnerProfileModal";
+import { ModalType } from "@/types/modal";
 
 // 모달 컴포넌트 매핑
 const ModalComponents = {
-  alert: AlertModal,
-  confirm: ConfirmModal,
-  form: FormModal,
+  applicationDetail: ApplicationDetailModal,
+  formContinue: FormContinueModal,
+  recruitmentClosed: RecruitmentClosedModal,
+  deleteForm: DeleteFormModal,
+  selectProgress: SelectProgressModal,
+  changePassword: ChangePasswordModal,
+  editMyProfile: EditMyProfileModal,
+  editOwnerProfile: EditOwnerProfileModal,
 } as const;
 
 const ModalLayout = () => {
@@ -23,7 +32,7 @@ const ModalLayout = () => {
     return null;
   }
 
-  const ModalComponent = ModalComponents[modalType as ImplementedModalType];
+  const ModalComponent = ModalComponents[modalType as ModalType];
 
   return createPortal(
     <div
@@ -32,7 +41,9 @@ const ModalLayout = () => {
         if (e.target === e.currentTarget) closeModal();
       }}
     >
-      <ModalComponent isOpen={isOpen} onClose={closeModal} {...(modalProps as any)} />
+      <div className="w-full max-w-md rounded-2xl">
+        <ModalComponent isOpen={isOpen} onClose={closeModal} {...(modalProps as any)} />
+      </div>
     </div>,
     document.body
   );
