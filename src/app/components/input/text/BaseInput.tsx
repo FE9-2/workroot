@@ -64,7 +64,13 @@ const BaseInput = (props: BaseInputProps) => {
       <div className={wrapperStyle}>
         {props.beforeIcon && <div className="flex items-center justify-center">{props.beforeIcon}</div>}
         <label className="hidden">{props.name}</label>
-        <input id={props.name} type={inputType} placeholder={props.placeholder} className={inputStyle} />
+        <input
+          id={props.name}
+          type={inputType}
+          value={props.value}
+          placeholder={props.placeholder}
+          className={inputStyle}
+        />
         {props.type === "password" && (
           <div onClick={toggleType} className="cursor-pointer">
             {eyeOn ? <LuEye className="text-gray-200" /> : <LuEyeOff className="text-gray-200" />}

@@ -10,6 +10,7 @@ export interface BaseTextAreaProps {
 }
 
 export interface BaseInputProps {
+  value?: string;
   name: string;
   type: string;
   variant: "white" | "transparent";

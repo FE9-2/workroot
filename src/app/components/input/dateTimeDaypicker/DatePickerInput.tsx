@@ -1,7 +1,9 @@
 "use client";
 import BaseInput from "../text/BaseInput";
 import DatePicker from "react-datepicker";
-import { useState } from "react";
+import "react-datepicker/dist/react-datepicker.css";
+import { ko } from "date-fns/locale";
+import { KeyboardEvent, MouseEvent, useState } from "react";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { BsCalendar4 } from "react-icons/bs";
 import { useDropdownOpen } from "@/hooks/useDropdownOpen";
@@ -14,6 +16,15 @@ const DatePickerInput = () => {
   const handleOpenDatePicker = () => {
     handleOpenDropdown();
   };
+  const handleSelectDate = (
+    date: Date | null,
+    e?: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement> | undefined
+  ): void => {
+    setStartDate(date);
+  };
+  const handleDateChange = (date: Date | null) => {
+    setStartDate(date);
+  };
 
   return (
     <div onClick={handleOpenDatePicker}>
@@ -22,10 +33,17 @@ const DatePickerInput = () => {
         type="text"
         placeholder="시작일 ~ 종료일"
         variant="white"
-        beforeIcon={<BsCalendar4 className="size-4 text-gray-200 lg:size-6" />}
+        beforeIcon={<BsCalendar4 className="size-6 text-gray-200 lg:size-9" />}
         afterIcon={arrowIcon}
       />
-      <DatePicker showIcon selected={startDate} onChange={(date) => setStartDate(date)} />
+      <DatePicker
+        locale={ko}
+        dateFormat="yyyy.MM.dd"
+        showIcon
+        selected={startDate}
+        onSelect={handleSelectDate}
+        onChange={handleDateChange}
+      />
     </div>
   );
 };
