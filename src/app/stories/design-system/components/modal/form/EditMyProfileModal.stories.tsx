@@ -15,8 +15,6 @@ type Story = StoryObj<typeof EditMyProfileModal>;
 export const Default: Story = {
   args: {
     isOpen: true,
-    fields: ["이름", "이메일", "전화번호"],
-    onSubmit: (data) => console.log("프로필 수정:", data),
     onClose: () => console.log("모달 닫기"),
   },
 };
