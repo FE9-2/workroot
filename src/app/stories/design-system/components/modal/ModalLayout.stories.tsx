@@ -1,9 +1,6 @@
 import ModalLayout from "@/app/components/modal/ModalLayout";
 import useModalStore from "@/store/modalStore";
 import type { Meta, StoryObj } from "@storybook/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-const queryClient = new QueryClient();
 
 const meta: Meta<typeof ModalLayout> = {
   title: "Design System/Components/Modal/ModalLayout",
@@ -11,13 +8,6 @@ const meta: Meta<typeof ModalLayout> = {
   parameters: {
     layout: "centered",
   },
-  decorators: [
-    (Story) => (
-      <QueryClientProvider client={queryClient}>
-        <Story />
-      </QueryClientProvider>
-    ),
-  ],
 };
 
 export default meta;
