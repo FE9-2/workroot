@@ -2,22 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* textarea 스크롤바 커스텀*/
-textarea::-webkit-scrollbar {
-  width: 4px;
-}
-
-textarea::-webkit-scrollbar-track {
-  background: transparent;
-}
-textarea::-webkit-scrollbar-thumb {
-  background: #c4c4c4;
-  border-radius: 9999px;
-}
-
-textarea::-webkit-scrollbar-thumb:hover {
-  background: #ababab;
-}
 /* 학교안심 둥근미소 R */
 @font-face {
   font-family: "HakgyoansimDunggeunmisoTTF-R";
@@ -93,4 +77,68 @@ textarea::-webkit-scrollbar-thumb:hover {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* textarea 스크롤바 커스텀*/
+textarea::-webkit-scrollbar {
+  width: 4px;
+}
+
+textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
+textarea::-webkit-scrollbar-thumb {
+  background: #c4c4c4;
+  border-radius: 9999px;
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+  background: #ababab;
+}
+
+/*------------------- date picker 커스텀 --------------------*/
+.react-datepicker {
+  @apply border-none bg-transparent;
+}
+
+.react-datepicker .react-datepicker__header {
+  @apply bg-white;
+}
+.react-datepicker__month-container {
+  @apply border-none bg-transparent;
+}
+
+/* 캘린더 전체 컨테이너 스타일 */
+.custom-calendar {
+  @apply size-full border-none bg-transparent;
+}
+
+/* 개별 날짜 스타일 */
+.custom-day {
+  @apply rounded-full hover:bg-background-100 focus:outline-none;
+}
+
+/* 선택된 날짜 스타일 */
+.react-datepicker__day--selected {
+  @apply rounded-full bg-primary-orange-300 font-medium text-gray-50;
+}
+
+/* 범위 내의 날짜 스타일 */
+.react-datepicker__day--in-range {
+  @apply bg-primary-orange-50;
+}
+
+/* 요일 헤더 스타일 */
+.react-datepicker__day-name {
+  @apply font-medium text-gray-500;
+}
+
+/* 현재 달이 아닌 날짜 스타일 */
+.react-datepicker__day--outside-month {
+  @apply text-gray-300;
+}
+
+/* 오늘 날짜 스타일 */
+.react-datepicker__day--today {
+  @apply border-none border-transparent bg-transparent font-bold;
 }

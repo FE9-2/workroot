@@ -8,6 +8,7 @@ import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { BsCalendar4 } from "react-icons/bs";
 import { useDropdownOpen } from "@/hooks/useDropdownOpen";
 import { useFormContext } from "react-hook-form";
+import DatePickerHeader from "./DatePickerHeader";
 
 const DatePickerInput = () => {
   const { setValue, watch } = useFormContext();
@@ -50,8 +51,11 @@ const DatePickerInput = () => {
           value={dateValue || ""}
           onChange={() => {}} // readonly input으로 만들기 위한 더미 핸들러
         />
-        {isOpen && (
-          <div className="absolute z-10 mt-1" onClick={(e) => e.stopPropagation()}>
+        {!isOpen && (
+          <div
+            className="absolute z-10 mt-1 h-[388px] w-[327px] rounded-lg bg-white lg:h-[582px] lg:w-[640px]"
+            onClick={(e) => e.stopPropagation()}
+          >
             <DatePicker
               inline
               selectsRange
@@ -59,6 +63,8 @@ const DatePickerInput = () => {
               startDate={startDate}
               endDate={endDate}
               onChange={handleChange}
+              className="size-full"
+              renderCustomHeader={(props) => <DatePickerHeader {...props} />}
             />
           </div>
         )}
