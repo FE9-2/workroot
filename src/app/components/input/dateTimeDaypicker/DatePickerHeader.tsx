@@ -1,5 +1,6 @@
 import { MouseEvent } from "react";
-import { IoIosArrowBack, IoIosArrowForward, IoMdClose } from "react-icons/io";
+import { IoIosClose } from "react-icons/io";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
 interface DatePickerHeaderProps {
   date: Date;
@@ -18,7 +19,7 @@ const DatePickerHeader = ({
   nextMonthButtonDisabled,
   handleOpenDropdown,
 }: DatePickerHeaderProps) => {
-  const iconStyle = "size-6 lg:size-9 text-gray-300";
+  const iconStyle = "size-6 lg:size-9 text-gray-200";
   const handleClickClose = (e: MouseEvent<HTMLButtonElement>) => {
     // e.stopPropagation();
     handleOpenDropdown();
@@ -31,22 +32,18 @@ const DatePickerHeader = ({
       </div>
       <div className="lg:h-15 mb-2 flex h-12 items-center justify-between px-[14px] py-3">
         <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
-          <IoIosArrowBack className={iconStyle} />
+          <MdKeyboardArrowLeft className={iconStyle} />
         </button>
         <span className="text-base font-semibold leading-[26px] text-black-400 lg:text-[20px] lg:leading-8">
           {`${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, "0")}`}
         </span>
         <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
-          <IoIosArrowForward className={iconStyle} />
+          <MdKeyboardArrowRight className={iconStyle} />
         </button>
         {/* 닫기 버튼 */}
       </div>
-      <button
-        type="button"
-        onClick={handleClickClose}
-        className="absolute left-[14px] top-5 cursor-pointer text-[10px] lg:top-6"
-      >
-        <IoMdClose className="size-6 text-black-400 lg:size-9" />
+      <button type="button" onClick={handleClickClose} className="absolute left-[14px] top-5 cursor-pointer lg:top-6">
+        <IoIosClose className="size-6 text-black-100 lg:size-9" />
       </button>
     </div>
   );
