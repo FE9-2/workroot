@@ -146,7 +146,7 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
                     <button
                       type="button"
                       onClick={handleImageClick}
-                      className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center rounded-full border-[3px] border-gray-200 bg-white shadow-lg"
+                      className="absolute bottom-1 right-1 flex h-8 w-8 items-center justify-center rounded-full border-[2px] border-white bg-gray-100 shadow-lg"
                     >
                       <FiEdit2 className="h-4 w-4 text-gray-600" />
                     </button>
