@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import { BaseInputProps } from "@/types/textInput";
 
@@ -20,76 +20,120 @@ import { BaseInputProps } from "@/types/textInput";
 @anotherHoverStyle?: string; - 추가적인 hover 스타일 - 없으면 기본값
 */
 
-const BaseInput = (props: BaseInputProps) => {
-  const [eyeOn, setEyeOn] = useState(false);
-  const toggleType = () => {
-    setEyeOn(!eyeOn);
-  };
+interface BaseInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  variant: "white" | "transparent";
+  size?: string;
+  errorMessage?: string;
+  feedbackMessage?: string;
+  wrapperClassName?: string;
+  innerClassName?: string;
+  beforeIcon?: React.ReactNode;
+  afterIcon?: React.ReactNode;
+  afterString?: string;
+  anotherHoverStyle?: string;
+}
 
-  const inputType = props.type === "password" && eyeOn ? "text" : props.type;
-
-  const variants = {
-    white: {
-      bgColor: "bg-background-200",
-      borderColor: "border border-transparent",
-      hoverColor: props.anotherHoverStyle || "hover:border-gray-200 hover:bg-background-300",
-      focusColor: "[&:has(input:focus)]:border-primary-orange-300 caret-primary-orange-300",
+const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
+  (
+    {
+      variant,
+      size,
+      errorMessage,
+      feedbackMessage,
+      wrapperClassName,
+      innerClassName,
+      beforeIcon,
+      afterIcon,
+      afterString,
+      anotherHoverStyle,
+      type,
+      name,
+      value,
+      placeholder,
+      disabled,
+      readOnly,
+      onChange,
+      onBlur,
+      ...rest
     },
-    transparent: {
-      bgColor: "bg-transparent",
-      borderColor: "border-[0.5px] border-gray-200",
-      hoverColor: "hover:border-gray-300",
-      focusColor: "[&:has(input:focus)]:border-primary-orange-300 caret-primary-orange-300",
-    },
-  };
+    ref
+  ) => {
+    const [eyeOn, setEyeOn] = useState(false);
+    const toggleType = () => {
+      setEyeOn(!eyeOn);
+    };
 
-  const defaultSize = "w-[327px] h-[54px] lg:w-[640px] lg:h-[64px]";
-  const sizeStyles = props.size || defaultSize;
+    const inputType = type === "password" && eyeOn ? "text" : type;
 
-  // input style
-  const baseStyle = "focus:outline-none h-full w-full";
-  const textStyle =
-    "text-black-400 placeholder:text-gray-400 text-sm font-normal leading-[26px] lg:text-base lg:leading-8";
+    const variants = {
+      white: {
+        bgColor: "bg-background-200",
+        borderColor: "border border-transparent",
+        hoverColor: anotherHoverStyle || "hover:border-gray-200 hover:bg-background-300",
+        focusColor: "[&:has(input:focus)]:border-primary-orange-300 caret-primary-orange-300",
+      },
+      transparent: {
+        bgColor: "bg-transparent",
+        borderColor: "border-[0.5px] border-gray-200",
+        hoverColor: "hover:border-gray-300",
+        focusColor: "[&:has(input:focus)]:border-primary-orange-300 caret-primary-orange-300",
+      },
+    };
 
-  // wrapperStyle
-  const variantStyle = `${variants[props.variant].bgColor} ${variants[props.variant].borderColor} ${variants[props.variant].hoverColor} ${variants[props.variant].focusColor}`;
-  const errorStyle = props.errorMessage ? "!border-state-error" : "";
-  const errorTextStyle =
-    "absolute -bottom-[26px] text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
+    const defaultSize = "w-[327px] h-[54px] lg:w-[640px] lg:h-[64px]";
+    const sizeStyles = size || defaultSize;
 
-  const wrapperStyle = `relative flex gap-2 items-center justify-between rounded-lg border-[0.5px] p-[14px] lg:py-4 ${variantStyle} ${sizeStyles} ${errorStyle} ${props.wrapperClassName}`;
-  const inputStyle = `bg-transparent ${baseStyle} ${textStyle} ${props.innerClassName}`;
+    // input style
+    const baseStyle = "focus:outline-none h-full w-full";
+    const textStyle =
+      "text-black-400 placeholder:text-gray-400 text-sm font-normal leading-[26px] lg:text-base lg:leading-8";
 
-  return (
-    <div>
-      <div className={wrapperStyle}>
-        {props.beforeIcon && <div className="flex items-center justify-center">{props.beforeIcon}</div>}
-        <label className="hidden">{props.name}</label>
-        <input
-          id={props.name}
-          type={inputType}
-          value={props.value}
-          placeholder={props.placeholder}
-          disabled={props.disabled}
-          readOnly={props.readOnly}
-          className={inputStyle}
-        />
-        {props.type === "password" && (
-          <div onClick={toggleType} className="cursor-pointer">
-            {eyeOn ? <LuEye className="text-gray-200" /> : <LuEyeOff className="text-gray-200" />}
-          </div>
-        )}
-        {props.afterIcon && <div>{props.afterIcon}</div>}
-        {props.afterString && (
-          <div className="text-sm font-normal leading-[26px] text-black-400 lg:text-xl lg:leading-8">
-            {props.afterString}
-          </div>
-        )}
-        {props.errorMessage && <span className={`${errorTextStyle} right-0 pr-2`}>{props.errorMessage}</span>}
-        {props.feedbackMessage && <span className={`${errorTextStyle} left-0 pl-2`}>{props.feedbackMessage}</span>}
+    // wrapperStyle
+    const variantStyle = `${variants[variant].bgColor} ${variants[variant].borderColor} ${variants[variant].hoverColor} ${variants[variant].focusColor}`;
+    const errorStyle = errorMessage ? "!border-state-error" : "";
+    const errorTextStyle =
+      "absolute -bottom-[26px] text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
+
+    const wrapperStyle = `relative flex gap-2 items-center justify-between rounded-lg border-[0.5px] p-[14px] lg:py-4 ${variantStyle} ${sizeStyles} ${errorStyle} ${wrapperClassName}`;
+    const inputStyle = `bg-transparent ${baseStyle} ${textStyle} ${innerClassName}`;
+
+    return (
+      <div>
+        <div className={wrapperStyle}>
+          {beforeIcon && <div className="flex items-center justify-center">{beforeIcon}</div>}
+          <label className="hidden">{name}</label>
+          <input
+            ref={ref}
+            name={name}
+            type={inputType}
+            value={value}
+            placeholder={placeholder}
+            disabled={disabled}
+            readOnly={readOnly}
+            onChange={onChange}
+            onBlur={onBlur}
+            className={inputStyle}
+            {...rest}
+          />
+          {type === "password" && (
+            <div onClick={toggleType} className="cursor-pointer">
+              {eyeOn ? <LuEye className="text-gray-200" /> : <LuEyeOff className="text-gray-200" />}
+            </div>
+          )}
+          {afterIcon && <div>{afterIcon}</div>}
+          {afterString && (
+            <div className="text-sm font-normal leading-[26px] text-black-400 lg:text-xl lg:leading-8">
+              {afterString}
+            </div>
+          )}
+          {errorMessage && <span className={`${errorTextStyle} right-0 pr-2`}>{errorMessage}</span>}
+          {feedbackMessage && <span className={`${errorTextStyle} left-0 pl-2`}>{feedbackMessage}</span>}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+);
+
+BaseInput.displayName = "BaseInput";
 
 export default BaseInput;

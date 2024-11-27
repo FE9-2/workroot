@@ -1,86 +1,146 @@
 import { cn } from "@/lib/tailwindUtil";
-import Image from "next/image";
+import BaseInput from "@/app/components/input/text/BaseInput";
+import { passwordSchema } from "@/schemas/commonSchema";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import toast from "react-hot-toast";
 import { useState } from "react";
 
 interface ChangePasswordModalProps {
   isOpen: boolean;
-  fields: string[];
   onClose: () => void;
-  onSubmit: (data: Record<string, string>) => void;
   className?: string;
 }
 
-const ChangePasswordModal = ({ isOpen, fields, onClose, onSubmit, className }: ChangePasswordModalProps) => {
-  const [formData, setFormData] = useState<Record<string, string>>(() =>
-    fields.reduce((acc, field) => ({ ...acc, [field]: "" }), {})
-  );
+const changePasswordSchema = z
+  .object({
+    currentPassword: z.string().min(1, "현재 비밀번호를 입력해주세요"),
+    newPassword: passwordSchema,
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "새 비밀번호가 일치하지 않습니다",
+    path: ["confirmPassword"],
+  });
+
+type ChangePasswordFormData = z.infer<typeof changePasswordSchema>;
+
+const defaultFields = [
+  {
+    name: "currentPassword" as const,
+    label: "현재 비밀번호",
+    placeholder: "현재 비밀번호를 입력해주세요.",
+    type: "password",
+  },
+  {
+    name: "newPassword" as const,
+    label: "새 비밀번호",
+    placeholder: "새로운 비밀번호를 입력해주세요.",
+    type: "password",
+  },
+  {
+    name: "confirmPassword" as const,
+    label: "새 비밀번호 확인",
+    placeholder: "새로운 비밀번호를 다시 한번 입력해주세요.",
+    type: "password",
+  },
+] as const;
+
+const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModalProps) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<ChangePasswordFormData>({
+    resolver: zodResolver(changePasswordSchema),
+    mode: "onChange",
+    defaultValues: {
+      currentPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+    },
+  });
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit(formData);
-    onClose();
-  };
+  const onSubmitHandler = async (data: ChangePasswordFormData) => {
+    if (isSubmitting) return;
 
-  const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
+    try {
+      setIsSubmitting(true);
+      await axios.patch("/api/users/me/password", {
+        currentPassword: data.currentPassword,
+        newPassword: data.newPassword,
+      });
 
-  const handleCancel = () => {
-    onClose();
+      toast.success("비밀번호가 성공적으로 변경되었습니다.");
+      reset();
+      onClose();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const errorMessage = error.response?.data?.message || "비밀번호 변경에 실패했습니다.";
+        toast.error(errorMessage);
+      } else {
+        toast.error("비밀번호 변경 중 오류가 발생했습니다.");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <div className="bg-black/50 fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className={cn("w-full max-w-sm rounded-lg bg-white p-6 shadow-lg", className)}>
-        <div className="relative">
-          <div className="flex flex-col items-center text-center">
-            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary-orange-50">
-              <Image
-                src="/images/modal/profile/default-profile-sm.svg"
-                alt="warning"
-                width={110}
-                height={110}
-                className="block sm:hidden"
-              />
-              <Image
-                src="/images/modal/profile/default-profile-md.svg"
-                alt="warning"
-                width={120}
-                height={120}
-                className="hidden sm:block"
-              />
-            </div>
-            <form onSubmit={handleSubmit} className="mt-4">
-              {fields.map((field) => (
-                <div key={field} className="mb-4">
-                  <label className="mb-2 block text-sm font-medium text-gray-700">{field}</label>
-                  <input
-                    type="text"
-                    value={formData[field]}
-                    onChange={(e) => handleChange(field, e.target.value)}
-                    className="w-full rounded-md border border-gray-300 p-2 focus:border-orange-500 focus:outline-none"
+    <div className="bg-black/50 fixed inset-0 z-50 p-4 sm:p-6">
+      <div className="flex min-h-full items-center justify-center">
+        <div
+          className={cn(
+            "relative h-[484px] w-[375px] overflow-hidden rounded-2xl bg-white p-6 shadow-lg sm:p-8 md:h-[666px] md:w-[720px]",
+            className
+          )}
+        >
+          <div className="mb-8 h-[46px] text-center text-xl font-semibold md:mb-12 md:text-2xl">비밀번호 변경</div>
+          <form onSubmit={handleSubmit(onSubmitHandler)} className="space-y-4 md:space-y-6">
+            {defaultFields.map((field) => (
+              <div key={field.name} className="h-[88px] space-y-1.5 md:h-[114px] md:space-y-2">
+                <label className="block text-sm font-semibold text-gray-700 md:px-2 md:text-base">{field.label}</label>
+                <div className="flex w-full flex-col items-center">
+                  <BaseInput
+                    {...register(field.name)}
+                    type={field.type}
+                    placeholder={field.placeholder}
+                    variant="white"
+                    disabled={isSubmitting}
+                    size="w-[327px] h-[54px] md:w-[640px] md:h-[64px]"
+                    errorMessage={errors[field.name]?.message}
                   />
                 </div>
-              ))}
-              <div className="flex justify-end gap-4">
-                <button
-                  type="button"
-                  onClick={handleCancel}
-                  className="rounded-md border border-gray-300 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-50"
-                >
-                  취소
-                </button>
-                <button
-                  type="submit"
-                  className="rounded-md bg-orange-500 px-4 py-2 text-white transition-colors hover:bg-orange-600"
-                >
-                  제출
-                </button>
               </div>
-            </form>
-          </div>
+            ))}
+            <div className="mt-4 flex h-[58px] gap-3 md:mt-6 md:h-[72px]">
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  reset();
+                }}
+                disabled={isSubmitting}
+                className="flex-1 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 md:text-base"
+              >
+                취소
+              </button>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="flex-1 rounded-md bg-orange-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-orange-600 md:text-base"
+              >
+                {isSubmitting ? "변경 중..." : "변경하기"}
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

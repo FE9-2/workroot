@@ -1,6 +1,9 @@
 import { cn } from "@/lib/tailwindUtil";
 import Button from "@/app/components/button/default/Button";
 import Image from "next/image";
+import axios from "axios";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 interface DeleteFormModalProps {
   formId: string;
@@ -11,20 +14,28 @@ interface DeleteFormModalProps {
 }
 
 const DeleteFormModal = ({ formId, isOpen, onConfirm, onClose, className }: DeleteFormModalProps) => {
+  const [isDeleting, setIsDeleting] = useState(false);
+
   if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isDeleting) return;
+
     try {
-      const response = await fetch(`/forms/${formId}`, {
-        method: "DELETE",
-      });
-      if (response.ok) {
-        onConfirm();
-        onClose();
-      }
+      setIsDeleting(true);
+      await axios.delete(`/api/forms/${formId}`);
+      onConfirm();
+      onClose();
     } catch (error) {
-      console.error("Failed to delete form:", error);
+      if (axios.isAxiosError(error)) {
+        const errorMessage = error.response?.data?.message || "알바폼 삭제에 실패했습니다.";
+        toast.error(errorMessage);
+      } else {
+        toast.error("알바폼 삭제 중 오류가 발생했습니다.");
+      }
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -62,14 +73,16 @@ const DeleteFormModal = ({ formId, isOpen, onConfirm, onClose, className }: Dele
             <div className="mt-auto flex w-full flex-col items-center gap-3">
               <Button
                 type="submit"
+                disabled={isDeleting}
                 className="h-[48px] w-[300px] text-base font-medium md:h-[62px] md:w-[360px] md:text-lg"
               >
-                삭제하기
+                {isDeleting ? "삭제 중..." : "삭제하기"}
               </Button>
               <Button
                 type="button"
                 variant="outlined"
                 onClick={onClose}
+                disabled={isDeleting}
                 className="h-[48px] w-[300px] text-base font-medium hover:border-primary-orange-50 hover:bg-primary-orange-100 hover:text-white md:h-[62px] md:w-[360px] md:text-lg"
               >
                 다음에 할께요

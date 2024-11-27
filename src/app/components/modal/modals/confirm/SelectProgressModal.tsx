@@ -5,15 +5,21 @@ import RadioGroup from "@/app/components/button/default/RadioGroup";
 import Button from "@/app/components/button/default/Button";
 import { ApplicationStatus, applicationStatus } from "@/types/application";
 import { positionOptions } from "@/constants/positionOptions";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 interface ProgressStatusProps {
-  onSelect: (value: ApplicationStatus) => void;
+  applicationId: string;
+  initialStatus?: ApplicationStatus;
   onClose: () => void;
   className?: string;
 }
 
-export default function ProgressStatus({ onSelect, onClose, className }: ProgressStatusProps) {
-  const [selectedValue, setSelectedValue] = useState<ApplicationStatus>(applicationStatus.INTERVIEW_PENDING);
+export default function ProgressStatus({ applicationId, initialStatus, onClose, className }: ProgressStatusProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedValue, setSelectedValue] = useState<ApplicationStatus>(
+    initialStatus || applicationStatus.INTERVIEW_PENDING
+  );
 
   const radioOptions = [
     { id: "rejected", value: applicationStatus.REJECTED, label: "거절" },
@@ -26,10 +32,28 @@ export default function ProgressStatus({ onSelect, onClose, className }: Progres
     setSelectedValue(value);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSelect(selectedValue);
-    // TODO: 처리 로직 추가
+    if (isSubmitting) return;
+
+    try {
+      setIsSubmitting(true);
+      await axios.patch(`/api/applications/${applicationId}`, {
+        status: selectedValue,
+      });
+
+      toast.success("진행상태가 변경되었습니다.");
+      onClose();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const errorMessage = error.response?.data?.message || "진행상태 변경에 실패했습니다.";
+        toast.error(errorMessage);
+      } else {
+        toast.error("진행상태 변경 중 오류가 발생했습니다.");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -53,6 +77,7 @@ export default function ProgressStatus({ onSelect, onClose, className }: Progres
                   id={option.id}
                   position={positionOptions.POSITION_RIGHT}
                   className="text-sm md:text-base"
+                  disabled={isSubmitting}
                 />
               ))}
             </RadioGroup>
@@ -63,12 +88,17 @@ export default function ProgressStatus({ onSelect, onClose, className }: Progres
                 type="button"
                 onClick={onClose}
                 color="gray"
+                disabled={isSubmitting}
                 className="h-[58px] w-full text-sm font-medium hover:bg-gray-200 md:h-[72px] md:text-base"
               >
                 취소
               </Button>
-              <Button type="submit" className="h-[58px] w-full text-sm font-medium md:h-[72px] md:text-base">
-                선택하기
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="h-[58px] w-full text-sm font-medium md:h-[72px] md:text-base"
+              >
+                {isSubmitting ? "변경 중..." : "선택하기"}
               </Button>
             </div>
           </div>
