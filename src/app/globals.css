@@ -113,11 +113,11 @@ textarea::-webkit-scrollbar-thumb:hover {
 /* week 스타일 */
 .react-datepicker__week,
 .react-datepicker__day-names {
-  @apply flex px-2 lg:px-9;
+  @apply flex px-2 lg:px-4;
 }
 /* 모든 날짜 셀에 대한 기본 크기 설정 */
 .react-datepicker__day {
-  @apply flex h-[42px] w-full items-center justify-center text-[13px] font-medium leading-[22px] lg:h-16 lg:text-[20px] lg:leading-8 !important;
+  @apply my-[7px] flex h-7 w-full items-center justify-center text-[13px] font-medium leading-[22px] text-black-400 lg:my-[14px] lg:h-10 lg:text-[20px] lg:leading-8 !important;
 }
 /* 요일 헤더 스타일 */
 .react-datepicker__day-name {
@@ -159,7 +159,18 @@ textarea::-webkit-scrollbar-thumb:hover {
 .react-datepicker__year-text--in-selecting-range,
 .react-datepicker__year-text--in-range,
 .react-datepicker__day--in-selecting-range {
-  @apply bg-primary-orange-50 text-black-400 opacity-80 lg:h-16 !important;
+  @apply bg-primary-orange-50 text-black-400 opacity-80 !important;
+}
+/* 범위의 첫 날짜에 대한 스타일 */
+.react-datepicker__day--range-start.react-datepicker__day--in-range {
+  @apply bg-primary-orange-50 !important;
+  background: linear-gradient(to left, #fff5f1 50%, transparent 50%) !important;
+}
+
+/* 범위의 마지막 날짜에 대한 스타일 */
+.react-datepicker__day--range-end.react-datepicker__day--in-range {
+  @apply bg-primary-orange-50 !important;
+  background: linear-gradient(to right, #fff5f1 50%, transparent 50%) !important;
 }
 
 /* Start, End 날짜 스타일 */
@@ -170,12 +181,23 @@ textarea::-webkit-scrollbar-thumb:hover {
 .react-datepicker__day--selected,
 .react-datepicker__day--selecting-range-end,
 .react-datepicker__day--keyboard-selected {
-  @apply rounded-full bg-primary-orange-300 font-medium text-gray-50 !important;
+  @apply relative text-gray-50 !important;
+}
+/* Start, End 날짜 스타일의 원형 배경 크기 조정 */
+.react-datepicker__day--range-start::before,
+.react-datepicker__day--selecting-range-start::before,
+.react-datepicker__day--range-end::before,
+.react-datepicker__day--selecting-range-end::before,
+.react-datepicker__day--selected::before,
+.react-datepicker__day--selecting-range-end::before,
+.react-datepicker__day--keyboard-selected::before {
+  @apply absolute left-1/2 top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-orange-300 content-[''] lg:h-10 lg:w-10 !important;
+  z-index: -1;
 }
 
-/* 첫 번째 선택한 날짜 이전 날짜 호버 스타일 */
 .react-datepicker__day:hover:not(.react-datepicker__day--selected):not(.react-datepicker__day--in-range):not(
     .react-datepicker__day--in-selecting-range
-  ) {
-  @apply rounded-full bg-primary-orange-300 opacity-50 !important;
+  )::before {
+  @apply absolute left-1/2 top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-orange-300 opacity-50 content-[''] lg:h-10 lg:w-10 !important;
+  z-index: -1;
 }
