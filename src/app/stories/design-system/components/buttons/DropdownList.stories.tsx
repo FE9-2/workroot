@@ -2,7 +2,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import DropdownListBtn from "@/app/components/button/dropdown/DropdownListBtn";
 
 const meta: Meta<typeof DropdownListBtn> = {
-  title: "Components/DropdownList",
+  title: "Design System/Components/Button/Dropdown/DropdownList",
   component: DropdownListBtn,
   argTypes: {
     options: {
