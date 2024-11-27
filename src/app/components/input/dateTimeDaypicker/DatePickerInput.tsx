@@ -53,7 +53,7 @@ const DatePickerInput = () => {
         />
         {isOpen && (
           <div
-            className="absolute z-10 mt-1 h-[388px] w-[327px] rounded-lg bg-white lg:h-[582px] lg:w-[640px]"
+            className="absolute z-10 mt-1 h-[388px] w-[327px] rounded-lg bg-white lg:h-[584px] lg:w-[640px]"
             onMouseDown={(e) => {
               e.stopPropagation();
               e.preventDefault();

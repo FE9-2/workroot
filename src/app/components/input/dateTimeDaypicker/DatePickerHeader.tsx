@@ -26,10 +26,10 @@ const DatePickerHeader = ({
   };
   return (
     <div className="flex flex-col gap-2">
-      <div className="lg:h-15 z-20 flex h-12 items-center justify-center text-sm font-semibold leading-6 lg:text-lg lg:leading-[26px]">
+      <div className="lg:h-15 z-20 flex h-12 items-center justify-center text-sm font-semibold leading-6 lg:text-lg lg:font-normal lg:leading-[26px]">
         기간 선택
       </div>
-      <div className="lg:h-15 flex h-12 items-center justify-between px-[14px] py-[11px]">
+      <div className="lg:h-15 mb-2 flex h-12 items-center justify-between px-[14px] py-3">
         <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
           <IoIosArrowBack className={iconStyle} />
         </button>
