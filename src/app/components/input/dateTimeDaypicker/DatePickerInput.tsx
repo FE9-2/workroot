@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale";
 import { useState } from "react";
-import { IoIosClose, IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
+import { IoIosClose, IoMdArrowDropup } from "react-icons/io";
 import { BsCalendar4 } from "react-icons/bs";
 import { useDropdownOpen } from "@/hooks/useDropdownOpen";
 import { useFormContext } from "react-hook-form";
@@ -18,8 +18,7 @@ const DatePickerInput = () => {
   const [dateRange, setDateRange] = useState<[Date | undefined, Date | undefined]>([undefined, undefined]);
   const [startDate, endDate] = dateRange;
 
-  const iconStyle = "text-black-400 size-9";
-  const arrowIcon = isOpen ? <IoMdArrowDropup className={iconStyle} /> : <IoMdArrowDropdown className={iconStyle} />;
+  const iconStyle = "text-black-400 size-9 transition-transform duration-200";
 
   const formatDate = (date: Date) => {
     return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getDate().toString().padStart(2, "0")}`;
@@ -51,7 +50,7 @@ const DatePickerInput = () => {
           placeholder="시작일 ~ 종료일"
           variant="white"
           beforeIcon={<BsCalendar4 className="size-[18px] text-gray-200" />}
-          afterIcon={arrowIcon}
+          afterIcon={<IoMdArrowDropup className={`${iconStyle} ${isOpen ? "rotate-180" : ""}`} />}
           value={dateValue || ""}
           readOnly
         />
