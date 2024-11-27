@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { passwordSchema, phoneSchema } from "./commonSchema";
+import { passwordSchema, mobilePhoneSchema } from "./commonSchema";
 
 // 지원서 등록
 export const applicationSchema = z.object({
@@ -8,7 +8,7 @@ export const applicationSchema = z.object({
   resumeName: z.string(),
   resumeId: z.number(),
   experienceMonths: z.number(),
-  phoneNumber: phoneSchema,
+  phoneNumber: mobilePhoneSchema,
   name: z.string(),
 });
 

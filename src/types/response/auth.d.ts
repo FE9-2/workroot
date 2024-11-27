@@ -1,15 +1,8 @@
-export interface AuthUser {
-  id: string;
-  email: string;
-  nickname: string;
-  image: string;
-  teamId: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { UserResponse } from "./user";
 
+// 로그인 응답
 export interface AuthResponse {
   accessToken: string;
   refreshToken: string;
-  user: User;
+  user: UserResponse;
 }
