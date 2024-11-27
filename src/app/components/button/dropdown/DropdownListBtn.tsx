@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { cn } from "@/lib/tailwindUtil";
 
-interface InputDropdownBtnProps {
+interface DropdownListProps {
   options: string[];
   className?: string;
 }
 
-const InputDropdownBtn: React.FC<InputDropdownBtnProps> = ({ options, className = "" }) => {
+const DropdownListBtn: React.FC<DropdownListProps> = ({ options, className = "" }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<string>("");
   const [isCustomInput, setIsCustomInput] = useState<boolean>(false);
@@ -27,8 +27,7 @@ const InputDropdownBtn: React.FC<InputDropdownBtnProps> = ({ options, className 
     <div className={cn("relative inline-block text-left text-base", "w-80 md:w-[640px]", className)}>
       <div
         className={cn(
-          "rounded-md border bg-gray-50 p-2",
-          "hover:border-primary-gray-200",
+          "hover:border-primary-gray-200 rounded-2xl bg-primary-orange-300 p-2 text-white",
           isOpen && "ring-1 ring-gray-300"
         )}
       >
@@ -36,20 +35,20 @@ const InputDropdownBtn: React.FC<InputDropdownBtnProps> = ({ options, className 
           type="text"
           value={selectedValue}
           onChange={(e) => isCustomInput && setSelectedValue(e.target.value)}
-          className={cn(
-            "flex w-full items-center justify-between px-4 py-2 font-medium text-gray-700 focus:outline-none",
-            "bg-gray-50"
-          )}
           placeholder={isCustomInput ? "직접 입력하세요" : "선택"}
+          className={cn(
+            "flex w-full items-center justify-between px-4 py-2 font-medium placeholder:text-white focus:outline-none",
+            "bg-primary-orange-300"
+          )}
         />
-        <button onClick={() => setIsOpen(!isOpen)} className="absolute right-3 top-1.5 text-3xl">
+        <button onClick={() => setIsOpen(!isOpen)} className="absolute right-3 top-1.5 mr-2 mt-2 text-3xl">
           <IoMdArrowDropdown className={cn("transition-transform duration-200", isOpen && "rotate-180")} />
         </button>
       </div>
       {isOpen && (
         <ul
           className={cn(
-            "absolute right-0 z-10 mt-2 w-full rounded-md border bg-white p-2 shadow-md",
+            "absolute right-0 z-10 w-full rounded-md border bg-white p-2 shadow-md",
             "border-primary-gray-200"
           )}
         >
@@ -57,7 +56,7 @@ const InputDropdownBtn: React.FC<InputDropdownBtnProps> = ({ options, className 
             <li
               key={option}
               onClick={() => handleOptionClick(option)}
-              className={cn("cursor-pointer rounded-md px-6 py-4 hover:bg-gray-100")}
+              className={cn("cursor-pointer rounded-md px-6 py-4", "hover:bg-primary-gray-100")}
             >
               {option}
             </li>
@@ -68,4 +67,4 @@ const InputDropdownBtn: React.FC<InputDropdownBtnProps> = ({ options, className 
   );
 };
 
-export default InputDropdownBtn;
+export default DropdownListBtn;

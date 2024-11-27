@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
+import { cn } from "@/lib/tailwindUtil";
 
 interface DropdownProps {
   label: string;
@@ -22,28 +23,34 @@ const Dropdown: React.FC<DropdownProps> = ({ label, options, className = "" }) =
   };
 
   return (
-    <div className={`relative inline-block w-20 text-left text-xs md:w-32 md:text-lg ${className}`}>
+    <div className={cn("relative inline-block text-left", "w-20 text-xs md:w-32 md:text-lg", className)}>
       <div>
         <button
           type="button"
-          className="flex w-full items-center justify-between rounded-md border border-orange-300 bg-white p-2 font-medium text-gray-700 shadow-sm hover:bg-orange-100"
+          className={cn(
+            "flex w-full items-center justify-between rounded-md border p-2 font-medium shadow-sm",
+            "border-orange-300 bg-white text-gray-700 hover:bg-primary-orange-50"
+          )}
           onClick={toggleDropdown}
         >
           <span>{selectedLabel}</span>
-          <IoIosArrowDown
-            className={`text-orange-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
-          />
+          <IoIosArrowDown className={cn("text-orange-400 transition-transform duration-200", isOpen && "rotate-180")} />
         </button>
       </div>
 
       {isOpen && (
-        <div className="ring-black absolute right-0 z-10 mt-2 h-40 w-20 overflow-y-auto rounded-md bg-white ring-1 ring-gray-200 md:w-32 md:text-lg">
+        <div
+          className={cn(
+            "absolute right-0 z-10 mt-2 overflow-y-auto rounded-md bg-white ring-1 ring-gray-200",
+            "h-40 w-20 md:w-32 md:text-lg"
+          )}
+        >
           <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
             <ul>
               {options.map((option) => (
                 <li
                   key={option}
-                  className="cursor-pointer px-4 py-2 hover:bg-gray-50"
+                  className={cn("cursor-pointer px-4 py-2 hover:bg-gray-50")}
                   onClick={() => handleSelect(option)}
                 >
                   {option}
