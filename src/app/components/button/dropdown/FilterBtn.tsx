@@ -30,9 +30,9 @@ const Dropdown: React.FC<DropdownProps> = ({ label, options, className = "" }) =
           onClick={toggleDropdown}
         >
           <span>{selectedLabel}</span>
-          <span className={`text-orange-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}>
-            <IoIosArrowDown />
-          </span>
+          <IoIosArrowDown
+            className={`text-orange-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+          />
         </button>
       </div>
 
