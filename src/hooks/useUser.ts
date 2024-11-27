@@ -1,9 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { toast } from "react-hot-toast";
-import { useUserStore } from "@/store/userStore";
-import { UserResponse } from "@/types/response/user";
-import { useEffect } from "react";
 
 async function fetchUser() {
   try {
@@ -23,9 +19,6 @@ async function fetchUser() {
 }
 
 export function useUser() {
-  const setUser = useUserStore((state) => state.setUser);
-  const storeUser = useUserStore((state) => state.user);
-
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["user"],
     queryFn: fetchUser,
@@ -34,29 +27,10 @@ export function useUser() {
     gcTime: 1000 * 60 * 30, // 30분
   });
 
-  useEffect(() => {
-    if (data?.user) {
-      const userResponse = data.user as unknown as UserResponse;
-      setUser(userResponse);
-    } else if (!isLoading) {
-      setUser(null);
-    }
-  }, [data, isLoading, setUser]);
-
-  useEffect(() => {
-    if (error instanceof Error && error.message !== "Unauthorized") {
-      toast.error(error.message || "사용자 정보를 가져오는데 실패했습니다.");
-      setUser(null);
-    }
-  }, [error, setUser]);
-
-  const isAuthenticated = !!storeUser;
-
   return {
-    user: storeUser,
+    user: data?.user,
     isLoading,
     error,
-    isAuthenticated,
     refetch,
   };
 }

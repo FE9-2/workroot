@@ -11,6 +11,7 @@ const config: StorybookConfig = {
     name: "@storybook/nextjs",
     options: {},
   },
+  staticDirs: ["../public"],
   async viteFinal(config) {
     config.css = {
       postcss: {

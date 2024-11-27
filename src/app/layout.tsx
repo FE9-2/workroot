@@ -8,11 +8,7 @@ import { viewport } from "./viewport";
 
 export { metadata, viewport };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko">
       <body>
