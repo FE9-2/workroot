@@ -43,7 +43,22 @@
     @apply font-nexon;
   }
 }
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+}
+
+li {
+  list-style: none;
+}
 /* 재사용 가능한 컴포넌트 스타일을 정의 */
 @layer components {
   .font-school-regular {
@@ -75,20 +90,22 @@
   }
 }
 
-/* textarea 스크롤바 커스텀*/
-textarea::-webkit-scrollbar {
+/* 스크롤바 커스텀 "scrollbar-custom" 를 className에 추가해서 적용 */
+.scrollbar-custom {
+  overflow-y: auto; /* 기본 overflow-y-auto 추가 */
+}
+.scrollbar-custom::-webkit-scrollbar {
   width: 4px;
 }
-
-textarea::-webkit-scrollbar-track {
+.scrollbar-custom::-webkit-scrollbar-track {
   background: transparent;
 }
-textarea::-webkit-scrollbar-thumb {
+.scrollbar-custom::-webkit-scrollbar-thumb {
   background: #c4c4c4;
   border-radius: 9999px;
 }
 
-textarea::-webkit-scrollbar-thumb:hover {
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
   background: #ababab;
 }
 
@@ -241,3 +258,5 @@ textarea::-webkit-scrollbar-thumb:hover {
 .react-datepicker__year-text--keyboard-selected {
   @apply bg-gray-50 !important;
 }
+
+/* --------------------- date picker커스텀 끝--------------------- */
