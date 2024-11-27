@@ -2,7 +2,7 @@ import SortBtn from "@/app/components/button/dropdown/SortBtn";
 import { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof SortBtn> = {
-  title: "Design System/Components/Button/DropdownBtn",
+  title: "Design System/Components/Button/Dropdown/SortBtn",
   component: SortBtn,
   parameters: {
     layout: "centered",

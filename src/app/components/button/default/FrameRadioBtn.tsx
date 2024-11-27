@@ -1,5 +1,6 @@
 "use client";
 import React, { ButtonHTMLAttributes } from "react";
+import { cn } from "@/lib/tailwindUtil";
 
 interface FrameRadioBtnProps extends ButtonHTMLAttributes<HTMLInputElement> {
   label: string; // 라디오 버튼의 레이블을 추가
@@ -20,13 +21,13 @@ const FrameRadioBtn: React.FC<FrameRadioBtnProps> = ({ width = "sm", checked = f
   };
 
   const bgColor = disabled ? "" : checked ? "bg-primary-orange-50" : "bg-white";
-  const borderColor = disabled ? "border-gray-200" : "border-primary-orange-300";
+  const borderColor = disabled ? "border-primary-gray-200" : "border-primary-orange-300";
   const textColor = disabled ? "text-gray-400" : "text-black";
   const cursorStyle = disabled ? "cursor-not-allowed" : "cursor-pointer";
 
   return (
-    <div className={`${baseStyles} ${widths[width]} ${bgColor} ${borderColor} ${cursorStyle}`}>
-      <label htmlFor={props.value} className={`text-sm ${textColor}`}>
+    <div className={cn(baseStyles, widths[width], bgColor, borderColor, cursorStyle)}>
+      <label htmlFor={props.value} className={cn("text-sm", textColor)}>
         {props.label}
       </label>
       <input
