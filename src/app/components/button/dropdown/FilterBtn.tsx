@@ -22,7 +22,7 @@ const Dropdown: React.FC<DropdownProps> = ({ label, options, className = "" }) =
   };
 
   return (
-    <div className={`relative inline-block w-20 text-left text-xs ${className}`}>
+    <div className={`relative inline-block w-20 text-left text-xs md:w-32 md:text-lg ${className}`}>
       <div>
         <button
           type="button"
@@ -37,7 +37,7 @@ const Dropdown: React.FC<DropdownProps> = ({ label, options, className = "" }) =
       </div>
 
       {isOpen && (
-        <div className="ring-black absolute right-0 z-10 mt-2 h-40 w-20 overflow-y-auto rounded-md bg-white ring-1 ring-gray-200">
+        <div className="ring-black absolute right-0 z-10 mt-2 h-40 w-20 overflow-y-auto rounded-md bg-white ring-1 ring-gray-200 md:w-32 md:text-lg">
           <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
             <ul>
               {options.map((option) => (

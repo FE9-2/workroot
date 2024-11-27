@@ -24,7 +24,7 @@ const SortBtn: React.FC<SortProps> = ({ label, options, className = "", onSortCh
   };
 
   return (
-    <div className={`relative inline-block w-20 text-left text-xs ${className}`}>
+    <div className={`relative inline-block w-20 text-left text-xs md:w-32 md:text-lg ${className}`}>
       <div>
         <button
           type="button"
@@ -41,7 +41,7 @@ const SortBtn: React.FC<SortProps> = ({ label, options, className = "", onSortCh
       </div>
 
       {isOpen && (
-        <div className="ring-black h-30 absolute right-0 z-10 mt-2 w-20 overflow-y-auto rounded-md bg-white p-1">
+        <div className="ring-black h-30 absolute right-0 z-10 mt-2 w-20 overflow-y-auto rounded-md bg-white p-1 md:w-32 md:text-lg">
           <div role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
             <ul>
               {options.map((option) => (
