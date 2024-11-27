@@ -210,6 +210,20 @@ textarea::-webkit-scrollbar-thumb:hover {
   @apply bg-primary-orange-300 !important;
 }
 
+/* 종료일 스타일 */
+.react-datepicker__day--selecting-range-end,
+.react-datepicker__day--selected {
+  @apply relative text-gray-50 !important;
+  background: linear-gradient(to right, #fff7eb 50%, transparent 50%) !important;
+}
+
+/* 범위 선택 중 종료일 스타일 유지 */
+.react-datepicker__day--in-selecting-range.react-datepicker__day--selecting-range-end,
+.react-datepicker__day--in-range.react-datepicker__day--range-end {
+  @apply text-gray-50 !important;
+  background: linear-gradient(to right, #fff7eb 50%, transparent 50%) !important;
+}
+
 /* 시작일 스타일 */
 .react-datepicker__day--selecting-range-start,
 .react-datepicker__day--selected {
