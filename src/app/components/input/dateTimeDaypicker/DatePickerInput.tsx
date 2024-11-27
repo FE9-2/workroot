@@ -49,12 +49,15 @@ const DatePickerInput = () => {
           beforeIcon={<BsCalendar4 className="size-[18px] text-gray-200" />}
           afterIcon={arrowIcon}
           value={dateValue || ""}
-          onChange={() => {}} // readonly input으로 만들기 위한 더미 핸들러
+          readOnly
         />
-        {!isOpen && (
+        {isOpen && (
           <div
             className="absolute z-10 mt-1 h-[388px] w-[327px] rounded-lg bg-white lg:h-[582px] lg:w-[640px]"
-            onClick={(e) => e.stopPropagation()}
+            onMouseDown={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+            }}
           >
             <DatePicker
               inline
@@ -63,8 +66,7 @@ const DatePickerInput = () => {
               startDate={startDate}
               endDate={endDate}
               onChange={handleChange}
-              className="size-full"
-              renderCustomHeader={(props) => <DatePickerHeader {...props} />}
+              renderCustomHeader={(props) => <DatePickerHeader {...props} handleOpenDropdown={handleOpenDropdown} />}
             />
           </div>
         )}

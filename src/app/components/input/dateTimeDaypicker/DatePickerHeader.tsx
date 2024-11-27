@@ -1,3 +1,4 @@
+import { MouseEvent } from "react";
 import { IoIosArrowBack, IoIosArrowForward, IoMdClose } from "react-icons/io";
 
 interface DatePickerHeaderProps {
@@ -6,6 +7,7 @@ interface DatePickerHeaderProps {
   increaseMonth: () => void;
   prevMonthButtonDisabled: boolean;
   nextMonthButtonDisabled: boolean;
+  handleOpenDropdown: () => void;
 }
 
 const DatePickerHeader = ({
@@ -14,8 +16,14 @@ const DatePickerHeader = ({
   increaseMonth,
   prevMonthButtonDisabled,
   nextMonthButtonDisabled,
+  handleOpenDropdown,
 }: DatePickerHeaderProps) => {
   const iconStyle = "size-6 lg:size-9 text-gray-300";
+  const handleClickClose = (e: MouseEvent<HTMLButtonElement>) => {
+    // e.stopPropagation();
+    handleOpenDropdown();
+    console.log("close");
+  };
   return (
     <div className="flex flex-col gap-2">
       <div className="lg:h-15 z-20 flex h-12 items-center justify-center text-sm font-semibold leading-6 lg:text-lg lg:leading-[26px]">
@@ -31,10 +39,15 @@ const DatePickerHeader = ({
         <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
           <IoIosArrowForward className={iconStyle} />
         </button>
-        <button className="absolute left-[14px] top-5 text-[10px] lg:top-6">
-          <IoMdClose className="size-6 text-black-400 lg:size-9" />
-        </button>
+        {/* 닫기 버튼 */}
       </div>
+      <button
+        type="button"
+        onClick={handleClickClose}
+        className="absolute left-[14px] top-5 cursor-pointer text-[10px] lg:top-6"
+      >
+        <IoMdClose className="size-6 text-black-400 lg:size-9" />
+      </button>
     </div>
   );
 };
