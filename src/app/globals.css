@@ -144,11 +144,6 @@ textarea::-webkit-scrollbar-thumb:hover {
   @apply text-gray-300 !important;
 }
 
-/* 오늘 날짜 스타일 */
-.react-datepicker__day--today {
-  @apply border-none border-transparent bg-transparent font-bold;
-}
-
 /* date range */
 .react-datepicker__day--in-selecting-range,
 .react-datepicker__day--in-range,
@@ -195,9 +190,24 @@ textarea::-webkit-scrollbar-thumb:hover {
   z-index: -1;
 }
 
-.react-datepicker__day:hover:not(.react-datepicker__day--selected):not(.react-datepicker__day--in-range):not(
-    .react-datepicker__day--in-selecting-range
-  )::before {
-  @apply absolute left-1/2 top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-orange-300 opacity-50 content-[''] lg:h-10 lg:w-10 !important;
-  z-index: -1;
+/* 날짜 호버 스타일 */
+.react-datepicker__day:hover {
+  @apply bg-primary-orange-50 !important;
+}
+
+/* 오늘 날짜가 범위 안에 있을 때의 스타일 */
+.react-datepicker__day--today.react-datepicker__day--in-range {
+  @apply bg-primary-orange-50 !important;
+}
+
+/* 오늘 날짜가 시작일이나 종료일일 때의 스타일 */
+.react-datepicker__day--today.react-datepicker__day--range-start::before,
+.react-datepicker__day--today.react-datepicker__day--range-end::before {
+  @apply bg-primary-orange-300 !important;
+}
+
+/* 오늘 날짜 기본 스타일 */
+.react-datepicker__day--today {
+  @apply border-transparent font-bold !important;
+  color: theme("colors.black.400") !important;
 }
