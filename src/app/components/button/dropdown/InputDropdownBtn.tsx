@@ -42,7 +42,7 @@ const InputDropdownBtn: React.FC<InputDropdownBtnProps> = ({ options, className 
           )}
           placeholder={isCustomInput ? "직접 입력하세요" : "선택"}
         />
-        <button onClick={() => setIsOpen(!isOpen)} className="absolute right-3 top-1.5 text-3xl">
+        <button onClick={() => setIsOpen(!isOpen)} className="absolute right-3 top-3.5 text-3xl">
           <IoMdArrowDropdown className={cn("transition-transform duration-200", isOpen && "rotate-180")} />
         </button>
       </div>
