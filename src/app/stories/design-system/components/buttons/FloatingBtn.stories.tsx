@@ -1,9 +1,9 @@
-import FloatingBtn from "@/app/components/button/FloatingBtn";
+import FloatingBtn from "@/app/components/button/default/FloatingBtn";
 import type { Meta, StoryObj } from "@storybook/react";
 import { RiEdit2Fill } from "react-icons/ri";
 
 const meta: Meta<typeof FloatingBtn> = {
-  title: "Design System/Components/Buttons/FloatingBtn",
+  title: "Design System/Components/Button/FloatingBtn",
   component: FloatingBtn,
   parameters: {
     layout: "centered",
@@ -40,6 +40,6 @@ export const IconWithLabel: Story = {
   args: {
     variant: "orange",
     icon: <RiEdit2Fill />,
-    children: "Edit",
+    children: "텍스트",
   },
 };

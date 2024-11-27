@@ -15,10 +15,7 @@ type Story = StoryObj<typeof DeleteFormModal>;
 export const Default: Story = {
   args: {
     isOpen: true,
-    title: "지원서 삭제",
-    message: "지원서를 삭제하시겠습니까?",
     onConfirm: () => console.log("삭제 확인"),
-    onCancel: () => console.log("삭제 취소"),
     onClose: () => console.log("모달 닫기"),
   },
 };

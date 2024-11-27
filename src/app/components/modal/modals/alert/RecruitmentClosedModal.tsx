@@ -1,4 +1,4 @@
-import Button from "@/app/components/button/Button";
+import Button from "@/app/components/button/default/Button";
 import Link from "next/dist/client/link";
 import { cn } from "@/lib/tailwindUtil";
 import Image from "next/image";

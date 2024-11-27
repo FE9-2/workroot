@@ -1,5 +1,4 @@
 import { HiUpload } from "react-icons/hi";
-import { useState } from "react";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import BaseFileInput from "./BaseFileInput";
 import { BaseFileInputProps } from "@/types/textInput";
@@ -17,10 +16,10 @@ const UploadInput = (props: BaseFileInputProps) => {
       actionIcon={
         file ? (
           <button type="button" onClick={handleDeleteFile}>
-            <IoCloseCircleOutline className="size-4 text-gray-400 lg:size-6" />
+            <IoCloseCircleOutline className="size-6 text-gray-400 lg:size-9" />
           </button>
         ) : (
-          <HiUpload className="size-4 text-black-400 lg:size-6" />
+          <HiUpload className="size-6 text-black-400 lg:size-9" />
         )
       }
     />

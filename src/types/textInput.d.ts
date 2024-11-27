@@ -1,17 +1,12 @@
-export interface BaseTextAreaProps {
-  name: string;
+export interface BaseTextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   variant: "white" | "transparent";
   size?: string;
-  placeholder?: string;
-  disabled?: boolean;
   errorMessage?: string;
-  wrapperClassName?: string; // 부가적인 tailwind css 클래스
-  innerClassName?: string; // 부가적인 tailwind css 클래스
+  wrapperClassName?: string;
+  innerClassName?: string;
 }
 
-export interface BaseInputProps {
-  name: string;
-  type: string;
+export interface BaseInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   variant: "white" | "transparent";
   size?: string;
   placeholder?: string;
@@ -22,8 +17,10 @@ export interface BaseInputProps {
   feedbackMessage?: string;
   beforeIcon?: React.ReactNode;
   afterIcon?: React.ReactNode;
+  afterString?: string;
   wrapperClassName?: string; // 부가적인 tailwind css 클래스
   innerClassName?: string; // 부가적인 tailwind css 클래스
+  anotherHoverStyle?: string;
 }
 
 export type TextAreaProps = Omit<BaseTextAreaProps, "variant">;
@@ -36,7 +33,7 @@ export interface BaseFileInputProps {
   size?: string;
   file?: File | null;
   onFileAction?: (file: File | null) => void;
-  placeholder?: string;
   icon?: React.ReactNode;
   actionIcon?: React.ReactNode;
+  placeholder?: string;
 }

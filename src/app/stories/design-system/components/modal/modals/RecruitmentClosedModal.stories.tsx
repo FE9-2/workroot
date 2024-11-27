@@ -15,10 +15,6 @@ type Story = StoryObj<typeof RecruitmentClosedModal>;
 export const Default: Story = {
   args: {
     isOpen: true,
-    title: "모집 완료",
-    message: "해당 공고는 모집이 완료되었습니다.",
-    buttonText: "확인",
-    onButtonClick: () => console.log("확인 클릭"),
     onClose: () => console.log("모달 닫기"),
   },
 };

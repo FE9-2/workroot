@@ -1,5 +1,5 @@
 import { cn } from "@/lib/tailwindUtil";
-import Button from "@/app/components/button/Button";
+import Button from "@/app/components/button/default/Button";
 import Image from "next/image";
 import Link from "next/link";
 

@@ -4,6 +4,22 @@ import { useState } from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import { BaseInputProps } from "@/types/textInput";
 
+/* 
+@name: string - 필수값
+@type: "text" | "password" | ... - 필수값
+@variant: "white" | "transparent";
+@size: "w-[00px] h-[00px] lg:w-[00px] lg:h-[00px]" - 기본값: "w-[327px] h-[54px] lg:w-[640px] lg:h-[64px]"
+@placeholder: string
+@errorMessage: string - 에러메시지 + 테두리 색상 변경
+@feedbackMessage: string - 메시지만 띄우고 색상 변경 X
+@disabled: boolean
+@wrapperClassName?: string; - 부가적인 tailwind css 클래스
+@innerClassName?: string; - 부가적인 tailwind css 클래스
+@beforeIcon?: React.ReactNode; - 앞에 위치하는 아이콘
+@afterIcon?: React.ReactNode; - 뒤에 위치하는 아이콘
+@anotherHoverStyle?: string; - 추가적인 hover 스타일 - 없으면 기본값
+*/
+
 const BaseInput = (props: BaseInputProps) => {
   const [eyeOn, setEyeOn] = useState(false);
   const toggleType = () => {
@@ -16,7 +32,7 @@ const BaseInput = (props: BaseInputProps) => {
     white: {
       bgColor: "bg-background-200",
       borderColor: "border border-transparent",
-      hoverColor: "hover:border-gray-200 hover:bg-background-300",
+      hoverColor: props.anotherHoverStyle || "hover:border-gray-200 hover:bg-background-300",
       focusColor: "[&:has(input:focus)]:border-primary-orange-300 caret-primary-orange-300",
     },
     transparent: {
@@ -64,6 +80,11 @@ const BaseInput = (props: BaseInputProps) => {
           </div>
         )}
         {props.afterIcon && <div>{props.afterIcon}</div>}
+        {props.afterString && (
+          <div className="text-sm font-normal leading-[26px] text-black-400 lg:text-xl lg:leading-8">
+            {props.afterString}
+          </div>
+        )}
         {props.errorMessage && <span className={`${errorTextStyle} right-0 pr-2`}>{props.errorMessage}</span>}
         {props.feedbackMessage && <span className={`${errorTextStyle} left-0 pl-2`}>{props.feedbackMessage}</span>}
       </div>

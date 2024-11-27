@@ -1,5 +1,5 @@
 import { cn } from "@/lib/tailwindUtil";
-import Button from "@/app/components/button/Button";
+import Button from "@/app/components/button/default/Button";
 import ReadOnlyInput from "@/app/components/input/text/ReadOnlyInput";
 import { formatDateTime } from "@/utils/formatters";
 import Image from "next/image";

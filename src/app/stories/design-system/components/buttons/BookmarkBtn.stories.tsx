@@ -1,4 +1,4 @@
-import BookmarkBtn from "@/app/components/button/BookmarkBtn";
+import BookmarkBtn from "@/app/components/button/default/BookmarkBtn";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof BookmarkBtn> = {
@@ -17,7 +17,6 @@ export const Bookmarked: Story = {
   render: (args) => {
     return (
       <div>
-        <p className="mb-2 text-sm">click !</p>
         <BookmarkBtn {...args} />
       </div>
     );

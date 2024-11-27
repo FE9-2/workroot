@@ -19,7 +19,7 @@ const FrameRadioBtn: React.FC<FrameRadioBtnProps> = ({ width = "sm", checked = f
     md: "w-[360px]",
   };
 
-  const bgColor = disabled ? "bg-gray-200" : checked ? "bg-primary-orange-50" : "bg-white";
+  const bgColor = disabled ? "" : checked ? "bg-primary-orange-50" : "bg-white";
   const borderColor = disabled ? "border-gray-200" : "border-primary-orange-300";
   const textColor = disabled ? "text-gray-400" : "text-black";
   const cursorStyle = disabled ? "cursor-not-allowed" : "cursor-pointer";

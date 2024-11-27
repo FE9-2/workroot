@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { cn } from "@/lib/tailwindUtil";
-import RadioBtn from "@/app/components/button/RadioBtn";
-import RadioGroup from "@/app/components/button/RadioGroup";
-import Button from "@/app/components/button/Button";
+import RadioBtn from "@/app/components/button/default/RadioBtn";
+import RadioGroup from "@/app/components/button/default/RadioGroup";
+import Button from "@/app/components/button/default/Button";
 import { ApplicationStatus, applicationStatus } from "@/types/application";
 import { positionOptions } from "@/constants/positionOptions";
 

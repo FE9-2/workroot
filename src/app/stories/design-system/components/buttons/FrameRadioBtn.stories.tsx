@@ -1,8 +1,8 @@
-import FrameRadioBtn from "@/app/components/button/FrameRadioBtn";
+import FrameRadioBtn from "@/app/components/button/default/FrameRadioBtn";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof FrameRadioBtn> = {
-  title: "Design System/Components/Buttons/FrameRadioBtn",
+  title: "Design System/Components/Button/FrameRadioBtn",
   component: FrameRadioBtn,
   parameters: {
     layout: "centered",
