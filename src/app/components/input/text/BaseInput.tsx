@@ -20,19 +20,6 @@ import { BaseInputProps } from "@/types/textInput";
 @anotherHoverStyle?: string; - 추가적인 hover 스타일 - 없으면 기본값
 */
 
-interface BaseInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  variant: "white" | "transparent";
-  size?: string;
-  errorMessage?: string;
-  feedbackMessage?: string;
-  wrapperClassName?: string;
-  innerClassName?: string;
-  beforeIcon?: React.ReactNode;
-  afterIcon?: React.ReactNode;
-  afterString?: string;
-  anotherHoverStyle?: string;
-}
-
 const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
   (
     {
