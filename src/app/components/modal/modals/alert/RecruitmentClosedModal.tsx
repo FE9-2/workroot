@@ -26,7 +26,7 @@ const RecruitmentClosedModal = ({ formId, isOpen, onClose, className }: Recruitm
             <Image src="/icons/x/x-sm.svg" alt="close" width={16} height={16} className="block sm:hidden" />
             <Image src="/icons/x/x-md.svg" alt="close" width={20} height={20} className="hidden sm:block" />
           </button>
-          <div className="flex h-full flex-col items-center pt-8 text-center md:pt-12">
+          <div className="flex h-full flex-col items-center py-4 text-center md:py-6">
             <div className="flex items-center justify-center">
               <div className="relative h-20 w-20 md:h-[120px] md:w-[120px]">
                 <Image

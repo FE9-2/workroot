@@ -58,14 +58,6 @@ const ApplicationDetailModal = ({
           className
         )}
       >
-        <button
-          onClick={onClose}
-          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-400 hover:text-gray-600"
-        >
-          <Image src="/icons/x/x-sm.svg" alt="close" width={16} height={16} className="block sm:hidden" />
-          <Image src="/icons/x/x-md.svg" alt="close" width={20} height={20} className="hidden sm:block" />
-        </button>
-
         <div className="flex h-full flex-col">
           <div className="mb-6 md:mb-8">
             <div className="text-lg font-semibold md:text-2xl">내 지원 내역</div>
@@ -114,6 +106,15 @@ const ApplicationDetailModal = ({
               </Button>
             </Link>
           </div>
+
+          <button
+            onClick={onClose}
+            aria-label="모달 닫기"
+            className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-400 hover:text-gray-600"
+          >
+            <Image src="/icons/x/x-sm.svg" alt="" width={16} height={16} className="block sm:hidden" />
+            <Image src="/icons/x/x-md.svg" alt="" width={20} height={20} className="hidden sm:block" />
+          </button>
         </div>
       </div>
     </div>
