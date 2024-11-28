@@ -4,7 +4,7 @@ import ChipWithIcon from "@/app/components/chip/ChipWithIcon";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 
 const meta = {
-  title: "Design System/Components/Chip/ChipWithIcon",
+  title: "Design System/Components/Chip",
   component: ChipWithIcon,
   parameters: {
     layout: "centered",

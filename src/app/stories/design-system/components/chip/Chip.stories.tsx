@@ -3,7 +3,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import Chip from "@/app/components/chip/Chip";
 
 const meta = {
-  title: "Design System/Components/Chip/Chip",
+  title: "Design System/Components/Chip/DefaultChip",
   component: Chip,
   parameters: {
     layout: "centered",

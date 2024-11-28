@@ -21,6 +21,7 @@ const BaseFileInput = (props: BaseFileInputProps) => {
    * @icon?: React.ReactNode;
    * @actionIcon?: React.ReactNode;
    * @placeholder?: string;
+   * @isImage?: boolean;
    */
   const defaultSize = "w-[327px] h-[54px] lg:w-[640px] lg:h-[64px]";
   const sizeStyles = props.size || defaultSize;
@@ -45,7 +46,7 @@ const BaseFileInput = (props: BaseFileInputProps) => {
     <>
       <div className={wrapperStyle} onClick={props.variant === "upload" ? handleWrapperClick : undefined}>
         <label htmlFor={props.name} className={fakeInputStyle}>
-          {props.file ? props.file.name : props.placeholder}
+          {props.file && !props.isImage ? props.file.name : props.placeholder}
         </label>
         {props.variant === "upload" && (
           <input
