@@ -12,6 +12,17 @@ const BaseFileInput = (props: BaseFileInputProps) => {
     innerHoverColor: "hover:bg-background-300",
   };
 
+  /*
+   * @params name: string;
+   * @params variant: "upload" | "download";
+   * @params size?: string;
+   * @params file?: File | null;
+   * @params onFileAction?: (file: File | null) => void;
+   * @params icon?: React.ReactNode;
+   * @params actionIcon?: React.ReactNode;
+   * @params placeholder?: string;
+   * @params isImage?: boolean;
+   */
   const defaultSize = "w-[327px] h-[54px] lg:w-[640px] lg:h-[64px]";
   const sizeStyles = props.size || defaultSize;
 
@@ -19,7 +30,7 @@ const BaseFileInput = (props: BaseFileInputProps) => {
   const wrapperStyle = `relative flex gap-2 items-center justify-between rounded-lg border-[0.5px] p-[14px] lg:py-4 ${wrapperColorStyle} ${sizeStyles}`;
 
   const innerColorStyle = `${colorStyle.innerHoverColor}`;
-  const fakeInputStyle = `text-gray-400 flex items-center border-none ${innerColorStyle}`;
+  const fakeInputStyle = `text-gray-400 flex items-center border-none text-base leading-[26px] lg:text-xl lg:leading-[32px] ${innerColorStyle}`;
 
   // 라벨 클릭 시 input 클릭 - 파일 선택 창 열기 / 파일 다운로드
   const inputRef = useRef<HTMLInputElement>(null);
@@ -35,7 +46,7 @@ const BaseFileInput = (props: BaseFileInputProps) => {
     <>
       <div className={wrapperStyle} onClick={props.variant === "upload" ? handleWrapperClick : undefined}>
         <label htmlFor={props.name} className={fakeInputStyle}>
-          {props.file ? props.file.name : props.placeholder}
+          {props.file && !props.isImage ? props.file.name : props.placeholder}
         </label>
         {props.variant === "upload" && (
           <input
