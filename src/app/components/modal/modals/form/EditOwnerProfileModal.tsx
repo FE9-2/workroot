@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { nicknameSchema, storePhoneSchema, mobilePhoneSchema, mobilePhoneRegex } from "@/schemas/commonSchema";
+import { nicknameSchema, storePhoneSchema, mobilePhoneSchema } from "@/schemas/commonSchema";
 
 interface EditOwnerProfileModalProps {
   isOpen: boolean;
