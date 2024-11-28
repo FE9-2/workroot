@@ -21,7 +21,9 @@ const Chip: React.FC<ChipProps> = ({
   return (
     <div
       className={`inline-flex cursor-pointer items-center rounded-full border px-4 py-1 text-sm font-medium transition ${
-        selected ? "border-blue-300 bg-blue-100 text-blue-600" : "border-gray-300 bg-gray-100 text-gray-700"
+        selected
+          ? "text-primary-blue-600 border-primary-blue-300 bg-primary-blue-100"
+          : "bg-primary-gray-100 border-primay-gray-300 text-gray-700"
       } ${className}`}
       onClick={onClick}
     >

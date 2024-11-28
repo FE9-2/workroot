@@ -45,7 +45,12 @@ const BaseTextArea = (props: BaseTextAreaProps) => {
   return (
     <div className={wrapperStyle}>
       <label className="hidden">{props.name}</label>
-      <textarea id={props.name} placeholder={props.placeholder} disabled={props.disabled} className={textareaStyle} />
+      <textarea
+        id={props.name}
+        placeholder={props.placeholder}
+        disabled={props.disabled}
+        className={`${textareaStyle} scrollbar-custom`}
+      />
       {props.errorMessage && (
         <span className="absolute -bottom-[26px] right-0 pr-2 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]">
           {props.errorMessage}
