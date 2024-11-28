@@ -2,7 +2,7 @@ import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import Chip from "./Chip";
 
 const ChipWithIcon = ({ label = "Label", isBookmarked = false }: { label: string; isBookmarked: boolean }) => {
-  const iconStyle = "text-gray-400 text-[14px] lg:text-[20px]";
+  const iconStyle = "text-gray-400 text-[12px] lg:text-[16px]";
   const icon = isBookmarked ? (
     <FaBookmark strokeWidth={1.5} className={iconStyle} />
   ) : (
