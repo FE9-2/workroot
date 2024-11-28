@@ -23,9 +23,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ label, options, classNa
   };
 
   return (
-    <div
-      className={cn("relative inline-block text-left", "scrollbar-custom w-20 text-xs md:w-32 md:text-lg", className)}
-    >
+    <div className={cn("relative inline-block text-left", "w-20 text-xs md:w-32 md:text-lg", className)}>
       <div>
         <button
           type="button"
@@ -43,7 +41,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ label, options, classNa
       {isOpen && (
         <div
           className={cn(
-            "absolute right-0 z-10 mt-2 overflow-y-auto rounded-md bg-white ring-1 ring-gray-200",
+            "scrollbar-custom absolute right-0 z-10 mt-2 overflow-y-auto rounded-md bg-white ring-1 ring-gray-200",
             "h-40 w-20 md:w-32 md:text-lg"
           )}
         >
