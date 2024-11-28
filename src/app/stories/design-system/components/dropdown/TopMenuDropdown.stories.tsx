@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from "@storybook/react";
-import DropdownListBtn from "@/app/components/button/dropdown/DropdownListBtn";
+import TopMenuDropdown from "@/app/components/dropdown/TopMenuDropdown";
 
-const meta: Meta<typeof DropdownListBtn> = {
-  title: "Design System/Components/Button/Dropdown/DropdownList",
-  component: DropdownListBtn,
+const meta: Meta<typeof TopMenuDropdown> = {
+  title: "Design System/Components/Dropdown/DropdownList",
+  component: TopMenuDropdown,
   argTypes: {
     options: {
       description: "드롭다운에서 선택 가능한 옵션들",
@@ -19,7 +19,7 @@ const meta: Meta<typeof DropdownListBtn> = {
 
 export default meta;
 
-type Story = StoryObj<typeof DropdownListBtn>;
+type Story = StoryObj<typeof TopMenuDropdown>;
 
 export const Default: Story = {
   args: {

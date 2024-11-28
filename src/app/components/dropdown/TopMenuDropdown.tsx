@@ -8,7 +8,7 @@ interface DropdownListProps {
   className?: string;
 }
 
-const DropdownListBtn: React.FC<DropdownListProps> = ({ options, className = "" }) => {
+const TopMenuDropdown: React.FC<DropdownListProps> = ({ options, className = "" }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<string>(""); // 선택된 값 (label을 저장)
   const [isCustomInput, setIsCustomInput] = useState<boolean>(false);
@@ -75,4 +75,4 @@ const DropdownListBtn: React.FC<DropdownListProps> = ({ options, className = "" 
   );
 };
 
-export default DropdownListBtn;
+export default TopMenuDropdown;

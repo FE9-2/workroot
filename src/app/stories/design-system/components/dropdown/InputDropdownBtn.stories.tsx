@@ -1,17 +1,17 @@
-import InputDropdownBtn from "@/app/components/button/dropdown/InputDropdownBtn";
+import InputDropdown from "@/app/components/dropdown/InputDropdown";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
-  title: "Design System/Components/Button/Dropdown/InputDropdownBtn",
-  component: InputDropdownBtn,
+  title: "Design System/Components/Dropdown/InputDropdown",
+  component: InputDropdown,
   parameters: {
     layout: "centered",
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof InputDropdownBtn>;
+} satisfies Meta<typeof InputDropdown>;
 
 export default meta;
-type Story = StoryObj<typeof InputDropdownBtn>;
+type Story = StoryObj<typeof InputDropdown>;
 
 export const Default: Story = {
   args: {

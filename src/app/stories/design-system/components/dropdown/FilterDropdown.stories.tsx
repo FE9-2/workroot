@@ -1,8 +1,8 @@
 import { Meta, StoryObj } from "@storybook/react";
-import Dropdown from "@/app/components/button/dropdown/FilterBtn";
+import Dropdown from "@/app/components/dropdown/FilterDropdown";
 
 const meta: Meta<typeof Dropdown> = {
-  title: "Design System/Components/Button/Dropdown/FilterBtn",
+  title: "Design System/Components/Dropdown/FilterDropdown",
   component: Dropdown,
   parameters: {
     layout: "centered",
