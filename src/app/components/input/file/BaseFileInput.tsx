@@ -13,15 +13,15 @@ const BaseFileInput = (props: BaseFileInputProps) => {
   };
 
   /*
-   * @name: string;
-   * @variant: "upload" | "download";
-   * @size?: string;
-   * @file?: File | null;
-   * @onFileAction?: (file: File | null) => void;
-   * @icon?: React.ReactNode;
-   * @actionIcon?: React.ReactNode;
-   * @placeholder?: string;
-   * @isImage?: boolean;
+   * @params name: string;
+   * @params variant: "upload" | "download";
+   * @params size?: string;
+   * @params file?: File | null;
+   * @params onFileAction?: (file: File | null) => void;
+   * @params icon?: React.ReactNode;
+   * @params actionIcon?: React.ReactNode;
+   * @params placeholder?: string;
+   * @params isImage?: boolean;
    */
   const defaultSize = "w-[327px] h-[54px] lg:w-[640px] lg:h-[64px]";
   const sizeStyles = props.size || defaultSize;
