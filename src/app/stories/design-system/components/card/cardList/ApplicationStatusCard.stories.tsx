@@ -3,7 +3,7 @@ import ApplicationStatusCard from "@/app/components/card/cardList/ApplicationSta
 import { FormListType } from "@/types/response/form";
 
 const meta: Meta<typeof ApplicationStatusCard> = {
-  title: "Components/ApplicationStatusCard",
+  title: "Design System/Components/Card/CardList/ApplicationStatusCard",
   component: ApplicationStatusCard,
   parameters: {
     layout: "centered",
