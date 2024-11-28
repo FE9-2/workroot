@@ -8,6 +8,10 @@ import BaseInput from "@/app/components/input/text/BaseInput";
 import { useUser } from "@/hooks/useUser";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { nicknameSchema, storePhoneSchema, mobilePhoneSchema, mobilePhoneRegex } from "@/schemas/commonSchema";
 
 interface EditOwnerProfileModalProps {
   isOpen: boolean;
@@ -15,32 +19,64 @@ interface EditOwnerProfileModalProps {
   className?: string;
 }
 
+const editOwnerProfileSchema = z.object({
+  nickname: nicknameSchema,
+  storeName: z.string().min(2, "가게 이름은 2자 이상이어야 합니다").max(20, "가게 이름은 20자 이하여야 합니다"),
+  storePhoneNumber: storePhoneSchema,
+  phoneNumber: z
+    .string()
+    .transform((val) => (val === "" ? undefined : val))
+    .pipe(mobilePhoneSchema.optional()),
+  location: z.string().min(1, "가게 위치를 입력해주세요"),
+});
+
+type EditOwnerProfileFormData = z.infer<typeof editOwnerProfileSchema>;
+
+type Field = {
+  name: keyof EditOwnerProfileFormData;
+  label: string;
+  postPosition: string;
+  required: boolean;
+  hint?: string;
+  icon?: React.ReactNode;
+};
+
 const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileModalProps) => {
   const { user, refetch } = useUser();
-  const [formData, setFormData] = useState({
-    nickname: "",
-    storeName: "",
-    businessNumber: "",
-    phoneNumber: "",
-    location: "",
-  });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<EditOwnerProfileFormData>({
+    resolver: zodResolver(editOwnerProfileSchema),
+    mode: "onChange",
+    defaultValues: {
+      nickname: "",
+      storeName: "",
+      storePhoneNumber: "",
+      phoneNumber: "",
+      location: "",
+    },
+  });
+
   useEffect(() => {
     if (user) {
-      setFormData({
+      reset({
         nickname: user.nickname || "",
         storeName: user.storeName || "",
-        businessNumber: user.businessNumber || "",
+        storePhoneNumber: user.storePhoneNumber || "",
         phoneNumber: user.phoneNumber || "",
         location: user.location || "",
       });
       setPreviewUrl(user.imageUrl || "");
     }
-  }, [user]);
+  }, [user, reset]);
 
   if (!isOpen) return null;
 
@@ -53,16 +89,12 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
     if (!file) return;
 
     setSelectedFile(file);
+    // 미리보기 URL 생성
     const previewUrl = URL.createObjectURL(file);
     setPreviewUrl(previewUrl);
   };
 
-  const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmitHandler = async (data: EditOwnerProfileFormData) => {
     if (isSubmitting) return;
 
     try {
@@ -70,6 +102,7 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
 
       let imageUrl = user?.imageUrl || "";
 
+      // 새로운 이미지가 선택된 경우에만 업로드
       if (selectedFile) {
         const uploadFormData = new FormData();
         uploadFormData.append("file", selectedFile);
@@ -83,13 +116,14 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
         imageUrl = uploadResponse.data.imageUrl;
       }
 
+      // 프로필 정보 업데이트
       await axios.patch("/api/users/me", {
-        ...formData,
+        ...data,
         imageUrl,
       });
 
       await refetch();
-      toast.success("사장님 정보가 성공적으로 수정되었습니다.");
+      toast.success("사장님 정보가 성공적으로 수정되었습다.");
       onClose();
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -103,12 +137,24 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
     }
   };
 
-  const fields = [
-    { name: "nickname", label: "닉네임", required: true },
-    { name: "storeName", label: "가게 이름", required: true, hint: "가게 이름(상호명)을 필수로 입력해주세요." },
-    { name: "businessNumber", label: "가게 전화번호", required: true },
-    { name: "phoneNumber", label: "사장님 전화번호", required: false },
-    { name: "location", label: "가게 위치", required: true, icon: <FiMapPin className="h-5 w-5 text-gray-400" /> },
+  const fields: Field[] = [
+    { name: "nickname", label: "닉네임", postPosition: "을", required: true },
+    {
+      name: "storeName",
+      label: "가게 이름",
+      postPosition: "을",
+      required: true,
+      hint: "가게 이름(상호명)을 필수로 입력해주세요.",
+    },
+    { name: "storePhoneNumber", label: "가게 전화번호", postPosition: "를", required: true },
+    { name: "phoneNumber", label: "사장님 전화번호", postPosition: "를", required: false },
+    {
+      name: "location",
+      label: "가게 위치",
+      postPosition: "를",
+      required: true,
+      icon: <FiMapPin className="h-5 w-5 text-gray-400" />,
+    },
   ];
 
   return (
@@ -122,7 +168,10 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
         <h2 className="text-[18px] font-semibold md:text-[32px]">사장님 정보 관리</h2>
       </div>
 
-      <form onSubmit={handleSubmit} className="flex h-[calc(100%-26px)] flex-col md:h-[calc(100%-46px)]">
+      <form
+        onSubmit={handleSubmit(onSubmitHandler)}
+        className="flex h-[calc(100%-26px)] flex-col md:h-[calc(100%-46px)]"
+      >
         <div className="flex-1 space-y-4 md:space-y-10">
           <div className="my-6 flex justify-center md:my-8">
             <div className="relative">
@@ -165,15 +214,14 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
               <div className="flex w-full flex-col items-center">
                 <div className="relative w-full">
                   <BaseInput
+                    {...register(field.name)}
                     type="text"
-                    name={field.name}
-                    value={formData[field.name as keyof typeof formData]}
-                    onChange={(e) => handleChange(field.name, e.target.value)}
-                    placeholder={field.hint || `${field.label}을 입력해주세요.`}
+                    placeholder={field.hint || `${field.label}${field.postPosition} 입력해주세요.`}
                     variant="white"
                     size="h-[54px] w-[327px] md:h-[64px] md:w-[640px]"
                     wrapperClassName={`px-[14px] md:px-[20px] ${field.icon ? "pl-[40px] md:pl-[48px]" : ""}`}
                     disabled={isSubmitting}
+                    errorMessage={errors[field.name]?.message}
                   />
                   {field.icon && <div className="absolute left-4 top-1/2 -translate-y-1/2 md:left-5">{field.icon}</div>}
                 </div>

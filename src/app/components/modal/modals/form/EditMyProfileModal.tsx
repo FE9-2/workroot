@@ -8,6 +8,10 @@ import BaseInput from "@/app/components/input/text/BaseInput";
 import { useUser } from "@/hooks/useUser";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { nicknameSchema, mobilePhoneSchema } from "@/schemas/commonSchema";
 
 interface EditMyProfileModalProps {
   isOpen: boolean;
@@ -15,28 +19,46 @@ interface EditMyProfileModalProps {
   className?: string;
 }
 
+const editMyProfileSchema = z.object({
+  name: z.string().min(2, "이름은 2자 이상이어야 합니다").max(10, "이름은 10자 이하여야 합니다"),
+  nickname: nicknameSchema,
+  phone: mobilePhoneSchema,
+});
+
+type EditMyProfileFormData = z.infer<typeof editMyProfileSchema>;
+
 const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalProps) => {
   const { user, refetch } = useUser();
-  const [formData, setFormData] = useState({
-    name: "",
-    nickname: "",
-    phone: "",
-  });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<EditMyProfileFormData>({
+    resolver: zodResolver(editMyProfileSchema),
+    mode: "onChange",
+    defaultValues: {
+      name: "",
+      nickname: "",
+      phone: "",
+    },
+  });
+
   useEffect(() => {
     if (user) {
-      setFormData({
+      reset({
         name: user.name || "",
         nickname: user.nickname || "",
         phone: user.phone || "",
       });
       setPreviewUrl(user.imageUrl || "");
     }
-  }, [user]);
+  }, [user, reset]);
 
   if (!isOpen) return null;
 
@@ -54,12 +76,7 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
     setPreviewUrl(previewUrl);
   };
 
-  const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmitHandler = async (data: EditMyProfileFormData) => {
     if (isSubmitting) return;
 
     try {
@@ -83,7 +100,7 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
 
       // 프로필 정보 업데이트
       await axios.patch("/api/users/me", {
-        ...formData,
+        ...data,
         imageUrl,
       });
 
@@ -103,10 +120,10 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
   };
 
   const fields = [
-    { name: "name", label: "이름" },
-    { name: "nickname", label: "닉네임" },
-    { name: "phone", label: "연락처" },
-  ];
+    { name: "name", label: "이름", postPosition: "을" },
+    { name: "nickname", label: "닉네임", postPosition: "을" },
+    { name: "phone", label: "연락처", postPosition: "를" },
+  ] as const;
 
   return (
     <div
@@ -119,7 +136,10 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
         <h2 className="text-[18px] font-semibold md:text-[32px]">내 정보 수정</h2>
       </div>
 
-      <form onSubmit={handleSubmit} className="flex h-[calc(100%-26px)] flex-col md:h-[calc(100%-46px)]">
+      <form
+        onSubmit={handleSubmit(onSubmitHandler)}
+        className="flex h-[calc(100%-26px)] flex-col md:h-[calc(100%-46px)]"
+      >
         <div className="flex-1 space-y-2 md:space-y-8">
           <div className="my-6 flex justify-center md:my-8">
             <div className="relative">
@@ -161,15 +181,14 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
               </label>
               <div className="flex w-full flex-col items-center">
                 <BaseInput
+                  {...register(field.name)}
                   type="text"
-                  name={field.name}
-                  value={formData[field.name as keyof typeof formData]}
-                  onChange={(e) => handleChange(field.name, e.target.value)}
-                  placeholder={`${field.label}을(를) 입력해주세요.`}
+                  placeholder={`${field.label}${field.postPosition} 입력해주세요.`}
                   variant="white"
                   size="w-[327px] h-[54px] md:w-[640px] md:h-[64px]"
                   wrapperClassName="px-[14px] md:px-[20px]"
                   disabled={isSubmitting}
+                  errorMessage={errors[field.name]?.message}
                 />
               </div>
             </div>
