@@ -5,10 +5,10 @@ import { cn } from "@/lib/tailwindUtil";
 const Devider = () => <div className="border-b-[1px] border-line-200" />;
 const RecruitDetail: React.FC<{ recruitData: FormDetailResponse }> = ({ recruitData }) => {
   const titleStyle = "text-black-100";
-  const flexStyle = "flex items-center justify-between md:py-4";
+  const propsStyle = "flex items-center justify-between md:py-4";
   return (
-    <div className="flex h-[156px] w-[375px] flex-col justify-center gap-3 rounded-lg border border-line-100 bg-white px-6 py-3 text-sm shadow-md md:h-[336px] md:w-[640px] md:gap-6 md:text-lg">
-      <div className={cn(flexStyle)}>
+    <div className="flex h-[156px] w-[375px] flex-col justify-center gap-3 rounded-lg border border-line-100 bg-white px-6 py-3 text-sm md:h-[336px] md:w-[640px] md:gap-6 md:text-lg">
+      <div className={cn(propsStyle)}>
         <div>
           <span className={cn(titleStyle)}>모집 기간</span>
           <strong className="orange-black-100 ml-4 text-primary-orange-300">D-10</strong>
@@ -20,13 +20,13 @@ const RecruitDetail: React.FC<{ recruitData: FormDetailResponse }> = ({ recruitD
       </div>
       <Devider />
       {/* 가게 전화번호 */}
-      <div className={cn(flexStyle)}>
+      <div className={cn(propsStyle)}>
         <span className={cn(titleStyle)}>가게 전화번호</span>
         <strong>{recruitData.storePhoneNumber}</strong>
       </div>
       <Devider />
       {/* 사장님 전화번호 */}
-      <div className={cn(flexStyle)}>
+      <div className={cn(propsStyle)}>
         <span className={cn(titleStyle)}>사장님 전화번호</span>
         <strong>{recruitData.phoneNumber}</strong>
       </div>
