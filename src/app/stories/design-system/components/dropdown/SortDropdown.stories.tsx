@@ -1,4 +1,4 @@
-import SortDropdown from "@/app/components/dropdown/SortDropdown";
+import SortDropdown from "@/app/components/button/dropdown/SortDropdown";
 import { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof SortDropdown> = {

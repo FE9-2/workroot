@@ -1,4 +1,4 @@
-import InputDropdown from "@/app/components/dropdown/InputDropdown";
+import InputDropdown from "@/app/components/button/dropdown/InputDropdown";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

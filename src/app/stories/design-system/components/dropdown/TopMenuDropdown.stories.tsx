@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import TopMenuDropdown from "@/app/components/dropdown/TopMenuDropdown";
+import TopMenuDropdown from "@/app/components/button/dropdown/TopMenuDropdown";
 
 const meta: Meta<typeof TopMenuDropdown> = {
   title: "Design System/Components/Dropdown/TopMenuDropdown",

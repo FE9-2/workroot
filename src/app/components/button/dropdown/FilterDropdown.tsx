@@ -1,8 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
-import DropdownList from "../button/dropdown/dropdownComponent/DropdownList";
 import { cn } from "@/lib/tailwindUtil";
+import DropdownList from "./dropdownComponent/DropdownList";
+
 interface FilterDropdownProps {
   options: string[];
   className?: string;
