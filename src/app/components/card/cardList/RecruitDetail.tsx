@@ -1,60 +1,34 @@
-/**
-{
-  "updatedAt": "2024-11-28T04:27:51.626Z",
-  "createdAt": "2024-11-28T04:27:51.626Z",
-  "preferred": "string",
-  "age": "string",
-  "education": "string",
-  "gender": "string",
-  "numberOfPositions": 0,
-  "isPublic": true,
-  "hourlyWage": 0,
-  "isNegotiableWorkDays": true,
-  "workDays": [
-    "string"
-  ],
-  "workEndTime": "string",
-  "workStartTime": "string",
-  "workEndDate": "2024-11-28T04:27:51.626Z",
-  "workStartDate": "2024-11-28T04:27:51.626Z",
-  "location": "string",
-  "imageUrls": [
-    "string"
-  ],
-  "recruitmentEndDate": "2024-11-28T04:27:51.626Z",
-  "recruitmentStartDate": "2024-11-28T04:27:51.626Z",
-  "description": "string",
-  "title": "string",
-  "ownerId": 0,
-  "id": 0,
-  "scrapCount": 0,
-  "applyCount": 0,
-  "isScrapped": true,
-  "phoneNumber": "string",
-  "storePhoneNumber": "string",
-  "storeName": "string"
-}
- */
-
 import React from "react";
 import { FormDetailResponse } from "@/types/response/form";
+import { cn } from "@/lib/tailwindUtil";
 
+const Devider = () => <div className="border-b-[1px] border-line-200" />;
 const RecruitDetail: React.FC<{ recruitData: FormDetailResponse }> = ({ recruitData }) => {
+  const titleStyle = "text-black-100";
+  const flexStyle = "flex items-center justify-between md:py-4";
   return (
-    <div className="w-[375px] bg-white px-6 py-3 md:w-[640px] md:py-16">
-      <div>
-        <span>모집 기간:</span> {new Date(recruitData.recruitmentStartDate).toLocaleDateString()} ~{" "}
-        {new Date(recruitData.recruitmentEndDate).toLocaleDateString()}
+    <div className="flex h-[156px] w-[375px] flex-col justify-center gap-3 rounded-lg border border-line-100 bg-white px-6 py-3 text-sm shadow-md md:h-[336px] md:w-[640px] md:gap-6 md:text-lg">
+      <div className={cn(flexStyle)}>
+        <div>
+          <span className={cn(titleStyle)}>모집 기간</span>
+          <strong className="orange-black-100 ml-4 text-primary-orange-300">D-10</strong>
+        </div>
+        <strong>
+          {new Date(recruitData.recruitmentStartDate).toLocaleDateString()} ~{" "}
+          {new Date(recruitData.recruitmentEndDate).toLocaleDateString()}
+        </strong>
       </div>
-
+      <Devider />
       {/* 가게 전화번호 */}
-      <div>
-        <span className="text-black-100">가게 전화번호</span> <strong>{recruitData.storePhoneNumber}</strong>
+      <div className={cn(flexStyle)}>
+        <span className={cn(titleStyle)}>가게 전화번호</span>
+        <strong>{recruitData.storePhoneNumber}</strong>
       </div>
-
+      <Devider />
       {/* 사장님 전화번호 */}
-      <div>
-        <span className="text-black-400">사장님 전화번호</span> <strong>{recruitData.phoneNumber}</strong>
+      <div className={cn(flexStyle)}>
+        <span className={cn(titleStyle)}>사장님 전화번호</span>
+        <strong>{recruitData.phoneNumber}</strong>
       </div>
     </div>
   );
