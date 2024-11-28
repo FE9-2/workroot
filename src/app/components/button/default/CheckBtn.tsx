@@ -30,7 +30,6 @@ const CheckBtn: React.FC<CheckBtnProps> = ({
       <label htmlFor={value} className={cn("text-sm", disabled ? "text-gray-400" : "text-black")}>
         {label}
       </label>
-    <div className={`${baseStyles} ${cursorStyle}`}>
       <input
         type="checkbox"
         id={value}
@@ -39,12 +38,9 @@ const CheckBtn: React.FC<CheckBtnProps> = ({
         checked={checked}
         onChange={onChange}
         disabled={disabled}
-        className="mr-2"
+        className="ml-2"
         {...props}
       />
-      <label htmlFor={value} className={`text-sm ${textColor}`}>
-        {label}
-      </label>
     </div>
   );
 };
