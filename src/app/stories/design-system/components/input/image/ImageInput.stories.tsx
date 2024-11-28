@@ -1,4 +1,4 @@
-import ImageInput from "@/app/components/input/file/ImageInput";
+import ImageInput from "@/app/components/input/file/ImageInput/ImageInput";
 import { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

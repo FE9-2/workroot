@@ -1,5 +1,5 @@
 "use client";
-import BaseFileInput from "./BaseFileInput";
+import BaseFileInput from "../BaseFileInput";
 import { HiUpload } from "react-icons/hi";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
@@ -49,7 +49,7 @@ const ImageInput = () => {
         </div>
       </div>
       {imageList.map((image) => (
-        <PreviewItem key={image.id} image={image} handleDeleteImage={handleDeleteImage} />
+        <PreviewItem key={image.id} image={image} handleDeleteImage={handleDeleteImage} placeholder={false} />
       ))}
     </div>
   );
