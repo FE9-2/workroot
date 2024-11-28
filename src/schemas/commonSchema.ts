@@ -82,7 +82,7 @@ export const storePhoneRegex = /^(02|070|010)-?([0-9]{3,4})-?([0-9]{4})$/;
 // 모바일 전화번호 스키마 (010만 허용)
 export const mobilePhoneSchema = z
   .string()
-  .regex(mobilePhoneRegex, "올바른 휴대폰 번호 형식이 아닙니다 (010으로 시작)")
+  .regex(mobilePhoneRegex, "올바른 휴대폰 번호 형식이 아닙니다 (010-xxxx-xxxx)")
   .transform((val) => {
     const nums = val.replace(/[^0-9]/g, "");
     return `${nums.slice(0, 3)}-${nums.slice(3, 7)}-${nums.slice(7)}`;

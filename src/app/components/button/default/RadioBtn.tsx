@@ -1,29 +1,85 @@
 "use client";
 import React, { ButtonHTMLAttributes } from "react";
+import { cn } from "@/lib/tailwindUtil";
+import { positionOptions } from "@/constants/positionOptions";
 
-interface RadioBtnProps extends ButtonHTMLAttributes<HTMLInputElement> {
-  label: string; // 라디오 버튼의 레이블을 추가
-  name: string; // 라디오 버튼의 name 속성
-  value: string; // 라디오 버튼의 value 속성
-  checked?: boolean; // 라디오 버튼이 선택된 상태인지 여부
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void; // 라디오 버튼 상태 변화 처리 함수
+export interface RadioBtnProps extends ButtonHTMLAttributes<HTMLInputElement> {
+  key: string;
+  label: string;
+  name: string;
+  value: string;
+  checked?: boolean;
+  position?: typeof positionOptions.POSITION_LEFT | typeof positionOptions.POSITION_RIGHT;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const RadioBtn = (props: RadioBtnProps) => {
+const RadioBtn = ({
+  key,
+  label,
+  name,
+  value,
+  checked,
+  position = positionOptions.POSITION_LEFT,
+  className,
+  onChange,
+  ...props
+}: RadioBtnProps) => {
+  const handleClick = () => {
+    const event = {
+      target: { value },
+      currentTarget: { value },
+      bubbles: true,
+      preventDefault: () => {},
+      stopPropagation: () => {},
+    } as React.ChangeEvent<HTMLInputElement>;
+
+    if (onChange) {
+      onChange(event);
+    }
+  };
+
+  const input = (
+    <input
+      key={key}
+      type="radio"
+      id={props.id || value}
+      name={name}
+      value={value}
+      checked={checked}
+      onChange={onChange}
+      className="radio-custom cursor-pointer"
+      {...props}
+    />
+  );
+
+  const labelElement = label && (
+    <label htmlFor={props.id || value} className="cursor-pointer text-sm md:text-lg">
+      {label}
+    </label>
+  );
+
   return (
-    <div className="flex items-center">
-      <input
-        type="radio"
-        id={props.value}
-        name={props.name}
-        value={props.value}
-        checked={props.checked}
-        onChange={props.onChange}
-        className="radio-custom mr-2"
-      />
-      <label htmlFor={props.value} className="text-sm">
-        {props.label}
-      </label>
+    <div
+      onClick={handleClick}
+      className={cn(
+        "flex w-full cursor-pointer items-center rounded-lg border border-gray-200 p-4 transition-colors md:p-6",
+        checked && "border-primary-orange-300 bg-primary-orange-50",
+        !checked && "hover:border-gray-300 hover:bg-gray-50",
+        position === positionOptions.POSITION_RIGHT ? "justify-between" : "gap-2",
+        className
+      )}
+    >
+      {position === positionOptions.POSITION_LEFT ? (
+        <>
+          {input}
+          {labelElement}
+        </>
+      ) : (
+        <>
+          {labelElement}
+          {input}
+        </>
+      )}
     </div>
   );
 };

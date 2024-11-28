@@ -19,11 +19,13 @@ export interface BaseInputProps extends React.InputHTMLAttributes<HTMLInputEleme
   anotherHoverStyle?: string;
 }
 
-export interface BaseFileInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type"> {
+export interface BaseFileInputProps {
+  name: string;
   variant: "upload" | "download";
   size?: string;
   file?: File | null;
   onFileAction?: (file: File | null) => void;
   icon?: React.ReactNode;
   actionIcon?: React.ReactNode;
+  placeholder?: string;
 }
