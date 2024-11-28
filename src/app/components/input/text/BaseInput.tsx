@@ -5,19 +5,19 @@ import { LuEye, LuEyeOff } from "react-icons/lu";
 import { BaseInputProps } from "@/types/textInput";
 
 /* 
-@name: string - 필수값
-@type: "text" | "password" | ... - 필수값
-@variant: "white" | "transparent";
-@size: "w-[00px] h-[00px] lg:w-[00px] lg:h-[00px]" - 기본값: "w-[327px] h-[54px] lg:w-[640px] lg:h-[64px]"
-@placeholder: string
-@errorMessage: string - 에러메시지 + 테두리 색상 변경
-@feedbackMessage: string - 메시지만 띄우고 색상 변경 X
-@disabled: boolean
-@wrapperClassName?: string; - 부가적인 tailwind css 클래스
-@innerClassName?: string; - 부가적인 tailwind css 클래스
-@beforeIcon?: React.ReactNode; - 앞에 위치하는 아이콘
-@afterIcon?: React.ReactNode; - 뒤에 위치하는 아이콘
-@anotherHoverStyle?: string; - 추가적인 hover 스타일 - 없으면 기본값
+@params name: string - 필수값
+@params type: "text" | "password" | ... - 필수값
+@params variant: "white" | "transparent";
+@params size: "w-[00px] h-[00px] lg:w-[00px] lg:h-[00px]" - 기본값: "w-[327px] h-[54px] lg:w-[640px] lg:h-[64px]"
+@params placeholder: string
+@params errorMessage: string - 에러메시지 + 테두리 색상 변경
+@params feedbackMessage: string - 메시지만 띄우고 색상 변경 X
+@params disabled: boolean
+@params wrapperClassName?: string; - 부가적인 tailwind css 클래스
+@params innerClassName?: string; - 부가적인 tailwind css 클래스
+@params beforeIcon?: React.ReactNode; - 앞에 위치하는 아이콘
+@params afterIcon?: React.ReactNode; - 뒤에 위치하는 아이콘
+@params anotherHoverStyle?: string; - 추가적인 hover 스타일 - 없으면 기본값
 */
 
 const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(

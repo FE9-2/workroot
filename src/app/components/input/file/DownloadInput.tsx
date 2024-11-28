@@ -4,7 +4,11 @@ import { BaseFileInputProps } from "@/types/textInput";
 
 const DownloadInput = (props: BaseFileInputProps) => {
   return (
-    <BaseFileInput {...props} variant="download" icon={<FiDownload className="size-6 text-black-400 lg:size-9" />} />
+    <BaseFileInput
+      {...props}
+      variant="download"
+      icon={<FiDownload className="size-[14px] text-black-400 lg:size-[18px]" />}
+    />
   );
 };
 
