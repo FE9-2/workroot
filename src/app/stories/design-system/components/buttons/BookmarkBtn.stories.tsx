@@ -2,7 +2,7 @@ import BookmarkBtn from "@/app/components/button/default/BookmarkBtn";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof BookmarkBtn> = {
-  title: "Design System/Components/Button/BookmarkBtn",
+  title: "Design System/Components/Buttons/BookmarkBtn",
   component: BookmarkBtn,
   parameters: {
     layout: "centered",
