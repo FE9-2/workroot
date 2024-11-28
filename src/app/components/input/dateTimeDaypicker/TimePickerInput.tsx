@@ -4,7 +4,8 @@ import { IoMdArrowDropup } from "react-icons/io";
 import BaseInput from "../text/BaseInput";
 import { useDropdownOpen } from "@/hooks/useDropdownOpen";
 import { useFormContext } from "react-hook-form";
-import DropdownList from "./pickerComponents/TimeOption";
+import DropdownList from "../../button/dropdown/dropdownComponent/DropdownList";
+
 const TimePickerInput = () => {
   const { register, setValue, watch } = useFormContext();
   const timeValue = watch("timepicker");
