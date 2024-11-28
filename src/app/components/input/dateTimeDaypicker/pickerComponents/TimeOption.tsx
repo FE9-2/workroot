@@ -1,41 +1,47 @@
-// 드롭다운 개발 전까지 임시 jsx
-const TimeItem = ({ time, onSelect }: { time: string; onSelect: (time: string) => void }) => {
+import { cn } from "@/lib/tailwindUtil";
+
+const DropdownItem = ({
+  item,
+  onSelect,
+  itemStyle,
+}: {
+  item: string;
+  onSelect: (item: string) => void;
+  itemStyle?: string;
+}) => {
   return (
     <li
-      key={time}
-      value={time}
-      className="cursor-pointer px-4 py-2 text-sm font-normal leading-[26px] hover:bg-gray-50 lg:text-base lg:leading-8"
-      onClick={() => onSelect(time)}
+      value={item}
+      onClick={() => onSelect(item)}
+      className={cn(
+        "flex w-full cursor-pointer bg-gray-50 px-[10px] py-2 text-xs font-normal leading-[18px] text-black-100 hover:bg-primary-orange-50 lg:text-lg lg:leading-[26px]",
+        itemStyle
+      )}
     >
-      {time}
+      {item}
     </li>
   );
 };
-
-const TimeOption = ({
-  className,
-  handleTimeSelect,
+const DropdownList = ({
+  list,
+  onSelect,
+  wrapperStyle,
+  itemStyle,
 }: {
-  className?: string;
-  handleTimeSelect: (time: string) => void;
+  list: string[];
+  onSelect: (item: string) => void;
+  wrapperStyle?: string;
+  itemStyle?: string;
 }) => {
-  const timeOption = Array.from({ length: 24 }, (_, index) => {
-    const hour = index.toString().padStart(2, "0");
-    return `${hour}:00`;
-  });
-  const wrapperStyle = "mb-5 flex h-[200px] w-full flex-col gap-1 overflow-x-hidden rounded-lg border p-1";
-
   return (
-    <div className={`${wrapperStyle} ${className}`}>
-      <div className={`scrollbar-custom`}>
-        <ul className="flex flex-col">
-          {timeOption.map((time, index) => (
-            <TimeItem key={index} time={time} onSelect={handleTimeSelect} />
-          ))}
-        </ul>
-      </div>
+    <div className="mt-[6px] rounded border border-gray-100 bg-gray-50 pr-[2px] pt-1">
+      <ul className={`flex w-full flex-col overflow-hidden lg:w-[126px] ${wrapperStyle} scrollbar-custom`}>
+        {list.map((item) => (
+          <DropdownItem key={item} item={item} onSelect={onSelect} itemStyle={itemStyle} />
+        ))}
+      </ul>
     </div>
   );
 };
 
-export default TimeOption;
+export default DropdownList;
