@@ -3,36 +3,40 @@ import BaseFileInput from "./BaseFileInput";
 import { HiUpload } from "react-icons/hi";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import Image from "next/image";
-
+import PreviewItem from "./PreviewItem";
+interface ImageInputType {
+  file: File | null;
+  url: string;
+  id: string;
+}
 const ImageInput = () => {
-  const [image, setImage] = useState<{ file: File | null; url: string }>({
-    file: null,
-    url: "",
-  });
+  const [imageList, setImageList] = useState<ImageInputType[]>([]);
 
   const handleFileChange = (selectedFile: File | null) => {
     if (selectedFile) {
       if (!selectedFile.type.startsWith("image/")) {
         toast.error("이미지 파일만 업로드할 수 있습니다.");
         return;
+      } else if (selectedFile && imageList.length >= 3) {
+        toast.error("이미지는 최대 3개까지 업로드할 수 있습니다.");
+        return;
       }
-      setImage({ file: selectedFile, url: URL.createObjectURL(selectedFile) });
-    } else {
-      setImage({ file: null, url: "" });
+      setImageList((prev) => [
+        ...prev,
+        { file: selectedFile, url: URL.createObjectURL(selectedFile), id: crypto.randomUUID() },
+      ]);
     }
   };
 
-  const handleDeleteImage = () => {
-    URL.revokeObjectURL(image.url);
-    setImage({ file: null, url: "" });
+  const handleDeleteImage = (targetId: string) => {
+    setImageList((prev) => prev.filter((image) => image.id !== targetId));
   };
 
   return (
     <div className="flex gap-5 lg:gap-6">
       <div className="relative">
         <BaseFileInput
-          file={image.file}
+          file={null}
           variant="upload"
           name="image"
           onFileAction={handleFileChange}
@@ -44,18 +48,9 @@ const ImageInput = () => {
           <HiUpload className="text-[24px] text-gray-400 lg:text-[36px]" />
         </div>
       </div>
-      {image.url && (
-        <div className="relative size-20 lg:size-[116px]">
-          {/* 이미지 미리보기 */}
-          <Image src={image.url} alt="미리보기" fill objectFit="cover" className="overflow-hidden rounded-lg" />
-          <div
-            onClick={handleDeleteImage}
-            className="absolute -right-2 -top-2 z-10 flex size-6 cursor-pointer items-center justify-center rounded-full lg:-right-3 lg:-top-3 lg:size-9"
-          >
-            <Image src={"/icons/x/x-circle-md.svg"} alt="삭제" height={24} width={24} />
-          </div>
-        </div>
-      )}
+      {imageList.map((image) => (
+        <PreviewItem key={image.id} image={image} handleDeleteImage={handleDeleteImage} />
+      ))}
     </div>
   );
 };

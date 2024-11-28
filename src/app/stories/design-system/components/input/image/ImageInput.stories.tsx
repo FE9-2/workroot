@@ -2,7 +2,7 @@ import ImageInput from "@/app/components/input/file/ImageInput";
 import { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
-  title: "Design System/Components/FileInput/ImageInput",
+  title: "Design System/Components/FileInput",
   component: ImageInput,
   parameters: {
     layout: "centered",
@@ -13,7 +13,7 @@ export default meta;
 
 type Story = StoryObj<typeof ImageInput>;
 
-export const Image: Story = {
+export const Upload_Image: Story = {
   args: {
     variant: "upload",
   },
