@@ -3,15 +3,18 @@ import Image from "next/image";
 const PreviewItem = ({
   image,
   handleDeleteImage,
+  placeholder,
 }: {
   image: { url: string; id: string };
   handleDeleteImage: (id: string) => void;
+  placeholder: boolean;
 }) => {
   const { url, id } = image;
+  const size = placeholder ? "size-[160px] lg:size-[240px]" : "size-20 lg:size-[116px]";
   return (
-    <div className="relative size-20 lg:size-[116px]">
+    <div className={`relative ${size}`}>
       {/* 이미지 미리보기 */}
-      <Image src={url} alt="미리보기" fill objectFit="cover" className="overflow-hidden rounded-lg" />
+      <Image src={url} alt="미리보기" fill className="overflow-hidden rounded-lg object-cover" />
       <div
         onClick={() => handleDeleteImage(id)}
         className="absolute -right-2 -top-2 z-10 flex size-6 cursor-pointer items-center justify-center rounded-full lg:-right-3 lg:-top-3 lg:size-9"
