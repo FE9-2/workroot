@@ -3,13 +3,13 @@ import React, { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { cn } from "@/lib/tailwindUtil";
 
-interface DropdownProps {
+interface FilterDropdownProps {
   label: string;
   options: string[];
   className?: string;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ label, options, className = "" }) => {
+const FilterDropdown: React.FC<FilterDropdownProps> = ({ label, options, className = "" }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState(label);
 
@@ -66,4 +66,4 @@ const Dropdown: React.FC<DropdownProps> = ({ label, options, className = "" }) =
   );
 };
 
-export default Dropdown;
+export default FilterDropdown;

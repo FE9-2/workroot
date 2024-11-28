@@ -3,12 +3,12 @@ import React, { useState } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { cn } from "@/lib/tailwindUtil";
 
-interface DropdownListProps {
+interface TopMenuDropdownProps {
   options: { label: string; value: string }[]; // 객체 배열 형식으로 수정
   className?: string;
 }
 
-const TopMenuDropdown: React.FC<DropdownListProps> = ({ options, className = "" }) => {
+const TopMenuDropdown: React.FC<TopMenuDropdownProps> = ({ options, className = "" }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<string>(""); // 선택된 값 (label을 저장)
   const [isCustomInput, setIsCustomInput] = useState<boolean>(false);
@@ -43,25 +43,25 @@ const TopMenuDropdown: React.FC<DropdownListProps> = ({ options, className = "" 
             onChange={(e) => isCustomInput && setSelectedValue(e.target.value)}
             placeholder="선택"
             className={cn(
-              "flex w-full items-center justify-between py-2 pl-9 font-medium placeholder:text-white focus:outline-none",
+              "flex w-[108px] items-center justify-between py-2 pl-9 font-medium placeholder:text-white focus:outline-none",
               "bg-primary-orange-300"
             )}
           />
+          <span className={cn(tapMenuStyle, "border-white bg-white")}>작성중</span>
         </div>
         <div className="absolute right-3 top-1.5 mr-2 mt-2 flex items-center">
-          <span className={cn(tapMenuStyle, "border-white bg-white")}>작성중</span>
           <button onClick={() => setIsOpen(!isOpen)} className="text-3xl">
             <IoMdArrowDropdown className={cn("transition-transform duration-200", isOpen && "rotate-180")} />
           </button>
         </div>
       </div>
       {isOpen && (
-        <ul className="absolute right-0 z-10 w-full rounded-b-xl rounded-t-none border border-line-200 bg-white p-2">
+        <ul className="absolute right-0 z-10 w-full rounded-b-xl rounded-t-none border border-line-200 bg-white px-2">
           {options.map((option, idx) => (
             <li
               key={option.value} // 값이 고유하다면 `value`를 key로 사용
               onClick={() => handleOptionClick(option)} // option 객체 전체를 전달
-              className={cn("cursor-pointer rounded-md px-6 py-3", "hover:bg-primary-gray-100")}
+              className={cn("cursor-pointer rounded-md px-6 py-3.5", "hover:bg-primary-gray-100")}
             >
               <span className={cn(baseStyle, "bg-background-300 font-bold text-gray-200")}>
                 {idx + 2} {/* 1부터 시작하는 번호 */}

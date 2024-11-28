@@ -2,7 +2,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import TopMenuDropdown from "@/app/components/dropdown/TopMenuDropdown";
 
 const meta: Meta<typeof TopMenuDropdown> = {
-  title: "Design System/Components/Dropdown/DropdownList",
+  title: "Design System/Components/Dropdown/TopMenuDropdown",
   component: TopMenuDropdown,
   argTypes: {
     options: {
