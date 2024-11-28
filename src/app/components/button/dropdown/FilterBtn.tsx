@@ -23,7 +23,9 @@ const Dropdown: React.FC<DropdownProps> = ({ label, options, className = "" }) =
   };
 
   return (
-    <div className={cn("relative inline-block text-left", "w-20 text-xs md:w-32 md:text-lg", className)}>
+    <div
+      className={cn("relative inline-block text-left", "scrollbar-custom w-20 text-xs md:w-32 md:text-lg", className)}
+    >
       <div>
         <button
           type="button"
