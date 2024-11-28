@@ -21,6 +21,7 @@ const TimePickerInput = () => {
     const hour = index.toString().padStart(2, "0");
     return `${hour}:00`;
   });
+
   return (
     <div onClick={handleOpenDropdown} className="relative">
       <div>{isOpen}</div>

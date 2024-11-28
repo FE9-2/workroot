@@ -34,7 +34,12 @@ const DropdownList = ({
   itemStyle?: string;
 }) => {
   return (
-    <div className="mt-[6px] rounded border border-gray-100 bg-gray-50 pr-[2px] pt-1">
+    <div
+      role="menu"
+      aria-orientation="vertical"
+      aria-labelledby="options-menu"
+      className="mt-[6px] rounded border border-gray-100 bg-gray-50 pr-[2px] pt-1"
+    >
       <ul className={`flex w-full flex-col overflow-hidden lg:w-[126px] ${wrapperStyle} scrollbar-custom`}>
         {list.map((item) => (
           <DropdownItem key={item} item={item} onSelect={onSelect} itemStyle={itemStyle} />
