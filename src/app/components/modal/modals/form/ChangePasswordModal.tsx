@@ -94,55 +94,51 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
   };
 
   return (
-    <div className="bg-black/50 fixed inset-0 z-50 p-4 sm:p-6">
-      <div className="flex min-h-full items-center justify-center">
-        <div
-          className={cn(
-            "relative h-[484px] w-[375px] overflow-hidden rounded-2xl bg-white p-6 shadow-lg sm:p-8 md:h-[666px] md:w-[720px]",
-            className
-          )}
-        >
-          <div className="mb-8 h-[46px] text-center text-xl font-semibold md:mb-12 md:text-2xl">비밀번호 변경</div>
-          <form onSubmit={handleSubmit(onSubmitHandler)} className="space-y-4 md:space-y-6">
-            {defaultFields.map((field) => (
-              <div key={field.name} className="h-[88px] space-y-1.5 md:h-[114px] md:space-y-2">
-                <label className="block text-sm font-semibold text-gray-700 md:px-2 md:text-base">{field.label}</label>
-                <div className="flex w-full flex-col items-center">
-                  <BaseInput
-                    {...register(field.name)}
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    variant="white"
-                    disabled={isSubmitting}
-                    size="w-[327px] h-[54px] md:w-[640px] md:h-[64px]"
-                    errorMessage={errors[field.name]?.message}
-                  />
-                </div>
-              </div>
-            ))}
-            <div className="mt-4 flex h-[58px] gap-3 md:mt-6 md:h-[72px]">
-              <button
-                type="button"
-                onClick={() => {
-                  onClose();
-                  reset();
-                }}
+    <div
+      className={cn(
+        "relative h-[484px] w-[375px] overflow-hidden rounded-2xl bg-white p-6 shadow-lg sm:p-8 md:h-[666px] md:w-[720px]",
+        className
+      )}
+    >
+      <div className="mb-8 h-[46px] text-center text-xl font-semibold md:mb-12 md:text-2xl">비밀번호 변경</div>
+      <form onSubmit={handleSubmit(onSubmitHandler)} className="space-y-4 md:space-y-6">
+        {defaultFields.map((field) => (
+          <div key={field.name} className="h-[88px] space-y-1.5 md:h-[114px] md:space-y-2">
+            <label className="block text-sm font-semibold text-gray-700 md:px-2 md:text-base">{field.label}</label>
+            <div className="flex w-full flex-col items-center">
+              <BaseInput
+                {...register(field.name)}
+                type={field.type}
+                placeholder={field.placeholder}
+                variant="white"
                 disabled={isSubmitting}
-                className="flex-1 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 md:text-base"
-              >
-                취소
-              </button>
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="flex-1 rounded-md bg-orange-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-orange-600 md:text-base"
-              >
-                {isSubmitting ? "변경 중..." : "변경하기"}
-              </button>
+                size="w-[327px] h-[54px] md:w-[640px] md:h-[64px]"
+                errorMessage={errors[field.name]?.message}
+              />
             </div>
-          </form>
+          </div>
+        ))}
+        <div className="mt-4 flex h-[58px] gap-3 md:mt-6 md:h-[72px]">
+          <button
+            type="button"
+            onClick={() => {
+              onClose();
+              reset();
+            }}
+            disabled={isSubmitting}
+            className="flex-1 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 md:text-base"
+          >
+            취소
+          </button>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="flex-1 rounded-md bg-orange-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-orange-600 md:text-base"
+          >
+            {isSubmitting ? "변경 중..." : "변경하기"}
+          </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

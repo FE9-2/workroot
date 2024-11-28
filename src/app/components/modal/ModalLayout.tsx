@@ -9,6 +9,7 @@ import ChangePasswordModal from "./modals/form/ChangePasswordModal";
 import EditMyProfileModal from "./modals/form/EditMyProfileModal";
 import EditOwnerProfileModal from "./modals/form/EditOwnerProfileModal";
 import { ModalType } from "@/types/modal";
+import { useEffect } from "react";
 
 // 모달 컴포넌트 매핑
 const ModalComponents = {
@@ -25,6 +26,20 @@ const ModalComponents = {
 const ModalLayout = () => {
   const { isOpen, modalType, modalProps, closeModal } = useModalStore();
 
+  // 모달이 열릴 때 body 스크롤 방지
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    // 컴포넌트가 언마운트될 때 스크롤 상태 복구
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
   if (!isOpen || !modalType || !modalProps) return null;
 
   if (!Object.keys(ModalComponents).includes(modalType)) {
@@ -36,12 +51,14 @@ const ModalLayout = () => {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-gray-100/50 p-4"
+      className="bg-black/50 fixed inset-0 z-50 flex items-center justify-center p-4"
       onClick={(e) => {
         if (e.target === e.currentTarget) closeModal();
       }}
+      role="dialog"
+      aria-modal="true"
     >
-      <div className="w-full max-w-md rounded-2xl">
+      <div className="w-full max-w-md" onClick={(e) => e.stopPropagation()}>
         <ModalComponent isOpen={isOpen} onClose={closeModal} {...(modalProps as any)} />
       </div>
     </div>,

@@ -57,53 +57,49 @@ export default function ProgressStatus({ applicationId, initialStatus, onClose, 
   };
 
   return (
-    <div className="bg-black/50 fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div
-        className={cn("h-[454px] w-[375px] rounded-3xl bg-white p-4 shadow-lg md:h-[566px] md:w-[440px]", className)}
-      >
-        <form onSubmit={handleSubmit} className="flex h-full flex-col items-center">
-          <div className="text-center">
-            <h2 className="mb-2 text-lg font-bold md:mb-3 md:text-2xl">진행상태 선택</h2>
-            <p className="text-muted-foreground mb-6 text-sm md:mb-8 md:text-base">현재 진행상태를 알려주세요.</p>
-          </div>
-          <div className="h-auto w-full md:h-[264px] md:w-[360px]">
-            <RadioGroup value={selectedValue} onValueChange={handleValueChange} className="space-y-3">
-              {radioOptions.map((option) => (
-                <RadioBtn
-                  key={option.id}
-                  label={option.label}
-                  name="progress-status"
-                  value={option.value}
-                  id={option.id}
-                  position={positionOptions.POSITION_RIGHT}
-                  className="text-sm md:text-base"
-                  disabled={isSubmitting}
-                />
-              ))}
-            </RadioGroup>
-          </div>
-          <div className="mt-auto w-full md:w-[360px]">
-            <div className="grid grid-cols-2 gap-4">
-              <Button
-                type="button"
-                onClick={onClose}
-                color="gray"
+    <div className={cn("h-[454px] w-[375px] rounded-3xl bg-white p-4 shadow-lg md:h-[566px] md:w-[440px]", className)}>
+      <form onSubmit={handleSubmit} className="flex h-full flex-col items-center">
+        <div className="text-center">
+          <h2 className="mb-2 text-lg font-bold md:mb-3 md:text-2xl">진행상태 선택</h2>
+          <p className="text-muted-foreground mb-6 text-sm md:mb-8 md:text-base">현재 진행상태를 알려주세요.</p>
+        </div>
+        <div className="h-auto w-full md:h-[264px] md:w-[360px]">
+          <RadioGroup value={selectedValue} onValueChange={handleValueChange} className="space-y-3">
+            {radioOptions.map((option) => (
+              <RadioBtn
+                key={option.id}
+                label={option.label}
+                name="progress-status"
+                value={option.value}
+                id={option.id}
+                position={positionOptions.POSITION_RIGHT}
+                className="text-sm md:text-base"
                 disabled={isSubmitting}
-                className="h-[58px] w-full text-sm font-medium hover:bg-gray-200 md:h-[72px] md:text-base"
-              >
-                취소
-              </Button>
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="h-[58px] w-full text-sm font-medium md:h-[72px] md:text-base"
-              >
-                {isSubmitting ? "변경 중..." : "선택하기"}
-              </Button>
-            </div>
+              />
+            ))}
+          </RadioGroup>
+        </div>
+        <div className="mt-auto w-full md:w-[360px]">
+          <div className="grid grid-cols-2 gap-4">
+            <Button
+              type="button"
+              onClick={onClose}
+              color="gray"
+              disabled={isSubmitting}
+              className="h-[58px] w-full text-sm font-medium hover:bg-gray-200 md:h-[72px] md:text-base"
+            >
+              취소
+            </Button>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="h-[58px] w-full text-sm font-medium md:h-[72px] md:text-base"
+            >
+              {isSubmitting ? "변경 중..." : "선택하기"}
+            </Button>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
 }
