@@ -13,7 +13,7 @@ export default meta;
 
 type Story = StoryObj<typeof ImageInputwithPlaceHolder>;
 
-export const ImageWithPlaceHolder: Story = {
+export const UploadImagePlaceHolder: Story = {
   args: {
     variant: "upload",
   },
