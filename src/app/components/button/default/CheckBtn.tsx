@@ -26,9 +26,6 @@ const CheckBtn: React.FC<CheckBtnProps> = ({
 
   return (
     <div className={`${baseStyles} ${cursorStyle}`}>
-      <label htmlFor={value} className={`text-sm ${textColor}`}>
-        {label}
-      </label>
       <input
         type="checkbox"
         id={value}
@@ -37,9 +34,12 @@ const CheckBtn: React.FC<CheckBtnProps> = ({
         checked={checked}
         onChange={onChange}
         disabled={disabled}
-        className="ml-2"
+        className="mr-2"
         {...props}
       />
+      <label htmlFor={value} className={`text-sm ${textColor}`}>
+        {label}
+      </label>
     </div>
   );
 };
