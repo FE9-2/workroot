@@ -86,36 +86,49 @@ const MyApplicationListItem = ({ createdAt, status, resumeId, resumeName, form }
   };
 
   return (
-    <div className="w-full rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-      {/* 상단 영역: 지원일시와 이력서 링크 */}
-      <div className="mb-6 flex items-center justify-between">
-        <span className="text-sm text-gray-500">지원일시 | {formatRecruitDate(createdAt)}</span>
-        <button
-          onClick={handleResumeDownload}
-          className="text-sm font-medium text-primary-orange-300 hover:text-primary-orange-400"
-        >
-          이력서 보기
-        </button>
-      </div>
-
-      {/* 가게 정보 영역 */}
-      <div className="mb-4 flex items-center gap-3">
-        <div className="relative h-12 w-12 overflow-hidden rounded-full">
-          <Image src={form.owner.imageUrl} alt={form.owner.storeName} fill className="object-cover" />
+    <div className="relative h-auto w-full overflow-hidden rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-transform duration-300 hover:scale-[1.02] sm:h-[219px] sm:w-[375px] md:h-[328px] md:w-[477px]">
+      <div className="flex h-full flex-col">
+        {/* 상단 영역: 지원일시와 이력서 링크 */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-sm text-gray-500 md:text-base">
+            <span>지원일시</span>
+            <span>|</span>
+            <span>{formatRecruitDate(createdAt, true)}</span>
+          </div>
+          <button
+            onClick={handleResumeDownload}
+            className="text-sm font-medium text-gray-500 underline decoration-gray-600/50 decoration-1 underline-offset-4 hover:cursor-pointer hover:text-gray-600 hover:decoration-gray-600 md:text-base"
+          >
+            이력서 보기
+          </button>
         </div>
-        <span className="text-base font-medium text-gray-900">{form.owner.storeName}</span>
-      </div>
 
-      {/* 제목 */}
-      <h3 className="mb-2 text-lg font-bold text-gray-900">{form.title}</h3>
+        {/* 중앙 컨텐츠 영역 */}
+        <div className="flex-1 space-y-4 py-6">
+          {/* 가게 정보 영역 */}
+          <div className="flex items-center gap-3">
+            <div className="relative h-12 w-12 overflow-hidden rounded-full md:h-14 md:w-14">
+              <Image src={form.owner.imageUrl} alt={form.owner.storeName} fill className="object-cover" />
+            </div>
+            <span className="text-base font-medium text-gray-900 md:text-lg">{form.owner.storeName}</span>
+          </div>
 
-      {/* 설명 */}
-      <p className="mb-4 line-clamp-2 text-sm text-gray-600">{form.description}</p>
+          {/* 제목 */}
+          <h3 className="text-lg font-bold text-gray-900 md:text-xl">{form.title}</h3>
 
-      {/* 상태 칩 영역 */}
-      <div className="flex gap-2">
-        <Chip label={getStatusLabel(status)} variant={getStatusVariant(status)} />
-        <Chip label={recruitmentStatus} variant={recruitmentStatus === "모집 중" ? "positive" : "negative"} />
+          {/* 설명 */}
+          <p className="line-clamp-2 text-sm text-gray-600 md:line-clamp-2 md:text-base">{form.description}</p>
+        </div>
+
+        {/* 하단 상태 칩 영역 */}
+        <div className="flex gap-2">
+          <div className="rounded-[4px] border border-primary-orange-300 md:text-base">
+            <Chip label={getStatusLabel(status)} variant={getStatusVariant(status)} />
+          </div>
+          <div className="rounded-[4px] border border-primary-orange-300 md:text-base">
+            <Chip label={recruitmentStatus} variant={recruitmentStatus === "모집 중" ? "positive" : "negative"} />
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { formatRecruitDate } from "@/utils/workDayFormatter";
 import { getRecruitmentStatus, getRecruitmentDday } from "@/utils/recruitDateFormatter";
-import { BsThreeDotsVertical, BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import { BsThreeDotsVertical, BsChevronLeft, BsChevronRight, BsDot } from "react-icons/bs";
 import Chip from "@/app/components/chip/Chip";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -156,7 +156,10 @@ const RecruitListItem = ({
             <div className="flex items-center gap-2">
               <Chip label={isPublic ? "공개" : "비공개"} variant={isPublic ? "positive" : "negative"} />
               <Chip label={recruitmentStatus} variant={recruitmentStatus === "모집 중" ? "positive" : "negative"} />
-              <span className="font-medium text-gray-500">
+              <span className="hidden font-medium text-gray-500 md:inline">
+                {formatRecruitDate(recruitmentStartDate, true)} ~ {formatRecruitDate(recruitmentEndDate, true)}
+              </span>
+              <span className="font-medium text-gray-500 md:hidden">
                 {formatRecruitDate(recruitmentStartDate)} ~ {formatRecruitDate(recruitmentEndDate)}
               </span>
             </div>
@@ -190,10 +193,18 @@ const RecruitListItem = ({
         <p className="truncate text-sm text-gray-500 md:text-base">{location}</p>
 
         {/* 통계 정보 (지원자, 스크랩, D-day) */}
-        <div className="flex h-[50px] items-center justify-center rounded-2xl border border-gray-100 text-sm text-gray-700 md:text-base">
-          <span className="font-medium">
-            지원자 {applyCount}명 | 스크랩 {scrapCount}명 | 마감 {dDay}
-          </span>
+        <div className="flex h-[50px] items-center justify-between rounded-2xl border border-gray-100 px-4 text-sm text-gray-700 md:text-base">
+          <div className="flex flex-1 items-center justify-center">
+            <span className="font-medium">지원자 {applyCount}명</span>
+          </div>
+          <div className="h-5 w-[1px] bg-gray-200/50" />
+          <div className="flex flex-1 items-center justify-center">
+            <span className="font-medium">스크랩 {scrapCount}명</span>
+          </div>
+          <div className="h-5 w-[1px] bg-gray-200/50" />
+          <div className="flex flex-1 items-center justify-center">
+            <span className="font-medium">{dDay}</span>
+          </div>
         </div>
       </div>
     </div>
