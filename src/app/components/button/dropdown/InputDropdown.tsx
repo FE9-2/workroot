@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { cn } from "@/lib/tailwindUtil";
 
-interface InputDropdownBtnProps {
+interface InputDropdownProps {
   options: string[];
   className?: string;
 }
 
-const InputDropdownBtn: React.FC<InputDropdownBtnProps> = ({ options, className = "" }) => {
+const InputDropdown: React.FC<InputDropdownProps> = ({ options, className = "" }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<string>("");
   const [isCustomInput, setIsCustomInput] = useState<boolean>(false);
@@ -68,4 +68,4 @@ const InputDropdownBtn: React.FC<InputDropdownBtnProps> = ({ options, className 
   );
 };
 
-export default InputDropdownBtn;
+export default InputDropdown;
