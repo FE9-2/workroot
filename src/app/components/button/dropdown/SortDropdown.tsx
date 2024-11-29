@@ -10,7 +10,7 @@ interface SortProps {
   onSortChange: (option: string) => void;
 }
 
-const SortBtn: React.FC<SortProps> = ({ label, options, className = "", onSortChange }) => {
+const SortDropdown: React.FC<SortProps> = ({ label, options, className = "", onSortChange }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState(label);
 
@@ -71,4 +71,4 @@ const SortBtn: React.FC<SortProps> = ({ label, options, className = "", onSortCh
   );
 };
 
-export default SortBtn;
+export default SortDropdown;
