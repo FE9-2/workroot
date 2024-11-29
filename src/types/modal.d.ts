@@ -24,7 +24,10 @@ type AlertModalProps = BaseModalProps & {
   onButtonClick: () => void;
 };
 
-type ConfirmModalProps = BaseModalProps & {
+type ConfirmFormModalProps = BaseModalProps & {
+  id: string;
+  isOpen: boolean;
+  className?: string;
   title: string;
   message: string;
   onConfirm: () => void;
@@ -45,8 +48,8 @@ export type ModalPropsMap = {
   applicationDetail: ApplicationDetailProps;
   formContinue: AlertModalProps;
   recruitmentClosed: AlertModalProps;
-  deleteForm: ConfirmModalProps;
-  selectProgress: ConfirmModalProps;
+  deleteForm: DeleteFormModalProps;
+  selectProgress: SelectProgressModalProps;
   changePassword: FormModalProps;
   editMyProfile: FormModalProps;
   editOwnerProfile: FormModalProps;

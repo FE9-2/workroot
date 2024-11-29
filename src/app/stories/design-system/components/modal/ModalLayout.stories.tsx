@@ -58,6 +58,8 @@ const ModalTester = () => {
       type: "confirm",
       onClick: () =>
         openModal("deleteForm", {
+          Id: "123",
+          isOpen: true,
           title: "알바폼 삭제할까요?",
           message: "삭제 후 정보를 복구할 수 없어요.",
           onConfirm: () => console.log("삭제 확인"),
@@ -69,6 +71,8 @@ const ModalTester = () => {
       type: "confirm",
       onClick: () =>
         openModal("selectProgress", {
+          Id: "123",
+          isOpen: true,
           title: "진행상태 선택",
           message: "현재 진행상태를 알려주세요.",
           onConfirm: () => console.log("상태 변경 확인"),

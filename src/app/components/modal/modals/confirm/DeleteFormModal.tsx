@@ -4,16 +4,9 @@ import Image from "next/image";
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import type { ConfirmFormModalProps } from "@/types/modal";
 
-interface DeleteFormModalProps {
-  formId: string;
-  isOpen: boolean;
-  onConfirm: () => void;
-  onClose: () => void;
-  className?: string;
-}
-
-const DeleteFormModal = ({ formId, isOpen, onConfirm, onClose, className }: DeleteFormModalProps) => {
+const DeleteFormModal = ({ id, isOpen, onClose, onConfirm, className }: ConfirmFormModalProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
 
   if (!isOpen) return null;
@@ -24,9 +17,10 @@ const DeleteFormModal = ({ formId, isOpen, onConfirm, onClose, className }: Dele
 
     try {
       setIsDeleting(true);
-      await axios.delete(`/api/forms/${formId}`);
-      onConfirm();
-      onClose();
+      await axios.delete(`/api/forms/${id}`);
+      toast.success("알바폼이 삭제되었습니다.");
+      onConfirm?.();
+      onClose?.();
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const errorMessage = error.response?.data?.message || "알바폼 삭제에 실패했습니다.";
