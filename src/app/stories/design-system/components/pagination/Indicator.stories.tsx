@@ -18,7 +18,4 @@ export const IndicatorForCarousel: Story = {
   args: {
     imageCount: 3,
   },
-  argTypes: {
-    selectedId: { control: "radio", options: [0, 1, 2] },
-  },
 };
