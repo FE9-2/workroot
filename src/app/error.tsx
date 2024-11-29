@@ -2,10 +2,10 @@
 
 import React, { useEffect } from "react";
 import { Player } from "@lottiefiles/react-lottie-player"; // Lottie 애니메이션 Player
-import { handleError } from "@/utils/handleError"; // 유틸리티 함수
-import { getErrorMessage } from "@/utils/getErrorMessage"; // 사용자 친화적 메시지
-import { AuthenticationError } from "@/types/error";
-import Button from "@/app/components/button/default/Button"; // 버튼 컴포넌트
+import { handleError } from "../utils/handleError"; // 유틸리티 함수
+import { getErrorMessage } from "../utils/getErrorMessage"; // 사용자 친화적 메시지
+import { AuthenticationError } from "../types/error";
+import Button from "../app/components/button/Button"; // 버튼 컴포넌트
 
 interface GlobalErrorProps {
   error: Error; // 에러 객체 타입
