@@ -7,7 +7,7 @@ interface SubmitContCardProps {
   submitContData: ApplicationResponse;
 }
 
-// 지원내용 카드 컴포넌트
+// 제출내용 카드 컴포넌트
 const Devider = () => <div className="border-b-[1px] border-line-200" />;
 
 const SubmitContCard = ({ submitContData }: SubmitContCardProps) => {
