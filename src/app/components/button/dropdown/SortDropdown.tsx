@@ -10,7 +10,7 @@ interface SortProps {
   onSortChange: (option: string) => void;
 }
 
-const SortBtn: React.FC<SortProps> = ({ label, options, className = "", onSortChange }) => {
+const SortDropdown: React.FC<SortProps> = ({ label, options, className = "", onSortChange }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState(label);
 
@@ -30,16 +30,14 @@ const SortBtn: React.FC<SortProps> = ({ label, options, className = "", onSortCh
         <button
           type="button"
           onClick={toggleDropdown}
-          className={cn("flex w-full items-center justify-between rounded-md font-medium text-gray-700", "bg-white")}
+          className={cn(
+            "flex w-full items-center justify-between rounded-md font-medium text-gray-700",
+            "bg-transparent"
+          )}
         >
           <span>{selectedLabel}</span>
-          <span
-            className={cn(
-              "transition-transform duration-200",
-              isOpen ? "rotate-180 text-gray-200" : "hover:text-gray-200"
-            )}
-          >
-            <IoIosArrowDown />
+          <span className={cn("transition-transform duration-200", isOpen ? "rotate-180" : "")}>
+            <IoIosArrowDown className="text-gray-200" />
           </span>
         </button>
       </div>
@@ -59,7 +57,7 @@ const SortBtn: React.FC<SortProps> = ({ label, options, className = "", onSortCh
                   onClick={() => handleSelect(option)}
                   className={cn(
                     "cursor-pointer rounded-md py-2 text-center",
-                    "text-gray-200 hover:bg-primary-orange-100 hover:text-gray-700"
+                    "text-gray-200 hover:bg-primary-orange-50 hover:font-bold hover:text-gray-700"
                   )}
                 >
                   {option}
@@ -73,4 +71,4 @@ const SortBtn: React.FC<SortProps> = ({ label, options, className = "", onSortCh
   );
 };
 
-export default SortBtn;
+export default SortDropdown;
