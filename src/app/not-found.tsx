@@ -35,7 +35,7 @@ export default function NotFound() {
           variant="solid"
           width="sm"
           radius="full"
-          className="bg-gray-500 text-white hover:bg-gray-600"
+          className="bg-primary-gray-500 hover:bg-primary-gray-600 text-white"
           onClick={() => window.history.back()}
         >
           뒤로 가기

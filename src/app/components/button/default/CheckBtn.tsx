@@ -1,8 +1,9 @@
 "use client";
 import React, { InputHTMLAttributes } from "react";
+import { cn } from "@/lib/tailwindUtil";
 
 interface CheckBtnProps extends InputHTMLAttributes<HTMLInputElement> {
-  label: string; // 체크박스의 레이블을 추가
+  label: string; // 체크박스의 레이블
   name: string; // 체크박스의 name 속성
   value: string; // 체크박스의 value 속성
   checked?: boolean; // 체크박스가 선택된 상태인지 여부
@@ -19,14 +20,14 @@ const CheckBtn: React.FC<CheckBtnProps> = ({
   onChange,
   ...props
 }) => {
-  const baseStyles = "flex items-center justify-between rounded-lg p-2";
-
-  const textColor = disabled ? "text-gray-400" : "text-black";
-  const cursorStyle = disabled ? "cursor-not-allowed" : "cursor-pointer";
-
   return (
-    <div className={`${baseStyles} ${cursorStyle}`}>
-      <label htmlFor={value} className={`text-sm ${textColor}`}>
+    <div
+      className={cn(
+        "flex items-center justify-between rounded-lg p-2",
+        disabled ? "cursor-not-allowed" : "cursor-pointer"
+      )}
+    >
+      <label htmlFor={value} className={cn("text-sm", disabled ? "text-gray-400" : "text-black")}>
         {label}
       </label>
       <input

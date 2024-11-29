@@ -5,7 +5,7 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./stories/**/*.{js,ts,jsx,tsx}", // Storybook의 스토리 파일 경로 추가
+    "./stories/**/*.{js,ts,jsx,tsx}",
     "./src/app/globals.css",
     "./src/stories/**/*.{js,ts,jsx,tsx,mdx}",
   ],
