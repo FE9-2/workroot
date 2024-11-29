@@ -9,7 +9,7 @@ interface FilterDropdownProps {
   className?: string;
 }
 
-const FilterDropdown: React.FC<FilterDropdownProps> = ({ options, className = "" }) => {
+const FilterDropdown = ({ options, className = "" }: FilterDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState(options[0]);
 

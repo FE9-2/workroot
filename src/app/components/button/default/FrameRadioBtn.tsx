@@ -12,7 +12,7 @@ interface FrameRadioBtnProps extends ButtonHTMLAttributes<HTMLInputElement> {
   disabled?: boolean; // 라디오 버튼이 비활성화된 상태인지 여부
 }
 
-const FrameRadioBtn: React.FC<FrameRadioBtnProps> = ({ width = "sm", checked = false, disabled = false, ...props }) => {
+const FrameRadioBtn = ({ width = "sm", checked = false, disabled = false, ...props }: FrameRadioBtnProps) => {
   const baseStyles = "flex items-center justify-between rounded-lg border px-5 py-4";
 
   const widths = {

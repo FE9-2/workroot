@@ -2,10 +2,17 @@ import React from "react";
 import { FormDetailResponse } from "@/types/response/form";
 import { cn } from "@/lib/tailwindUtil";
 
+// 모집상세 카드 컴포넌트
 const Devider = () => <div className="border-b-[1px] border-line-200" />;
-const RecruitDetail: React.FC<{ recruitData: FormDetailResponse }> = ({ recruitData }) => {
+
+interface RecruitDetailProps {
+  recruitData: FormDetailResponse;
+}
+
+const RecruitDetail = ({ recruitData }: RecruitDetailProps) => {
   const titleStyle = "text-black-100";
   const propsStyle = "flex items-center justify-between md:py-4";
+
   return (
     <div className="flex h-[156px] w-[375px] flex-col justify-center gap-3 rounded-lg border border-line-100 bg-white px-6 py-3 text-sm md:h-[336px] md:w-[640px] md:gap-6 md:text-lg">
       <div className={cn(propsStyle)}>

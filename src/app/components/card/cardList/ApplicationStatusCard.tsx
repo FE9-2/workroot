@@ -1,9 +1,16 @@
+"use client";
 import React from "react";
 import { FormListType } from "@/types/response/form";
 import { cn } from "@/lib/tailwindUtil";
 import { FaBookmark } from "react-icons/fa6";
 import { MdPeopleAlt } from "react-icons/md";
-const ApplicationStatusCard: React.FC<{ formData: FormListType }> = ({ formData }) => {
+
+interface ApplicationStatusCardProps {
+  formData: FormListType;
+}
+
+// 지원현황 카드 컴포넌트
+const ApplicationStatusCard = ({ formData }: ApplicationStatusCardProps) => {
   const propsStyle = "flex items-center gap-4 md:gap-6";
   const iconStyle = "text-sm md:text-xl";
   const titleStyle = "min-w-[60px] md:min-w-[80px]";
