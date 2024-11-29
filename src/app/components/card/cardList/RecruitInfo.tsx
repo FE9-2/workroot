@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { formatRecruitDate, getWorkDaysDisplay } from "@/utils/workDayFormatter";
+import { formatRecruitDate, getWorkDaysDisplay } from "@/utils/dateFormatter";
 
 interface RecruitInfoProps {
   hourlyWage: number;

@@ -35,7 +35,7 @@ type ConfirmFormModalProps = BaseModalProps & {
 };
 
 type ApplicationDetailProps = BaseModalProps & {
-  formId: string;
+  id: string;
   title: string;
   applicationDate?: string;
   applicationStatus?: string;
@@ -48,8 +48,8 @@ export type ModalPropsMap = {
   applicationDetail: ApplicationDetailProps;
   formContinue: AlertModalProps;
   recruitmentClosed: AlertModalProps;
-  deleteForm: DeleteFormModalProps;
-  selectProgress: SelectProgressModalProps;
+  deleteForm: ConfirmFormModalProps;
+  selectProgress: ConfirmFormModalProps;
   changePassword: FormModalProps;
   editMyProfile: FormModalProps;
   editOwnerProfile: FormModalProps;

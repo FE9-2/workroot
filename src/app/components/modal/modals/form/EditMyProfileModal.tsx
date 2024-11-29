@@ -128,7 +128,7 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
   return (
     <div
       className={cn(
-        "relative h-[610px] w-[375px] overflow-hidden rounded-2xl bg-white p-6 shadow-lg sm:p-8 md:h-[818px] md:w-[720px]",
+        "relative left-1/2 h-[610px] w-[375px] -translate-x-1/2 overflow-hidden rounded-2xl bg-white p-6 shadow-lg sm:p-8 md:h-[818px] md:w-[720px]",
         className
       )}
     >

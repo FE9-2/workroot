@@ -11,7 +11,7 @@ interface RecruitConditionProps {
   workEndTime: string;
 }
 
-const RecruitCondition = ({
+export const RecruitCondition: React.FC<RecruitConditionProps> = ({
   hourlyWage,
   recruitmentStartDate,
   recruitmentEndDate,
@@ -19,7 +19,7 @@ const RecruitCondition = ({
   workDays = [],
   workStartTime,
   workEndTime,
-}: RecruitConditionProps) => {
+}) => {
   return (
     <div className="h-auto w-full sm:h-[156px] sm:w-[327px] sm:p-3 md:h-[336px] md:w-[640px]">
       <div className="grid h-full grid-cols-2 gap-2 sm:gap-3">

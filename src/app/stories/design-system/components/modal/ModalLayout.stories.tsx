@@ -1,4 +1,5 @@
 import ModalLayout from "@/app/components/modal/ModalLayout";
+import { NextRouterProvider } from "@/app/providers/NextRouterProvider";
 import useModalStore from "@/store/modalStore";
 import type { Meta, StoryObj } from "@storybook/react";
 
@@ -8,6 +9,15 @@ const meta: Meta<typeof ModalLayout> = {
   parameters: {
     layout: "centered",
   },
+  decorators: [
+    (Story) => (
+      <NextRouterProvider>
+        <div className="bg-white">
+          <Story />
+        </div>
+      </NextRouterProvider>
+    ),
+  ],
 };
 
 export default meta;
@@ -22,7 +32,7 @@ const ModalTester = () => {
       type: "detail",
       onClick: () =>
         openModal("applicationDetail", {
-          formId: "123",
+          id: "123",
           title: "지원서 상세",
           applicationDate: "2024-03-21 14:30",
           applicationStatus: "서류 검토중",
@@ -58,7 +68,7 @@ const ModalTester = () => {
       type: "confirm",
       onClick: () =>
         openModal("deleteForm", {
-          Id: "123",
+          id: "123",
           isOpen: true,
           title: "알바폼 삭제할까요?",
           message: "삭제 후 정보를 복구할 수 없어요.",
@@ -71,7 +81,7 @@ const ModalTester = () => {
       type: "confirm",
       onClick: () =>
         openModal("selectProgress", {
-          Id: "123",
+          id: "123",
           isOpen: true,
           title: "진행상태 선택",
           message: "현재 진행상태를 알려주세요.",
@@ -140,8 +150,10 @@ const ModalTester = () => {
 
 export const ModalTest: Story = {
   render: () => (
-    <div className="min-h-[600px] bg-background-200 p-4">
-      <ModalTester />
-    </div>
+    <NextRouterProvider>
+      <div className="min-h-[600px] bg-background-200 p-4">
+        <ModalTester />
+      </div>
+    </NextRouterProvider>
   ),
 };

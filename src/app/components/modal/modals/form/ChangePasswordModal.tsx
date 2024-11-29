@@ -96,7 +96,7 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
   return (
     <div
       className={cn(
-        "relative h-[484px] w-[375px] overflow-hidden rounded-2xl bg-white p-6 shadow-lg sm:p-8 md:h-[666px] md:w-[720px]",
+        "relative left-1/2 h-[484px] w-[375px] -translate-x-1/2 overflow-hidden rounded-2xl bg-white p-6 shadow-lg sm:p-8 md:h-[666px] md:w-[720px]",
         className
       )}
     >

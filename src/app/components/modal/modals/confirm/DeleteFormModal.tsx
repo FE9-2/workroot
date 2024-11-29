@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/tailwindUtil";
 import Button from "@/app/components/button/default/Button";
 import Image from "next/image";
@@ -36,7 +38,7 @@ const DeleteFormModal = ({ id, isOpen, onClose, onConfirm, className }: ConfirmF
   return (
     <div
       className={cn(
-        "h-[330px] w-[375px] rounded-3xl bg-white pb-8 pt-4 shadow-lg md:h-[440px] md:w-[520px]",
+        "relative left-1/2 h-[330px] w-[375px] -translate-x-1/2 rounded-3xl bg-white pb-8 pt-4 shadow-lg md:h-[440px] md:w-[520px]",
         className
       )}
     >

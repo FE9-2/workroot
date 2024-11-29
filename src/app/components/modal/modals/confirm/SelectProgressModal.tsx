@@ -50,6 +50,12 @@ const SelectProgressModal = ({ id, isOpen, onClose, className }: ConfirmFormModa
     }
   };
 
+  const handleCancel = () => {
+    if (onClose) {
+      onClose();
+    }
+  };
+
   return (
     <div className={cn("h-[454px] w-[375px] rounded-3xl bg-white p-4 shadow-lg md:h-[566px] md:w-[440px]", className)}>
       <form onSubmit={handleSubmit} className="flex h-full flex-col items-center">
@@ -77,7 +83,7 @@ const SelectProgressModal = ({ id, isOpen, onClose, className }: ConfirmFormModa
           <div className="grid grid-cols-2 gap-4">
             <Button
               type="button"
-              onClick={onClose}
+              onClick={handleCancel}
               color="gray"
               disabled={isSubmitting}
               className="h-[58px] w-full text-sm font-medium hover:bg-gray-200 md:h-[72px] md:text-base"

@@ -27,7 +27,7 @@ interface RecruitListItemProps {
  * 알바 정보를 카드 형태로 표시하며, 이미지 슬라이더와 수정/삭제 기능을 포함
  */
 const RecruitListItem = ({
-  id, // formId를 id로 변경
+  id,
   imageUrls,
   isPublic,
   recruitmentStartDate,
@@ -76,10 +76,14 @@ const RecruitListItem = ({
     setShowDropdown(false);
     openModal("deleteForm", {
       id,
+      isOpen: true,
+      title: "삭제 확인",
+      message: "정말로 삭제하시겠습니까?",
       onConfirm: () => {
         router.push("/albaList");
         router.refresh();
       },
+      onCancel: () => {},
     });
   };
 
@@ -165,11 +169,11 @@ const RecruitListItem = ({
             {/* 드롭다운 메뉴 */}
             {showDropdown && (
               <div className="absolute right-0 top-8 z-10 w-32 rounded-lg border border-gray-200 bg-white py-2 shadow-lg">
-                <button className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100" onClick={handleEdit}>
+                <button className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100" onClick={handleEdit}>
                   수정하기
                 </button>
                 <button
-                  className="w-full px-4 py-2 text-left text-sm text-red-500 hover:bg-gray-100"
+                  className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100"
                   onClick={handleDelete}
                 >
                   삭제하기
