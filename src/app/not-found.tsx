@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { Player } from "@lottiefiles/react-lottie-player"; // Lottie Player import
-import Button from "../app/components/button/Button";
+import Button from "../app/components/button/default/Button";
 
 export default function NotFound() {
   return (
