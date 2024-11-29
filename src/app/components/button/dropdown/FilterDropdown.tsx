@@ -30,7 +30,9 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ options, className = ""
           className={cn(
             "flex w-full items-center justify-between rounded-md border p-2 font-medium shadow-sm",
             "text-gray-700 hover:bg-primary-orange-50",
-            selectedLabel === options[0] ? "border-gray-50 bg-white" : "border-primary-orange-300 bg-primary-orange-50"
+            selectedLabel === options[0]
+              ? "border border-gray-100 bg-white"
+              : "border-primary-orange-300 bg-primary-orange-50"
           )}
           onClick={toggleDropdown}
         >
@@ -47,7 +49,14 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ options, className = ""
         </button>
       </div>
 
-      {isOpen && <DropdownList list={options} onSelect={handleSelect} wrapperStyle="h-full" />}
+      {isOpen && (
+        <DropdownList
+          list={options}
+          onSelect={handleSelect}
+          wrapperStyle="h-full w-[80px] md:w-[126px]"
+          itemStyle="md:text-lg text-xs "
+        />
+      )}
     </div>
   );
 };
