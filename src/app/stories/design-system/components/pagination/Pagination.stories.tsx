@@ -25,6 +25,6 @@ export const DefaultPagination: Story = {
     totalPage: 8,
   },
   argTypes: {
-    totalPage: { control: "number" },
+    totalPage: { control: "range" },
   },
 };

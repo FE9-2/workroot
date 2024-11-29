@@ -19,7 +19,6 @@ const Pagination = ({ totalPage }: { totalPage: number }) => {
     .map((_, index) => index + 1);
   const handleChangePage = (page: number) => {
     setCurrentPage(page);
-    console.log(page);
   };
   return (
     <div className="flex gap-1">
