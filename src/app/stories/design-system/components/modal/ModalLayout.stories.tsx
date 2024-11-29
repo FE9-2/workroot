@@ -1,5 +1,4 @@
 import ModalLayout from "@/app/components/modal/ModalLayout";
-import { NextRouterProvider } from "@/app/providers/NextRouterProvider";
 import useModalStore from "@/store/modalStore";
 import type { Meta, StoryObj } from "@storybook/react";
 
@@ -11,11 +10,9 @@ const meta: Meta<typeof ModalLayout> = {
   },
   decorators: [
     (Story) => (
-      <NextRouterProvider>
-        <div className="bg-white">
-          <Story />
-        </div>
-      </NextRouterProvider>
+      <div className="bg-white">
+        <Story />
+      </div>
     ),
   ],
 };
@@ -150,10 +147,8 @@ const ModalTester = () => {
 
 export const ModalTest: Story = {
   render: () => (
-    <NextRouterProvider>
-      <div className="min-h-[600px] bg-background-200 p-4">
-        <ModalTester />
-      </div>
-    </NextRouterProvider>
+    <div className="min-h-[600px] bg-background-200 p-4">
+      <ModalTester />
+    </div>
   ),
 };
