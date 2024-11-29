@@ -21,6 +21,7 @@ const config: Config = {
           500: "#040404",
         },
         gray: {
+          50: "#F2F2F2",
           100: "#DEDEDE",
           200: "#C4C4C4",
           300: "#ABABAB",
