@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 import PaginationBtn from "./paginationComponent/PaginationBtn";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import useWidth from "@/hooks/useWidth";
+import { cn } from "@/lib/tailwindUtil";
 
 const Pagination = ({ totalPage }: { totalPage: number }) => {
-  const { isMobile, width } = useWidth();
+  const { isMobile } = useWidth();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [disbled, setDisabled] = useState({
     prev: false,
@@ -28,6 +29,10 @@ const Pagination = ({ totalPage }: { totalPage: number }) => {
 
   const handleClickPrevBtn = () => {
     if (firstPage === 1) {
+      setDisabled((origin) => ({
+        ...origin,
+        prev: true,
+      }));
       return;
     } else if (firstPage - maxPageShow <= 0) {
       const newPageList = Array(paginationNum)
@@ -41,6 +46,10 @@ const Pagination = ({ totalPage }: { totalPage: number }) => {
 
   const handleClickNetxBtn = () => {
     if (totalPage <= maxPageShow || lastPage === totalPage) {
+      setDisabled((origin) => ({
+        ...origin,
+        next: true,
+      }));
       return;
     } else if (lastPage === totalPage - 1 || lastPage + maxPageShow > totalPage) {
       const newPageList = Array(paginationNum)
@@ -49,12 +58,7 @@ const Pagination = ({ totalPage }: { totalPage: number }) => {
       setPageList(newPageList);
     } else {
       setPageList((prev) => prev.map((page) => page + maxPageShow));
-      setDisabled((prev) => ({
-        ...prev,
-        next: true,
-      }));
     }
-    console.log(pageList);
   };
 
   const handleChangePage = (page: number) => {
@@ -70,38 +74,37 @@ const Pagination = ({ totalPage }: { totalPage: number }) => {
       .fill(null)
       .map((_, index) => firstPage + index);
     setPageList(newPageList);
-  }, [isMobile, totalPage, maxPageShow, paginationNum]);
+  }, [isMobile, totalPage, maxPageShow, paginationNum, firstPage]);
 
-  // disabled/active 스타일
   return (
     <div className="flex gap-1">
       <li onClick={handleClickPrevBtn}>
-        <PaginationBtn extraStyle="mr-[6px]">
-          <IoIosArrowBack />
+        <PaginationBtn extraStyle="mr-[6px]" disabled={disbled.prev}>
+          <IoIosArrowBack className={cn(disbled.prev ? defaultStyle : activeStyle)} />
         </PaginationBtn>
       </li>
       <ul className="flex gap-1">
         {pageList.map((page) => (
           <li key={page} onClick={() => handleChangePage(page)}>
-            <PaginationBtn>{page}</PaginationBtn>
+            <PaginationBtn extraStyle={page === currentPage ? activeStyle : ""}>{page}</PaginationBtn>
           </li>
         ))}
       </ul>
       {totalPage > maxPageShow + 2 && lastPage < totalPage - 1 ? (
         <>
-          <li className="cursor-none">
+          <li>
             <PaginationBtn> ... </PaginationBtn>
           </li>
           <li key={totalPage} onClick={() => handleChangePage(totalPage)}>
-            <PaginationBtn> {totalPage} </PaginationBtn>
+            <PaginationBtn extraStyle={totalPage === currentPage ? activeStyle : ""}> {totalPage} </PaginationBtn>
           </li>
         </>
       ) : (
         <></>
       )}
       <li onClick={handleClickNetxBtn}>
-        <PaginationBtn extraStyle="ml-[6px]">
-          <IoIosArrowForward />
+        <PaginationBtn extraStyle="ml-[6px]" disabled={disbled.next}>
+          <IoIosArrowForward className={cn(disbled.next ? "" : activeStyle)} />
         </PaginationBtn>
       </li>
     </div>
