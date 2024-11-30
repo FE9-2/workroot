@@ -1,6 +1,7 @@
 import { formatRecruitDate, getWorkDaysDisplay } from "@/utils/workDayFormatter";
 import RecruitIconItem from "./RecruitIconItem";
 
+// 채용 공고 아이콘 컴포넌트의 Props 인터페이스
 interface RecruitIconProps {
   hourlyWage: number;
   recruitmentStartDate: Date;
@@ -11,6 +12,7 @@ interface RecruitIconProps {
   workEndTime: string;
 }
 
+// 채용 공고의 근무 조건을 아이콘으로 표시하는 컴포넌트
 export const RecruitIcon = ({
   hourlyWage,
   recruitmentStartDate,
@@ -20,11 +22,14 @@ export const RecruitIcon = ({
   workStartTime,
   workEndTime,
 }: RecruitIconProps) => {
+  // 모집 기간을 반응형으로 표시하는 컴포넌트
   const periodValue = (
     <>
+      {/* 모바일에서 표시되는 기간 형식 */}
       <span className="whitespace-normal md:hidden">
         {formatRecruitDate(recruitmentStartDate)}~{formatRecruitDate(recruitmentEndDate)}
       </span>
+      {/* 데스크탑에서 표시되는 기간 형식 */}
       <span className="hidden whitespace-normal md:inline">
         {formatRecruitDate(recruitmentStartDate, true)}~
         <br />
@@ -33,6 +38,7 @@ export const RecruitIcon = ({
     </>
   );
 
+  // 근무 조건 데이터 배열
   const conditions = [
     {
       icon: {
@@ -69,7 +75,9 @@ export const RecruitIcon = ({
   ];
 
   return (
+    // 반응형 컨테이너
     <div className="h-auto w-full sm:h-[156px] sm:w-[327px] sm:p-3 md:h-[336px] md:w-[640px]">
+      {/* 2x2 그리드 레이아웃 */}
       <div className="grid h-full grid-cols-2 gap-2 sm:gap-3">
         {conditions.map((condition, index) => (
           <RecruitIconItem key={index} icon={condition.icon} label={condition.label} value={condition.value} />

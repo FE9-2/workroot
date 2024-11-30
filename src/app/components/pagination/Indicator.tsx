@@ -1,11 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import { GoDotFill } from "react-icons/go";
 
-const Indicator = ({ imageCount }: { imageCount: number }) => {
-  // 상세폼 이미지 캐러셀 하단 페이지네이션 컴포넌트
-  const [currentPage, setCurrentPage] = useState<number>(1);
+interface IndicatorProps {
+  imageCount: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+}
+
+const Indicator = ({ imageCount, currentPage, onPageChange }: IndicatorProps) => {
   const activeStyle = "size-4 text-gray-300 opacity-60";
   const defaultStyle = "size-3 text-gray-50 opacity-60";
 
@@ -15,7 +18,7 @@ const Indicator = ({ imageCount }: { imageCount: number }) => {
     .map((_, index) => (
       <GoDotFill
         key={index}
-        onClick={() => setCurrentPage(index)}
+        onClick={() => onPageChange(index)}
         className={currentPage === index ? activeStyle : defaultStyle}
       />
     ));

@@ -9,6 +9,7 @@ interface RecruitIconItemProps {
   value: string | React.ReactNode;
 }
 
+// 채용 공고의 근무 조건을 아이콘으로 표시하는 컴포넌트의 아이템 컴포넌트
 const RecruitIconItem = ({ icon, label, value }: RecruitIconItemProps) => {
   return (
     <div className="flex items-center gap-2 overflow-hidden rounded-lg border border-gray-200 p-1 sm:p-3 md:gap-6 md:p-6">
