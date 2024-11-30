@@ -1,3 +1,4 @@
+"use client";
 import { useDropdownOpen } from "@/hooks/useDropdownOpen";
 import BaseInput from "../text/BaseInput";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";

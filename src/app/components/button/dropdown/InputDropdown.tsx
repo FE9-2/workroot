@@ -7,7 +7,7 @@ interface InputDropdownProps {
   className?: string;
 }
 
-const InputDropdown: React.FC<InputDropdownProps> = ({ options, className = "" }) => {
+const InputDropdown = ({ options, className = "" }: InputDropdownProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<string>("");
   const [isCustomInput, setIsCustomInput] = useState<boolean>(false);

@@ -21,7 +21,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
  * @param props - 추가 버튼 속성
  * @returns 버튼 컴포넌트
  */
-const Button: React.FC<ButtonProps> = ({
+const Button = ({
   className = "",
   variant = "solid",
   width = "md",
@@ -31,7 +31,7 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   children,
   ...props
-}) => {
+}: ButtonProps) => {
   const baseStyles = "inline-flex items-center justify-center transition-colors font-medium h-12";
 
   const colorStyles = {
