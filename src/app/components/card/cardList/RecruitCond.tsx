@@ -16,7 +16,7 @@ const RecruitCond = ({ recruitData }: RecruitCondProps) => {
         <span className={cn(titleStyle)}>모집 인원</span>
         <div>
           <strong>{recruitData.numberOfPositions}명</strong>
-          <span className="text-gray-500 md:text-base">(인원미정)</span>
+          <span className="text-grayscale-500 md:text-base">(인원미정)</span>
         </div>
       </div>
 

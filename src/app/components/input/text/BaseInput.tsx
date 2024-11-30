@@ -56,13 +56,13 @@ const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
       white: {
         bgColor: "bg-background-200",
         borderColor: "border border-transparent",
-        hoverColor: anotherHoverStyle || "hover:border-gray-200 hover:bg-background-300",
+        hoverColor: anotherHoverStyle || "hover:border-grayscale-200 hover:bg-background-300",
         focusColor: "[&:has(input:focus)]:border-primary-orange-300 caret-primary-orange-300",
       },
       transparent: {
         bgColor: "bg-transparent",
-        borderColor: "border-[0.5px] border-gray-200",
-        hoverColor: "hover:border-gray-300",
+        borderColor: "border-[0.5px] border-grayscale-200",
+        hoverColor: "hover:border-grayscale-300",
         focusColor: "[&:has(input:focus)]:border-primary-orange-300 caret-primary-orange-300",
       },
     };
@@ -73,7 +73,7 @@ const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
     // input style
     const baseStyle = "focus:outline-none h-full w-full";
     const textStyle =
-      "text-black-400 placeholder:text-gray-400 text-sm font-normal leading-[26px] lg:text-base lg:leading-8";
+      "text-black-400 placeholder:text-grayscale-400 text-sm font-normal leading-[26px] lg:text-base lg:leading-8";
 
     // wrapperStyle
     const variantStyle = `${variants[variant].bgColor} ${variants[variant].borderColor} ${variants[variant].hoverColor} ${variants[variant].focusColor}`;
@@ -104,7 +104,7 @@ const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
           />
           {type === "password" && (
             <div onClick={toggleType} className="cursor-pointer">
-              {eyeOn ? <LuEye className="text-gray-200" /> : <LuEyeOff className="text-gray-200" />}
+              {eyeOn ? <LuEye className="text-grayscale-200" /> : <LuEyeOff className="text-grayscale-200" />}
             </div>
           )}
           {afterIcon && <div>{afterIcon}</div>}

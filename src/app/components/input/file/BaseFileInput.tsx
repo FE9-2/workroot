@@ -7,7 +7,7 @@ const BaseFileInput = (props: BaseFileInputProps) => {
   const colorStyle = {
     bgColor: "bg-background-200",
     borderColor: "border border-transparent",
-    hoverColor: "hover:border-gray-200 hover:bg-background-300",
+    hoverColor: "hover:border-grayscale-200 hover:bg-background-300",
     focusColor: "[&:has(input:focus)]:border-primary-orange-300 caret-primary-orange-300",
     innerHoverColor: "hover:bg-background-300",
   };
@@ -30,7 +30,7 @@ const BaseFileInput = (props: BaseFileInputProps) => {
   const wrapperStyle = `relative flex gap-2 items-center justify-between rounded-lg border-[0.5px] p-[14px] lg:py-4 ${wrapperColorStyle} ${sizeStyles}`;
 
   const innerColorStyle = `${colorStyle.innerHoverColor}`;
-  const fakeInputStyle = `text-gray-400 flex items-center border-none text-base leading-[26px] lg:text-xl lg:leading-[32px] ${innerColorStyle}`;
+  const fakeInputStyle = `text-grayscale-400 flex items-center border-none text-base leading-[26px] lg:text-xl lg:leading-[32px] ${innerColorStyle}`;
 
   // 라벨 클릭 시 input 클릭 - 파일 선택 창 열기 / 파일 다운로드
   const inputRef = useRef<HTMLInputElement>(null);

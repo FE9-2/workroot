@@ -12,7 +12,7 @@ const LocationInput = ({ type, variant, ...props }: BaseInputProps) => {
     <BaseInput
       type="text"
       variant="white"
-      beforeIcon={<IoLocationSharp className="size-6 text-gray-100 lg:size-9" />}
+      beforeIcon={<IoLocationSharp className="text-grayscale-100 size-6 lg:size-9" />}
       placeholder="위치를 입력해주세요."
       errorMessage={errorMessage}
       feedbackMessage={feedbackMessage}

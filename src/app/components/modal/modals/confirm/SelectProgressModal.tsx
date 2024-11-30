@@ -86,7 +86,7 @@ const SelectProgressModal = ({ id, isOpen, onClose, className }: ConfirmFormModa
               onClick={handleCancel}
               color="gray"
               disabled={isSubmitting}
-              className="h-[58px] w-full text-sm font-medium hover:bg-gray-200 md:h-[72px] md:text-base"
+              className="hover:bg-grayscale-200 h-[58px] w-full text-sm font-medium md:h-[72px] md:text-base"
             >
               취소
             </Button>

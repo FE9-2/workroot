@@ -104,7 +104,7 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
       <form onSubmit={handleSubmit(onSubmitHandler)} className="space-y-4 md:space-y-6">
         {defaultFields.map((field) => (
           <div key={field.name} className="h-[88px] space-y-1.5 md:h-[114px] md:space-y-2">
-            <label className="block text-sm font-semibold text-gray-700 md:px-2 md:text-base">{field.label}</label>
+            <label className="text-grayscale-700 block text-sm font-semibold md:px-2 md:text-base">{field.label}</label>
             <div className="flex w-full flex-col items-center">
               <BaseInput
                 {...register(field.name)}
@@ -126,7 +126,7 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
               reset();
             }}
             disabled={isSubmitting}
-            className="flex-1 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 md:text-base"
+            className="border-grayscale-300 text-grayscale-700 hover:bg-grayscale-50 flex-1 rounded-md border bg-white px-4 py-2 text-sm font-semibold transition-colors md:text-base"
           >
             취소
           </button>

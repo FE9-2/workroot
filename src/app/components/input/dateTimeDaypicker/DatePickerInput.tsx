@@ -49,7 +49,7 @@ const DatePickerInput = () => {
           type="text"
           placeholder="시작일 ~ 종료일"
           variant="white"
-          beforeIcon={<BsCalendar4 className="size-[18px] text-gray-200" />}
+          beforeIcon={<BsCalendar4 className="text-grayscale-200 size-[18px]" />}
           afterIcon={<IoMdArrowDropup className={`${iconStyle} ${isOpen ? "rotate-180" : ""}`} />}
           value={dateValue || ""}
           readOnly

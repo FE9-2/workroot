@@ -22,7 +22,7 @@ const Chip: React.FC<ChipProps> = ({ label = "Label", variant, border, icon, tex
     ? "px-[10px] py-1 md:px-[14.5px] md:py-1 lg:px-[10px] lg:py-[6px]"
     : "px-2 py-1 md:px-[10px] lg:py-[6px] lg:px-3";
   const varioantStyle =
-    variant === "positive" ? "bg-primary-orange-50 text-primary-orange-300" : "bg-line-100 text-gray-200";
+    variant === "positive" ? "bg-primary-orange-50 text-primary-orange-300" : "bg-line-100 text-grayscale-200";
   const baseTextStyle =
     "text-xs leading-[20px] md:text-sm md:leading-[24px] lg:text-base lg:leading-[26px] font-medium";
   const borderStyle = border ? "border border-primary-orange-100" : "";

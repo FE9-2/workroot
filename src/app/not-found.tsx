@@ -17,8 +17,8 @@ export default function NotFound() {
 
       {/* 에러 메시지 */}
       <div className="mb-8 px-4 text-center">
-        <h1 className="mb-4 text-2xl font-bold text-gray-800">페이지가 존재하지 않습니다</h1>
-        <p className="text-base text-gray-600">URL이 올바른지 확인해 보시거나, 아래 버튼을 눌러 이동해 주세요</p>
+        <h1 className="text-grayscale-800 mb-4 text-2xl font-bold">페이지가 존재하지 않습니다</h1>
+        <p className="text-grayscale-600 text-base">URL이 올바른지 확인해 보시거나, 아래 버튼을 눌러 이동해 주세요</p>
       </div>
 
       {/* 버튼 */}
@@ -35,7 +35,7 @@ export default function NotFound() {
           variant="solid"
           width="sm"
           radius="full"
-          className="bg-primary-gray-500 hover:bg-primary-gray-600 text-white"
+          className="bg-primary-grayscale-500 hover:bg-primary-grayscale-600 text-white"
           onClick={() => window.history.back()}
         >
           뒤로 가기

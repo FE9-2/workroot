@@ -22,7 +22,7 @@ const FormContinueModal = ({ isOpen, onClose, className }: FormContinueModalProp
       <div className="relative h-full">
         <button
           onClick={onClose}
-          className="absolute right-0 top-0 flex items-center justify-center text-gray-400 hover:text-gray-600"
+          className="text-grayscale-400 hover:text-grayscale-600 absolute right-0 top-0 flex items-center justify-center"
         >
           <Image src="/icons/x/x-sm.svg" alt="close" width={16} height={16} className="block sm:hidden" />
           <Image src="/icons/x/x-md.svg" alt="close" width={20} height={20} className="hidden sm:block" />
@@ -47,7 +47,7 @@ const FormContinueModal = ({ isOpen, onClose, className }: FormContinueModalProp
             </div>
           </div>
           <h2 className="mb-2 text-lg font-bold md:text-xl">작성 중인 알바폼이 있어요!</h2>
-          <p className="mb-6 text-sm text-gray-600 md:text-base">이어서 작성하시겠어요?</p>
+          <p className="text-grayscale-600 mb-6 text-sm md:text-base">이어서 작성하시겠어요?</p>
 
           <div className="mt-auto">
             <Link href="/" className="block">

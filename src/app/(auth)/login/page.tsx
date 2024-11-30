@@ -23,8 +23,8 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-lg">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">로그인</h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
+          <h2 className="text-grayscale-900 mt-6 text-center text-3xl font-bold tracking-tight">로그인</h2>
+          <p className="text-grayscale-600 mt-2 text-center text-sm">
             아직 계정이 없으신가요?{" "}
             <Link href="/signup" className="font-medium text-blue-600 hover:text-blue-500">
               회원가입하기
@@ -37,7 +37,7 @@ export default function LoginPage() {
               <input
                 {...register("email")}
                 type="email"
-                className="relative block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                className="border-grayscale-300 text-grayscale-900 placeholder-grayscale-500 relative block w-full rounded-lg border px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                 placeholder="이메일"
               />
               {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
@@ -46,7 +46,7 @@ export default function LoginPage() {
               <input
                 {...register("password")}
                 type="password"
-                className="relative block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                className="border-grayscale-300 text-grayscale-900 placeholder-grayscale-500 relative block w-full rounded-lg border px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                 placeholder="비밀번호"
               />
               {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>}

@@ -12,7 +12,7 @@ const DayPickerBtn = ({
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     onClick(e);
   };
-  const defaultStyle = "bg-background-200 text-gray-500";
+  const defaultStyle = "bg-background-200 text-grayscale-500";
   const activeStyle = "bg-primary-orange-300 text-white";
 
   return (

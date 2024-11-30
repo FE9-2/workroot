@@ -11,7 +11,7 @@ interface PopupProps {
 
 export default function Popup({ viewers, onClose }: PopupProps) {
   return (
-    <div className="relative left-1/2 top-4 flex h-[48px] w-[327px] -translate-x-1/2 transform items-center rounded-lg bg-primary-blue-300 px-6 font-nexon text-gray-50 shadow-md md:h-[84px] md:w-[1165px] md:px-8">
+    <div className="text-grayscale-50 relative left-1/2 top-4 flex h-[48px] w-[327px] -translate-x-1/2 transform items-center rounded-lg bg-primary-blue-300 px-6 font-nexon shadow-md md:h-[84px] md:w-[1165px] md:px-8">
       <div className="flex w-full items-center">
         <Image
           src="/icons/user/user-md.svg"

@@ -153,7 +153,7 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
       label: "가게 위치",
       postPosition: "를",
       required: true,
-      icon: <FiMapPin className="h-5 w-5 text-gray-400" />,
+      icon: <FiMapPin className="text-grayscale-400 h-5 w-5" />,
     },
   ];
 
@@ -179,7 +179,7 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
                 <button
                   type="button"
                   onClick={handleImageClick}
-                  className="h-full w-full overflow-hidden rounded-full bg-gray-100"
+                  className="bg-grayscale-100 h-full w-full overflow-hidden rounded-full"
                 >
                   {previewUrl ? (
                     <Image
@@ -190,15 +190,15 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
                       className="h-full w-full object-cover"
                     />
                   ) : (
-                    <FiUser className="h-full w-full p-6 text-gray-200" />
+                    <FiUser className="text-grayscale-200 h-full w-full p-6" />
                   )}
                 </button>
                 <button
                   type="button"
                   onClick={handleImageClick}
-                  className="absolute bottom-1 right-1 flex h-8 w-8 items-center justify-center rounded-full border-[2px] border-white bg-gray-100 shadow-lg"
+                  className="bg-grayscale-100 absolute bottom-1 right-1 flex h-8 w-8 items-center justify-center rounded-full border-[2px] border-white shadow-lg"
                 >
-                  <FiEdit2 className="h-4 w-4 text-gray-600" />
+                  <FiEdit2 className="text-grayscale-600 h-4 w-4" />
                 </button>
               </div>
               <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
@@ -207,7 +207,7 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
 
           {fields.map((field) => (
             <div key={field.name} className="h-[88px] space-y-1.5 md:h-[114px] md:space-y-2">
-              <label className="block px-2 text-sm font-medium text-gray-700 md:text-base md:font-semibold">
+              <label className="text-grayscale-700 block px-2 text-sm font-medium md:text-base md:font-semibold">
                 {field.label}
                 {field.required && <span className="text-orange-500">*</span>}
               </label>
@@ -240,7 +240,7 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="w-[158px] rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 md:w-[314px] md:text-base"
+            className="border-grayscale-300 text-grayscale-700 hover:bg-grayscale-50 w-[158px] rounded-md border bg-white px-4 py-2 text-sm font-semibold transition-colors md:w-[314px] md:text-base"
           >
             취소
           </button>

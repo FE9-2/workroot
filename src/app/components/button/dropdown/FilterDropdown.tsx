@@ -29,9 +29,9 @@ const FilterDropdown = ({ options, className = "" }: FilterDropdownProps) => {
           type="button"
           className={cn(
             "flex w-full items-center justify-between rounded-md border p-2 font-medium shadow-sm",
-            "text-gray-700 hover:bg-primary-orange-50",
+            "text-grayscale-700 hover:bg-primary-orange-50",
             selectedLabel === options[0]
-              ? "border border-gray-100 bg-white"
+              ? "border-grayscale-100 border bg-white"
               : "border-primary-orange-300 bg-primary-orange-50"
           )}
           onClick={toggleDropdown}
@@ -43,7 +43,7 @@ const FilterDropdown = ({ options, className = "" }: FilterDropdownProps) => {
             className={cn(
               "text-orange-400 transition-transform duration-200",
               isOpen && "rotate-180",
-              selectedLabel === options[0] ? "text-gray-200" : "text-primary-orange-300"
+              selectedLabel === options[0] ? "text-grayscale-200" : "text-primary-orange-300"
             )}
           />
         </button>

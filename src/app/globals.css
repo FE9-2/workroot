@@ -178,7 +178,7 @@ input[type="checkbox"]:disabled {
 /*------------------- date picker 커스텀 --------------------*/
 /* 너비 채우기 */
 .react-datepicker-wrapper {
-  @apply border-[0.5px] border-gray-100;
+  @apply border-grayscale-100 border-[0.5px];
 }
 
 .react-datepicker,
@@ -200,7 +200,7 @@ input[type="checkbox"]:disabled {
 }
 /* 요일 헤더 스타일 */
 .react-datepicker__day-name {
-  @apply flex h-[42px] w-full items-center justify-center text-[13px] font-medium leading-[22px] text-gray-500 lg:h-16 lg:text-[20px] lg:leading-8 !important;
+  @apply text-grayscale-500 flex h-[42px] w-full items-center justify-center text-[13px] font-medium leading-[22px] lg:h-16 lg:text-[20px] lg:leading-8 !important;
 }
 
 .react-datepicker__day-name,
@@ -220,7 +220,7 @@ input[type="checkbox"]:disabled {
 
 /* 현재 달이 아닌 날짜 스타일 */
 .react-datepicker__day--outside-month {
-  @apply text-gray-300 !important;
+  @apply text-grayscale-300 !important;
 }
 
 /* date range */
@@ -253,7 +253,7 @@ input[type="checkbox"]:disabled {
 .react-datepicker__day--range-end,
 .react-datepicker__day--selecting-range-end,
 .react-datepicker__day--selected {
-  @apply relative text-gray-50 !important;
+  @apply text-grayscale-50 relative !important;
   z-index: 1;
 }
 
@@ -292,28 +292,28 @@ input[type="checkbox"]:disabled {
 /* 종료일 스타일 */
 .react-datepicker__day--selecting-range-end,
 .react-datepicker__day--selected {
-  @apply relative text-gray-50 !important;
+  @apply text-grayscale-50 relative !important;
   background: linear-gradient(to right, #fff7eb 50%, transparent 50%) !important;
 }
 
 /* 범위 선택 중 종료일 스타일 유지 */
 .react-datepicker__day--in-selecting-range.react-datepicker__day--selecting-range-end,
 .react-datepicker__day--in-range.react-datepicker__day--range-end {
-  @apply text-gray-50 !important;
+  @apply text-grayscale-50 !important;
   background: linear-gradient(to right, #fff7eb 50%, transparent 50%) !important;
 }
 
 /* 시작일 스타일 */
 .react-datepicker__day--selecting-range-start,
 .react-datepicker__day--selected {
-  @apply relative text-gray-50 !important;
+  @apply text-grayscale-50 relative !important;
   background: linear-gradient(to right, #fff7eb 50%, transparent 50%) !important;
 }
 
 /* 범위 선택 중 시작일 스타일 유지 */
 .react-datepicker__day--in-selecting-range.react-datepicker__day--selecting-range-start,
 .react-datepicker__day--in-range.react-datepicker__day--range-start {
-  @apply text-gray-50 !important;
+  @apply text-grayscale-50 !important;
   background: linear-gradient(to left, #fff7eb 50%, transparent 50%) !important;
 }
 
@@ -322,7 +322,7 @@ input[type="checkbox"]:disabled {
 .react-datepicker__month-text--keyboard-selected,
 .react-datepicker__quarter-text--keyboard-seleted,
 .react-datepicker__year-text--keyboard-selected {
-  @apply bg-gray-50 !important;
+  @apply bg-grayscale-50 !important;
 }
 
 /* --------------------- date picker커스텀 끝--------------------- */
