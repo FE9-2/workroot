@@ -120,13 +120,13 @@ const RecruitListItem = ({
               onClick={handlePrevImage}
               className="bg-black/30 hover:bg-black/50 absolute left-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-white transition-opacity md:h-10 md:w-10"
             >
-              <BsChevronLeft className="h-5 w-5" />
+              <BsChevronLeft className="h-3 w-3 md:h-5 md:w-5" />
             </button>
             <button
               onClick={handleNextImage}
               className="bg-black/30 hover:bg-black/50 absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-white transition-opacity md:h-10 md:w-10"
             >
-              <BsChevronRight className="h-5 w-5" />
+              <BsChevronRight className="h-3 w-3 md:h-5 md:w-5" />
             </button>
           </>
         )}

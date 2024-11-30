@@ -104,17 +104,17 @@ const MyApplicationListItem = ({ createdAt, status, resumeId, resumeName, form }
         </div>
 
         {/* 중앙 컨텐츠 영역 */}
-        <div className="flex-1 space-y-4 py-6">
+        <div className="flex-1 space-y-3 py-4">
           {/* 가게 정보 영역 */}
-          <div className="flex items-center gap-3">
-            <div className="relative h-12 w-12 overflow-hidden rounded-full md:h-14 md:w-14">
+          <div className="flex items-center gap-2">
+            <div className="relative h-10 w-10 overflow-hidden rounded-full md:h-14 md:w-14">
               <Image src={form.owner.imageUrl} alt={form.owner.storeName} fill className="object-cover" />
             </div>
             <span className="text-base font-medium text-gray-900 md:text-lg">{form.owner.storeName}</span>
           </div>
 
           {/* 제목 */}
-          <h3 className="text-lg font-bold text-gray-900 md:text-xl">{form.title}</h3>
+          <div className="text-lg font-bold text-gray-900 md:text-xl">{form.title}</div>
 
           {/* 설명 */}
           <p className="line-clamp-2 text-sm text-gray-600 md:line-clamp-2 md:text-base">{form.description}</p>
