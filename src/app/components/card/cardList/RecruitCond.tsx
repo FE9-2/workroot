@@ -1,8 +1,14 @@
+"use client";
 import React from "react";
 import { FormDetailResponse } from "@/types/response/form";
 import { cn } from "@/lib/tailwindUtil";
 
-const RecruitCond: React.FC<{ recruitData: FormDetailResponse }> = ({ recruitData }) => {
+interface RecruitCondProps {
+  recruitData: FormDetailResponse;
+}
+
+// 모집조건 카드 컴포넌트
+const RecruitCond = ({ recruitData }: RecruitCondProps) => {
   const titleStyle = "text-black-200 min-w-[64px] md:min-w-[120px]";
   return (
     <div className="flex w-[327px] flex-col gap-5 rounded-lg border border-line-100 bg-white p-4 text-xs md:w-[640px] md:p-6 md:text-lg">

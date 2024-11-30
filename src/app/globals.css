@@ -167,12 +167,12 @@ input[type="checkbox"]:disabled {
   background: transparent;
 }
 .scrollbar-custom::-webkit-scrollbar-thumb {
-  background: #c4c4c4;
+  background: #fcc369;
   border-radius: 9999px;
 }
 
 .scrollbar-custom::-webkit-scrollbar-thumb:hover {
-  background: #ababab;
+  background: #fbaf37;
 }
 
 /*------------------- date picker 커스텀 --------------------*/

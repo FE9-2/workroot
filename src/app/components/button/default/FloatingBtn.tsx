@@ -7,7 +7,7 @@ interface FloatingBtnProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: ReactNode;
 }
 
-const FloatingBtn: React.FC<FloatingBtnProps> = ({ variant = "orange", icon, children, className, ...props }) => {
+const FloatingBtn = ({ variant = "orange", icon, children, className, ...props }: FloatingBtnProps) => {
   const baseStyles = "inline-flex items-center justify-center transition-colors font-medium rounded-full h-12";
 
   const variants = {

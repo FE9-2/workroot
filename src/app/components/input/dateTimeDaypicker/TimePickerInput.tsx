@@ -40,7 +40,7 @@ const TimePickerInput = () => {
         <DropdownList
           list={timeOption}
           onSelect={handleTimeSelect}
-          wrapperStyle="h-[200px]"
+          wrapperStyle="h-[200px] w-[150px] lg:w-[210px]"
           itemStyle="pl-[35px] text-sm font-normal leading-[26px] lg:text-base lg:leading-8 !important"
         />
       )}

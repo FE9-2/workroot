@@ -7,7 +7,7 @@ interface BookmarkBtnProps {
   className?: string;
 }
 
-const BookmarkBtn: React.FC<BookmarkBtnProps> = ({ className = "" }) => {
+const BookmarkBtn = ({ className = "" }: BookmarkBtnProps) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   const toggleBookmark = () => {

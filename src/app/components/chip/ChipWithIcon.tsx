@@ -1,3 +1,4 @@
+"use client";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import Chip from "./Chip";
 

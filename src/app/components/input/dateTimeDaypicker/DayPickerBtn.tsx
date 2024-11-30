@@ -13,13 +13,13 @@ const DayPickerBtn = ({
     onClick(e);
   };
   const defaultStyle = "bg-background-200 text-gray-500";
-  const selectedStyle = "bg-primary-orange-300 text-white";
+  const activeStyle = "bg-primary-orange-300 text-white";
 
   return (
     <div>
       <button
         onClick={handleClick}
-        className={`h-12 w-[38px] rounded-xl bg-background-200 focus:outline-none lg:h-[64px] lg:w-[50px] lg:rounded-2xl ${selected ? selectedStyle : defaultStyle}`}
+        className={`h-12 w-[38px] rounded-xl bg-background-200 focus:outline-none lg:h-[64px] lg:w-[50px] lg:rounded-2xl ${selected ? activeStyle : defaultStyle}`}
       >
         {value}
       </button>

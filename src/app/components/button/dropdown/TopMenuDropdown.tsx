@@ -8,7 +8,7 @@ interface TopMenuDropdownProps {
   className?: string;
 }
 
-const TopMenuDropdown: React.FC<TopMenuDropdownProps> = ({ options, className = "" }) => {
+const TopMenuDropdown = ({ options, className = "" }: TopMenuDropdownProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<string>(""); // 선택된 값 (label을 저장)
   const [isCustomInput, setIsCustomInput] = useState<boolean>(false);

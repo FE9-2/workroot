@@ -11,15 +11,7 @@ interface CheckBtnProps extends InputHTMLAttributes<HTMLInputElement> {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const CheckBtn: React.FC<CheckBtnProps> = ({
-  label,
-  name,
-  value,
-  checked = false,
-  disabled = false,
-  onChange,
-  ...props
-}) => {
+const CheckBtn = ({ label, name, value, checked = false, disabled = false, onChange, ...props }: CheckBtnProps) => {
   return (
     <div
       className={cn(

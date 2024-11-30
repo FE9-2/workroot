@@ -46,6 +46,7 @@ export async function GET(req: NextRequest, { params }: { params: { formId: stri
       page: searchParams.get("page"),
       limit: searchParams.get("limit"),
       status: searchParams.get("status"),
+      sort: searchParams.get("sort"),
     };
 
     const response = await apiClient.get(`/forms/${params.formId}/applications`, {
