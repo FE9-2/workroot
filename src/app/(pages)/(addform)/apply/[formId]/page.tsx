@@ -96,7 +96,7 @@ export default function Apply() {
           *지원내역 확인에 사용됩니다.
         </div>
       </div>
-      <div className="lg:flex-2 flex flex-col gap-[10px] lg:flex-row">
+      <div className="lg:flex-2 mt-4 flex flex-col gap-[10px] lg:mt-8 lg:flex-row">
         <Button
           type="button"
           variant="outlined"

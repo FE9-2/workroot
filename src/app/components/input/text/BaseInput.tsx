@@ -73,7 +73,7 @@ const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
     // input style
     const baseStyle = "focus:outline-none h-full w-full";
     const textStyle =
-      "text-black-400 placeholder:text-grayscale-400 text-sm font-normal leading-[26px] lg:text-base lg:leading-8";
+      "text-black-400 placeholder:text-grayscale-400 placeholder:text-base placeholder:leading-[26px] lg:placeholder:text-xl lg:placeholder:leading-8 lg:text-xl font-normal lg:leading-8 text-base leading-[26px]";
 
     // wrapperStyle
     const variantStyle = `${variants[variant].bgColor} ${variants[variant].borderColor} ${variants[variant].hoverColor} ${variants[variant].focusColor}`;
