@@ -7,19 +7,13 @@ import { ApplicationStatus, applicationStatus } from "@/types/application";
 import { positionOptions } from "@/constants/positionOptions";
 import axios from "axios";
 import toast from "react-hot-toast";
+import type { ConfirmFormModalProps } from "@/types/modal";
 
-interface ProgressStatusProps {
-  applicationId: string;
-  initialStatus?: ApplicationStatus;
-  onClose: () => void;
-  className?: string;
-}
-
-export default function ProgressStatus({ applicationId, initialStatus, onClose, className }: ProgressStatusProps) {
+const SelectProgressModal = ({ id, isOpen, onClose, className }: ConfirmFormModalProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedValue, setSelectedValue] = useState<ApplicationStatus>(
-    initialStatus || applicationStatus.INTERVIEW_PENDING
-  );
+  const [selectedValue, setSelectedValue] = useState<ApplicationStatus>(applicationStatus.INTERVIEW_PENDING);
+
+  if (!isOpen) return null;
 
   const radioOptions = [
     { id: "rejected", value: applicationStatus.REJECTED, label: "거절" },
@@ -38,12 +32,12 @@ export default function ProgressStatus({ applicationId, initialStatus, onClose, 
 
     try {
       setIsSubmitting(true);
-      await axios.patch(`/api/applications/${applicationId}`, {
+      await axios.patch(`/api/applications/${id}`, {
         status: selectedValue,
       });
 
       toast.success("진행상태가 변경되었습니다.");
-      onClose();
+      onClose?.();
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const errorMessage = error.response?.data?.message || "진행상태 변경에 실패했습니다.";
@@ -53,6 +47,12 @@ export default function ProgressStatus({ applicationId, initialStatus, onClose, 
       }
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleCancel = () => {
+    if (onClose) {
+      onClose();
     }
   };
 
@@ -83,7 +83,7 @@ export default function ProgressStatus({ applicationId, initialStatus, onClose, 
           <div className="grid grid-cols-2 gap-4">
             <Button
               type="button"
-              onClick={onClose}
+              onClick={handleCancel}
               color="gray"
               disabled={isSubmitting}
               className="h-[58px] w-full text-sm font-medium hover:bg-gray-200 md:h-[72px] md:text-base"
@@ -102,4 +102,6 @@ export default function ProgressStatus({ applicationId, initialStatus, onClose, 
       </form>
     </div>
   );
-}
+};
+
+export default SelectProgressModal;

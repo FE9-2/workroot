@@ -14,6 +14,10 @@ type Story = StoryObj<typeof SelectProgressModal>;
 
 export const Default: Story = {
   args: {
+    id: "123",
+    isOpen: true,
     onClose: () => console.log("모달 닫기"),
+    onConfirm: () => console.log("상태 변경 확인"),
+    className: "",
   },
 };
