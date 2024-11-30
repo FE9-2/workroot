@@ -4,15 +4,15 @@ import BaseFileInput from "./BaseFileInput";
 import { BaseFileInputProps } from "@/types/textInput";
 import { useFile } from "@/hooks/useFile";
 /*
- * @params name: string; - 필수값
- * @params variant: "upload" | "download"; - 필수값
- * @params placeholder: string; - 필수값
- * @params size?: string;
- * @params file?: File | null;
- * @params onFileAction?: (file: File | null) => void;
- * @params icon?: React.ReactNode;
- * @params actionIcon?: React.ReactNode;
- * @params isImage?: boolean;
+ * @param name: string; - 필수값
+ * @param variant: "upload" | "download"; - 필수값
+ * @param placeholder: string; - 필수값
+ * @param size?: string;
+ * @param file?: File | null;
+ * @param onFileAction?: (file: File | null) => void;
+ * @param icon?: React.ReactNode;
+ * @param actionIcon?: React.ReactNode;
+ * @param isImage?: boolean;
  */
 const UploadInput = (props: BaseFileInputProps) => {
   const { file, handleChangeFile, handleDeleteFile } = useFile();

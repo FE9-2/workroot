@@ -1,13 +1,13 @@
 import { BaseTextAreaProps } from "@/types/textInput";
 /*
-@params variant: "white" | "transparent" - 필수값
-@params name: string - 필수값
-@params size: "w-[00px] h-[00px] lg:w-[00px] lg:h-[00px]" - 기본값: "w-[327px] h-[132px] lg:w-[640px] lg:h-[160px]"
-@params placeholder: string
-@params errorMessage: string - 에러메시지 + 테두리 색상 변경
-@params disabled: boolean
-@params wrapperClassName?: string; - 부가적인 tailwind css 클래스
-@params innerClassName?: string; - 부가적인 tailwind css 클래스
+@param variant: "white" | "transparent" - 필수값
+@param name: string - 필수값
+@param size: "w-[00px] h-[00px] lg:w-[00px] lg:h-[00px]" - 기본값: "w-[327px] h-[132px] lg:w-[640px] lg:h-[160px]"
+@param placeholder: string
+@param errorMessage: string - 에러메시지 + 테두리 색상 변경
+@param disabled: boolean
+@param wrapperClassName?: string; - 부가적인 tailwind css 클래스
+@param innerClassName?: string; - 부가적인 tailwind css 클래스
 */
 
 const BaseTextArea = (props: BaseTextAreaProps) => {

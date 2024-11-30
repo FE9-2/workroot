@@ -10,11 +10,11 @@ interface ChipProps {
   textStyle?: string;
 }
 /*
- * @params label
- * @params variant : "positive" | "negative";
- * @params border : boolean
- * @params icon
- * @params textStyle - 추가 스타일
+ * @param label
+ * @param variant : "positive" | "negative";
+ * @param border : boolean
+ * @param icon
+ * @param textStyle - 추가 스타일
  */
 const Chip: React.FC<ChipProps> = ({ label = "Label", variant, border, icon, textStyle = "" }: ChipProps) => {
   const wrapperStyle = "rounded flex items-center justify-center";
