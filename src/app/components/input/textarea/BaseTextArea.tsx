@@ -13,7 +13,7 @@ import { BaseTextAreaProps } from "@/types/textInput";
 const BaseTextArea = (props: BaseTextAreaProps) => {
   const variantStyles = {
     white: {
-      bg: "bg-background-100",
+      bg: "bg-background-200",
       border: "border border-transparent",
       focus: "[&:has(textarea:focus)]:border-grayscale-400",
       hover: "hover:border-grayscale-200",
