@@ -1,14 +1,15 @@
 import Image from "next/image";
 import { formatRecruitDate } from "@/utils/workDayFormatter";
 import { getRecruitmentStatus, getRecruitmentDday } from "@/utils/recruitDateFormatter";
-import { BsThreeDotsVertical, BsChevronLeft, BsChevronRight, BsDot } from "react-icons/bs";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import Chip from "@/app/components/chip/Chip";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import useModalStore from "@/store/modalStore";
+import Indicator from "../../pagination/Indicator";
 
 /**
- * 알바 리스트 아이템 컴포넌트 Props
+ * 채용 공고 리스트 아이템 컴포넌트 Props
  */
 interface RecruitListItemProps {
   id: string; // formId를 id로 변경
@@ -23,8 +24,8 @@ interface RecruitListItemProps {
 }
 
 /**
- * 알바 리스트 아이템 컴포넌트
- * 알바 정보를 카드 형태로 표시하며, 이미지 슬라이더와 수정/삭제 기능을 포함
+ * 채용 공고 리스트 아이템 컴포넌트
+ * 채용 공고 정보를 카드 형태로 표시하며, 이미지 인디케이터와 수정/삭제 기능을 포함
  */
 const RecruitListItem = ({
   id,
@@ -87,18 +88,6 @@ const RecruitListItem = ({
     });
   };
 
-  // 이미지 슬라이더 이전 이미지로 이동
-  const handlePrevImage = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setCurrentImageIndex((prev) => (prev === 0 ? imageUrls.length - 1 : prev - 1));
-  };
-
-  // 이미지 슬라이더 다음 이미지로 이동
-  const handleNextImage = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setCurrentImageIndex((prev) => (prev === imageUrls.length - 1 ? 0 : prev + 1));
-  };
-
   return (
     <div className="relative h-auto w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-md transition-transform duration-300 hover:scale-[1.02] sm:h-[390px] sm:w-[327px] md:h-[536px] md:w-[477px]">
       {/* 이미지 슬라이더 영역 */}
@@ -113,39 +102,16 @@ const RecruitListItem = ({
           />
         )}
 
-        {/* 슬라이더 네비게이션 버튼 */}
+        {/* 이미지 인디케이터 */}
         {imageUrls.length > 1 && (
-          <>
-            <button
-              onClick={handlePrevImage}
-              className="bg-black/30 hover:bg-black/50 absolute left-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-white transition-opacity md:h-10 md:w-10"
-            >
-              <BsChevronLeft className="h-3 w-3 md:h-5 md:w-5" />
-            </button>
-            <button
-              onClick={handleNextImage}
-              className="bg-black/30 hover:bg-black/50 absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-white transition-opacity md:h-10 md:w-10"
-            >
-              <BsChevronRight className="h-3 w-3 md:h-5 md:w-5" />
-            </button>
-          </>
-        )}
-
-        {/* 이미지 인디케이터 (하단 도트) */}
-        <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-2">
-          {imageUrls.map((_, index) => (
-            <button
-              key={index}
-              onClick={(e) => {
-                e.stopPropagation();
-                setCurrentImageIndex(index);
-              }}
-              className={`h-2 w-2 rounded-full transition-all ${
-                currentImageIndex === index ? "bg-white" : "bg-white/50"
-              }`}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
+            <Indicator
+              imageCount={imageUrls.length}
+              currentPage={currentImageIndex}
+              onPageChange={setCurrentImageIndex}
             />
-          ))}
-        </div>
+          </div>
+        )}
       </div>
 
       {/* 콘텐츠 영역 */}
