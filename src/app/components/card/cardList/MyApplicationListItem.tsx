@@ -86,18 +86,18 @@ const MyApplicationListItem = ({ createdAt, status, resumeId, resumeName, form }
   };
 
   return (
-    <div className="border-grayscale-200 relative h-auto w-full overflow-hidden rounded-xl border bg-white p-6 shadow-sm transition-transform duration-300 hover:scale-[1.02] sm:h-[219px] sm:w-[375px] md:h-[328px] md:w-[477px]">
+    <div className="relative h-auto w-full overflow-hidden rounded-xl border border-grayscale-200 bg-white p-6 shadow-sm transition-transform duration-300 hover:scale-[1.02] sm:h-[219px] sm:w-[375px] md:h-[328px] md:w-[477px]">
       <div className="flex h-full flex-col">
         {/* 상단 영역: 지원일시와 이력서 링크 */}
         <div className="flex items-center justify-between">
-          <div className="text-grayscale-500 flex items-center gap-2 text-sm md:text-base">
+          <div className="flex items-center gap-2 text-sm text-grayscale-500 md:text-base">
             <span>지원일시</span>
             <span>|</span>
             <span>{formatRecruitDate(createdAt, true)}</span>
           </div>
           <button
             onClick={handleResumeDownload}
-            className="text-grayscale-500 decoration-grayscale-600/50 hover:text-grayscale-600 hover:decoration-grayscale-600 text-sm font-medium underline decoration-1 underline-offset-4 hover:cursor-pointer md:text-base"
+            className="decoration-grayscale-600/50 hover:text-grayscale-600 hover:decoration-grayscale-600 text-sm font-medium text-grayscale-500 underline decoration-1 underline-offset-4 hover:cursor-pointer md:text-base"
           >
             이력서 보기
           </button>

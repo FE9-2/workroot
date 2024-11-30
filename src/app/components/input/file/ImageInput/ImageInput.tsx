@@ -45,7 +45,7 @@ const ImageInput = () => {
           placeholder=""
         />
         <div className="pointer-events-none absolute top-0 p-7 lg:p-10">
-          <HiUpload className="text-grayscale-400 text-[24px] lg:text-[36px]" />
+          <HiUpload className="text-[24px] text-grayscale-400 lg:text-[36px]" />
         </div>
       </div>
       {imageList.map((image) => (

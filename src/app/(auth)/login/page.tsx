@@ -37,7 +37,7 @@ export default function LoginPage() {
               <input
                 {...register("email")}
                 type="email"
-                className="border-grayscale-300 text-grayscale-900 placeholder-grayscale-500 relative block w-full rounded-lg border px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                 placeholder="이메일"
               />
               {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
@@ -46,7 +46,7 @@ export default function LoginPage() {
               <input
                 {...register("password")}
                 type="password"
-                className="border-grayscale-300 text-grayscale-900 placeholder-grayscale-500 relative block w-full rounded-lg border px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                 placeholder="비밀번호"
               />
               {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>}

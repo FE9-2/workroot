@@ -87,7 +87,7 @@ export default function SignupPage() {
               <input
                 {...register("email")}
                 type="email"
-                className="border-grayscale-300 text-grayscale-900 placeholder-grayscale-500 relative block w-full rounded-lg border px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                 placeholder="이메일"
               />
               {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
@@ -96,7 +96,7 @@ export default function SignupPage() {
               <input
                 {...register("name")}
                 type="text"
-                className="border-grayscale-300 text-grayscale-900 placeholder-grayscale-500 relative block w-full rounded-lg border px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                 placeholder="이름"
               />
               {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>}
@@ -105,7 +105,7 @@ export default function SignupPage() {
               <input
                 {...register("nickname")}
                 type="text"
-                className="border-grayscale-300 text-grayscale-900 placeholder-grayscale-500 relative block w-full rounded-lg border px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                 placeholder="닉네임"
               />
               {errors.nickname && <p className="mt-1 text-sm text-red-600">{errors.nickname.message}</p>}
@@ -114,7 +114,7 @@ export default function SignupPage() {
               <input
                 {...register("password")}
                 type="password"
-                className="border-grayscale-300 text-grayscale-900 placeholder-grayscale-500 relative block w-full rounded-lg border px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                 placeholder="비밀번호"
               />
               {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>}
@@ -123,7 +123,7 @@ export default function SignupPage() {
               <input
                 {...register("confirmPassword")}
                 type="password"
-                className="border-grayscale-300 text-grayscale-900 placeholder-grayscale-500 relative block w-full rounded-lg border px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                 placeholder="비밀번호 확인"
               />
               {errors.confirmPassword && <p className="mt-1 text-sm text-red-600">{errors.confirmPassword.message}</p>}
@@ -144,7 +144,7 @@ export default function SignupPage() {
                 <input
                   {...register("phoneNumber")}
                   type="tel"
-                  className="border-grayscale-300 text-grayscale-900 placeholder-grayscale-500 relative block w-full rounded-lg border px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                  className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                   placeholder="전화번호 (예: 010-1234-5678)"
                 />
                 {errors.phoneNumber && <p className="mt-1 text-sm text-red-600">{errors.phoneNumber.message}</p>}
@@ -156,7 +156,7 @@ export default function SignupPage() {
                   <input
                     {...register("storeName")}
                     type="text"
-                    className="border-grayscale-300 text-grayscale-900 placeholder-grayscale-500 relative block w-full rounded-lg border px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                    className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                     placeholder="가게 이름"
                   />
                   {errors.storeName && <p className="mt-1 text-sm text-red-600">{errors.storeName.message}</p>}
@@ -165,7 +165,7 @@ export default function SignupPage() {
                   <input
                     {...register("storePhoneNumber")}
                     type="tel"
-                    className="border-grayscale-300 text-grayscale-900 placeholder-grayscale-500 relative block w-full rounded-lg border px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                    className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                     placeholder="가게 전화번호 (예: 02-1234-5678)"
                   />
                   {errors.storePhoneNumber && (
@@ -176,7 +176,7 @@ export default function SignupPage() {
                   <input
                     {...register("location")}
                     type="text"
-                    className="border-grayscale-300 text-grayscale-900 placeholder-grayscale-500 relative block w-full rounded-lg border px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                    className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                     placeholder="가게 위치"
                   />
                   {errors.location && <p className="mt-1 text-sm text-red-600">{errors.location.message}</p>}

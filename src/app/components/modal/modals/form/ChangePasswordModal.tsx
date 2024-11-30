@@ -126,7 +126,7 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
               reset();
             }}
             disabled={isSubmitting}
-            className="border-grayscale-300 text-grayscale-700 hover:bg-grayscale-50 flex-1 rounded-md border bg-white px-4 py-2 text-sm font-semibold transition-colors md:text-base"
+            className="text-grayscale-700 flex-1 rounded-md border border-grayscale-300 bg-white px-4 py-2 text-sm font-semibold transition-colors hover:bg-grayscale-50 md:text-base"
           >
             취소
           </button>

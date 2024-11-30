@@ -151,7 +151,7 @@ export default function Header() {
         <div className="flex flex-col p-6">
           <div className="mb-6 flex items-center justify-between">
             <span className="text-lg font-bold text-lime-700">메뉴</span>
-            <button onClick={() => setIsSideMenuOpen(false)} className="text-grayscale-500 hover:text-grayscale-700">
+            <button onClick={() => setIsSideMenuOpen(false)} className="hover:text-grayscale-700 text-grayscale-500">
               ✕
             </button>
           </div>

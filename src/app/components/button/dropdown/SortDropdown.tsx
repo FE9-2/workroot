@@ -57,7 +57,7 @@ const SortDropdown = ({ label, options, className = "", onSortChange }: SortProp
                   onClick={() => handleSelect(option)}
                   className={cn(
                     "cursor-pointer rounded-md py-2 text-center",
-                    "text-grayscale-200 hover:text-grayscale-700 hover:bg-primary-orange-50 hover:font-bold"
+                    "hover:text-grayscale-700 text-grayscale-200 hover:bg-primary-orange-50 hover:font-bold"
                   )}
                 >
                   {option}

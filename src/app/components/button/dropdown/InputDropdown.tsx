@@ -27,9 +27,9 @@ const InputDropdown = ({ options, className = "" }: InputDropdownProps) => {
     <div className={cn("relative inline-block text-left text-base", "w-80 md:w-[640px]", className)}>
       <div
         className={cn(
-          "bg-grayscale-50 rounded-md border p-2",
+          "rounded-md border bg-grayscale-50 p-2",
           "hover:border-primary-grayscale-200",
-          isOpen && "ring-grayscale-300 ring-1"
+          isOpen && "ring-1 ring-grayscale-300"
         )}
       >
         <input
@@ -57,7 +57,7 @@ const InputDropdown = ({ options, className = "" }: InputDropdownProps) => {
             <li
               key={option}
               onClick={() => handleOptionClick(option)}
-              className={cn("hover:bg-grayscale-100 cursor-pointer rounded-md px-6 py-4")}
+              className={cn("cursor-pointer rounded-md px-6 py-4 hover:bg-grayscale-100")}
             >
               {option}
             </li>

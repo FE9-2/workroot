@@ -49,17 +49,17 @@ export const Default_Hover_Focus: Story = {
     return (
       <div className="space-y-4">
         <div>
-          <p className="text-grayscale-500 mb-2 text-sm">기본 상태:</p>
+          <p className="mb-2 text-sm text-grayscale-500">기본 상태:</p>
           <StoryComponent />
         </div>
         <div>
-          <p className="text-grayscale-500 mb-2 text-sm">Hover 상태:</p>
+          <p className="mb-2 text-sm text-grayscale-500">Hover 상태:</p>
           <div className="[&>div]:bg-background200 [&>div]:border-grayscale-200">
             <StoryComponent />
           </div>
         </div>
         <div>
-          <p className="text-grayscale-500 mb-2 text-sm">Focus 상태:</p>
+          <p className="mb-2 text-sm text-grayscale-500">Focus 상태:</p>
           <div className="[&>div]:border-grayscale-400">
             <StoryComponent />
           </div>

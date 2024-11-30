@@ -147,7 +147,7 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
                 <button
                   type="button"
                   onClick={handleImageClick}
-                  className="bg-grayscale-100 h-full w-full overflow-hidden rounded-full"
+                  className="h-full w-full overflow-hidden rounded-full bg-grayscale-100"
                 >
                   {previewUrl ? (
                     <Image
@@ -158,13 +158,13 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
                       className="h-full w-full object-cover"
                     />
                   ) : (
-                    <FiUser className="bg-grayscale-100 text-grayscale-200 h-full w-full p-6" />
+                    <FiUser className="h-full w-full bg-grayscale-100 p-6 text-grayscale-200" />
                   )}
                 </button>
                 <button
                   type="button"
                   onClick={handleImageClick}
-                  className="bg-grayscale-100 absolute bottom-1 right-1 flex h-8 w-8 items-center justify-center rounded-full border-[2px] border-white shadow-lg"
+                  className="absolute bottom-1 right-1 flex h-8 w-8 items-center justify-center rounded-full border-[2px] border-white bg-grayscale-100 shadow-lg"
                 >
                   <FiEdit2 className="text-grayscale-600 h-4 w-4" />
                 </button>
@@ -200,7 +200,7 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="border-grayscale-300 text-grayscale-700 hover:bg-grayscale-100 w-[158px] rounded-md border bg-white px-4 py-2 text-sm font-semibold transition-colors md:w-[314px] md:text-base"
+            className="text-grayscale-700 w-[158px] rounded-md border border-grayscale-300 bg-white px-4 py-2 text-sm font-semibold transition-colors hover:bg-grayscale-100 md:w-[314px] md:text-base"
           >
             취소
           </button>

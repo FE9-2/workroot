@@ -63,7 +63,7 @@ const TopMenuDropdown = ({ options, className = "" }: TopMenuDropdownProps) => {
               onClick={() => handleOptionClick(option)} // option 객체 전체를 전달
               className={cn("cursor-pointer rounded-md px-6 py-3.5", "hover:bg-primary-grayscale-100")}
             >
-              <span className={cn(baseStyle, "text-grayscale-200 bg-background-300 font-bold")}>
+              <span className={cn(baseStyle, "bg-background-300 font-bold text-grayscale-200")}>
                 {idx + 2} {/* 1부터 시작하는 번호 */}
               </span>
               {option.label} {/* 옵션의 레이블 */}

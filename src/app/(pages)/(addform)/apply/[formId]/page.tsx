@@ -18,9 +18,17 @@ export default function Apply() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isDirty },
   } = useForm<ApplyFormData>({
     mode: "onChange",
+    defaultValues: {
+      name: "",
+      contact: "",
+      career: 0,
+      resume: undefined,
+      introduce: "",
+      password: "",
+    },
   });
 
   const onSubmit = (data: ApplyFormData) => {
@@ -104,7 +112,7 @@ export default function Apply() {
           color="orange"
           className="h-[58px] border lg:h-[72px] lg:text-xl lg:leading-8"
           onClick={handleSubmit(onTempSave)}
-          // disabled={!isValid}
+          disabled={!isDirty}
         >
           임시 저장
         </Button>
@@ -114,7 +122,7 @@ export default function Apply() {
           width="md"
           color="orange"
           className="h-[58px] lg:h-[72px] lg:text-xl lg:leading-8"
-          // disabled={!isValid}
+          disabled={!isValid}
         >
           작성 완료
         </Button>

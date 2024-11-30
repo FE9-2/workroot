@@ -14,7 +14,7 @@ const DropdownItem = ({
       value={item}
       onClick={() => onSelect(item)}
       className={cn(
-        "bg-grayscale-50 flex w-full cursor-pointer px-[10px] py-2 text-xs font-normal leading-[18px] text-black-100 hover:bg-primary-orange-50 lg:text-lg lg:leading-[26px]",
+        "flex w-full cursor-pointer bg-grayscale-50 px-[10px] py-2 text-xs font-normal leading-[18px] text-black-100 hover:bg-primary-orange-50 lg:text-lg lg:leading-[26px]",
         itemStyle
       )}
     >
@@ -38,7 +38,7 @@ const DropdownList = ({
       role="menu"
       aria-orientation="vertical"
       aria-labelledby="options-menu"
-      className="border-grayscale-100 bg-grayscale-50 absolute mt-[6px] rounded border pr-[2px] pt-1"
+      className="absolute mt-[6px] rounded border border-grayscale-100 bg-grayscale-50 pr-[2px] pt-1"
     >
       <ul className={`flex flex-col overflow-hidden ${wrapperStyle} scrollbar-custom`}>
         {list.map((item) => (

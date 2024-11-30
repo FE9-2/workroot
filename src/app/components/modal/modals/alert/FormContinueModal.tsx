@@ -22,7 +22,7 @@ const FormContinueModal = ({ isOpen, onClose, className }: FormContinueModalProp
       <div className="relative h-full">
         <button
           onClick={onClose}
-          className="text-grayscale-400 hover:text-grayscale-600 absolute right-0 top-0 flex items-center justify-center"
+          className="hover:text-grayscale-600 absolute right-0 top-0 flex items-center justify-center text-grayscale-400"
         >
           <Image src="/icons/x/x-sm.svg" alt="close" width={16} height={16} className="block sm:hidden" />
           <Image src="/icons/x/x-md.svg" alt="close" width={20} height={20} className="hidden sm:block" />

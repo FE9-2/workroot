@@ -62,7 +62,7 @@ const RadioBtn = ({
     <div
       onClick={handleClick}
       className={cn(
-        "border-grayscale-200 flex w-full cursor-pointer items-center rounded-lg border p-4 transition-colors md:p-6",
+        "flex w-full cursor-pointer items-center rounded-lg border border-grayscale-200 p-4 transition-colors md:p-6",
         checked && "border-primary-orange-300 bg-primary-orange-50",
         !checked && "hover:border-grayscale-300 hover:bg-grayscale-50",
         position === positionOptions.POSITION_RIGHT ? "justify-between" : "gap-2",
