@@ -102,9 +102,9 @@ export default function Apply() {
           variant="outlined"
           width="md"
           color="orange"
-          className="border"
+          className="h-[58px] border lg:h-[72px] lg:text-xl lg:leading-8"
           onClick={handleSubmit(onTempSave)}
-          disabled={!isValid}
+          // disabled={!isValid}
         >
           임시 저장
         </Button>
@@ -113,8 +113,8 @@ export default function Apply() {
           variant="solid"
           width="md"
           color="orange"
-          className="text-grayscale-50"
-          disabled={!isValid}
+          className="h-[58px] lg:h-[72px] lg:text-xl lg:leading-8"
+          // disabled={!isValid}
         >
           작성 완료
         </Button>
