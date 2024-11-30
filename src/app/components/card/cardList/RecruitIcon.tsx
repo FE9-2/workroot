@@ -1,7 +1,7 @@
 import { formatRecruitDate, getWorkDaysDisplay } from "@/utils/workDayFormatter";
-import RecruitConditionItem from "./RecruitConditionItem";
+import RecruitIconItem from "./RecruitIconItem";
 
-interface RecruitConditionProps {
+interface RecruitIconProps {
   hourlyWage: number;
   recruitmentStartDate: Date;
   recruitmentEndDate: Date;
@@ -11,7 +11,7 @@ interface RecruitConditionProps {
   workEndTime: string;
 }
 
-export const RecruitCondition = ({
+export const RecruitIcon = ({
   hourlyWage,
   recruitmentStartDate,
   recruitmentEndDate,
@@ -19,7 +19,7 @@ export const RecruitCondition = ({
   workDays = [],
   workStartTime,
   workEndTime,
-}: RecruitConditionProps) => {
+}: RecruitIconProps) => {
   const periodValue = (
     <>
       <span className="whitespace-normal md:hidden">
@@ -72,11 +72,11 @@ export const RecruitCondition = ({
     <div className="h-auto w-full sm:h-[156px] sm:w-[327px] sm:p-3 md:h-[336px] md:w-[640px]">
       <div className="grid h-full grid-cols-2 gap-2 sm:gap-3">
         {conditions.map((condition, index) => (
-          <RecruitConditionItem key={index} icon={condition.icon} label={condition.label} value={condition.value} />
+          <RecruitIconItem key={index} icon={condition.icon} label={condition.label} value={condition.value} />
         ))}
       </div>
     </div>
   );
 };
 
-export default RecruitCondition;
+export default RecruitIcon;

@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-interface RecruitConditionItemProps {
+interface RecruitIconItemProps {
   icon: {
     sm: string;
     md: string;
@@ -9,7 +9,7 @@ interface RecruitConditionItemProps {
   value: string | React.ReactNode;
 }
 
-const RecruitConditionItem = ({ icon, label, value }: RecruitConditionItemProps) => {
+const RecruitIconItem = ({ icon, label, value }: RecruitIconItemProps) => {
   return (
     <div className="flex items-center gap-2 overflow-hidden rounded-lg border border-gray-200 p-1 sm:p-3 md:gap-6 md:p-6">
       <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-100 bg-opacity-30 sm:h-9 sm:w-9 md:h-16 md:w-16">
@@ -28,4 +28,4 @@ const RecruitConditionItem = ({ icon, label, value }: RecruitConditionItemProps)
   );
 };
 
-export default RecruitConditionItem;
+export default RecruitIconItem;
