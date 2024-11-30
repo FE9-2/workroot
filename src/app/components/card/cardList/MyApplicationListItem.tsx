@@ -3,33 +3,9 @@ import { formatRecruitDate } from "@/utils/workDayFormatter";
 import Chip from "@/app/components/chip/Chip";
 import Image from "next/image";
 import { applicationStatus, ApplicationStatus } from "@/types/application";
+import { ApplicationListItemProps } from "@/types/response/application";
 import axios from "axios";
 import toast from "react-hot-toast";
-
-interface Owner {
-  imageUrl: string;
-  storeName: string;
-  id: number;
-}
-
-interface Form {
-  owner: Owner;
-  recruitmentEndDate: string;
-  recruitmentStartDate: string;
-  description: string;
-  title: string;
-  id: number;
-}
-
-interface ApplicationListItemProps {
-  updatedAt: Date;
-  createdAt: Date;
-  status: ApplicationStatus;
-  resumeName: string;
-  resumeId: number;
-  form: Form;
-  id: number;
-}
 
 // 지원 상태에 따른 Chip 컴포넌트의 variant를 반환하는 함수
 const getStatusVariant = (status: ApplicationStatus) => {
@@ -59,7 +35,6 @@ const getStatusLabel = (status: ApplicationStatus) => {
   }
 };
 
-// 내 지원 내역 카드 아이템 컴포넌트
 const MyApplicationListItem = ({ createdAt, status, resumeId, resumeName, form }: ApplicationListItemProps) => {
   // 현재 공고의 모집 상태를 가져옴
   const recruitmentStatus = getRecruitmentStatus(new Date(form.recruitmentEndDate));
