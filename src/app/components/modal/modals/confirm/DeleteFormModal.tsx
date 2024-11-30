@@ -1,19 +1,14 @@
+"use client";
+
 import { cn } from "@/lib/tailwindUtil";
 import Button from "@/app/components/button/default/Button";
 import Image from "next/image";
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import type { ConfirmFormModalProps } from "@/types/modal";
 
-interface DeleteFormModalProps {
-  formId: string;
-  isOpen: boolean;
-  onConfirm: () => void;
-  onClose: () => void;
-  className?: string;
-}
-
-const DeleteFormModal = ({ formId, isOpen, onConfirm, onClose, className }: DeleteFormModalProps) => {
+const DeleteFormModal = ({ id, isOpen, onClose, onConfirm, className }: ConfirmFormModalProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
 
   if (!isOpen) return null;
@@ -24,9 +19,10 @@ const DeleteFormModal = ({ formId, isOpen, onConfirm, onClose, className }: Dele
 
     try {
       setIsDeleting(true);
-      await axios.delete(`/api/forms/${formId}`);
-      onConfirm();
-      onClose();
+      await axios.delete(`/api/forms/${id}`);
+      toast.success("알바폼이 삭제되었습니다.");
+      onConfirm?.();
+      onClose?.();
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const errorMessage = error.response?.data?.message || "알바폼 삭제에 실패했습니다.";
@@ -42,7 +38,7 @@ const DeleteFormModal = ({ formId, isOpen, onConfirm, onClose, className }: Dele
   return (
     <div
       className={cn(
-        "h-[330px] w-[375px] rounded-3xl bg-white pb-8 pt-4 shadow-lg md:h-[440px] md:w-[520px]",
+        "relative left-1/2 h-[330px] w-[375px] -translate-x-1/2 rounded-3xl bg-white pb-8 pt-4 shadow-lg md:h-[440px] md:w-[520px]",
         className
       )}
     >

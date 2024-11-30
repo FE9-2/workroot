@@ -13,7 +13,12 @@ const FormContinueModal = ({ isOpen, onClose, className }: FormContinueModalProp
   if (!isOpen) return null;
 
   return (
-    <div className={cn("h-[284px] w-[375px] rounded-3xl bg-white p-6 shadow-lg md:h-[384px] md:w-[520px]", className)}>
+    <div
+      className={cn(
+        "relative left-1/2 h-[284px] w-[375px] -translate-x-1/2 rounded-3xl bg-white p-6 shadow-lg md:h-[384px] md:w-[520px]",
+        className
+      )}
+    >
       <div className="relative h-full">
         <button
           onClick={onClose}
