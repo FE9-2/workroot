@@ -4,6 +4,7 @@ export interface BaseTextAreaProps extends React.TextareaHTMLAttributes<HTMLText
   errorMessage?: string;
   wrapperClassName?: string;
   innerClassName?: string;
+  forwardRef?: React.Ref<HTMLTextAreaElement>; // ref 타입 추가
 }
 
 export interface BaseInputProps extends React.InputHTMLAttributes<HTMLInputElement> {

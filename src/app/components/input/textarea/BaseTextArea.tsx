@@ -10,7 +10,7 @@ import { BaseTextAreaProps } from "@/types/textInput";
 @param innerClassName?: string; - 부가적인 tailwind css 클래스
 */
 
-const BaseTextArea = (props: BaseTextAreaProps) => {
+const BaseTextArea = ({ forwardRef, ...props }: BaseTextAreaProps) => {
   const variantStyles = {
     white: {
       bg: "bg-background-200",
@@ -31,11 +31,11 @@ const BaseTextArea = (props: BaseTextAreaProps) => {
   // textareaStyle
   const baseStyle = "resize-none focus:outline-none h-full w-full";
   const textStyle =
-    "text-black-400 placeholder:text-grayscale-400 text-sm font-normal leading-[26px] lg:text-base lg:leading-8";
+    "text-black-400 placeholder:text-grayscale-400 placeholder:text-base placeholder:leading-[26px] lg:placeholder:text-xl lg:placeholder:leading-8 lg:text-xl font-normal lg:leading-8 text-base leading-[26px]";
 
   //  wrapperStyle
   const variantStyle = `${variantStyles[props.variant].border} ${variantStyles[props.variant].hover} ${variantStyles[props.variant].focus}`;
-  const errorStyle = props.errorMessage ? "!border-state-error" : "";
+  const errorStyle = props.errorMessage ? "!border-[0.5px] border-state-error" : "";
 
   const bgStyle = variantStyles[props.variant].bg;
 
@@ -50,6 +50,8 @@ const BaseTextArea = (props: BaseTextAreaProps) => {
         placeholder={props.placeholder}
         disabled={props.disabled}
         className={`${textareaStyle} scrollbar-custom`}
+        ref={forwardRef}
+        {...props}
       />
       {props.errorMessage && (
         <span className="absolute -bottom-[26px] right-0 pr-2 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]">

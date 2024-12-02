@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/tailwindUtil";
 import { BaseFileInputProps } from "@/types/textInput";
 import { useRef } from "react";
 
@@ -31,6 +32,8 @@ const BaseFileInput = (props: BaseFileInputProps) => {
 
   const innerColorStyle = `${colorStyle.innerHoverColor}`;
   const fakeInputStyle = `text-grayscale-400 flex items-center border-none text-base leading-[26px] lg:text-xl lg:leading-[32px] ${innerColorStyle}`;
+  const fileName =
+    props.file && "!text-black-400 underline lg:text-xl font-normal lg:leading-8 text-base leading-[26px]";
 
   // 라벨 클릭 시 input 클릭 - 파일 선택 창 열기 / 파일 다운로드
   const inputRef = useRef<HTMLInputElement>(null);
@@ -45,7 +48,7 @@ const BaseFileInput = (props: BaseFileInputProps) => {
   return (
     <>
       <div className={wrapperStyle} onClick={props.variant === "upload" ? handleWrapperClick : undefined}>
-        <label htmlFor={props.name} className={fakeInputStyle}>
+        <label htmlFor={props.name} className={cn(fakeInputStyle, fileName)}>
           {props.file && !props.isImage ? props.file.name : props.placeholder}
         </label>
         {props.variant === "upload" && (

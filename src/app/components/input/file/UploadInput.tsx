@@ -26,10 +26,10 @@ const UploadInput = (props: BaseFileInputProps) => {
       actionIcon={
         file ? (
           <button type="button" onClick={handleDeleteFile}>
-            <IoCloseCircleOutline className="size-[14px] text-grayscale-400 lg:size-[18px]" />
+            <IoCloseCircleOutline className="size-6 text-grayscale-400 lg:size-8" />
           </button>
         ) : (
-          <HiUpload className="size-[14px] text-black-400 lg:size-[18px]" />
+          <HiUpload className="size-6 text-black-400 lg:size-8" />
         )
       }
     />
