@@ -19,7 +19,7 @@ const PreviewItem = ({
         onClick={() => handleDeleteImage(id)}
         className="absolute -right-2 -top-2 z-10 flex size-6 cursor-pointer items-center justify-center rounded-full lg:-right-3 lg:-top-3 lg:size-9"
       >
-        <Image src={"/icons/x/x-circle-md.svg"} alt="삭제" height={24} width={24} />
+        <Image src={"/icons/x/x-circle-md.svg"} alt="삭제" height={24} width={24} className="h-full w-full" />
       </div>
     </div>
   );

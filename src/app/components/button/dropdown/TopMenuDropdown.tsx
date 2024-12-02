@@ -31,7 +31,7 @@ const TopMenuDropdown = ({ options, className = "" }: TopMenuDropdownProps) => {
     <div className={cn("relative inline-block w-80 text-left text-base", className)}>
       <div
         className={cn(
-          "hover:border-primary-gray-200 bg-primary-orange-300 p-2 text-white",
+          "hover:border-primary-grayscale-200 bg-primary-orange-300 p-2 text-white",
           isOpen ? "rounded-b-none rounded-t-xl ring-1 ring-line-200" : "rounded-2xl" // isOpen이 false일 때 모든 테두리가 둥글게
         )}
       >
@@ -61,9 +61,9 @@ const TopMenuDropdown = ({ options, className = "" }: TopMenuDropdownProps) => {
             <li
               key={option.value} // 값이 고유하다면 `value`를 key로 사용
               onClick={() => handleOptionClick(option)} // option 객체 전체를 전달
-              className={cn("cursor-pointer rounded-md px-6 py-3.5", "hover:bg-primary-gray-100")}
+              className={cn("cursor-pointer rounded-md px-6 py-3.5", "hover:bg-primary-grayscale-100")}
             >
-              <span className={cn(baseStyle, "bg-background-300 font-bold text-gray-200")}>
+              <span className={cn(baseStyle, "bg-background-300 font-bold text-grayscale-200")}>
                 {idx + 2} {/* 1부터 시작하는 번호 */}
               </span>
               {option.label} {/* 옵션의 레이블 */}

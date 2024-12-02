@@ -8,7 +8,7 @@ const meta = {
     layout: "centered",
   },
   argTypes: {
-    errorMessage: {
+    errormessage: {
       description: "에러 메시지를 표시합니다",
       control: "text",
     },

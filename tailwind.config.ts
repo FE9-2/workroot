@@ -20,7 +20,7 @@ const config: Config = {
           400: "#1F1F1F",
           500: "#040404",
         },
-        gray: {
+        grayscale: {
           50: "#FFFFFF",
           100: "#DEDEDE",
           200: "#C4C4C4",

@@ -10,7 +10,7 @@ interface ToastProps {
 
 export default function Toast({ onClose }: ToastProps) {
   return (
-    <div className="relative left-1/2 top-4 flex h-[48px] w-[327px] -translate-x-1/2 transform items-center rounded-lg bg-primary-blue-300 px-4 font-nexon text-gray-50 shadow-md md:h-[64px] md:w-[640px]">
+    <div className="relative left-1/2 top-4 flex h-[48px] w-[327px] -translate-x-1/2 transform items-center rounded-lg bg-primary-blue-300 px-4 font-nexon text-grayscale-50 shadow-md md:h-[64px] md:w-[640px]">
       <div className="flex w-full items-center justify-start md:justify-center">
         <Image
           src="/icons/check/check-circle-md.svg"

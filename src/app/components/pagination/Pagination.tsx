@@ -55,7 +55,7 @@ const Pagination = ({ totalPage }: { totalPage: number }) => {
 
   // extraStyle로 전달
   const activeStyle = "text-black-400 font-semibold";
-  const defaultStyle = "text-gray-200 font-medium lg:font-normal";
+  const defaultStyle = "text-grayscale-200 font-medium lg:font-normal";
 
   return (
     <div className="flex gap-1">
