@@ -38,7 +38,6 @@ const BaseFileInput = (props: BaseFileInputProps) => {
   // 라벨 클릭 시 input 클릭 - 파일 선택 창 열기 / 파일 다운로드
   const inputRef = useRef<HTMLInputElement>(null);
   const handleWrapperClick = (e: MouseEvent) => {
-    // e.preventDefault();
     if (props.variant === "upload") {
       inputRef.current?.click();
     } else {
@@ -49,7 +48,11 @@ const BaseFileInput = (props: BaseFileInputProps) => {
   return (
     <>
       <div className={wrapperStyle} onClick={props.variant === "upload" ? handleWrapperClick : undefined}>
-        <label htmlFor={props.name} className={cn(fakeInputStyle, fileName)}>
+        <label
+          htmlFor={props.name}
+          className={cn(fakeInputStyle, fileName)}
+          onClick={(e: MouseEvent) => e.stopPropagation()}
+        >
           {props.file && !props.isImage ? props.file.name : props.placeholder}
         </label>
         {props.variant === "upload" && (

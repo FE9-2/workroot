@@ -86,7 +86,6 @@ export default function Apply() {
           {...register("resume", {
             required: "이력서는 필수입니다",
             validate: (fileList: FileList) => {
-              // FileList 타입 체크
               return fileList?.length > 0 || "이력서는 필수입니다";
             },
             onChange: (e) => {
