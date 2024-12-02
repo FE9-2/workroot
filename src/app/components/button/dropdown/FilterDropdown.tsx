@@ -1,29 +1,62 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { cn } from "@/lib/tailwindUtil";
 import DropdownList from "./dropdownComponent/DropdownList";
 
 interface FilterDropdownProps {
-  options: string[];
+  options: readonly string[];
   className?: string;
+  onChange?: (selected: string) => void;
+  initialValue?: string;
+  readOnly?: boolean;
 }
 
-const FilterDropdown = ({ options, className = "" }: FilterDropdownProps) => {
+const FilterDropdown = ({ options, className = "", onChange, initialValue, readOnly = false }: FilterDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedLabel, setSelectedLabel] = useState(options[0]);
+  const [selectedLabel, setSelectedLabel] = useState(initialValue || options[0]);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (initialValue) {
+      setSelectedLabel(initialValue);
+    }
+  }, [initialValue]);
 
   const toggleDropdown = () => {
+    if (readOnly) return;
     setIsOpen((prev) => !prev);
   };
 
   const handleSelect = (option: string) => {
     setSelectedLabel(option);
     setIsOpen(false);
+    onChange?.(option);
   };
 
   return (
-    <div className={cn("relative inline-block text-left", "w-20 text-xs md:w-32 md:text-lg", className)}>
+    <div
+      ref={dropdownRef}
+      className={cn(
+        "relative inline-block text-left",
+        "w-20 text-xs md:w-32 md:text-lg",
+        readOnly && "cursor-default opacity-70",
+        className
+      )}
+    >
       <div>
         <button
           type="button"
@@ -31,10 +64,11 @@ const FilterDropdown = ({ options, className = "" }: FilterDropdownProps) => {
             "flex w-full items-center justify-between rounded-md border p-2 font-medium shadow-sm",
             "text-grayscale-700 hover:bg-primary-orange-50",
             selectedLabel === options[0]
-              ? "border border-grayscale-100 bg-white"
+              ? "border-grayscale-100 border bg-white"
               : "border-primary-orange-300 bg-primary-orange-50"
           )}
           onClick={toggleDropdown}
+          disabled={readOnly}
         >
           <span className={selectedLabel === options[0] ? "text-black-100" : "text-primary-orange-300"}>
             {selectedLabel}
@@ -49,12 +83,12 @@ const FilterDropdown = ({ options, className = "" }: FilterDropdownProps) => {
         </button>
       </div>
 
-      {isOpen && (
+      {isOpen && !readOnly && (
         <DropdownList
-          list={options}
+          list={Array.from(options)}
           onSelect={handleSelect}
           wrapperStyle="h-full w-[80px] md:w-[126px]"
-          itemStyle="md:text-lg text-xs "
+          itemStyle="md:text-lg text-xs"
         />
       )}
     </div>
