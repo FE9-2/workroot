@@ -4,7 +4,7 @@ import { BaseTextAreaProps } from "@/types/textInput";
 @param name: string - 필수값
 @param size: "w-[00px] h-[00px] lg:w-[00px] lg:h-[00px]" - 기본값: "w-[327px] h-[132px] lg:w-[640px] lg:h-[160px]"
 @param placeholder: string
-@param errorMessage: string - 에러메시지 + 테두리 색상 변경
+@param errormessage: string - 에러메시지 + 테두리 색상 변경
 @param disabled: boolean
 @param wrapperClassName?: string; - 부가적인 tailwind css 클래스
 @param innerClassName?: string; - 부가적인 tailwind css 클래스
@@ -35,7 +35,7 @@ const BaseTextArea = ({ forwardRef, ...props }: BaseTextAreaProps) => {
 
   //  wrapperStyle
   const variantStyle = `${variantStyles[props.variant].border} ${variantStyles[props.variant].hover} ${variantStyles[props.variant].focus}`;
-  const errorStyle = props.errorMessage ? "!border-[0.5px] border-state-error" : "";
+  const errorStyle = props.errormessage ? "!border-[0.5px] border-state-error" : "";
 
   const bgStyle = variantStyles[props.variant].bg;
 
@@ -53,9 +53,9 @@ const BaseTextArea = ({ forwardRef, ...props }: BaseTextAreaProps) => {
         ref={forwardRef}
         {...props}
       />
-      {props.errorMessage && (
+      {props.errormessage && (
         <span className="absolute -bottom-[26px] right-0 pr-2 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]">
-          {props.errorMessage}
+          {props.errormessage}
         </span>
       )}
     </div>

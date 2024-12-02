@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/tailwindUtil";
 import { BaseFileInputProps } from "@/types/textInput";
-import { useRef } from "react";
+import { MouseEvent, useRef } from "react";
 
 const BaseFileInput = (props: BaseFileInputProps) => {
   const colorStyle = {
@@ -37,7 +37,8 @@ const BaseFileInput = (props: BaseFileInputProps) => {
 
   // 라벨 클릭 시 input 클릭 - 파일 선택 창 열기 / 파일 다운로드
   const inputRef = useRef<HTMLInputElement>(null);
-  const handleWrapperClick = () => {
+  const handleWrapperClick = (e: MouseEvent) => {
+    // e.preventDefault();
     if (props.variant === "upload") {
       inputRef.current?.click();
     } else {

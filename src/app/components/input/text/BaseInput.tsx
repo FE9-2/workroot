@@ -10,7 +10,7 @@ import { BaseInputProps } from "@/types/textInput";
 @param variant: "white" | "transparent";
 @param size: "w-[00px] h-[00px] lg:w-[00px] lg:h-[00px]" - 기본값: "w-[327px] h-[54px] lg:w-[640px] lg:h-[64px]"
 @param placeholder: string
-@param errorMessage: string - 에러메시지 + 테두리 색상 변경
+@param errormessage: string - 에러메시지 + 테두리 색상 변경
 @param feedbackMessage: string - 메시지만 띄우고 색상 변경 X
 @param disabled: boolean
 @param wrapperClassName?: string; - 부가적인 tailwind css 클래스
@@ -25,7 +25,7 @@ const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
     {
       variant,
       size,
-      errorMessage,
+      errormessage,
       feedbackMessage,
       wrapperClassName,
       innerClassName,
@@ -77,7 +77,7 @@ const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
 
     // wrapperStyle
     const variantStyle = `${variants[variant].bgColor} ${variants[variant].borderColor} ${variants[variant].hoverColor} ${variants[variant].focusColor}`;
-    const errorStyle = errorMessage ? "!border-state-error" : "";
+    const errorStyle = errormessage ? "!border-state-error" : "";
     const errorTextStyle =
       "absolute -bottom-[26px] text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
 
@@ -117,7 +117,7 @@ const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
               {afterString}
             </div>
           )}
-          {errorMessage && <span className={`${errorTextStyle} right-0 pr-2`}>{errorMessage}</span>}
+          {errormessage && <span className={`${errorTextStyle} right-0 pr-2`}>{errormessage}</span>}
           {feedbackMessage && <span className={`${errorTextStyle} left-0 pl-2`}>{feedbackMessage}</span>}
         </div>
       </div>

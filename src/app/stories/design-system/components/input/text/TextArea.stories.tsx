@@ -73,7 +73,7 @@ export const textArea_with_error: Story = {
   args: {
     variant: "white",
     placeholder: "에러 상태 테스트",
-    errorMessage: "가게 이름(상호명)을 필수로 입력해주세요",
+    errormessage: "가게 이름(상호명)을 필수로 입력해주세요",
   },
   render: (args) => {
     const { _storySize, ...rest } = args as StoryProps;

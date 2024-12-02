@@ -52,7 +52,7 @@ export default function Apply() {
         type="text"
         variant="white"
         placeholder="이름을 입력해주세요."
-        errorMessage={errors.name?.message}
+        errormessage={errors.name?.message}
       />
 
       <Label name="연락처" />
@@ -67,7 +67,7 @@ export default function Apply() {
         type="text"
         variant="white"
         placeholder="숫자만 입력해주세요"
-        errorMessage={errors.contact?.message}
+        errormessage={errors.contact?.message}
       />
 
       <Label name="경력(개월 수)" />
@@ -78,18 +78,17 @@ export default function Apply() {
         type="number"
         variant="white"
         placeholder="숫자만 입력해주세요"
-        errorMessage={errors.career?.message}
+        errormessage={errors.career?.message}
       />
       <div className="relative flex w-full flex-col">
         <Label name="이력서" />
         <UploadInput
           {...register("resume", {
             required: "이력서는 필수입니다",
-            validate: (value) => {
+            validate: (fileList: FileList) => {
               // FileList 타입 체크
-              return (value instanceof FileList && value.length > 0) || "이력서는 필수입니다";
+              return fileList?.length > 0 || "이력서는 필수입니다";
             },
-
             onChange: (e) => {
               if (e.target.files?.length > 0) {
                 clearErrors("resume"); // 파일이 있으면 에러 제거
@@ -111,7 +110,7 @@ export default function Apply() {
         })}
         variant="white"
         placeholder="최대 200자까지 입력 가능합니다."
-        errorMessage={errors.introduce?.message}
+        errormessage={errors.introduce?.message}
         forwardRef={register("introduce").ref} // ref 전달 추가
       />
 
@@ -125,7 +124,7 @@ export default function Apply() {
           type="password"
           variant="white"
           placeholder="비밀번호를 입력해주세요."
-          errorMessage={errors.password?.message}
+          errormessage={errors.password?.message}
         />
         <div className="mt-[6px] text-xs font-normal leading-[18px] text-grayscale-400">
           *지원내역 확인에 사용됩니다.

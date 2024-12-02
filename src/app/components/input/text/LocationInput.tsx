@@ -6,7 +6,7 @@ import BaseInput from "./BaseInput";
 import { BaseInputProps } from "@/types/textInput";
 
 const LocationInput = ({ type, variant, ...props }: BaseInputProps) => {
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errormessage, seterrormessage] = useState("");
   const [feedbackMessage, setFeedbackMessage] = useState("");
   return (
     <BaseInput
@@ -14,7 +14,7 @@ const LocationInput = ({ type, variant, ...props }: BaseInputProps) => {
       variant="white"
       beforeIcon={<IoLocationSharp className="size-6 text-grayscale-100 lg:size-9" />}
       placeholder="위치를 입력해주세요."
-      errorMessage={errorMessage}
+      errormessage={errormessage}
       feedbackMessage={feedbackMessage}
       {...props}
     />

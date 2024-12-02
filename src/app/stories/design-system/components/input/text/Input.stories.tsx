@@ -81,7 +81,7 @@ export const Error: Story = {
     type: "text",
     variant: "white",
     placeholder: "텍스트 입력",
-    errorMessage: "에러 메시지",
+    errormessage: "에러 메시지",
   },
 };
 

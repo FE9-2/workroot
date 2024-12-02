@@ -1,7 +1,7 @@
 export interface BaseTextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   variant: "white" | "transparent";
   size?: string;
-  errorMessage?: string;
+  errormessage?: string;
   wrapperClassName?: string;
   innerClassName?: string;
   forwardRef?: React.Ref<HTMLTextAreaElement>; // ref 타입 추가
@@ -10,7 +10,7 @@ export interface BaseTextAreaProps extends React.TextareaHTMLAttributes<HTMLText
 export interface BaseInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   variant: "white" | "transparent";
   size?: string;
-  errorMessage?: string;
+  errormessage?: string;
   feedbackMessage?: string;
   beforeIcon?: React.ReactNode;
   afterIcon?: React.ReactNode;
@@ -30,4 +30,5 @@ export interface BaseFileInputProps {
   actionIcon?: React.ReactNode;
   placeholder: string;
   isImage?: boolean;
+  onChange?: (event: Event) => void;
 }
