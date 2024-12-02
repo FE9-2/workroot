@@ -84,15 +84,18 @@ export default function Apply() {
         <Label name="이력서" />
         <UploadInput
           {...register("resume", {
-            required: "이력서는 필수입니다",
+            required: "이력서를 업로드해주세요.",
             validate: (fileList: FileList) => {
-              return fileList?.length > 0 || "이력서는 필수입니다";
+              if (!fileList || fileList.length === 0) {
+                return "이력서는 필수입니다.";
+              }
+              return true;
             },
             onChange: (e) => {
               if (e.target.files?.length > 0) {
-                clearErrors("resume"); // 파일이 있으면 에러 제거
+                clearErrors("resume");
               }
-              trigger("resume"); // validation 재실행
+              trigger("resume");
             },
           })}
           variant="upload"
@@ -110,7 +113,6 @@ export default function Apply() {
         variant="white"
         placeholder="최대 200자까지 입력 가능합니다."
         errormessage={errors.introduce?.message}
-        forwardRef={register("introduce").ref} // ref 전달 추가
       />
 
       <Label name="비밀번호" />

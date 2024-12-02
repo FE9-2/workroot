@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { BaseTextAreaProps } from "@/types/textInput";
 /*
 @param variant: "white" | "transparent" - 필수값
@@ -10,7 +11,7 @@ import { BaseTextAreaProps } from "@/types/textInput";
 @param innerClassName?: string; - 부가적인 tailwind css 클래스
 */
 
-const BaseTextArea = ({ forwardRef, ...props }: BaseTextAreaProps) => {
+const BaseTextArea = forwardRef<HTMLTextAreaElement, BaseTextAreaProps>((props, ref) => {
   const variantStyles = {
     white: {
       bg: "bg-background-200",
@@ -50,7 +51,7 @@ const BaseTextArea = ({ forwardRef, ...props }: BaseTextAreaProps) => {
         placeholder={props.placeholder}
         disabled={props.disabled}
         className={`${textareaStyle} scrollbar-custom`}
-        ref={forwardRef}
+        ref={ref}
         {...props}
       />
       {props.errormessage && (
@@ -60,6 +61,8 @@ const BaseTextArea = ({ forwardRef, ...props }: BaseTextAreaProps) => {
       )}
     </div>
   );
-};
+});
+
+BaseTextArea.displayName = "BaseTextArea";
 
 export default BaseTextArea;
