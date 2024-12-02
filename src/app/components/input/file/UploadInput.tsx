@@ -3,6 +3,7 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import BaseFileInput from "./BaseFileInput";
 import { BaseFileInputProps } from "@/types/textInput";
 import { useFile } from "@/hooks/useFile";
+import Image from "next/image";
 /*
  * @param name: string; - 필수값
  * @param variant: "upload" | "download"; - 필수값
@@ -25,8 +26,8 @@ const UploadInput = (props: BaseFileInputProps) => {
       onFileAction={handleChangeFile}
       actionIcon={
         file ? (
-          <button type="button" onClick={handleDeleteFile}>
-            <IoCloseCircleOutline className="size-6 text-grayscale-400 lg:size-8" />
+          <button type="button" onClick={handleDeleteFile} className="size-6 lg:size-8">
+            <Image src={"/icons/x/x-circle-md.svg"} alt="삭제" height={24} width={24} className="h-full w-full" />
           </button>
         ) : (
           <HiUpload className="size-6 text-black-400 lg:size-8" />
