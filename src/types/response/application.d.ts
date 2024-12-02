@@ -18,3 +18,25 @@ export interface ApplicationListResponse {
   data: Array<ApplicationResponse>;
   nextCursor: number | null;
 }
+
+// 지원 목록 아이템 Props
+export interface ApplicationListItemProps {
+  id: number;
+  updatedAt: Date;
+  createdAt: Date;
+  status: ApplicationStatus;
+  resumeName: string;
+  resumeId: number;
+  form: {
+    id: number;
+    title: string;
+    description: string;
+    recruitmentStartDate: string;
+    recruitmentEndDate: string;
+    owner: {
+      id: number;
+      storeName: string;
+      imageUrl: string;
+    };
+  };
+}

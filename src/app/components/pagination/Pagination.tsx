@@ -6,9 +6,14 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import useWidth from "@/hooks/useWidth";
 import { cn } from "@/lib/tailwindUtil";
 
-const Pagination = ({ totalPage }: { totalPage: number }) => {
+interface PaginationProps {
+  totalPage: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+}
+
+const Pagination = ({ totalPage, currentPage, onPageChange }: PaginationProps) => {
   const { isMobile } = useWidth();
-  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const maxPageShow = isMobile ? 3 : 5;
   const paginationNum = totalPage > maxPageShow ? maxPageShow : totalPage; // 페이지네이션 개수 유지
@@ -36,7 +41,7 @@ const Pagination = ({ totalPage }: { totalPage: number }) => {
     }
   };
 
-  const handleClickNetxBtn = () => {
+  const handleClickNextBtn = () => {
     if (totalPage <= maxPageShow || lastPage === totalPage) {
       return;
     } else if (lastPage === totalPage - 1 || lastPage + maxPageShow > totalPage) {
@@ -50,7 +55,7 @@ const Pagination = ({ totalPage }: { totalPage: number }) => {
   };
 
   const handleChangePage = (page: number) => {
-    setCurrentPage(page);
+    onPageChange(page);
   };
 
   // extraStyle로 전달
@@ -83,7 +88,7 @@ const Pagination = ({ totalPage }: { totalPage: number }) => {
       ) : (
         <></>
       )}
-      <li onClick={handleClickNetxBtn}>
+      <li onClick={handleClickNextBtn}>
         <PaginationBtn extraStyle="ml-[6px]" disabled={nextDisabled}>
           <IoIosArrowForward className={cn(nextDisabled ? defaultStyle : activeStyle)} />
         </PaginationBtn>
