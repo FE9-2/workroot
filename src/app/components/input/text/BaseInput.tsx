@@ -4,7 +4,7 @@ import { forwardRef, useState } from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import { BaseInputProps } from "@/types/textInput";
 
-/* 
+/** 
 @param name: string - 필수값
 @param type: "text" | "password" | ... - 필수값
 @param variant: "white" | "transparent";

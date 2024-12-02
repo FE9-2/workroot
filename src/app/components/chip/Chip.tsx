@@ -9,7 +9,7 @@ interface ChipProps {
   icon?: React.ReactElement;
   textStyle?: string;
 }
-/*
+/**
  * @param label
  * @param variant : "positive" | "negative";
  * @param border : boolean

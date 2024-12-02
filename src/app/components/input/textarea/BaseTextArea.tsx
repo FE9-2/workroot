@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import { BaseTextAreaProps } from "@/types/textInput";
-/*
+/**
 @param variant: "white" | "transparent" - 필수값
 @param name: string - 필수값
 @param size: "w-[00px] h-[00px] lg:w-[00px] lg:h-[00px]" - 기본값: "w-[327px] h-[132px] lg:w-[640px] lg:h-[160px]"

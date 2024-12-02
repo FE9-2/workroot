@@ -2,18 +2,10 @@
 
 import { cn } from "@/lib/tailwindUtil";
 import { BaseFileInputProps } from "@/types/textInput";
-import { MouseEvent, useRef } from "react";
+import { forwardRef, MouseEvent, useRef } from "react";
 
-const BaseFileInput = (props: BaseFileInputProps) => {
-  const colorStyle = {
-    bgColor: "bg-background-200",
-    borderColor: "border border-transparent",
-    hoverColor: "hover:border-grayscale-200 hover:bg-background-300",
-    focusColor: "[&:has(input:focus)]:border-primary-orange-300 caret-primary-orange-300",
-    innerHoverColor: "hover:bg-background-300",
-  };
-
-  /*
+const BaseFileInput = forwardRef<HTMLInputElement, BaseFileInputProps>((props, ref) => {
+  /**
    * @param name: string;
    * @param variant: "upload" | "download";
    * @param size?: string;
@@ -24,6 +16,14 @@ const BaseFileInput = (props: BaseFileInputProps) => {
    * @param placeholder?: string;
    * @param isImage?: boolean;
    */
+  const colorStyle = {
+    bgColor: "bg-background-200",
+    borderColor: "border border-transparent",
+    hoverColor: "hover:border-grayscale-200 hover:bg-background-300",
+    focusColor: "[&:has(input:focus)]:border-primary-orange-300 caret-primary-orange-300",
+    innerHoverColor: "hover:bg-background-300",
+  };
+
   const defaultSize = "w-[327px] h-[54px] lg:w-[640px] lg:h-[64px]";
   const sizeStyles = props.size || defaultSize;
 
@@ -69,6 +69,8 @@ const BaseFileInput = (props: BaseFileInputProps) => {
       </div>
     </>
   );
-};
+});
+
+BaseFileInput.displayName = "BaseFileInput";
 
 export default BaseFileInput;
