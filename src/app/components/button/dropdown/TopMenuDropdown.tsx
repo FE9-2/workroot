@@ -4,28 +4,27 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { cn } from "@/lib/tailwindUtil";
 
 interface TopMenuDropdownProps {
+  // isopen 추가
   options: { label: string; value: string }[]; // 객체 배열 형식으로 수정
   className?: string;
 }
+const Onpregress = () => {
+  const tapMenuStyle = "rounded-2xl border bg-opacity-20 px-2 py-1 text-sm";
 
+  return;
+  <span className={cn(tapMenuStyle, "border-white bg-white")}>작성중</span>;
+};
 const TopMenuDropdown = ({ options, className = "" }: TopMenuDropdownProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<string>(""); // 선택된 값 (label을 저장)
-  const [isCustomInput, setIsCustomInput] = useState<boolean>(false);
+  const [onProgressList, setOnPregressList] = useState<string[]>([]);
 
   const handleOptionClick = (option: { label: string; value: string }) => {
-    if (option.label === "직접입력") {
-      setIsCustomInput(true);
-      setSelectedValue("");
-    } else {
-      setSelectedValue(option.label); // 선택된 레이블을 저장
-      setIsCustomInput(false);
-    }
+    setSelectedValue(option.label); // 선택된 레이블을 저장
     setIsOpen(false);
   };
 
   const baseStyle = "mr-4 inline-flex h-5 w-5 items-center justify-center rounded-2xl text-center text-sm";
-  const tapMenuStyle = "rounded-2xl border bg-opacity-20 px-2 py-1 text-sm";
 
   return (
     <div className={cn("relative inline-block w-80 text-left text-base", className)}>
@@ -40,14 +39,14 @@ const TopMenuDropdown = ({ options, className = "" }: TopMenuDropdownProps) => {
           <input
             type="text"
             value={selectedValue} // 선택된 값 표시
-            onChange={(e) => isCustomInput && setSelectedValue(e.target.value)}
+            onChange={(e) => setSelectedValue(e.target.value)}
             placeholder="선택"
             className={cn(
               "flex w-[108px] items-center justify-between py-2 pl-9 font-medium placeholder:text-white focus:outline-none",
               "bg-primary-orange-300"
             )}
           />
-          <span className={cn(tapMenuStyle, "border-white bg-white")}>작성중</span>
+          {/* <span className={cn(tapMenuStyle, "border-white bg-white")}>작성중</span> */}
         </div>
         <div className="absolute right-3 top-1.5 mr-2 mt-2 flex items-center">
           <button onClick={() => setIsOpen(!isOpen)} className="text-3xl">

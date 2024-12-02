@@ -65,7 +65,7 @@ export default function Apply() {
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
   return (
     <form className="my-8 flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-      <Label name="이름" />
+      <Label>이름</Label>
       <BaseInput
         {...register("name", { required: "이름은 필수입니다" })}
         type="text"
@@ -74,7 +74,7 @@ export default function Apply() {
         errormessage={errors.name?.message}
       />
 
-      <Label name="연락처" />
+      <Label>연락처</Label>
       <BaseInput
         {...register("phoneNumber", {
           required: "연락처는 필수입니다",
@@ -89,7 +89,7 @@ export default function Apply() {
         errormessage={errors.phoneNumber?.message}
       />
 
-      <Label name="경력(개월 수)" />
+      <Label>경력(개월 수)</Label>
       <BaseInput
         {...register("experienceMonths", {
           required: "경력은 필수입니다",
@@ -100,7 +100,7 @@ export default function Apply() {
         errormessage={errors.experienceMonths?.message}
       />
       <div className="relative flex w-full flex-col gap-4">
-        <Label name="이력서" />
+        <Label>이력서</Label>
         <UploadInput
           {...register("resume", {
             required: "이력서를 업로드해주세요.",
@@ -123,7 +123,7 @@ export default function Apply() {
         {errors.resume && <p className={cn(errorTextStyle, "")}>{errors.resume.message}</p>}
       </div>
 
-      <Label name="자기소개" />
+      <Label>자기소개</Label>
       <BaseTextArea
         {...register("introduction", {
           required: "자기소개를 입력해주세요",
@@ -134,7 +134,7 @@ export default function Apply() {
         errormessage={errors.introduction?.message}
       />
       <div className="relative">
-        <Label name="비밀번호" />
+        <Label>비밀번호</Label>
         <div className="absolute right-0 top-0 mt-[6px] text-xs font-normal leading-[18px] text-grayscale-400">
           지원내역 확인에 사용됩니다.
         </div>
