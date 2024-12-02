@@ -7,6 +7,7 @@ import { postSortOptions } from "@/constants/postOptions";
 import { formSortOptions } from "@/constants/formOptions";
 import FilterDropdown from "@/app/components/button/dropdown/FilterDropdown";
 import { useSortStore } from "@/store/sortStore";
+import { useEffect } from "react";
 
 const TABS = [
   { name: "내가 쓴 글", path: "/mypage/posts" },
@@ -28,6 +29,13 @@ const SORT_OPTIONS = {
     { label: "지원자 많은순", value: formSortOptions.MOST_APPLIED },
     { label: "스크랩 많은순", value: formSortOptions.MOST_SCRAPPED },
   ],
+} as const;
+
+// 탭이지별 기본 정렬 옵션 추가
+const DEFAULT_SORT_VALUES = {
+  posts: postSortOptions.MOST_RECENT,
+  comments: postSortOptions.MOST_RECENT,
+  scrap: formSortOptions.MOST_RECENT,
 } as const;
 
 // 탭 메뉴 컴포넌트
@@ -59,6 +67,11 @@ const SortSection = ({ pageType }: { pageType: keyof typeof SORT_OPTIONS }) => {
   const options = SORT_OPTIONS[pageType];
   const currentLabel = options.find((opt) => opt.value === orderBy[pageType])?.label || options[0].label;
   const isReadOnly = pageType === "comments";
+
+  // pageType이 변경될 때마다 해당 탭의 기본값으로 초기화
+  useEffect(() => {
+    setOrderBy(pageType, DEFAULT_SORT_VALUES[pageType]);
+  }, [pageType, setOrderBy]);
 
   const handleSortChange = (selected: string) => {
     const option = options.find((opt) => opt.label === selected);

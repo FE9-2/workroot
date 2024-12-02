@@ -20,7 +20,7 @@ export const DayPicker: Story = {
 
     return (
       <>
-        <div className="my-4 text-gray-600">요일 선택 (토글)</div>
+        <div className="text-grayscale-600 my-4">요일 선택 (토글)</div>
         <StoryComponent />
       </>
     );
