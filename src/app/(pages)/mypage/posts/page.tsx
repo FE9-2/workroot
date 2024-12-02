@@ -1,34 +1,52 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import axios from "axios";
-import toast from "react-hot-toast";
+import { postSortOptions } from "@/constants/postOptions";
+import { useUser } from "@/hooks/useUser";
+import { useState } from "react";
+import Pagination from "@/app/components/pagination/Pagination";
+
+const POSTS_PER_PAGE = 10;
 
 export default function PostsPage() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [posts, setPosts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const { useMyPosts } = useUser();
+  const {
+    data: postData,
+    isLoading,
+    error,
+  } = useMyPosts({
+    limit: POSTS_PER_PAGE,
+    orderBy: postSortOptions.MOST_RECENT,
+    cursor: ((currentPage - 1) * POSTS_PER_PAGE).toString(),
+  });
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await axios.get("/api/users/me/posts");
-        setPosts(response.data.data);
-      } catch (error) {
-        console.error("Failed to fetch posts:", error);
-        toast.error("게시글을 불러오는데 실패했습니다.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  // nextCursor가 있으면 다음 페이지가 있다는 의미
+  const hasNextPage = Boolean(postData?.nextCursor);
+  const totalPages = hasNextPage ? currentPage + 1 : currentPage;
 
-    fetchPosts();
-  }, []);
+  // 페이지 변경 핸들러
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo(0, 0);
+  };
 
-  if (isLoading) {
-    return <div>로딩 중...</div>;
+  if (error) {
+    return (
+      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
+        <p className="text-red-500">게시글을 불러오는데 실패했습니다.</p>
+      </div>
+    );
   }
 
-  if (posts.length === 0) {
+  if (isLoading) {
+    return (
+      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
+        <div>로딩 중...</div>
+      </div>
+    );
+  }
+
+  if (!postData?.data?.length) {
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
         <p className="text-gray-500">아직 작성한 글이 없습니다.</p>
@@ -37,9 +55,28 @@ export default function PostsPage() {
   }
 
   return (
-    <>
-      {/* 게시글 목록 컴포넌트 추가 예정 */}
-      <div>게시글 목록이 표시될 영역</div>
-    </>
+    <div className="space-y-4">
+      {/* 게시글 목록 */}
+      <div className="space-y-4">
+        {postData?.data.map((post) => (
+          <div key={post.id} className="rounded-lg border p-4">
+            <h3 className="font-bold">{post.title}</h3>
+            <p className="text-gray-600">{post.content}</p>
+            <div className="mt-2 text-sm text-gray-500">
+              <span>댓글 {post.commentCount}</span>
+              <span className="mx-2">•</span>
+              <span>좋아요 {post.likeCount}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* 페이지네이션 */}
+      {totalPages > 1 && (
+        <div className="flex justify-center py-4">
+          <Pagination totalPage={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
+        </div>
+      )}
+    </div>
   );
 }
