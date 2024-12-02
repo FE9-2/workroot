@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/tailwindUtil";
 import { BaseFileInputProps } from "@/types/textInput";
-import { forwardRef, MouseEvent } from "react";
+import { forwardRef } from "react";
 
 const BaseFileInput = forwardRef<HTMLInputElement, BaseFileInputProps>((props, ref) => {
   /**

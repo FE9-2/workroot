@@ -64,7 +64,7 @@ const UploadInput = forwardRef<HTMLInputElement, BaseFileInputProps>((props, ref
       onFileAction={handleChangeFile}
       actionIcon={
         file ? (
-          <button type="button" onClick={handleDeleteFile} className="size-6 lg:size-8">
+          <button type="button" onClick={handleDeleteFile} className="absolute right-[14px] size-6 lg:size-8">
             <Image src={"/icons/x/x-circle-md.svg"} alt="삭제" height={24} width={24} className="h-full w-full" />
           </button>
         ) : (
