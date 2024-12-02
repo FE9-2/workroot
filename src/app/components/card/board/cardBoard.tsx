@@ -29,7 +29,6 @@ const CardBoard: React.FC<CardBoardProps> = ({
   const [likeCount, setLikeCount] = useState(likes);
 
   useEffect(() => {
-    // 클라이언트 환경에서만 실행
     const handleResize = () => {
       setIsLargeScreen(window.innerWidth >= 600);
     };
@@ -49,10 +48,13 @@ const CardBoard: React.FC<CardBoardProps> = ({
     setIsLiked((prev) => !prev); // 좋아요 상태 토글
   };
 
+  // 케밥 아이콘 경로 설정
+  const kebabSrc = `/icons/menu/${isLargeScreen ? "kebab-menu-md.svg" : "kebab-menu-sm.svg"}`;
+
   return (
     <div
       className={`flex flex-col rounded-[16px] border p-4 ${
-        variant === "primary" ? "border-line-200 bg-primary-orange-100" : "border-line-200 bg-gray-50"
+        variant === "primary" ? "border-primary-orange-100 bg-primary-orange-50" : "border-line-100 bg-gray-50"
       } h-[210px] w-[327px] sm:h-[280px] sm:w-[477px]`}
     >
       {/* Content Section */}
@@ -63,10 +65,10 @@ const CardBoard: React.FC<CardBoardProps> = ({
           {/* Kebab Icon */}
           <button
             onClick={onKebabClick}
-            className="flex h-9 w-9 items-center justify-center text-gray-500 hover:text-gray-700"
+            className="flex items-center justify-center text-gray-500 hover:text-gray-700"
             aria-label="Options"
           >
-            ⋮
+            <Image src={kebabSrc} alt="Kebab Menu Icon" width={28} height={28} /> {/* 크기 조정 */}
           </button>
         </div>
         {/* Content */}

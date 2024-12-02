@@ -23,7 +23,6 @@ const BoardComment: React.FC<BoardCommentProps> = ({
   const [isLargeScreen, setIsLargeScreen] = useState(false);
 
   useEffect(() => {
-    // 클라이언트 사이드에서만 실행
     const handleResize = () => {
       setIsLargeScreen(window.innerWidth >= 600);
     };
@@ -34,32 +33,46 @@ const BoardComment: React.FC<BoardCommentProps> = ({
     return () => window.removeEventListener("resize", handleResize); // 컴포넌트 언마운트 시 정리
   }, []);
 
+  // 아이콘 경로 설정
+  const iconSrc =
+    variant === "primary"
+      ? `/images/modal/${isLargeScreen ? "closed-orange-md.svg" : "closed-orange-sm.svg"}`
+      : `/images/modal/${isLargeScreen ? "closed-gray-md.svg" : "closed-gray-sm.svg"}`;
+
+  // 케밥 아이콘 경로 설정
+  const kebabSrc = `/icons/menu/${isLargeScreen ? "kebab-menu-md.svg" : "kebab-menu-sm.svg"}`;
+
   return (
     <div
       className={`flex flex-col rounded-[16px] border ${
-        variant === "primary" ? "border-line-200 bg-primary-orange-100" : "border-line-200 bg-gray-50"
+        variant === "primary" ? "border-line-100 bg-primary-orange-50" : "border-line-100 bg-gray-50"
       } w-[327px] p-3 sm:w-[477px] sm:p-4`}
-      style={{ minHeight: "202px" }} // 높이 유연하게 설정
+      style={{ minHeight: "202px" }}
     >
       {/* Header + Kebab */}
       <div className="mb-1 flex items-center justify-between sm:mb-2">
+        {/* Left Content: Icon + Title */}
         <div className="flex items-center gap-2">
-          {/* Document Icon */}
+          {/* Icon */}
           <Image
-            src={`/icons/document/${isLargeScreen ? "document-md.svg" : "document-sm.svg"}`}
+            src={iconSrc}
             alt="Document Icon"
-            width={isLargeScreen ? 30 : 24}
-            height={isLargeScreen ? 30 : 24}
+            width={isLargeScreen ? 32 : 26}
+            height={isLargeScreen ? 32 : 26}
+            className="inline-block align-middle"
+            style={{ transform: "translate(2px, 2px)" }} // 위치 조정
           />
+          {/* Title */}
           <h2 className="line-clamp-2 font-nexon text-[12px] font-medium text-black-100 sm:text-[16px]">{title}</h2>
         </div>
-        {/* Kebab Icon */}
+
+        {/* Right Content: Kebab */}
         <button
           onClick={onKebabClick}
-          className="flex h-9 w-9 items-center justify-center text-gray-500 hover:text-gray-700"
+          className="flex items-center justify-center text-gray-500 hover:text-gray-700"
           aria-label="Options"
         >
-          ⋮
+          <Image src={kebabSrc} alt="Kebab Menu Icon" width={28} height={28} /> {/* 크기 조정 */}
         </button>
       </div>
 
@@ -77,7 +90,7 @@ const BoardComment: React.FC<BoardCommentProps> = ({
 
       {/* Divider Line */}
       <div className="my-[9px] flex items-center justify-center sm:my-[16px]">
-        <div className="w-[279px] bg-line-200 sm:w-[427px]" style={{ height: "1px" }}></div>
+        <div className="w-[279px] bg-line-100 sm:w-[427px]" style={{ height: "1px" }}></div>
       </div>
 
       {/* Comments + Date */}
