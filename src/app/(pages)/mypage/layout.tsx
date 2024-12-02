@@ -1,5 +1,4 @@
 import FilterBar from "@/app/components/layout/mypage/FilterBar";
-import ContentLayout from "@/app/components/layout/mypage/ContentLayout";
 
 interface MypageLayoutProps {
   children: React.ReactNode;
@@ -7,9 +6,11 @@ interface MypageLayoutProps {
 
 export default function MypageLayout({ children }: MypageLayoutProps) {
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50">
-      <FilterBar />
-      <ContentLayout>{children}</ContentLayout>
+    <div className="flex min-h-screen flex-col">
+      <div className="px-6 md:px-[72px] lg:px-[220px]">
+        <FilterBar />
+        {children}
+      </div>
     </div>
   );
 }

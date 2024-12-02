@@ -42,7 +42,7 @@ export default function Header() {
 
   if (isLoading) {
     return (
-      <header className="bg-lime-100 shadow-md">
+      <header className="fixed left-0 right-0 top-0 z-50 bg-lime-100">
         <div className="container mx-auto px-4">
           <nav className="flex h-16 items-center justify-between">
             <div className="flex items-center">
@@ -77,7 +77,7 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-lime-100 shadow-md">
+    <header className="fixed left-0 right-0 top-0 z-50 bg-lime-100">
       <div className="container mx-auto px-4">
         <nav className="flex h-16 items-center justify-between">
           <div className="flex items-center">

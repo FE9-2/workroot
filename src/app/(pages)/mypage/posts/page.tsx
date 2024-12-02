@@ -1,14 +1,16 @@
 "use client";
 
-import { postSortOptions } from "@/constants/postOptions";
-import { useUser } from "@/hooks/useUser";
 import { useState } from "react";
+import { useUser } from "@/hooks/useUser";
+import { useSortStore } from "@/store/sortStore";
 import Pagination from "@/app/components/pagination/Pagination";
 
 const POSTS_PER_PAGE = 10;
 
 export default function PostsPage() {
   const [currentPage, setCurrentPage] = useState(1);
+  const { orderBy } = useSortStore();
+
   const { useMyPosts } = useUser();
   const {
     data: postData,
@@ -16,7 +18,7 @@ export default function PostsPage() {
     error,
   } = useMyPosts({
     limit: POSTS_PER_PAGE,
-    orderBy: postSortOptions.MOST_RECENT,
+    orderBy: orderBy.posts,
     cursor: ((currentPage - 1) * POSTS_PER_PAGE).toString(),
   });
 
