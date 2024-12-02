@@ -6,6 +6,9 @@ import UploadInput from "@/app/components/input/file/UploadInput";
 import Button from "@/app/components/button/default/Button";
 import { useForm } from "react-hook-form";
 import { cn } from "@/lib/tailwindUtil";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useParams, useRouter } from "next/navigation";
 interface ApplyFormData {
   name: string;
   contact: string;
@@ -34,15 +37,29 @@ export default function Apply() {
     },
   });
 
-  const onSubmit = (data: ApplyFormData) => {
+  const formId = useParams().formId;
+  const router = useRouter();
+  const currentData = getValues();
+  const onSubmit = async (data: ApplyFormData) => {
     console.log(data);
     // 여기에 제출 로직 추가
+    try {
+      await axios.post(`/api/forms/${formId}/applications`, data);
+      window.localStorage.removeItem("tempApplyData");
+      toast.success("지원이 완료되었습니다.");
+      router.back();
+      /**
+       * @Todo formId 페이지로 돌아가기 로 수정*/
+    } catch (error) {
+      toast.error("에러가 발생했습니다. 작성 중인 내용은 임시 저장됩니다.");
+      console.error("Error submitting application:", error);
+      window.localStorage.setItem("tempApplyData", JSON.stringify(currentData));
+    }
   };
 
   const onTempSave = () => {
-    const currentData = getValues();
-    console.log("임시저장:", currentData);
-    // 임시저장 로직 추가
+    window.localStorage.setItem("tempApplyData", JSON.stringify(currentData));
+    toast.success("임시 저장되었습니다.");
   };
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
