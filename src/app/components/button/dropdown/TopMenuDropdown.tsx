@@ -32,7 +32,7 @@ const TopMenuDropdown = ({ options, className = "" }: TopMenuDropdownProps) => {
       <div
         className={cn(
           "hover:border-primary-grayscale-200 bg-primary-orange-300 p-2 text-white",
-          isOpen ? "rounded-b-none rounded-t-xl ring-1 ring-line-200" : "rounded-2xl" // isOpen이 false일 때 모든 테두리가 둥글게
+          isOpen ? "rounded-b-none rounded-t-2xl ring-1 ring-line-200" : "rounded-2xl" // isOpen이 false일 때 모든 테두리가 둥글게
         )}
       >
         <div className="flex items-center pl-6">
