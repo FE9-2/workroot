@@ -127,8 +127,8 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
       onClose();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const errorMessage = error.response?.data?.message || "정보 수정에 실패했습니다.";
-        toast.error(errorMessage);
+        const errormessage = error.response?.data?.message || "정보 수정에 실패했습니다.";
+        toast.error(errormessage);
       } else {
         toast.error("정보 수정 중 오류가 발생했습니다.");
       }
@@ -221,7 +221,7 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
                     size="h-[54px] w-[327px] md:h-[64px] md:w-[640px]"
                     wrapperClassName={`px-[14px] md:px-[20px] ${field.icon ? "pl-[40px] md:pl-[48px]" : ""}`}
                     disabled={isSubmitting}
-                    errorMessage={errors[field.name]?.message}
+                    errormessage={errors[field.name]?.message}
                   />
                   {field.icon && <div className="absolute left-4 top-1/2 -translate-y-1/2 md:left-5">{field.icon}</div>}
                 </div>

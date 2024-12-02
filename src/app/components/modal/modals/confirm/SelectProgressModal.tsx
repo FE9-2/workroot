@@ -40,8 +40,8 @@ const SelectProgressModal = ({ id, isOpen, onClose, className }: ConfirmFormModa
       onClose?.();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const errorMessage = error.response?.data?.message || "진행상태 변경에 실패했습니다.";
-        toast.error(errorMessage);
+        const errormessage = error.response?.data?.message || "진행상태 변경에 실패했습니다.";
+        toast.error(errormessage);
       } else {
         toast.error("진행상태 변경 중 오류가 발생했습니다.");
       }

@@ -36,10 +36,9 @@ const BaseFileInput = forwardRef<HTMLInputElement, BaseFileInputProps>((props, r
     props.file && "!text-black-400 underline lg:text-xl font-normal lg:leading-8 text-base leading-[26px]";
 
   // 라벨 클릭 시 input 클릭 - 파일 선택 창 열기 / 파일 다운로드
-  const inputRef = useRef<HTMLInputElement>(null);
   const handleWrapperClick = (e: MouseEvent) => {
     if (props.variant === "upload") {
-      inputRef.current?.click();
+      (ref as React.MutableRefObject<HTMLInputElement>)?.current?.click();
     } else {
       // 다운로드?
     }
@@ -60,7 +59,7 @@ const BaseFileInput = forwardRef<HTMLInputElement, BaseFileInputProps>((props, r
             id={props.name}
             type="file"
             onChange={(e) => props.onFileAction?.(e.target.files?.[0] || null)}
-            ref={inputRef}
+            ref={ref}
             className="hidden"
           />
         )}

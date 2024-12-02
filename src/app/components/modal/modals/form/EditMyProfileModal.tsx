@@ -109,8 +109,8 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
       onClose();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const errorMessage = error.response?.data?.message || "프로필 수정에 실패했습니다.";
-        toast.error(errorMessage);
+        const errormessage = error.response?.data?.message || "프로필 수정에 실패했습니다.";
+        toast.error(errormessage);
       } else {
         toast.error("프로필 수정 중 오류가 발생했습니다.");
       }
@@ -188,7 +188,7 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
                   size="w-[327px] h-[54px] md:w-[640px] md:h-[64px]"
                   wrapperClassName="px-[14px] md:px-[20px]"
                   disabled={isSubmitting}
-                  errorMessage={errors[field.name]?.message}
+                  errormessage={errors[field.name]?.message}
                 />
               </div>
             </div>

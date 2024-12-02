@@ -25,8 +25,8 @@ const DeleteFormModal = ({ id, isOpen, onClose, onConfirm, className }: ConfirmF
       onClose?.();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const errorMessage = error.response?.data?.message || "알바폼 삭제에 실패했습니다.";
-        toast.error(errorMessage);
+        const errormessage = error.response?.data?.message || "알바폼 삭제에 실패했습니다.";
+        toast.error(errormessage);
       } else {
         toast.error("알바폼 삭제 중 오류가 발생했습니다.");
       }

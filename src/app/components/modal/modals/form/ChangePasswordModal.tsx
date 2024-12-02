@@ -83,8 +83,8 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
       onClose();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const errorMessage = error.response?.data?.message || "비밀번호 변경에 실패했습니다.";
-        toast.error(errorMessage);
+        const errormessage = error.response?.data?.message || "비밀번호 변경에 실패했습니다.";
+        toast.error(errormessage);
       } else {
         toast.error("비밀번호 변경 중 오류가 발생했습니다.");
       }
@@ -113,7 +113,7 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
                 variant="white"
                 disabled={isSubmitting}
                 size="w-[327px] h-[54px] md:w-[640px] md:h-[64px]"
-                errorMessage={errors[field.name]?.message}
+                errormessage={errors[field.name]?.message}
               />
             </div>
           </div>
