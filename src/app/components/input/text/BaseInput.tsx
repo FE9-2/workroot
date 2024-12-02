@@ -105,9 +105,9 @@ const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
           {type === "password" && (
             <div onClick={toggleType} className="cursor-pointer">
               {eyeOn ? (
-                <LuEye className="size-6 text-grayscale-200 lg:size-8" />
+                <LuEye className="size-5 text-grayscale-200 lg:size-7" />
               ) : (
-                <LuEyeOff className="size-6 text-grayscale-200 lg:size-8" />
+                <LuEyeOff className="size-5 text-grayscale-200 lg:size-7" />
               )}
             </div>
           )}
