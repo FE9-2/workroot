@@ -35,6 +35,8 @@ const mockProps = {
     "https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=1974&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1574126154517-d1e0d89ef734?q=80&w=1974&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=2047&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1523242942815-1ba8fc07f592?q=80&w=2070&auto=format&fit=crop",
   ],
   isPublic: true,
   recruitmentStartDate: new Date("2024-06-01"),

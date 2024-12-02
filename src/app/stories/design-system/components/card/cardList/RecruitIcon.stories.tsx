@@ -1,16 +1,16 @@
-import RecruitCondition from "@/app/components/card/cardList/RecruitCondition";
+import RecruitIcon from "@/app/components/card/cardList/RecruitIcon";
 import type { Meta, StoryObj } from "@storybook/react";
 
-const meta: Meta<typeof RecruitCondition> = {
-  title: "Design System/Components/Card/CardList/RecruitCondition",
-  component: RecruitCondition,
+const meta: Meta<typeof RecruitIcon> = {
+  title: "Design System/Components/Card/CardList/RecruitIcon",
+  component: RecruitIcon,
   parameters: {
     layout: "centered",
   },
 };
 
 export default meta;
-type Story = StoryObj<typeof RecruitCondition>;
+type Story = StoryObj<typeof RecruitIcon>;
 
 const mockProps = {
   hourlyWage: 10000,
