@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/tailwindUtil";
 import { BaseFileInputProps } from "@/types/textInput";
-import { forwardRef, MouseEvent, useRef } from "react";
+import { forwardRef, MouseEvent } from "react";
 
 const BaseFileInput = forwardRef<HTMLInputElement, BaseFileInputProps>((props, ref) => {
   /**
@@ -36,28 +36,34 @@ const BaseFileInput = forwardRef<HTMLInputElement, BaseFileInputProps>((props, r
     props.file && "!text-black-400 underline lg:text-xl font-normal lg:leading-8 text-base leading-[26px]";
 
   // 라벨 클릭 시 input 클릭 - 파일 선택 창 열기 / 파일 다운로드
-  const handleWrapperClick = (e: MouseEvent) => {
+  const handleFileSelect = () => {
     if (props.variant === "upload") {
-      (ref as React.MutableRefObject<HTMLInputElement>)?.current?.click();
-    } else {
-      // 다운로드?
+      // ref가 함수인 경우와 객체인 경우 모두 처리
+      if (typeof ref === "function") {
+        // input 요소를 찾아서 클릭
+        const fileInput = document.querySelector(`input[name="${props.name}"]`);
+        if (fileInput) {
+          (fileInput as HTMLInputElement).click();
+        }
+      } else if (ref && "current" in ref) {
+        ref.current?.click();
+      }
     }
+    /**
+     * @TODO 파일 다운로드 기능 추가
+     */
   };
 
   return (
     <>
-      <div className={wrapperStyle} onClick={props.variant === "upload" ? handleWrapperClick : undefined}>
-        <label
-          htmlFor={props.name}
-          className={cn(fakeInputStyle, fileName)}
-          onClick={(e: MouseEvent) => e.stopPropagation()}
-        >
+      <div className={wrapperStyle} onClick={handleFileSelect} role="button" tabIndex={0}>
+        <span className={cn(fakeInputStyle, fileName)}>
           {props.file && !props.isImage ? props.file.name : props.placeholder}
-        </label>
+        </span>
         {props.variant === "upload" && (
           <input
-            id={props.name}
             type="file"
+            name={props.name}
             onChange={(e) => props.onFileAction?.(e.target.files?.[0] || null)}
             ref={ref}
             className="hidden"

@@ -82,7 +82,7 @@ export default function Apply() {
         placeholder="숫자만 입력해주세요"
         errormessage={errors.career?.message}
       />
-      <div className="relative flex w-full flex-col">
+      <div className="relative flex w-full flex-col gap-4">
         <Label name="이력서" />
         <UploadInput
           {...register("resume", {
