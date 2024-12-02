@@ -22,11 +22,24 @@ const UploadInput = forwardRef<HTMLInputElement, BaseFileInputProps>((props, ref
 
     // react-hook-form의 onChange 호출
     if (props.onChange) {
+      const dataTransfer = new DataTransfer();
+      if (newFile) {
+        dataTransfer.items.add(newFile);
+      }
+
+      // input 엘리먼트의 files 속성 직접 설정
+      if (ref && "current" in ref && ref.current) {
+        ref.current.files = dataTransfer.files;
+      }
       const event = {
         target: {
-          files: newFile ? [newFile] : [],
+          name: props.name,
+          files: dataTransfer.files,
+          value: newFile ? newFile.name : "",
+          type: "file",
         },
       } as unknown as Event;
+
       props.onChange(event);
     }
   };

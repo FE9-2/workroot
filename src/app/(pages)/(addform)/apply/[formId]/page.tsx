@@ -22,6 +22,7 @@ export default function Apply() {
     formState: { errors, isValid, isDirty },
     trigger,
     clearErrors,
+    getValues,
   } = useForm<ApplyFormData>({
     mode: "onChange",
     defaultValues: {
@@ -38,8 +39,9 @@ export default function Apply() {
     // 여기에 제출 로직 추가
   };
 
-  const onTempSave = (data: ApplyFormData) => {
-    console.log("임시저장:", data);
+  const onTempSave = () => {
+    const currentData = getValues();
+    console.log("임시저장:", currentData);
     // 임시저장 로직 추가
   };
   const errorTextStyle =
@@ -87,7 +89,7 @@ export default function Apply() {
             required: "이력서를 업로드해주세요.",
             validate: (fileList: FileList) => {
               if (!fileList || fileList.length === 0) {
-                return "이력서는 필수입니다.";
+                return "이력서는 필수입니다";
               }
               return true;
             },
@@ -138,10 +140,7 @@ export default function Apply() {
           width="md"
           color="orange"
           className="h-[58px] border lg:h-[72px] lg:text-xl lg:leading-8"
-          onClick={() => {
-            clearErrors(); // 임시저장 시 모든 에러 제거
-            handleSubmit(onTempSave)();
-          }}
+          onClick={onTempSave}
           disabled={!isDirty}
         >
           임시 저장
