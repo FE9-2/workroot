@@ -54,7 +54,7 @@ const CardBoard: React.FC<CardBoardProps> = ({
   return (
     <div
       className={`flex flex-col rounded-[16px] border p-4 ${
-        variant === "primary" ? "border-primary-orange-100 bg-primary-orange-50" : "border-line-100 bg-gray-50"
+        variant === "primary" ? "border-primary-orange-100 bg-primary-orange-50" : "border-line-100 bg-grayscale-50"
       } h-[210px] w-[327px] sm:h-[280px] sm:w-[477px]`}
     >
       {/* Content Section */}
@@ -65,14 +65,14 @@ const CardBoard: React.FC<CardBoardProps> = ({
           {/* Kebab Icon */}
           <button
             onClick={onKebabClick}
-            className="flex items-center justify-center text-gray-500 hover:text-gray-700"
+            className="hover:text-grayscale-700 flex items-center justify-center text-grayscale-500"
             aria-label="Options"
           >
             <Image src={kebabSrc} alt="Kebab Menu Icon" width={28} height={28} /> {/* 크기 조정 */}
           </button>
         </div>
         {/* Content */}
-        <p className="line-clamp-2 font-nexon text-[14px] font-normal leading-[1.5] text-gray-500 sm:text-[16px]">
+        <p className="line-clamp-2 font-nexon text-[14px] font-normal leading-[1.5] text-grayscale-500 sm:text-[16px]">
           {content}
         </p>
       </div>
@@ -90,9 +90,11 @@ const CardBoard: React.FC<CardBoardProps> = ({
           />
           {/* 이름 + 날짜 */}
           <div className="flex items-center gap-1 truncate">
-            <span className="truncate font-nexon text-[14px] font-normal text-gray-500 sm:text-[16px]">{userName}</span>
-            <span className="text-gray-500">|</span>
-            <span className="whitespace-nowrap font-nexon text-[14px] font-normal text-gray-500 sm:text-[16px]">
+            <span className="truncate font-nexon text-[14px] font-normal text-grayscale-500 sm:text-[16px]">
+              {userName}
+            </span>
+            <span className="text-grayscale-500">|</span>
+            <span className="whitespace-nowrap font-nexon text-[14px] font-normal text-grayscale-500 sm:text-[16px]">
               {date}
             </span>
           </div>
@@ -108,7 +110,7 @@ const CardBoard: React.FC<CardBoardProps> = ({
               width={22}
               height={22}
             />
-            <span className="font-nexon text-[14px] font-normal text-gray-500 sm:text-[16px]">{comments}</span>
+            <span className="font-nexon text-[14px] font-normal text-grayscale-500 sm:text-[16px]">{comments}</span>
           </div>
           {/* 좋아요 */}
           <div className="flex items-center gap-1">
@@ -128,7 +130,7 @@ const CardBoard: React.FC<CardBoardProps> = ({
               className="cursor-pointer"
               onClick={handleLikeClick}
             />
-            <span className="font-nexon text-[14px] font-normal text-gray-500 sm:text-[16px]">{likeCount}</span>
+            <span className="font-nexon text-[14px] font-normal text-grayscale-500 sm:text-[16px]">{likeCount}</span>
           </div>
         </div>
       </div>

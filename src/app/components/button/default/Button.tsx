@@ -43,7 +43,7 @@ const Button = ({
     },
     gray: {
       solid:
-        "bg-grayscale-100 text-gray-900 hover:bg-grayscale-200 focus:ring-1 focus:ring-grayscale-200 focus:outline-none disabled:bg-grayscale-50 disabled:cursor-not-allowed",
+        "bg-grayscale-100 text-grayscale-900 hover:bg-grayscale-200 focus:ring-1 focus:ring-grayscale-200 focus:outline-none disabled:bg-grayscale-50 disabled:cursor-not-allowed",
       outlined:
         "border-2 border-grayscale-200 text-grayscale-900 hover:border-grayscale-300 hover:bg-grayscale-50 focus:ring-1 focus:ring-grayscale-200 focus:outline-none disabled:border-grayscale-100 disabled:text-grayscale-100 disabled:cursor-not-allowed disabled:hover:bg-transparent",
     },
