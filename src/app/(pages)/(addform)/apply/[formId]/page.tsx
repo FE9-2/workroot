@@ -1,6 +1,5 @@
 "use client";
 import BaseInput from "@/app/components/input/text/BaseInput";
-import Label from "../../component/Label";
 import BaseTextArea from "@/app/components/input/textarea/BaseTextArea";
 import UploadInput from "@/app/components/input/file/UploadInput";
 import Button from "@/app/components/button/default/Button";
@@ -9,6 +8,7 @@ import { cn } from "@/lib/tailwindUtil";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
+import Label from "../../component/Label";
 interface ApplyFormData {
   name: string;
   phoneNumber: string;

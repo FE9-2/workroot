@@ -3,20 +3,21 @@ import BaseInput from "../text/BaseInput";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale";
-import { useState } from "react";
 import { IoIosClose, IoMdArrowDropup } from "react-icons/io";
 import { BsCalendar4 } from "react-icons/bs";
 import { useDropdownOpen } from "@/hooks/useDropdownOpen";
 import { useFormContext } from "react-hook-form";
 import DatePickerHeader from "./DatePickerHeader";
-
-const DatePickerInput = () => {
+interface DatePickerInputProps {
+  name: string;
+  startDate?: Date;
+  endDate?: Date;
+  onChange: (dates: [Date | null, Date | null]) => void;
+}
+const DatePickerInput = ({ name, startDate, endDate, onChange }: DatePickerInputProps) => {
   const { setValue, watch } = useFormContext();
   const { isOpen, handleOpenDropdown } = useDropdownOpen();
-  const dateValue = watch("datepicker");
-
-  const [dateRange, setDateRange] = useState<[Date | undefined, Date | undefined]>([undefined, undefined]);
-  const [startDate, endDate] = dateRange;
+  const dateValue = watch(name);
 
   const iconStyle = "text-black-400 size-9 transition-transform duration-200";
 
@@ -29,17 +30,12 @@ const DatePickerInput = () => {
 
     // 시작일만 선택된 경우
     if (start && !end) {
-      setDateRange([start, undefined]);
-      setValue("datepicker", `${formatDate(start)} ~`);
-      return;
-    }
-
-    // 시작일과 종료일이 모두 선택된 경우
-    if (start && end && end > start) {
-      setDateRange([start, end]);
-      setValue("datepicker", `${formatDate(start)} ~ ${formatDate(end)}`);
+      setValue(name, `${formatDate(start)} ~`);
+    } else if (start && end && end > start) {
+      setValue(name, `${formatDate(start)} ~ ${formatDate(end)}`);
       handleOpenDropdown();
     }
+    onChange(update);
   };
 
   return (
