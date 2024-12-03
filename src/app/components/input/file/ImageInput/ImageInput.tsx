@@ -42,7 +42,19 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
       props.onChange?.(newImageList.map((img) => img.file).filter((file) => file !== null));
     }
   };
-
+  const handleImageSelect = () => {
+    console.log("click");
+    console.log(ref);
+    if (typeof ref === "function") {
+      // input 요소를 찾아서 클릭
+      const fileInput = document.querySelector(`input[name="${props.name}"]`);
+      if (fileInput) {
+        (fileInput as HTMLInputElement).click();
+      }
+    } else if (ref && "current" in ref) {
+      ref.current?.click();
+    }
+  };
   const handleDeleteImage = (targetId: string) => {
     const newImageList = imageList.filter((image) => image.id !== targetId);
     setImageList(newImageList);
@@ -60,6 +72,7 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
     // 인풋 + 프리뷰 wrapper
     <div className="flex gap-5 lg:gap-6">
       <div
+        onClick={handleImageSelect}
         className={cn(
           "relative size-20 rounded-lg lg:size-[116px]",
           colorStyle.bgColor,
@@ -68,13 +81,15 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
         )}
       >
         <input
+          {...props}
+          ref={ref}
           type="file"
-          name="image"
+          name={props.name}
           accept="image/*"
           onChange={(e) => handleFileChange(e.target.files?.[0] || null)}
           className="hidden"
         />
-        <div className="pointer-events-none absolute top-0 p-7 lg:p-10">
+        <div className="pointer-events-none absolute top-0 z-10 p-7 lg:p-10">
           <HiUpload className="text-[24px] text-grayscale-400 lg:text-[36px]" />
         </div>
       </div>

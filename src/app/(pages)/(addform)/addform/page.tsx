@@ -38,6 +38,7 @@ interface AddFormData {
 export default function AddForm() {
   const methods = useForm<AddFormData>();
   const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
   const {
     register,
     handleSubmit,
@@ -53,25 +54,37 @@ export default function AddForm() {
     if (start) setValue("recruitmentStartDate", start.toISOString());
     if (end) setValue("recruitmentEndDate", end.toISOString());
   };
-  // File을 Base64 문자열로 변환하는 함수 추가
-  const fileToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-    });
+
+  // 이미지 업로드 api
+  const uploadImages = async (files: File[]) => {
+    try {
+      const response = await axios.post(`/api/images/upload`, files);
+      return response.data;
+    } catch (error) {
+      console.error("Error uploading images:", error);
+      throw error;
+    }
   };
+
+  // input에서 파일 선택하면 이미지 업로드
+  const handleChangeImageUrls = async (files: File[]) => {
+    setImageFiles(files);
+    try {
+      // 이미지 업로드 실행
+      const uploadedUrls = await uploadImages(files);
+      // 업로드된 URL 설정
+      setImageUrls(uploadedUrls);
+      setValue("imageUrls", uploadedUrls);
+    } catch (error) {
+      toast.error("이미지 업로드에 실패했습니다.");
+      console.error("이미지 업로드 에러:", error);
+    }
+  };
+
   const onSubmit = async (data: AddFormData) => {
     try {
-      const base64Images = await Promise.all(imageFiles.map(fileToBase64));
-      const submitData = {
-        ...data,
-        imageUrls: base64Images,
-      };
-
       // 전체 폼 데이터 POST요청
-      await axios.post(`/api/forms`, submitData);
+      await axios.post(`/api/forms`, data);
       window.localStorage.removeItem("tempAddFormData");
       toast.success("알바폼을 등록했습니다.");
       router.back();
@@ -120,23 +133,15 @@ export default function AddForm() {
             onChange={handleRecruitmentDateChange}
           />
           <Label required={false}>이미지 첨부</Label>
-          <ImageInput
-            name="imageUrls"
-            onChange={(files) => {
-              setImageFiles(files);
-              setValue(
-                "imageUrls",
-                files.map((file) => file.name)
-              );
-            }}
-          />
+          {/* 이미지 업로드 해서 url 받아오면 그걸로 프리뷰만 띄워줘도 되잖아? 아니면 프리뷰를 page에서 띄워도되고 */}
+          <ImageInput {...register("imageUrls")} onChange={(files) => handleChangeImageUrls(files)} />
           <div className="flex flex-col gap-2 lg:absolute">
             <Button
               type="button"
               variant="outlined"
               width="md"
               color="orange"
-              className="h-[58px] border lg:h-[72px] lg:text-xl lg:leading-8"
+              className="h-[58px] border bg-background-200 lg:h-[72px] lg:text-xl lg:leading-8"
               onClick={onTempSave}
               disabled={!isDirty}
             >
