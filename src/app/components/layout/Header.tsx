@@ -35,14 +35,14 @@ export default function Header() {
       "font-medium transition-colors h-16 flex items-center",
       "hover:text-lime-900",
       pathname === path
-        ? "text-lime-900 font-bold text-base sm:text-base md:text-lg"
+        ? "text-lime-900 text-sm sm:text-base md:text-lg md:font-bold"
         : "text-lime-700 text-sm sm:text-base"
     );
   };
 
   if (isLoading) {
     return (
-      <header className="fixed left-0 right-0 top-0 z-50 bg-lime-100">
+      <header className="fixed left-0 right-0 top-0 z-50 bg-lime-100 tracking-tighter md:tracking-normal">
         <div className="container mx-auto px-4">
           <nav className="flex h-16 items-center justify-between">
             <div className="flex items-center">
@@ -56,7 +56,7 @@ export default function Header() {
                 />
               </Link>
 
-              <div className="ml-4 flex h-16 space-x-3 sm:ml-6 sm:space-x-4 md:ml-10 md:space-x-6">
+              <div className="ml-4 flex h-16 space-x-2 sm:ml-6 sm:space-x-4 md:ml-10 md:space-x-6">
                 <Link href="/albaList" className={getLinkClassName("/albaList")}>
                   알바 목록
                 </Link>
@@ -77,7 +77,7 @@ export default function Header() {
   }
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 bg-lime-100">
+    <header className="fixed left-0 right-0 top-0 z-50 bg-lime-100 -tracking-widest md:tracking-normal">
       <div className="container mx-auto px-4">
         <nav className="flex h-16 items-center justify-between">
           <div className="flex items-center">
@@ -91,7 +91,7 @@ export default function Header() {
               />
             </Link>
 
-            <div className="ml-4 flex h-16 space-x-3 sm:ml-6 sm:space-x-4 md:ml-10 md:space-x-6">
+            <div className="ml-4 flex h-16 space-x-2 sm:ml-6 sm:space-x-4 md:ml-10 md:space-x-6">
               <Link href="/albaList" className={getLinkClassName("/albaList")}>
                 알바 목록
               </Link>
@@ -106,7 +106,7 @@ export default function Header() {
             </div>
           </div>
 
-          <ul className="flex items-center space-x-3 sm:space-x-4 md:space-x-6">
+          <ul className="flex items-center space-x-2 sm:space-x-4 md:space-x-6">
             {!user ? (
               <>
                 <li className="flex items-center">
@@ -144,13 +144,13 @@ export default function Header() {
 
       <div
         className={cn(
-          "fixed right-0 top-0 z-50 h-full w-64 transform bg-white shadow-lg transition-transform duration-300 ease-in-out",
+          "fixed right-0 top-0 z-50 h-full w-40 transform bg-white shadow-lg transition-transform duration-300 ease-in-out md:w-64",
           isSideMenuOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
-        <div className="flex flex-col p-6">
+        <div className="flex w-full flex-col p-6">
           <div className="mb-6 flex items-center justify-between">
-            <span className="text-lg font-bold text-lime-700">메뉴</span>
+            <span className="px-3 text-lg font-bold text-lime-700">메뉴</span>
             <button onClick={() => setIsSideMenuOpen(false)} className="hover:text-grayscale-700 text-grayscale-500">
               ✕
             </button>
@@ -160,7 +160,7 @@ export default function Header() {
             <>
               <Link
                 href="/mypage"
-                className="mb-4 rounded-lg bg-lime-50 px-4 py-3 text-lime-700 hover:bg-lime-100"
+                className="mb-4 flex items-center justify-center rounded-lg bg-lime-50 px-4 py-3 text-lime-700 hover:bg-lime-100"
                 onClick={() => setIsSideMenuOpen(false)}
               >
                 마이페이지

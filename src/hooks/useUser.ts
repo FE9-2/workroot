@@ -33,7 +33,7 @@ export const useUser = () => {
     gcTime: 1000 * 60 * 30,
   });
 
-  // 내가 생성한 알바폼 목록 조회
+  // 내가 생성한 알바폼 목록 조회 (무한 스크롤)
   const useMyForms = (params?: {
     cursor?: string;
     limit?: number;
@@ -42,38 +42,48 @@ export const useUser = () => {
     isPublic?: boolean;
     isRecruiting?: boolean;
   }) => {
-    return useQuery<MyFormListResponse>({
+    return useInfiniteQuery<MyFormListResponse>({
       queryKey: ["myForms", params],
-      queryFn: async () => {
+      queryFn: async ({ pageParam = undefined }) => {
         const response = await axios.get<MyFormListResponse>("/api/users/me/forms", {
-          params,
+          params: {
+            ...params,
+            cursor: pageParam,
+          },
           withCredentials: true,
         });
         return response.data;
       },
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
+      initialPageParam: undefined,
       staleTime: 1000 * 60 * 5,
       gcTime: 1000 * 60 * 30,
     });
   };
 
-  // 내가 지원한 알바폼 목록 조회
+  // 내가 지원한 알바폼 목록 조회 (무한 스크롤)
   const useMyApplications = (params?: { cursor?: string; limit?: number; status?: string; keyword?: string }) => {
-    return useQuery<MyApplicationListResponse>({
+    return useInfiniteQuery<MyApplicationListResponse>({
       queryKey: ["myApplications", params],
-      queryFn: async () => {
+      queryFn: async ({ pageParam = undefined }) => {
         const response = await axios.get<MyApplicationListResponse>("/api/users/me/applications", {
-          params,
+          params: {
+            ...params,
+            cursor: pageParam,
+          },
           withCredentials: true,
         });
         return response.data;
       },
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
+      initialPageParam: undefined,
       staleTime: 1000 * 60 * 5,
       gcTime: 1000 * 60 * 30,
     });
   };
 
   // 내가 작성한 게시글 목록 조회 (무한 스크롤)
-  const useMyPosts = (params?: { limit?: number; orderBy?: string }) => {
+  const useMyPosts = (params?: { cursor?: string; limit?: number; orderBy?: string }) => {
     return useInfiniteQuery<MyPostListResponse>({
       queryKey: ["myPosts", params],
       queryFn: async ({ pageParam = undefined }) => {
@@ -93,7 +103,7 @@ export const useUser = () => {
     });
   };
 
-  // 내가 작성한 댓글 목록 조회
+  // 내가 작성한 댓글 목록 조회 (페이지네이션)
   const useMyComments = (params?: { page?: number; pageSize?: number }) => {
     return useQuery<MyCommentListResponse>({
       queryKey: ["myComments", params],
@@ -110,7 +120,13 @@ export const useUser = () => {
   };
 
   // 내가 스크랩한 알바폼 목록 조회 (무한 스크롤)
-  const useMyScraps = (params?: { limit?: number; orderBy?: string; isPublic?: boolean; isRecruiting?: boolean }) => {
+  const useMyScraps = (params?: {
+    cursor?: string;
+    limit?: number;
+    orderBy?: string;
+    isPublic?: boolean;
+    isRecruiting?: boolean;
+  }) => {
     return useInfiniteQuery<MyFormListResponse>({
       queryKey: ["myScraps", params],
       queryFn: async ({ pageParam = undefined }) => {
