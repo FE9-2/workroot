@@ -1,10 +1,10 @@
+import { NextRequest, NextResponse } from "next/server";
 import { AxiosError } from "axios";
-import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
 import apiClient from "@/lib/apiClient";
+import { cookies } from "next/headers";
 
 // OAuth 앱 등록/수정 API
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     // 쿠키에서 액세스 토큰 가져오기
     const accessToken = cookies().get("accessToken")?.value;
@@ -23,7 +23,11 @@ export async function POST(request: Request) {
       },
     });
 
-    return NextResponse.json(response.data);
+    // 응답 데이터 처리
+    const responseData = response.data;
+    console.log("OAuth 앱 등록/수정 성공:", responseData);
+
+    return NextResponse.json(responseData);
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
       console.error("POST /api/oauth/apps error:", error);

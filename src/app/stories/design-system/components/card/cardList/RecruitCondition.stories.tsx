@@ -1,17 +1,17 @@
 import { Meta, StoryObj } from "@storybook/react";
-import RecruitCond from "@/app/components/card/cardList/RecruitCond";
 import { FormDetailResponse } from "@/types/response/form";
+import RecruitCondition from "@/app/components/card/cardList/RecruitCondition";
 
-const meta: Meta<typeof RecruitCond> = {
-  title: "Design System/Components/Card/CardList/RecruitCond",
-  component: RecruitCond,
+const meta: Meta<typeof RecruitCondition> = {
+  title: "Design System/Components/Card/CardList/RecruitCondition",
+  component: RecruitCondition,
   parameters: {
     layout: "centered",
   },
 };
 
 export default meta;
-type Story = StoryObj<typeof RecruitCond>;
+type Story = StoryObj<typeof RecruitCondition>;
 
 const mockRecruitData: FormDetailResponse = {
   updatedAt: new Date(),
