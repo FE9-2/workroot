@@ -84,7 +84,7 @@ const SortSection = ({ pageType }: { pageType: keyof typeof SORT_OPTIONS }) => {
     <div className="my-2 flex justify-end lg:my-4">
       <FilterDropdown
         options={options.map((option) => option.label)}
-        className="w-24 md:w-28"
+        className="!w-28 md:!w-40"
         initialValue={currentLabel}
         onChange={handleSortChange}
         readOnly={isReadOnly}
