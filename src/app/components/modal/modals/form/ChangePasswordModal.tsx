@@ -83,8 +83,8 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
       onClose();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const errorMessage = error.response?.data?.message || "비밀번호 변경에 실패했습니다.";
-        toast.error(errorMessage);
+        const errormessage = error.response?.data?.message || "비밀번호 변경에 실패했습니다.";
+        toast.error(errormessage);
       } else {
         toast.error("비밀번호 변경 중 오류가 발생했습니다.");
       }
@@ -104,7 +104,7 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
       <form onSubmit={handleSubmit(onSubmitHandler)} className="space-y-4 md:space-y-6">
         {defaultFields.map((field) => (
           <div key={field.name} className="h-[88px] space-y-1.5 md:h-[114px] md:space-y-2">
-            <label className="block text-sm font-semibold text-gray-700 md:px-2 md:text-base">{field.label}</label>
+            <label className="text-grayscale-700 block text-sm font-semibold md:px-2 md:text-base">{field.label}</label>
             <div className="flex w-full flex-col items-center">
               <BaseInput
                 {...register(field.name)}
@@ -113,7 +113,7 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
                 variant="white"
                 disabled={isSubmitting}
                 size="w-[327px] h-[54px] md:w-[640px] md:h-[64px]"
-                errorMessage={errors[field.name]?.message}
+                errormessage={errors[field.name]?.message}
               />
             </div>
           </div>
@@ -126,7 +126,7 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
               reset();
             }}
             disabled={isSubmitting}
-            className="flex-1 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 md:text-base"
+            className="text-grayscale-700 flex-1 rounded-md border border-grayscale-300 bg-white px-4 py-2 text-sm font-semibold transition-colors hover:bg-grayscale-50 md:text-base"
           >
             취소
           </button>

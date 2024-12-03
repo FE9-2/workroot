@@ -19,7 +19,7 @@ const CheckBtn = ({ label, name, value, checked = false, disabled = false, onCha
         disabled ? "cursor-not-allowed" : "cursor-pointer"
       )}
     >
-      <label htmlFor={value} className={cn("text-sm", disabled ? "text-gray-400" : "text-black")}>
+      <label htmlFor={value} className={cn("text-sm", disabled ? "text-grayscale-400" : "text-black")}>
         {label}
       </label>
       <input

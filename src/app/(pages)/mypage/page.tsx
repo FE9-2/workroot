@@ -1,5 +1,5 @@
-"use client";
+import { redirect } from "next/navigation";
 
 export default function Mypage() {
-  return <div>Mypage</div>;
+  redirect("/mypage/posts");
 }

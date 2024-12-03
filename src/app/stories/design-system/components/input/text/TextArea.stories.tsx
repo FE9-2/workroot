@@ -49,18 +49,18 @@ export const Default_Hover_Focus: Story = {
     return (
       <div className="space-y-4">
         <div>
-          <p className="mb-2 text-sm text-gray-500">기본 상태:</p>
+          <p className="mb-2 text-sm text-grayscale-500">기본 상태:</p>
           <StoryComponent />
         </div>
         <div>
-          <p className="mb-2 text-sm text-gray-500">Hover 상태:</p>
-          <div className="[&>div]:bg-background200 [&>div]:border-gray-200">
+          <p className="mb-2 text-sm text-grayscale-500">Hover 상태:</p>
+          <div className="[&>div]:bg-background200 [&>div]:border-grayscale-200">
             <StoryComponent />
           </div>
         </div>
         <div>
-          <p className="mb-2 text-sm text-gray-500">Focus 상태:</p>
-          <div className="[&>div]:border-gray-400">
+          <p className="mb-2 text-sm text-grayscale-500">Focus 상태:</p>
+          <div className="[&>div]:border-grayscale-400">
             <StoryComponent />
           </div>
         </div>
@@ -73,7 +73,7 @@ export const textArea_with_error: Story = {
   args: {
     variant: "white",
     placeholder: "에러 상태 테스트",
-    errorMessage: "가게 이름(상호명)을 필수로 입력해주세요",
+    errormessage: "가게 이름(상호명)을 필수로 입력해주세요",
   },
   render: (args) => {
     const { _storySize, ...rest } = args as StoryProps;

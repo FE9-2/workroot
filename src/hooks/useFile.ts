@@ -13,6 +13,7 @@ export const useFile = () => {
   };
   return {
     file,
+    setFile,
     handleChangeFile,
     handleDeleteFile,
   };

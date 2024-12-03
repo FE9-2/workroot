@@ -25,8 +25,8 @@ const DeleteFormModal = ({ id, isOpen, onClose, onConfirm, className }: ConfirmF
       onClose?.();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const errorMessage = error.response?.data?.message || "알바폼 삭제에 실패했습니다.";
-        toast.error(errorMessage);
+        const errormessage = error.response?.data?.message || "알바폼 삭제에 실패했습니다.";
+        toast.error(errormessage);
       } else {
         toast.error("알바폼 삭제 중 오류가 발생했습니다.");
       }
@@ -63,7 +63,7 @@ const DeleteFormModal = ({ id, isOpen, onClose, onConfirm, className }: ConfirmF
             </div>
           </div>
           <h2 className="mb-2 text-lg font-bold md:text-xl">알바폼을 삭제할까요?</h2>
-          <p className="mb-6 text-sm text-gray-600 md:text-base">삭제 후 정보를 복구할 수 없어요.</p>
+          <p className="text-grayscale-600 mb-6 text-sm md:text-base">삭제 후 정보를 복구할 수 없어요.</p>
 
           <div className="mt-auto flex w-full flex-col items-center gap-3">
             <Button

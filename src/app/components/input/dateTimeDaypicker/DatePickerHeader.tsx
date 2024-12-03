@@ -15,7 +15,7 @@ const DatePickerHeader = ({
   prevMonthButtonDisabled,
   nextMonthButtonDisabled,
 }: DatePickerHeaderProps) => {
-  const iconStyle = "size-6 lg:size-9 text-gray-200";
+  const iconStyle = "size-6 lg:size-9 text-grayscale-200";
   return (
     <div className="flex flex-col gap-2">
       <div className="lg:h-15 z-20 flex h-12 items-center justify-center text-sm font-semibold leading-6 lg:text-lg lg:font-normal lg:leading-[26px]">

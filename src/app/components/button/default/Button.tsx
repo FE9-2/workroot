@@ -37,15 +37,15 @@ const Button = ({
   const colorStyles = {
     orange: {
       solid:
-        "bg-primary-orange-300 text-white hover:bg-primary-orange-200 focus:ring-1 focus:ring-primary-orange-200 focus:outline-none disabled:bg-gray-100 disabled:cursor-not-allowed",
+        "bg-primary-orange-300 text-white hover:bg-primary-orange-200 focus:ring-1 focus:ring-primary-orange-200 focus:outline-none disabled:bg-grayscale-100 disabled:cursor-not-allowed",
       outlined:
-        "border-2 border-primary-orange-300 text-primary-orange-300 hover:border-primary-orange-200 hover:text-primary-orange-200 focus:ring-1 focus:ring-primary-orange-200 focus:outline-none disabled:border-gray-100 disabled:text-gray-100 disabled:cursor-not-allowed disabled:hover:bg-transparent",
+        "border-2 border-primary-orange-300 text-primary-orange-300 hover:border-primary-orange-200 hover:text-primary-orange-200 focus:ring-1 focus:ring-primary-orange-200 focus:outline-none disabled:border-grayscale-100 disabled:text-grayscale-100 disabled:cursor-not-allowed disabled:hover:bg-transparent",
     },
     gray: {
       solid:
-        "bg-gray-100 text-gray-900 hover:bg-gray-200 focus:ring-1 focus:ring-gray-200 focus:outline-none disabled:bg-gray-50 disabled:cursor-not-allowed",
+        "bg-grayscale-100 text-grayscale-900 hover:bg-grayscale-200 focus:ring-1 focus:ring-grayscale-200 focus:outline-none disabled:bg-grayscale-50 disabled:cursor-not-allowed",
       outlined:
-        "border-2 border-gray-200 text-gray-900 hover:border-gray-300 hover:bg-gray-50 focus:ring-1 focus:ring-gray-200 focus:outline-none disabled:border-gray-100 disabled:text-gray-100 disabled:cursor-not-allowed disabled:hover:bg-transparent",
+        "border-2 border-grayscale-200 text-grayscale-900 hover:border-grayscale-300 hover:bg-grayscale-50 focus:ring-1 focus:ring-grayscale-200 focus:outline-none disabled:border-grayscale-100 disabled:text-grayscale-100 disabled:cursor-not-allowed disabled:hover:bg-transparent",
     },
   };
 

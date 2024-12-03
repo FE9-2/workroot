@@ -35,7 +35,7 @@ const ApplicationStatusCard = ({ applications }: ApplicationStatusCardProps) => 
       }
     });
 
-  const theadStyle = "text-left font-semibold text-gray-700";
+  const theadStyle = "text-left font-semibold text-grayscale-700";
   const tbodyStyle = "text-left";
   const sortIconStyle = "text-primary-orange-300 transition-transform hover:scale-110";
   return (
@@ -52,7 +52,7 @@ const ApplicationStatusCard = ({ applications }: ApplicationStatusCardProps) => 
             </button>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-left font-semibold text-gray-700">상태</span>
+            <span className="text-grayscale-700 text-left font-semibold">상태</span>
             <button onClick={() => handleSort("status")}>
               <FaSortAmountDown className={cn(sortIconStyle, sortOrder.status ? "rotate-0" : "rotate-180")} />
             </button>

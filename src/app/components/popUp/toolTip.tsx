@@ -10,7 +10,7 @@ interface TooltipProps {
 
 export default function Tooltip({ onClose }: TooltipProps) {
   return (
-    <div className="relative left-4 flex h-[48px] w-[327px] items-center rounded-lg bg-primary-blue-300 pl-3 font-nexon text-gray-50 shadow-md md:h-[79px] md:w-[476px] md:pl-4">
+    <div className="relative left-4 flex h-[48px] w-[327px] items-center rounded-lg bg-primary-blue-300 pl-3 font-nexon text-grayscale-50 shadow-md md:h-[79px] md:w-[476px] md:pl-4">
       <div className="flex w-full items-center">
         <Image
           src="/icons/info/info-md.svg"
