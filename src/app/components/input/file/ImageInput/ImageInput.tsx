@@ -1,7 +1,7 @@
 "use client";
 import BaseFileInput from "../BaseFileInput";
 import { HiUpload } from "react-icons/hi";
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import PreviewItem from "./PreviewItem";
 interface ImageInputType {
@@ -9,7 +9,13 @@ interface ImageInputType {
   url: string;
   id: string;
 }
-const ImageInput = () => {
+
+interface ImageInputProps {
+  name: string;
+  onChange?: (files: File[]) => void;
+}
+
+const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) => {
   const [imageList, setImageList] = useState<ImageInputType[]>([]);
 
   const handleFileChange = (selectedFile: File | null) => {
@@ -21,15 +27,26 @@ const ImageInput = () => {
         toast.error("이미지는 최대 3개까지 업로드할 수 있습니다.");
         return;
       }
-      setImageList((prev) => [
-        ...prev,
-        { file: selectedFile, url: URL.createObjectURL(selectedFile), id: crypto.randomUUID() },
-      ]);
+
+      const newImageList = [
+        ...imageList,
+        {
+          file: selectedFile,
+          url: URL.createObjectURL(selectedFile),
+          id: crypto.randomUUID(),
+        },
+      ];
+
+      setImageList(newImageList);
+
+      props.onChange?.(newImageList.map((img) => img.file).filter((file) => file !== null));
     }
   };
 
   const handleDeleteImage = (targetId: string) => {
-    setImageList((prev) => prev.filter((image) => image.id !== targetId));
+    const newImageList = imageList.filter((image) => image.id !== targetId);
+    setImageList(newImageList);
+    props.onChange?.(newImageList.map((img) => img.file).filter((file) => file !== null));
   };
 
   return (
@@ -53,6 +70,8 @@ const ImageInput = () => {
       ))}
     </div>
   );
-};
+});
+
+ImageInput.displayName = "ImageInput";
 
 export default ImageInput;

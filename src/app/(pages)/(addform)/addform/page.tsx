@@ -8,6 +8,9 @@ import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePicker
 import { useForm, FormProvider } from "react-hook-form";
 import Button from "@/app/components/button/default/Button";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
+import router from "next/router";
+import axios from "axios";
 
 interface AddFormData {
   isPublic: boolean;
@@ -34,14 +37,15 @@ interface AddFormData {
 // 알바폼 만들기 - 사장님
 export default function AddForm() {
   const methods = useForm<AddFormData>();
-
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
   const {
     register,
     handleSubmit,
     formState: { errors, isValid, isDirty },
-    control,
+    getValues,
     setValue,
   } = methods;
+
   const [recruitmentDateRange, setRecruitmentDateRange] = useState<[Date | null, Date | null]>([null, null]);
   const handleRecruitmentDateChange = (dates: [Date | null, Date | null]) => {
     setRecruitmentDateRange(dates);
@@ -49,9 +53,40 @@ export default function AddForm() {
     if (start) setValue("recruitmentStartDate", start.toISOString());
     if (end) setValue("recruitmentEndDate", end.toISOString());
   };
+  // File을 Base64 문자열로 변환하는 함수 추가
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+  const onSubmit = async (data: AddFormData) => {
+    try {
+      const base64Images = await Promise.all(imageFiles.map(fileToBase64));
+      const submitData = {
+        ...data,
+        imageUrls: base64Images,
+      };
 
-  const onSubmit = (data: AddFormData) => {
-    console.log(data);
+      // 전체 폼 데이터 POST요청
+      await axios.post(`/api/forms`, submitData);
+      window.localStorage.removeItem("tempAddFormData");
+      toast.success("알바폼을 등록했습니다.");
+      router.back();
+    } catch (error) {
+      toast.error("에러가 발생했습니다. 작성 중인 내용은 임시 저장됩니다.");
+      console.error("Error submitting application:", error);
+      onTempSave();
+    }
+  };
+
+  const onTempSave = () => {
+    const currentData = getValues();
+    window.localStorage.setItem("tempAddFormData", JSON.stringify(currentData));
+    toast.success("임시 저장되었습니다.");
+    console.log(currentData);
   };
 
   return (
@@ -84,7 +119,16 @@ export default function AddForm() {
             onChange={handleRecruitmentDateChange}
           />
           <Label required={false}>이미지 첨부</Label>
-          <ImageInput />
+          <ImageInput
+            name="imageUrls"
+            onChange={(files) => {
+              setImageFiles(files);
+              setValue(
+                "imageUrls",
+                files.map((file) => file.name)
+              );
+            }}
+          />
           <div className="flex flex-col gap-2 lg:absolute">
             <Button
               type="button"
@@ -92,7 +136,7 @@ export default function AddForm() {
               width="md"
               color="orange"
               className="h-[58px] border lg:h-[72px] lg:text-xl lg:leading-8"
-              // onClick={onTempSave}
+              onClick={onTempSave}
               disabled={!isDirty}
             >
               임시 저장

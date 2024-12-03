@@ -14,7 +14,6 @@ const UploadInput = forwardRef<HTMLInputElement, BaseFileInputProps>((props, ref
    * @param actionIcon?: React.ReactNode;
    * @param isImage?: boolean;
    */
-  // const { file, handleChangeFile, handleDeleteFile } = useFile();
   const [file, setFile] = useState<File | null>(null);
 
   const handleChangeFile = (newFile: File | null) => {
@@ -43,7 +42,8 @@ const UploadInput = forwardRef<HTMLInputElement, BaseFileInputProps>((props, ref
       props.onChange(event);
     }
   };
-  const handleDeleteFile = () => {
+  const handleDeleteFile = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     setFile(null);
     // react-hook-form의 onChange 호출
     if (props.onChange) {

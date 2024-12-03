@@ -64,7 +64,7 @@ const FilterDropdown = ({ options, className = "", onChange, initialValue, readO
             "flex w-full items-center justify-between rounded-md border p-2 font-medium shadow-sm",
             "text-grayscale-700 hover:bg-primary-orange-50",
             selectedLabel === options[0]
-              ? "border-grayscale-100 border bg-white"
+              ? "border border-grayscale-100 bg-white"
               : "border-primary-orange-300 bg-primary-orange-50"
           )}
           onClick={toggleDropdown}
