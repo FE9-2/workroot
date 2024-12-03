@@ -9,30 +9,40 @@ import { useDropdownOpen } from "@/hooks/useDropdownOpen";
 import { useFormContext } from "react-hook-form";
 import DatePickerHeader from "./DatePickerHeader";
 interface DatePickerInputProps {
-  name: string;
+  startDateName: string;
+  endDateName: string;
   startDate?: Date;
   endDate?: Date;
   onChange: (dates: [Date | null, Date | null]) => void;
 }
-const DatePickerInput = ({ name, startDate, endDate, onChange }: DatePickerInputProps) => {
+const DatePickerInput = ({ startDateName, endDateName, startDate, endDate, onChange }: DatePickerInputProps) => {
   const { setValue, watch } = useFormContext();
   const { isOpen, handleOpenDropdown } = useDropdownOpen();
-  const dateValue = watch(name);
+  const dateValue = watch("displayDate");
 
   const iconStyle = "text-black-400 size-9 transition-transform duration-200";
 
-  const formatDate = (date: Date) => {
-    return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getDate().toString().padStart(2, "0")}`;
+  const formatDisplayDate = (start: Date, end?: Date) => {
+    const formatToDisplay = (date: Date) => {
+      return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getDate().toString().padStart(2, "0")}`;
+    };
+
+    if (start && end) {
+      return `${formatToDisplay(start)} ~ ${formatToDisplay(end)}`;
+    }
+    return formatToDisplay(start);
   };
 
   const handleChange = (update: [Date | null, Date | null]) => {
     const [start, end] = update;
 
-    // 시작일만 선택된 경우
-    if (start && !end) {
-      setValue(name, `${formatDate(start)} ~`);
-    } else if (start && end && end > start) {
-      setValue(name, `${formatDate(start)} ~ ${formatDate(end)}`);
+    if (start) {
+      setValue("displayDate", formatDisplayDate(start, end || undefined));
+      setValue(startDateName, start.toISOString());
+    }
+    if (start && end && end > start) {
+      setValue("displayDate", formatDisplayDate(start, end));
+      setValue(endDateName, end.toISOString());
       handleOpenDropdown();
     }
     onChange(update);

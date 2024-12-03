@@ -16,7 +16,7 @@ interface ImageInputProps {
 }
 
 const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) => {
-  const [imageList, setImageList] = useState<ImageInputType[]>([]);
+  const [imageList, setImageList] = useState<ImageInputType[]>([]); // 단순히 이미지 프리뷰를 위한 상태 관리
 
   const handleFileChange = (selectedFile: File | null) => {
     if (selectedFile) {
@@ -55,6 +55,7 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
       ref.current?.click();
     }
   };
+
   const handleDeleteImage = (targetId: string) => {
     const newImageList = imageList.filter((image) => image.id !== targetId);
     setImageList(newImageList);

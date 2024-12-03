@@ -66,21 +66,14 @@ export default function AddForm() {
     }
   };
 
-  // input에서 파일 선택하면 이미지 업로드
-  const handleChangeImageUrls = async (files: File[]) => {
-    setImageFiles(files);
+  const handleSubmitImages = async () => {
     try {
-      // 이미지 업로드 실행
-      const uploadedUrls = await uploadImages(files);
-      // 업로드된 URL 설정
-      setImageUrls(uploadedUrls);
+      const uploadedUrls = await uploadImages(imageFiles);
       setValue("imageUrls", uploadedUrls);
     } catch (error) {
-      toast.error("이미지 업로드에 실패했습니다.");
       console.error("이미지 업로드 에러:", error);
     }
   };
-
   const onSubmit = async (data: AddFormData) => {
     try {
       // 전체 폼 데이터 POST요청
@@ -112,10 +105,17 @@ export default function AddForm() {
           { label: "근무 조건", value: "3" },
         ]}
       />
+
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} className="my-8 flex flex-col gap-4">
           <Label>알바폼 제목</Label>
-          <BaseInput {...register("title")} type="text" variant="white" placeholder="제목을 입력해주세요." />
+          <BaseInput
+            {...register("title", { required: "제목을 입력해주세요" })}
+            type="text"
+            variant="white"
+            placeholder="제목을 입력해주세요."
+          />
+
           <Label>소개글</Label>
           <BaseTextArea
             {...register("description", {
@@ -125,16 +125,24 @@ export default function AddForm() {
             variant="white"
             placeholder="최대 200자까지 입력 가능합니다."
           />
+
           <Label>모집 기간</Label>
           <DatePickerInput
-            name="recruitmentDateDisplay"
+            startDateName="recruitmentStartDate"
+            endDateName="recruitmentEndDate"
             startDate={recruitmentDateRange[0] || undefined}
             endDate={recruitmentDateRange[1] || undefined}
             onChange={handleRecruitmentDateChange}
           />
           <Label required={false}>이미지 첨부</Label>
-          {/* 이미지 업로드 해서 url 받아오면 그걸로 프리뷰만 띄워줘도 되잖아? 아니면 프리뷰를 page에서 띄워도되고 */}
-          <ImageInput {...register("imageUrls")} onChange={(files) => handleChangeImageUrls(files)} />
+          <ImageInput
+            {...register("imageUrls")}
+            onChange={(files) => {
+              setImageFiles(files);
+              console.log(imageFiles);
+            }}
+          />
+
           <div className="flex flex-col gap-2 lg:absolute">
             <Button
               type="button"
