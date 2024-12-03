@@ -33,7 +33,7 @@ interface AddFormData {
 
 // 알바폼 만들기 - 사장님
 export default function AddForm() {
-  const methods = useForm<AddFormData>(); // methods로 이름 변경
+  const methods = useForm<AddFormData>();
 
   const {
     register,
