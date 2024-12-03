@@ -101,8 +101,8 @@ export default function AddForm() {
       />
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} className="my-8 flex flex-col gap-4">
-          <Label>모집 내용</Label>
-          <BaseInput {...register("title")} type="text" variant="white" />
+          <Label>알바폼 제목</Label>
+          <BaseInput {...register("title")} type="text" variant="white" placeholder="제목을 입력해주세요." />
           <Label>소개글</Label>
           <BaseTextArea
             {...register("description", {
@@ -110,6 +110,7 @@ export default function AddForm() {
               maxLength: { value: 200, message: "최대 200자까지 입력 가능합니다." },
             })}
             variant="white"
+            placeholder="최대 200자까지 입력 가능합니다."
           />
           <Label>모집 기간</Label>
           <DatePickerInput

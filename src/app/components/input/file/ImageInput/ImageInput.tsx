@@ -1,9 +1,9 @@
 "use client";
-import BaseFileInput from "../BaseFileInput";
 import { HiUpload } from "react-icons/hi";
 import { forwardRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import PreviewItem from "./PreviewItem";
+import { cn } from "@/lib/tailwindUtil";
 interface ImageInputType {
   file: File | null;
   url: string;
@@ -49,17 +49,30 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
     props.onChange?.(newImageList.map((img) => img.file).filter((file) => file !== null));
   };
 
+  const colorStyle = {
+    bgColor: "bg-background-200",
+    borderColor: "border-[0.5px] border-transparent",
+    hoverColor: "hover:border-grayscale-200 hover:bg-background-300",
+    innerHoverColor: "hover:bg-background-300",
+  };
+
   return (
+    // 인풋 + 프리뷰 wrapper
     <div className="flex gap-5 lg:gap-6">
-      <div className="relative">
-        <BaseFileInput
-          file={null}
-          variant="upload"
+      <div
+        className={cn(
+          "relative size-20 rounded-lg lg:size-[116px]",
+          colorStyle.bgColor,
+          colorStyle.borderColor,
+          colorStyle.hoverColor
+        )}
+      >
+        <input
+          type="file"
           name="image"
-          onFileAction={handleFileChange}
-          size="size-20 lg:size-[116px]"
-          isImage={true}
-          placeholder=""
+          accept="image/*"
+          onChange={(e) => handleFileChange(e.target.files?.[0] || null)}
+          className="hidden"
         />
         <div className="pointer-events-none absolute top-0 p-7 lg:p-10">
           <HiUpload className="text-[24px] text-grayscale-400 lg:text-[36px]" />

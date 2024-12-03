@@ -28,6 +28,5 @@ export interface BaseFileInputProps {
   icon?: React.ReactNode;
   actionIcon?: React.ReactNode;
   placeholder: string;
-  isImage?: boolean;
   onChange?: (event: Event) => void;
 }
