@@ -1,4 +1,4 @@
-import FilterBar from "@/app/components/layout/mypage/FilterBar";
+import FilterBar from "./components/FilterBar";
 
 interface MypageLayoutProps {
   children: React.ReactNode;
