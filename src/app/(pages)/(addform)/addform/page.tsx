@@ -58,26 +58,53 @@ export default function AddForm() {
   // 이미지 업로드 api
   const uploadImages = async (files: File[]) => {
     try {
-      const response = await axios.post(`/api/images/upload`, files);
-      return response.data;
+      const uploadedUrls: string[] = [];
+
+      // 전체 파일 배열을 순회하면서 업로드 로직 진행
+      for (const file of files) {
+        // 파일 크기 체크 (예: 5MB)
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        if (file.size > maxSize) {
+          toast.error(`${file.name}의 크기가 5MB를 초과합니다.`);
+          continue;
+        }
+
+        const formData = new FormData();
+        formData.append("file", file, file.name); // 파일 이름 추가
+
+        try {
+          const response = await axios.post(`/api/images/upload`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            transformRequest: [(data) => data],
+          });
+
+          if (response.data) {
+            uploadedUrls.push(response.data);
+          }
+        } catch (uploadError) {
+          console.error(`파일 ${file.name} 업로드 실패:`, uploadError);
+          toast.error(`${file.name} 업로드에 실패했습니다.`);
+        }
+      }
+
+      return uploadedUrls;
     } catch (error) {
       console.error("Error uploading images:", error);
       throw error;
     }
   };
 
-  const handleSubmitImages = async () => {
-    try {
-      const uploadedUrls = await uploadImages(imageFiles);
-      setValue("imageUrls", uploadedUrls);
-    } catch (error) {
-      console.error("이미지 업로드 에러:", error);
-    }
-  };
   const onSubmit = async (data: AddFormData) => {
+    // submit 할때 이미지 업로드 함수 호출
+    if (imageFiles.length > 0) {
+      const uploadedUrls = await uploadImages(imageFiles);
+      data.imageUrls = uploadedUrls;
+    }
     try {
       // 전체 폼 데이터 POST요청
-      await axios.post(`/api/forms`, data);
+      // await axios.post(`/api/forms`, data); // 전체 폼 작성해야됨
       window.localStorage.removeItem("tempAddFormData");
       toast.success("알바폼을 등록했습니다.");
       router.back();
@@ -88,8 +115,26 @@ export default function AddForm() {
     }
   };
 
-  const onTempSave = () => {
+  const onTempSave = async () => {
     const currentData = getValues();
+    if (imageFiles && imageFiles.length > 0) {
+      try {
+        const uploadedUrls = await uploadImages(imageFiles);
+        if (uploadedUrls.length > 0) {
+          currentData.imageUrls = uploadedUrls;
+        } else {
+          currentData.imageUrls = [];
+          toast.error("이미지 업로드에 실패했습니다.");
+        }
+      } catch (error) {
+        console.error("이미지 업로드 중 오류 발생:", error);
+        toast.error("이미지 업로드 중 오류가 발생했습니다.");
+        currentData.imageUrls = [];
+      }
+    } else {
+      currentData.imageUrls = [];
+    }
+
     window.localStorage.setItem("tempAddFormData", JSON.stringify(currentData));
     toast.success("임시 저장되었습니다.");
     console.log(currentData);
@@ -139,7 +184,6 @@ export default function AddForm() {
             {...register("imageUrls")}
             onChange={(files) => {
               setImageFiles(files);
-              console.log(imageFiles);
             }}
           />
 

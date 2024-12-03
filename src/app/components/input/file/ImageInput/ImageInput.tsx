@@ -43,8 +43,6 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
     }
   };
   const handleImageSelect = () => {
-    console.log("click");
-    console.log(ref);
     if (typeof ref === "function") {
       // input 요소를 찾아서 클릭
       const fileInput = document.querySelector(`input[name="${props.name}"]`);
