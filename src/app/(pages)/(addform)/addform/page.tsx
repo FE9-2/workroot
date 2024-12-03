@@ -65,12 +65,12 @@ export default function AddForm() {
         // 파일 크기 체크 (예: 5MB)
         const maxSize = 5 * 1024 * 1024; // 5MB
         if (file.size > maxSize) {
-          toast.error(`${file.name}의 크기가 5MB를 초과합니다.`);
+          toast.error(`5MB 이상의 파일은 업로드할 수 없습니다.`);
           continue;
         }
 
         const formData = new FormData();
-        formData.append("file", file, file.name); // 파일 이름 추가
+        formData.append("image", file, file.name); // 파일 이름 추가
 
         try {
           const response = await axios.post(`/api/images/upload`, formData, {
@@ -79,9 +79,9 @@ export default function AddForm() {
             },
             transformRequest: [(data) => data],
           });
-
-          if (response.data) {
-            uploadedUrls.push(response.data);
+          console.log("response", response);
+          if (response.data.url) {
+            uploadedUrls.push(response.data.url);
           }
         } catch (uploadError) {
           console.error(`파일 ${file.name} 업로드 실패:`, uploadError);
@@ -121,6 +121,7 @@ export default function AddForm() {
       try {
         const uploadedUrls = await uploadImages(imageFiles);
         if (uploadedUrls.length > 0) {
+          console.log("uploadedUrls", uploadedUrls);
           currentData.imageUrls = uploadedUrls;
         } else {
           currentData.imageUrls = [];
