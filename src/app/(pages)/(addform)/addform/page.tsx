@@ -162,7 +162,7 @@ export default function AddForm() {
 
   return (
     <div className="relative">
-      <aside className="top-0 hidden rounded-[24px] bg-background-200 lg:absolute lg:p-10">
+      <aside className="top-0 hidden rounded-[24px] bg-background-200 lg:fixed lg:top-10 lg:p-10">
         {/* 라벨 선택하면 페이지 contenct 이동 & isEditing: 각 폼 isDirty 연동 */}
         <TabMenuDropdown
           onClick={handleMenuClick}
@@ -226,7 +226,7 @@ export default function AddForm() {
               variant="outlined"
               width="md"
               color="orange"
-              className="h-[58px] border bg-background-200 hover:bg-background-100 lg:h-[72px] lg:text-xl lg:leading-8"
+              className="h-[58px] border bg-background-100 lg:h-[72px] lg:text-xl lg:leading-8"
               onClick={onTempSave}
               disabled={!isDirty}
             >
