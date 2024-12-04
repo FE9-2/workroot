@@ -58,7 +58,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoginPending}
-              className="group relative flex w-full justify-center rounded-lg bg-primary-orange-300 px-4 py-2 text-sm font-medium text-white hover:bg-primary-orange-200 focus:outline-none focus:ring-2 focus:ring-primary-orange-300 focus:ring-offset-2 disabled:bg-gray-100"
+              className="group relative flex w-full justify-center rounded-lg bg-primary-orange-300 px-4 py-2 text-sm font-medium text-white hover:bg-primary-orange-200 focus:outline-none focus:ring-2 focus:ring-primary-orange-300 focus:ring-offset-2 disabled:bg-grayscale-100"
             >
               {isLoginPending ? "로그인 중..." : "로그인"}
             </button>
