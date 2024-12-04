@@ -24,6 +24,17 @@ type AlertModalProps = BaseModalProps & {
   onButtonClick: () => void;
 };
 
+type CustomFormModalProps = BaseModalProps & {
+  isOpen: boolean;
+  title: string;
+  content: string;
+  className?: string;
+  confirmText?: string;
+  cancelText?: string;
+  onConfirm: () => void;
+  onCancel: () => void;
+};
+
 type ConfirmFormModalProps = BaseModalProps & {
   id: string;
   isOpen: boolean;

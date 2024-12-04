@@ -25,7 +25,8 @@ export const useAuth = () => {
       } catch (error) {
         if (axios.isAxiosError(error)) {
           if (error.response?.status === 401) {
-            return { user: null, accessToken: "", refreshToken: "" };
+            queryClient.clear(); // 모든 쿼리 캐시 초기화
+            return { user: null }; // 401 에러 시 명시적으로 null user 반환
           }
           throw new Error(error.response?.data?.message || "사용자 정보를 가져오는데 실패했습니다.");
         }
@@ -34,6 +35,7 @@ export const useAuth = () => {
     },
     retry: false,
     staleTime: 1000 * 60 * 5,
+    initialData: { user: null }, // 초기 데이터를 null user로 설정
   });
 
   // 캐시된 사용자 정보 가져오기
@@ -127,6 +129,7 @@ export const useAuth = () => {
     },
     onSuccess: (data) => {
       if (data?.user) {
+        queryClient.setQueryData(["user"], data); // 캐시 업데이트
         toast.success("로그인되었습니다!");
         router.push("/");
         router.refresh();
