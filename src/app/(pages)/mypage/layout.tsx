@@ -8,7 +8,7 @@ interface MypageLayoutProps {
 export default function MypageLayout({ children }: MypageLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col">
-      <div className="px-6 md:px-[72px] lg:px-[220px]">
+      <div className="mx-auto w-full min-w-[327px] px-6 md:min-w-[600px] lg:min-w-[1480px]">
         <Suspense fallback={<div>로딩 중...</div>}>
           <FilterBar />
           {children}

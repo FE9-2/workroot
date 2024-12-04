@@ -1,17 +1,56 @@
 import { LoginSchema, SignupSchema } from "@/schemas/authSchema";
-import { useUserStore } from "@/store/userStore";
 import { AuthResponse } from "@/types/response/auth";
 import { UserResponse } from "@/types/response/user";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 
+type UserQueryResponse = AuthResponse | { user: null };
+type CachedUserData = UserResponse | null;
+
 export const useAuth = () => {
   const router = useRouter();
-  const setUser = useUserStore((state) => state.setUser);
-  const storeUser = useUserStore((state) => state.user);
   const queryClient = useQueryClient();
+
+  // 사용자 정보 조회
+  const { data: userData, isLoading: isUserLoading } = useQuery<UserQueryResponse>({
+    queryKey: ["user"],
+    queryFn: async () => {
+      try {
+        const response = await axios.get<AuthResponse>("/api/users/me", {
+          withCredentials: true,
+        });
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          if (error.response?.status === 401) {
+            return { user: null, accessToken: "", refreshToken: "" };
+          }
+          throw new Error(error.response?.data?.message || "사용자 정보를 가져오는데 실패했습니다.");
+        }
+        throw error;
+      }
+    },
+    retry: false,
+    staleTime: 1000 * 60 * 5,
+  });
+
+  // 캐시된 사용자 정보 가져오기
+  const cachedData = queryClient.getQueryData<CachedUserData>(["user"]);
+
+  // 사용자 정보 추출 및 변환
+  const currentUser =
+    cachedData && "id" in cachedData
+      ? ({
+          id: cachedData.id,
+          email: cachedData.email,
+          name: cachedData.name,
+          nickname: cachedData.nickname,
+          imageUrl: cachedData.imageUrl,
+          role: cachedData.role,
+        } as UserResponse)
+      : (userData?.user ?? null);
 
   // 토큰 갱신 mutation
   const refreshMutation = useMutation({
@@ -28,7 +67,6 @@ export const useAuth = () => {
       } catch (error) {
         if (axios.isAxiosError(error) && error.response?.status === 400) {
           // 리프레시 토큰이 없는 경우 조용히 처리
-          setUser(null);
           return null;
         }
         throw error;
@@ -36,14 +74,11 @@ export const useAuth = () => {
     },
     onSuccess: (data) => {
       if (data?.user) {
-        const userResponse = data.user as unknown as UserResponse;
-        setUser(userResponse);
         queryClient.invalidateQueries({ queryKey: ["user"] });
       }
     },
     onError: (error: Error) => {
       console.error("Token refresh failed:", error);
-      setUser(null);
       router.push("/login");
     },
   });
@@ -92,8 +127,6 @@ export const useAuth = () => {
     },
     onSuccess: (data) => {
       if (data?.user) {
-        const userResponse = data.user as unknown as UserResponse;
-        setUser(userResponse);
         toast.success("로그인되었습니다!");
         router.push("/");
         router.refresh();
@@ -118,7 +151,6 @@ export const useAuth = () => {
       return response.data;
     },
     onSuccess: () => {
-      setUser(null);
       queryClient.clear(); // 모든 쿼리 캐시 초기화
       toast.success("로그아웃되었습니다!");
       router.push("/login");
@@ -134,12 +166,15 @@ export const useAuth = () => {
   const logout = () => logoutMutation.mutate();
   const refresh = () => refreshMutation.mutate();
 
+  // 전체 로딩 상태 계산
+  const isLoading = isUserLoading || refreshMutation.isPending;
+
   return {
     signup,
     login,
     logout,
     refresh,
-    user: storeUser,
+    user: currentUser,
     isSignupPending: signupMutation.isPending,
     isLoginPending: loginMutation.isPending,
     isLogoutPending: logoutMutation.isPending,
@@ -147,7 +182,7 @@ export const useAuth = () => {
     signupError: signupMutation.error,
     loginError: loginMutation.error,
     logoutError: logoutMutation.error,
-    isLoading: refreshMutation.isPending,
+    isLoading,
     refreshError: refreshMutation.error,
   };
 };
