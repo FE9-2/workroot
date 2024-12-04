@@ -31,8 +31,9 @@ const TabMenuDropdown = ({ options, className = "", onClick }: TopMenuDropdownPr
   const baseStyle = "mr-4 inline-flex size-5 lg:size-7 items-center justify-center rounded-2xl text-center text-sm";
 
   const listStyle =
-    "relative flex justify-between items-center w-[327px] lg:w-[372px] h-[52px] lg:h-[78px] cursor-pointer px-6 py-3 lg:py-6 lg:px-8 hover:bg-primary-grayscale-100 text-left text-sm lg:text-xl font-bold text-black-100";
-  const selectedStyle = "focus:outline-none text-white bg-primary-orange-300 lg:rounded-[20px]";
+    "relative flex justify-between items-center w-[327px] lg:w-[372px] h-[52px] lg:h-[78px] cursor-pointer px-6 py-3 lg:py-6 lg:px-8 hover:bg-background-300 text-left text-sm lg:text-xl font-bold text-black-100";
+  const selectedStyle =
+    "focus:outline-none text-white bg-primary-orange-300 lg:rounded-[20px] hover:bg-primary-orange-300";
   const wrapperStyle = `border border-line-200 lg:border-none cursor-pointer flex flex-col rounded-2xl overflow-hidden ${className}`;
 
   const numberStyle = `${baseStyle} bg-background-300 font-semibold text-grayscale-200`;

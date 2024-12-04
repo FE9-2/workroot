@@ -162,7 +162,7 @@ export default function AddForm() {
 
   return (
     <div className="relative">
-      <aside className="top-0 hidden rounded-[24px] bg-background-200 lg:fixed lg:top-10 lg:p-10">
+      <aside className="left-0 top-0 rounded-[24px] bg-background-200 lg:fixed lg:top-10 lg:p-10">
         {/* 라벨 선택하면 페이지 contenct 이동 & isEditing: 각 폼 isDirty 연동 */}
         <TabMenuDropdown
           onClick={handleMenuClick}
