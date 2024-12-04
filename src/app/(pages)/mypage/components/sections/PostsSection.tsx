@@ -56,7 +56,7 @@ export default function PostsSection() {
   if (!data?.pages[0]?.data?.length) {
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <p className="text-gray-500">작성한 게시글이 없습니다.</p>
+        <p className="text-grayscale-500">작성한 게시글이 없습니다.</p>
       </div>
     );
   }
@@ -69,8 +69,8 @@ export default function PostsSection() {
           {page.data.map((post: PostListType) => (
             <div key={post.id} className="rounded-lg border p-4 transition-all hover:border-primary-orange-200">
               <h3 className="font-bold">{post.title}</h3>
-              <p className="text-gray-600">{post.content}</p>
-              <div className="mt-2 text-sm text-gray-500">
+              <p className="text-grayscale-600">{post.content}</p>
+              <div className="mt-2 text-sm text-grayscale-500">
                 <span>댓글 {post.commentCount}</span>
                 <span className="mx-2">•</span>
                 <span>좋아요 {post.likeCount}</span>

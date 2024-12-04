@@ -56,7 +56,7 @@ export default function ScrapsSection() {
   if (!data?.pages[0]?.data?.length) {
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <p className="text-gray-500">스크랩한 공고가 없습니다.</p>
+        <p className="text-grayscale-500">스크랩한 공고가 없습니다.</p>
       </div>
     );
   }
@@ -69,7 +69,7 @@ export default function ScrapsSection() {
           {page.data.map((scrap: FormListType) => (
             <div key={scrap.id} className="rounded-lg border p-4 transition-all hover:border-primary-orange-200">
               <h3 className="font-bold">{scrap.title}</h3>
-              <div className="mt-2 text-sm text-gray-500">
+              <div className="mt-2 text-sm text-grayscale-500">
                 <span>지원자 {scrap.applyCount}명</span>
                 <span className="mx-2">•</span>
                 <span>스크랩 {scrap.scrapCount}명</span>
