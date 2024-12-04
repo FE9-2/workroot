@@ -3,10 +3,16 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   // 인증이 필요없는 공개 경로들을 정의
-  const publicPatterns = ["/", "/_next", "/favicon.ico", /\.(jpg|jpeg|gif|png|svg)$/];
-
-  // 인증된 사용자의 접근을 제한할 경로들
-  const authRestrictedPaths = ["/login", "/signup"];
+  const publicPatterns = [
+    "/",
+    "/_next",
+    "/favicon.ico",
+    "/login",
+    "/signup",
+    "/signup/applicant",
+    "/signup/owner",
+    /\.(jpg|jpeg|gif|png|svg)$/,
+  ];
 
   // 현재 요청된 경로가 공개 경로에 해당하는지 확인
   const isPublicPath = publicPatterns.some((pattern) => {
@@ -16,36 +22,46 @@ export function middleware(request: NextRequest) {
     return pattern.test(request.nextUrl.pathname);
   });
 
-  // 현재 경로가 로그인/회원가입 페이지인지 확인
-  const isAuthPath = authRestrictedPaths.includes(request.nextUrl.pathname);
+  // 공개 경로가 아닌 경우에만 토큰 체크
+  if (!isPublicPath) {
+    const token = request.cookies.get("accessToken")?.value;
+    const isValidToken = token && !isTokenExpired(token);
 
-  // 쿠키에서 인증 토큰 확인
-  const token = request.cookies.get("accessToken")?.value;
-
-  // 로그인된 사용자가 로그인/회원가입 페이지 접근 시 홈으로 리다이렉트
-  if (isAuthPath && token) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
-
-  // 로그인되지 않은 사용자가 보호된 페이지 접근 시 로그인 페이지로 리다이렉트
-  if (!isPublicPath && !isAuthPath && !token) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    if (!isValidToken) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
   }
 
   return NextResponse.next();
 }
 
-// 미들웨어 적용 경로 설정
+// JWT 토큰 디코딩 함수
+function decodeJwt(token: string) {
+  try {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+    return JSON.parse(jsonPayload);
+  } catch (error) {
+    console.error("JWT 토큰 디코딩 오류:", error);
+    return null;
+  }
+}
+
+// 토큰 만료 체크 함수
+function isTokenExpired(token: string) {
+  const decodedToken = decodeJwt(token);
+  if (!decodedToken) return true;
+
+  const currentTime = Math.floor(Date.now() / 1000);
+  return decodedToken.exp < currentTime;
+}
+
 export const config = {
-  matcher: [
-    /*
-     * 다음으로 시작하는 경로를 제외한 모든 요청 경로에 매칭:
-     * - api (API 라우트)
-     * - _next/static (정적 파일)
-     * - _next/image (이미지 최적화 파일)
-     * - favicon.ico (파비콘)
-     * - public 폴더
-     */
-    "/((?!api|_next/static|_next/image|favicon.ico|public/).*)",
-  ],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|public/).*)"],
 };

@@ -19,8 +19,8 @@ export default function TabMenu() {
   const getLinkClassName = (value: string) => {
     return cn(
       "py-4 py-2 text-sm font-medium transition-colors sm:text-base",
-      "hover:text-gray-900",
-      currentTab === value ? "border-b-2 border-primary-orange-300 text-gray-900" : "text-gray-500"
+      "hover:text-grayscale-900",
+      currentTab === value ? "border-b-2 border-primary-orange-300 text-grayscale-900" : "text-grayscale-500"
     );
   };
 
