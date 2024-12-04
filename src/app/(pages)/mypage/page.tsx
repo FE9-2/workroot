@@ -1,5 +1,7 @@
-import { redirect } from "next/navigation";
+"use client";
 
-export default function Mypage() {
-  redirect("/mypage/posts");
+import MyPageContent from "./components/MyPageContent";
+
+export default function MyPage() {
+  return <MyPageContent />;
 }

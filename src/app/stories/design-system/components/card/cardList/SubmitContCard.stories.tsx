@@ -33,14 +33,3 @@ export const Default: Story = {
     submitContData: mockData,
   },
 };
-
-// 추가 스토리 정의 가능
-export const Alternative: Story = {
-  args: {
-    submitContData: {
-      ...mockData,
-      name: "김철수", // 다른 이름으로 변경
-      phoneNumber: "010-9876-5432", // 다른 연락처로 변경
-    },
-  },
-};

@@ -54,7 +54,7 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
       reset({
         name: user.name || "",
         nickname: user.nickname || "",
-        phone: user.phone || "",
+        phone: user.phoneNumber || "",
       });
       setPreviewUrl(user.imageUrl || "");
     }

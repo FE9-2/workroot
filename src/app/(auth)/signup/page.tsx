@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { FieldErrors, useForm } from "react-hook-form";
 import { useEffect } from "react";
+import Image from "next/image";
 
 export default function SignupPage() {
   const { signup, isSignupPending } = useAuth();
@@ -196,6 +197,16 @@ export default function SignupPage() {
             >
               {isSignupPending ? "회원가입 중..." : "회원가입"}
             </button>
+          </div>
+          <div className="flex">
+            <button>
+              <Image src="/icons/social/social_google.svg" width={72} height={72} alt="구글 로그인" />
+            </button>
+            <Link
+              href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code`}
+            >
+              <Image src="/icons/social/social_kakao.svg" width={72} height={72} alt="카카오 로그인" />
+            </Link>
           </div>
         </form>
       </div>

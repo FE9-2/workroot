@@ -3,12 +3,12 @@ import React from "react";
 import { FormDetailResponse } from "@/types/response/form";
 import { cn } from "@/lib/tailwindUtil";
 
-interface RecruitCondProps {
+interface RecruitConditionProps {
   recruitData: FormDetailResponse;
 }
 
 // 모집조건 카드 컴포넌트
-const RecruitCond = ({ recruitData }: RecruitCondProps) => {
+const RecruitCondition = ({ recruitData }: RecruitConditionProps) => {
   const titleStyle = "text-black-200 min-w-[64px] md:min-w-[120px]";
   return (
     <div className="flex w-[327px] flex-col gap-5 rounded-lg border border-line-100 bg-white p-4 text-xs md:w-[640px] md:p-6 md:text-lg">
@@ -43,4 +43,4 @@ const RecruitCond = ({ recruitData }: RecruitCondProps) => {
   );
 };
 
-export default RecruitCond;
+export default RecruitCondition;

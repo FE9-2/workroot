@@ -87,7 +87,7 @@ const FilterDropdown = ({ options, className = "", onChange, initialValue, readO
         <DropdownList
           list={Array.from(options)}
           onSelect={handleSelect}
-          wrapperStyle="h-full w-[80px] md:w-[126px]"
+          wrapperStyle={cn("h-full", className)}
           itemStyle="md:text-lg text-xs"
         />
       )}
