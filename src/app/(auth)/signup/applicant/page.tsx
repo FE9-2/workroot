@@ -31,8 +31,8 @@ export default function ApplicantSignupPage() {
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-lime-200 to-lime-300 px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-lg">
         <div>
-          <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">지원자 회원가입</h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
+          <h2 className="text-grayscale-900 text-center text-3xl font-bold tracking-tight">지원자 회원가입</h2>
+          <p className="text-grayscale-600 mt-2 text-center text-sm">
             이미 계정이 있으신가요?{" "}
             <Link href="/login" className="font-medium text-lime-600 hover:text-lime-500">
               로그인하기
@@ -46,7 +46,7 @@ export default function ApplicantSignupPage() {
               <input
                 {...register("email")}
                 type="email"
-                className="relative block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm"
+                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm"
                 placeholder="이메일"
               />
               {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
@@ -55,7 +55,7 @@ export default function ApplicantSignupPage() {
               <input
                 {...register("name")}
                 type="text"
-                className="relative block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm"
+                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm"
                 placeholder="이름"
               />
               {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>}
@@ -64,7 +64,7 @@ export default function ApplicantSignupPage() {
               <input
                 {...register("nickname")}
                 type="text"
-                className="relative block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm"
+                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm"
                 placeholder="닉네임"
               />
               {errors.nickname && <p className="mt-1 text-sm text-red-600">{errors.nickname.message}</p>}
@@ -73,7 +73,7 @@ export default function ApplicantSignupPage() {
               <input
                 {...register("password")}
                 type="password"
-                className="relative block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm"
+                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm"
                 placeholder="비밀번호"
               />
               {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>}
@@ -82,7 +82,7 @@ export default function ApplicantSignupPage() {
               <input
                 {...register("confirmPassword")}
                 type="password"
-                className="relative block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm"
+                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm"
                 placeholder="비밀번호 확인"
               />
               {errors.confirmPassword && <p className="mt-1 text-sm text-red-600">{errors.confirmPassword.message}</p>}
@@ -91,7 +91,7 @@ export default function ApplicantSignupPage() {
               <input
                 {...register("phoneNumber")}
                 type="tel"
-                className="relative block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm"
+                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm"
                 placeholder="전화번호 (예: 010-1234-5678)"
               />
               {errors.phoneNumber && <p className="mt-1 text-sm text-red-600">{errors.phoneNumber.message}</p>}

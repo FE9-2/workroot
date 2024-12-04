@@ -51,7 +51,7 @@ export default function CommentsSection() {
   if (!data?.data?.length) {
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <p className="text-gray-500">작성한 댓글이 없습니다.</p>
+        <p className="text-grayscale-500">작성한 댓글이 없습니다.</p>
       </div>
     );
   }
@@ -61,11 +61,11 @@ export default function CommentsSection() {
       {/* 댓글 목록 렌더링 */}
       {data.data.map((comment: MyCommentType) => (
         <div key={comment.id} className="rounded-lg border p-4">
-          <h3 className="mb-2 font-medium text-gray-900">{comment.post.title}</h3>
-          <p className="text-gray-600">{comment.content}</p>
-          <div className="mt-2 text-sm text-gray-500">
+          <h3 className="text-grayscale-900 mb-2 font-medium">{comment.post.title}</h3>
+          <p className="text-grayscale-600">{comment.content}</p>
+          <div className="mt-2 text-sm text-grayscale-500">
             <time>{new Date(comment.createdAt).toLocaleDateString()}</time>
-            {comment.updatedAt !== comment.createdAt && <span className="ml-2 text-gray-400">(수정됨)</span>}
+            {comment.updatedAt !== comment.createdAt && <span className="ml-2 text-grayscale-400">(수정됨)</span>}
           </div>
         </div>
       ))}
