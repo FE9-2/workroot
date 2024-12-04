@@ -28,6 +28,5 @@ export const Default: Story = {
       { label: "모집 조건", isEditing: false },
       { label: "근무 조건", isEditing: false },
     ],
-    menuOpen: true,
   },
 };
