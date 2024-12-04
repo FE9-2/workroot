@@ -20,25 +20,25 @@ const EditingChip = ({ className = "", selected }: { className?: string; selecte
 const TabMenuDropdown = ({ options, className = "", onClick }: TopMenuDropdownProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedLabel, setSelectedLabel] = useState<string>(options[0].label); // 선택된 값 (label을 저장)
+  const { isDesktop } = useWidth();
 
-  const handleOptionClick = (option: string) => {
-    setSelectedLabel(option); // 선택된 레이블을 저장
-    setIsOpen(false);
-    onClick(option);
+  const handleOptionClick = (label: string) => {
+    setSelectedLabel(label); // 선택된 레이블을 저장
+    // onClick(label);
+    setIsOpen((prev) => !prev);
   };
 
   const baseStyle = "mr-4 inline-flex size-5 lg:size-7 items-center justify-center rounded-2xl text-center text-sm";
 
   const listStyle =
     "relative flex justify-between items-center w-[327px] lg:w-[372px] h-[52px] lg:h-[78px] cursor-pointer px-6 py-3 lg:py-6 lg:px-8 hover:bg-primary-grayscale-100 text-left text-sm lg:text-xl font-bold text-black-100";
-  const selectedStyle = "focus:outline-none text-white bg-primary-orange-300 rounded-2xl lg:rounded-[20px]";
-  const wrapperStyle = `cursor-pointer flex flex-col rounded-2xl overflow-hidden ${className}`;
+  const selectedStyle = "focus:outline-none text-white bg-primary-orange-300 lg:rounded-[20px]";
+  const wrapperStyle = `border border-line-200 lg:border-none cursor-pointer flex flex-col rounded-2xl overflow-hidden ${className}`;
 
   const numberStyle = `${baseStyle} bg-background-300 font-semibold text-grayscale-200`;
   const selectedIndexStyle = `bg-primary-orange-50 text-primary-orange-300`;
 
   // 모바일일때는 클릭 시 메뉴 펼치기 & 메뉴 선택 시 메뉴 닫기 (ArrowIcon 표시)
-  const { isDesktop } = useWidth();
   return (
     <ul className={cn(wrapperStyle)}>
       {options.map((option, idx) => {
@@ -46,7 +46,7 @@ const TabMenuDropdown = ({ options, className = "", onClick }: TopMenuDropdownPr
         return (
           <li
             role="button"
-            className={cn(listStyle, selected && selectedStyle)}
+            className={cn(listStyle, selected && selectedStyle, !selected && !isOpen && !isDesktop && "hidden")}
             key={option.label}
             onClick={() => handleOptionClick(option.label)}
           >
@@ -58,7 +58,7 @@ const TabMenuDropdown = ({ options, className = "", onClick }: TopMenuDropdownPr
                 className={cn("ml-3 lg:absolute lg:-right-[190px] lg:-top-[2px]", option.isEditing ? "" : "invisible")}
               />
             </span>
-            <button onClick={() => setIsOpen(!isOpen)} className={cn("flex items-center", !selected && "hidden")}>
+            <button type="button" className={cn("flex items-center", !selected && "hidden")}>
               <IoIosArrowDown
                 className={cn("size-5 transition-transform duration-200 lg:hidden", isOpen && "rotate-180")}
               />
