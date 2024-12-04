@@ -1,5 +1,4 @@
 "use client";
-import TopMenuDropdown from "@/app/components/button/dropdown/TopMenuDropdown";
 import Label from "../component/Label";
 import BaseInput from "@/app/components/input/text/BaseInput";
 import BaseTextArea from "@/app/components/input/textarea/BaseTextArea";
@@ -13,6 +12,7 @@ import router from "next/router";
 import axios from "axios";
 import { cn } from "@/lib/tailwindUtil";
 import useWidth from "@/hooks/useWidth";
+import TabMenuDropdown from "@/app/components/button/dropdown/TabMenuDropdown";
 
 interface AddFormData {
   isPublic: boolean;
@@ -163,13 +163,13 @@ export default function AddForm() {
   return (
     <div className="relative">
       <aside className="top-0 hidden rounded-[24px] bg-background-200 lg:absolute lg:p-10">
-        <TopMenuDropdown
-          menuOpen={menuOpen}
+        {/* 라벨 선택하면 페이지 contenct 이동 & isEditing: 각 폼 isDirty 연동 */}
+        <TabMenuDropdown
           onClick={handleMenuClick}
           options={[
-            { label: "모집 내용", value: "1" },
-            { label: "모집 조건", value: "2" },
-            { label: "근무 조건", value: "3" },
+            { label: "모집 내용", isEditing: true },
+            { label: "모집 조건", isEditing: false },
+            { label: "근무 조건", isEditing: false },
           ]}
         />
       </aside>
