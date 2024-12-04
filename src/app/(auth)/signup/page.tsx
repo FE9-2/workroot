@@ -1,214 +1,62 @@
 "use client";
 
-import { useAuth } from "@/hooks/useAuth";
-import { type SignupSchema, signupSchema } from "@/schemas/authSchema";
-import { userRoles } from "@/constants/userRoles";
-import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { FieldErrors, useForm } from "react-hook-form";
-import { useEffect } from "react";
-import Image from "next/image";
+import { FaUser } from "react-icons/fa";
+import { MdStorefront } from "react-icons/md";
 
 export default function SignupPage() {
-  const { signup, isSignupPending } = useAuth();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-    setValue,
-  } = useForm<SignupSchema>({
-    resolver: zodResolver(signupSchema),
-    defaultValues: {
-      role: userRoles.APPLICANT,
-      phoneNumber: "",
-      storeName: "",
-      storePhoneNumber: "",
-      location: "",
-    },
-    mode: "all",
-  });
-
-  const selectedRole = watch("role");
-  const formValues = watch();
-
-  useEffect(() => {
-    if (selectedRole === userRoles.APPLICANT) {
-      setValue("storeName", "", { shouldValidate: false });
-      setValue("storePhoneNumber", "", {
-        shouldValidate: false,
-        shouldDirty: false,
-        shouldTouch: false,
-      });
-      setValue("location", "", { shouldValidate: false });
-    } else {
-      setValue("phoneNumber", "", { shouldValidate: false });
-    }
-  }, [selectedRole, setValue]);
-
-  const isFormComplete = () => {
-    const baseFields = ["email", "password", "confirmPassword", "name", "nickname"];
-    const baseFieldsComplete = baseFields.every((field) => formValues[field as keyof SignupSchema]?.trim() !== "");
-
-    if (selectedRole === userRoles.OWNER) {
-      return (
-        baseFieldsComplete &&
-        formValues.storeName?.trim() !== "" &&
-        formValues.storePhoneNumber?.trim() !== "" &&
-        formValues.location?.trim() !== ""
-      );
-    }
-
-    return baseFieldsComplete && formValues.phoneNumber?.trim() !== "";
-  };
-
-  const onSubmit = (data: SignupSchema) => {
-    signup(data);
-  };
-
-  const onError = (errors: FieldErrors<SignupSchema>) => {
-    console.error("Form validation errors:", errors);
-  };
-
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 px-4 py-12 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-lg">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-lime-200 to-lime-300 px-4 py-12 sm:px-6 lg:px-8">
+      <div className="w-full max-w-4xl space-y-8 rounded-lg bg-white p-8">
         <div>
-          <h2 className="text-grayscale-900 mt-6 text-center text-3xl font-bold tracking-tight">회원가입</h2>
-          <p className="text-grayscale-600 mt-2 text-center text-sm">
+          <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">회원 유형 선택</h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
             이미 계정이 있으신가요?{" "}
-            <Link href="/login" className="font-medium text-blue-600 hover:text-blue-500">
+            <Link href="/login" className="font-medium text-lime-600 hover:text-lime-500">
               로그인하기
             </Link>
           </p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit, onError)} noValidate>
-          <div className="space-y-4 rounded-md shadow-sm">
-            <div>
-              <input
-                {...register("email")}
-                type="email"
-                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
-                placeholder="이메일"
-              />
-              {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
+
+        <div className="mt-10 flex flex-col gap-8 sm:flex-row">
+          {/* 지원자 회원가입 카드 */}
+          <Link
+            href="/signup/applicant"
+            className="flex flex-1 flex-col items-center rounded-lg border-2 border-transparent bg-lime-50 p-8 transition-all hover:border-lime-600 hover:shadow-lg"
+          >
+            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-lime-100">
+              <FaUser className="h-12 w-12 text-lime-600" />
             </div>
-            <div>
-              <input
-                {...register("name")}
-                type="text"
-                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
-                placeholder="이름"
-              />
-              {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>}
+            <h3 className="mt-6 text-2xl font-semibold text-gray-900">지원자로 가입</h3>
+            <p className="mt-2 text-center text-gray-600">
+              알바를 찾고 계신가요?
+              <br />
+              지원자로 가입하여 알바 정보를 확인하세요.
+            </p>
+            <div className="mt-6 rounded-lg bg-lime-600 px-6 py-3 text-white transition-colors hover:bg-lime-700">
+              지원자로 가입하기
             </div>
-            <div>
-              <input
-                {...register("nickname")}
-                type="text"
-                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
-                placeholder="닉네임"
-              />
-              {errors.nickname && <p className="mt-1 text-sm text-red-600">{errors.nickname.message}</p>}
+          </Link>
+
+          {/* 사장님 회원가입 카드 */}
+          <Link
+            href="/signup/owner"
+            className="flex flex-1 flex-col items-center rounded-lg border-2 border-transparent bg-lime-50 p-8 transition-all hover:border-lime-600 hover:shadow-lg"
+          >
+            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-lime-100">
+              <MdStorefront className="h-14 w-14 text-lime-600" />
             </div>
-            <div>
-              <input
-                {...register("password")}
-                type="password"
-                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
-                placeholder="비밀번호"
-              />
-              {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>}
+            <h3 className="mt-6 text-2xl font-semibold text-gray-900">사장님으로 가입</h3>
+            <p className="mt-2 text-center text-gray-600">
+              직원을 구하고 계신가요?
+              <br />
+              사장님으로 가입하여 구인 공고를 등록하세요.
+            </p>
+            <div className="mt-6 rounded-lg bg-lime-600 px-6 py-3 text-white transition-colors hover:bg-lime-700">
+              사장님으로 가입하기
             </div>
-            <div>
-              <input
-                {...register("confirmPassword")}
-                type="password"
-                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
-                placeholder="비밀번호 확인"
-              />
-              {errors.confirmPassword && <p className="mt-1 text-sm text-red-600">{errors.confirmPassword.message}</p>}
-            </div>
-            <div className="flex gap-4">
-              <label className="flex items-center">
-                <input {...register("role")} type="radio" value={userRoles.APPLICANT} className="mr-2" defaultChecked />
-                지원자
-              </label>
-              <label className="flex items-center">
-                <input {...register("role")} type="radio" value={userRoles.OWNER} className="mr-2" />
-                사장님
-              </label>
-            </div>
-            {errors.role && <p className="mt-1 text-sm text-red-600">{errors.role.message}</p>}
-            {selectedRole === userRoles.APPLICANT && (
-              <div>
-                <input
-                  {...register("phoneNumber")}
-                  type="tel"
-                  className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
-                  placeholder="전화번호 (예: 010-1234-5678)"
-                />
-                {errors.phoneNumber && <p className="mt-1 text-sm text-red-600">{errors.phoneNumber.message}</p>}
-              </div>
-            )}
-            {selectedRole === userRoles.OWNER && (
-              <>
-                <div>
-                  <input
-                    {...register("storeName")}
-                    type="text"
-                    className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
-                    placeholder="가게 이름"
-                  />
-                  {errors.storeName && <p className="mt-1 text-sm text-red-600">{errors.storeName.message}</p>}
-                </div>
-                <div>
-                  <input
-                    {...register("storePhoneNumber")}
-                    type="tel"
-                    className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
-                    placeholder="가게 전화번호 (예: 02-1234-5678)"
-                  />
-                  {errors.storePhoneNumber && (
-                    <p className="mt-1 text-sm text-red-600">{errors.storePhoneNumber.message}</p>
-                  )}
-                </div>
-                <div>
-                  <input
-                    {...register("location")}
-                    type="text"
-                    className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
-                    placeholder="가게 위치"
-                  />
-                  {errors.location && <p className="mt-1 text-sm text-red-600">{errors.location.message}</p>}
-                </div>
-              </>
-            )}
-          </div>
-          <div>
-            <button
-              type="submit"
-              disabled={isSignupPending}
-              className={`group relative flex w-full justify-center rounded-lg px-4 py-2 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
-                isSignupPending || !isFormComplete()
-                  ? "cursor-not-allowed bg-blue-300"
-                  : "bg-blue-600 hover:bg-blue-700"
-              }`}
-            >
-              {isSignupPending ? "회원가입 중..." : "회원가입"}
-            </button>
-          </div>
-          <div className="flex">
-            <button>
-              <Image src="/icons/social/social_google.svg" width={72} height={72} alt="구글 로그인" />
-            </button>
-            <Link
-              href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code`}
-            >
-              <Image src="/icons/social/social_kakao.svg" width={72} height={72} alt="카카오 로그인" />
-            </Link>
-          </div>
-        </form>
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -27,8 +27,8 @@ export default function Header() {
     );
   };
 
-  // 로딩 중이거나 user가 undefined인 경우 스켈레톤 UI 표시
-  if (isLoading || user === undefined) {
+  // 로딩 중일 때 스켈레톤 UI 표시
+  if (isLoading) {
     return (
       <header className="fixed left-0 right-0 top-0 z-50 bg-lime-100 -tracking-widest md:tracking-normal">
         <div className="container mx-auto px-4">
