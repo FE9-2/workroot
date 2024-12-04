@@ -4,7 +4,6 @@ import apiClientNoHeader from "@/lib/apiClientNoHeader";
 
 export async function POST(req: NextRequest) {
   const accessToken = cookies().get("accessToken")?.value;
-  console.log("토큰 확인 후 .. Starting file upload process");
 
   if (!accessToken) {
     console.log("No access token found");
@@ -14,8 +13,6 @@ export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
     const file = formData.get("file");
-    console.log("file", file);
-    console.log("formData", formData);
     if (!file) {
       console.log("No file found in request");
       return NextResponse.json({ error: "파일이 필요합니다." }, { status: 400 });
@@ -24,7 +21,6 @@ export async function POST(req: NextRequest) {
     // FormData 생성 및 파일 추가
     const uploadFormData = new FormData();
     uploadFormData.append("file", file);
-    console.log("uploadFormData", uploadFormData);
 
     const response = await apiClientNoHeader.post("/resume/upload", uploadFormData, {
       headers: {
@@ -32,8 +28,6 @@ export async function POST(req: NextRequest) {
         "Content-Type": "multipart/form-data",
       },
     });
-
-    console.log("File API response data:", response);
 
     if (response.data && typeof response.data === "object") {
       const { resumeId, resumeName } = response.data;

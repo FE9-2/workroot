@@ -94,7 +94,7 @@ export default function AddForm() {
     }
     try {
       // 전체 폼 데이터 POST요청
-      // await axios.post(`/api/forms`, data); // 전체 폼 작성해야됨
+      // await axios.post(`/api/forms`, data); // 전체 폼 작성해야됨 //displayDate 제외하기
       window.localStorage.removeItem("tempAddFormData");
       toast.success("알바폼을 등록했습니다.");
       router.back();
@@ -129,6 +129,7 @@ export default function AddForm() {
     window.localStorage.setItem("tempAddFormData", JSON.stringify(currentData));
     toast.success("임시 저장되었습니다.");
     console.log(currentData);
+    console.log("isValid", isValid);
   };
 
   return (
@@ -163,6 +164,7 @@ export default function AddForm() {
           />
 
           <Label>모집 기간</Label>
+          {/* required 추가 */}
           <DatePickerInput
             startDateName="recruitmentStartDate"
             endDateName="recruitmentEndDate"
@@ -170,9 +172,10 @@ export default function AddForm() {
             endDate={recruitmentDateRange[1] || undefined}
             onChange={handleRecruitmentDateChange}
           />
-          <Label required={false}>이미지 첨부</Label>
+
+          <Label>이미지 첨부</Label>
           <ImageInput
-            {...register("imageUrls")}
+            {...register("imageUrls", { required: "이미지는 필수입니다." })}
             onChange={(files) => {
               setImageFiles(files);
             }}

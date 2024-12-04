@@ -14,6 +14,7 @@ const BaseFileInput = forwardRef<HTMLInputElement, BaseFileInputProps>((props, r
    * @param icon?: React.ReactNode;
    * @param actionIcon?: React.ReactNode;
    * @param placeholder?: string;
+   * @param accept?: string;
    */
   const colorStyle = {
     bgColor: "bg-background-200",
@@ -64,6 +65,7 @@ const BaseFileInput = forwardRef<HTMLInputElement, BaseFileInputProps>((props, r
             onChange={(e) => props.onFileAction?.(e.target.files?.[0] || null)}
             ref={ref}
             className="hidden"
+            accept={props.accept}
           />
         )}
         {props.variant === "upload" && props.actionIcon}

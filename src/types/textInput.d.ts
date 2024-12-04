@@ -29,4 +29,5 @@ export interface BaseFileInputProps {
   actionIcon?: React.ReactNode;
   placeholder: string;
   onChange?: (event: Event) => void;
+  accept?: string;
 }

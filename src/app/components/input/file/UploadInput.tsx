@@ -13,6 +13,7 @@ const UploadInput = forwardRef<HTMLInputElement, BaseFileInputProps>((props, ref
    * @param icon?: React.ReactNode;
    * @param actionIcon?: React.ReactNode;
    * @param isImage?: boolean;
+   * @param accept?: string;
    */
   const [file, setFile] = useState<File | null>(null);
 
@@ -62,6 +63,7 @@ const UploadInput = forwardRef<HTMLInputElement, BaseFileInputProps>((props, ref
       file={file}
       placeholder="파일 업로드하기"
       onFileAction={handleChangeFile}
+      accept={props.accept}
       actionIcon={
         file ? (
           <button type="button" onClick={handleDeleteFile} className="absolute right-[14px] size-6 lg:size-8">

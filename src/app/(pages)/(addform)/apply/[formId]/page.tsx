@@ -45,23 +45,26 @@ export default function Apply() {
   const formId = useParams().formId;
   const router = useRouter();
 
-  // 이력서 업로드 -> id, name 반환
-  const uploadResume = async (file: File) => {
+  // 이력서 업로드 api -> id, name 반환
+  const uploadResume = async (file: FileList) => {
     const uploadedFile: { resumeName: string; resumeId: number } = {
       resumeName: "",
       resumeId: 0,
     };
     const formData = new FormData();
-    formData.append("file", file, file.name);
+    formData.append("file", file[0]);
     try {
-      const response = await axios.post(`api/resume/upload`, formData, {
+      const response = await axios.post(`/api/resume/upload`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-        transformRequest: [(data) => data],
+        timeout: 5000, // 5초 타임아웃 설정
       });
-      uploadedFile.resumeName = response.data.name;
-      uploadedFile.resumeId = response.data.id;
+      console.log("response", response);
+      return {
+        resumeName: response.data.resumeName,
+        resumeId: response.data.resumeId,
+      };
     } catch (error) {
       console.error("Error uploading resume:", error);
       toast.error("이력서 업로드에 실패했습니다.");
@@ -71,7 +74,7 @@ export default function Apply() {
 
   const onSubmit = async (data: ApplyFormData) => {
     try {
-      const uploadedResume = await uploadResume(data.resume[0]);
+      const uploadedResume = await uploadResume(data.resume);
       setValue("resumeId", uploadedResume.resumeId);
       setValue("resumeName", uploadedResume.resumeName);
 
@@ -93,7 +96,7 @@ export default function Apply() {
   const onTempSave = async () => {
     const currentData = getValues();
     try {
-      const uploadedResume = await uploadResume(currentData.resume[0]);
+      const uploadedResume = await uploadResume(currentData.resume);
       setValue("resumeId", uploadedResume.resumeId);
       setValue("resumeName", uploadedResume.resumeName);
 
@@ -147,24 +150,34 @@ export default function Apply() {
         placeholder="숫자만 입력해주세요"
         errormessage={errors.experienceMonths?.message}
       />
+
       <div className="relative flex w-full flex-col gap-4">
         <Label>이력서</Label>
         <UploadInput
           {...register("resume", {
             required: "이력서를 업로드해주세요.",
-            validate: (fileList: FileList) => {
-              if (!fileList || fileList.length === 0) {
+            validate: (file: FileList) => {
+              if (!file) {
                 return "이력서는 필수입니다";
+              }
+              const allowedTypes = [
+                "application/pdf",
+                "application/msword",
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+              ];
+              if (!allowedTypes.includes(file[0].type)) {
+                return "PDF 또는 Word 문서만 업로드 가능합니다.";
               }
               return true;
             },
             onChange: (e) => {
-              if (e.target.files?.length > 0) {
+              if (e.target.files) {
                 clearErrors("resume");
               }
               trigger("resume");
             },
           })}
+          accept=".pdf,.doc,.docx"
           variant="upload"
           placeholder="파일 업로드하기"
         />
@@ -181,6 +194,7 @@ export default function Apply() {
         placeholder="최대 200자까지 입력 가능합니다."
         errormessage={errors.introduction?.message}
       />
+
       <div className="relative">
         <Label>비밀번호</Label>
         <div className="absolute right-0 top-0 mt-[6px] text-xs font-normal leading-[18px] text-grayscale-400">
