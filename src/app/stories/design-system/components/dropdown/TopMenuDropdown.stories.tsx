@@ -28,5 +28,6 @@ export const Default: Story = {
       { label: "모집 조건", value: "2" },
       { label: "근무 조건", value: "3" },
     ],
+    menuOpen: true,
   },
 };

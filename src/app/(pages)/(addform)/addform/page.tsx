@@ -12,6 +12,7 @@ import { toast } from "react-hot-toast";
 import router from "next/router";
 import axios from "axios";
 import { cn } from "@/lib/tailwindUtil";
+import useWidth from "@/hooks/useWidth";
 
 interface AddFormData {
   isPublic: boolean;
@@ -146,16 +147,32 @@ export default function AddForm() {
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
 
+  // TopMenuDropdown 관련 로직 추가
+  const { isDesktop } = useWidth();
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const [selectedMenu, setSelectedMenu] = useState<string>("");
+
+  const handleMenuClick = (menu: string) => {
+    // 모바일, 태블릿에서만 메뉴 클릭시 드롭다운 열림
+    if (!isDesktop) {
+      setMenuOpen((prev) => !prev);
+    }
+    setSelectedMenu(menu);
+  };
+
   return (
     <div className="relative">
-      <aside className="hidden rounded-[24px] bg-background-200 lg:absolute" />
-      <TopMenuDropdown
-        options={[
-          { label: "모집 내용", value: "1" },
-          { label: "모집 조건", value: "2" },
-          { label: "근무 조건", value: "3" },
-        ]}
-      />
+      <aside className="top-0 hidden rounded-[24px] bg-background-200 lg:absolute lg:p-10">
+        <TopMenuDropdown
+          menuOpen={menuOpen}
+          onClick={handleMenuClick}
+          options={[
+            { label: "모집 내용", value: "1" },
+            { label: "모집 조건", value: "2" },
+            { label: "근무 조건", value: "3" },
+          ]}
+        />
+      </aside>
 
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} className="my-8 flex flex-col gap-4">
@@ -209,7 +226,7 @@ export default function AddForm() {
               variant="outlined"
               width="md"
               color="orange"
-              className="h-[58px] border bg-background-200 lg:h-[72px] lg:text-xl lg:leading-8"
+              className="h-[58px] border bg-background-200 hover:bg-background-100 lg:h-[72px] lg:text-xl lg:leading-8"
               onClick={onTempSave}
               disabled={!isDirty}
             >
