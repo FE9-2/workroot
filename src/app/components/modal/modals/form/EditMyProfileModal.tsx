@@ -68,12 +68,13 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
+    if (!file) {
+      console.error("No file selected");
+      return;
+    }
 
     setSelectedFile(file);
-    // 미리보기 URL 생성
-    const previewUrl = URL.createObjectURL(file);
-    setPreviewUrl(previewUrl);
+    setPreviewUrl(URL.createObjectURL(file));
   };
 
   const onSubmitHandler = async (data: EditMyProfileFormData) => {
@@ -84,34 +85,48 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
 
       let imageUrl = user?.imageUrl || "";
 
-      // 새로운 이미지가 선택된 경우에만 업로드
       if (selectedFile) {
         const uploadFormData = new FormData();
-        uploadFormData.append("file", selectedFile);
+        uploadFormData.append("image", selectedFile);
 
-        const uploadResponse = await axios.post("/api/images/upload", uploadFormData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+        const uploadResponse = await axios.post("/api/file/images/upload", uploadFormData, {
+          withCredentials: true,
         });
 
-        imageUrl = uploadResponse.data.imageUrl;
+        if (uploadResponse.status === 201 && uploadResponse.data?.url) {
+          imageUrl = uploadResponse.data.url;
+        } else {
+          throw new Error("이미지 업로드에 실패했습니다.");
+        }
       }
 
-      // 프로필 정보 업데이트
-      await axios.patch("/api/users/me", {
-        ...data,
+      const updateData = {
+        name: data.name,
+        nickname: data.nickname,
+        phoneNumber: data.phone,
         imageUrl,
-      });
+      };
 
-      await refetch();
-      toast.success("프로필이 성공적으로 수정되었습니다.");
-      onClose();
+      const updateResponse = await axios.patch("/api/users/me", updateData);
+
+      if (updateResponse.status === 200) {
+        localStorage.setItem("user", JSON.stringify(updateResponse.data));
+        await refetch(); // React Query 캐시 갱신
+        toast.success("프로필이 성공적으로 수정되었습니다.");
+        onClose();
+      } else {
+        throw new Error("프로필 업데이트에 실패했습니다.");
+      }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const errormessage = error.response?.data?.message || "프로필 수정에 실패했습니다.";
-        toast.error(errormessage);
+        const errorMessage = error.response?.data?.message || "프로필 수정에 실패했습니다.";
+        console.error("Profile update error:", {
+          status: error.response?.status,
+          data: error.response?.data,
+        });
+        toast.error(errorMessage);
       } else {
+        console.error("Unexpected error:", error);
         toast.error("프로필 수정 중 오류가 발생했습니다.");
       }
     } finally {

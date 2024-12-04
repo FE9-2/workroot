@@ -66,7 +66,7 @@ export default function Home() {
 
           {/* 배경 이미지 */}
           <div className="relative mt-8 aspect-[964/520] w-[320px] sm:w-[70vw] lg:w-[964px]">
-            <Image src="/images/01.png" alt="Hero Background" layout="fill" className="rounded-lg object-contain" />
+            <Image src="/images/01.png" alt="Hero Background" fill className="rounded-lg object-contain" priority />
           </div>
         </section>
 
@@ -82,7 +82,7 @@ export default function Home() {
                     visibleSections.has(section.id) ? "scale-100 opacity-100" : "scale-90"
                   }`}
                 >
-                  <Image src={section.src} alt={section.alt} layout="fill" className="rounded-lg object-contain" />
+                  <Image src={section.src} alt={section.alt} fill className="rounded-lg object-contain" />
                 </div>
               ))}
             </div>

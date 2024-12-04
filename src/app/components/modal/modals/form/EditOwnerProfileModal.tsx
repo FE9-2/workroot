@@ -23,10 +23,7 @@ const editOwnerProfileSchema = z.object({
   nickname: nicknameSchema,
   storeName: z.string().min(2, "가게 이름은 2자 이상이어야 합니다").max(20, "가게 이름은 20자 이하여야 합니다"),
   storePhoneNumber: storePhoneSchema,
-  phoneNumber: z
-    .string()
-    .transform((val) => (val === "" ? undefined : val))
-    .pipe(mobilePhoneSchema.optional()),
+  phoneNumber: mobilePhoneSchema.optional().or(z.literal("")),
   location: z.string().min(1, "가게 위치를 입력해주세요"),
 });
 
@@ -89,9 +86,7 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
     if (!file) return;
 
     setSelectedFile(file);
-    // 미리보기 URL 생성
-    const previewUrl = URL.createObjectURL(file);
-    setPreviewUrl(previewUrl);
+    setPreviewUrl(URL.createObjectURL(file));
   };
 
   const onSubmitHandler = async (data: EditOwnerProfileFormData) => {
@@ -102,34 +97,46 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
 
       let imageUrl = user?.imageUrl || "";
 
-      // 새로운 이미지가 선택된 경우에만 업로드
       if (selectedFile) {
         const uploadFormData = new FormData();
-        uploadFormData.append("file", selectedFile);
+        uploadFormData.append("image", selectedFile);
 
-        const uploadResponse = await axios.post("/api/images/upload", uploadFormData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+        const uploadResponse = await axios.post("/api/file/images/upload", uploadFormData, {
+          withCredentials: true,
         });
 
-        imageUrl = uploadResponse.data.imageUrl;
+        if (uploadResponse.status === 201 && uploadResponse.data?.url) {
+          imageUrl = uploadResponse.data.url;
+        } else {
+          throw new Error("이미지 업로드에 실패했습니다.");
+        }
       }
 
-      // 프로필 정보 업데이트
-      await axios.patch("/api/users/me", {
+      const updateData = {
         ...data,
         imageUrl,
-      });
+      };
 
-      await refetch();
-      toast.success("사장님 정보가 성공적으로 수정되었습다.");
-      onClose();
+      const updateResponse = await axios.patch("/api/users/me", updateData);
+
+      if (updateResponse.status === 200) {
+        localStorage.setItem("user", JSON.stringify(updateResponse.data));
+        await refetch(); // React Query 캐시 갱신
+        toast.success("사장님 정보가 성공적으로 수정되었습니다.");
+        onClose();
+      } else {
+        throw new Error("프로필 업데이트에 실패했습니다.");
+      }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const errormessage = error.response?.data?.message || "정보 수정에 실패했습니다.";
-        toast.error(errormessage);
+        const errorMessage = error.response?.data?.message || "정보 수정에 실패했습니다.";
+        console.error("Profile update error:", {
+          status: error.response?.status,
+          data: error.response?.data,
+        });
+        toast.error(errorMessage);
       } else {
+        console.error("Unexpected error:", error);
         toast.error("정보 수정 중 오류가 발생했습니다.");
       }
     } finally {
@@ -144,7 +151,6 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
       label: "가게 이름",
       postPosition: "을",
       required: true,
-      hint: "가게 이름(상호명)을 필수로 입력해주세요.",
     },
     { name: "storePhoneNumber", label: "가게 전화번호", postPosition: "를", required: true },
     { name: "phoneNumber", label: "사장님 전화번호", postPosition: "를", required: false },

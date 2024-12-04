@@ -1,0 +1,16 @@
+{
+  "name": "워크루트",
+  "short_name": "워크루트",
+  "description": "일을 통해 자신의 뿌리를 내리며 성장하는 구인구직 사이트",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#FF6B2C",
+  "icons": [
+    {
+      "src": "/android-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

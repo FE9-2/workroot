@@ -1,18 +1,44 @@
 "use client";
 
-import React from "react";
 import TabMenu from "./TabMenu";
 import SortSection from "./SortSection";
 import Button from "@/app/components/button/default/Button";
 import KebabDropdown from "@/app/components/button/dropdown/KebabDropdown";
+import { userRoles } from "@/constants/userRoles";
+import useModalStore from "@/store/modalStore";
+import { useUser } from "@/hooks/useUser";
 
 export default function FilterBar() {
+  const { user, isLoading } = useUser();
+  const { openModal } = useModalStore();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user) {
+    return null;
+  }
+
   const handleEditProfile = () => {
-    // 내 정보 수정 처리
+    if (user.role === userRoles.APPLICANT) {
+      openModal("editMyProfile", {
+        fields: ["이름", "닉네임", "전화번호"],
+        onSubmit: () => {},
+      });
+    } else if (user.role === userRoles.OWNER) {
+      openModal("editOwnerProfile", {
+        fields: ["닉네임", "가게 이름", "가게 전화번호", "사장님 전화번호", "가게 위치"],
+        onSubmit: () => {},
+      });
+    }
   };
 
   const handleChangePassword = () => {
-    // 비밀번호 변경 처리
+    openModal("changePassword", {
+      fields: ["현재 비밀번호", "새 비밀번호", "새 비밀번호 확인"],
+      onSubmit: () => {},
+    });
   };
 
   const dropdownOptions = [
