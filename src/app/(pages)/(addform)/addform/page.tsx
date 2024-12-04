@@ -38,7 +38,6 @@ interface AddFormData {
 export default function AddForm() {
   const methods = useForm<AddFormData>();
   const [imageFiles, setImageFiles] = useState<File[]>([]);
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
   const {
     register,
     handleSubmit,
@@ -57,43 +56,34 @@ export default function AddForm() {
 
   // 이미지 업로드 api
   const uploadImages = async (files: File[]) => {
-    try {
-      const uploadedUrls: string[] = [];
-
-      // 전체 파일 배열을 순회하면서 업로드 로직 진행
-      for (const file of files) {
-        // 파일 크기 체크 (예: 5MB)
-        const maxSize = 5 * 1024 * 1024; // 5MB
-        if (file.size > maxSize) {
-          toast.error(`5MB 이상의 파일은 업로드할 수 없습니다.`);
-          continue;
-        }
-
-        const formData = new FormData();
-        formData.append("image", file, file.name); // 파일 이름 추가
-
-        try {
-          const response = await axios.post(`/api/images/upload`, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            transformRequest: [(data) => data],
-          });
-          console.log("response", response);
-          if (response.data.url) {
-            uploadedUrls.push(response.data.url);
-          }
-        } catch (uploadError) {
-          console.error(`파일 ${file.name} 업로드 실패:`, uploadError);
-          toast.error(`${file.name} 업로드에 실패했습니다.`);
-        }
+    const uploadedUrls: string[] = [];
+    // 전체 파일 배열을 순회하면서 업로드 로직 진행
+    for (const file of files) {
+      // 파일 크기 체크 (예: 5MB)
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      if (file.size > maxSize) {
+        toast.error(`5MB 이상의 파일은 업로드할 수 없습니다.`);
+        continue;
       }
-
-      return uploadedUrls;
-    } catch (error) {
-      console.error("Error uploading images:", error);
-      throw error;
+      const formData = new FormData();
+      formData.append("image", file, file.name); // 파일 이름 추가
+      try {
+        const response = await axios.post(`/api/images/upload`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          transformRequest: [(data) => data],
+        });
+        console.log("response", response);
+        if (response.data.url) {
+          uploadedUrls.push(response.data.url);
+        }
+      } catch (uploadError) {
+        console.error(`파일 ${file.name} 업로드 실패:`, uploadError);
+        toast.error(`${file.name} 업로드에 실패했습니다.`);
+      }
     }
+    return uploadedUrls;
   };
 
   const onSubmit = async (data: AddFormData) => {

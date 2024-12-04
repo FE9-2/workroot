@@ -16,6 +16,8 @@ interface ApplyFormData {
   resume: FileList;
   introduction: string;
   password: string;
+  resumeId: number;
+  resumeName: string;
 }
 // 알바폼 만들기 - 지원자 (지원하기)
 export default function Apply() {
@@ -26,13 +28,15 @@ export default function Apply() {
     trigger,
     clearErrors,
     getValues,
+    setValue,
   } = useForm<ApplyFormData>({
     mode: "onChange",
     defaultValues: {
       name: "",
       phoneNumber: "",
       experienceMonths: 0,
-      resume: undefined, // resumeId, resumeName
+      resumeId: 0,
+      resumeName: "",
       introduction: "",
       password: "",
     },
@@ -40,9 +44,40 @@ export default function Apply() {
 
   const formId = useParams().formId;
   const router = useRouter();
+
+  // 이력서 업로드 -> id, name 반환
+  const uploadResume = async (file: File) => {
+    const uploadedFile: { resumeName: string; resumeId: number } = {
+      resumeName: "",
+      resumeId: 0,
+    };
+    const formData = new FormData();
+    formData.append("file", file, file.name);
+    try {
+      const response = await axios.post(`api/resume/upload`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        transformRequest: [(data) => data],
+      });
+      uploadedFile.resumeName = response.data.name;
+      uploadedFile.resumeId = response.data.id;
+    } catch (error) {
+      console.error("Error uploading resume:", error);
+      toast.error("이력서 업로드에 실패했습니다.");
+    }
+    return uploadedFile;
+  };
+
   const onSubmit = async (data: ApplyFormData) => {
     try {
-      await axios.post(`/api/forms/${formId}/applications`, data);
+      const uploadedResume = await uploadResume(data.resume[0]);
+      setValue("resumeId", uploadedResume.resumeId);
+      setValue("resumeName", uploadedResume.resumeName);
+
+      const { resume, ...submitData } = data;
+
+      await axios.post(`/api/forms/${formId}/applications`, submitData);
       window.localStorage.removeItem("tempApplyData");
       toast.success("지원이 완료되었습니다.");
       router.back();
@@ -55,14 +90,27 @@ export default function Apply() {
     }
   };
 
-  const onTempSave = () => {
+  const onTempSave = async () => {
     const currentData = getValues();
-    window.localStorage.setItem("tempApplyData", JSON.stringify(currentData));
-    toast.success("임시 저장되었습니다.");
-    console.log(currentData);
+    try {
+      const uploadedResume = await uploadResume(currentData.resume[0]);
+      setValue("resumeId", uploadedResume.resumeId);
+      setValue("resumeName", uploadedResume.resumeName);
+
+      const { resume, ...submitData } = currentData;
+      window.localStorage.setItem("tempApplyData", JSON.stringify(submitData));
+      toast.success("임시 저장되었습니다.");
+      console.log("currentData", currentData);
+      console.log("submitData", submitData);
+    } catch (error) {
+      console.error("Error uploading resume:", error);
+      toast.error("이력서 업로드에 실패했습니다.");
+    }
   };
+
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
+
   return (
     <form className="my-8 flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
       <Label>이름</Label>
