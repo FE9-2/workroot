@@ -23,7 +23,11 @@ type Story = StoryObj<typeof TabMenuDropdown>;
 
 export const Default: Story = {
   args: {
-    options: ["모집 내용", "모집 조건", "근무 조건"],
+    options: [
+      { label: "모집 내용", isEditing: true },
+      { label: "모집 조건", isEditing: false },
+      { label: "근무 조건", isEditing: false },
+    ],
     menuOpen: true,
   },
 };
