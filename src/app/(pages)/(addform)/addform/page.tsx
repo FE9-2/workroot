@@ -11,6 +11,7 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import router from "next/router";
 import axios from "axios";
+import { cn } from "@/lib/tailwindUtil";
 
 interface AddFormData {
   isPublic: boolean;
@@ -36,7 +37,16 @@ interface AddFormData {
 
 // 알바폼 만들기 - 사장님
 export default function AddForm() {
-  const methods = useForm<AddFormData>();
+  const methods = useForm<AddFormData>({
+    mode: "onChange",
+    defaultValues: {
+      title: "",
+      description: "",
+      recruitmentStartDate: undefined,
+      recruitmentEndDate: undefined,
+      imageUrls: [],
+    },
+  });
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const {
     register,
@@ -107,12 +117,14 @@ export default function AddForm() {
 
   const onTempSave = async () => {
     const currentData = getValues();
+    currentData.imageUrls = currentData.imageUrls || [];
+
     if (imageFiles && imageFiles.length > 0) {
       try {
         const uploadedUrls = await uploadImages(imageFiles);
         if (uploadedUrls.length > 0) {
           console.log("uploadedUrls", uploadedUrls);
-          currentData.imageUrls = uploadedUrls;
+          currentData.imageUrls = [...currentData.imageUrls, ...uploadedUrls];
         } else {
           currentData.imageUrls = [];
           toast.error("이미지 업로드에 실패했습니다.");
@@ -129,8 +141,10 @@ export default function AddForm() {
     window.localStorage.setItem("tempAddFormData", JSON.stringify(currentData));
     toast.success("임시 저장되었습니다.");
     console.log(currentData);
-    console.log("isValid", isValid);
   };
+
+  const errorTextStyle =
+    "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
 
   return (
     <div className="relative">
@@ -151,6 +165,7 @@ export default function AddForm() {
             type="text"
             variant="white"
             placeholder="제목을 입력해주세요."
+            errormessage={errors.title?.message}
           />
 
           <Label>소개글</Label>
@@ -161,17 +176,23 @@ export default function AddForm() {
             })}
             variant="white"
             placeholder="최대 200자까지 입력 가능합니다."
+            errormessage={errors.description?.message}
           />
 
-          <Label>모집 기간</Label>
-          {/* required 추가 */}
-          <DatePickerInput
-            startDateName="recruitmentStartDate"
-            endDateName="recruitmentEndDate"
-            startDate={recruitmentDateRange[0] || undefined}
-            endDate={recruitmentDateRange[1] || undefined}
-            onChange={handleRecruitmentDateChange}
-          />
+          <div className="relative flex flex-col gap-2">
+            <Label>모집 기간</Label>
+            <DatePickerInput
+              startDateName="recruitmentStartDate"
+              endDateName="recruitmentEndDate"
+              startDate={recruitmentDateRange[0] || undefined}
+              endDate={recruitmentDateRange[1] || undefined}
+              onChange={handleRecruitmentDateChange}
+              required={true}
+              errormessage={isDirty && (!recruitmentDateRange[0] || !recruitmentDateRange[1])}
+            />
+            {!recruitmentDateRange[0] ||
+              (!recruitmentDateRange[1] && <p className={cn(errorTextStyle, "")}> 모집 기간은 필수입니다.</p>)}
+          </div>
 
           <Label>이미지 첨부</Label>
           <ImageInput
@@ -180,6 +201,7 @@ export default function AddForm() {
               setImageFiles(files);
             }}
           />
+          {errors.imageUrls && <p className={cn(errorTextStyle, "")}>{errors.imageUrls.message}</p>}
 
           <div className="flex flex-col gap-2 lg:absolute">
             <Button
@@ -199,7 +221,7 @@ export default function AddForm() {
               width="md"
               color="orange"
               className="h-[58px] lg:h-[72px] lg:text-xl lg:leading-8"
-              disabled={!isValid || !isDirty}
+              disabled={!isValid}
             >
               작성 완료
             </Button>

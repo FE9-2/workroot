@@ -29,8 +29,6 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    console.log("File API response data:", response);
-
     if (response.data && typeof response.data === "object") {
       const { url } = response.data;
 

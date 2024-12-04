@@ -69,7 +69,7 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
 
   return (
     // 인풋 + 프리뷰 wrapper
-    <div className="flex gap-5 lg:gap-6">
+    <div className="flex cursor-pointer gap-5 lg:gap-6">
       <div
         onClick={handleImageSelect}
         className={cn(

@@ -14,8 +14,18 @@ interface DatePickerInputProps {
   startDate?: Date;
   endDate?: Date;
   onChange: (dates: [Date | null, Date | null]) => void;
+  required?: boolean;
+  errormessage?: boolean;
 }
-const DatePickerInput = ({ startDateName, endDateName, startDate, endDate, onChange }: DatePickerInputProps) => {
+const DatePickerInput = ({
+  startDateName,
+  endDateName,
+  startDate,
+  endDate,
+  onChange,
+  required,
+  errormessage,
+}: DatePickerInputProps) => {
   const { setValue, watch } = useFormContext();
   const { isOpen, handleOpenDropdown } = useDropdownOpen();
   const dateValue = watch("displayDate");
@@ -59,6 +69,10 @@ const DatePickerInput = ({ startDateName, endDateName, startDate, endDate, onCha
           afterIcon={<IoMdArrowDropup className={`${iconStyle} ${isOpen ? "rotate-180" : ""}`} />}
           value={dateValue || ""}
           readOnly
+          required={required}
+          wrapperClassName="cursor-pointer"
+          innerClassName="cursor-pointer"
+          errormessage={errormessage}
         />
         {isOpen && (
           <>
