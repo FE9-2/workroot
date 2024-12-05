@@ -43,7 +43,6 @@ const ImageInputwithPlaceHolder = () => {
           name="image"
           onFileAction={handleFileChange}
           size={size}
-          isImage={true}
           placeholder=""
         />
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
