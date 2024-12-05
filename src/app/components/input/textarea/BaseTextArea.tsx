@@ -17,7 +17,7 @@ const BaseTextArea = forwardRef<HTMLTextAreaElement, BaseTextAreaProps>((props, 
       bg: "bg-background-200",
       border: "border-[0.5px] border-transparent",
       focus: "[&:has(textarea:focus)]:border-grayscale-400",
-      hover: "hover:border-grayscale-200",
+      hover: "hover:border-grayscale-200 hover:bg-background-300",
     },
     transparent: {
       bg: "bg-transparent",
@@ -40,7 +40,7 @@ const BaseTextArea = forwardRef<HTMLTextAreaElement, BaseTextAreaProps>((props, 
 
   const bgStyle = variantStyles[props.variant].bg;
 
-  const textareaStyle = `${baseStyle} ${bgStyle} ${textStyle} ${props.innerClassName || ""}`;
+  const textareaStyle = `bg-transparent ${baseStyle} ${textStyle} ${props.innerClassName || ""}`;
   const wrapperStyle = `p-[14px] lg:py-[18px] relative rounded-lg ${sizeStyles} ${variantStyle} ${bgStyle} ${errorStyle} ${props.wrapperClassName}`;
 
   return (
