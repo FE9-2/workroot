@@ -3,6 +3,7 @@ import { RecruitConditionFormData } from "@/types/addform";
 import { useForm, FormProvider } from "react-hook-form";
 import { useEffect } from "react";
 import Label from "../../component/Label";
+import InputDropdown from "@/app/components/button/dropdown/InputDropdown";
 
 interface RecruitConditionProps {
   formData: RecruitConditionFormData;
@@ -41,19 +42,22 @@ export default function RecruitCondition({ formData, onUpdate }: RecruitConditio
     onUpdate(data);
   };
 
-  const errorTextStyle =
-    "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
-
   return (
     <div className="relative">
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} className="my-8 flex flex-col gap-4">
-          <Label>근무 위치</Label>
-          <Label>근무 기간</Label>
-          <Label>근무 시간</Label>
-          <Label>근무 요일</Label>
-          <Label>시급</Label>
-          <Label>공개 설정</Label>
+          <Label>모집인원</Label>
+          <InputDropdown options={["00명(인원 미정)", "직접 입력"]} />
+          <Label>성별</Label>
+          <InputDropdown options={["남성", "여성", "성별 무관", "직접 입력"]} />
+          <Label>학력</Label>
+          <InputDropdown
+            options={["고등학교 졸업", "대학교 졸업", "대학교 졸업 예정", "대학원 졸업", "학력 무관", "직접 입력"]}
+          />
+          <Label>연령</Label>
+          <InputDropdown options={["10대", "20대", "30대", "40대", "50대", "60대", "연령 무관", "직접 입력"]} />
+          <Label>우대사항</Label>
+          <InputDropdown options={["유사 업무 경험 우대", "운전 가능", "직접 입력"]} />
         </form>
       </FormProvider>
     </div>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { cn } from "@/lib/tailwindUtil";
+import DropdownList from "./dropdownComponent/DropdownList";
 
 interface InputDropdownProps {
   options: string[];
@@ -13,7 +14,7 @@ const InputDropdown = ({ options, className = "" }: InputDropdownProps) => {
   const [isCustomInput, setIsCustomInput] = useState<boolean>(false);
 
   const handleOptionClick = (option: string) => {
-    if (option === "직접입력") {
+    if (option === "직접 입력") {
       setIsCustomInput(true);
       setSelectedValue("");
     } else {
@@ -24,7 +25,7 @@ const InputDropdown = ({ options, className = "" }: InputDropdownProps) => {
   };
 
   return (
-    <div className={cn("relative inline-block text-left text-base", "w-80 md:w-[640px]", className)}>
+    <div className={cn("relative inline-block text-left text-base caret-transparent", "w-80 lg:w-[640px]", className)}>
       <div
         className={cn(
           "rounded-md border bg-grayscale-50 p-2",
@@ -47,22 +48,23 @@ const InputDropdown = ({ options, className = "" }: InputDropdownProps) => {
         </button>
       </div>
       {isOpen && (
-        <ul
-          className={cn(
-            "absolute right-0 z-10 mt-2 w-full rounded-md border bg-white p-2 shadow-md",
-            "border-primary-grayscale-200"
-          )}
-        >
-          {options.map((option) => (
-            <li
-              key={option}
-              onClick={() => handleOptionClick(option)}
-              className={cn("cursor-pointer rounded-md px-6 py-4 hover:bg-grayscale-100")}
-            >
-              {option}
-            </li>
-          ))}
-        </ul>
+        <DropdownList list={options} onSelect={handleOptionClick} />
+        // <ul
+        //   className={cn(
+        //     "absolute right-0 z-10 mt-2 w-full rounded-md border bg-white p-2 shadow-md",
+        //     "border-primary-grayscale-200"
+        //   )}
+        // >
+        //   {options.map((option) => (
+        //     <li
+        //       key={option}
+        //       onClick={() => handleOptionClick(option)}
+        //       className={cn("cursor-pointer rounded-md px-6 py-4 hover:bg-grayscale-100")}
+        //     >
+        //       {option}
+        //     </li>
+        //   ))}
+        // </ul>
       )}
     </div>
   );

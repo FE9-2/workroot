@@ -38,7 +38,7 @@ const DropdownList = ({
       role="menu"
       aria-orientation="vertical"
       aria-labelledby="options-menu"
-      className="absolute mt-[6px] rounded border border-grayscale-100 bg-grayscale-50 pr-[2px] pt-1"
+      className="absolute z-10 mt-[6px] rounded border border-grayscale-100 bg-grayscale-50 pr-[2px] pt-1"
     >
       <ul className={`flex flex-col overflow-hidden ${wrapperStyle} scrollbar-custom`}>
         {list.map((item) => (
