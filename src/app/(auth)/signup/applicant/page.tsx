@@ -5,7 +5,7 @@ import { type SignupSchema, signupSchema } from "@/schemas/authSchema";
 import { userRoles } from "@/constants/userRoles";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { FieldErrors, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Image from "next/image";
 
 export default function ApplicantSignupPage() {
@@ -107,11 +107,13 @@ export default function ApplicantSignupPage() {
             </button>
           </div>
           <div className="flex justify-center space-x-4">
-            <button>
-              <Image src="/icons/social/social_google.svg" width={72} height={72} alt="구글 로그인" />
-            </button>
             <Link
-              href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code`}
+              href={`https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile&response_type=code&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&state=applicant`}
+            >
+              <Image src="/icons/social/social_google.svg" width={72} height={72} alt="구글 로그인" />
+            </Link>
+            <Link
+              href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code&state=applicant`}
             >
               <Image src="/icons/social/social_kakao.svg" width={72} height={72} alt="카카오 로그인" />
             </Link>

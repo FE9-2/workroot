@@ -6,7 +6,7 @@ import { MdStorefront } from "react-icons/md";
 
 export default function SignupPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-lime-200 to-lime-300 px-4 py-12 sm:px-6 lg:px-8">
+    <div className="flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-4xl space-y-8 rounded-lg bg-white p-8">
         <div>
           <h2 className="text-grayscale-900 text-center text-3xl font-bold tracking-tight">회원 유형 선택</h2>
@@ -22,7 +22,7 @@ export default function SignupPage() {
           {/* 지원자 회원가입 카드 */}
           <Link
             href="/signup/applicant"
-            className="flex flex-1 flex-col items-center rounded-lg border-2 border-transparent bg-lime-50 p-8 transition-all hover:border-lime-600 hover:shadow-lg"
+            className="flex flex-1 flex-col items-center rounded-lg border-2 border-transparent bg-lime-50 p-8 transition-all hover:scale-105 hover:border-lime-600 hover:shadow-xl"
           >
             <div className="flex h-24 w-24 items-center justify-center rounded-full bg-lime-100">
               <FaUser className="h-12 w-12 text-lime-600" />
@@ -41,7 +41,7 @@ export default function SignupPage() {
           {/* 사장님 회원가입 카드 */}
           <Link
             href="/signup/owner"
-            className="flex flex-1 flex-col items-center rounded-lg border-2 border-transparent bg-lime-50 p-8 transition-all hover:border-lime-600 hover:shadow-lg"
+            className="flex flex-1 flex-col items-center rounded-lg border-2 border-transparent bg-lime-50 p-8 transition-all hover:scale-105 hover:border-lime-600 hover:shadow-lg"
           >
             <div className="flex h-24 w-24 items-center justify-center rounded-full bg-lime-100">
               <MdStorefront className="h-14 w-14 text-lime-600" />

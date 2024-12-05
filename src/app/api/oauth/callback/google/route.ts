@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-
+import { decodeJwt } from "@/middleware";
 export const GET = async (req: NextRequest) => {
   const searchParams = req.nextUrl.searchParams;
   const code = searchParams.get("code");
-
+  const route = searchParams.get("state");
+  console.log("state", route);
   if (!code) {
     return NextResponse.json({ message: "Code not found" }, { status: 400 });
   }
@@ -30,21 +31,26 @@ export const GET = async (req: NextRequest) => {
       },
     });
 
-    const { access_token } = tokenResponse.data;
+    const { access_token, id_token } = tokenResponse.data;
     console.log("Google access token:", access_token);
+    console.log("Google id token:", id_token);
 
-    // 사용자 정보 요청
-    const userInfoResponse = await axios.get("https://www.googleapis.com/oauth2/v2/userinfo", {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    });
+    // id_token 디코딩
+    const decodedIdToken = decodeJwt(id_token);
+    if (!decodedIdToken) {
+      return NextResponse.json({ message: "Invalid ID token" }, { status: 400 });
+    }
 
-    const user = userInfoResponse.data;
+    const user = {
+      id: decodedIdToken.sub,
+      name: decodedIdToken.name,
+      picture: decodedIdToken.picture,
+      email: decodedIdToken.email,
+    };
     console.log("Google user:", user);
 
     // 사용자 정보를 클라이언트에 반환
-    const response = NextResponse.redirect("/dashboard"); // 대시보드로 리다이렉트
+    const response = NextResponse.redirect("http://localhost:3000");
     response.cookies.set("user", JSON.stringify(user), {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
