@@ -47,25 +47,7 @@ const InputDropdown = ({ options, className = "" }: InputDropdownProps) => {
           <IoMdArrowDropdown className={cn("transition-transform duration-200", isOpen && "rotate-180")} />
         </button>
       </div>
-      {isOpen && (
-        <DropdownList list={options} onSelect={handleOptionClick} />
-        // <ul
-        //   className={cn(
-        //     "absolute right-0 z-10 mt-2 w-full rounded-md border bg-white p-2 shadow-md",
-        //     "border-primary-grayscale-200"
-        //   )}
-        // >
-        //   {options.map((option) => (
-        //     <li
-        //       key={option}
-        //       onClick={() => handleOptionClick(option)}
-        //       className={cn("cursor-pointer rounded-md px-6 py-4 hover:bg-grayscale-100")}
-        //     >
-        //       {option}
-        //     </li>
-        //   ))}
-        // </ul>
-      )}
+      {isOpen && <DropdownList list={options} onSelect={handleOptionClick} />}
     </div>
   );
 };
