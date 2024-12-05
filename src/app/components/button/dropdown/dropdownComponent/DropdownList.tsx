@@ -1,4 +1,6 @@
+"use client";
 import { cn } from "@/lib/tailwindUtil";
+import { useEffect, useRef } from "react";
 
 const DropdownItem = ({
   item,
@@ -9,6 +11,21 @@ const DropdownItem = ({
   onSelect: (item: string) => void;
   itemStyle?: string;
 }) => {
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        onSelect(item);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <li
       value={item}
