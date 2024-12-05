@@ -14,7 +14,7 @@ const BaseFileInput = forwardRef<HTMLInputElement, BaseFileInputProps>((props, r
    * @param icon?: React.ReactNode;
    * @param actionIcon?: React.ReactNode;
    * @param placeholder?: string;
-   * @param isImage?: boolean;
+   * @param accept?: string;
    */
   const colorStyle = {
     bgColor: "bg-background-200",
@@ -57,9 +57,7 @@ const BaseFileInput = forwardRef<HTMLInputElement, BaseFileInputProps>((props, r
   return (
     <>
       <div className={wrapperStyle} onClick={handleFileSelect} role="button" tabIndex={0}>
-        <span className={cn(fakeInputStyle, fileName)}>
-          {props.file && !props.isImage ? props.file.name : props.placeholder}
-        </span>
+        <span className={cn(fakeInputStyle, fileName)}>{props.file ? props.file.name : props.placeholder}</span>
         {props.variant === "upload" && (
           <input
             type="file"
@@ -67,6 +65,7 @@ const BaseFileInput = forwardRef<HTMLInputElement, BaseFileInputProps>((props, r
             onChange={(e) => props.onFileAction?.(e.target.files?.[0] || null)}
             ref={ref}
             className="hidden"
+            accept={props.accept}
           />
         )}
         {props.variant === "upload" && props.actionIcon}

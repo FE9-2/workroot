@@ -14,7 +14,5 @@ export default meta;
 type Story = StoryObj<typeof ImageInput>;
 
 export const Upload_Image: Story = {
-  args: {
-    variant: "upload",
-  },
+  args: {},
 };
