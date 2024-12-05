@@ -60,12 +60,6 @@ export default function WorkCondition({ formData, onUpdate }: WorkConditionProps
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
 
-  const formatMoney = (value: string) => {
-    const numberValue = Number(value);
-    if (isNaN(numberValue)) return "";
-    return numberValue.toLocaleString();
-  };
-
   return (
     <div className="relative">
       <FormProvider {...methods}>
@@ -105,7 +99,6 @@ export default function WorkCondition({ formData, onUpdate }: WorkConditionProps
           <BaseInput
             {...register("hourlyWage", { required: "시급을 작성해주세요." })}
             variant="white"
-            value={formatMoney(watch("hourlyWage")?.toString() || "0")}
             afterString="원"
             errormessage={errors.hourlyWage?.message}
           />
