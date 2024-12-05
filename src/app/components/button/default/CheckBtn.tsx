@@ -15,19 +15,18 @@ const CheckBtn = ({ label, name, value, checked = false, disabled = false, onCha
   return (
     <div
       className={cn(
-        "flex items-center justify-between rounded-lg p-2",
+        "flex items-center justify-between gap-[10px] rounded-lg p-2",
         disabled ? "cursor-not-allowed" : "cursor-pointer"
       )}
     >
       <input
         type="checkbox"
-        id={value}
+        id={name}
         name={name}
         value={value}
         checked={checked}
         onChange={onChange}
         disabled={disabled}
-        className="ml-2"
         {...props}
       />
       <label htmlFor={value} className={cn("text-sm", disabled ? "text-grayscale-400" : "text-black")}>
