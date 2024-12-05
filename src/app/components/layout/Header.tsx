@@ -5,79 +5,21 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/tailwindUtil";
 import { useAuth } from "@/hooks/useAuth";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { UserResponse } from "@/types/response/user";
-import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { useUser } from "@/hooks/useUser";
 
 export default function Header() {
-  const [user, setUser] = useState<UserResponse | null>(null);
   const { logout } = useAuth();
+  const { user, isLoading } = useUser();
   const pathname = usePathname();
   const router = useRouter();
-  const queryClient = useQueryClient();
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
-  const [isInitialized, setIsInitialized] = useState(false);
 
   // 인증이 필요없는 공개 경로들
-  const publicPaths = ["/", "/albaList", "/albaTalk", "/login", "/signup", "/signup/applicant", "/signup/owner"];
-
-  // 새로고침 시 토큰 갱신 및 유저 정보 로드
-  useEffect(() => {
-    const initializeAuth = async () => {
-      try {
-        const storedUser = localStorage.getItem("user");
-        const userData: UserResponse | null = storedUser ? JSON.parse(storedUser) : null;
-        setUser(userData);
-
-        if (userData) {
-          await axios.post("/api/auth/refresh");
-          queryClient.setQueryData(["user"], { user: userData });
-        }
-      } catch (error) {
-        console.error("Auth initialization failed:", error);
-        localStorage.removeItem("user");
-        setUser(null);
-        queryClient.setQueryData(["user"], { user: null });
-        if (!publicPaths.includes(pathname)) {
-          router.push("/login");
-        }
-      } finally {
-        setIsInitialized(true);
-      }
-    };
-
-    initializeAuth();
-  }, [pathname, queryClient, router]);
-
-  // React Query 캐시 변경 감지
-  useEffect(() => {
-    // 캐시 구독 설정
-    const unsubscribe = queryClient.getQueryCache().subscribe(() => {
-      const userData = queryClient.getQueryData<{ user: UserResponse | null }>(["user"]);
-      if (userData) {
-        setUser(userData.user);
-      }
-    });
-
-    // 초기 상태 설정
-    const userData = queryClient.getQueryData<{ user: UserResponse | null }>(["user"]);
-    if (userData) {
-      setUser(userData.user);
-    }
-
-    // 클린업 함수
-    return () => {
-      unsubscribe();
-    };
-  }, [queryClient]);
-
   const handleLogout = async () => {
     logout();
     toast.success("로그아웃되었습니다!");
-    setUser(null);
-    queryClient.setQueryData(["user"], { user: null });
     setIsSideMenuOpen(false);
     router.push("/login");
   };
@@ -93,7 +35,7 @@ export default function Header() {
   };
 
   // 로딩 시간이 1초 이상일 때만 스켈레톤 UI 표시
-  if (!isInitialized) {
+  if (isLoading) {
     return (
       <header className="fixed left-0 right-0 top-0 z-50 bg-lime-100 -tracking-widest md:tracking-normal">
         <div className="container mx-auto px-4">
