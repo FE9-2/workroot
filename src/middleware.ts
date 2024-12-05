@@ -75,15 +75,6 @@ export function decodeJwt(token: string) {
   }
 }
 
-// 토큰 만료 체크 함수
-function isTokenExpired(token: string) {
-  const decodedToken = decodeJwt(token);
-  if (!decodedToken) return true;
-
-  const currentTime = Math.floor(Date.now() / 1000);
-  return decodedToken.exp < currentTime;
-}
-
 export const config = {
   matcher: [
     /*
