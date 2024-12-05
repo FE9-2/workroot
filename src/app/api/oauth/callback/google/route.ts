@@ -49,7 +49,7 @@ export const GET = async (req: NextRequest) => {
       },
     });
 
-    const { access_token, id_token } = tokenResponse.data;
+    const { id_token } = tokenResponse.data;
 
     // id_token 디코딩
     const decodedIdToken = decodeJwt(id_token);
@@ -84,6 +84,6 @@ export const GET = async (req: NextRequest) => {
     return response;
   } catch (error) {
     console.error("Google login error:", error);
-    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ message: "서버에러" }, { status: 500 });
   }
 };
