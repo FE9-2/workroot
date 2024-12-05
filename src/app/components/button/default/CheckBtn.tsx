@@ -6,7 +6,6 @@ interface CheckBtnProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string; // 체크박스의 레이블
   name: string; // 체크박스의 name 속성
   value: string; // 체크박스의 value 속성
-  checked?: boolean; // 체크박스가 선택된 상태인지 여부
   disabled?: boolean; // 체크박스가 비활성화된 상태인지 여부
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
