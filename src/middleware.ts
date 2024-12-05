@@ -57,6 +57,33 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
+// JWT 토큰 디코딩 함수
+export function decodeJwt(token: string) {
+  try {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+    return JSON.parse(jsonPayload);
+  } catch (error) {
+    console.error("JWT 토큰 디코딩 오류:", error);
+    return null;
+  }
+}
+
+// 토큰 만료 체크 함수
+function isTokenExpired(token: string) {
+  const decodedToken = decodeJwt(token);
+  if (!decodedToken) return true;
+
+  const currentTime = Math.floor(Date.now() / 1000);
+  return decodedToken.exp < currentTime;
+}
+
 export const config = {
   matcher: [
     /*
