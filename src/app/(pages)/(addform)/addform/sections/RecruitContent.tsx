@@ -29,8 +29,6 @@ export default function RecruitContent({ formData, onUpdate }: RecruitContentPro
     watch,
   } = methods;
 
-  const watchedValues = watch();
-
   // 초기 렌더링시에만 실행되도록 수정
   useEffect(() => {
     if (formData) {

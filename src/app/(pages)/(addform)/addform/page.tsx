@@ -4,12 +4,12 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import TabMenuDropdown from "@/app/components/button/dropdown/TabMenuDropdown";
-import RecruitContent from "./sections/RecruitContent";
 import RecruitCondition from "./sections/RecruitCondition";
 import WorkCondition from "./sections/WorkCondition";
 import Button from "@/app/components/button/default/Button";
 import { toast } from "react-hot-toast";
 import { RecruitConditionFormData, RecruitContentFormData, WorkConditionFormData } from "@/types/addform";
+import RecruitContent from "./sections/RecruitContent";
 
 // 타입 정의 추가
 type FormDataType = {
@@ -28,7 +28,7 @@ export default function AddFormPage() {
   });
 
   const [selectedOption, setSelectedOption] = useState("모집 내용");
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [imageFiles] = useState<File[]>([]);
   const [formData, setFormData] = useState<{
     recruitContent: RecruitContentFormData;
     recruitCondition: RecruitConditionFormData;
@@ -77,6 +77,7 @@ export default function AddFormPage() {
       case "모집 내용":
         return (
           <RecruitContent
+            key="recruitContent"
             formData={formData.recruitContent}
             onUpdate={(data: RecruitContentFormData) => handleFormUpdate("recruitContent", data)}
           />
@@ -153,6 +154,7 @@ export default function AddFormPage() {
       toast.success("알바폼을 등록했습니다.");
       router.back();
     } catch (error) {
+      console.error("에러가 발생했습니다.", error);
       toast.error("에러가 발생했습니다.");
       onTempSave(formData);
     }

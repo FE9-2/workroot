@@ -2,25 +2,106 @@
 
 import { useForm, FormProvider } from "react-hook-form";
 import { WorkConditionFormData } from "@/types/addform";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Label from "../../component/Label";
+import { cn } from "@/lib/tailwindUtil";
+import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePickerInput";
+import LocationInput from "@/app/components/input/text/LocationInput";
+import TimePickerInput from "@/app/components/input/dateTimeDaypicker/TimePickerInput";
+import DayPickerList from "@/app/components/input/dateTimeDaypicker/DayPickerList";
+import BaseInput from "@/app/components/input/text/BaseInput";
+import CheckBtn from "@/app/components/button/default/CheckBtn";
 
 interface WorkConditionProps {
   formData: WorkConditionFormData;
   onUpdate: (data: WorkConditionFormData) => void;
 }
 
-// 알바폼 만들기 - 사장님
+// 알바폼 만들기 - 사장님 - 3-근무조건
 export default function WorkCondition({ formData, onUpdate }: WorkConditionProps) {
   const methods = useForm<WorkConditionFormData>({
     mode: "onChange",
     defaultValues: formData,
   });
 
-  const { watch } = methods;
-  const watchedValues = watch();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isDirty },
+    setValue,
+    watch,
+  } = methods;
 
   useEffect(() => {
-    onUpdate(watchedValues);
-  }, [watchedValues, onUpdate]);
-  return <FormProvider {...methods}>...</FormProvider>;
+    if (formData) {
+      methods.reset(formData);
+    }
+  }, [formData, methods]);
+  useEffect(() => {
+    const subscription = watch((value) => {
+      if (isDirty) {
+        onUpdate(value as WorkConditionFormData);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, onUpdate, isDirty]);
+  const onSubmit = async (data: WorkConditionFormData) => {
+    onUpdate(data);
+  };
+
+  const [workDateRange, setWorkDateRange] = useState<[Date | null, Date | null]>([null, null]);
+  const handleWorkDateChange = (dates: [Date | null, Date | null]) => {
+    setWorkDateRange(dates);
+    const [start, end] = dates;
+    if (start) setValue("workStartDate", start.toISOString());
+    if (end) setValue("workEndDate", end.toISOString());
+  };
+  const errorTextStyle =
+    "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
+
+  return (
+    <div className="relative">
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(onSubmit)} className="my-8 flex flex-col gap-4">
+          <Label>근무 위치</Label>
+          <LocationInput variant="white" />
+
+          <div className="relative flex flex-col gap-2">
+            <Label>근무 기간</Label>
+            <DatePickerInput
+              startDateName="workStartDate"
+              endDateName="workEndDate"
+              startDate={workDateRange[0] || undefined}
+              endDate={workDateRange[1] || undefined}
+              onChange={handleWorkDateChange}
+              required={true}
+              errormessage={isDirty && (!workDateRange[0] || !workDateRange[1])}
+            />
+            {!workDateRange[0] ||
+              (!workDateRange[1] && <p className={cn(errorTextStyle, "")}> 모집 기간은 필수입니다.</p>)}
+          </div>
+
+          <Label>근무 시간</Label>
+          <div className="flex gap-7 lg:gap-9">
+            <TimePickerInput />
+            <TimePickerInput />
+          </div>
+
+          <Label>근무 요일</Label>
+          <DayPickerList />
+          <div className="flex px-[14px]">
+            <CheckBtn label="요일 협의 가능" name="day" value="boolean" />
+          </div>
+
+          <Label>시급</Label>
+          <BaseInput variant="white" afterString="원" type="number" />
+
+          <Label>공개 설정</Label>
+          <div className="flex px-[14px]">
+            <CheckBtn label="공개 설정" name="puble" value="boolean" />
+          </div>
+        </form>
+      </FormProvider>
+    </div>
+  );
 }
