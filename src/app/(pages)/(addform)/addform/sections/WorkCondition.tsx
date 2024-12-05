@@ -56,6 +56,7 @@ export default function WorkCondition({ formData, onUpdate }: WorkConditionProps
     if (start) setValue("workStartDate", start.toISOString());
     if (end) setValue("workEndDate", end.toISOString());
   };
+
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
 
@@ -63,8 +64,9 @@ export default function WorkCondition({ formData, onUpdate }: WorkConditionProps
     <div className="relative">
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} className="my-8 flex flex-col gap-4">
+          {/* 지도 API 연동 */}
           <Label>근무 위치</Label>
-          <LocationInput variant="white" />
+          <LocationInput variant="white" {...register("location", { required: "근무 위치를 작성해주세요." })} />
 
           <div className="relative flex flex-col gap-2">
             <Label>근무 기간</Label>
@@ -94,7 +96,12 @@ export default function WorkCondition({ formData, onUpdate }: WorkConditionProps
           </div>
 
           <Label>시급</Label>
-          <BaseInput variant="white" afterString="원" type="number" />
+          <BaseInput
+            {...register("hourlyWage", { required: "시급을 작성해주세요." })}
+            variant="white"
+            afterString="원"
+            errormessage={errors.hourlyWage?.message}
+          />
 
           <Label>공개 설정</Label>
           <div className="flex px-[14px]">
