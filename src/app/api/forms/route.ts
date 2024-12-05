@@ -12,11 +12,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await req.json();
+    const formData = await req.formData();
 
-    const response = await apiClient.post("/forms", body, {
+    const response = await apiClient.post("/forms", formData, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "multipart/form-data",
       },
     });
 

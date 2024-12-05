@@ -1,16 +1,22 @@
 "use client";
-import BaseFileInput from "../BaseFileInput";
 import { HiUpload } from "react-icons/hi";
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import PreviewItem from "./PreviewItem";
+import { cn } from "@/lib/tailwindUtil";
 interface ImageInputType {
   file: File | null;
   url: string;
   id: string;
 }
-const ImageInput = () => {
-  const [imageList, setImageList] = useState<ImageInputType[]>([]);
+
+interface ImageInputProps {
+  name: string;
+  onChange?: (files: File[]) => void;
+}
+
+const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) => {
+  const [imageList, setImageList] = useState<ImageInputType[]>([]); // 단순히 이미지 프리뷰를 위한 상태 관리
 
   const handleFileChange = (selectedFile: File | null) => {
     if (selectedFile) {
@@ -21,30 +27,68 @@ const ImageInput = () => {
         toast.error("이미지는 최대 3개까지 업로드할 수 있습니다.");
         return;
       }
-      setImageList((prev) => [
-        ...prev,
-        { file: selectedFile, url: URL.createObjectURL(selectedFile), id: crypto.randomUUID() },
-      ]);
+
+      const newImageList = [
+        ...imageList,
+        {
+          file: selectedFile,
+          url: URL.createObjectURL(selectedFile),
+          id: crypto.randomUUID(),
+        },
+      ];
+
+      setImageList(newImageList);
+
+      props.onChange?.(newImageList.map((img) => img.file).filter((file) => file !== null));
+    }
+  };
+  const handleImageSelect = () => {
+    if (typeof ref === "function") {
+      // input 요소를 찾아서 클릭
+      const fileInput = document.querySelector(`input[name="${props.name}"]`);
+      if (fileInput) {
+        (fileInput as HTMLInputElement).click();
+      }
+    } else if (ref && "current" in ref) {
+      ref.current?.click();
     }
   };
 
   const handleDeleteImage = (targetId: string) => {
-    setImageList((prev) => prev.filter((image) => image.id !== targetId));
+    const newImageList = imageList.filter((image) => image.id !== targetId);
+    setImageList(newImageList);
+    props.onChange?.(newImageList.map((img) => img.file).filter((file) => file !== null));
+  };
+
+  const colorStyle = {
+    bgColor: "bg-background-200",
+    borderColor: "border-[0.5px] border-transparent",
+    hoverColor: "hover:border-grayscale-200 hover:bg-background-300",
+    innerHoverColor: "hover:bg-background-300",
   };
 
   return (
-    <div className="flex gap-5 lg:gap-6">
-      <div className="relative">
-        <BaseFileInput
-          file={null}
-          variant="upload"
-          name="image"
-          onFileAction={handleFileChange}
-          size="size-20 lg:size-[116px]"
-          isImage={true}
-          placeholder=""
+    // 인풋 + 프리뷰 wrapper
+    <div className="flex cursor-pointer gap-5 lg:gap-6">
+      <div
+        onClick={handleImageSelect}
+        className={cn(
+          "relative size-20 rounded-lg lg:size-[116px]",
+          colorStyle.bgColor,
+          colorStyle.borderColor,
+          colorStyle.hoverColor
+        )}
+      >
+        <input
+          {...props}
+          ref={ref}
+          type="file"
+          name={props.name}
+          accept="image/*"
+          onChange={(e) => handleFileChange(e.target.files?.[0] || null)}
+          className="hidden"
         />
-        <div className="pointer-events-none absolute top-0 p-7 lg:p-10">
+        <div className="pointer-events-none absolute top-0 z-10 p-7 lg:p-10">
           <HiUpload className="text-[24px] text-grayscale-400 lg:text-[36px]" />
         </div>
       </div>
@@ -53,6 +97,8 @@ const ImageInput = () => {
       ))}
     </div>
   );
-};
+});
+
+ImageInput.displayName = "ImageInput";
 
 export default ImageInput;

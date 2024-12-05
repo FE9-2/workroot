@@ -3,43 +3,59 @@ import BaseInput from "../text/BaseInput";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale";
-import { useState } from "react";
 import { IoIosClose, IoMdArrowDropup } from "react-icons/io";
 import { BsCalendar4 } from "react-icons/bs";
 import { useDropdownOpen } from "@/hooks/useDropdownOpen";
 import { useFormContext } from "react-hook-form";
 import DatePickerHeader from "./DatePickerHeader";
-
-const DatePickerInput = () => {
+interface DatePickerInputProps {
+  startDateName: string;
+  endDateName: string;
+  startDate?: Date;
+  endDate?: Date;
+  onChange: (dates: [Date | null, Date | null]) => void;
+  required?: boolean;
+  errormessage?: boolean;
+}
+const DatePickerInput = ({
+  startDateName,
+  endDateName,
+  startDate,
+  endDate,
+  onChange,
+  required,
+  errormessage,
+}: DatePickerInputProps) => {
   const { setValue, watch } = useFormContext();
   const { isOpen, handleOpenDropdown } = useDropdownOpen();
-  const dateValue = watch("datepicker");
-
-  const [dateRange, setDateRange] = useState<[Date | undefined, Date | undefined]>([undefined, undefined]);
-  const [startDate, endDate] = dateRange;
+  const dateValue = watch("displayDate");
 
   const iconStyle = "text-black-400 size-9 transition-transform duration-200";
 
-  const formatDate = (date: Date) => {
-    return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getDate().toString().padStart(2, "0")}`;
+  const formatDisplayDate = (start: Date, end?: Date) => {
+    const formatToDisplay = (date: Date) => {
+      return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getDate().toString().padStart(2, "0")}`;
+    };
+
+    if (start && end) {
+      return `${formatToDisplay(start)} ~ ${formatToDisplay(end)}`;
+    }
+    return formatToDisplay(start);
   };
 
   const handleChange = (update: [Date | null, Date | null]) => {
     const [start, end] = update;
 
-    // 시작일만 선택된 경우
-    if (start && !end) {
-      setDateRange([start, undefined]);
-      setValue("datepicker", `${formatDate(start)} ~`);
-      return;
+    if (start) {
+      setValue("displayDate", formatDisplayDate(start, end || undefined));
+      setValue(startDateName, start.toISOString());
     }
-
-    // 시작일과 종료일이 모두 선택된 경우
     if (start && end && end > start) {
-      setDateRange([start, end]);
-      setValue("datepicker", `${formatDate(start)} ~ ${formatDate(end)}`);
+      setValue("displayDate", formatDisplayDate(start, end));
+      setValue(endDateName, end.toISOString());
       handleOpenDropdown();
     }
+    onChange(update);
   };
 
   return (
@@ -53,11 +69,15 @@ const DatePickerInput = () => {
           afterIcon={<IoMdArrowDropup className={`${iconStyle} ${isOpen ? "rotate-180" : ""}`} />}
           value={dateValue || ""}
           readOnly
+          required={required}
+          wrapperClassName="cursor-pointer"
+          innerClassName="cursor-pointer"
+          errormessage={errormessage}
         />
         {isOpen && (
           <>
             <div
-              className="absolute z-10 mt-1 h-[388px] w-[327px] rounded-lg bg-white lg:h-[584px] lg:w-[640px]"
+              className="absolute z-20 mt-1 h-[388px] w-[327px] rounded-lg bg-white lg:h-[584px] lg:w-[640px]"
               onClick={(e) => {
                 e.stopPropagation();
                 e.preventDefault();

@@ -3,13 +3,14 @@ import { NextRequest, NextResponse } from "next/server";
 import apiClient from "@/lib/apiClient";
 
 export async function POST(req: NextRequest) {
+  const accessToken = cookies().get("accessToken")?.value;
+
+  if (!accessToken) {
+    console.log("No access token found");
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  }
+
   try {
-    const accessToken = cookies().get("accessToken")?.value;
-
-    if (!accessToken) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
-
     const formData = await req.formData();
 
     try {
