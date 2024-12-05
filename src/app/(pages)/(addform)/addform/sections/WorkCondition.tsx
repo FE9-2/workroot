@@ -14,11 +14,10 @@ import CheckBtn from "@/app/components/button/default/CheckBtn";
 
 interface WorkConditionProps {
   formData: WorkConditionFormData;
-  onUpdate: (data: WorkConditionFormData) => void;
 }
 
 // 알바폼 만들기 - 사장님 - 3-근무조건
-export default function WorkCondition({ formData, onUpdate }: WorkConditionProps) {
+export default function WorkCondition({ formData }: WorkConditionProps) {
   const methods = useForm<WorkConditionFormData>({
     mode: "onChange",
     defaultValues: formData,
@@ -37,17 +36,9 @@ export default function WorkCondition({ formData, onUpdate }: WorkConditionProps
       methods.reset(formData);
     }
   }, [formData, methods]);
-  useEffect(() => {
-    const subscription = watch((value) => {
-      if (isDirty) {
-        onUpdate(value as WorkConditionFormData);
-      }
-    });
-    return () => subscription.unsubscribe();
-  }, [watch, onUpdate, isDirty]);
 
   const onSubmit = async (data: WorkConditionFormData) => {
-    onUpdate(data);
+    // onUpdate(data);
   };
 
   // 근무 날짜 지정

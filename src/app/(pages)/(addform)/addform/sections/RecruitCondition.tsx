@@ -7,11 +7,10 @@ import InputDropdown from "@/app/components/button/dropdown/InputDropdown";
 
 interface RecruitConditionProps {
   formData: RecruitConditionFormData;
-  onUpdate: (data: RecruitConditionFormData) => void;
 }
 
 // 알바폼 만들기 - 사장님- 2-모집조건
-export default function RecruitCondition({ formData, onUpdate }: RecruitConditionProps) {
+export default function RecruitCondition({ formData }: RecruitConditionProps) {
   const methods = useForm<RecruitConditionFormData>({
     mode: "onChange",
     defaultValues: formData,
@@ -30,16 +29,8 @@ export default function RecruitCondition({ formData, onUpdate }: RecruitConditio
     }
   }, [formData, methods]);
 
-  useEffect(() => {
-    const subscription = watch((value) => {
-      if (isDirty) {
-        onUpdate(value as RecruitConditionFormData);
-      }
-    });
-    return () => subscription.unsubscribe();
-  }, [watch, onUpdate, isDirty]);
   const onSubmit = async (data: RecruitConditionFormData) => {
-    onUpdate(data);
+    // onUpdate(data);
   };
 
   return (

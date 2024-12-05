@@ -10,6 +10,7 @@ import Button from "@/app/components/button/default/Button";
 import { toast } from "react-hot-toast";
 import { RecruitConditionFormData, RecruitContentFormData, WorkConditionFormData } from "@/types/addform";
 import RecruitContent from "./sections/RecruitContent";
+import { useMutation } from "@tanstack/react-query";
 
 type FormDataType = {
   recruitContent: RecruitContentFormData;
@@ -59,14 +60,24 @@ export default function AddFormPage() {
       location: "",
     },
   });
+  const mutation = useMutation({
+    mutationFn: async (data: typeof formData) => {
+      const response = await axios.post("/api/forms", data);
+      return response.data; // 응답 데이터 반환
+    },
+    onSuccess: () => {
+      window.localStorage.removeItem("tempAddFormData");
+      toast.success("알바폼을 등록했습니다.");
+      router.back();
+    },
+    onError: (error) => {
+      console.error("에러가 발생했습니다.", error);
+      toast.error("에러가 발생했습니다.");
+      onTempSave(formData);
+    },
+  });
 
-  const handleFormUpdate = useCallback((section: keyof FormDataType, data: any) => {
-    setFormData((prev) => ({
-      ...prev,
-      [section]: data,
-    }));
-  }, []);
-
+  // tab 선택 시 내부 content 변경
   const handleOptionChange = (option: string) => {
     setSelectedOption(option);
     const params = {
@@ -82,27 +93,11 @@ export default function AddFormPage() {
   const renderChildren = () => {
     switch (selectedOption) {
       case "모집 내용":
-        return (
-          <RecruitContent
-            key="recruitContent"
-            formData={formData.recruitContent}
-            onUpdate={(data: RecruitContentFormData) => handleFormUpdate("recruitContent", data)}
-          />
-        );
+        return <RecruitContent key="recruitContent" formData={formData.recruitContent} />;
       case "모집 조건":
-        return (
-          <RecruitCondition
-            formData={formData.recruitCondition}
-            onUpdate={(data: RecruitConditionFormData) => handleFormUpdate("recruitCondition", data)}
-          />
-        );
+        return <RecruitCondition formData={formData.recruitCondition} />;
       case "근무 조건":
-        return (
-          <WorkCondition
-            formData={formData.workCondition}
-            onUpdate={(data: WorkConditionFormData) => handleFormUpdate("workCondition", data)}
-          />
-        );
+        return <WorkCondition formData={formData.workCondition} />;
       default:
         return <></>;
     }
@@ -140,19 +135,16 @@ export default function AddFormPage() {
     return uploadedUrls;
   };
 
-  const onSubmit = async () => {
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     try {
       // 이미지 업로드 처리
       if (imageFiles.length > 0) {
         const uploadedUrls = await uploadImages(imageFiles);
         formData.recruitContent.imageUrls = uploadedUrls;
       }
-
-      // API 호출
-      await axios.post("/api/forms", formData);
-      window.localStorage.removeItem("tempAddFormData");
-      toast.success("알바폼을 등록했습니다.");
-      router.back();
+      mutation.mutate(formData);
     } catch (error) {
       console.error("에러가 발생했습니다.", error);
       toast.error("에러가 발생했습니다.");

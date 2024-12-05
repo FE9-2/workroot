@@ -11,11 +11,10 @@ import { cn } from "@/lib/tailwindUtil";
 
 interface RecruitContentProps {
   formData: RecruitContentFormData;
-  onUpdate: (data: RecruitContentFormData) => void;
 }
 // 알바폼 만들기 - 사장님 - 1-모집내용
 
-export default function RecruitContent({ formData, onUpdate }: RecruitContentProps) {
+export default function RecruitContent({ formData }: RecruitContentProps) {
   const methods = useForm<RecruitContentFormData>({
     mode: "onChange",
     defaultValues: formData,
@@ -27,7 +26,6 @@ export default function RecruitContent({ formData, onUpdate }: RecruitContentPro
     handleSubmit,
     formState: { errors, isDirty },
     setValue,
-    watch,
   } = methods;
 
   // 초기 렌더링시에만 실행되도록 수정
@@ -37,20 +35,10 @@ export default function RecruitContent({ formData, onUpdate }: RecruitContentPro
     }
   }, [formData, methods]);
 
-  // 폼 값 변경 감지를 위한 별도의 useEffect
-  useEffect(() => {
-    const subscription = watch((value) => {
-      if (isDirty) {
-        onUpdate(value as RecruitContentFormData);
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [watch, onUpdate, isDirty]);
-
   const onSubmit = async (data: RecruitContentFormData) => {
-    onUpdate(data);
+    // onUpdate(data);
   };
+
   const [recruitmentDateRange, setRecruitmentDateRange] = useState<[Date | null, Date | null]>([null, null]);
   const handleRecruitmentDateChange = (dates: [Date | null, Date | null]) => {
     setRecruitmentDateRange(dates);
