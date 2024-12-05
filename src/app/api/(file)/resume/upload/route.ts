@@ -1,6 +1,6 @@
+import apiClient from "@/lib/apiClient";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import apiClientNoHeader from "@/lib/apiClientNoHeader";
 
 export async function POST(req: NextRequest) {
   const accessToken = cookies().get("accessToken")?.value;
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     const uploadFormData = new FormData();
     uploadFormData.append("file", file);
 
-    const response = await apiClientNoHeader.post("/resume/upload", uploadFormData, {
+    const response = await apiClient.post("/resume/upload", uploadFormData, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "multipart/form-data",
