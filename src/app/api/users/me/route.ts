@@ -10,7 +10,7 @@ export async function GET() {
     const accessToken = cookies().get("accessToken")?.value;
 
     if (!accessToken) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      return new Response(null, { status: 200 });
     }
 
     // 내 정보 조회 요청
@@ -23,7 +23,9 @@ export async function GET() {
     return NextResponse.json(response.data);
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
-      console.error("GET /api/users/me error:", error);
+      if (error.response?.status === 401) {
+        return new Response(null, { status: 200 });
+      }
       if (error.response) {
         return NextResponse.json({ message: error.response.data.message }, { status: error.response.status });
       }
@@ -42,18 +44,12 @@ export async function PATCH(request: Request) {
     }
 
     const body = await request.json();
-    console.log("PATCH /users/me request body:", body);
 
     const response = await apiClient.patch("/users/me", body, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
-    });
-
-    console.log("PATCH /users/me response:", {
-      status: response.status,
-      data: response.data,
     });
 
     if (response.status === 200 && response.data) {

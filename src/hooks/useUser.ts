@@ -7,6 +7,7 @@ import {
   MyPostListResponse,
   MyCommentListResponse,
 } from "@/types/response/user";
+import toast from "react-hot-toast";
 
 export const useUser = () => {
   // 사용자 정보 조회
@@ -23,18 +24,14 @@ export const useUser = () => {
           user: response.data, // response.data가 이미 UserResponse 형태라고 가정
         };
 
-        // localStorage와 React Query 캐시 동기화
-        if (userData.user) {
-          localStorage.setItem("user", JSON.stringify(userData.user));
-        }
         return userData;
       } catch (error) {
         if (axios.isAxiosError(error)) {
           if (error.response?.status === 401) {
-            localStorage.removeItem("user");
             return { user: null };
+          } else {
+            toast.error("사용자 정보를 불러오는 데 실패했습니다." + error.response?.data.message);
           }
-          throw error;
         }
         throw error;
       }
@@ -172,15 +169,9 @@ export const useUser = () => {
   // 훅의 반환값들
   return {
     user: userQuery.data?.user || null,
+    refetch: userQuery.refetch,
     isLoading: userQuery.isLoading,
     error: userQuery.error,
-    refetch: async () => {
-      const result = await userQuery.refetch();
-      if (result.data?.user) {
-        localStorage.setItem("user", JSON.stringify(result.data.user));
-      }
-      return result;
-    },
     useMyForms,
     useMyApplications,
     useMyPosts,
