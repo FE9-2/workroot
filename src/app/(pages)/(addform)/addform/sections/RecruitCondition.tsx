@@ -10,7 +10,7 @@ interface RecruitConditionProps {
   onUpdate: (data: RecruitConditionFormData) => void;
 }
 
-// 알바폼 만들기2 - 사장님
+// 알바폼 만들기 - 사장님- 2-모집조건
 export default function RecruitCondition({ formData, onUpdate }: RecruitConditionProps) {
   const methods = useForm<RecruitConditionFormData>({
     mode: "onChange",

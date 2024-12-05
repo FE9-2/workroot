@@ -20,6 +20,8 @@ const TimePickerInput = forwardRef<HTMLInputElement, BaseInputProps>((props, ref
   const beforeIconStyle = "text-grayscale-400 size-[13px] lg:size-5";
   const afterIconStyle =
     "text-black-400 size-6 lg:size-9  transition-all transition-transform duration-200 ease-in-out";
+  const width = "w-[150px] lg:w-[210px]";
+
   const timeOption = Array.from({ length: 24 }, (_, index) => {
     const hour = index.toString().padStart(2, "0");
     return `${hour}:00`;
@@ -43,8 +45,8 @@ const TimePickerInput = forwardRef<HTMLInputElement, BaseInputProps>((props, ref
         <DropdownList
           list={timeOption}
           onSelect={handleTimeSelect}
-          wrapperStyle="h-[200px] w-[150px] lg:w-[210px]"
-          itemStyle="pl-[35px] text-sm font-normal leading-[26px] lg:text-base lg:leading-8 !important"
+          wrapperStyle={width}
+          itemStyle="pl-[35px] text-base font-normal leading-[26px] lg:text-lg lg:leading-8 !important"
         />
       )}
     </div>

@@ -13,6 +13,7 @@ interface RecruitContentProps {
   formData: RecruitContentFormData;
   onUpdate: (data: RecruitContentFormData) => void;
 }
+// 알바폼 만들기 - 사장님 - 1-모집내용
 
 export default function RecruitContent({ formData, onUpdate }: RecruitContentProps) {
   const methods = useForm<RecruitContentFormData>({
