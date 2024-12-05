@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 import { OauthUser } from "@/types/oauth/oauthReq";
+import apiClient from "@/lib/apiClient";
 
 export const GET = async (req: NextRequest) => {
   const searchParams = req.nextUrl.searchParams;
@@ -23,8 +24,6 @@ export const GET = async (req: NextRequest) => {
     return NextResponse.json({ message: "Invalid state format" }, { status: 400 });
   }
   const { provider, role } = parsedState;
-  console.log("Kakao Role:", role);
-  console.log("Kakao Provider:", provider);
 
   const KAKAO_TOKEN_URL = "https://kauth.kakao.com/oauth/token";
   const KAKAO_USER_INFO_URL = "https://kapi.kakao.com/v2/user/me";
@@ -46,7 +45,6 @@ export const GET = async (req: NextRequest) => {
     // 액세스 토큰 요청
     const tokenResponse = await axios.post(KAKAO_TOKEN_URL, params);
     const { access_token } = tokenResponse.data;
-    console.log("Kakao access token:", access_token);
 
     if (!access_token) {
       return NextResponse.json({ message: "Failed to retrieve access token" }, { status: 400 });
@@ -60,19 +58,21 @@ export const GET = async (req: NextRequest) => {
     });
 
     const user = userInfoResponse.data;
-    console.log("Kakao user:", user);
 
     const kakaoUser: OauthUser = {
       role: role,
       name: user.properties?.nickname,
-      token: code,
-      // id: user.id,
-      // nickname: user.properties?.nickname,
-      // email: user.kakao_account?.email,
-      // profileImage: user.properties?.profile_image,
+      token: code, // 인가 코드 그대로 사용
+      redirectUri: redirectUri,
     };
 
-    console.log("Formatted Kakao user:", kakaoUser);
+    try {
+      const kakaoSignupResponse = await apiClient.post(`/oauth/sign-up/${provider}`, kakaoUser);
+      console.log("카카오 회원가입 성공:", kakaoSignupResponse.data);
+    } catch (error) {
+      const errorMessage = (error as any).response?.data;
+      console.log("카카오 회원가입 에러", errorMessage);
+    }
 
     // 사용자 정보를 클라이언트에 반환
     return NextResponse.json(kakaoUser);

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 import { decodeJwt } from "@/middleware";
 import { OauthUser } from "@/types/oauth/oauthReq";
+import apiClient from "@/lib/apiClient";
 
 export const GET = async (req: NextRequest) => {
   const searchParams = req.nextUrl.searchParams;
@@ -26,8 +27,6 @@ export const GET = async (req: NextRequest) => {
   }
 
   const { provider, role } = parsedState;
-  console.log("Google Role:", role);
-  console.log("Google Provider:", provider);
 
   const GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
   const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
@@ -64,6 +63,14 @@ export const GET = async (req: NextRequest) => {
       token: id_token,
     };
     console.log("Google user:", googleUser);
+    // OAuth 회원가입 API로 회원가입 요청
+    try {
+      const googleSignupResponse = await apiClient.post(`/oauth/sign-up/${provider}`, googleUser);
+      console.log("구글 회원가입 성공:", googleSignupResponse.data);
+    } catch (error) {
+      const errorMessage = (error as any).response?.data;
+      console.error("구글 회원가입 에러:", errorMessage);
+    }
 
     // 사용자 정보를 클라이언트에 반환
     const response = NextResponse.redirect("http://localhost:3000");
