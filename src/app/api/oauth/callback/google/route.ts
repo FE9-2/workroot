@@ -6,11 +6,28 @@ import { OauthUser } from "@/types/oauth/oauthReq";
 export const GET = async (req: NextRequest) => {
   const searchParams = req.nextUrl.searchParams;
   const code = searchParams.get("code");
-  const role = searchParams.get("state");
-  console.log("state", role);
+  const state = searchParams.get("state");
+
   if (!code) {
     return NextResponse.json({ message: "Code not found" }, { status: 400 });
   }
+
+  if (!state) {
+    return NextResponse.json({ message: "State not found" }, { status: 400 });
+  }
+
+  // `state`를 JSON으로 파싱
+  let parsedState;
+  try {
+    parsedState = JSON.parse(decodeURIComponent(state));
+  } catch (error) {
+    console.error("Failed to parse state:", error);
+    return NextResponse.json({ message: "Invalid state format" }, { status: 400 });
+  }
+
+  const { provider, role } = parsedState;
+  console.log("Google Role:", role);
+  console.log("Google Provider:", provider);
 
   const GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
   const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
@@ -34,8 +51,6 @@ export const GET = async (req: NextRequest) => {
     });
 
     const { access_token, id_token } = tokenResponse.data;
-    console.log("Google access token:", access_token);
-    console.log("Google id token:", id_token);
 
     // id_token 디코딩
     const decodedIdToken = decodeJwt(id_token);
@@ -44,7 +59,7 @@ export const GET = async (req: NextRequest) => {
     }
 
     const googleUser: OauthUser = {
-      role: role || "",
+      role: role,
       name: decodedIdToken.name,
       token: id_token,
     };
