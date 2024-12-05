@@ -47,17 +47,24 @@ export default function RecruitCondition({ formData, onUpdate }: RecruitConditio
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} className="my-8 flex flex-col gap-4">
           <Label>모집인원</Label>
-          <InputDropdown options={["00명(인원 미정)", "직접 입력"]} />
+          <InputDropdown
+            {...register("numberOfPositions", { required: "모집 인원을 선택해주세요" })}
+            options={["00명(인원 미정)", "직접 입력"]}
+          />
           <Label>성별</Label>
-          <InputDropdown options={["남성", "여성", "성별 무관", "직접 입력"]} />
+          <InputDropdown {...register("gender")} options={["남성", "여성", "성별 무관", "직접 입력"]} />
           <Label>학력</Label>
           <InputDropdown
+            {...register("education")}
             options={["고등학교 졸업", "대학교 졸업", "대학교 졸업 예정", "대학원 졸업", "학력 무관", "직접 입력"]}
           />
           <Label>연령</Label>
-          <InputDropdown options={["10대", "20대", "30대", "40대", "50대", "60대", "연령 무관", "직접 입력"]} />
+          <InputDropdown
+            {...register("age")}
+            options={["10대", "20대", "30대", "40대", "50대", "60대", "연령 무관", "직접 입력"]}
+          />
           <Label>우대사항</Label>
-          <InputDropdown options={["유사 업무 경험 우대", "운전 가능", "직접 입력"]} />
+          <InputDropdown {...register("preferred")} options={["유사 업무 경험 우대", "운전 가능", "직접 입력"]} />
         </form>
       </FormProvider>
     </div>

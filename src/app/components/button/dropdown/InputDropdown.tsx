@@ -6,9 +6,10 @@ import DropdownList from "./dropdownComponent/DropdownList";
 interface InputDropdownProps {
   options: string[];
   className?: string;
+  errormessage?: string;
 }
 
-const InputDropdown = ({ options, className = "" }: InputDropdownProps) => {
+const InputDropdown = ({ options, className = "", errormessage }: InputDropdownProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<string>("");
   const [isCustomInput, setIsCustomInput] = useState<boolean>(false);
@@ -24,8 +25,13 @@ const InputDropdown = ({ options, className = "" }: InputDropdownProps) => {
     }
   };
   const textStyle = "text-base";
+
+  const errorStyle = errormessage ? "!border-state-error" : "";
+  const errorTextStyle =
+    "absolute -bottom-[26px] text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
+
   return (
-    <div className={cn("relative inline-block text-left", "w-80 lg:w-[640px]", textStyle, className)}>
+    <div className={cn("relative inline-block text-left", "w-80 lg:w-[640px]", textStyle, className, errorStyle)}>
       <div
         onMouseDown={() => setIsOpen(!isOpen)}
         className={cn(
@@ -49,6 +55,7 @@ const InputDropdown = ({ options, className = "" }: InputDropdownProps) => {
         </button>
       </div>
       {isOpen && <DropdownList list={options} onSelect={handleOptionClick} itemStyle={textStyle} />}
+      {errormessage && <p className={cn(errorTextStyle, "right-0 pr-2")}>{errormessage}</p>}
     </div>
   );
 };
