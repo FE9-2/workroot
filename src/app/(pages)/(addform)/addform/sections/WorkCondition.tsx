@@ -2,7 +2,7 @@
 
 import { useForm, FormProvider } from "react-hook-form";
 import { WorkConditionFormData } from "@/types/addform";
-import { useEffect, useState } from "react";
+import { useEffect, useState, ChangeEvent } from "react";
 import Label from "../../component/Label";
 import { cn } from "@/lib/tailwindUtil";
 import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePickerInput";
@@ -57,6 +57,8 @@ export default function WorkCondition({ formData, onUpdate }: WorkConditionProps
     if (end) setValue("workEndDate", end.toISOString());
   };
 
+  const workStartTime = watch("workStartTime");
+  const workEndTime = watch("workEndTime");
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
 
@@ -85,8 +87,22 @@ export default function WorkCondition({ formData, onUpdate }: WorkConditionProps
 
           <Label>근무 시간</Label>
           <div className="flex gap-7 lg:gap-9">
-            <TimePickerInput />
-            <TimePickerInput />
+            <TimePickerInput
+              variant="white"
+              value={workStartTime}
+              {...register("workStartTime", { required: "근무 시작 시간을 선택해주세요" })}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                setValue("workStartTime", e.target.value);
+              }}
+            />
+            <TimePickerInput
+              variant="white"
+              value={workEndTime}
+              {...register("workEndTime", { required: "근무 시작 시간을 선택해주세요" })}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                setValue("workEndTime", e.target.value);
+              }}
+            />
           </div>
 
           <Label>근무 요일</Label>

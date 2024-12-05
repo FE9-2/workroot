@@ -3,14 +3,17 @@ import { LuClock } from "react-icons/lu";
 import { IoMdArrowDropup } from "react-icons/io";
 import BaseInput from "../text/BaseInput";
 import { useDropdownOpen } from "@/hooks/useDropdownOpen";
-import { useFormContext } from "react-hook-form";
 import DropdownList from "../../button/dropdown/dropdownComponent/DropdownList";
+import { forwardRef } from "react";
+import { BaseInputProps } from "@/types/textInput";
 
-const TimePickerInput = () => {
-  const { register, setValue, watch } = useFormContext();
-  const timeValue = watch("timepicker");
+const TimePickerInput = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
+  const { value, onChange } = props;
+
   const handleTimeSelect = (time: string) => {
-    setValue("timepicker", time);
+    if (onChange) {
+      onChange({ target: { value: time } } as React.ChangeEvent<HTMLInputElement>);
+    }
     handleOpenDropdown();
   };
   const { isOpen, handleOpenDropdown } = useDropdownOpen();
@@ -26,15 +29,15 @@ const TimePickerInput = () => {
     <div onClick={handleOpenDropdown} className="relative">
       <div>{isOpen}</div>
       <BaseInput
+        ref={ref}
         type="text"
         readOnly={true}
         variant="white"
         placeholder="00:00"
-        value={timeValue || ""}
+        value={value || ""}
         size="w-[150px] h-[54px] lg:w-[210px] lg:h-[64px]"
         beforeIcon={<LuClock className={beforeIconStyle} />}
         afterIcon={<IoMdArrowDropup className={`${afterIconStyle} ${isOpen ? "rotate-180" : ""}`} />}
-        {...register("timepicker")}
       />
       {isOpen && (
         <DropdownList
@@ -46,5 +49,7 @@ const TimePickerInput = () => {
       )}
     </div>
   );
-};
+});
+TimePickerInput.displayName = "TimePickerInput";
+
 export default TimePickerInput;
