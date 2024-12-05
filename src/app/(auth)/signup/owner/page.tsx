@@ -135,7 +135,7 @@ export default function OwnerSignupPage() {
               <Image src="/icons/social/social_google.svg" width={72} height={72} alt="구글 로그인" />
             </Link>
             <Link
-              href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code&state=owner`}
+              href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code&state=${encodeURIComponent("owner")}`}
             >
               <Image src="/icons/social/social_kakao.svg" width={72} height={72} alt="카카오 로그인" />
             </Link>
