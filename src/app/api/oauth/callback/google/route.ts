@@ -4,8 +4,8 @@ import { decodeJwt } from "@/middleware";
 export const GET = async (req: NextRequest) => {
   const searchParams = req.nextUrl.searchParams;
   const code = searchParams.get("code");
-  const route = searchParams.get("state");
-  console.log("state", route);
+  const role = searchParams.get("state");
+  console.log("state", role);
   if (!code) {
     return NextResponse.json({ message: "Code not found" }, { status: 400 });
   }
@@ -44,10 +44,12 @@ export const GET = async (req: NextRequest) => {
     const user = {
       id: decodedIdToken.sub,
       name: decodedIdToken.name,
+      role: role,
       picture: decodedIdToken.picture,
       email: decodedIdToken.email,
     };
     console.log("Google user:", user);
+    // 여기서 role이 "role":"\bowner"로 나옴
 
     // 사용자 정보를 클라이언트에 반환
     const response = NextResponse.redirect("http://localhost:3000");
