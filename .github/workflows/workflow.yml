@@ -1,0 +1,40 @@
+name: workRoot CI
+
+on:
+  push:
+    branches:
+      - main # main 브랜치에 푸시될 때 실행
+      - dev
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20" # 최신 Node.js 20.x.x 버전 사용
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Build project
+        run: npm run build

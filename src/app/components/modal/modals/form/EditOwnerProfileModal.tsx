@@ -120,7 +120,6 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
       const updateResponse = await axios.patch("/api/users/me", updateData);
 
       if (updateResponse.status === 200) {
-        localStorage.setItem("user", JSON.stringify(updateResponse.data));
         await refetch(); // React Query 캐시 갱신
         toast.success("사장님 정보가 성공적으로 수정되었습니다.");
         onClose();

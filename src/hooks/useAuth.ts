@@ -50,7 +50,6 @@ export const useAuth = () => {
     },
     onSuccess: (data) => {
       if (data?.user) {
-        localStorage.setItem("user", JSON.stringify(data.user));
         // React Query 캐시 업데이트
         queryClient.setQueryData(["user"], { user: data.user });
 
@@ -71,7 +70,6 @@ export const useAuth = () => {
       return response.data;
     },
     onSuccess: () => {
-      localStorage.removeItem("user");
       queryClient.clear();
       router.push("/");
       router.refresh();
@@ -94,16 +92,8 @@ export const useAuth = () => {
         throw error;
       }
     },
-    onSuccess: (data) => {
-      if (data?.user) {
-        localStorage.setItem("user", JSON.stringify(data.user));
-      } else {
-        localStorage.removeItem("user");
-      }
-    },
     onError: (error: Error) => {
       console.error("Token refresh failed:", error);
-      localStorage.removeItem("user");
     },
   });
 
