@@ -73,8 +73,8 @@ export const useAuth = () => {
     onSuccess: () => {
       localStorage.removeItem("user");
       queryClient.clear();
-
-      toast.success("로그아웃되었습니다!");
+      router.push("/");
+      router.refresh();
     },
     onError: (error: Error) => {
       toast.error(error.message || "로그아웃 중 오류가 발생했습니다.");

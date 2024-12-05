@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { UserResponse } from "@/types/response/user";
 import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
 
 export default function Header() {
   const [user, setUser] = useState<UserResponse | null>(null);
@@ -74,6 +75,7 @@ export default function Header() {
 
   const handleLogout = async () => {
     logout();
+    toast.success("로그아웃되었습니다!");
     setUser(null);
     queryClient.setQueryData(["user"], { user: null });
     setIsSideMenuOpen(false);

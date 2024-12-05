@@ -89,7 +89,7 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
         const uploadFormData = new FormData();
         uploadFormData.append("image", selectedFile);
 
-        const uploadResponse = await axios.post("/api/file/images/upload", uploadFormData, {
+        const uploadResponse = await axios.post("/api/images/upload", uploadFormData, {
           withCredentials: true,
         });
 

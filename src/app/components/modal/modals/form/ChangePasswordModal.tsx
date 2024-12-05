@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 interface ChangePasswordModalProps {
   isOpen: boolean;
@@ -23,6 +24,10 @@ const changePasswordSchema = z
   .refine((data) => data.newPassword === data.confirmPassword, {
     message: "새 비밀번호가 일치하지 않습니다",
     path: ["confirmPassword"],
+  })
+  .refine((data) => data.currentPassword !== data.newPassword, {
+    message: "새 비밀번호는 현재 비밀번호와 달라야 합니다",
+    path: ["newPassword"],
   });
 
 type ChangePasswordFormData = z.infer<typeof changePasswordSchema>;
@@ -50,6 +55,7 @@ const defaultFields = [
 
 const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModalProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { logout } = useAuth();
 
   const {
     register,
@@ -78,9 +84,16 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
         newPassword: data.newPassword,
       });
 
-      toast.success("비밀번호가 성공적으로 변경되었습니다.");
       reset();
       onClose();
+      // 비밀번호 변경 후 로그아웃 처리
+      logout();
+      toast.success("비밀번호가 변경되었습니다!\n다시 로그인해주세요.", {
+        style: {
+          whiteSpace: "pre-line", // \n을 줄바꿈으로 처리
+          textAlign: "center", // 텍스트 중앙 정렬
+        },
+      });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const errormessage = error.response?.data?.message || "비밀번호 변경에 실패했습니다.";
