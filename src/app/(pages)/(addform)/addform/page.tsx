@@ -22,7 +22,7 @@ export default function AddFormPage() {
 
   const {
     formState: { isDirty, isValid },
-  } = useForm<RecruitContentFormData>({
+  } = useForm<FormDataType>({
     mode: "onChange",
   });
 
@@ -59,6 +59,13 @@ export default function AddFormPage() {
       location: "",
     },
   });
+
+  const handleFormUpdate = useCallback((section: keyof FormDataType, data: any) => {
+    setFormData((prev) => ({
+      ...prev,
+      [section]: data,
+    }));
+  }, []);
 
   const handleOptionChange = (option: string) => {
     setSelectedOption(option);
@@ -132,13 +139,6 @@ export default function AddFormPage() {
     }
     return uploadedUrls;
   };
-
-  const handleFormUpdate = useCallback((section: string, data: any) => {
-    setFormData((prev) => ({
-      ...prev,
-      [section]: data,
-    }));
-  }, []);
 
   const onSubmit = async () => {
     try {

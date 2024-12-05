@@ -16,7 +16,7 @@ const CheckBtn = forwardRef<HTMLInputElement, CheckBtnProps>(
       <label
         htmlFor={name}
         className={cn(
-          "flex items-center justify-between gap-[10px] rounded-lg p-2 text-sm",
+          "flex items-center gap-[10px] rounded-lg text-sm",
           disabled ? "cursor-not-allowed text-grayscale-400" : "text-black cursor-pointer"
         )}
       >
