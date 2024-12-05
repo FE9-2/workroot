@@ -9,7 +9,7 @@ import {
 } from "@/types/response/user";
 
 export const useUser = () => {
-  // 사용자 정보 조회 (로그인 상태 확인)
+  // 사용자 정보 조회
   const userQuery = useQuery<{ user: UserResponse | null }>({
     queryKey: ["user"],
     queryFn: async () => {
@@ -17,20 +17,31 @@ export const useUser = () => {
         const response = await axios.get("/api/users/me", {
           withCredentials: true,
         });
-        return response.data;
+
+        // 응답 데이터 구조 수정
+        const userData = {
+          user: response.data, // response.data가 이미 UserResponse 형태라고 가정
+        };
+
+        // localStorage와 React Query 캐시 동기화
+        if (userData.user) {
+          localStorage.setItem("user", JSON.stringify(userData.user));
+        }
+        return userData;
       } catch (error) {
         if (axios.isAxiosError(error)) {
           if (error.response?.status === 401) {
-            return { user: null }; // 인증되지 않은 사용자
+            localStorage.removeItem("user");
+            return { user: null };
           }
-          throw new Error(error.response?.data?.message || "사용자 정보를 가져오는데 실패했습니다.");
+          throw error;
         }
         throw error;
       }
     },
-    retry: false, // 실패 시 재시도하지 않음
-    staleTime: 1000 * 60 * 5, // 5분 동안 캐시 유지
-    gcTime: 1000 * 60 * 30, // 30분 후 가비지 컬렉션
+    retry: false,
+    staleTime: 0,
+    gcTime: 1000 * 60 * 30,
   });
 
   // 내가 생성한 알바폼 목록 조회 (무한 스크롤)
@@ -160,14 +171,20 @@ export const useUser = () => {
 
   // 훅의 반환값들
   return {
-    user: userQuery.data?.user, // 현재 사용자 정보
-    isLoading: userQuery.isLoading, // 로딩 상태
-    error: userQuery.error, // 에러 상태
-    refetch: userQuery.refetch, // 데이터 재조회 함수
-    useMyForms, // 내가 생성한 알바폼 목록 조회 훅
-    useMyApplications, // 내가 지원한 알바폼 목록 조회 훅
-    useMyPosts, // 내가 작성한 게시글 목록 조회 훅
-    useMyComments, // 내가 작성한 댓글 목록 조회 훅
-    useMyScraps, // 내가 스크랩한 알바폼 목록 조회 훅
+    user: userQuery.data?.user || null,
+    isLoading: userQuery.isLoading,
+    error: userQuery.error,
+    refetch: async () => {
+      const result = await userQuery.refetch();
+      if (result.data?.user) {
+        localStorage.setItem("user", JSON.stringify(result.data.user));
+      }
+      return result;
+    },
+    useMyForms,
+    useMyApplications,
+    useMyPosts,
+    useMyComments,
+    useMyScraps,
   };
 };

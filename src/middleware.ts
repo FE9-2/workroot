@@ -11,6 +11,7 @@ export function middleware(request: NextRequest) {
     "/signup",
     "/signup/applicant",
     "/signup/owner",
+    "/api/auth/refresh",
     /\.(jpg|jpeg|gif|png|svg)$/,
   ];
 
@@ -25,9 +26,30 @@ export function middleware(request: NextRequest) {
   // 공개 경로가 아닌 경우에만 토큰 체크
   if (!isPublicPath) {
     const token = request.cookies.get("accessToken")?.value;
-    const isValidToken = token && !isTokenExpired(token);
 
-    if (!isValidToken) {
+    if (!token) {
+      // 토큰이 없는 경우 로그인 페이지로 리다이렉트
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
+    try {
+      // 토큰이 있는 경우 API 요청에 토큰 추가
+      const requestHeaders = new Headers(request.headers);
+      requestHeaders.set("Authorization", `Bearer ${token}`);
+
+      // API 요청인 경우 헤더만 수정
+      if (request.nextUrl.pathname.startsWith("/api/")) {
+        return NextResponse.next({
+          request: {
+            headers: requestHeaders,
+          },
+        });
+      }
+
+      // 일반 페이지 요청의 경우 그대로 진행
+      return NextResponse.next();
+    } catch (error) {
+      console.error("Middleware error:", error);
       return NextResponse.redirect(new URL("/login", request.url));
     }
   }
@@ -35,33 +57,15 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-// JWT 토큰 디코딩 함수
-function decodeJwt(token: string) {
-  try {
-    const base64Url = token.split(".")[1];
-    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    const jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split("")
-        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-        .join("")
-    );
-    return JSON.parse(jsonPayload);
-  } catch (error) {
-    console.error("JWT 토큰 디코딩 오류:", error);
-    return null;
-  }
-}
-
-// 토큰 만료 체크 함수
-function isTokenExpired(token: string) {
-  const decodedToken = decodeJwt(token);
-  if (!decodedToken) return true;
-
-  const currentTime = Math.floor(Date.now() / 1000);
-  return decodedToken.exp < currentTime;
-}
-
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|public/).*)"],
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - public folder
+     */
+    "/((?!_next/static|_next/image|favicon.ico|public/).*)",
+  ],
 };
