@@ -8,7 +8,7 @@ import { forwardRef } from "react";
 import { BaseInputProps } from "@/types/textInput";
 
 const TimePickerInput = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
-  const { value, onChange } = props;
+  const { value, onChange, errormessage } = props;
 
   const handleTimeSelect = (time: string) => {
     if (onChange) {
@@ -40,6 +40,7 @@ const TimePickerInput = forwardRef<HTMLInputElement, BaseInputProps>((props, ref
         size="w-[150px] h-[54px] lg:w-[210px] lg:h-[64px]"
         beforeIcon={<LuClock className={beforeIconStyle} />}
         afterIcon={<IoMdArrowDropup className={`${afterIconStyle} ${isOpen ? "rotate-180" : ""}`} />}
+        errormessage={errormessage}
       />
       {isOpen && (
         <DropdownList

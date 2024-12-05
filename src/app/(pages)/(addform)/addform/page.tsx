@@ -48,6 +48,7 @@ export default function AddFormPage() {
       preferred: "",
     },
     workCondition: {
+      isPublic: false,
       hourlyWage: 0,
       isNegotiableWorkDays: false,
       workDays: [],

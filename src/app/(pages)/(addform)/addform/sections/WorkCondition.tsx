@@ -2,7 +2,7 @@
 
 import { useForm, FormProvider } from "react-hook-form";
 import { WorkConditionFormData } from "@/types/addform";
-import { useEffect, useState, ChangeEvent } from "react";
+import { useEffect, useState, ChangeEvent, MouseEvent } from "react";
 import Label from "../../component/Label";
 import { cn } from "@/lib/tailwindUtil";
 import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePickerInput";
@@ -45,10 +45,12 @@ export default function WorkCondition({ formData, onUpdate }: WorkConditionProps
     });
     return () => subscription.unsubscribe();
   }, [watch, onUpdate, isDirty]);
+
   const onSubmit = async (data: WorkConditionFormData) => {
     onUpdate(data);
   };
 
+  // 근무 날짜 지정
   const [workDateRange, setWorkDateRange] = useState<[Date | null, Date | null]>([null, null]);
   const handleWorkDateChange = (dates: [Date | null, Date | null]) => {
     setWorkDateRange(dates);
@@ -57,8 +59,26 @@ export default function WorkCondition({ formData, onUpdate }: WorkConditionProps
     if (end) setValue("workEndDate", end.toISOString());
   };
 
+  //근무 시간 지정
   const workStartTime = watch("workStartTime");
   const workEndTime = watch("workEndTime");
+
+  //근무 요일 지정
+  const [workDays, setWorkDays] = useState<string[]>([]);
+
+  const handleClickDay = (e: MouseEvent<HTMLButtonElement>) => {
+    const day = e.currentTarget.textContent;
+    if (day) {
+      if (workDays.includes(day)) {
+        // 이미 선택한 요일을 클릭했을때
+        setWorkDays((prev) => prev.filter((d: string) => d !== day));
+      } else {
+        setWorkDays([...workDays, day]);
+      }
+      setValue("workDays", [...workDays, day]);
+    }
+  };
+
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
 
@@ -98,19 +118,29 @@ export default function WorkCondition({ formData, onUpdate }: WorkConditionProps
             <TimePickerInput
               variant="white"
               value={workEndTime}
-              {...register("workEndTime", { required: "근무 시작 시간을 선택해주세요" })}
+              {...register("workEndTime", { required: "근무 시작 시간을 선택해주세요." })}
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 setValue("workEndTime", e.target.value);
               }}
             />
+            {(errors.workStartDate || errors.workEndDate) && (
+              <p className={cn(errorTextStyle, "")}>근무 시간을 선택해주세요.</p>
+            )}
           </div>
 
           <Label>근무 요일</Label>
-          <DayPickerList />
-          <div className="flex px-[14px]">
-            <CheckBtn label="요일 협의 가능" name="day" value="boolean" />
+          <DayPickerList workDays={workDays} onClick={handleClickDay} />
+
+          <div className="relative flex flex-col pl-[14px]">
+            <CheckBtn
+              label="요일 협의 가능"
+              checked={watch("isNegotiableWorkDays")}
+              {...register("isNegotiableWorkDays", { required: "요일 협의 가능 여부를 체크해주세요." })}
+            />
+            {errors.workDays && <p className={cn(errorTextStyle, "")}>{errors.workDays.message}</p>}
           </div>
 
+          {/** *@Todo 천의 자리마다 쉼표 formatter 추가 */}
           <Label>시급</Label>
           <BaseInput
             {...register("hourlyWage", { required: "시급을 작성해주세요." })}
@@ -119,9 +149,13 @@ export default function WorkCondition({ formData, onUpdate }: WorkConditionProps
             errormessage={errors.hourlyWage?.message}
           />
 
-          <Label>공개 설정</Label>
-          <div className="flex px-[14px]">
-            <CheckBtn label="공개 설정" name="puble" value="boolean" />
+          <div className="relative flex flex-col pl-[14px]">
+            <CheckBtn
+              label="공개 설정"
+              checked={watch("isPublic")}
+              {...register("isPublic", { required: "공개 여부를 선택해주세요." })}
+            />
+            {errors.isPublic && <p className={cn(errorTextStyle, "")}>{errors.isPublic.message}</p>}
           </div>
         </form>
       </FormProvider>
