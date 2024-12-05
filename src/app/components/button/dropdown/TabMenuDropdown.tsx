@@ -7,7 +7,7 @@ import useWidth from "@/hooks/useWidth";
 interface TopMenuDropdownProps {
   options: { label: string; isEditing: boolean }[];
   className?: string;
-  onClick: (menu: string) => void;
+  onChange?: (menu: string) => void;
 }
 
 const EditingChip = ({ className = "", selected }: { className?: string; selected?: boolean }) => {
@@ -17,21 +17,21 @@ const EditingChip = ({ className = "", selected }: { className?: string; selecte
   return <span className={cn(chipStyle, selected ? selectedStyle : defaultStyle, className)}>작성중</span>;
 };
 
-const TabMenuDropdown = ({ options, className = "", onClick }: TopMenuDropdownProps) => {
+const TabMenuDropdown = ({ options, className = "", onChange }: TopMenuDropdownProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedLabel, setSelectedLabel] = useState<string>(options[0].label); // 선택된 값 (label을 저장)
   const { isDesktop } = useWidth();
 
   const handleOptionClick = (label: string) => {
     setSelectedLabel(label); // 선택된 레이블을 저장
-    // onClick(label);
     setIsOpen((prev) => !prev);
+    onChange?.(label);
   };
 
   const baseStyle = "mr-4 inline-flex size-5 lg:size-7 items-center justify-center rounded-2xl text-center text-sm";
 
   const listStyle =
-    "relative flex justify-between items-center w-[327px] lg:w-[372px] h-[52px] lg:h-[78px] cursor-pointer px-6 py-3 lg:py-6 lg:px-8 hover:bg-background-300 text-left text-sm lg:text-xl font-bold text-black-100";
+    "relative flex justify-between items-center w-[327px] lg:w-[372px] h-[52px] lg:h-[78px] cursor-pointer px-6 py-3 lg:py-6 lg:px-8 hover:bg-background-300 text-left text-sm lg:text-xl font-bold text-black-100 lg:hover:rounded-[20px]";
   const selectedStyle =
     "focus:outline-none text-white bg-primary-orange-300 lg:rounded-[20px] hover:bg-primary-orange-300";
   const wrapperStyle = `border border-line-200 lg:border-none cursor-pointer flex flex-col rounded-2xl overflow-hidden ${className}`;
