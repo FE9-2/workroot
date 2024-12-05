@@ -11,7 +11,6 @@ import { toast } from "react-hot-toast";
 import { RecruitConditionFormData, RecruitContentFormData, WorkConditionFormData } from "@/types/addform";
 import RecruitContent from "./sections/RecruitContent";
 
-// 타입 정의 추가
 type FormDataType = {
   recruitContent: RecruitContentFormData;
   recruitCondition: RecruitConditionFormData;

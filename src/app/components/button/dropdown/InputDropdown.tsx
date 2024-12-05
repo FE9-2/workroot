@@ -23,13 +23,13 @@ const InputDropdown = ({ options, className = "" }: InputDropdownProps) => {
     }
     setIsOpen(false);
   };
-
+  const textStyle = "text-base";
   return (
-    <div className={cn("relative inline-block text-left text-base caret-transparent", "w-80 lg:w-[640px]", className)}>
+    <div className={cn("relative inline-block text-left caret-transparent", "w-80 lg:w-[640px]", textStyle, className)}>
       <div
         className={cn(
-          "rounded-md border bg-grayscale-50 p-2",
-          "hover:border-primary-grayscale-200",
+          "rounded-md border border-transparent bg-background-200 p-2",
+          "hover:border-grayscale-200 hover:bg-background-300",
           isOpen && "ring-1 ring-grayscale-300"
         )}
       >
@@ -39,15 +39,15 @@ const InputDropdown = ({ options, className = "" }: InputDropdownProps) => {
           onChange={(e) => isCustomInput && setSelectedValue(e.target.value)}
           className={cn(
             "text-grayscale-700 flex w-full items-center justify-between px-4 py-2 font-medium focus:outline-none",
-            "bg-grayscale-50"
+            "bg-transparent"
           )}
           placeholder={isCustomInput ? "직접 입력하세요" : "선택"}
         />
-        <button onClick={() => setIsOpen(!isOpen)} className="absolute right-3 top-3.5 text-3xl">
+        <button onClick={(prev) => setIsOpen(!prev)} className="absolute right-3 top-3.5 text-3xl">
           <IoMdArrowDropdown className={cn("transition-transform duration-200", isOpen && "rotate-180")} />
         </button>
       </div>
-      {isOpen && <DropdownList list={options} onSelect={handleOptionClick} />}
+      {isOpen && <DropdownList list={options} onSelect={handleOptionClick} itemStyle={textStyle} />}
     </div>
   );
 };
