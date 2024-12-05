@@ -2,19 +2,84 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/tailwindUtil";
 import { useAuth } from "@/hooks/useAuth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { UserResponse } from "@/types/response/user";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
 
 export default function Header() {
-  const { user, logout, isLoading } = useAuth();
+  const [user, setUser] = useState<UserResponse | null>(null);
+  const { logout } = useAuth();
   const pathname = usePathname();
+  const router = useRouter();
+  const queryClient = useQueryClient();
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  const handleLogout = () => {
+  // 인증이 필요없는 공개 경로들
+  const publicPaths = ["/", "/albaList", "/albaTalk", "/login", "/signup", "/signup/applicant", "/signup/owner"];
+
+  // 새로고침 시 토큰 갱신 및 유저 정보 로드
+  useEffect(() => {
+    const initializeAuth = async () => {
+      try {
+        const storedUser = localStorage.getItem("user");
+        const userData: UserResponse | null = storedUser ? JSON.parse(storedUser) : null;
+        setUser(userData);
+
+        if (userData) {
+          await axios.post("/api/auth/refresh");
+          queryClient.setQueryData(["user"], { user: userData });
+        }
+      } catch (error) {
+        console.error("Auth initialization failed:", error);
+        localStorage.removeItem("user");
+        setUser(null);
+        queryClient.setQueryData(["user"], { user: null });
+        if (!publicPaths.includes(pathname)) {
+          router.push("/login");
+        }
+      } finally {
+        setIsInitialized(true);
+      }
+    };
+
+    initializeAuth();
+  }, [pathname, queryClient, router]);
+
+  // React Query 캐시 변경 감지
+  useEffect(() => {
+    // 캐시 구독 설정
+    const unsubscribe = queryClient.getQueryCache().subscribe(() => {
+      const userData = queryClient.getQueryData<{ user: UserResponse | null }>(["user"]);
+      if (userData) {
+        setUser(userData.user);
+      }
+    });
+
+    // 초기 상태 설정
+    const userData = queryClient.getQueryData<{ user: UserResponse | null }>(["user"]);
+    if (userData) {
+      setUser(userData.user);
+    }
+
+    // 클린업 함수
+    return () => {
+      unsubscribe();
+    };
+  }, [queryClient]);
+
+  const handleLogout = async () => {
     logout();
+    toast.success("로그아웃되었습니다!");
+    setUser(null);
+    queryClient.setQueryData(["user"], { user: null });
     setIsSideMenuOpen(false);
+    router.push("/login");
   };
 
   const getLinkClassName = (path: string) => {
@@ -27,20 +92,26 @@ export default function Header() {
     );
   };
 
-  // 로딩 중일 때 스켈레톤 UI 표시
-  if (isLoading) {
+  // 로딩 시간이 1초 이상일 때만 스켈레톤 UI 표시
+  if (!isInitialized) {
     return (
       <header className="fixed left-0 right-0 top-0 z-50 bg-lime-100 -tracking-widest md:tracking-normal">
         <div className="container mx-auto px-4">
           <nav className="flex h-16 items-center justify-between">
+            {/* 로고와 메인 네비게이션 */}
             <div className="flex items-center">
+              {/* 로고 스켈레톤 */}
               <div className="h-8 w-32 animate-pulse bg-lime-200 sm:w-40 md:w-[200px]" />
-              <div className="ml-4 flex h-16 space-x-2 sm:ml-6 sm:space-x-4 md:ml-10 md:space-x-6">
+
+              {/* 메뉴 스켈레톤 - 실제 메뉴와 동일한 위치에 배치 */}
+              <div className="ml-4 flex h-16 items-center space-x-2 sm:ml-6 sm:space-x-4 md:ml-10 md:space-x-6">
                 <div className="h-6 w-16 animate-pulse bg-lime-200" />
                 <div className="h-6 w-16 animate-pulse bg-lime-200" />
               </div>
             </div>
-            <div className="flex space-x-2 sm:space-x-4">
+
+            {/* 로그인/회원가입 버튼 스켈레톤 */}
+            <div className="flex items-center space-x-2 sm:space-x-4">
               <div className="h-8 w-16 animate-pulse bg-lime-200" />
               <div className="h-8 w-16 animate-pulse bg-lime-200" />
             </div>
