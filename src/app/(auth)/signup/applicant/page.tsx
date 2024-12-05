@@ -5,7 +5,7 @@ import { type SignupSchema, signupSchema } from "@/schemas/authSchema";
 import { userRoles } from "@/constants/userRoles";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { FieldErrors, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Image from "next/image";
 
 export default function ApplicantSignupPage() {
