@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 import { decodeJwt } from "@/middleware";
+import { OauthUser } from "@/types/oauth/oauthReq";
+
 export const GET = async (req: NextRequest) => {
   const searchParams = req.nextUrl.searchParams;
   const code = searchParams.get("code");
@@ -41,19 +43,16 @@ export const GET = async (req: NextRequest) => {
       return NextResponse.json({ message: "Invalid ID token" }, { status: 400 });
     }
 
-    const user = {
-      id: decodedIdToken.sub,
+    const googleUser: OauthUser = {
+      role: role || "",
       name: decodedIdToken.name,
-      role: role,
-      picture: decodedIdToken.picture,
-      email: decodedIdToken.email,
+      token: id_token,
     };
-    console.log("Google user:", user);
-    // 여기서 role이 "role":"\bowner"로 나옴
+    console.log("Google user:", googleUser);
 
     // 사용자 정보를 클라이언트에 반환
     const response = NextResponse.redirect("http://localhost:3000");
-    response.cookies.set("user", JSON.stringify(user), {
+    response.cookies.set("user", JSON.stringify(googleUser), {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",

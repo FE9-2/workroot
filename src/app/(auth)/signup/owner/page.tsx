@@ -130,12 +130,16 @@ export default function OwnerSignupPage() {
           </div>
           <div className="flex justify-center space-x-4">
             <Link
-              href={`https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile&response_type=code&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&state=${encodeURIComponent("owner")}`}
+              href={`https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile&response_type=code&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&state=${encodeURIComponent(
+                JSON.stringify({ provider: "google", role: "owner" })
+              )}`}
             >
               <Image src="/icons/social/social_google.svg" width={72} height={72} alt="구글 로그인" />
             </Link>
             <Link
-              href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code&state=${encodeURIComponent("owner")}`}
+              href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code&state=${encodeURIComponent(
+                JSON.stringify({ provider: "kakao", role: "owner" })
+              )}`}
             >
               <Image src="/icons/social/social_kakao.svg" width={72} height={72} alt="카카오 로그인" />
             </Link>
