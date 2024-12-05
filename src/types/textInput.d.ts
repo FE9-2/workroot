@@ -30,4 +30,5 @@ export interface BaseFileInputProps {
   placeholder: string;
   onChange?: (event: Event) => void;
   accept?: string;
+  isImage?: boolean;
 }
