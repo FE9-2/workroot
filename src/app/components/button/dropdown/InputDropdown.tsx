@@ -43,6 +43,7 @@ const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
         >
           <input
             type="text"
+            ref={ref}
             value={selectedValue}
             onChange={(e) => isCustomInput && setSelectedValue(e.target.value)}
             className={cn(
