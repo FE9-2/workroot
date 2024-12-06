@@ -1,28 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
-import { OauthLoginUser, OauthResponse, OauthSignupUser } from "@/types/oauth/oauth";
 import axios from "axios";
+import apiClient from "@/lib/apiClient";
+import { OauthLoginUser, OauthResponse, OauthSignupUser } from "@/types/oauth/oauth";
+import { cookies } from "next/headers";
 
 export const GET = async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;
   const code = searchParams.get("code");
   const state = searchParams.get("state");
 
-  if (!code) {
-    return NextResponse.json({ message: "Code not found" }, { status: 400 });
-  }
-
-  if (!state) {
-    return NextResponse.json({ message: "State not found" }, { status: 400 });
+  if (!code || !state) {
+    return NextResponse.json({ message: `${!code ? "Code" : "State"} not found` }, { status: 400 });
   }
 
   let parsedState;
   try {
     parsedState = JSON.parse(decodeURIComponent(state));
-  } catch (error) {
-    console.error("Failed to parse state:", error);
+  } catch {
     return NextResponse.json({ message: "Invalid state format" }, { status: 400 });
   }
-  console.log("parsedState:", parsedState);
 
   const { provider, action, role } = parsedState;
   const redirectUri = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
@@ -31,44 +27,76 @@ export const GET = async (request: NextRequest) => {
     return NextResponse.json({ message: "Environment variables not set" }, { status: 500 });
   }
 
-  try {
+  const kakaoUser: { signup: OauthSignupUser; login: OauthLoginUser } = {
+    signup: {
+      role: role || "user", // 기본 역할 설정
+      name: "", // Kakao는 이름을 제공하지 않으므로 기본값
+      token: code, // 인가 코드 전달
+    },
+    login: {
+      token: code, // 인가 코드 전달
+      redirectUri, // 리다이렉트 URI 포함
+    },
+  };
+
+  const processUser = async () => {
     if (action === "signup") {
-      // 회원가입 로직
-      const signupUser: OauthSignupUser = {
-        role: role || "user", // role 값이 없으면 기본값으로 "user" 설정
-        name: "", // 회원가입 시 이름은 추후 API로 받아오거나 기본값으로 처리
-        token: code, // 인가코드 전달
-        redirectUri,
-      };
-      console.log("회원가입 시도:", signupUser);
-
-      const signupResponse = await axios.post<OauthResponse>(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/oauth/signup`, {
-        provider,
-        ...signupUser,
-      });
-      console.log("회원가입 성공:", signupResponse.data);
-    } else if (action === "login") {
-      // 로그인 로직
-      const loginUser: OauthLoginUser = {
-        token: code,
-        redirectUri,
-      };
-      console.log("로그인 시도", loginUser);
-
-      const loginResponse = await axios.post<OauthResponse>(
-        `${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/oauth/login/${provider}`,
-        {
-          ...loginUser,
+      try {
+        const response = await apiClient.post(`/oauth/sign-up/${provider}`, kakaoUser.signup);
+        console.log("카카오 회원가입 성공:", response.data);
+      } catch (error: any) {
+        if (error.response?.status === 400) {
+          console.log("이미 등록된 사용자입니다. 로그인 시도 중...");
+          await loginUser();
+        } else {
+          throw new Error("회원가입 중 서버 오류");
         }
-      );
-      console.log("로그인 성공:", loginResponse.data);
+      }
+    } else if (action === "login") {
+      await loginUser();
     } else {
-      return NextResponse.json({ message: "Invalid action" }, { status: 400 });
+      throw new Error("Invalid action");
     }
+  };
+
+  const loginUser = async () => {
+    try {
+      const { data: loginResponse } = await axios.post<OauthResponse>(
+        `${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/oauth/login/${provider}`,
+        kakaoUser.login
+      );
+      console.log("카카오 로그인 성공:", loginResponse);
+
+      // 쿠키 저장
+      const { accessToken, refreshToken } = loginResponse;
+      setCookies(accessToken, refreshToken);
+    } catch (error: any) {
+      console.error("카카오 로그인 중 오류:", error.message || error);
+      throw new Error("로그인 중 서버 오류");
+    }
+  };
+
+  const setCookies = (accessToken: string, refreshToken: string) => {
+    cookies().set("accessToken", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+    });
+    cookies().set("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+    });
+  };
+
+  try {
+    await processUser();
   } catch (error: any) {
-    console.error(`${provider} ${action} 에러:`, error);
-    return NextResponse.json({ message: error.response?.data || "Internal Server Error" }, { status: 500 });
+    console.error("OAuth 처리 중 오류:", error.message || error);
+    return NextResponse.json({ message: error.message || "서버 오류" }, { status: 500 });
   }
-  // 로그인 성공 후 리다이렉트
+
   return NextResponse.redirect(new URL("/", request.url));
 };
