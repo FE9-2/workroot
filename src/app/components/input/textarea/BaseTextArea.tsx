@@ -48,8 +48,6 @@ const BaseTextArea = forwardRef<HTMLTextAreaElement, BaseTextAreaProps>((props, 
         id={props.name}
         placeholder={props.placeholder}
         disabled={props.disabled}
-        value={props.value} // value 추가
-        onChange={props.onChange} // onChange 추가
         className={`${textareaStyle} scrollbar-custom`}
         ref={ref}
         {...props}
