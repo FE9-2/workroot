@@ -1,4 +1,5 @@
 import { BaseTextAreaProps } from "@/types/textInput";
+
 /*
 @params variant: "white" | "transparent" - 필수값
 @params name: string - 필수값
@@ -8,6 +9,8 @@ import { BaseTextAreaProps } from "@/types/textInput";
 @params disabled: boolean
 @params wrapperClassName?: string; - 부가적인 tailwind css 클래스
 @params innerClassName?: string; - 부가적인 tailwind css 클래스
+@params value: string - 현재 입력된 값
+@params onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void - 값 변경 핸들러
 */
 
 const BaseTextArea = (props: BaseTextAreaProps) => {
@@ -28,12 +31,10 @@ const BaseTextArea = (props: BaseTextAreaProps) => {
   const defaultSize = "w-[327px] h-[132px] lg:w-[640px] lg:h-[160px]";
   const sizeStyles = props.size || defaultSize;
 
-  // textareaStyle
   const baseStyle = "resize-none focus:outline-none h-full w-full";
   const textStyle =
     "text-black-400 placeholder:text-gray-400 text-sm font-normal leading-[26px] lg:text-base lg:leading-8";
 
-  //  wrapperStyle
   const variantStyle = `${variantStyles[props.variant].border} ${variantStyles[props.variant].hover} ${variantStyles[props.variant].focus}`;
   const errorStyle = props.errorMessage ? "!border-state-error" : "";
 
@@ -49,6 +50,8 @@ const BaseTextArea = (props: BaseTextAreaProps) => {
         id={props.name}
         placeholder={props.placeholder}
         disabled={props.disabled}
+        value={props.value} // value 추가
+        onChange={props.onChange} // onChange 추가
         className={`${textareaStyle} scrollbar-custom`}
       />
       {props.errorMessage && (
