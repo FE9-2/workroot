@@ -55,18 +55,19 @@ export default function WorkCondition({ formData }: WorkConditionProps) {
   const workEndTime = watch("workEndTime");
 
   //근무 요일 지정
-  const [workDays, setWorkDays] = useState<string[]>([]);
+  const [selectedWorkDays, setSelectedWorkDays] = useState<string[]>([]);
 
   const handleClickDay = (e: MouseEvent<HTMLButtonElement>) => {
     const day = e.currentTarget.textContent;
     if (day) {
-      if (workDays.includes(day)) {
+      if (selectedWorkDays.includes(day)) {
         // 이미 선택한 요일을 클릭했을때
-        setWorkDays((prev) => prev.filter((d: string) => d !== day));
+        setSelectedWorkDays((prev) => prev.filter((d: string) => d !== day));
       } else {
-        setWorkDays([...workDays, day]);
+        setSelectedWorkDays([...selectedWorkDays, day]);
       }
-      setValue("workDays", [...workDays, day]);
+      setValue("workDays", [...selectedWorkDays, day]);
+      methods.trigger("workDays");
     }
   };
 
@@ -74,7 +75,10 @@ export default function WorkCondition({ formData }: WorkConditionProps) {
   const [formattedHourlyWage, setFormattedHourlyWage] = useState<string>();
 
   const formatNumber = (value: string) => {
-    const numericValue = value.replace(/,/g, "");
+    let numericValue = value.replace(/,/g, "");
+    if (numericValue.startsWith("0")) {
+      numericValue = numericValue.slice(1);
+    }
     const formattedNumber = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     setFormattedHourlyWage(formattedNumber);
   };
@@ -102,11 +106,11 @@ export default function WorkCondition({ formData }: WorkConditionProps) {
               errormessage={isDirty && (!workDateRange[0] || !workDateRange[1])}
             />
             {!workDateRange[0] ||
-              (!workDateRange[1] && <p className={cn(errorTextStyle, "")}> 모집 기간은 필수입니다.</p>)}
+              (!workDateRange[1] && <p className={cn(errorTextStyle, "")}> 근무 기간은 필수입니다.</p>)}
           </div>
 
           <Label>근무 시간</Label>
-          <div className="flex gap-7 lg:gap-9">
+          <div className="relative flex gap-7 lg:gap-9">
             <TimePickerInput
               variant="white"
               value={workStartTime}
@@ -123,44 +127,44 @@ export default function WorkCondition({ formData }: WorkConditionProps) {
                 setValue("workEndTime", e.target.value);
               }}
             />
-            {(errors.workStartDate || errors.workEndDate) && (
-              <p className={cn(errorTextStyle, "")}>근무 시간을 선택해주세요.</p>
-            )}
+            {!errors.workStartDate ||
+              (!errors.workEndDate && !workStartTime && !workEndTime && isDirty && (
+                <p className={cn(errorTextStyle, "")}>근무 시간을 선택해주세요.</p>
+              ))}
           </div>
 
-          <Label>근무 요일</Label>
-          <DayPickerList workDays={workDays} onClick={handleClickDay} />
+          <div className="flex flex-col gap-4">
+            <Label>근무 요일</Label>
+            <DayPickerList workDays={selectedWorkDays} onClick={handleClickDay} />
 
-          <div className="relative flex flex-col pl-[14px]">
-            <CheckBtn
-              label="요일 협의 가능"
-              checked={watch("isNegotiableWorkDays")}
-              {...register("isNegotiableWorkDays", { required: "요일 협의 가능 여부를 체크해주세요." })}
-            />
-            {errors.workDays && <p className={cn(errorTextStyle, "")}>{errors.workDays.message}</p>}
+            <div className="relative flex flex-col pl-[14px]">
+              <CheckBtn
+                label="요일 협의 가능"
+                checked={watch("isNegotiableWorkDays")}
+                {...register("isNegotiableWorkDays")}
+              />
+              {selectedWorkDays.length === 0 && isDirty && (
+                <p className={cn(errorTextStyle, "")}>근무 요일을 선택해주세요.</p>
+              )}
+            </div>
           </div>
 
-          {/** *@Todo 천의 자리마다 쉼표 formatter 추가 */}
           <Label>시급</Label>
           <BaseInput
             {...register("hourlyWage", {
               required: "시급을 작성해주세요.",
               validate: (value) => !isNaN(Number(String(value).replace(/,/g, ""))) || "숫자만 입력해주세요.",
             })}
-            value={formattedHourlyWage}
+            value={formattedHourlyWage || ""}
             onChange={(e: ChangeEvent<HTMLInputElement>) => formatNumber(e.target.value)}
             variant="white"
             afterString="원"
             errormessage={errors.hourlyWage?.message}
           />
 
-          <div className="relative flex flex-col pl-[14px]">
-            <CheckBtn
-              label="공개 설정"
-              checked={watch("isPublic")}
-              {...register("isPublic", { required: "공개 여부를 선택해주세요." })}
-            />
-            {errors.isPublic && <p className={cn(errorTextStyle, "")}>{errors.isPublic.message}</p>}
+          <div className="relative flex flex-col gap-4">
+            <Label>공개 설정</Label>
+            <CheckBtn label="공개 설정" checked={watch("isPublic")} {...register("isPublic")} className="pl-[14px]" />
           </div>
         </form>
       </FormProvider>

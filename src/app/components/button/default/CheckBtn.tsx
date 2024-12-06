@@ -8,16 +8,18 @@ interface CheckBtnProps extends InputHTMLAttributes<HTMLInputElement> {
   checked?: boolean; // 체크박스가 선택된 상태인지 여부
   disabled?: boolean; // 체크박스가 비활성화된 상태인지 여부
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
 }
 
 const CheckBtn = forwardRef<HTMLInputElement, CheckBtnProps>(
-  ({ label, name, checked = false, disabled = false, onChange, ...props }, ref) => {
+  ({ label, name, checked = false, disabled = false, onChange, className, ...props }, ref) => {
     return (
       <label
         htmlFor={name}
         className={cn(
           "flex items-center gap-[10px] rounded-lg text-sm",
-          disabled ? "cursor-not-allowed text-grayscale-400" : "text-black cursor-pointer"
+          disabled ? "cursor-not-allowed text-grayscale-400" : "text-black cursor-pointer",
+          className
         )}
       >
         <input
