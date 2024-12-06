@@ -44,12 +44,26 @@ export async function GET(req: NextRequest) {
 
     const { searchParams } = new URL(req.url);
     const params = {
-      page: searchParams.get("page"),
+      cursor: searchParams.get("cursor"),
       limit: searchParams.get("limit"),
+      orderBy: searchParams.get("orderBy"),
+      keyword: searchParams.get("keyword"),
+      isRecruiting: searchParams.get("isRecruiting"),
     };
 
+    // null, undefined, 빈 문자열을 가진 파라미터 제거
+    const cleanedParams = Object.entries(params).reduce(
+      (acc, [key, value]) => {
+        if (value !== null && value !== undefined && value !== "") {
+          acc[key] = value;
+        }
+        return acc;
+      },
+      {} as Record<string, string>
+    );
+
     const response = await apiClient.get("/forms", {
-      params,
+      params: cleanedParams,
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

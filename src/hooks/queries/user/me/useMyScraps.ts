@@ -2,20 +2,25 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { MyFormListResponse } from "@/types/response/user";
 
-export const useMyScraps = (params?: {
+interface UseMyScrapsParams {
   cursor?: string;
   limit?: number;
   orderBy?: string;
   isPublic?: boolean;
   isRecruiting?: boolean;
-}) => {
+}
+
+export const useMyScraps = ({ cursor, limit, orderBy, isPublic, isRecruiting }: UseMyScrapsParams = {}) => {
   const query = useInfiniteQuery<MyFormListResponse>({
-    queryKey: ["myScraps", params],
-    queryFn: async ({ pageParam = undefined }) => {
+    queryKey: ["myScraps", { limit, orderBy, isPublic, isRecruiting }],
+    queryFn: async () => {
       const response = await axios.get<MyFormListResponse>("/api/users/me/scrap", {
         params: {
-          ...params,
-          cursor: pageParam,
+          cursor,
+          limit,
+          orderBy,
+          isPublic,
+          isRecruiting,
         },
         withCredentials: true,
       });

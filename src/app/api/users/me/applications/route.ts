@@ -22,12 +22,23 @@ export async function GET(request: Request) {
       keyword: searchParams.get("keyword"), // 검색 키워드
     };
 
+    // null, undefined, 빈 문자열을 가진 파라미터 제거
+    const cleanedParams = Object.entries(params).reduce(
+      (acc, [key, value]) => {
+        if (value !== null && value !== undefined && value !== "") {
+          acc[key] = value;
+        }
+        return acc;
+      },
+      {} as Record<string, string>
+    );
+
     // 지원 목록 조회 요청
     const response = await apiClient.get("/users/me/applications", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
-      params,
+      params: cleanedParams,
     });
 
     return NextResponse.json(response.data);

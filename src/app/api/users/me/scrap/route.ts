@@ -19,26 +19,27 @@ export async function GET(request: Request) {
       cursor: searchParams.get("cursor"),
       limit: searchParams.get("limit"),
       orderBy: searchParams.get("orderBy"),
+      isPublic: searchParams.get("isPublic"), // 공개 여부
+      isRecruiting: searchParams.get("isRecruiting"), // 모집 중 여부
     };
 
-    // isPublic과 isRecruiting은 값이 있을 때만 추가
-    const isPublic = searchParams.get("isPublic");
-    const isRecruiting = searchParams.get("isRecruiting");
-
-    if (isPublic !== null && isPublic !== "null") {
-      params.isPublic = isPublic;
-    }
-
-    if (isRecruiting !== null && isRecruiting !== "null") {
-      params.isRecruiting = isRecruiting;
-    }
+    // null, undefined, 빈 문자열을 가진 파라미터 제거
+    const cleanedParams = Object.entries(params).reduce(
+      (acc, [key, value]) => {
+        if (value !== null && value !== undefined && value !== "") {
+          acc[key] = value;
+        }
+        return acc;
+      },
+      {} as Record<string, string>
+    );
 
     // 스크랩 목록 조회 요청
     const response = await apiClient.get("/users/me/scrap", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
-      params,
+      params: cleanedParams,
     });
 
     return NextResponse.json(response.data);

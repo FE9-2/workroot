@@ -18,17 +18,26 @@ export async function GET(request: Request) {
     const params = {
       cursor: searchParams.get("cursor"), // 페이지네이션 커서
       limit: searchParams.get("limit"), // 한 페이지당 항목 수
-      keyword: searchParams.get("keyword"), // 검색 키워드
-      orderBy: searchParams.get("orderBy"), // 정렬 기준 (최신순, 좋아요순 등)
-      category: searchParams.get("category"), // 게시글 카테고리
+      orderBy: searchParams.get("orderBy"), // 정렬 기준 (최신순, 댓글수 순, 좋아요순 등)
     };
+
+    // null, undefined, 빈 문자열을 가진 파라미터 제거
+    const cleanedParams = Object.entries(params).reduce(
+      (acc, [key, value]) => {
+        if (value !== null && value !== undefined && value !== "") {
+          acc[key] = value;
+        }
+        return acc;
+      },
+      {} as Record<string, string>
+    );
 
     // 내가 작성한 게시글 목록 조회 요청
     const response = await apiClient.get("/users/me/posts", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
-      params,
+      params: cleanedParams,
     });
 
     return NextResponse.json(response.data);
