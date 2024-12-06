@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { OauthLoginUser, OauthResponse, OauthSignupUser } from "@/types/oauth/oauth";
 import axios from "axios";
 
-export const GET = async (req: NextRequest) => {
-  const searchParams = req.nextUrl.searchParams;
+export const GET = async (request: NextRequest) => {
+  const searchParams = request.nextUrl.searchParams;
   const code = searchParams.get("code");
   const state = searchParams.get("state");
 
@@ -42,7 +42,10 @@ export const GET = async (req: NextRequest) => {
       };
       console.log("회원가입 시도:", signupUser);
 
-      const signupResponse = await axios.post<OauthResponse>(`/api/oauth/signup`, { provider, ...signupUser });
+      const signupResponse = await axios.post<OauthResponse>(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/oauth/signup`, {
+        provider,
+        ...signupUser,
+      });
       console.log("회원가입 성공:", signupResponse.data);
     } else if (action === "login") {
       // 로그인 로직
@@ -52,7 +55,12 @@ export const GET = async (req: NextRequest) => {
       };
       console.log("로그인 시도", loginUser);
 
-      const loginResponse = await axios.post<OauthResponse>(`/api/oauth/login/${provider}`, { provider, ...loginUser });
+      const loginResponse = await axios.post<OauthResponse>(
+        `${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/oauth/login/${provider}`,
+        {
+          ...loginUser,
+        }
+      );
       console.log("로그인 성공:", loginResponse.data);
     } else {
       return NextResponse.json({ message: "Invalid action" }, { status: 400 });
@@ -61,4 +69,6 @@ export const GET = async (req: NextRequest) => {
     console.error(`${provider} ${action} 에러:`, error);
     return NextResponse.json({ message: error.response?.data || "Internal Server Error" }, { status: 500 });
   }
+  // 로그인 성공 후 리다이렉트
+  return NextResponse.redirect(new URL("/", request.url));
 };
