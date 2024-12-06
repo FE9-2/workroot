@@ -1,5 +1,7 @@
 "use client";
 
-export default function Mypage() {
-  return <div>Mypage</div>;
+import MyPageContent from "./components/MyPageContent";
+
+export default function MyPage() {
+  return <MyPageContent />;
 }

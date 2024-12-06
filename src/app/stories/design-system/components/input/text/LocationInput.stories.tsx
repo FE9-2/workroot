@@ -10,7 +10,7 @@ const meta = {
   tags: ["autodocs"],
   args: { name: "location", type: "text", placeholder: "위치를 입력해주세요." },
   argTypes: {
-    errorMessage: {
+    errormessage: {
       description: "에러 메시지를 표시합니다",
       control: "text",
     },
@@ -28,7 +28,7 @@ type Story = StoryObj<typeof LocationInput>;
 export const Location: Story = {
   args: { name: "location", placeholder: "위치를 입력해주세요." },
   argTypes: {
-    errorMessage: {
+    errormessage: {
       description: "에러 메시지를 표시합니다",
       control: "text",
     },
@@ -40,7 +40,7 @@ export const Location: Story = {
 };
 
 export const error: Story = {
-  args: { errorMessage: "잘못된 주소입니다." },
+  args: { errormessage: "잘못된 주소입니다." },
 };
 
 export const feedback: Story = {

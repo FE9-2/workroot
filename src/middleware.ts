@@ -3,7 +3,17 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   // 인증이 필요없는 공개 경로들을 정의
-  const publicPatterns = ["/", "/login", "/signup", "/_next", "/favicon.ico", /\.(jpg|jpeg|gif|png|svg)$/];
+  const publicPatterns = [
+    "/",
+    "/_next",
+    "/favicon.ico",
+    "/login",
+    "/signup",
+    "/signup/applicant",
+    "/signup/owner",
+    "/api/auth/refresh",
+    /\.(jpg|jpeg|gif|png|svg)$/,
+  ];
 
   // 현재 요청된 경로가 공개 경로에 해당하는지 확인
   const isPublicPath = publicPatterns.some((pattern) => {
@@ -13,28 +23,67 @@ export function middleware(request: NextRequest) {
     return pattern.test(request.nextUrl.pathname);
   });
 
-  // 쿠키에서 인증 토큰 확인
-  const token = request.cookies.get("accessToken")?.value;
+  // 공개 경로가 아닌 경우에만 토큰 체크
+  if (!isPublicPath) {
+    const token = request.cookies.get("accessToken")?.value;
 
-  // 로그인되지 않은 사용자가 보호된 페이지 접근 시 로그인 페이지로 리다이렉트
-  if (!isPublicPath && !token) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    if (!token) {
+      // 토큰이 없는 경우 로그인 페이지로 리다이렉트
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
+    try {
+      // 토큰이 있는 경우 API 요청에 토큰 추가
+      const requestHeaders = new Headers(request.headers);
+      requestHeaders.set("Authorization", `Bearer ${token}`);
+
+      // API 요청인 경우 헤더만 수정
+      if (request.nextUrl.pathname.startsWith("/api/")) {
+        return NextResponse.next({
+          request: {
+            headers: requestHeaders,
+          },
+        });
+      }
+
+      // 일반 페이지 요청의 경우 그대로 진행
+      return NextResponse.next();
+    } catch (error) {
+      console.error("Middleware error:", error);
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
   }
 
   return NextResponse.next();
 }
 
-// 미들웨어 적용 경로 설정
+// JWT 토큰 디코딩 함수
+export function decodeJwt(token: string) {
+  try {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+    return JSON.parse(jsonPayload);
+  } catch (error) {
+    console.error("JWT 토큰 디코딩 오류:", error);
+    return null;
+  }
+}
+
 export const config = {
   matcher: [
     /*
-     * 다음으로 시작하는 경로를 제외한 모든 요청 경로에 매칭:
-     * - api (API 라우트)
-     * - _next/static (정적 파일)
-     * - _next/image (이미지 최적화 파일)
-     * - favicon.ico (파비콘)
-     * - public 폴더
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - public folder
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|public/).*)",
+    "/((?!_next/static|_next/image|favicon.ico|public/).*)",
   ],
 };

@@ -109,7 +109,7 @@ const ApplicationDetailModal = ({
         <button
           onClick={onClose}
           aria-label="모달 닫기"
-          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-400 hover:text-gray-600"
+          className="hover:text-grayscale-600 absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-white text-grayscale-400"
         >
           <Image src="/icons/x/x-sm.svg" alt="" width={16} height={16} className="block sm:hidden" />
           <Image src="/icons/x/x-md.svg" alt="" width={20} height={20} className="hidden sm:block" />

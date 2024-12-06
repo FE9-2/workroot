@@ -40,8 +40,8 @@ const SelectProgressModal = ({ id, isOpen, onClose, className }: ConfirmFormModa
       onClose?.();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const errorMessage = error.response?.data?.message || "진행상태 변경에 실패했습니다.";
-        toast.error(errorMessage);
+        const errormessage = error.response?.data?.message || "진행상태 변경에 실패했습니다.";
+        toast.error(errormessage);
       } else {
         toast.error("진행상태 변경 중 오류가 발생했습니다.");
       }
@@ -86,7 +86,7 @@ const SelectProgressModal = ({ id, isOpen, onClose, className }: ConfirmFormModa
               onClick={handleCancel}
               color="gray"
               disabled={isSubmitting}
-              className="h-[58px] w-full text-sm font-medium hover:bg-gray-200 md:h-[72px] md:text-base"
+              className="h-[58px] w-full text-sm font-medium hover:bg-grayscale-200 md:h-[72px] md:text-base"
             >
               취소
             </Button>

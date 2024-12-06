@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <ClientLayout>
           <Header />
-          {children}
+          <main className="min-h-screen pt-16">{children}</main>
         </ClientLayout>
       </body>
     </html>

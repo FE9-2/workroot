@@ -15,13 +15,23 @@ export async function GET(request: Request) {
 
     // URL 쿼리 파라미터 파싱
     const { searchParams } = new URL(request.url);
-    const params = {
-      cursor: searchParams.get("cursor"), // 페이지네이션 커서
-      limit: searchParams.get("limit"), // 한 페이지당 항목 수
-      orderBy: searchParams.get("orderBy"), // 정렬 기준
-      isPublic: searchParams.get("isPublic"), // 공개 여부
-      isRecruiting: searchParams.get("isRecruiting"), // 모집 중 여부
+    const params: Record<string, string | null> = {
+      cursor: searchParams.get("cursor"),
+      limit: searchParams.get("limit"),
+      orderBy: searchParams.get("orderBy"),
     };
+
+    // isPublic과 isRecruiting은 값이 있을 때만 추가
+    const isPublic = searchParams.get("isPublic");
+    const isRecruiting = searchParams.get("isRecruiting");
+
+    if (isPublic !== null && isPublic !== "null") {
+      params.isPublic = isPublic;
+    }
+
+    if (isRecruiting !== null && isRecruiting !== "null") {
+      params.isRecruiting = isRecruiting;
+    }
 
     // 스크랩 목록 조회 요청
     const response = await apiClient.get("/users/me/scrap", {

@@ -4,9 +4,8 @@ import { passwordSchema } from "@/schemas/commonSchema";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
-import toast from "react-hot-toast";
-import { useState } from "react";
+import { useLogout } from "@/hooks/queries/auth/useLogout";
+import { usePassword } from "@/hooks/queries/user/me/usePassword";
 
 interface ChangePasswordModalProps {
   isOpen: boolean;
@@ -23,6 +22,10 @@ const changePasswordSchema = z
   .refine((data) => data.newPassword === data.confirmPassword, {
     message: "새 비밀번호가 일치하지 않습니다",
     path: ["confirmPassword"],
+  })
+  .refine((data) => data.currentPassword !== data.newPassword, {
+    message: "새 비밀번호는 현재 비밀번호와 달라야 합니다",
+    path: ["newPassword"],
   });
 
 type ChangePasswordFormData = z.infer<typeof changePasswordSchema>;
@@ -49,7 +52,8 @@ const defaultFields = [
 ] as const;
 
 const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModalProps) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { mutate: changePassword, isPending } = usePassword();
+  const { logout } = useLogout();
 
   const {
     register,
@@ -69,28 +73,21 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
   if (!isOpen) return null;
 
   const onSubmitHandler = async (data: ChangePasswordFormData) => {
-    if (isSubmitting) return;
+    if (isPending) return;
 
-    try {
-      setIsSubmitting(true);
-      await axios.patch("/api/users/me/password", {
+    changePassword(
+      {
         currentPassword: data.currentPassword,
         newPassword: data.newPassword,
-      });
-
-      toast.success("비밀번호가 성공적으로 변경되었습니다.");
-      reset();
-      onClose();
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const errorMessage = error.response?.data?.message || "비밀번호 변경에 실패했습니다.";
-        toast.error(errorMessage);
-      } else {
-        toast.error("비밀번호 변경 중 오류가 발생했습니다.");
+      },
+      {
+        onSuccess: () => {
+          reset();
+          onClose();
+          logout();
+        },
       }
-    } finally {
-      setIsSubmitting(false);
-    }
+    );
   };
 
   return (
@@ -104,16 +101,16 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
       <form onSubmit={handleSubmit(onSubmitHandler)} className="space-y-4 md:space-y-6">
         {defaultFields.map((field) => (
           <div key={field.name} className="h-[88px] space-y-1.5 md:h-[114px] md:space-y-2">
-            <label className="block text-sm font-semibold text-gray-700 md:px-2 md:text-base">{field.label}</label>
+            <label className="text-grayscale-700 block text-sm font-semibold md:px-2 md:text-base">{field.label}</label>
             <div className="flex w-full flex-col items-center">
               <BaseInput
                 {...register(field.name)}
                 type={field.type}
                 placeholder={field.placeholder}
                 variant="white"
-                disabled={isSubmitting}
+                disabled={isPending}
                 size="w-[327px] h-[54px] md:w-[640px] md:h-[64px]"
-                errorMessage={errors[field.name]?.message}
+                errormessage={errors[field.name]?.message}
               />
             </div>
           </div>
@@ -125,17 +122,17 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
               onClose();
               reset();
             }}
-            disabled={isSubmitting}
-            className="flex-1 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 md:text-base"
+            disabled={isPending}
+            className="text-grayscale-700 flex-1 rounded-md border border-grayscale-300 bg-white px-4 py-2 text-sm font-semibold transition-colors hover:bg-grayscale-50 md:text-base"
           >
             취소
           </button>
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isPending}
             className="flex-1 rounded-md bg-orange-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-orange-600 md:text-base"
           >
-            {isSubmitting ? "변경 중..." : "변경하기"}
+            {isPending ? "변경 중..." : "변경하기"}
           </button>
         </div>
       </form>

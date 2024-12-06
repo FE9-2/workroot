@@ -31,13 +31,13 @@ const SortDropdown = ({ label, options, className = "", onSortChange }: SortProp
           type="button"
           onClick={toggleDropdown}
           className={cn(
-            "flex w-full items-center justify-between rounded-md font-medium text-gray-700",
+            "text-grayscale-700 flex w-full items-center justify-between rounded-md font-medium",
             "bg-transparent"
           )}
         >
           <span>{selectedLabel}</span>
           <span className={cn("transition-transform duration-200", isOpen ? "rotate-180" : "")}>
-            <IoIosArrowDown className="text-gray-200" />
+            <IoIosArrowDown className="text-grayscale-200" />
           </span>
         </button>
       </div>
@@ -57,7 +57,7 @@ const SortDropdown = ({ label, options, className = "", onSortChange }: SortProp
                   onClick={() => handleSelect(option)}
                   className={cn(
                     "cursor-pointer rounded-md py-2 text-center",
-                    "text-gray-200 hover:bg-primary-orange-50 hover:font-bold hover:text-gray-700"
+                    "hover:text-grayscale-700 text-grayscale-200 hover:bg-primary-orange-50 hover:font-bold"
                   )}
                 >
                   {option}

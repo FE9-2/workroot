@@ -43,12 +43,11 @@ const ImageInputwithPlaceHolder = () => {
           name="image"
           onFileAction={handleFileChange}
           size={size}
-          isImage={true}
           placeholder=""
         />
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-          <HiUpload className="text-[36px] text-gray-200" />
-          <p className="mt-2 text-gray-500">이미지 넣기</p>
+          <HiUpload className="text-[36px] text-grayscale-200" />
+          <p className="mt-2 text-grayscale-500">이미지 넣기</p>
         </div>
       </div>
       {imageList.map((image) => (

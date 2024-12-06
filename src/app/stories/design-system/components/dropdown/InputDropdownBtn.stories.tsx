@@ -19,3 +19,10 @@ export const Default: Story = {
     className: "",
   },
 };
+export const Error: Story = {
+  args: {
+    options: ["Option 1", "Option 2", "직접입력"],
+    className: "",
+    errormessage: "에러 메시지",
+  },
+};

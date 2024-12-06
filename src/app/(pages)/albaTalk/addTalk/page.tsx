@@ -1,53 +1,63 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Button from "../../../components/button/default/Button";
-import BaseTextArea from "../../../components/input/textarea/BaseTextArea";
+import BaseInput from "@/app/components/input/text/BaseInput";
 import ImageInputwithPlaceHolder from "../../../components/input/file/ImageInput/ImageInputwithPlaceHolder";
 import { usePost } from "../../../../hooks/usePost";
 
-export default function WritePage() {
-  const [title, setTitle] = useState<string>("");
-  const [content, setContent] = useState<string>("");
-  const [imageList, setImageList] = useState<string[]>([]);
+interface FormInputs {
+  title: string;
+  content: string;
+  imageUrl?: string;
+}
+
+export default function AddTalk() {
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<FormInputs>({
+    defaultValues: {
+      title: "",
+      content: "",
+    },
+  });
+
   const router = useRouter();
+  const { mutate: createPost, isPending } = usePost();
 
-  const { mutate: createPost, isPending, error } = usePost();
-
-  const handleSubmit = () => {
-    if (!title || !content) {
+  const onSubmit: SubmitHandler<FormInputs> = (data) => {
+    if (!data.title || !data.content) {
       alert("제목과 내용을 입력해주세요.");
       return;
     }
 
-    const imageUrl = imageList.length > 0 ? imageList.join(",") : undefined;
-
-    createPost(
-      { title, content, imageUrl },
-      {
-        onSuccess: () => {
-          alert("게시글이 등록되었습니다.");
-          router.push("/albaTalk");
-        },
-        onError: (err: Error) => {
-          alert(err.message || "게시글 등록에 실패했습니다.");
-        },
-      }
-    );
+    createPost(data, {
+      onSuccess: (response) => {
+        alert("게시글이 등록되었습니다.");
+        const boardId = response?.id;
+        router.push(`/boards/${boardId}`);
+      },
+      onError: (err) => {
+        alert(err.message || "게시글 등록에 실패했습니다.");
+      },
+    });
   };
 
-  // DOM에서 업로드된 이미지의 URL을 수집하여 imageList 상태로 업데이트.
   const syncImageList = () => {
     const images = document.querySelectorAll<HTMLElement>(".image-preview-item");
     const urls = Array.from(images).map((img) => img.dataset.url || "");
-    setImageList(urls.filter((url) => url));
+    setValue("imageUrl", urls.filter((url) => url).join(","));
   };
 
   return (
     <>
       <div className="flex min-h-screen w-full items-start justify-center bg-gray-50 py-8 font-nexon">
-        <div className="w-full max-w-[1480px] rounded-md bg-white px-6 md:px-4 lg:px-6">
+        <div className="w-full max-w-[1480px] rounded-md bg-white px-4 sm:px-6 md:px-8 lg:px-10">
           <div className="mb-[40px] flex h-[58px] w-full items-center justify-between border-b border-[#line-100] md:h-[78px] lg:h-[126px]">
             <h1 className="flex items-center text-[18px] font-semibold md:text-[20px] lg:text-[32px]">글쓰기</h1>
             <div className="hidden space-x-1 md:flex md:space-x-2 lg:space-x-4">
@@ -61,10 +71,10 @@ export default function WritePage() {
               <Button
                 variant="solid"
                 className="bg-primary-orange-300 text-gray-50 hover:bg-orange-400 md:h-[46px] md:w-[108px] md:text-[14px] lg:h-[58px] lg:w-[180px] lg:text-[18px]"
-                onClick={() => {
+                onClick={handleSubmit((data) => {
                   syncImageList();
-                  handleSubmit();
-                }}
+                  onSubmit(data);
+                })}
                 disabled={isPending}
               >
                 {isPending ? "등록 중..." : "등록하기"}
@@ -72,7 +82,10 @@ export default function WritePage() {
             </div>
           </div>
 
-          <div className="space-y-6 md:space-y-8">
+          <form
+            className="mx-auto max-w-[1432px] space-y-6 px-2 sm:px-0 md:space-y-8"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <div className="w-full">
               <label
                 htmlFor="title"
@@ -80,13 +93,21 @@ export default function WritePage() {
               >
                 제목<span className="ml-1 text-primary-orange-300">*</span>
               </label>
-              <BaseTextArea
-                variant="white"
+              <Controller
                 name="title"
-                size="w-full h-[52px] md:h-[54px] lg:h-[64px] lg:w-[1432px]"
-                placeholder="제목을 입력하세요"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                control={control}
+                rules={{ required: "제목을 입력하세요." }}
+                render={({ field }) => (
+                  <BaseInput
+                    {...field}
+                    type="text"
+                    variant="white"
+                    name="title"
+                    size="w-full h-[52px] md:h-[54px] lg:h-[64px]"
+                    placeholder="제목을 입력하세요"
+                    errormessage={errors.title?.message}
+                  />
+                )}
               />
             </div>
 
@@ -97,13 +118,30 @@ export default function WritePage() {
               >
                 내용<span className="ml-1 text-primary-orange-300">*</span>
               </label>
-              <BaseTextArea
-                variant="white"
+              <Controller
                 name="content"
-                size="w-full h-[180px] md:h-[200px] lg:h-[240px] lg:w-[1432px]"
-                placeholder="내용을 입력하세요"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
+                control={control}
+                rules={{ required: "내용을 입력하세요." }}
+                render={({ field }) => (
+                  <div className="relative w-full">
+                    <BaseInput
+                      {...field}
+                      type="text"
+                      variant="white"
+                      name="content"
+                      size="w-full h-[180px] md:h-[200px] lg:h-[240px]"
+                      placeholder=""
+                      errormessage={errors.content?.message}
+                      wrapperClassName="!items-start"
+                      innerClassName="opacity-0 !h-full"
+                    />
+                    <textarea
+                      {...field}
+                      className="absolute left-0 top-0 h-full w-full resize-none rounded-lg bg-background-200 p-[14px] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-orange-300 lg:py-[18px]"
+                      placeholder="내용을 입력하세요"
+                    />
+                  </div>
+                )}
               />
             </div>
 
@@ -116,14 +154,13 @@ export default function WritePage() {
               </label>
               <ImageInputwithPlaceHolder />
             </div>
-          </div>
+          </form>
         </div>
       </div>
 
       {/* 모바일 버전 버튼 */}
       <div className="w-full md:hidden">
-        <div className="fixed bottom-4 left-0 right-0 flex flex-col items-center space-y-2 rounded-t-lg bg-white p-4">
-          {/* 모바일 버튼 간격 조정 */}
+        <div className="fixed bottom-4 left-4 right-4 flex flex-col items-center space-y-2 rounded-t-lg bg-white p-4">
           <button
             className="mb-2 h-[58px] w-[327px] rounded-[8px] bg-gray-200 text-white hover:bg-gray-300"
             onClick={() => router.push("/albaTalk")}
@@ -132,10 +169,10 @@ export default function WritePage() {
           </button>
           <button
             className="h-[58px] w-[327px] rounded-[8px] bg-primary-orange-300 text-white hover:bg-orange-400"
-            onClick={() => {
-              syncImageList(); // 이미지 리스트 동기화
-              handleSubmit();
-            }}
+            onClick={handleSubmit((data) => {
+              syncImageList();
+              onSubmit(data);
+            })}
           >
             등록하기
           </button>

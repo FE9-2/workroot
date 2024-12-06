@@ -1,4 +1,6 @@
+"use client";
 import { cn } from "@/lib/tailwindUtil";
+import { useEffect, useRef } from "react";
 
 const DropdownItem = ({
   item,
@@ -14,7 +16,7 @@ const DropdownItem = ({
       value={item}
       onClick={() => onSelect(item)}
       className={cn(
-        "flex w-full cursor-pointer bg-gray-50 px-[10px] py-2 text-xs font-normal leading-[18px] text-black-100 hover:bg-primary-orange-50 lg:text-lg lg:leading-[26px]",
+        "flex w-full cursor-pointer bg-grayscale-50 px-[10px] py-2 text-sm font-normal leading-[18px] text-black-100 hover:bg-primary-orange-50 lg:text-lg lg:leading-[26px]",
         itemStyle
       )}
     >
@@ -33,14 +35,33 @@ const DropdownList = ({
   wrapperStyle?: string;
   itemStyle?: string;
 }) => {
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        onSelect("");
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div
       role="menu"
       aria-orientation="vertical"
       aria-labelledby="options-menu"
-      className="absolute mt-[6px] rounded border border-gray-100 bg-gray-50 pr-[2px] pt-1"
+      ref={dropdownRef}
+      className={cn(
+        "absolute left-0 right-0 z-10 mt-[6px] rounded border border-grayscale-100 bg-grayscale-50 pr-[2px] pt-1",
+        wrapperStyle
+      )}
     >
-      <ul className={`flex flex-col overflow-hidden ${wrapperStyle} scrollbar-custom`}>
+      <ul className="scrollbar-custom flex max-h-[150px] flex-col">
         {list.map((item) => (
           <DropdownItem key={item} item={item} onSelect={onSelect} itemStyle={itemStyle} />
         ))}

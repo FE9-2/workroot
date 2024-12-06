@@ -23,7 +23,7 @@ const RecruitmentClosedModal = ({ formId, isOpen, onClose, className }: Recruitm
       <div className="relative h-full">
         <button
           onClick={onClose}
-          className="absolute right-0 top-0 flex items-center justify-center text-gray-400 hover:text-gray-600"
+          className="hover:text-grayscale-600 absolute right-0 top-0 flex items-center justify-center text-grayscale-400"
         >
           <Image src="/icons/x/x-sm.svg" alt="close" width={16} height={16} className="block sm:hidden" />
           <Image src="/icons/x/x-md.svg" alt="close" width={20} height={20} className="hidden sm:block" />
@@ -48,7 +48,7 @@ const RecruitmentClosedModal = ({ formId, isOpen, onClose, className }: Recruitm
             </div>
           </div>
           <h2 className="mb-2 text-lg font-bold md:text-xl">모집 마감</h2>
-          <p className="mb-6 text-sm text-gray-600 md:text-base">모집이 종료된 알바폼입니다.</p>
+          <p className="text-grayscale-600 mb-6 text-sm md:text-base">모집이 종료된 알바폼입니다.</p>
 
           <div className="mt-auto">
             <Link href={`/forms/${formId}`} className="block">

@@ -15,7 +15,7 @@ const ReadOnlyInput = ({ value, ...props }: ReadOnlyInputProps) => {
         readOnly={true}
         value={value}
         wrapperClassName={cn("w-full", props.wrapperClassName)}
-        innerClassName={cn("text-gray-500", props.innerClassName)}
+        innerClassName={cn("text-grayscale-500", props.innerClassName)}
       />
     </div>
   );

@@ -1,32 +1,39 @@
-import type { Metadata } from "next";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "워크루트",
-  description: "워크루트(WorkRoot) 프로젝트",
-  keywords: ["워크루트", "WorkRoot", "알바", "알바천국", "알바천국 프로젝트"],
-  authors: [{ name: "FE9-2" }],
-  openGraph: {
-    title: "워크루트",
-    description: "워크루트(WorkRoot) 프로젝트",
-    url: "https://workroot.life",
-    siteName: "워크루트(WorkRoot)",
-    images: [
+  title: "알바폼",
+  description: "알바 구인구직 서비스",
+  icons: {
+    // 기본 favicon
+    icon: [
       {
-        url: "https://workroot.life/og-image.jpg",
-        width: 1200,
-        height: 630,
+        url: "/favicon.ico",
+        sizes: "any",
       },
     ],
-    locale: "ko_KR",
-    type: "website",
+    // Apple 기기를 위한 아이콘
+    apple: [
+      {
+        url: "/apple-icon-180x180.png",
+        sizes: "180x180",
+      },
+    ],
+    // PWA를 위한 아이콘들
+    other: [
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        url: "/favicon-32x32.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "16x16",
+        url: "/favicon-16x16.png",
+      },
+    ],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "워크루트",
-    description: "워크루트(WorkRoot) 프로젝트",
-    images: ["https://workroot.life/og-image.jpg"],
-  },
-  verification: {
-    google: "구글 인증 코드",
-  },
+  // 웹 앱 매니페스트
+  manifest: "/site.webmanifest",
 };
