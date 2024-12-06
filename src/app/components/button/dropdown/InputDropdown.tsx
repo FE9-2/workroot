@@ -1,4 +1,5 @@
-import React, { forwardRef, useState } from "react";
+"use client";
+import React, { forwardRef, useEffect, useState } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { cn } from "@/lib/tailwindUtil";
 import DropdownList from "./dropdownComponent/DropdownList";
@@ -9,6 +10,7 @@ interface InputDropdownProps {
   className?: string;
   errormessage?: string;
   name: string;
+  value?: string;
 }
 
 const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
@@ -16,7 +18,7 @@ const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [selectedValue, setSelectedValue] = useState<string>("");
     const [isCustomInput, setIsCustomInput] = useState<boolean>(false);
-    const { setValue } = useFormContext();
+    const { setValue, getValues } = useFormContext();
 
     const handleOptionClick = (option: string) => {
       if (option === "직접 입력") {
@@ -30,6 +32,12 @@ const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
         setIsOpen(false);
       }
     };
+
+    useEffect(() => {
+      const data = getValues();
+      setSelectedValue(data.name);
+    }, [getValues]);
+
     const textStyle = "text-base";
 
     const errorStyle = errormessage ? "!border-state-error" : "";
