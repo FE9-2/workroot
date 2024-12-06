@@ -45,7 +45,7 @@ const BoardComment: React.FC<BoardCommentProps> = ({
   return (
     <div
       className={`flex flex-col rounded-[16px] border ${
-        variant === "primary" ? "border-line-100 bg-primary-orange-50" : "bg-grayscale-50 border-line-100"
+        variant === "primary" ? "border-line-100 bg-primary-orange-50" : "border-line-100 bg-grayscale-50"
       } w-[327px] p-3 sm:w-[477px] sm:p-4`}
       style={{ minHeight: "202px" }}
     >
@@ -69,7 +69,7 @@ const BoardComment: React.FC<BoardCommentProps> = ({
         {/* Right Content: Kebab */}
         <button
           onClick={onKebabClick}
-          className="hover:text-grayscale-700 text-grayscale-500 flex items-center justify-center"
+          className="hover:text-grayscale-700 flex items-center justify-center text-grayscale-500"
           aria-label="Options"
         >
           <Image
@@ -84,7 +84,7 @@ const BoardComment: React.FC<BoardCommentProps> = ({
 
       {/* Content */}
       <p
-        className="text-grayscale-500 line-clamp-2 flex-1 overflow-hidden text-ellipsis font-nexon text-[14px] font-normal leading-[1.5] sm:text-[16px] sm:leading-[1.75]"
+        className="line-clamp-2 flex-1 overflow-hidden text-ellipsis font-nexon text-[14px] font-normal leading-[1.5] text-grayscale-500 sm:text-[16px] sm:leading-[1.75]"
         style={{
           display: "-webkit-box",
           WebkitBoxOrient: "vertical",
@@ -105,7 +105,7 @@ const BoardComment: React.FC<BoardCommentProps> = ({
           <span className="font-nexon text-[14px] font-semibold text-black-400 sm:text-[18px]">{comments}</span>
         </div>
         <div className="mt-1">
-          <span className="text-grayscale-500 font-nexon text-[12px] font-normal sm:text-[16px]">{date}</span>
+          <span className="font-nexon text-[12px] font-normal text-grayscale-500 sm:text-[16px]">{date}</span>
         </div>
       </div>
     </div>
