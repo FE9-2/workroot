@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import axios from "axios";
 import { OauthUser } from "@/types/oauth/oauthReq";
 import apiClient from "@/lib/apiClient";
 
@@ -25,8 +24,6 @@ export const GET = async (req: NextRequest) => {
   }
   const { provider, role } = parsedState;
 
-  const KAKAO_TOKEN_URL = "https://kauth.kakao.com/oauth/token";
-  const KAKAO_USER_INFO_URL = "https://kapi.kakao.com/v2/user/me";
   const clientId = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
   const redirectUri = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
 
@@ -34,63 +31,40 @@ export const GET = async (req: NextRequest) => {
     return NextResponse.json({ message: "Environment variables not set" }, { status: 500 });
   }
 
-  const params = new URLSearchParams({
-    grant_type: "authorization_code",
-    client_id: clientId,
-    redirect_uri: redirectUri,
-    code: code,
-  });
+  const kakaoUser: OauthUser = {
+    role: role,
+    name: "", // 기본값 설정 (빈 문자열)
+    token: code, // 인가코드 그대로 전달
+    redirectUri: redirectUri,
+  };
 
   try {
-    // 액세스 토큰 요청
-    const tokenResponse = await axios.post(KAKAO_TOKEN_URL, params);
-    const { access_token } = tokenResponse.data;
-
-    if (!access_token) {
-      return NextResponse.json({ message: "Failed to retrieve access token" }, { status: 400 });
-    }
-
-    // 액세스 토큰을 사용하여 사용자 정보 요청
-    const userInfoResponse = await axios.get(KAKAO_USER_INFO_URL, {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    });
-
-    const user = userInfoResponse.data;
-
-    const kakaoUser: OauthUser = {
-      role: role,
-      name: user.properties?.nickname,
-      token: code, // 인가 코드 그대로 사용
-      redirectUri: redirectUri,
-    };
-
-    try {
-      const kakaoSignupResponse = await apiClient.post(`/oauth/sign-up/${provider}`, kakaoUser);
-      console.log("카카오 회원가입 성공:", kakaoSignupResponse.data);
-    } catch (error) {
-      const errorMessage = (error as any).response?.data;
-      console.log("카카오 회원가입 에러", errorMessage);
-    }
+    // 인가코드를 포함한 데이터를 백엔드로 전달
+    const kakaoSignupResponse = await apiClient.post(`/oauth/sign-up/${provider}`, kakaoUser);
+    console.log("카카오 회원가입 성공:", kakaoSignupResponse.data);
 
     // 사용자 정보를 클라이언트에 반환
-    return NextResponse.json(kakaoUser);
-  } catch (error) {
-    console.error("Kakao login error:", error);
+    // return NextResponse.json(kakaoSignupResponse.data);
+  } catch (error: any) {
+    // 에러 타입 명시
+    console.error("카카오 회원가입 에러:", error.response?.data || error.message);
 
-    // Axios 에러인 경우 상세 정보 제공
-    if (axios.isAxiosError(error)) {
-      const { response } = error;
-      if (response) {
-        return NextResponse.json(
-          { message: response.data?.msg || "Error during Kakao API call" },
-          { status: response.status || 500 }
-        );
-      }
-    }
+    // return NextResponse.json({ message: error.response?.data || "Error during Kakao signup" }, { status: 500 });
+  }
 
-    // 기타 에러 처리
-    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+  try {
+    // 사용자 정보를 클라이언트에 반환
+    const response = NextResponse.redirect("http://localhost:3000");
+    response.cookies.set("user", JSON.stringify(kakaoUser), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 60 * 60 * 24, // 1일
+      path: "/",
+    });
+    return response;
+  } catch (error: any) {
+    console.error("카카오 회원가입 에러:", error.response?.data || error.message);
+    return NextResponse.json({ message: error.response?.data || "서버에러" }, { status: 500 });
   }
 };
