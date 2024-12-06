@@ -72,38 +72,18 @@ export default function AddFormPage() {
     title: "",
   };
 
-  // useEffect(() => {
-  //   const initialFormData: SubmitFormDataType = {
-  //     isPublic: false,
-  //     hourlyWage: 0,
-  //     isNegotiableWorkDays: false,
-  //     workDays: [],
-  //     workEndTime: "",
-  //     workStartTime: "",
-  //     workEndDate: "",
-  //     workStartDate: "",
-  //     location: "",
-  //     preferred: "",
-  //     age: "",
-  //     education: "",
-  //     gender: "",
-  //     numberOfPositions: 0,
-  //     imageUrls: [],
-  //     recruitmentEndDate: undefined,
-  //     recruitmentStartDate: undefined,
-  //     description: "",
-  //     title: "",
-  //   };
-
-  //   reset(initialFormData); // 초기값 설정
-  // }, []);
-
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
-    mutationFn: async (data: SubmitFormDataType) => {
+    mutationFn: async () => {
       const currentData = getValues();
       // getValue에서 displayDate 제외해야함
-      const response = await axios.post("/api/forms", data);
+      const submitData = new FormData();
+      Object.entries(currentData).forEach(([key, value]) => {
+        if (key !== "displayDate") {
+          submitData.append(key, value);
+        }
+      });
+      const response = await axios.post("/api/forms", submitData);
       return response.data;
     },
     onSuccess: () => {
@@ -190,7 +170,7 @@ export default function AddFormPage() {
         const uploadedUrls = await uploadImages(imageFiles);
         data.imageUrls = uploadedUrls;
       }
-      mutation.mutate(submitFormData);
+      mutation.mutate();
     } catch (error) {
       console.error("에러가 발생했습니다.", error);
       toast.error("에러가 발생했습니다.");
