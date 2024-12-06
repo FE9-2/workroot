@@ -1,6 +1,6 @@
 "use client";
-import { useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import TabMenuDropdown from "@/app/components/button/dropdown/TabMenuDropdown";
@@ -60,10 +60,22 @@ export default function AddFormPage() {
       location: "",
     },
   });
+
+  // 폼 데이터 업데이트 함수
+  const handleFormDataChange = (
+    updatedData: RecruitConditionFormData | RecruitContentFormData | WorkConditionFormData
+  ) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      ...updatedData,
+    }));
+  };
+
+  // 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async (data: typeof formData) => {
       const response = await axios.post("/api/forms", data);
-      return response.data; // 응답 데이터 반환
+      return response.data;
     },
     onSuccess: () => {
       window.localStorage.removeItem("tempAddFormData");
@@ -76,18 +88,24 @@ export default function AddFormPage() {
       onTempSave(formData);
     },
   });
+  const searchParams = useSearchParams();
+  const currentParam = searchParams.get("tab");
+  const [prevOption, setPrevOption] = useState<string | null>(null);
+  const initialLoad = currentParam === null; // 초기 로딩 여부 확인
 
-  // tab 선택 시 내부 content 변경
-  const handleOptionChange = (option: string) => {
+  // tab 선택 시 Url params 수정 & 하위 폼 데이터 임시저장
+  const handleOptionChange = async (option: string) => {
     setSelectedOption(option);
+    if (!initialLoad && option !== currentParam && option !== prevOption && isDirty) {
+      await onTempSave(formData);
+      setPrevOption(option);
+    }
     const params = {
       "모집 내용": "recruit-content",
       "모집 조건": "recruit-condition",
       "근무 조건": "work-condition",
     }[option];
     router.replace(`/addform?tab=${params}`);
-    console.log(option);
-    console.log(params);
   };
 
   const renderChildren = () => {
@@ -95,9 +113,9 @@ export default function AddFormPage() {
       case "모집 내용":
         return <RecruitContent key="recruitContent" formData={formData.recruitContent} />;
       case "모집 조건":
-        return <RecruitCondition formData={formData.recruitCondition} />;
+        return <RecruitCondition key="recruitCondition" formData={formData.recruitCondition} />;
       case "근무 조건":
-        return <WorkCondition formData={formData.workCondition} />;
+        return <WorkCondition key="workCondition" formData={formData.workCondition} />;
       default:
         return <></>;
     }
@@ -183,9 +201,9 @@ export default function AddFormPage() {
       <aside className="left-0 top-0 rounded-[24px] bg-background-200 lg:fixed lg:top-10 lg:p-10"></aside>
       <TabMenuDropdown
         options={[
-          { label: "모집 내용", isEditing: true },
-          { label: "모집 조건", isEditing: false },
-          { label: "근무 조건", isEditing: false },
+          { label: "모집 내용", isEditing: isDirty },
+          { label: "모집 조건", isEditing: isDirty },
+          { label: "근무 조건", isEditing: isDirty },
         ]}
         onChange={handleOptionChange}
       />
