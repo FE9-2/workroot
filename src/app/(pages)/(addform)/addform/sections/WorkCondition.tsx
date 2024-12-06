@@ -2,7 +2,7 @@
 
 import { useFormContext } from "react-hook-form";
 import { WorkConditionFormData } from "@/types/addform";
-import { useState, ChangeEvent, MouseEvent } from "react";
+import { useState, ChangeEvent, MouseEvent, useEffect } from "react";
 import Label from "../../component/Label";
 import { cn } from "@/lib/tailwindUtil";
 import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePickerInput";
@@ -21,6 +21,7 @@ export default function WorkCondition({ formData }: WorkConditionProps) {
   const {
     register,
     setValue,
+    getValues,
     trigger,
     watch,
     formState: { errors, isDirty },
@@ -58,16 +59,23 @@ export default function WorkCondition({ formData }: WorkConditionProps) {
   };
 
   // 시급 상태 추가
-  const [formattedHourlyWage, setFormattedHourlyWage] = useState<string>();
+  const [displayWage, setDisplayWage] = useState<string>("");
 
   const formatNumber = (value: string) => {
     let numericValue = value.replace(/,/g, "");
     if (numericValue.startsWith("0")) {
       numericValue = numericValue.slice(1);
     }
-    const formattedNumber = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    setFormattedHourlyWage(formattedNumber);
+    return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
+
+  // 리액트 훅폼 데이터를 가져와서 렌더링
+  useEffect(() => {
+    const selectedDays = getValues("workDays") || [];
+    setSelectedWorkDays(selectedDays);
+    const wage = getValues("houlyWage");
+    setDisplayWage(wage);
+  }, [getValues]);
 
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
@@ -141,8 +149,15 @@ export default function WorkCondition({ formData }: WorkConditionProps) {
             required: "시급을 작성해주세요.",
             validate: (value) => !isNaN(Number(String(value).replace(/,/g, ""))) || "숫자만 입력해주세요.",
           })}
-          value={formattedHourlyWage || ""}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => formatNumber(e.target.value)}
+          value={displayWage}
+          // type = "string" -> 폼데이터에는 숫자형으로, 화면에는 세자리 콤마 추가
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            const value = e.target.value;
+            const numericValue = Number(value.replace(/,/g, ""));
+            setValue("hourlyWage", numericValue); // 콤마 제거하고 숫자형으로 저장
+            const displayWage = formatNumber(value); // 포맷된 문자열로 화면에 표시
+            setDisplayWage(displayWage);
+          }}
           variant="white"
           afterString="원"
           errormessage={errors.hourlyWage?.message as string}

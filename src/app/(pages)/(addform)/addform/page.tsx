@@ -207,7 +207,6 @@ export default function AddFormPage() {
   };
 
   // 각각의 탭 작성중 여부
-  const isEditingContent = currentValues.title ? true : false;
   const isEditingRecruitCondition = currentValues.gender ? true : false;
   const isEditingWorkCondition = currentValues.location ? true : false;
 
@@ -216,7 +215,7 @@ export default function AddFormPage() {
       <aside className="left-0 top-0 rounded-[24px] bg-background-200 lg:fixed lg:top-10 lg:p-10"></aside>
       <TabMenuDropdown
         options={[
-          { label: "모집 내용", isEditing: isEditingContent || currentParam === "recruit-content" },
+          { label: "모집 내용", isEditing: true },
           { label: "모집 조건", isEditing: isEditingRecruitCondition || currentParam === "recruit-condition" },
           { label: "근무 조건", isEditing: isEditingWorkCondition || currentParam === "work-condition" },
         ]}
