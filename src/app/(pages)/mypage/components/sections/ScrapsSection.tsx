@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { useUser } from "@/hooks/useUser";
+import { useMyScraps } from "@/hooks/queries/user/me/useMyScraps";
 import { useSortStore } from "@/store/sortStore";
 import type { FormListType } from "@/types/response/form";
 
@@ -21,7 +21,6 @@ export default function ScrapsSection() {
   });
 
   // 내가 스크랩한 알바폼 목록 조회
-  const { useMyScraps } = useUser();
   const { data, isLoading, error, hasNextPage, fetchNextPage, isFetchingNextPage } = useMyScraps({
     limit: SCRAPS_PER_PAGE,
     orderBy: orderBy.scrap,

@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { useUser } from "@/hooks/useUser";
+import { useMyPosts } from "@/hooks/queries/user/me/useMyPosts";
 import { useSortStore } from "@/store/sortStore";
 import type { PostListType } from "@/types/response/post";
 
@@ -21,7 +21,6 @@ export default function PostsSection() {
   });
 
   // 내가 작성한 게시글 목록 조회
-  const { useMyPosts } = useUser();
   const { data, isLoading, error, hasNextPage, fetchNextPage, isFetchingNextPage } = useMyPosts({
     limit: POSTS_PER_PAGE,
     orderBy: orderBy.posts,
