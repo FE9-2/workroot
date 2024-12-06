@@ -72,10 +72,13 @@ export default function WorkCondition({ formData }: WorkConditionProps) {
 
   // 시급 상태 추가
   const [formattedHourlyWage, setFormattedHourlyWage] = useState<string>();
+
   const formatNumber = (value: string) => {
-    const formattedNumber = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const numericValue = value.replace(/,/g, "");
+    const formattedNumber = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     setFormattedHourlyWage(formattedNumber);
   };
+
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
 
@@ -140,7 +143,10 @@ export default function WorkCondition({ formData }: WorkConditionProps) {
           {/** *@Todo 천의 자리마다 쉼표 formatter 추가 */}
           <Label>시급</Label>
           <BaseInput
-            {...register("hourlyWage", { required: "시급을 작성해주세요." })}
+            {...register("hourlyWage", {
+              required: "시급을 작성해주세요.",
+              validate: (value) => !isNaN(Number(String(value).replace(/,/g, ""))) || "숫자만 입력해주세요.",
+            })}
             value={formattedHourlyWage}
             onChange={(e: ChangeEvent<HTMLInputElement>) => formatNumber(e.target.value)}
             variant="white"
