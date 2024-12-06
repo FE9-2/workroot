@@ -16,6 +16,7 @@ interface DatePickerInputProps {
   onChange: (dates: [Date | null, Date | null]) => void;
   required?: boolean;
   errormessage?: boolean;
+  displayValue: string;
 }
 const DatePickerInput = ({
   startDateName,
@@ -25,10 +26,11 @@ const DatePickerInput = ({
   onChange,
   required,
   errormessage,
+  displayValue,
 }: DatePickerInputProps) => {
   const { setValue, watch } = useFormContext();
   const { isOpen, handleOpenDropdown } = useDropdownOpen();
-  const dateValue = watch("displayDate");
+  const dateValue = watch(displayValue);
 
   const iconStyle = "text-black-400 size-9 transition-transform duration-200";
 
@@ -47,11 +49,11 @@ const DatePickerInput = ({
     const [start, end] = update;
 
     if (start) {
-      setValue("displayDate", formatDisplayDate(start, end || undefined));
+      setValue(displayValue, formatDisplayDate(start, end || undefined)); // 수정된 부분
       setValue(startDateName, start.toISOString());
     }
     if (start && end && end > start) {
-      setValue("displayDate", formatDisplayDate(start, end));
+      setValue(displayValue, formatDisplayDate(start, end)); // 수정된 부분
       setValue(endDateName, end.toISOString());
       handleOpenDropdown();
     }

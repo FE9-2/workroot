@@ -1,79 +1,108 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import axios from "axios";
 import TabMenuDropdown from "@/app/components/button/dropdown/TabMenuDropdown";
 import RecruitCondition from "./sections/RecruitCondition";
 import WorkCondition from "./sections/WorkCondition";
 import Button from "@/app/components/button/default/Button";
 import { toast } from "react-hot-toast";
-import { RecruitConditionFormData, RecruitContentFormData, WorkConditionFormData } from "@/types/addform";
 import RecruitContent from "./sections/RecruitContent";
 import { useMutation } from "@tanstack/react-query";
 
-type FormDataType = {
-  recruitContent: RecruitContentFormData;
-  recruitCondition: RecruitConditionFormData;
-  workCondition: WorkConditionFormData;
-};
-
+interface SubmitFormDataType {
+  isPublic: boolean;
+  hourlyWage: number;
+  isNegotiableWorkDays: boolean;
+  workDays: string[];
+  workEndTime: string;
+  workStartTime: string;
+  workEndDate: string;
+  workStartDate: string;
+  location: string;
+  preferred: string;
+  age: string;
+  education: string;
+  gender: string;
+  numberOfPositions: number;
+  imageUrls: string[];
+  recruitmentEndDate: string | undefined;
+  recruitmentStartDate: string | undefined;
+  description: string;
+  title: string;
+}
 export default function AddFormPage() {
   const router = useRouter();
 
-  const {
-    formState: { isDirty, isValid },
-  } = useForm<FormDataType>({
+  const methods = useForm<SubmitFormDataType>({
     mode: "onChange",
   });
 
+  const {
+    reset,
+    setValue,
+    getValues,
+    handleSubmit,
+    formState: { isDirty, isValid },
+  } = methods;
+
   const [selectedOption, setSelectedOption] = useState("모집 내용");
   const [imageFiles] = useState<File[]>([]);
-  const [formData, setFormData] = useState<{
-    recruitContent: RecruitContentFormData;
-    recruitCondition: RecruitConditionFormData;
-    workCondition: WorkConditionFormData;
-  }>({
-    recruitContent: {
-      title: "",
-      description: "",
-      recruitmentStartDate: undefined,
-      recruitmentEndDate: undefined,
-      imageUrls: [],
-    },
-    recruitCondition: {
-      numberOfPositions: 0,
-      gender: "",
-      education: "",
-      age: "",
-      preferred: "",
-    },
-    workCondition: {
-      isPublic: false,
-      hourlyWage: 0,
-      isNegotiableWorkDays: false,
-      workDays: [],
-      workEndTime: "",
-      workStartTime: "",
-      workEndDate: "",
-      workStartDate: "",
-      location: "",
-    },
-  });
 
-  // 폼 데이터 업데이트 함수
-  const handleFormDataChange = (
-    updatedData: RecruitConditionFormData | RecruitContentFormData | WorkConditionFormData
-  ) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      ...updatedData,
-    }));
+  const submitFormData: SubmitFormDataType = {
+    isPublic: false, // 기본값을 false로 설정
+    hourlyWage: 0,
+    isNegotiableWorkDays: false,
+    workDays: [],
+    workEndTime: "",
+    workStartTime: "",
+    workEndDate: "",
+    workStartDate: "",
+    location: "",
+    preferred: "",
+    age: "",
+    education: "",
+    gender: "",
+    numberOfPositions: 0,
+    imageUrls: [],
+    recruitmentEndDate: undefined,
+    recruitmentStartDate: undefined,
+    description: "",
+    title: "",
   };
+
+  // useEffect(() => {
+  //   const initialFormData: SubmitFormDataType = {
+  //     isPublic: false,
+  //     hourlyWage: 0,
+  //     isNegotiableWorkDays: false,
+  //     workDays: [],
+  //     workEndTime: "",
+  //     workStartTime: "",
+  //     workEndDate: "",
+  //     workStartDate: "",
+  //     location: "",
+  //     preferred: "",
+  //     age: "",
+  //     education: "",
+  //     gender: "",
+  //     numberOfPositions: 0,
+  //     imageUrls: [],
+  //     recruitmentEndDate: undefined,
+  //     recruitmentStartDate: undefined,
+  //     description: "",
+  //     title: "",
+  //   };
+
+  //   reset(initialFormData); // 초기값 설정
+  // }, []);
 
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
-    mutationFn: async (data: typeof formData) => {
+    mutationFn: async (data: SubmitFormDataType) => {
+      const currentData = getValues();
+      // getValue에서 displayDate 제외해야함
       const response = await axios.post("/api/forms", data);
       return response.data;
     },
@@ -85,19 +114,20 @@ export default function AddFormPage() {
     onError: (error) => {
       console.error("에러가 발생했습니다.", error);
       toast.error("에러가 발생했습니다.");
-      onTempSave(formData);
+      onTempSave();
     },
   });
+
+  // tab 선택 시 Url params 수정 & 하위 폼 데이터 임시저장
   const searchParams = useSearchParams();
   const currentParam = searchParams.get("tab");
   const [prevOption, setPrevOption] = useState<string | null>(null);
   const initialLoad = currentParam === null; // 초기 로딩 여부 확인
 
-  // tab 선택 시 Url params 수정 & 하위 폼 데이터 임시저장
   const handleOptionChange = async (option: string) => {
     setSelectedOption(option);
     if (!initialLoad && option !== currentParam && option !== prevOption && isDirty) {
-      await onTempSave(formData);
+      await onTempSave();
       setPrevOption(option);
     }
     const params = {
@@ -111,11 +141,11 @@ export default function AddFormPage() {
   const renderChildren = () => {
     switch (selectedOption) {
       case "모집 내용":
-        return <RecruitContent key="recruitContent" formData={formData.recruitContent} />;
+        return <RecruitContent key="recruitContent" formData={submitFormData} />;
       case "모집 조건":
-        return <RecruitCondition key="recruitCondition" formData={formData.recruitCondition} />;
+        return <RecruitCondition key="recruitCondition" formData={submitFormData} />;
       case "근무 조건":
-        return <WorkCondition key="workCondition" formData={formData.workCondition} />;
+        return <WorkCondition key="workCondition" formData={submitFormData} />;
       default:
         return <></>;
     }
@@ -153,51 +183,55 @@ export default function AddFormPage() {
     return uploadedUrls;
   };
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = async (data: SubmitFormDataType) => {
     try {
       // 이미지 업로드 처리
       if (imageFiles.length > 0) {
         const uploadedUrls = await uploadImages(imageFiles);
-        formData.recruitContent.imageUrls = uploadedUrls;
+        data.imageUrls = uploadedUrls;
       }
-      mutation.mutate(formData);
+      mutation.mutate(submitFormData);
     } catch (error) {
       console.error("에러가 발생했습니다.", error);
       toast.error("에러가 발생했습니다.");
-      onTempSave(formData);
+      onTempSave();
     }
   };
 
-  const onTempSave = async (data: FormDataType) => {
-    if ("imageUrls" in data.recruitContent) {
-      data.recruitContent.imageUrls = data.recruitContent.imageUrls || [];
+  const onTempSave = async () => {
+    const currentValues = getValues(); // 현재 입력된 값 가져오기
+
+    // 이미지 처리 로직
+    if ("imageUrls" in currentValues) {
+      currentValues.imageUrls = currentValues.imageUrls || [];
 
       if (imageFiles && imageFiles.length > 0) {
         try {
           const uploadedUrls = await uploadImages(imageFiles);
           if (uploadedUrls.length > 0) {
-            data.recruitContent.imageUrls = [...data.recruitContent.imageUrls, ...uploadedUrls];
+            currentValues.imageUrls = [...currentValues.imageUrls, ...uploadedUrls];
           } else {
-            data.recruitContent.imageUrls = [];
+            currentValues.imageUrls = [];
             toast.error("이미지 업로드에 실패했습니다.");
           }
         } catch (error) {
           console.error("이미지 업로드 중 오류 발생:", error);
           toast.error("이미지 업로드 중 오류가 발생했습니다.");
-          data.recruitContent.imageUrls = [];
+          currentValues.imageUrls = [];
         }
       }
     }
-
-    window.localStorage.setItem("tempAddFormData", JSON.stringify(data));
+    // 임시저장
+    window.localStorage.setItem("tempAddFormData", JSON.stringify(currentValues));
     toast.success("임시 저장되었습니다.");
-    console.log(data);
+    console.log(currentValues);
   };
 
+  // 각각의 탭 작성중 여부
+  // formdata field에 value 들어가있는지 확인
+
   return (
-    <>
+    <FormProvider {...methods}>
       <aside className="left-0 top-0 rounded-[24px] bg-background-200 lg:fixed lg:top-10 lg:p-10"></aside>
       <TabMenuDropdown
         options={[
@@ -215,7 +249,7 @@ export default function AddFormPage() {
           width="md"
           color="orange"
           className="h-[58px] border bg-background-100 lg:h-[72px] lg:text-xl lg:leading-8"
-          onClick={() => onTempSave(formData)}
+          onClick={() => onTempSave()}
           disabled={!isDirty}
         >
           임시 저장
@@ -227,11 +261,11 @@ export default function AddFormPage() {
           color="orange"
           className="h-[58px] lg:h-[72px] lg:text-xl lg:leading-8"
           disabled={!isValid}
-          onClick={onSubmit}
+          onClick={handleSubmit(onSubmit)}
         >
           작성 완료
         </Button>
       </div>
-    </>
+    </FormProvider>
   );
 }
