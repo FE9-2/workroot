@@ -2,6 +2,7 @@ import { AxiosError } from "axios";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import apiClient from "@/lib/apiClient";
+import { cleanedParameters } from "@/utils/cleanedParameters";
 
 // 내가 지원한 알바폼 목록 조회 API
 export async function GET(request: Request) {
@@ -23,15 +24,7 @@ export async function GET(request: Request) {
     };
 
     // null, undefined, 빈 문자열을 가진 파라미터 제거
-    const cleanedParams = Object.entries(params).reduce(
-      (acc, [key, value]) => {
-        if (value !== null && value !== undefined && value !== "") {
-          acc[key] = value;
-        }
-        return acc;
-      },
-      {} as Record<string, string>
-    );
+    const cleanedParams = cleanedParameters(params);
 
     // 지원 목록 조회 요청
     const response = await apiClient.get("/users/me/applications", {

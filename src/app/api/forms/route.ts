@@ -2,6 +2,7 @@ import { AxiosError } from "axios";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import apiClient from "@/lib/apiClient";
+import { cleanedParameters } from "@/utils/cleanedParameters";
 
 // 알바폼 생성
 export async function POST(req: NextRequest) {
@@ -52,21 +53,10 @@ export async function GET(req: NextRequest) {
     };
 
     // null, undefined, 빈 문자열을 가진 파라미터 제거
-    const cleanedParams = Object.entries(params).reduce(
-      (acc, [key, value]) => {
-        if (value !== null && value !== undefined && value !== "") {
-          acc[key] = value;
-        }
-        return acc;
-      },
-      {} as Record<string, string>
-    );
+    const cleanedParams = cleanedParameters(params);
 
     const response = await apiClient.get("/forms", {
       params: cleanedParams,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
     });
 
     return NextResponse.json(response.data);
