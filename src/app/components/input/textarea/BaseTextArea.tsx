@@ -29,10 +29,12 @@ const BaseTextArea = forwardRef<HTMLTextAreaElement, BaseTextAreaProps>((props, 
   const defaultSize = "w-[327px] h-[132px] lg:w-[640px] lg:h-[160px]";
   const sizeStyles = props.size || defaultSize;
 
+  // textareaStyle
   const baseStyle = "resize-none focus:outline-none h-full w-full";
   const textStyle =
     "text-black-400 placeholder:text-grayscale-400 placeholder:text-base placeholder:leading-[26px] lg:placeholder:text-xl lg:placeholder:leading-8 lg:text-xl font-normal lg:leading-8 text-base leading-[26px]";
 
+  //  wrapperStyle
   const variantStyle = `${variantStyles[props.variant].border} ${variantStyles[props.variant].hover} ${variantStyles[props.variant].focus}`;
   const errorStyle = props.errormessage ? "!border-[0.5px] border-state-error" : "";
 
