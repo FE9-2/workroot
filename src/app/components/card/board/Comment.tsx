@@ -27,6 +27,7 @@ const Comment: React.FC<CommentProps> = ({ userName, date, comment, onKebabClick
   return (
     <div className="relative flex h-[128px] w-[327px] flex-col border border-line-200 p-4 sm:h-[122px] sm:w-[600px] xl:h-[148px] xl:w-[1480px]">
       {/* Header */}
+
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Image
@@ -44,7 +45,7 @@ const Comment: React.FC<CommentProps> = ({ userName, date, comment, onKebabClick
             <span className="text-gray-500">|</span>
             <span className="font-nexon text-[14px] text-gray-500 sm:text-[16px] xl:text-[20px]">{date}</span>
           </div>
-        </div>
+
 
         {/* Right Content: Kebab */}
         <button

@@ -3,33 +3,9 @@ import { formatRecruitDate } from "@/utils/workDayFormatter";
 import Chip from "@/app/components/chip/Chip";
 import Image from "next/image";
 import { applicationStatus, ApplicationStatus } from "@/types/application";
+import { ApplicationListItemProps } from "@/types/response/application";
 import axios from "axios";
 import toast from "react-hot-toast";
-
-interface Owner {
-  imageUrl: string;
-  storeName: string;
-  id: number;
-}
-
-interface Form {
-  owner: Owner;
-  recruitmentEndDate: string;
-  recruitmentStartDate: string;
-  description: string;
-  title: string;
-  id: number;
-}
-
-interface ApplicationListItemProps {
-  updatedAt: Date;
-  createdAt: Date;
-  status: ApplicationStatus;
-  resumeName: string;
-  resumeId: number;
-  form: Form;
-  id: number;
-}
 
 // 지원 상태에 따른 Chip 컴포넌트의 variant를 반환하는 함수
 const getStatusVariant = (status: ApplicationStatus) => {
@@ -59,7 +35,6 @@ const getStatusLabel = (status: ApplicationStatus) => {
   }
 };
 
-// 내 지원 내역 카드 아이템 컴포넌트
 const MyApplicationListItem = ({ createdAt, status, resumeId, resumeName, form }: ApplicationListItemProps) => {
   // 현재 공고의 모집 상태를 가져옴
   const recruitmentStatus = getRecruitmentStatus(new Date(form.recruitmentEndDate));
@@ -95,18 +70,18 @@ const MyApplicationListItem = ({ createdAt, status, resumeId, resumeName, form }
   };
 
   return (
-    <div className="relative h-auto w-full overflow-hidden rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-transform duration-300 hover:scale-[1.02] sm:h-[219px] sm:w-[375px] md:h-[328px] md:w-[477px]">
+    <div className="relative h-auto w-full overflow-hidden rounded-xl border border-grayscale-200 bg-white p-6 shadow-sm transition-transform duration-300 hover:scale-[1.02] sm:h-[219px] sm:w-[375px] md:h-[328px] md:w-[477px]">
       <div className="flex h-full flex-col">
         {/* 상단 영역: 지원일시와 이력서 링크 */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-sm text-gray-500 md:text-base">
+          <div className="flex items-center gap-2 text-sm text-grayscale-500 md:text-base">
             <span>지원일시</span>
             <span>|</span>
             <span>{formatRecruitDate(createdAt, true)}</span>
           </div>
           <button
             onClick={handleResumeDownload}
-            className="text-sm font-medium text-gray-500 underline decoration-gray-600/50 decoration-1 underline-offset-4 hover:cursor-pointer hover:text-gray-600 hover:decoration-gray-600 md:text-base"
+            className="decoration-grayscale-600/50 hover:text-grayscale-600 hover:decoration-grayscale-600 text-sm font-medium text-grayscale-500 underline decoration-1 underline-offset-4 hover:cursor-pointer md:text-base"
           >
             이력서 보기
           </button>
@@ -119,14 +94,14 @@ const MyApplicationListItem = ({ createdAt, status, resumeId, resumeName, form }
             <div className="relative h-10 w-10 overflow-hidden rounded-full md:h-14 md:w-14">
               <Image src={form.owner.imageUrl} alt={form.owner.storeName} fill className="object-cover" />
             </div>
-            <span className="text-base font-medium text-gray-900 md:text-lg">{form.owner.storeName}</span>
+            <span className="text-grayscale-900 text-base font-medium md:text-lg">{form.owner.storeName}</span>
           </div>
 
           {/* 공고 제목 */}
-          <div className="text-lg font-bold text-gray-900 md:text-xl">{form.title}</div>
+          <div className="text-grayscale-900 text-lg font-bold md:text-xl">{form.title}</div>
 
           {/* 공고 설명 (2줄 제한) */}
-          <p className="line-clamp-2 text-sm text-gray-600 md:line-clamp-2 md:text-base">{form.description}</p>
+          <p className="text-grayscale-600 line-clamp-2 text-sm md:line-clamp-2 md:text-base">{form.description}</p>
         </div>
 
         {/* 하단 상태 표시 영역: 지원 상태와 모집 상태 */}

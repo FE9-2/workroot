@@ -21,8 +21,8 @@ const FrameRadioBtn = ({ width = "sm", checked = false, disabled = false, ...pro
   };
 
   const bgColor = disabled ? "" : checked ? "bg-primary-orange-50" : "bg-white";
-  const borderColor = disabled ? "border-primary-gray-200" : "border-primary-orange-300";
-  const textColor = disabled ? "text-gray-400" : "text-black";
+  const borderColor = disabled ? "border-primary-grayscale-200" : "border-primary-orange-300";
+  const textColor = disabled ? "text-grayscale-400" : "text-black";
   const cursorStyle = disabled ? "cursor-not-allowed" : "cursor-pointer";
 
   return (

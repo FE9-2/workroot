@@ -54,7 +54,7 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
       reset({
         name: user.name || "",
         nickname: user.nickname || "",
-        phone: user.phone || "",
+        phone: user.phoneNumber || "",
       });
       setPreviewUrl(user.imageUrl || "");
     }
@@ -68,12 +68,13 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
+    if (!file) {
+      console.error("No file selected");
+      return;
+    }
 
     setSelectedFile(file);
-    // 미리보기 URL 생성
-    const previewUrl = URL.createObjectURL(file);
-    setPreviewUrl(previewUrl);
+    setPreviewUrl(URL.createObjectURL(file));
   };
 
   const onSubmitHandler = async (data: EditMyProfileFormData) => {
@@ -84,34 +85,47 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
 
       let imageUrl = user?.imageUrl || "";
 
-      // 새로운 이미지가 선택된 경우에만 업로드
       if (selectedFile) {
         const uploadFormData = new FormData();
-        uploadFormData.append("file", selectedFile);
+        uploadFormData.append("image", selectedFile);
 
         const uploadResponse = await axios.post("/api/images/upload", uploadFormData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          withCredentials: true,
         });
 
-        imageUrl = uploadResponse.data.imageUrl;
+        if (uploadResponse.status === 201 && uploadResponse.data?.url) {
+          imageUrl = uploadResponse.data.url;
+        } else {
+          throw new Error("이미지 업로드에 실패했습니다.");
+        }
       }
 
-      // 프로필 정보 업데이트
-      await axios.patch("/api/users/me", {
-        ...data,
+      const updateData = {
+        name: data.name,
+        nickname: data.nickname,
+        phoneNumber: data.phone,
         imageUrl,
-      });
+      };
 
-      await refetch();
-      toast.success("프로필이 성공적으로 수정되었습니다.");
-      onClose();
+      const updateResponse = await axios.patch("/api/users/me", updateData);
+
+      if (updateResponse.status === 200) {
+        await refetch(); // React Query 캐시 갱신
+        toast.success("프로필이 성공적으로 수정되었습니다.");
+        onClose();
+      } else {
+        throw new Error("프로필 업데이트에 실패했습니다.");
+      }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const errorMessage = error.response?.data?.message || "프로필 수정에 실패했습니다.";
+        console.error("Profile update error:", {
+          status: error.response?.status,
+          data: error.response?.data,
+        });
         toast.error(errorMessage);
       } else {
+        console.error("Unexpected error:", error);
         toast.error("프로필 수정 중 오류가 발생했습니다.");
       }
     } finally {
@@ -147,7 +161,7 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
                 <button
                   type="button"
                   onClick={handleImageClick}
-                  className="h-full w-full overflow-hidden rounded-full bg-gray-100"
+                  className="h-full w-full overflow-hidden rounded-full bg-grayscale-100"
                 >
                   {previewUrl ? (
                     <Image
@@ -158,15 +172,15 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
                       className="h-full w-full object-cover"
                     />
                   ) : (
-                    <FiUser className="h-full w-full bg-gray-100 p-6 text-gray-200" />
+                    <FiUser className="h-full w-full bg-grayscale-100 p-6 text-grayscale-200" />
                   )}
                 </button>
                 <button
                   type="button"
                   onClick={handleImageClick}
-                  className="absolute bottom-1 right-1 flex h-8 w-8 items-center justify-center rounded-full border-[2px] border-white bg-gray-100 shadow-lg"
+                  className="absolute bottom-1 right-1 flex h-8 w-8 items-center justify-center rounded-full border-[2px] border-white bg-grayscale-100 shadow-lg"
                 >
-                  <FiEdit2 className="h-4 w-4 text-gray-600" />
+                  <FiEdit2 className="text-grayscale-600 h-4 w-4" />
                 </button>
               </div>
               <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
@@ -175,7 +189,7 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
 
           {fields.map((field) => (
             <div key={field.name} className="h-[88px] space-y-1.5 md:h-[114px] md:space-y-2">
-              <label className="block px-2 text-sm font-semibold text-gray-700 md:text-base">
+              <label className="text-grayscale-700 block px-2 text-sm font-semibold md:text-base">
                 {field.label}
                 <span className="text-orange-500">*</span>
               </label>
@@ -188,7 +202,7 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
                   size="w-[327px] h-[54px] md:w-[640px] md:h-[64px]"
                   wrapperClassName="px-[14px] md:px-[20px]"
                   disabled={isSubmitting}
-                  errorMessage={errors[field.name]?.message}
+                  errormessage={errors[field.name]?.message}
                 />
               </div>
             </div>
@@ -200,7 +214,7 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="w-[158px] rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-100 md:w-[314px] md:text-base"
+            className="text-grayscale-700 w-[158px] rounded-md border border-grayscale-300 bg-white px-4 py-2 text-sm font-semibold transition-colors hover:bg-grayscale-100 md:w-[314px] md:text-base"
           >
             취소
           </button>

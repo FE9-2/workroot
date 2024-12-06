@@ -14,7 +14,7 @@ const TimePickerInput = () => {
     handleOpenDropdown();
   };
   const { isOpen, handleOpenDropdown } = useDropdownOpen();
-  const beforeIconStyle = "text-gray-400 size-[13px] lg:size-5";
+  const beforeIconStyle = "text-grayscale-400 size-[13px] lg:size-5";
   const afterIconStyle =
     "text-black-400 size-6 lg:size-9  transition-all transition-transform duration-200 ease-in-out";
   const timeOption = Array.from({ length: 24 }, (_, index) => {

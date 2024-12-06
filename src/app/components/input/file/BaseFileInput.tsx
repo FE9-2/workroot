@@ -1,28 +1,29 @@
 "use client";
 
+import { cn } from "@/lib/tailwindUtil";
 import { BaseFileInputProps } from "@/types/textInput";
-import { useRef } from "react";
+import { forwardRef } from "react";
 
-const BaseFileInput = (props: BaseFileInputProps) => {
+const BaseFileInput = forwardRef<HTMLInputElement, BaseFileInputProps>((props, ref) => {
+  /**
+   * @param name: string;
+   * @param variant: "upload" | "download";
+   * @param size?: string;
+   * @param file?: File | null;
+   * @param onFileAction?: (file: File | null) => void;
+   * @param icon?: React.ReactNode;
+   * @param actionIcon?: React.ReactNode;
+   * @param placeholder?: string;
+   * @param accept?: string;
+   */
   const colorStyle = {
     bgColor: "bg-background-200",
     borderColor: "border border-transparent",
-    hoverColor: "hover:border-gray-200 hover:bg-background-300",
+    hoverColor: "hover:border-grayscale-200 hover:bg-background-300",
     focusColor: "[&:has(input:focus)]:border-primary-orange-300 caret-primary-orange-300",
     innerHoverColor: "hover:bg-background-300",
   };
 
-  /*
-   * @params name: string;
-   * @params variant: "upload" | "download";
-   * @params size?: string;
-   * @params file?: File | null;
-   * @params onFileAction?: (file: File | null) => void;
-   * @params icon?: React.ReactNode;
-   * @params actionIcon?: React.ReactNode;
-   * @params placeholder?: string;
-   * @params isImage?: boolean;
-   */
   const defaultSize = "w-[327px] h-[54px] lg:w-[640px] lg:h-[64px]";
   const sizeStyles = props.size || defaultSize;
 
@@ -30,31 +31,41 @@ const BaseFileInput = (props: BaseFileInputProps) => {
   const wrapperStyle = `relative flex gap-2 items-center justify-between rounded-lg border-[0.5px] p-[14px] lg:py-4 ${wrapperColorStyle} ${sizeStyles}`;
 
   const innerColorStyle = `${colorStyle.innerHoverColor}`;
-  const fakeInputStyle = `text-gray-400 flex items-center border-none text-base leading-[26px] lg:text-xl lg:leading-[32px] ${innerColorStyle}`;
+  const fakeInputStyle = `text-grayscale-400 flex items-center border-none text-base leading-[26px] lg:text-xl lg:leading-[32px] ${innerColorStyle}`;
+  const fileName =
+    props.file && "!text-black-400 underline lg:text-xl font-normal lg:leading-8 text-base leading-[26px]";
 
   // 라벨 클릭 시 input 클릭 - 파일 선택 창 열기 / 파일 다운로드
-  const inputRef = useRef<HTMLInputElement>(null);
-  const handleWrapperClick = () => {
+  const handleFileSelect = () => {
     if (props.variant === "upload") {
-      inputRef.current?.click();
-    } else {
-      // 다운로드?
+      // ref가 함수인 경우와 객체인 경우 모두 처리
+      if (typeof ref === "function") {
+        // input 요소를 찾아서 클릭
+        const fileInput = document.querySelector(`input[name="${props.name}"]`);
+        if (fileInput) {
+          (fileInput as HTMLInputElement).click();
+        }
+      } else if (ref && "current" in ref) {
+        ref.current?.click();
+      }
     }
+    /**
+     * @TODO 파일 다운로드 기능 추가
+     */
   };
 
   return (
     <>
-      <div className={wrapperStyle} onClick={props.variant === "upload" ? handleWrapperClick : undefined}>
-        <label htmlFor={props.name} className={fakeInputStyle}>
-          {props.file && !props.isImage ? props.file.name : props.placeholder}
-        </label>
+      <div className={wrapperStyle} onClick={handleFileSelect} role="button" tabIndex={0}>
+        <span className={cn(fakeInputStyle, fileName)}>{props.file ? props.file.name : props.placeholder}</span>
         {props.variant === "upload" && (
           <input
-            id={props.name}
             type="file"
+            name={props.name}
             onChange={(e) => props.onFileAction?.(e.target.files?.[0] || null)}
-            ref={inputRef}
+            ref={ref}
             className="hidden"
+            accept={props.accept}
           />
         )}
         {props.variant === "upload" && props.actionIcon}
@@ -62,6 +73,8 @@ const BaseFileInput = (props: BaseFileInputProps) => {
       </div>
     </>
   );
-};
+});
+
+BaseFileInput.displayName = "BaseFileInput";
 
 export default BaseFileInput;

@@ -32,7 +32,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
 
       {/* 에러 메시지 */}
       <h1 className="mb-4 text-center text-3xl font-bold text-red-600">Something went wrong</h1>
-      <p className="mb-8 text-center text-lg text-gray-700">{getErrorMessage(error)}</p>
+      <p className="text-grayscale-700 mb-8 text-center text-lg">{getErrorMessage(error)}</p>
 
       {/* 버튼 영역 */}
       <div className="flex gap-4">

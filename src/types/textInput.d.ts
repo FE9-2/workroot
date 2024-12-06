@@ -1,7 +1,7 @@
 export interface BaseTextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   variant: "white" | "transparent";
   size?: string;
-  errorMessage?: string;
+  errormessage?: string;
   wrapperClassName?: string;
   innerClassName?: string;
 }
@@ -9,7 +9,7 @@ export interface BaseTextAreaProps extends React.TextareaHTMLAttributes<HTMLText
 export interface BaseInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   variant: "white" | "transparent";
   size?: string;
-  errorMessage?: string;
+  errormessage?: string | boolean;
   feedbackMessage?: string;
   beforeIcon?: React.ReactNode;
   afterIcon?: React.ReactNode;
@@ -28,5 +28,7 @@ export interface BaseFileInputProps {
   icon?: React.ReactNode;
   actionIcon?: React.ReactNode;
   placeholder: string;
+  onChange?: (event: Event) => void;
+  accept?: string;
   isImage?: boolean;
 }
