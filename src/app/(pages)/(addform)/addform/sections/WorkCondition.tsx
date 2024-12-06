@@ -70,6 +70,12 @@ export default function WorkCondition({ formData }: WorkConditionProps) {
     }
   };
 
+  // 시급 상태 추가
+  const [formattedHourlyWage, setFormattedHourlyWage] = useState<string>();
+  const formatNumber = (value: string) => {
+    const formattedNumber = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    setFormattedHourlyWage(formattedNumber);
+  };
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
 
@@ -135,6 +141,8 @@ export default function WorkCondition({ formData }: WorkConditionProps) {
           <Label>시급</Label>
           <BaseInput
             {...register("hourlyWage", { required: "시급을 작성해주세요." })}
+            value={formattedHourlyWage}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => formatNumber(e.target.value)}
             variant="white"
             afterString="원"
             errormessage={errors.hourlyWage?.message}
