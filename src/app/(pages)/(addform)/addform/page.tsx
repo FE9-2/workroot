@@ -173,14 +173,13 @@ export default function AddFormPage() {
       mutation.mutate();
     } catch (error) {
       console.error("에러가 발생했습니다.", error);
-      toast.error("에러가 발생했습니다.");
+      toast.error("이미지 업로드에 실패했습니다.");
       onTempSave();
     }
   };
 
+  const currentValues = getValues(); // 현재 입력된 값 가져오기
   const onTempSave = async () => {
-    const currentValues = getValues(); // 현재 입력된 값 가져오기
-
     // 이미지 처리 로직
     if ("imageUrls" in currentValues) {
       currentValues.imageUrls = currentValues.imageUrls || [];
@@ -208,16 +207,18 @@ export default function AddFormPage() {
   };
 
   // 각각의 탭 작성중 여부
-  // formdata field에 value 들어가있는지 확인
+  const isEditingContent = currentValues.title ? true : false;
+  const isEditingRecruitCondition = currentValues.gender ? true : false;
+  const isEditingWorkCondition = currentValues.location ? true : false;
 
   return (
     <FormProvider {...methods}>
       <aside className="left-0 top-0 rounded-[24px] bg-background-200 lg:fixed lg:top-10 lg:p-10"></aside>
       <TabMenuDropdown
         options={[
-          { label: "모집 내용", isEditing: isDirty },
-          { label: "모집 조건", isEditing: isDirty },
-          { label: "근무 조건", isEditing: isDirty },
+          { label: "모집 내용", isEditing: isEditingContent || currentParam === "recruit-content" },
+          { label: "모집 조건", isEditing: isEditingRecruitCondition || currentParam === "recruit-condition" },
+          { label: "근무 조건", isEditing: isEditingWorkCondition || currentParam === "work-condition" },
         ]}
         onChange={handleOptionChange}
       />
