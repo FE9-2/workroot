@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 import { decodeJwt } from "@/middleware";
-import { OauthUser } from "@/types/oauth/oauthReq";
 import apiClient from "@/lib/apiClient";
+import { OauthSignupUser } from "@/types/oauth/oauth";
 
 export const GET = async (req: NextRequest) => {
   const searchParams = req.nextUrl.searchParams;
@@ -57,7 +57,7 @@ export const GET = async (req: NextRequest) => {
       return NextResponse.json({ message: "Invalid ID token" }, { status: 400 });
     }
 
-    const googleUser: OauthUser = {
+    const googleUser: OauthSignupUser = {
       role: role,
       name: decodedIdToken.name,
       token: id_token,
