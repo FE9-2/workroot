@@ -27,7 +27,7 @@ export default function SortSection() {
   };
 
   return (
-    <div className="my-2 flex justify-end lg:my-4">
+    <div className="fixed right-6 top-[180px] z-10 md:right-28 md:top-[200px] lg:right-8">
       <FilterDropdown
         options={options.map((option) => option.label)}
         className="!w-28 md:!w-40"
