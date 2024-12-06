@@ -6,14 +6,14 @@ import Button from "@/app/components/button/default/Button";
 import KebabDropdown from "@/app/components/button/dropdown/KebabDropdown";
 import { userRoles } from "@/constants/userRoles";
 import useModalStore from "@/store/modalStore";
-import { useUser } from "@/hooks/useUser";
+import { useUser } from "@/hooks/queries/user/me/useUser";
 
 export default function FilterBar() {
   const { user, isLoading } = useUser();
   const { openModal } = useModalStore();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return null;
   }
 
   if (!user) {

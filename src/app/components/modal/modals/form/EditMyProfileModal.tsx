@@ -5,9 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { FiUser, FiEdit2 } from "react-icons/fi";
 import BaseInput from "@/app/components/input/text/BaseInput";
-import { useUser } from "@/hooks/useUser";
-import axios from "axios";
-import toast from "react-hot-toast";
+import { useUser } from "@/hooks/queries/user/me/useUser";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -28,10 +26,9 @@ const editMyProfileSchema = z.object({
 type EditMyProfileFormData = z.infer<typeof editMyProfileSchema>;
 
 const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalProps) => {
-  const { user, refetch } = useUser();
+  const { user, updateProfile, isUpdating } = useUser();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const {
@@ -78,58 +75,19 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
   };
 
   const onSubmitHandler = async (data: EditMyProfileFormData) => {
-    if (isSubmitting) return;
+    if (isUpdating) return;
 
-    try {
-      setIsSubmitting(true);
-
-      let imageUrl = user?.imageUrl || "";
-
-      if (selectedFile) {
-        const uploadFormData = new FormData();
-        uploadFormData.append("image", selectedFile);
-
-        const uploadResponse = await axios.post("/api/images/upload", uploadFormData, {
-          withCredentials: true,
-        });
-
-        if (uploadResponse.status === 201 && uploadResponse.data?.url) {
-          imageUrl = uploadResponse.data.url;
-        } else {
-          throw new Error("이미지 업로드에 실패했습니다.");
-        }
-      }
-
-      const updateData = {
+    const success = await updateProfile(
+      {
         name: data.name,
         nickname: data.nickname,
         phoneNumber: data.phone,
-        imageUrl,
-      };
+      },
+      selectedFile
+    );
 
-      const updateResponse = await axios.patch("/api/users/me", updateData);
-
-      if (updateResponse.status === 200) {
-        await refetch(); // React Query 캐시 갱신
-        toast.success("프로필이 성공적으로 수정되었습니다.");
-        onClose();
-      } else {
-        throw new Error("프로필 업데이트에 실패했습니다.");
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const errorMessage = error.response?.data?.message || "프로필 수정에 실패했습니다.";
-        console.error("Profile update error:", {
-          status: error.response?.status,
-          data: error.response?.data,
-        });
-        toast.error(errorMessage);
-      } else {
-        console.error("Unexpected error:", error);
-        toast.error("프로필 수정 중 오류가 발생했습니다.");
-      }
-    } finally {
-      setIsSubmitting(false);
+    if (success) {
+      onClose();
     }
   };
 
@@ -201,7 +159,7 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
                   variant="white"
                   size="w-[327px] h-[54px] md:w-[640px] md:h-[64px]"
                   wrapperClassName="px-[14px] md:px-[20px]"
-                  disabled={isSubmitting}
+                  disabled={isUpdating}
                   errormessage={errors[field.name]?.message}
                 />
               </div>
@@ -213,17 +171,17 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
           <button
             type="button"
             onClick={onClose}
-            disabled={isSubmitting}
+            disabled={isUpdating}
             className="text-grayscale-700 w-[158px] rounded-md border border-grayscale-300 bg-white px-4 py-2 text-sm font-semibold transition-colors hover:bg-grayscale-100 md:w-[314px] md:text-base"
           >
             취소
           </button>
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isUpdating}
             className="w-[158px] rounded-md bg-primary-orange-300 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-orange-200 md:w-[314px] md:text-base"
           >
-            {isSubmitting ? "수정 중..." : "수정하기"}
+            {isUpdating ? "수정 중..." : "수정하기"}
           </button>
         </div>
       </form>
