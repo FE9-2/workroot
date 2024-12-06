@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@/hooks/useAuth";
+import { useSignup } from "@/hooks/queries/auth/useSignup";
 import { type SignupSchema, signupSchema } from "@/schemas/authSchema";
 import { userRoles } from "@/constants/userRoles";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import Image from "next/image";
 
 export default function ApplicantSignupPage() {
-  const { signup, isSignupPending } = useAuth();
+  const { signup, isPending } = useSignup();
   const {
     register,
     handleSubmit,
@@ -100,10 +100,10 @@ export default function ApplicantSignupPage() {
           <div>
             <button
               type="submit"
-              disabled={isSignupPending}
+              disabled={isPending}
               className="group relative flex w-full justify-center rounded-lg bg-lime-600 px-4 py-2 text-sm font-medium text-white hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-lime-500 focus:ring-offset-2 disabled:bg-lime-300"
             >
-              {isSignupPending ? "회원가입 중..." : "회원가입"}
+              {isPending ? "회원가입 중..." : "회원가입"}
             </button>
           </div>
           <div className="flex justify-center space-x-4">
