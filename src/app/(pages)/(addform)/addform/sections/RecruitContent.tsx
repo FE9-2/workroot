@@ -15,7 +15,10 @@ interface RecruitContentProps {
 // 알바폼 만들기 - 사장님 - 1-모집내용
 
 export default function RecruitContent({ formData }: RecruitContentProps) {
+  // 이미지 파일을 로컬 상태에 저장
   const [imageFiles, setImageFiles] = useState<File[]>([]);
+
+  //훅폼 하위 컴포넌트에서는 useFormcontext에서 메서드 호출
   const {
     register,
     setValue,
@@ -31,9 +34,11 @@ export default function RecruitContent({ formData }: RecruitContentProps) {
     if (end) setValue("recruitmentEndDate", end.toISOString());
   };
 
-  // 이미지 파일 change핸들러 -> 로컬 상태로 관리 & 훅폼 데이터에 추가
+  // 이미지 파일 change핸들러
   const handleChangeImages = (files: File[]) => {
+    // 로컬 상태로 관리
     setImageFiles(files);
+    // 훅폼 데이터에 추가-> 상위 페이지에서 "imageFiles" data를 관리할수있음
     setValue("imageFiles", files);
   };
 

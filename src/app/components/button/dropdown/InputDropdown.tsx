@@ -24,6 +24,7 @@ const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
       if (option === "직접 입력") {
         setIsCustomInput(true);
         setSelectedValue("");
+        // 동적으로 받아온 name에 값 할당 -> 훅폼에 저장
         setValue(name, selectedValue);
       } else {
         setSelectedValue(option);
@@ -33,6 +34,7 @@ const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
       }
     };
 
+    // 작성중인 탭으로 다시 이동했을때 이전에 저장된 훅폼 데이터 연동
     useEffect(() => {
       const data = getValues();
       setSelectedValue(data.name);

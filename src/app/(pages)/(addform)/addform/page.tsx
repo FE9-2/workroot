@@ -36,6 +36,7 @@ interface SubmitFormDataType {
 export default function AddFormPage() {
   const router = useRouter();
 
+  // 리액트 훅폼에서 관리할 데이터 타입 지정 및 메서드 호출 (상위 컴포넌트 = useForm 사용)
   const methods = useForm<SubmitFormDataType>({
     mode: "onChange",
   });
@@ -46,10 +47,14 @@ export default function AddFormPage() {
     formState: { isDirty, isValid },
   } = methods;
 
+  // 훅폼에서 관리하는 전체 데이터를 가져오는 함수
   const currentValues = getValues();
+
+  // 이미지 업로드 api 처리를 위해 별도 변수에 할당
   const imageFiles = currentValues.imageFiles;
   const [selectedOption, setSelectedOption] = useState("모집 내용");
 
+  // 훅폼 초기 데이터 지정
   const submitFormData: SubmitFormDataType = {
     isPublic: false,
     hourlyWage: 0,
@@ -130,6 +135,7 @@ export default function AddFormPage() {
         return <></>;
     }
   };
+
   // 이미지 업로드 api
   const uploadImages = async (files: File[]) => {
     console.log("이미지 업로드 요청");
@@ -159,7 +165,9 @@ export default function AddFormPage() {
     }
     return uploadedUrls;
   };
+  // 폼 데이터 최종 제출 함수
   const onSubmit = async () => {
+    // 이미지 처리 로직 추가하기
     try {
       // data에서 submit에 안맞는건 제외하기
       const data = currentValues;
@@ -171,6 +179,7 @@ export default function AddFormPage() {
     }
   };
 
+  // 폼데이터 임시 저장 함수
   const onTempSave = async () => {
     // 이미지 처리 로직
     if (imageFiles && imageFiles.length > 0) {
