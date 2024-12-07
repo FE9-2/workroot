@@ -2,34 +2,41 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { MyFormListResponse } from "@/types/response/user";
 
-export const useMyScraps = (params?: {
+interface UseMyScrapsParams {
   cursor?: string;
   limit?: number;
   orderBy?: string;
   isPublic?: boolean;
   isRecruiting?: boolean;
-}) => {
+}
+
+export const useMyScraps = ({ cursor, limit, orderBy, isPublic, isRecruiting }: UseMyScrapsParams = {}) => {
   const query = useInfiniteQuery<MyFormListResponse>({
-    queryKey: ["myScraps", params],
-    queryFn: async ({ pageParam = undefined }) => {
+    queryKey: ["myScraps", { limit, orderBy, isPublic, isRecruiting }],
+    queryFn: async ({ pageParam }) => {
       const response = await axios.get<MyFormListResponse>("/api/users/me/scrap", {
         params: {
-          ...params,
           cursor: pageParam,
+          limit,
+          orderBy,
+          isPublic: isPublic === undefined ? null : isPublic,
+          isRecruiting: isRecruiting === undefined ? null : isRecruiting,
         },
         withCredentials: true,
       });
       return response.data;
     },
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
-    initialPageParam: undefined,
+    initialPageParam: cursor,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? null,
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 30,
   });
 
   return {
     ...query,
-    isPending: query.isPending,
+    data: query.data,
+    isLoading: query.isLoading,
+    isFetching: query.isFetching,
     error: query.error,
   };
 };

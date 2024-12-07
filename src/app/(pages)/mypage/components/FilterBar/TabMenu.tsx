@@ -13,6 +13,12 @@ export default function TabMenu() {
   const createQueryString = (tab: string) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("tab", tab);
+
+    if (tab !== "scrap") {
+      params.delete("isPublic");
+      params.delete("isRecruiting");
+    }
+
     return params.toString();
   };
 

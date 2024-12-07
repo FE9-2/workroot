@@ -2,21 +2,27 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { MyFormListResponse } from "@/types/response/user";
 
-export const useMyForms = (params?: {
+interface UseMyFormsParams {
   cursor?: string;
   limit?: number;
   orderBy?: string;
   keyword?: string;
   isPublic?: boolean;
   isRecruiting?: boolean;
-}) => {
+}
+
+export const useMyForms = ({ cursor, limit, orderBy, keyword, isPublic, isRecruiting }: UseMyFormsParams = {}) => {
   const query = useInfiniteQuery<MyFormListResponse>({
-    queryKey: ["myForms", params],
-    queryFn: async ({ pageParam = undefined }) => {
+    queryKey: ["myForms", { limit, orderBy, keyword, isPublic, isRecruiting }],
+    queryFn: async () => {
       const response = await axios.get<MyFormListResponse>("/api/users/me/forms", {
         params: {
-          ...params,
-          cursor: pageParam,
+          cursor,
+          limit,
+          orderBy,
+          keyword,
+          isPublic,
+          isRecruiting,
         },
         withCredentials: true,
       });

@@ -2,6 +2,7 @@ import { AxiosError } from "axios";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import apiClient from "@/lib/apiClient";
+import { cleanedParameters } from "@/utils/cleanedParameters";
 
 // 게시글 목록 조회 API
 export async function GET(request: Request) {
@@ -11,14 +12,16 @@ export async function GET(request: Request) {
     const params = {
       cursor: searchParams.get("cursor"), // 페이지네이션 커서
       limit: searchParams.get("limit"), // 한 페이지당 항목 수
-      keyword: searchParams.get("keyword"), // 검색 키워드
       orderBy: searchParams.get("orderBy"), // 정렬 기준
-      category: searchParams.get("category"), // 카테고리
+      keyword: searchParams.get("keyword"), // 검색 키워드
     };
+
+    // null, undefined, 빈 문자열을 가진 파라미터 제거
+    const cleanedParams = cleanedParameters(params);
 
     // 게시글 목록 조회 요청
     const response = await apiClient.get("/posts", {
-      params,
+      params: cleanedParams,
     });
 
     return NextResponse.json(response.data);
