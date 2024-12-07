@@ -81,10 +81,10 @@ export default function AddFormPage() {
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
-      // getValue에서 displayDate 제외해야함
+      // getValue에서 displayDate, imageFiles 필드를 제외해야함
       const submitData = new FormData();
       Object.entries(currentValues).forEach(([key, value]) => {
-        if (key !== "displayDate") {
+        if (key !== "displayDate" && key !== "imageFiles") {
           submitData.append(key, value);
         }
       });
@@ -94,7 +94,7 @@ export default function AddFormPage() {
     onSuccess: () => {
       window.localStorage.removeItem("tempAddFormData");
       toast.success("알바폼을 등록했습니다.");
-      router.back();
+      router.back(); // -> 추후 상세 페이지 이동으로 수정할것
     },
     onError: (error) => {
       console.error("에러가 발생했습니다.", error);
@@ -165,17 +165,30 @@ export default function AddFormPage() {
     }
     return uploadedUrls;
   };
+
   // 폼 데이터 최종 제출 함수
   const onSubmit = async () => {
-    // 이미지 처리 로직 추가하기
-    try {
-      // data에서 submit에 안맞는건 제외하기
-      const data = currentValues;
+    // 이미지 처리 로직 - 임시 저장이 되지 않았을때만 제출 단계에서 처리
+    // imageFiles는 file[] : 이미지 업로드 api 처리 전단계 데이터임.
+    if (imageFiles && imageFiles.length > 0 && currentValues.imageUrls.length === 0) {
+      console.log("제출 - 이미지 처리 로직 ");
+      try {
+        const uploadedUrls = await uploadImages(Array.from(imageFiles));
+        if (uploadedUrls.length > 0) {
+          currentValues.imageUrls = [...currentValues.imageUrls, ...uploadedUrls];
+          // 이미지 필드는 필수이므로 이미지 처리가 성공했을때만 submit 실행
+          mutation.mutate();
+        } else {
+          currentValues.imageUrls = [];
+          toast.error("이미지 업로드에 실패했습니다.");
+        }
+      } catch (error) {
+        console.error("이미지 업로드 중 오류 발생:", error);
+        toast.error("이미지 업로드 중 오류가 발생했습니다.");
+        currentValues.imageUrls = [];
+      }
+    } else if (currentValues.imageUrls.length > 0) {
       mutation.mutate();
-    } catch (error) {
-      console.error("에러가 발생했습니다.", error);
-      toast.error("이미지 업로드에 실패했습니다.");
-      onTempSave();
     }
   };
 
