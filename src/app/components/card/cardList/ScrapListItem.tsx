@@ -4,30 +4,17 @@ import { getRecruitmentStatus, getRecruitmentDday } from "@/utils/recruitDateFor
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Chip from "@/app/components/chip/Chip";
 import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
 import useModalStore from "@/store/modalStore";
 import Indicator from "../../pagination/Indicator";
+import { FormListType } from "@/types/response/form";
+import { useFormScrap } from "@/hooks/queries/form/useFormScap";
+import { useRouter } from "next/navigation";
 
 /**
- * 채용 공고 리스트 아이템 컴포넌트 Props
+ * 알바폼 스크랩 리스트 아이템 컴포넌트
+ * 알바폼 스크랩 정보를 카드 형태로 표시하며, 이미지 인디케이터와 지원하기/스크랩 취소 기능을 포함
  */
-interface RecruitListItemProps {
-  id: string; // formId를 id로 변경
-  imageUrls: string[]; // 이미지 URL 배열
-  isPublic: boolean; // 공개 여부
-  recruitmentStartDate: Date; // 모집 시작일
-  recruitmentEndDate: Date; // 모집 종료일
-  title: string; // 제목
-  applyCount: number; // 지원자 수
-  scrapCount: number; // 스크랩 수
-  location: string; // 위치
-}
-
-/**
- * 채용 공고 리스트 아이템 컴포넌트
- * 채용 공고 정보를 카드 형태로 표시하며, 이미지 인디케이터와 수정/삭제 기능을 포함
- */
-const RecruitListItem = ({
+const ScrapListItem = ({
   id,
   imageUrls,
   isPublic,
@@ -36,11 +23,10 @@ const RecruitListItem = ({
   title,
   applyCount,
   scrapCount,
-  location,
-}: RecruitListItemProps) => {
-  // 라우터 및 상태 관리
-  const router = useRouter();
+}: FormListType) => {
   const { openModal } = useModalStore();
+  const router = useRouter();
+  const { unscrap, isLoading: isUnscrapLoading } = useFormScrap(id);
   const [showDropdown, setShowDropdown] = useState(false); // 드롭다운 메뉴 표시 상태
   const [currentImageIndex, setCurrentImageIndex] = useState(0); // 현재 표시 중인 이미지 인덱스
   const dropdownRef = useRef<HTMLDivElement>(null); // 드롭다운 메뉴 참조
@@ -66,23 +52,29 @@ const RecruitListItem = ({
     };
   }, [showDropdown]);
 
-  // 수정 페이지로 이동
-  const handleEdit = () => {
-    router.push(`/albaList/${id}`);
+  // 지원하기
+  const handleFormApplication = () => {
     setShowDropdown(false);
+    openModal("customForm", {
+      isOpen: true,
+      title: "지원하기",
+      content: "정말로 지원하시겠습니까?",
+      onConfirm: () => {
+        router.push(`/apply/${id}`);
+      },
+      onCancel: () => {},
+    });
   };
 
-  // 삭제 모달 표시
-  const handleDelete = () => {
+  // 스크랩 취소
+  const handleFormUnscrap = () => {
     setShowDropdown(false);
-    openModal("deleteForm", {
-      id,
+    openModal("customForm", {
       isOpen: true,
-      title: "삭제 확인",
-      message: "정말로 삭제하시겠습니까?",
+      title: "스크랩 취소 확인",
+      content: "정말로 스크랩을 취소하시겠습니까?",
       onConfirm: () => {
-        router.push("/albaList");
-        router.refresh();
+        unscrap();
       },
       onCancel: () => {},
     });
@@ -141,14 +133,18 @@ const RecruitListItem = ({
             {/* 드롭다운 메뉴 */}
             {showDropdown && (
               <div className="absolute right-0 top-8 z-10 w-32 rounded-lg border border-grayscale-200 bg-white py-2 shadow-lg">
-                <button className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100" onClick={handleEdit}>
-                  수정하기
+                <button
+                  className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100 disabled:opacity-50"
+                  onClick={handleFormApplication}
+                >
+                  지원하기
                 </button>
                 <button
-                  className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100"
-                  onClick={handleDelete}
+                  className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100 disabled:opacity-50"
+                  onClick={handleFormUnscrap}
+                  disabled={isUnscrapLoading}
                 >
-                  삭제하기
+                  {isUnscrapLoading ? "취소 ��..." : "스크랩 취소"}
                 </button>
               </div>
             )}
@@ -157,9 +153,6 @@ const RecruitListItem = ({
 
         {/* 제목 */}
         <h3 className="text-grayscale-900 truncate text-lg font-bold md:text-xl">{title}</h3>
-
-        {/* 위치 정보 */}
-        <p className="truncate text-sm text-grayscale-500 md:text-base">{location}</p>
 
         {/* 통계 정보 (지원자, 스크랩, D-day) */}
         <div className="text-grayscale-700 flex h-[50px] items-center justify-between rounded-2xl border border-grayscale-100 px-4 text-sm md:text-base">
@@ -180,4 +173,4 @@ const RecruitListItem = ({
   );
 };
 
-export default RecruitListItem;
+export default ScrapListItem;
