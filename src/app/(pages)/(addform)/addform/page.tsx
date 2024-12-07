@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import axios from "axios";
@@ -31,6 +31,7 @@ interface SubmitFormDataType {
   recruitmentStartDate: string | undefined;
   description: string;
   title: string;
+  imageFiles: File[];
 }
 export default function AddFormPage() {
   const router = useRouter();
@@ -45,11 +46,12 @@ export default function AddFormPage() {
     formState: { isDirty, isValid },
   } = methods;
 
+  const currentValues = getValues();
+  const imageFiles = currentValues.imageFiles;
   const [selectedOption, setSelectedOption] = useState("모집 내용");
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
 
   const submitFormData: SubmitFormDataType = {
-    isPublic: false, // 기본값을 false로 설정
+    isPublic: false,
     hourlyWage: 0,
     isNegotiableWorkDays: false,
     workDays: [],
@@ -68,15 +70,15 @@ export default function AddFormPage() {
     recruitmentStartDate: undefined,
     description: "",
     title: "",
+    imageFiles: [],
   };
 
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
-      const currentData = getValues();
       // getValue에서 displayDate 제외해야함
       const submitData = new FormData();
-      Object.entries(currentData).forEach(([key, value]) => {
+      Object.entries(currentValues).forEach(([key, value]) => {
         if (key !== "displayDate") {
           submitData.append(key, value);
         }
@@ -128,7 +130,6 @@ export default function AddFormPage() {
         return <></>;
     }
   };
-
   // 이미지 업로드 api
   const uploadImages = async (files: File[]) => {
     console.log("이미지 업로드 요청");
@@ -158,14 +159,10 @@ export default function AddFormPage() {
     }
     return uploadedUrls;
   };
-
-  const onSubmit = async (data: SubmitFormDataType) => {
+  const onSubmit = async () => {
     try {
-      // 이미지 업로드 처리
-      if (imageFiles.length > 0) {
-        const uploadedUrls = await uploadImages(imageFiles);
-        data.imageUrls = uploadedUrls;
-      }
+      // data에서 submit에 안맞는건 제외하기
+      const data = currentValues;
       mutation.mutate();
     } catch (error) {
       console.error("에러가 발생했습니다.", error);
@@ -174,13 +171,12 @@ export default function AddFormPage() {
     }
   };
 
-  const currentValues = getValues(); // 현재 입력된 값 가져오기
   const onTempSave = async () => {
     // 이미지 처리 로직
     if (imageFiles && imageFiles.length > 0) {
       console.log("임시저장 - 이미지 처리 로직 ");
       try {
-        const uploadedUrls = await uploadImages(imageFiles);
+        const uploadedUrls = await uploadImages(Array.from(imageFiles));
         if (uploadedUrls.length > 0) {
           currentValues.imageUrls = [...currentValues.imageUrls, ...uploadedUrls];
         } else {
@@ -233,7 +229,7 @@ export default function AddFormPage() {
         options={[
           {
             label: "모집 내용",
-            isEditing: isEditingRecruitContent || currentParam === "recruit-condition" || currentParam === null,
+            isEditing: isEditingRecruitContent || initialLoad || currentParam === "recruit-condition",
           },
           { label: "모집 조건", isEditing: isEditingRecruitCondition || currentParam === "recruit-condition" },
           { label: "근무 조건", isEditing: isEditingWorkCondition || currentParam === "work-condition" },

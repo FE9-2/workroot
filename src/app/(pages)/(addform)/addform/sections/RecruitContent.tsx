@@ -15,13 +15,14 @@ interface RecruitContentProps {
 // 알바폼 만들기 - 사장님 - 1-모집내용
 
 export default function RecruitContent({ formData }: RecruitContentProps) {
-  const [, setImageFiles] = useState<File[]>([]);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
   const {
     register,
     setValue,
     formState: { errors, isDirty },
   } = useFormContext();
 
+  // 날짜 선택
   const [recruitmentDateRange, setRecruitmentDateRange] = useState<[Date | null, Date | null]>([null, null]);
   const handleRecruitmentDateChange = (dates: [Date | null, Date | null]) => {
     setRecruitmentDateRange(dates);
@@ -29,6 +30,13 @@ export default function RecruitContent({ formData }: RecruitContentProps) {
     if (start) setValue("recruitmentStartDate", start.toISOString());
     if (end) setValue("recruitmentEndDate", end.toISOString());
   };
+
+  // 이미지 파일 change핸들러 -> 로컬 상태로 관리 & 훅폼 데이터에 추가
+  const handleChangeImages = (files: File[]) => {
+    setImageFiles(files);
+    setValue("imageFiles", files);
+  };
+
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
 
@@ -74,8 +82,8 @@ export default function RecruitContent({ formData }: RecruitContentProps) {
         <Label>이미지 첨부</Label>
         <ImageInput
           {...register("imageUrls", { required: "이미지는 필수입니다." })}
-          onChange={(files) => {
-            setImageFiles(files);
+          onChange={(files: File[]) => {
+            handleChangeImages(files);
           }}
         />
         {errors.imageUrls && <p className={cn(errorTextStyle, "")}>{errors.imageUrls.message as string}</p>}

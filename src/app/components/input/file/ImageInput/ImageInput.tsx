@@ -69,11 +69,11 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
 
   return (
     // 인풋 + 프리뷰 wrapper
-    <div className="flex cursor-pointer gap-5 lg:gap-6">
+    <div className="flex gap-5 lg:gap-6">
       <div
         onClick={handleImageSelect}
         className={cn(
-          "relative size-20 rounded-lg lg:size-[116px]",
+          "relative size-20 cursor-pointer rounded-lg lg:size-[116px]",
           colorStyle.bgColor,
           colorStyle.borderColor,
           colorStyle.hoverColor
