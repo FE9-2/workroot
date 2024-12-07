@@ -72,7 +72,13 @@ const BoardComment: React.FC<BoardCommentProps> = ({
           className="hover:text-grayscale-700 flex items-center justify-center text-grayscale-500"
           aria-label="Options"
         >
-          <Image src={kebabSrc} alt="Kebab Menu Icon" width={28} height={28} /> {/* 크기 조정 */}
+          <Image
+            src={kebabSrc}
+            alt="Kebab Menu Icon"
+            width={isLargeScreen ? 28 : 24}
+            height={isLargeScreen ? 28 : 24}
+          />{" "}
+          {/* 크기 조정 */}
         </button>
       </div>
 
