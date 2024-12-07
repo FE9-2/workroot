@@ -23,7 +23,8 @@ const AlbaList: React.FC<AlbaListProps> = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { ref, inView } = useInView({
-    threshold: 0,
+    threshold: 0.1, // 0.1 이상 영역에 진입하면 트리거
+    triggerOnce: false, // 한 번만 트리거
     rootMargin: "100px",
   });
 
@@ -85,7 +86,7 @@ const AlbaList: React.FC<AlbaListProps> = () => {
         </div>
       ) : (
         <>
-          <div className="mx-auto grid max-w-screen-2xl grid-cols-1 gap-8 px-4 md:px-6 lg:grid-cols-2 lg:px-8 2xl:grid-cols-3 2xl:gap-12">
+          <div className="mx-auto grid max-w-screen-2xl grid-cols-1 gap-8 px-4 md:grid-cols-2 md:px-6 lg:px-8 2xl:grid-cols-3 2xl:gap-12">
             {items.map((form) => (
               <div key={form.id} className="w-full">
                 <AlbaListItem {...form} />

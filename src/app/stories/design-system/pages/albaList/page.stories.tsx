@@ -20,7 +20,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof AlbaList>;
 
-// 무한 스크롤 컨테이너 컴포넌트
+// 무한 스크롤 기능을 가진 컨테이너 컴포넌트
 const InfiniteScrollContainer = () => {
   const [items, setItems] = useState<FormListType[]>([]);
   const [page, setPage] = useState(1);
@@ -34,61 +34,51 @@ const InfiniteScrollContainer = () => {
 
   // 초기 데이터 로드
   useEffect(() => {
-    const initialData = getInitialMockData();
-    setItems(initialData.items);
-    setHasMore(initialData.hasMore);
+    const loadInitialData = async () => {
+      setIsLoading(true);
+      const initialData = getInitialMockData();
+      setItems(initialData.items);
+      setHasMore(initialData.hasMore);
+      setIsLoading(false);
+    };
+    loadInitialData();
   }, []);
 
-  // 무한 스크롤
+  // 무한 스크롤 기능
   useEffect(() => {
     if (inView && hasMore && !isLoading) {
-      setIsLoading(true);
-      setTimeout(() => {
+      const loadMoreData = async () => {
+        setIsLoading(true);
+        await new Promise((resolve) => setTimeout(resolve, 800));
         const nextData = fetchMockData(page + 1);
         setItems((prev) => [...prev, ...nextData.items]);
         setHasMore(nextData.hasMore);
         setPage((prev) => prev + 1);
         setIsLoading(false);
-      }, 500);
+      };
+      loadMoreData();
     }
   }, [inView, hasMore, page, isLoading]);
 
   return <AlbaList mockData={[items]} isLoading={isLoading} onInView={() => {}} scrollRef={ref} />;
 };
 
-// 스토리 컴포넌트
-export const StoryComponent: React.FC = () => (
-  <AlbaListLayout>
-    <InfiniteScrollContainer />
-  </AlbaListLayout>
-);
-
-// 기본 목록 (무한 스크롤)
+// 기본 기능 테스트
 export const Default: Story = {
-  render: () => <StoryComponent />,
-};
-
-// 로딩 상태
-export const Loading: Story = {
   render: () => (
     <AlbaListLayout>
-      <AlbaList mockData={[[]]} isLoading={true} onInView={() => {}} />
+      <InfiniteScrollContainer />
     </AlbaListLayout>
   ),
 };
 
-// 빈 상태
-export const Empty: Story = {
-  render: () => (
-    <AlbaListLayout>
-      <AlbaList mockData={[[]]} isLoading={false} onInView={() => {}} />
-    </AlbaListLayout>
-  ),
-};
-
-// 모바일 뷰
+// ��바일 뷰
 export const Mobile: Story = {
-  render: () => <StoryComponent />,
+  render: () => (
+    <AlbaListLayout>
+      <InfiniteScrollContainer />
+    </AlbaListLayout>
+  ),
   parameters: {
     viewport: {
       defaultViewport: "mobile1",
@@ -98,7 +88,11 @@ export const Mobile: Story = {
 
 // 태블릿 뷰
 export const Tablet: Story = {
-  render: () => <StoryComponent />,
+  render: () => (
+    <AlbaListLayout>
+      <InfiniteScrollContainer />
+    </AlbaListLayout>
+  ),
   parameters: {
     viewport: {
       defaultViewport: "tablet",
@@ -108,7 +102,11 @@ export const Tablet: Story = {
 
 // 데스크톱 뷰
 export const Desktop: Story = {
-  render: () => <StoryComponent />,
+  render: () => (
+    <AlbaListLayout>
+      <InfiniteScrollContainer />
+    </AlbaListLayout>
+  ),
   parameters: {
     viewport: {
       defaultViewport: "desktop",

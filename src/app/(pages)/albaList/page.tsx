@@ -108,7 +108,7 @@ export default function AlbaList() {
         </div>
       ) : (
         <>
-          <div className="mx-auto grid max-w-screen-2xl grid-cols-1 gap-8 px-4 md:px-6 lg:grid-cols-2 lg:px-8 2xl:grid-cols-3 2xl:gap-12">
+          <div className="mx-auto grid max-w-screen-2xl grid-cols-1 gap-8 px-4 md:grid-cols-2 md:px-6 lg:px-8 2xl:grid-cols-3 2xl:gap-12">
             {data?.pages.map((page) => (
               <React.Fragment key={page.nextCursor}>
                 {page.data.map((form) => (
