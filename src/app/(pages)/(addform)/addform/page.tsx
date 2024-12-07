@@ -10,6 +10,7 @@ import Button from "@/app/components/button/default/Button";
 import { toast } from "react-hot-toast";
 import RecruitContent from "./sections/RecruitContent";
 import { useMutation } from "@tanstack/react-query";
+import { useUpdateProfile } from "@/hooks/queries/user/me/useUpdateProfile";
 
 interface SubmitFormDataType {
   isPublic: boolean;
@@ -77,11 +78,6 @@ export default function AddFormPage() {
     title: "",
     imageFiles: [],
   };
-  const submitFormDataKeys = Object.keys(submitFormData);
-
-  const isExcludedKey = (key: string) => {
-    return !submitFormDataKeys.includes(key);
-  };
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
@@ -91,12 +87,20 @@ export default function AddFormPage() {
           //시급을 숫자형으로 제출
           const numericValue = value.replaceAll(/,/g, "");
           submitData.append(key, numericValue);
-        } else if ((key === "imageUrls" && Array.isArray(value)) || (key === "workDays" && Array.isArray(value))) {
-          // 배열 처리 :각 항목을 개별적으로 추가
-          value.forEach((url: string, index: number) => {
-            submitData.append(`${key}[${index}]`, url);
-          });
-        } else if (isExcludedKey(key)) {
+        } else if (key === "imageUrls" && value instanceof FileList) {
+          //이미지 업로드 api처리
+
+          console.log("FILELIST가 맞다");
+          submitData.append(key, JSON.stringify(value));
+        } else if (key === "workDays" && Array.isArray(value)) {
+          // workDays를 그대로 JSON 형식의 문자열로 추가
+          submitData.append(key, JSON.stringify(value));
+        } else if (
+          key !== "displayDate" &&
+          key !== "workDateRange" &&
+          key !== "recruitDateRange" &&
+          key !== "imageFiles"
+        ) {
           // SubmitFormData에 해당하지않는 필드는 제외하고 추가
           submitData.append(key, value);
         }
@@ -105,7 +109,7 @@ export default function AddFormPage() {
         console.log(key, value);
       }
       const response = await axios.post("/api/forms", submitData);
-      console.log(response.data);
+      console.log("폼제출 리액트쿼리에서 출력 response.data", response.data);
       return response.data;
     },
     onSuccess: () => {
@@ -152,6 +156,7 @@ export default function AddFormPage() {
         return <></>;
     }
   };
+  const { uploadImageMutation } = useUpdateProfile();
 
   // 이미지 업로드 api
   const uploadImages = async (files: File[]) => {
@@ -169,11 +174,9 @@ export default function AddFormPage() {
         const formData = new FormData();
         formData.append("image", file);
         try {
-          const response = await axios.post(`/api/images/upload`, formData, {
-            withCredentials: true,
-          });
-          if (response.data.url) {
-            uploadedUrls.push(response.data.url);
+          const uploadResponse = await uploadImageMutation.mutateAsync(file);
+          if (uploadResponse?.url) {
+            uploadedUrls.push(uploadResponse.url);
           }
         } catch (uploadError) {
           console.error(`파일 ${file.name} 업로드 실패:`, uploadError);
