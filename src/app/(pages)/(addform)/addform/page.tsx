@@ -81,14 +81,27 @@ export default function AddFormPage() {
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
-      // getValue에서 displayDate, imageFiles 필드를 제외해야함
       const submitData = new FormData();
       Object.entries(currentValues).forEach(([key, value]) => {
-        if (key !== "displayDate" && key !== "imageFiles") {
+        if (key === "hourlyWage") {
+          //시급을 숫자형으로 제출
+          const numericValue = value.replaceAll(/,/g, "");
+          submitData.append(key, numericValue);
+        } else if (key === "imageUrls" && Array.isArray(value)) {
+          // 배열 처리 :각 항목을 개별적으로 추가
+          value.forEach((url: string, index: number) => {
+            submitData.append(`${key}[${index}]`, url);
+          });
+        } else if (key !== "displayDate" && key !== "imageFiles" && key !== "recruitDateRange") {
+          // SubmitFormData에 해당하지않는 필드는 제외하고 추가
           submitData.append(key, value);
         }
       });
+      for (const [key, value] of submitData.entries()) {
+        console.log(key, value);
+      }
       const response = await axios.post("/api/forms", submitData);
+      console.log(response.data);
       return response.data;
     },
     onSuccess: () => {
@@ -139,31 +152,34 @@ export default function AddFormPage() {
   // 이미지 업로드 api
   const uploadImages = async (files: File[]) => {
     console.log("이미지 업로드 요청");
-    const uploadedUrls: string[] = [];
-    // 전체 파일 배열을 순회하면서 업로드 로직 진행
-    for (const file of files) {
-      // 파일 크기 체크
-      const maxSize = 5 * 1024 * 1024; // 5MB
-      if (file.size > maxSize) {
-        toast.error(`5MB 이상의 파일은 업로드할 수 없습니다.`);
-        continue;
-      }
-      const formData = new FormData();
-      formData.append("image", file);
-      try {
-        const response = await axios.post(`/api/images/upload`, formData, {
-          withCredentials: true,
-        });
-        console.log("response", response);
-        if (response.data.url) {
-          uploadedUrls.push(response.data.url);
+    if (currentValues.imageUrls.length === 0) {
+      const uploadedUrls: string[] = [];
+      // 전체 파일 배열을 순회하면서 업로드 로직 진행
+      for (const file of files) {
+        // 파일 크기 체크
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        if (file.size > maxSize) {
+          toast.error(`5MB 이상의 파일은 업로드할 수 없습니다.`);
+          continue;
         }
-      } catch (uploadError) {
-        console.error(`파일 ${file.name} 업로드 실패:`, uploadError);
-        toast.error(`${file.name} 업로드에 실패했습니다.`);
+        const formData = new FormData();
+        formData.append("image", file);
+        try {
+          const response = await axios.post(`/api/images/upload`, formData, {
+            withCredentials: true,
+          });
+          if (response.data.url) {
+            uploadedUrls.push(response.data.url);
+          }
+        } catch (uploadError) {
+          console.error(`파일 ${file.name} 업로드 실패:`, uploadError);
+          toast.error(`${file.name} 업로드에 실패했습니다.`);
+        }
       }
+      return uploadedUrls;
+    } else {
+      return;
     }
-    return uploadedUrls;
   };
 
   // 폼 데이터 최종 제출 함수
@@ -174,7 +190,7 @@ export default function AddFormPage() {
       console.log("제출 - 이미지 처리 로직 ");
       try {
         const uploadedUrls = await uploadImages(Array.from(imageFiles));
-        if (uploadedUrls.length > 0) {
+        if (uploadedUrls && uploadedUrls.length > 0) {
           currentValues.imageUrls = [...currentValues.imageUrls, ...uploadedUrls];
           // 이미지 필드는 필수이므로 이미지 처리가 성공했을때만 submit 실행
           mutation.mutate();
@@ -199,7 +215,7 @@ export default function AddFormPage() {
       console.log("임시저장 - 이미지 처리 로직 ");
       try {
         const uploadedUrls = await uploadImages(Array.from(imageFiles));
-        if (uploadedUrls.length > 0) {
+        if (uploadedUrls && uploadedUrls.length > 0) {
           currentValues.imageUrls = [...currentValues.imageUrls, ...uploadedUrls];
         } else {
           currentValues.imageUrls = [];
@@ -214,7 +230,7 @@ export default function AddFormPage() {
     // 임시저장
     window.localStorage.setItem("tempAddFormData", JSON.stringify(currentValues));
     toast.success("임시 저장되었습니다.");
-    console.log(currentValues);
+    console.log("임시저장 데이터", currentValues);
   };
 
   // 각각의 탭 작성중 여부

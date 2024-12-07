@@ -62,17 +62,20 @@ export default function WorkCondition({ formData }: WorkConditionProps) {
   const [displayWage, setDisplayWage] = useState<string>("");
 
   const formatNumber = (value: string) => {
-    let numericValue = value.replace(/,/g, "");
+    let numericValue = value.replaceAll(/,/g, "");
     if (numericValue.startsWith("0")) {
       numericValue = numericValue.slice(1);
     }
-    return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const formatNumber = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return formatNumber;
   };
 
   // 리액트 훅폼 데이터를 가져와서 렌더링
   useEffect(() => {
     const selectedDays = getValues("workDays") || [];
     setSelectedWorkDays(selectedDays);
+    const wage = getValues("hourlyWage") || 0;
+    setDisplayWage(wage);
   }, [getValues]);
 
   const errorTextStyle =
@@ -151,7 +154,6 @@ export default function WorkCondition({ formData }: WorkConditionProps) {
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value;
             const numericValue = Number(value.replace(/,/g, ""));
-            console.log("numericValue", numericValue);
             setValue("hourlyWage", numericValue); // 콤마 제거하고 숫자형으로 저장
             setDisplayWage(formatNumber(value));
           }}
