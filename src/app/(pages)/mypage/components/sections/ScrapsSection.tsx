@@ -4,56 +4,97 @@ import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useMyScraps } from "@/hooks/queries/user/me/useMyScraps";
 import { useSortStore } from "@/store/sortStore";
-import { useFilterStore } from "@/store/filterStore";
 import type { FormListType } from "@/types/response/form";
 import FilterDropdown from "@/app/components/button/dropdown/FilterDropdown";
 import { filterPublicOptions, filterRecruitingOptions } from "@/constants/filterOptions";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
-// 한 페이지당 스크랩 수
 const SCRAPS_PER_PAGE = 10;
 
 export default function ScrapsSection() {
-  // 정렬 상태 관리
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // URL 쿼리 파라미터에서 필터 상태 가져오기
+  const isPublic = searchParams.get("isPublic");
+  const isRecruiting = searchParams.get("isRecruiting");
   const { orderBy } = useSortStore();
-  const { filterBy, setFilterBy } = useFilterStore();
+
+  // 초기 마운트 시 필터 값 설정
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+    let needsUpdate = false;
+
+    if (!params.has("isPublic")) {
+      params.set("isPublic", "true");
+      needsUpdate = true;
+    }
+    if (!params.has("isRecruiting")) {
+      params.set("isRecruiting", "true");
+      needsUpdate = true;
+    }
+    if (needsUpdate) {
+      params.set("tab", "scrap");
+      router.push(`${pathname}?${params.toString()}`);
+    }
+  }, []);
 
   // 무한 스크롤을 위한 Intersection Observer 설정
   const { ref, inView } = useInView({
-    threshold: 0.1, // 10% 정도 보이면 트리거
-    triggerOnce: true, // 한 번만 트리거 (불필요한 API 호출 방지)
-    rootMargin: "100px", // 하단 100px 전에 미리 로드
+    threshold: 0.1,
+    triggerOnce: true,
+    rootMargin: "100px",
   });
 
-  // 내가 스크랩한 알바폼 목록 조회
+  // 내가 스크랩한 알폼 목록 조회
   const { data, isLoading, error, hasNextPage, fetchNextPage, isFetchingNextPage } = useMyScraps({
     limit: SCRAPS_PER_PAGE,
     orderBy: orderBy.scrap,
-    isPublic: filterBy.isPublic,
-    isRecruiting: filterBy.isRecruiting,
+    isPublic: isPublic === "true" ? true : isPublic === "false" ? false : undefined,
+    isRecruiting: isRecruiting === "true" ? true : isRecruiting === "false" ? false : undefined,
   });
 
+  // 공개 여부 필터 변경 함수
   const handlePublicFilter = (selected: string) => {
     const option = filterPublicOptions.find((opt) => opt.label === selected);
     if (option) {
-      setFilterBy("isPublic", String(option.value));
+      const params = new URLSearchParams(searchParams);
+      if (selected === "전체") {
+        params.delete("isPublic");
+      } else {
+        params.set("isPublic", String(option.value));
+      }
+      params.set("tab", "scrap");
+      router.push(`${pathname}?${params.toString()}`);
     }
   };
 
+  // 모집 여부 필터 변경 함수
   const handleRecruitingFilter = (selected: string) => {
     const option = filterRecruitingOptions.find((opt) => opt.label === selected);
     if (option) {
-      setFilterBy("isRecruiting", String(option.value));
+      const params = new URLSearchParams(searchParams);
+      if (selected === "전체") {
+        params.delete("isRecruiting");
+      } else {
+        params.set("isRecruiting", String(option.value));
+      }
+      params.set("tab", "scrap");
+      router.push(`${pathname}?${params.toString()}`);
     }
   };
 
   // 현재 필터 상태에 따른 초기값 설정을 위한 함수들
-  const getInitialPublicValue = (isPublic: boolean) => {
-    const option = filterPublicOptions.find((opt) => opt.value === isPublic);
+  const getInitialPublicValue = (isPublic: string | null) => {
+    if (!isPublic) return "전체";
+    const option = filterPublicOptions.find((opt) => String(opt.value) === isPublic);
     return option?.label || "전체";
   };
 
-  const getInitialRecruitingValue = (isRecruiting: boolean) => {
-    const option = filterRecruitingOptions.find((opt) => opt.value === isRecruiting);
+  const getInitialRecruitingValue = (isRecruiting: string | null) => {
+    if (!isRecruiting) return "전체";
+    const option = filterRecruitingOptions.find((opt) => String(opt.value) === isRecruiting);
     return option?.label || "전체";
   };
 
@@ -64,7 +105,7 @@ export default function ScrapsSection() {
     }
   }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage]);
 
-  // 에러 ��태 처리
+  // 에러 상태 처리
   if (error) {
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
@@ -89,26 +130,26 @@ export default function ScrapsSection() {
         <div className="flex items-center gap-2 py-4">
           <FilterDropdown
             options={filterPublicOptions.map((option) => option.label)}
-            initialValue={getInitialPublicValue(filterBy.isPublic)}
+            initialValue={getInitialPublicValue(isPublic)}
             onChange={handlePublicFilter}
           />
           <FilterDropdown
             options={filterRecruitingOptions.map((option) => option.label)}
-            initialValue={getInitialRecruitingValue(filterBy.isRecruiting)}
+            initialValue={getInitialRecruitingValue(isRecruiting)}
             onChange={handleRecruitingFilter}
           />
         </div>
       </div>
 
       {/* 스크랩 목록 렌더링 */}
-      {!data?.pages[0]?.data?.length ? (
+      {!data?.pages?.[0]?.data?.length ? (
         <div className="flex h-[calc(100vh-200px)] items-center justify-center">
           <p className="text-grayscale-500">스크랩한 공고가 없습니다.</p>
         </div>
       ) : (
         <>
-          {data.pages.map((page, index) => (
-            <React.Fragment key={index}>
+          {data?.pages.map((page) => (
+            <React.Fragment key={page.nextCursor}>
               {page.data.map((scrap: FormListType) => (
                 <div key={scrap.id} className="rounded-lg border p-4 transition-all hover:border-primary-orange-200">
                   <h3 className="font-bold">{scrap.title}</h3>

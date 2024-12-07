@@ -6,6 +6,7 @@ import Image from "next/image";
 import { FiUser, FiEdit2, FiMapPin } from "react-icons/fi";
 import BaseInput from "@/app/components/input/text/BaseInput";
 import { useUser } from "@/hooks/queries/user/me/useUser";
+import { useUpdateProfile } from "@/hooks/queries/user/me/useUpdateProfile";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -37,7 +38,8 @@ type Field = {
 };
 
 const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileModalProps) => {
-  const { user, updateProfile, isUpdating } = useUser();
+  const { user } = useUser();
+  const { updateProfile, isUpdating } = useUpdateProfile();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);

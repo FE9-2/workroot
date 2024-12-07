@@ -2,14 +2,23 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { MyApplicationListResponse } from "@/types/response/user";
 
-export const useMyApplications = (params?: { cursor?: string; limit?: number; status?: string; keyword?: string }) => {
+interface UseMyApplicationsParams {
+  cursor?: string;
+  limit?: number;
+  status?: string;
+  keyword?: string;
+}
+
+export const useMyApplications = ({ cursor, limit, status, keyword }: UseMyApplicationsParams = {}) => {
   const query = useInfiniteQuery<MyApplicationListResponse>({
-    queryKey: ["myApplications", params],
-    queryFn: async ({ pageParam = undefined }) => {
+    queryKey: ["myApplications", { limit, status, keyword }],
+    queryFn: async () => {
       const response = await axios.get<MyApplicationListResponse>("/api/users/me/applications", {
         params: {
-          ...params,
-          cursor: pageParam,
+          cursor,
+          limit,
+          status,
+          keyword,
         },
         withCredentials: true,
       });
