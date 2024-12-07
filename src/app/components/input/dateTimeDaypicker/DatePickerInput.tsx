@@ -8,6 +8,7 @@ import { BsCalendar4 } from "react-icons/bs";
 import { useDropdownOpen } from "@/hooks/useDropdownOpen";
 import { useFormContext } from "react-hook-form";
 import DatePickerHeader from "./DatePickerHeader";
+import { useEffect, useRef } from "react";
 interface DatePickerInputProps {
   startDateName: string;
   endDateName: string;
@@ -60,6 +61,21 @@ const DatePickerInput = ({
     onChange(update);
   };
 
+  //피커 바깥쪽 클릭 시 창 닫힘
+  const pickerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (pickerRef.current && !pickerRef.current.contains(e.target as Node)) {
+        handleOpenDropdown();
+      }
+    };
+    window.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      window.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="relative">
       <div onClick={handleOpenDropdown}>
@@ -80,6 +96,7 @@ const DatePickerInput = ({
           <>
             <div
               className="absolute z-20 mt-1 h-[388px] w-[327px] rounded-lg bg-white lg:h-[584px] lg:w-[640px]"
+              ref={pickerRef}
               onClick={(e) => {
                 e.stopPropagation();
                 e.preventDefault();

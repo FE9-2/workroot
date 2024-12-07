@@ -73,8 +73,6 @@ export default function WorkCondition({ formData }: WorkConditionProps) {
   useEffect(() => {
     const selectedDays = getValues("workDays") || [];
     setSelectedWorkDays(selectedDays);
-    const wage = getValues("houlyWage");
-    setDisplayWage(wage);
   }, [getValues]);
 
   const errorTextStyle =
@@ -147,16 +145,15 @@ export default function WorkCondition({ formData }: WorkConditionProps) {
         <BaseInput
           {...register("hourlyWage", {
             required: "시급을 작성해주세요.",
-            validate: (value) => !isNaN(Number(String(value).replace(/,/g, ""))) || "숫자만 입력해주세요.",
           })}
           value={displayWage}
           // type = "string" -> 폼데이터에는 숫자형으로, 화면에는 세자리 콤마 추가
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value;
             const numericValue = Number(value.replace(/,/g, ""));
+            console.log("numericValue", numericValue);
             setValue("hourlyWage", numericValue); // 콤마 제거하고 숫자형으로 저장
-            const displayWage = formatNumber(value); // 포맷된 문자열로 화면에 표시
-            setDisplayWage(displayWage);
+            setDisplayWage(formatNumber(value));
           }}
           variant="white"
           afterString="원"

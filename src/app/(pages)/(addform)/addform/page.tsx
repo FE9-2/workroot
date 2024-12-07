@@ -40,15 +40,13 @@ export default function AddFormPage() {
   });
 
   const {
-    reset,
-    setValue,
     getValues,
     handleSubmit,
     formState: { isDirty, isValid },
   } = methods;
 
   const [selectedOption, setSelectedOption] = useState("모집 내용");
-  const [imageFiles] = useState<File[]>([]);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
 
   const submitFormData: SubmitFormDataType = {
     isPublic: false, // 기본값을 false로 설정
@@ -133,6 +131,7 @@ export default function AddFormPage() {
 
   // 이미지 업로드 api
   const uploadImages = async (files: File[]) => {
+    console.log("이미지 업로드 요청");
     const uploadedUrls: string[] = [];
     // 전체 파일 배열을 순회하면서 업로드 로직 진행
     for (const file of files) {
@@ -143,13 +142,10 @@ export default function AddFormPage() {
         continue;
       }
       const formData = new FormData();
-      formData.append("image", file, file.name);
+      formData.append("image", file);
       try {
         const response = await axios.post(`/api/images/upload`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          transformRequest: [(data) => data],
+          withCredentials: true,
         });
         console.log("response", response);
         if (response.data.url) {
@@ -181,23 +177,20 @@ export default function AddFormPage() {
   const currentValues = getValues(); // 현재 입력된 값 가져오기
   const onTempSave = async () => {
     // 이미지 처리 로직
-    if ("imageUrls" in currentValues) {
-      currentValues.imageUrls = currentValues.imageUrls || [];
-
-      if (imageFiles && imageFiles.length > 0) {
-        try {
-          const uploadedUrls = await uploadImages(imageFiles);
-          if (uploadedUrls.length > 0) {
-            currentValues.imageUrls = [...currentValues.imageUrls, ...uploadedUrls];
-          } else {
-            currentValues.imageUrls = [];
-            toast.error("이미지 업로드에 실패했습니다.");
-          }
-        } catch (error) {
-          console.error("이미지 업로드 중 오류 발생:", error);
-          toast.error("이미지 업로드 중 오류가 발생했습니다.");
+    if (imageFiles && imageFiles.length > 0) {
+      console.log("임시저장 - 이미지 처리 로직 ");
+      try {
+        const uploadedUrls = await uploadImages(imageFiles);
+        if (uploadedUrls.length > 0) {
+          currentValues.imageUrls = [...currentValues.imageUrls, ...uploadedUrls];
+        } else {
           currentValues.imageUrls = [];
+          toast.error("이미지 업로드에 실패했습니다.");
         }
+      } catch (error) {
+        console.error("이미지 업로드 중 오류 발생:", error);
+        toast.error("이미지 업로드 중 오류가 발생했습니다.");
+        currentValues.imageUrls = [];
       }
     }
     // 임시저장
@@ -207,15 +200,41 @@ export default function AddFormPage() {
   };
 
   // 각각의 탭 작성중 여부
-  const isEditingRecruitCondition = currentValues.gender ? true : false;
-  const isEditingWorkCondition = currentValues.location ? true : false;
+  const isEditingRecruitContent =
+    currentValues.title !== "" ||
+    currentValues.description !== "" ||
+    currentValues.recruitmentStartDate !== "" ||
+    currentValues.imageUrls
+      ? true
+      : false;
+  const isEditingRecruitCondition =
+    currentValues.gender ||
+    currentValues.numberOfPositions ||
+    currentValues.education ||
+    currentValues.age ||
+    currentValues.preferred
+      ? true
+      : false;
+  const isEditingWorkCondition =
+    currentValues.location ||
+    currentValues.workDays ||
+    currentValues.workStartTime ||
+    currentValues.workStartDate ||
+    currentValues.hourlyWage ||
+    currentValues.isNegotiableWorkDays ||
+    currentValues.isPublic
+      ? true
+      : false;
 
   return (
     <FormProvider {...methods}>
       <aside className="left-0 top-0 rounded-[24px] bg-background-200 lg:fixed lg:top-10 lg:p-10"></aside>
       <TabMenuDropdown
         options={[
-          { label: "모집 내용", isEditing: true },
+          {
+            label: "모집 내용",
+            isEditing: isEditingRecruitContent || currentParam === "recruit-condition" || currentParam === null,
+          },
           { label: "모집 조건", isEditing: isEditingRecruitCondition || currentParam === "recruit-condition" },
           { label: "근무 조건", isEditing: isEditingWorkCondition || currentParam === "work-condition" },
         ]}

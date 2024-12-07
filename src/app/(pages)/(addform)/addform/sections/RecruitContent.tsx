@@ -18,9 +18,7 @@ export default function RecruitContent({ formData }: RecruitContentProps) {
   const [, setImageFiles] = useState<File[]>([]);
   const {
     register,
-    watch,
     setValue,
-    reset,
     formState: { errors, isDirty },
   } = useFormContext();
 
