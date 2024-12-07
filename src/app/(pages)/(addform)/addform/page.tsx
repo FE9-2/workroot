@@ -77,7 +77,11 @@ export default function AddFormPage() {
     title: "",
     imageFiles: [],
   };
+  const submitFormDataKeys = Object.keys(submitFormData);
 
+  const isExcludedKey = (key: string) => {
+    return !submitFormDataKeys.includes(key);
+  };
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
@@ -87,12 +91,12 @@ export default function AddFormPage() {
           //시급을 숫자형으로 제출
           const numericValue = value.replaceAll(/,/g, "");
           submitData.append(key, numericValue);
-        } else if (key === "imageUrls" && Array.isArray(value)) {
+        } else if ((key === "imageUrls" && Array.isArray(value)) || (key === "workDays" && Array.isArray(value))) {
           // 배열 처리 :각 항목을 개별적으로 추가
           value.forEach((url: string, index: number) => {
             submitData.append(`${key}[${index}]`, url);
           });
-        } else if (key !== "displayDate" && key !== "imageFiles" && key !== "recruitDateRange") {
+        } else if (isExcludedKey(key)) {
           // SubmitFormData에 해당하지않는 필드는 제외하고 추가
           submitData.append(key, value);
         }
