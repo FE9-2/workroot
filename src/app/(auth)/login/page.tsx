@@ -1,5 +1,5 @@
 "use client";
-import { useAuth } from "@/hooks/useAuth";
+import { useLogin } from "@/hooks/queries/auth/useLogin";
 import { type LoginSchema, loginSchema } from "@/schemas/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 
 export default function LoginPage() {
-  const { login, isLoginPending } = useAuth();
+  const { login, isPending } = useLogin();
   const {
     register,
     handleSubmit,
@@ -57,20 +57,24 @@ export default function LoginPage() {
           <div>
             <button
               type="submit"
-              disabled={isLoginPending}
+              disabled={isPending}
               className="group relative flex w-full justify-center rounded-lg bg-lime-600 px-4 py-2 text-sm font-medium text-white hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-lime-500 focus:ring-offset-2 disabled:bg-lime-300"
             >
-              {isLoginPending ? "로그인 중..." : "로그인"}
+              {isPending ? "로그인 중..." : "로그인"}
             </button>
           </div>
           <div className="flex justify-center space-x-6">
             <Link
-              href={`https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile&response_type=code&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`}
+              href={`https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile&response_type=code&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&state=${encodeURIComponent(
+                JSON.stringify({ provider: "google", action: "login" })
+              )}`}
             >
               <Image src="/icons/social/social_google.svg" width={72} height={72} alt="구글 로그인" />
             </Link>
             <Link
-              href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code`}
+              href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code&state=${encodeURIComponent(
+                JSON.stringify({ provider: "kakao", action: "login" })
+              )}`}
             >
               <Image src="/icons/social/social_kakao.svg" width={72} height={72} alt="카카오 로그인" />
             </Link>

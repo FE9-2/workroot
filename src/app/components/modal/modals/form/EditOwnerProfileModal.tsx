@@ -5,9 +5,8 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { FiUser, FiEdit2, FiMapPin } from "react-icons/fi";
 import BaseInput from "@/app/components/input/text/BaseInput";
-import { useUser } from "@/hooks/useUser";
-import axios from "axios";
-import toast from "react-hot-toast";
+import { useUser } from "@/hooks/queries/user/me/useUser";
+import { useUpdateProfile } from "@/hooks/queries/user/me/useUpdateProfile";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -39,10 +38,10 @@ type Field = {
 };
 
 const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileModalProps) => {
-  const { user, refetch } = useUser();
+  const { user } = useUser();
+  const { updateProfile, isUpdating } = useUpdateProfile();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const {
@@ -90,56 +89,21 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
   };
 
   const onSubmitHandler = async (data: EditOwnerProfileFormData) => {
-    if (isSubmitting) return;
+    if (isUpdating) return;
 
-    try {
-      setIsSubmitting(true);
+    const success = await updateProfile(
+      {
+        nickname: data.nickname,
+        storeName: data.storeName,
+        storePhoneNumber: data.storePhoneNumber,
+        phoneNumber: data.phoneNumber,
+        location: data.location,
+      },
+      selectedFile
+    );
 
-      let imageUrl = user?.imageUrl || "";
-
-      if (selectedFile) {
-        const uploadFormData = new FormData();
-        uploadFormData.append("image", selectedFile);
-
-        const uploadResponse = await axios.post("/api/images/upload", uploadFormData, {
-          withCredentials: true,
-        });
-
-        if (uploadResponse.status === 201 && uploadResponse.data?.url) {
-          imageUrl = uploadResponse.data.url;
-        } else {
-          throw new Error("이미지 업로드에 실패했습니다.");
-        }
-      }
-
-      const updateData = {
-        ...data,
-        imageUrl,
-      };
-
-      const updateResponse = await axios.patch("/api/users/me", updateData);
-
-      if (updateResponse.status === 200) {
-        await refetch(); // React Query 캐시 갱신
-        toast.success("사장님 정보가 성공적으로 수정되었습니다.");
-        onClose();
-      } else {
-        throw new Error("프로필 업데이트에 실패했습니다.");
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const errorMessage = error.response?.data?.message || "정보 수정에 실패했습니다.";
-        console.error("Profile update error:", {
-          status: error.response?.status,
-          data: error.response?.data,
-        });
-        toast.error(errorMessage);
-      } else {
-        console.error("Unexpected error:", error);
-        toast.error("정보 수정 중 오류가 발생했습니다.");
-      }
-    } finally {
-      setIsSubmitting(false);
+    if (success) {
+      onClose();
     }
   };
 
@@ -225,7 +189,7 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
                     variant="white"
                     size="h-[54px] w-[327px] md:h-[64px] md:w-[640px]"
                     wrapperClassName={`px-[14px] md:px-[20px] ${field.icon ? "pl-[40px] md:pl-[48px]" : ""}`}
-                    disabled={isSubmitting}
+                    disabled={isUpdating}
                     errormessage={errors[field.name]?.message}
                   />
                   {field.icon && <div className="absolute left-4 top-1/2 -translate-y-1/2 md:left-5">{field.icon}</div>}
@@ -244,17 +208,17 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
           <button
             type="button"
             onClick={onClose}
-            disabled={isSubmitting}
+            disabled={isUpdating}
             className="text-grayscale-700 w-[158px] rounded-md border border-grayscale-300 bg-white px-4 py-2 text-sm font-semibold transition-colors hover:bg-grayscale-50 md:w-[314px] md:text-base"
           >
             취소
           </button>
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isUpdating}
             className="w-[158px] rounded-md bg-orange-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-orange-600 md:w-[314px] md:text-base"
           >
-            {isSubmitting ? "수정 중..." : "수정하기"}
+            {isUpdating ? "수정 중..." : "수정하기"}
           </button>
         </div>
       </form>

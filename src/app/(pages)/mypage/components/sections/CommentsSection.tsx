@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useState } from "react";
-import { useUser } from "@/hooks/useUser";
+import { useMyComments } from "@/hooks/queries/user/me/useMyComments";
 import Pagination from "@/app/components/pagination/Pagination";
 import type { MyCommentType } from "@/types/response/user";
 
@@ -14,7 +14,6 @@ export default function CommentsSection() {
   const [currentPage, setCurrentPage] = useState(1);
 
   // 내가 작성한 댓글 목록 조회
-  const { useMyComments } = useUser();
   const { data, isLoading, error } = useMyComments({
     page: currentPage,
     pageSize: COMMENTS_PER_PAGE,

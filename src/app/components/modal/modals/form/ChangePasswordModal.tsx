@@ -4,10 +4,8 @@ import { passwordSchema } from "@/schemas/commonSchema";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
-import toast from "react-hot-toast";
-import { useState } from "react";
-import { useAuth } from "@/hooks/useAuth";
+import { useLogout } from "@/hooks/queries/auth/useLogout";
+import { usePassword } from "@/hooks/queries/user/me/useChangePassword";
 
 interface ChangePasswordModalProps {
   isOpen: boolean;
@@ -54,8 +52,8 @@ const defaultFields = [
 ] as const;
 
 const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModalProps) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const { logout } = useAuth();
+  const { mutate: changePassword, isPending } = usePassword();
+  const { logout } = useLogout();
 
   const {
     register,
@@ -75,35 +73,21 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
   if (!isOpen) return null;
 
   const onSubmitHandler = async (data: ChangePasswordFormData) => {
-    if (isSubmitting) return;
+    if (isPending) return;
 
-    try {
-      setIsSubmitting(true);
-      await axios.patch("/api/users/me/password", {
+    changePassword(
+      {
         currentPassword: data.currentPassword,
         newPassword: data.newPassword,
-      });
-
-      reset();
-      onClose();
-      // 비밀번호 변경 후 로그아웃 처리
-      logout();
-      toast.success("비밀번호가 변경되었습니다!\n다시 로그인해주세요.", {
-        style: {
-          whiteSpace: "pre-line", // \n을 줄바꿈으로 처리
-          textAlign: "center", // 텍스트 중앙 정렬
+      },
+      {
+        onSuccess: () => {
+          reset();
+          onClose();
+          logout();
         },
-      });
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const errormessage = error.response?.data?.message || "비밀번호 변경에 실패했습니다.";
-        toast.error(errormessage);
-      } else {
-        toast.error("비밀번호 변경 중 오류가 발생했습니다.");
       }
-    } finally {
-      setIsSubmitting(false);
-    }
+    );
   };
 
   return (
@@ -124,7 +108,7 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
                 type={field.type}
                 placeholder={field.placeholder}
                 variant="white"
-                disabled={isSubmitting}
+                disabled={isPending}
                 size="w-[327px] h-[54px] md:w-[640px] md:h-[64px]"
                 errormessage={errors[field.name]?.message}
               />
@@ -138,17 +122,17 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
               onClose();
               reset();
             }}
-            disabled={isSubmitting}
+            disabled={isPending}
             className="text-grayscale-700 flex-1 rounded-md border border-grayscale-300 bg-white px-4 py-2 text-sm font-semibold transition-colors hover:bg-grayscale-50 md:text-base"
           >
             취소
           </button>
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isPending}
             className="flex-1 rounded-md bg-orange-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-orange-600 md:text-base"
           >
-            {isSubmitting ? "변경 중..." : "변경하기"}
+            {isPending ? "변경 중..." : "변경하기"}
           </button>
         </div>
       </form>

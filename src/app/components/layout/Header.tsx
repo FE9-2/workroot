@@ -4,13 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/tailwindUtil";
-import { useAuth } from "@/hooks/useAuth";
+import { useLogout } from "@/hooks/queries/auth/useLogout";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { useUser } from "@/hooks/useUser";
+import { useUser } from "@/hooks/queries/user/me/useUser";
 
 export default function Header() {
-  const { logout } = useAuth();
+  const { logout } = useLogout();
   const { user, isLoading } = useUser();
   const pathname = usePathname();
   const router = useRouter();

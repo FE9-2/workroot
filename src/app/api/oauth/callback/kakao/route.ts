@@ -1,70 +1,102 @@
 import { NextRequest, NextResponse } from "next/server";
-import { OauthUser } from "@/types/oauth/oauthReq";
+import axios from "axios";
 import apiClient from "@/lib/apiClient";
+import { OauthLoginUser, OauthResponse, OauthSignupUser } from "@/types/oauth/oauth";
+import { cookies } from "next/headers";
 
-export const GET = async (req: NextRequest) => {
-  const searchParams = req.nextUrl.searchParams;
+export const GET = async (request: NextRequest) => {
+  const searchParams = request.nextUrl.searchParams;
   const code = searchParams.get("code");
   const state = searchParams.get("state");
 
-  if (!code) {
-    return NextResponse.json({ message: "Code not found" }, { status: 400 });
-  }
-
-  if (!state) {
-    return NextResponse.json({ message: "State not found" }, { status: 400 });
+  if (!code || !state) {
+    return NextResponse.json({ message: `${!code ? "Code" : "State"} not found` }, { status: 400 });
   }
 
   let parsedState;
   try {
     parsedState = JSON.parse(decodeURIComponent(state));
-  } catch (error) {
-    console.error("Failed to parse state:", error);
+  } catch {
     return NextResponse.json({ message: "Invalid state format" }, { status: 400 });
   }
-  const { provider, role } = parsedState;
 
-  const clientId = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
+  const { provider, action, role } = parsedState;
   const redirectUri = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
 
-  if (!clientId || !redirectUri) {
+  if (!redirectUri) {
     return NextResponse.json({ message: "Environment variables not set" }, { status: 500 });
   }
 
-  const kakaoUser: OauthUser = {
-    role: role,
-    name: "", // 기본값 설정 (빈 문자열)
-    token: code, // 인가코드 그대로 전달
-    redirectUri: redirectUri,
+  const kakaoUser: { signup: OauthSignupUser; login: OauthLoginUser } = {
+    signup: {
+      role: role || "user", // 기본 역할 설정
+      name: "", // Kakao는 이름을 제공하지 않으므로 기본값
+      token: code, // 인가 코드 전달
+    },
+    login: {
+      token: code, // 인가 코드 전달
+      redirectUri, // 리다이렉트 URI 포함
+    },
+  };
+
+  const processUser = async () => {
+    if (action === "signup") {
+      try {
+        const response = await apiClient.post(`/oauth/sign-up/${provider}`, kakaoUser.signup);
+        console.log("카카오 회원가입 성공:", response.data);
+      } catch (error: any) {
+        if (error.response?.status === 400) {
+          console.log("이미 등록된 사용자입니다. 로그인 시도 중...");
+          await loginUser();
+        } else {
+          throw new Error("회원가입 중 서버 오류");
+        }
+      }
+    } else if (action === "login") {
+      await loginUser();
+    } else {
+      throw new Error("Invalid action");
+    }
+  };
+
+  const loginUser = async () => {
+    try {
+      const { data: loginResponse } = await axios.post<OauthResponse>(
+        `${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/oauth/login/${provider}`,
+        kakaoUser.login
+      );
+      console.log("카카오 로그인 성공:", loginResponse);
+
+      // 쿠키 저장
+      const { accessToken, refreshToken } = loginResponse;
+      setCookies(accessToken, refreshToken);
+    } catch (error: any) {
+      console.error("카카오 로그인 중 오류:", error.message || error);
+      throw new Error("로그인 중 서버 오류");
+    }
+  };
+
+  const setCookies = (accessToken: string, refreshToken: string) => {
+    cookies().set("accessToken", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+    });
+    cookies().set("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+    });
   };
 
   try {
-    // 인가코드를 포함한 데이터를 백엔드로 전달
-    const kakaoSignupResponse = await apiClient.post(`/oauth/sign-up/${provider}`, kakaoUser);
-    console.log("카카오 회원가입 성공:", kakaoSignupResponse.data);
-
-    // 사용자 정보를 클라이언트에 반환
-    // return NextResponse.json(kakaoSignupResponse.data);
+    await processUser();
   } catch (error: any) {
-    // 에러 타입 명시
-    console.error("카카오 회원가입 에러:", error.response?.data || error.message);
-
-    // return NextResponse.json({ message: error.response?.data || "Error during Kakao signup" }, { status: 500 });
+    console.error("OAuth 처리 중 오류:", error.message || error);
+    return NextResponse.json({ message: error.message || "서버 오류" }, { status: 500 });
   }
 
-  try {
-    // 사용자 정보를 클라이언트에 반환
-    const response = NextResponse.redirect("http://localhost:3000");
-    response.cookies.set("user", JSON.stringify(kakaoUser), {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 60 * 60 * 24, // 1일
-      path: "/",
-    });
-    return response;
-  } catch (error: any) {
-    console.error("카카오 회원가입 에러:", error.response?.data || error.message);
-    return NextResponse.json({ message: error.response?.data || "서버에러" }, { status: 500 });
-  }
+  return NextResponse.redirect(new URL("/", request.url));
 };
