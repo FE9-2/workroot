@@ -82,7 +82,7 @@ const AlbaListItem = ({
   };
 
   return (
-    <div className="relative h-auto w-full overflow-hidden rounded-xl border border-grayscale-200 bg-white shadow-md transition-transform duration-300 hover:scale-[1.02] sm:h-[390px] sm:w-[327px] md:h-[536px] md:w-[477px]">
+    <div className="relative h-[390px] w-[327px] overflow-hidden rounded-xl border border-grayscale-200 bg-white shadow-md transition-transform duration-300 hover:scale-[1.02] lg:h-[536px] lg:w-[477px]">
       {/* 이미지 슬라이더 영역 */}
       <div className="relative h-[150px] overflow-hidden rounded-t-xl sm:h-[220px] md:h-[310px]">
         {/* 현재 이미지 */}

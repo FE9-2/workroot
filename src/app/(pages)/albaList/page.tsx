@@ -6,6 +6,8 @@ import { useForms } from "@/hooks/queries/form/useForms";
 import FilterDropdown from "@/app/components/button/dropdown/FilterDropdown";
 import { filterRecruitingOptions } from "@/constants/filterOptions";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import SortSection from "./components/SortSection";
+import AlbaListItem from "@/app/components/card/cardList/AlbaListItem";
 
 const FORMS_PER_PAGE = 10;
 
@@ -29,7 +31,7 @@ export default function AlbaList() {
   // 무한 스크롤을 위한 Intersection Observer 설정
   const { ref, inView } = useInView({
     threshold: 0.1,
-    triggerOnce: true,
+    triggerOnce: false,
     rootMargin: "100px",
   });
 
@@ -88,13 +90,14 @@ export default function AlbaList() {
   return (
     <div className="space-y-4">
       {/* 필터 드롭다운 섹션 */}
-      <div className="border-b border-grayscale-100">
-        <div className="flex items-center gap-2 py-4">
+      <div className="border-b border-grayscale-100 bg-white">
+        <div className="mx-auto flex max-w-screen-2xl items-center justify-between gap-2 px-4 py-4 md:px-6 lg:px-8">
           <FilterDropdown
             options={filterRecruitingOptions.map((option) => option.label)}
             initialValue={getInitialRecruitingValue(isRecruiting)}
             onChange={handleRecruitingFilter}
           />
+          <SortSection />
         </div>
       </div>
 
@@ -105,22 +108,17 @@ export default function AlbaList() {
         </div>
       ) : (
         <>
-          {data?.pages.map((page) => (
-            <React.Fragment key={page.nextCursor}>
-              {page.data.map((form) => (
-                <div key={form.id} className="rounded-lg border p-4 transition-all hover:border-primary-orange-200">
-                  <h3 className="font-bold">{form.title}</h3>
-                  <div className="mt-2 text-sm text-grayscale-500">
-                    <span>지원자 {form.applyCount}명</span>
-                    <span className="mx-2">•</span>
-                    <span>스크랩 {form.scrapCount}명</span>
-                    <span className="mx-2">•</span>
-                    <span>마감 {new Date(form.recruitmentEndDate).toLocaleDateString()}</span>
+          <div className="mx-auto grid max-w-screen-2xl grid-cols-1 gap-8 px-4 md:px-6 lg:grid-cols-2 lg:px-8 2xl:grid-cols-3 2xl:gap-12">
+            {data?.pages.map((page) => (
+              <React.Fragment key={page.nextCursor}>
+                {page.data.map((form) => (
+                  <div key={form.id} className="w-full">
+                    <AlbaListItem {...form} />
                   </div>
-                </div>
-              ))}
-            </React.Fragment>
-          ))}
+                ))}
+              </React.Fragment>
+            ))}
+          </div>
 
           {/* 무한 스크롤 트리거 영역 */}
           <div ref={ref} className="h-4 w-full">
