@@ -23,8 +23,8 @@ const AlbaList: React.FC<AlbaListProps> = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { ref, inView } = useInView({
-    threshold: 0.1, // 0.1 이상 영역에 진입하면 트리거
-    triggerOnce: false, // 한 번만 트리거
+    threshold: 0.1,
+    triggerOnce: false,
     rootMargin: "100px",
   });
 
@@ -66,9 +66,9 @@ const AlbaList: React.FC<AlbaListProps> = () => {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="flex min-h-screen flex-col items-center">
       {/* 필터 드롭다운 섹션 */}
-      <div className="border-b border-grayscale-100 bg-white">
+      <div className="w-full border-b border-grayscale-100 bg-white">
         <div className="mx-auto flex max-w-screen-2xl items-center justify-between gap-2 px-4 py-4 md:px-6 lg:px-8">
           <FilterDropdown
             options={filterRecruitingOptions.map((option) => option.label)}
@@ -85,10 +85,10 @@ const AlbaList: React.FC<AlbaListProps> = () => {
           <p className="text-grayscale-500">등록된 알바 공고가 없습니다.</p>
         </div>
       ) : (
-        <>
-          <div className="mx-auto grid max-w-screen-2xl grid-cols-1 gap-8 px-4 md:grid-cols-2 md:px-6 lg:px-8 2xl:grid-cols-3 2xl:gap-12">
+        <div className="mx-auto mt-4 w-full max-w-screen-2xl">
+          <div className="flex flex-wrap items-center justify-center gap-6">
             {items.map((form) => (
-              <div key={form.id} className="w-full">
+              <div key={form.id} className="space-x-6">
                 <AlbaListItem {...form} />
               </div>
             ))}
@@ -102,7 +102,7 @@ const AlbaList: React.FC<AlbaListProps> = () => {
               </div>
             )}
           </div>
-        </>
+        </div>
       )}
     </div>
   );

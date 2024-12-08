@@ -88,9 +88,9 @@ export default function AlbaList() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="flex min-h-screen flex-col items-center">
       {/* 필터 드롭다운 섹션 */}
-      <div className="border-b border-grayscale-100 bg-white">
+      <div className="w-full border-b border-grayscale-100 bg-white">
         <div className="mx-auto flex max-w-screen-2xl items-center justify-between gap-2 px-4 py-4 md:px-6 lg:px-8">
           <FilterDropdown
             options={filterRecruitingOptions.map((option) => option.label)}
@@ -107,12 +107,12 @@ export default function AlbaList() {
           <p className="text-grayscale-500">등록된 알바 공고가 없습니다.</p>
         </div>
       ) : (
-        <>
-          <div className="mx-auto grid max-w-screen-2xl grid-cols-1 gap-8 px-4 md:grid-cols-2 md:px-6 lg:px-8 2xl:grid-cols-3 2xl:gap-12">
+        <div className="mx-auto mt-4 w-full max-w-screen-2xl px-4 md:px-6 lg:px-8">
+          <div className="flex flex-wrap items-center justify-center gap-6 space-x-6">
             {data?.pages.map((page) => (
               <React.Fragment key={page.nextCursor}>
                 {page.data.map((form) => (
-                  <div key={form.id} className="w-full">
+                  <div key={form.id}>
                     <AlbaListItem {...form} />
                   </div>
                 ))}
@@ -128,7 +128,7 @@ export default function AlbaList() {
               </div>
             )}
           </div>
-        </>
+        </div>
       )}
     </div>
   );

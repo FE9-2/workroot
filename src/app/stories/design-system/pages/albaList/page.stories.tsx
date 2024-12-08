@@ -72,8 +72,8 @@ export const Default: Story = {
   ),
 };
 
-// ��바일 뷰
-export const Mobile: Story = {
+// 데바일 - 아이폰
+export const IPhone12: Story = {
   render: () => (
     <AlbaListLayout>
       <InfiniteScrollContainer />
@@ -81,13 +81,12 @@ export const Mobile: Story = {
   ),
   parameters: {
     viewport: {
-      defaultViewport: "mobile1",
+      defaultViewport: "iphone12",
     },
   },
 };
 
-// 태블릿 뷰
-export const Tablet: Story = {
+export const IPhone12Pro: Story = {
   render: () => (
     <AlbaListLayout>
       <InfiniteScrollContainer />
@@ -95,7 +94,74 @@ export const Tablet: Story = {
   ),
   parameters: {
     viewport: {
-      defaultViewport: "tablet",
+      defaultViewport: "iphone12promax",
+    },
+  },
+};
+
+// 데바일 - 갤럭시
+export const GalaxyS8: Story = {
+  render: () => (
+    <AlbaListLayout>
+      <InfiniteScrollContainer />
+    </AlbaListLayout>
+  ),
+  parameters: {
+    viewport: {
+      defaultViewport: "galaxys8",
+    },
+  },
+};
+
+export const GalaxyS20: Story = {
+  render: () => (
+    <AlbaListLayout>
+      <InfiniteScrollContainer />
+    </AlbaListLayout>
+  ),
+  parameters: {
+    viewport: {
+      defaultViewport: "galaxys20",
+    },
+  },
+};
+
+// 태블릿 - 아이패드
+export const IPadMini: Story = {
+  render: () => (
+    <AlbaListLayout>
+      <InfiniteScrollContainer />
+    </AlbaListLayout>
+  ),
+  parameters: {
+    viewport: {
+      defaultViewport: "ipadMini",
+    },
+  },
+};
+
+export const IPadAir: Story = {
+  render: () => (
+    <AlbaListLayout>
+      <InfiniteScrollContainer />
+    </AlbaListLayout>
+  ),
+  parameters: {
+    viewport: {
+      defaultViewport: "ipadAir",
+    },
+  },
+};
+
+export const IPadPro: Story = {
+  render: () => (
+    <AlbaListLayout>
+      <InfiniteScrollContainer />
+    </AlbaListLayout>
+  ),
+  parameters: {
+    viewport: {
+      defaultViewport: "ipadPro",
     },
   },
 };
