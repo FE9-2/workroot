@@ -108,7 +108,7 @@ const AlbaListItem = ({
       </div>
 
       {/* 콘텐츠 영역 */}
-      <div className="relative flex h-[140px] flex-col p-4 lg:h-[226px] lg:p-6">
+      <div className="relative flex h-[140px] flex-col justify-between p-4 lg:h-[226px] lg:p-6">
         {/* 상단 영역 */}
         <div className="flex flex-col gap-4">
           {/* 상태 표시 영역 (공개여부, 모집상태, 날짜) */}
@@ -155,8 +155,8 @@ const AlbaListItem = ({
           <div className="text-grayscale-900 truncate text-base font-bold lg:text-lg">{title}</div>
         </div>
 
-        {/* 통계 정보 (지원자, 스크랩, D-day) */}
-        <div className="text-grayscale-700 mt-auto flex h-[50px] items-center justify-between rounded-2xl border border-grayscale-100 p-2 text-sm lg:text-base">
+        {/* 통계 정보 영역 - mt-auto 제거하고 부모 컨테이너에 justify-between 추가 */}
+        <div className="text-grayscale-700 mt-4 flex h-[50px] items-center justify-between rounded-2xl border border-grayscale-100 p-2 text-sm lg:text-base">
           <div className="flex flex-1 items-center justify-center">
             <span className="font-medium">지원자 {applyCount}명</span>
           </div>
