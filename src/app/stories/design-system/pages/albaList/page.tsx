@@ -8,6 +8,10 @@ import { FormListType } from "@/types/response/form";
 import AlbaListItem from "@/app/components/card/cardList/AlbaListItem";
 import { fetchMockData, getInitialMockData } from "./mock/data";
 import SortSection from "@/app/(pages)/albaList/components/SortSection";
+import StorySearchSection from "../../components/SearchSection";
+import Header from "../../components/layout/Header";
+import Link from "next/link";
+import { IoAdd } from "react-icons/io5";
 
 interface AlbaListProps {
   mockData?: FormListType[][];
@@ -66,45 +70,75 @@ const AlbaList: React.FC<AlbaListProps> = () => {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center">
-      {/* 필터 드롭다운 섹션 */}
-      <div className="w-full border-b border-grayscale-100 bg-white">
-        <div className="mx-auto flex max-w-screen-2xl items-center justify-between gap-2 px-4 py-4 md:px-6 lg:px-8">
-          <FilterDropdown
-            options={filterRecruitingOptions.map((option) => option.label)}
-            initialValue="전체"
-            onChange={() => {}}
-          />
-          <SortSection />
+    <>
+      <Header />
+      <div className="flex min-h-screen flex-col items-center">
+        {/* 검색 섹션과 필터 드롭다운을 고정 위치로 설정 */}
+        <div className="fixed left-0 right-0 top-16 z-40 bg-white shadow-sm">
+          {/* 검색 섹션 */}
+          <div className="w-full border-b border-grayscale-100">
+            <div className="mx-auto flex max-w-screen-2xl flex-col gap-4 px-4 py-4 md:px-6 lg:px-8">
+              <div className="flex items-center justify-between">
+                <StorySearchSection />
+              </div>
+            </div>
+          </div>
+
+          {/* 필터 드롭다운 섹션 */}
+          <div className="w-full border-b border-grayscale-100">
+            <div className="mx-auto flex max-w-screen-2xl items-center justify-between gap-2 px-4 py-4 md:px-6 lg:px-8">
+              <FilterDropdown
+                options={filterRecruitingOptions.map((option) => option.label)}
+                initialValue="전체"
+                onChange={() => {}}
+              />
+              <div className="flex items-center gap-4">
+                <SortSection />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 메인 콘텐츠 영역 */}
+        <div className="w-full pt-[224px]">
+          {/* 폼 만들기 버튼 - 고정 위치 */}
+          <div className="fixed bottom-[28%] right-8 z-[9999] translate-y-1/2 md:right-12 lg:right-16 xl:right-20">
+            <Link
+              href="/addForm"
+              className="flex items-center gap-2 rounded-lg bg-[#FFB800] px-4 py-3 text-base font-semibold text-white shadow-lg transition-all hover:bg-[#FFA800] md:px-6 md:text-lg"
+            >
+              <IoAdd className="size-6" />
+              <span>폼 만들기</span>
+            </Link>
+          </div>
+
+          {items.length === 0 ? (
+            <div className="flex h-[calc(100vh-200px)] flex-col items-center justify-center">
+              <p className="text-grayscale-500">등록된 알바 공고가 없습니다.</p>
+            </div>
+          ) : (
+            <div className="mx-auto mt-4 w-full max-w-screen-2xl px-4 md:px-6 lg:px-8">
+              <div className="flex flex-wrap items-center justify-center gap-6">
+                {items.map((form) => (
+                  <div key={form.id}>
+                    <AlbaListItem {...form} />
+                  </div>
+                ))}
+              </div>
+
+              {/* 무한 스크롤 트리거 영역 */}
+              <div ref={ref} className="h-4 w-full">
+                {isLoading && (
+                  <div className="flex justify-center py-4">
+                    <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary-orange-300 border-t-transparent" />
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
-
-      {/* 알바폼 목록 랜더링 */}
-      {items.length === 0 ? (
-        <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-          <p className="text-grayscale-500">등록된 알바 공고가 없습니다.</p>
-        </div>
-      ) : (
-        <div className="mx-auto mt-4 w-full max-w-screen-2xl">
-          <div className="flex flex-wrap items-center justify-center gap-6">
-            {items.map((form) => (
-              <div key={form.id} className="space-x-6">
-                <AlbaListItem {...form} />
-              </div>
-            ))}
-          </div>
-
-          {/* 무한 스크롤 트리거 영역 */}
-          <div ref={ref} className="h-4 w-full">
-            {isLoading && (
-              <div className="flex justify-center py-4">
-                <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary-orange-300 border-t-transparent" />
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-    </div>
+    </>
   );
 };
 
