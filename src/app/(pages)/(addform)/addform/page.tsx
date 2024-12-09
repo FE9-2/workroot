@@ -231,8 +231,8 @@ export default function AddFormPage() {
       : false;
 
   return (
-    <FormProvider {...methods}>
-      <Suspense>
+    <Suspense>
+      <FormProvider {...methods}>
         <aside className="left-0 top-0 rounded-[24px] bg-background-200 lg:fixed lg:top-10 lg:p-10"></aside>
         <TabMenuDropdown
           options={[
@@ -270,7 +270,7 @@ export default function AddFormPage() {
             작성 완료
           </Button>
         </div>
-      </Suspense>
-    </FormProvider>
+      </FormProvider>
+    </Suspense>
   );
 }
