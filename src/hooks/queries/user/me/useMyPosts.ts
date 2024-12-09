@@ -2,14 +2,21 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { MyPostListResponse } from "@/types/response/user";
 
-export const useMyPosts = (params?: { cursor?: string; limit?: number; orderBy?: string }) => {
+interface UseMyPostsParams {
+  cursor?: string;
+  limit?: number;
+  orderBy?: string;
+}
+
+export const useMyPosts = ({ cursor, limit, orderBy }: UseMyPostsParams = {}) => {
   const query = useInfiniteQuery<MyPostListResponse>({
-    queryKey: ["myPosts", params],
-    queryFn: async ({ pageParam = undefined }) => {
+    queryKey: ["myPosts", { limit, orderBy }],
+    queryFn: async () => {
       const response = await axios.get<MyPostListResponse>("/api/users/me/posts", {
         params: {
-          ...params,
-          cursor: pageParam,
+          cursor,
+          limit,
+          orderBy,
         },
         withCredentials: true,
       });

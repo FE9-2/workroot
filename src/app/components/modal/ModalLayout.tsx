@@ -8,6 +8,7 @@ import SelectProgressModal from "./modals/confirm/SelectProgressModal";
 import ChangePasswordModal from "./modals/form/ChangePasswordModal";
 import EditMyProfileModal from "./modals/form/EditMyProfileModal";
 import EditOwnerProfileModal from "./modals/form/EditOwnerProfileModal";
+import CustomFormModal from "./modals/confirm/CustomFormModal";
 import { ModalType } from "@/types/modal";
 import { useEffect } from "react";
 
@@ -21,6 +22,7 @@ const ModalComponents = {
   changePassword: ChangePasswordModal,
   editMyProfile: EditMyProfileModal,
   editOwnerProfile: EditOwnerProfileModal,
+  customForm: CustomFormModal,
 } as const;
 
 const ModalLayout = () => {

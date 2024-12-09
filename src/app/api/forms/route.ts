@@ -2,6 +2,7 @@ import { AxiosError } from "axios";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import apiClient from "@/lib/apiClient";
+import { cleanedParameters } from "@/utils/cleanedParameters";
 
 // 알바폼 생성
 export async function POST(req: NextRequest) {
@@ -36,23 +37,20 @@ export async function POST(req: NextRequest) {
 // 알바폼 목록 조회
 export async function GET(req: NextRequest) {
   try {
-    const accessToken = cookies().get("accessToken")?.value;
-
-    if (!accessToken) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
-
     const { searchParams } = new URL(req.url);
     const params = {
-      page: searchParams.get("page"),
+      cursor: searchParams.get("cursor"),
       limit: searchParams.get("limit"),
+      orderBy: searchParams.get("orderBy"),
+      keyword: searchParams.get("keyword"),
+      isRecruiting: searchParams.get("isRecruiting"),
     };
 
+    // null, undefined, 빈 문자열을 가진 파라미터 제거
+    const cleanedParams = cleanedParameters(params);
+
     const response = await apiClient.get("/forms", {
-      params,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      params: cleanedParams,
     });
 
     return NextResponse.json(response.data);

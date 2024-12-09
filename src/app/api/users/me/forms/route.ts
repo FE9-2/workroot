@@ -2,6 +2,7 @@ import { AxiosError } from "axios";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import apiClient from "@/lib/apiClient";
+import { cleanedParameters } from "@/utils/cleanedParameters";
 
 // 내가 생성한 알바폼 목록 조회 API
 export async function GET(request: Request) {
@@ -24,12 +25,15 @@ export async function GET(request: Request) {
       isRecruiting: searchParams.get("isRecruiting"), // 모집 중 여부
     };
 
+    // null, undefined, 빈 문자열을 가진 파라미터 제거
+    const cleanedParams = cleanedParameters(params);
+
     // 알바폼 목록 조회 요청
     const response = await apiClient.get("/users/me/forms", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
-      params,
+      params: cleanedParams,
     });
 
     return NextResponse.json(response.data);
