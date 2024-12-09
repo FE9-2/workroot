@@ -25,7 +25,7 @@ export default function SearchSection() {
   return (
     <form onSubmit={handleSubmit} className="w-full">
       <div className="mx-auto flex items-center justify-between gap-4">
-        <div className="w-[270px] md:w-[500px] lg:w-[700px] xl:w-[900px] 2xl:w-[1100px]">
+        <div className="w-[270px] md:w-[500px] lg:w-[700px] xl:w-[900px]">
           <SearchInput
             value={keyword}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setKeyword(e.target.value)}
