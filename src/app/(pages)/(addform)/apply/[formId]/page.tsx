@@ -104,7 +104,7 @@ export default function Apply() {
       setValue("resumeId", uploadedResume.resumeId);
       setValue("resumeName", uploadedResume.resumeName);
 
-      const { resume, ...submitData } = currentData;
+      const { ...submitData } = currentData;
       window.localStorage.setItem("tempApplyData", JSON.stringify(submitData));
       toast.success("임시 저장되었습니다.");
       console.log("currentData", currentData);
