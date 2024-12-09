@@ -115,7 +115,7 @@ export default function AlbaList() {
       </div>
 
       {/* 메인 콘텐츠 영역에 상단 여백 추가 */}
-      <div className="w-full pt-[144px]">
+      <div className="w-full pt-[224px]">
         {/* 알바폼 목록 랜더링 */}
         {!data?.pages?.[0]?.data?.length ? (
           <div className="flex h-[calc(100vh-200px)] items-center justify-center">

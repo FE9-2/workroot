@@ -8,7 +8,7 @@ import { FormListType } from "@/types/response/form";
 import AlbaListItem from "@/app/components/card/cardList/AlbaListItem";
 import { fetchMockData, getInitialMockData } from "./mock/data";
 import SortSection from "@/app/(pages)/albaList/components/SortSection";
-import SearchSection from "@/app/(pages)/albaList/components/SearchSection";
+import StorySearchSection from "../../components/SearchSection";
 import Header from "../../components/layout/Header";
 
 interface AlbaListProps {
@@ -76,7 +76,7 @@ const AlbaList: React.FC<AlbaListProps> = () => {
           {/* 검색 섹션 */}
           <div className="w-full border-b border-grayscale-100">
             <div className="mx-auto flex max-w-screen-2xl flex-col gap-4 px-4 py-4 md:px-6 lg:px-8">
-              <SearchSection />
+              <StorySearchSection />
             </div>
           </div>
 
@@ -94,7 +94,7 @@ const AlbaList: React.FC<AlbaListProps> = () => {
         </div>
 
         {/* 메인 콘텐츠 영역에 상단 여백 추가 */}
-        <div className="w-full pt-[200px] md:pt-[224px]">
+        <div className="w-full pt-[224px]">
           {/* 알바폼 목록 랜더링 */}
           {items.length === 0 ? (
             <div className="flex h-[calc(100vh-200px)] items-center justify-center">
