@@ -38,18 +38,18 @@ const Comment: React.FC<CommentProps> = ({ userName, date, comment, onKebabClick
             sizes="(max-width: 600px) 24px, (max-width: 1480px) 28px, 30px"
           />
           <div className="flex items-center gap-1 truncate">
-            <span className="truncate font-nexon text-[14px] text-gray-500 sm:text-[16px] xl:text-[20px]">
+            <span className="truncate font-nexon text-[14px] text-grayscale-500 sm:text-[16px] xl:text-[20px]">
               {userName}
             </span>
-            <span className="text-gray-500">|</span>
-            <span className="font-nexon text-[14px] text-gray-500 sm:text-[16px] xl:text-[20px]">{date}</span>
+            <span className="text-grayscale-500">|</span>
+            <span className="font-nexon text-[14px] text-grayscale-500 sm:text-[16px] xl:text-[20px]">{date}</span>
           </div>
         </div>
 
         {/* Right Content: Kebab */}
         <button
           onClick={onKebabClick}
-          className="flex items-center justify-center text-gray-500 hover:text-gray-700"
+          className="hover:text-grayscale-700 flex items-center justify-center text-grayscale-500"
           aria-label="Options"
         >
           <Image src={kebabSrc} alt="Kebab Menu Icon" width={kebabSize} height={kebabSize} />

@@ -1,17 +1,24 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Button from "../../../components/button/default/Button";
 import BaseInput from "@/app/components/input/text/BaseInput";
 import ImageInputwithPlaceHolder from "../../../components/input/file/ImageInput/ImageInputwithPlaceHolder";
 import { usePost } from "../../../../hooks/usePost";
+import axios from "axios";
 
 interface FormInputs {
   title: string;
   content: string;
   imageUrl?: string;
+}
+
+interface ImageInputType {
+  file: File | null;
+  url: string;
+  id: string;
 }
 
 export default function AddTalk() {
@@ -22,11 +29,42 @@ export default function AddTalk() {
     formState: { errors },
   } = useForm<FormInputs>({ defaultValues: { title: "", content: "" } });
 
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [imageList, setImageList] = useState<ImageInputType[]>([]);
   const router = useRouter();
   const { mutate: createPost, isPending } = usePost();
 
-  const onSubmit: SubmitHandler<FormInputs> = (data) => {
+  const uploadImage = useCallback(async (file: File): Promise<string> => {
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const response = await axios.post("/api/images/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (response.status === 201 && response.data?.url) {
+        return response.data.url;
+      }
+
+      throw new Error("이미지 업로드 실패");
+    } catch (error) {
+      console.error("이미지 업로드 실패:", error);
+      throw error;
+    }
+  }, []);
+
+  const handleImagesChange = useCallback(
+    (newImages: ImageInputType[]) => {
+      setImageList(newImages);
+      const imageUrls = newImages.map((img) => img.url).join(",");
+      setValue("imageUrl", imageUrls);
+    },
+    [setValue]
+  );
+
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     if (!data.title || !data.content) {
       alert("제목과 내용을 입력하세요.");
       return;
@@ -34,10 +72,8 @@ export default function AddTalk() {
 
     const postData = {
       ...data,
-      imageUrl: imageUrls.join(","),
+      imageUrl: imageList.map((img) => img.url).join(","),
     };
-
-    console.log("폼 데이터 확인:", postData);
 
     createPost(postData, {
       onSuccess: (response) => {
@@ -49,28 +85,6 @@ export default function AddTalk() {
         alert(err.message || "게시글 등록에 실패했습니다.");
       },
     });
-  };
-
-  useEffect(() => {
-    const handleImageListChanged = (event: CustomEvent) => {
-      const urls = event.detail.urls; // 이벤트에서 전달된 URL 리스트
-      console.log("업데이트된 이미지 URL:", urls); // 디버깅용
-      setImageUrls(urls);
-      setValue("imageUrl", urls.join(",")); // React Hook Form에 동기화
-    };
-
-    window.addEventListener("imageListChanged", handleImageListChanged as EventListener);
-
-    return () => {
-      window.removeEventListener("imageListChanged", handleImageListChanged as EventListener);
-    };
-  }, [setValue]);
-
-  const handleImageClick = () => {
-    const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
-    if (fileInput) {
-      fileInput.click();
-    }
   };
 
   return (
@@ -138,40 +152,28 @@ export default function AddTalk() {
                 control={control}
                 rules={{ required: "내용을 입력하세요." }}
                 render={({ field }) => (
-                  <div className="relative w-full">
-                    <BaseInput
-                      {...field}
-                      type="text"
-                      variant="white"
-                      name="content"
-                      size="w-full h-[180px] md:h-[200px] lg:h-[240px]"
-                      placeholder=""
-                      errormessage={errors.content?.message}
-                      wrapperClassName="!items-start"
-                      innerClassName="opacity-0 !h-full"
-                    />
-                    <textarea
-                      {...field}
-                      className="absolute left-0 top-0 h-full w-full resize-none rounded-lg bg-background-200 p-[14px] placeholder:text-grayscale-400 focus:outline-none focus:ring-2 focus:ring-primary-orange-300 lg:py-[18px]"
-                      placeholder="내용을 입력하세요"
-                    />
-                  </div>
+                  <textarea
+                    {...field}
+                    className="h-[240px] w-full resize-none rounded-lg bg-background-200 p-[14px] text-[16px] placeholder:text-grayscale-400 focus:outline-none focus:ring-2 focus:ring-primary-orange-300 md:text-[18px] lg:text-[20px]"
+                    placeholder="내용을 입력하세요"
+                  />
                 )}
               />
             </div>
 
-            <div className="w-full" onClick={handleImageClick}>
+            <div className="w-full">
               <label
                 htmlFor="image"
                 className="mb-2 block text-[16px] font-medium text-black-300 md:text-[18px] lg:text-[20px]"
               >
                 이미지
               </label>
-              <ImageInputwithPlaceHolder />
+              <ImageInputwithPlaceHolder onImageUpload={uploadImage} onImagesChange={handleImagesChange} />
             </div>
           </form>
         </div>
       </div>
+
       {/* 모바일 버전 버튼 */}
       <div className="fixed bottom-4 left-4 right-4 flex w-full flex-col items-center space-y-2 rounded-t-lg bg-white p-4 font-semibold md:hidden">
         <button
