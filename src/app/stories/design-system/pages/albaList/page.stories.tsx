@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import AlbaList from "./page";
-import AlbaListLayout from "@/app/(pages)/albaList/layout";
 import { FormListType } from "@/types/response/form";
 import { fetchMockData, getInitialMockData } from "./mock/data";
 import React, { useState, useEffect } from "react";
@@ -66,18 +65,18 @@ const InfiniteScrollContainer = () => {
 // 기본 기능 테스트
 export const Default: Story = {
   render: () => (
-    <AlbaListLayout>
+    <>
       <InfiniteScrollContainer />
-    </AlbaListLayout>
+    </>
   ),
 };
 
 // 데바일 - 아이폰
 export const IPhone12: Story = {
   render: () => (
-    <AlbaListLayout>
+    <>
       <InfiniteScrollContainer />
-    </AlbaListLayout>
+    </>
   ),
   parameters: {
     viewport: {
@@ -88,9 +87,9 @@ export const IPhone12: Story = {
 
 export const IPhone12Pro: Story = {
   render: () => (
-    <AlbaListLayout>
+    <>
       <InfiniteScrollContainer />
-    </AlbaListLayout>
+    </>
   ),
   parameters: {
     viewport: {
@@ -102,9 +101,9 @@ export const IPhone12Pro: Story = {
 // 데바일 - 갤럭시
 export const GalaxyS8: Story = {
   render: () => (
-    <AlbaListLayout>
+    <>
       <InfiniteScrollContainer />
-    </AlbaListLayout>
+    </>
   ),
   parameters: {
     viewport: {
@@ -115,9 +114,9 @@ export const GalaxyS8: Story = {
 
 export const GalaxyS20: Story = {
   render: () => (
-    <AlbaListLayout>
+    <>
       <InfiniteScrollContainer />
-    </AlbaListLayout>
+    </>
   ),
   parameters: {
     viewport: {
@@ -129,9 +128,9 @@ export const GalaxyS20: Story = {
 // 태블릿 - 아이패드
 export const IPadMini: Story = {
   render: () => (
-    <AlbaListLayout>
+    <>
       <InfiniteScrollContainer />
-    </AlbaListLayout>
+    </>
   ),
   parameters: {
     viewport: {
@@ -142,9 +141,9 @@ export const IPadMini: Story = {
 
 export const IPadAir: Story = {
   render: () => (
-    <AlbaListLayout>
+    <>
       <InfiniteScrollContainer />
-    </AlbaListLayout>
+    </>
   ),
   parameters: {
     viewport: {
@@ -155,9 +154,9 @@ export const IPadAir: Story = {
 
 export const IPadPro: Story = {
   render: () => (
-    <AlbaListLayout>
+    <>
       <InfiniteScrollContainer />
-    </AlbaListLayout>
+    </>
   ),
   parameters: {
     viewport: {
@@ -169,9 +168,9 @@ export const IPadPro: Story = {
 // 데스크톱 뷰
 export const Desktop: Story = {
   render: () => (
-    <AlbaListLayout>
+    <>
       <InfiniteScrollContainer />
-    </AlbaListLayout>
+    </>
   ),
   parameters: {
     viewport: {
