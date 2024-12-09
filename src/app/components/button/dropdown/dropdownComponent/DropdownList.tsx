@@ -13,7 +13,6 @@ const DropdownItem = ({
 }) => {
   return (
     <li
-      value={item}
       onClick={() => onSelect(item)}
       className={cn(
         "flex w-full cursor-pointer bg-grayscale-50 px-[10px] py-2 text-sm font-normal leading-[18px] text-black-100 hover:bg-primary-orange-50 lg:text-lg lg:leading-[26px]",

@@ -13,10 +13,11 @@ interface ImageInputType {
 interface ImageInputProps {
   name: string;
   onChange?: (files: File[]) => void;
+  initialImageList: ImageInputType[];
 }
 
 const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) => {
-  const [imageList, setImageList] = useState<ImageInputType[]>([]); // 단순히 이미지 프리뷰를 위한 상태 관리
+  const [imageList, setImageList] = useState<ImageInputType[]>(props.initialImageList || []); // 단순히 이미지 프리뷰를 위한 상태 관리
 
   const handleFileChange = (selectedFile: File | null) => {
     if (selectedFile) {
@@ -38,11 +39,10 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
       ];
 
       setImageList(newImageList);
-
       props.onChange?.(newImageList.map((img) => img.file).filter((file) => file !== null));
     }
   };
-  const handleImageSelect = () => {
+  const handleOpenFileSelecter = () => {
     if (typeof ref === "function") {
       // input 요소를 찾아서 클릭
       const fileInput = document.querySelector(`input[name="${props.name}"]`);
@@ -69,18 +69,17 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
 
   return (
     // 인풋 + 프리뷰 wrapper
-    <div className="flex cursor-pointer gap-5 lg:gap-6">
+    <div className="flex gap-5 lg:gap-6">
       <div
-        onClick={handleImageSelect}
+        onClick={handleOpenFileSelecter}
         className={cn(
-          "relative size-20 rounded-lg lg:size-[116px]",
+          "relative size-20 cursor-pointer rounded-lg lg:size-[116px]",
           colorStyle.bgColor,
           colorStyle.borderColor,
           colorStyle.hoverColor
         )}
       >
         <input
-          {...props}
           ref={ref}
           type="file"
           name={props.name}

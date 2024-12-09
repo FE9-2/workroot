@@ -23,4 +23,5 @@ export interface WorkConditionFormData {
   workEndDate: string;
   workStartDate: string;
   location: string;
+  isPublic: boolean;
 }
