@@ -231,7 +231,7 @@ export default function AddFormPage() {
       : false;
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense>
       <FormProvider {...methods}>
         <aside className="left-0 top-0 rounded-[24px] bg-background-200 lg:fixed lg:top-10 lg:p-10"></aside>
         <TabMenuDropdown
