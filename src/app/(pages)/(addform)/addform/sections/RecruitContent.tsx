@@ -49,7 +49,6 @@ export default function RecruitContent() {
     if (!initialLoad && currentValue.imageFiles?.length > 0) {
       handleChangeImages(currentValue.imageFiles);
     }
-    console.log("Content에서 initialImageList 출력", initialImageList);
   }, []);
 
   // 날짜 선택

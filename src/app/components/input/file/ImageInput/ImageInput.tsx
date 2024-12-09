@@ -80,7 +80,6 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
         )}
       >
         <input
-          {...props}
           ref={ref}
           type="file"
           name={props.name}

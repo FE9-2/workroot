@@ -98,8 +98,6 @@ export default function AddFormPage() {
           }
           return acc;
         }, {});
-      console.log("Filtered Data:", JSON.stringify(filteredData, null, 2));
-
       await axios.post("/api/forms", filteredData, {
         headers: {
           "Content-Type": "application/json",
