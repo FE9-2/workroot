@@ -77,7 +77,7 @@ const BoardComment: React.FC<BoardCommentProps> = ({
             alt="Kebab Menu Icon"
             width={isLargeScreen ? 28 : 24}
             height={isLargeScreen ? 28 : 24}
-          />{" "}
+          />
           {/* 크기 조정 */}
         </button>
       </div>
