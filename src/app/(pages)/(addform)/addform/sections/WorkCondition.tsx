@@ -1,7 +1,6 @@
 "use client";
 
 import { useFormContext } from "react-hook-form";
-import { WorkConditionFormData } from "@/types/addform";
 import { useState, ChangeEvent, MouseEvent, useEffect } from "react";
 import Label from "../../component/Label";
 import { cn } from "@/lib/tailwindUtil";
@@ -12,12 +11,8 @@ import DayPickerList from "@/app/components/input/dateTimeDaypicker/DayPickerLis
 import BaseInput from "@/app/components/input/text/BaseInput";
 import CheckBtn from "@/app/components/button/default/CheckBtn";
 
-interface WorkConditionProps {
-  formData: WorkConditionFormData;
-}
-
 // 알바폼 만들기 - 사장님 - 3-근무조건
-export default function WorkCondition({ formData }: WorkConditionProps) {
+export default function WorkCondition() {
   const {
     register,
     setValue,

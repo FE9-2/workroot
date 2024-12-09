@@ -40,6 +40,28 @@ export default function AddFormPage() {
   // 리액트 훅폼에서 관리할 데이터 타입 지정 및 메서드 호출 (상위 컴포넌트 = useForm 사용)
   const methods = useForm<SubmitFormDataType>({
     mode: "onChange",
+    defaultValues: {
+      isPublic: false,
+      hourlyWage: 0,
+      isNegotiableWorkDays: false,
+      workDays: [],
+      workEndTime: "",
+      workStartTime: "",
+      workEndDate: "",
+      workStartDate: "",
+      location: "",
+      preferred: "",
+      age: "",
+      education: "",
+      gender: "",
+      numberOfPositions: 0,
+      recruitmentEndDate: undefined,
+      recruitmentStartDate: undefined,
+      description: "",
+      title: "",
+      imageUrls: [],
+      imageFiles: [],
+    },
   });
 
   const {
@@ -50,79 +72,15 @@ export default function AddFormPage() {
   } = methods;
 
   // 훅폼에서 관리하는 전체 데이터를 가져오는 함수
-  const currentValues = getValues();
+  const currentValues: SubmitFormDataType = getValues();
 
   // 이미지 업로드 api 처리를 위해 별도 변수에 할당
   const imageFiles = currentValues.imageFiles;
   const [selectedOption, setSelectedOption] = useState("모집 내용");
 
-  // 훅폼 초기 데이터 지정
-  const submitFormData: SubmitFormDataType = {
-    isPublic: false,
-    hourlyWage: 0,
-    isNegotiableWorkDays: false,
-    workDays: [],
-    workEndTime: "",
-    workStartTime: "",
-    workEndDate: "",
-    workStartDate: "",
-    location: "",
-    preferred: "",
-    age: "",
-    education: "",
-    gender: "",
-    numberOfPositions: 0,
-    recruitmentEndDate: undefined,
-    recruitmentStartDate: undefined,
-    description: "",
-    title: "",
-    imageUrls: [],
-    imageFiles: [], // 제외하고 submit
-  };
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
-      // const submitData = new FormData();
-
-      // Object.entries(currentValues).forEach(([key, value]) => {
-      //   if (key === "hourlyWage") {
-      //     //시급을 숫자형으로 제출
-      //     const numericValue = value.replaceAll(/,/g, "");
-      //     submitData.append(key, numericValue);
-      //   } else if (key === "workDays" && Array.isArray(value)) {
-      //     // workDays를 그대로 JSON 형식의 문자열로 추가
-      //     submitData.append(key, JSON.stringify(value));
-      //   } else if (
-      //     // SubmitFormData에 해당하지않는 필드는 제외하고 추가
-      //     key !== "displayDate" &&
-      //     key !== "workDateRange" &&
-      //     key !== "recruitDateRange" &&
-      //     key !== "imageFiles" &&
-      //     key !== "imageUrls"
-      //   ) {
-      //     submitData.append(key, value);
-      //   }
-      // });
-      // // 이미지 업로드 처리
-      // const uploadedUrls = await uploadImages(Array.from(currentValues.imageFiles));
-      // // 이미지 업로드가 성공하면 imageUrls를 submitData에 추가
-      // if (uploadedUrls && uploadedUrls.length > 0) {
-      //   const stringifiedUrls = JSON.stringify(uploadedUrls); // 배열을 문자열로 변환
-      //   submitData.append("imageUrls", stringifiedUrls); // imageUrls는 stringified 배열로 전송됩니다.
-      //   console.log("Submit에서 이미지 처리 성공");
-      // } else {
-      //   console.log("uploadedUrl 없음 - 이미지 업로드 실패");
-      //   // toast.error("이미지 업로드에 실패했습니다.");
-      // }
-
-      // console.log("▼ 이미지 처리 후 submitData 출력");
-      // for (const [key, value] of submitData.entries()) {
-      //   console.log(key, value);
-      // }
-
-      // const response = await axios.post("/api/forms", submitData);
-      // console.log("폼제출 리액트쿼리에서 출력 response.data", response.data);
-      // return response.data;
       const excludedKeys = ["displayDate", "workDateRange", "recruitDateRange", "imageFiles"];
 
       // 원하는 필드만 포함된 새로운 객체 만들기
@@ -140,13 +98,13 @@ export default function AddFormPage() {
           }
           return acc;
         }, {});
-      const response = await axios.post("/api/forms", filteredData, {
+      console.log("Filtered Data:", JSON.stringify(filteredData, null, 2));
+
+      await axios.post("/api/forms", filteredData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      console.log("폼제출 리액트쿼리에서 출력 response.data", response.data);
-      return response.data;
     },
     onSuccess: () => {
       window.localStorage.removeItem("tempAddFormData");
@@ -183,11 +141,11 @@ export default function AddFormPage() {
   const renderChildren = () => {
     switch (selectedOption) {
       case "모집 내용":
-        return <RecruitContent key="recruitContent" formData={submitFormData} />;
+        return <RecruitContent key="recruitContent" />;
       case "모집 조건":
-        return <RecruitCondition key="recruitCondition" formData={submitFormData} />;
+        return <RecruitCondition key="recruitCondition" />;
       case "근무 조건":
-        return <WorkCondition key="workCondition" formData={submitFormData} />;
+        return <WorkCondition key="workCondition" />;
       default:
         return <></>;
     }

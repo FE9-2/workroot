@@ -4,18 +4,14 @@ import BaseInput from "@/app/components/input/text/BaseInput";
 import BaseTextArea from "@/app/components/input/textarea/BaseTextArea";
 import ImageInput from "@/app/components/input/file/ImageInput/ImageInput";
 import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePickerInput";
-import { RecruitContentFormData } from "@/types/addform";
 import { cn } from "@/lib/tailwindUtil";
 import { useFormContext } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-interface RecruitContentProps {
-  formData: RecruitContentFormData;
-}
 // 알바폼 만들기 - 사장님 - 1-모집내용
 
-export default function RecruitContent({ formData }: RecruitContentProps) {
+export default function RecruitContent() {
   // 이미지 파일을 로컬 상태에 저장
   const [initialImageList, setInitialImageList] = useState<{ file: File; url: string; id: string }[]>([]);
 

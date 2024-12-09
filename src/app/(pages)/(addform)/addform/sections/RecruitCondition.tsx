@@ -1,15 +1,10 @@
 "use client";
-import { RecruitConditionFormData } from "@/types/addform";
 import { useFormContext } from "react-hook-form";
 import Label from "../../component/Label";
 import InputDropdown from "@/app/components/button/dropdown/InputDropdown";
 
-interface RecruitConditionProps {
-  formData: RecruitConditionFormData;
-}
-
 // 알바폼 만들기 - 사장님- 2-모집조건
-export default function RecruitCondition({ formData }: RecruitConditionProps) {
+export default function RecruitCondition() {
   const {
     register,
     formState: { errors },

@@ -13,22 +13,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const formData = req.body;
-    console.log("formData", formData);
+    const body = await req.json();
 
-    const response = await apiClient.post("/forms", formData, {
+    const response = await apiClient.post("/forms", body, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
     });
-    // 디버깅
-    console.log("액세스토큰", accessToken);
-    console.log("폼데이터", formData);
 
     return NextResponse.json(response.data);
   } catch (error: unknown) {
-    // console.error(error);
     if (error instanceof AxiosError) {
       console.error("POST /api/forms error:", error);
       if (error.response) {
