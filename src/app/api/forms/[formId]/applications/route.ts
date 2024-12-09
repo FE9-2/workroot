@@ -17,6 +17,7 @@ export async function POST(req: NextRequest, { params }: { params: { formId: str
     const response = await apiClient.post(`/forms/${params.formId}/applications`, body, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
       },
     });
 

@@ -1,30 +1,45 @@
-import React, { forwardRef, useState } from "react";
+"use client";
+import React, { forwardRef, useEffect, useState } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { cn } from "@/lib/tailwindUtil";
 import DropdownList from "./dropdownComponent/DropdownList";
+import { useFormContext } from "react-hook-form";
 
 interface InputDropdownProps {
   options: string[];
   className?: string;
   errormessage?: string;
+  name: string;
+  value?: string;
 }
 
 const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
-  ({ options, className = "", errormessage }, ref) => {
+  ({ options, className = "", errormessage, name }, ref) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [selectedValue, setSelectedValue] = useState<string>("");
     const [isCustomInput, setIsCustomInput] = useState<boolean>(false);
+    const { setValue, getValues } = useFormContext();
 
     const handleOptionClick = (option: string) => {
       if (option === "직접 입력") {
         setIsCustomInput(true);
         setSelectedValue("");
+        // 동적으로 받아온 name에 값 할당 -> 훅폼에 저장
+        setValue(name, selectedValue);
       } else {
         setSelectedValue(option);
         setIsCustomInput(false);
+        setValue(name, option);
         setIsOpen(false);
       }
     };
+
+    // 작성중인 탭으로 다시 이동했을때 이전에 저장된 훅폼 데이터 연동
+    useEffect(() => {
+      const data = getValues();
+      setSelectedValue(data.name);
+    }, [getValues]);
+
     const textStyle = "text-base";
 
     const errorStyle = errormessage ? "!border-state-error" : "";
@@ -43,8 +58,14 @@ const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
         >
           <input
             type="text"
+            ref={ref}
             value={selectedValue}
-            onChange={(e) => isCustomInput && setSelectedValue(e.target.value)}
+            onChange={(e) => {
+              if (isCustomInput) {
+                setSelectedValue(e.target.value);
+                setValue(name, e.target.value);
+              }
+            }}
             className={cn(
               "text-grayscale-700 flex w-full items-center justify-between px-4 py-2 font-medium focus:outline-none",
               "cursor-pointer bg-transparent"
