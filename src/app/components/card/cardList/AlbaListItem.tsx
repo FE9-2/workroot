@@ -36,6 +36,10 @@ const AlbaListItem = ({
   const recruitmentStatus = getRecruitmentStatus(recruitmentEndDate);
   const dDay = getRecruitmentDday(recruitmentEndDate);
 
+  // 날짜 형식 변환
+  const startDate = new Date(recruitmentStartDate); // Date 객체로 변환
+  const endDate = new Date(recruitmentEndDate); // Date 객체로 변환
+
   // 드롭다운 메뉴 외부 클릭 감지
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -88,7 +92,11 @@ const AlbaListItem = ({
         {/* 현재 이미지 */}
         {imageUrls[currentImageIndex] && (
           <Image
-            src={imageUrls[currentImageIndex]}
+            src={
+              imageUrls[currentImageIndex].startsWith("/")
+                ? imageUrls[currentImageIndex]
+                : `/${imageUrls[currentImageIndex]}`
+            }
             alt={`Recruit Image ${currentImageIndex + 1}`}
             fill
             className="object-cover transition-opacity duration-300"
@@ -118,7 +126,7 @@ const AlbaListItem = ({
                 <Chip label={isPublic ? "공개" : "비공개"} variant={isPublic ? "positive" : "negative"} />
                 <Chip label={recruitmentStatus} variant={recruitmentStatus === "모집 중" ? "positive" : "negative"} />
                 <span className="text-xs font-medium text-grayscale-500 md:inline">
-                  {formatRecruitDate(recruitmentStartDate, true)} ~ {formatRecruitDate(recruitmentEndDate, true)}
+                  {formatRecruitDate(startDate, true)} ~ {formatRecruitDate(endDate, true)}
                 </span>
               </div>
             </div>
