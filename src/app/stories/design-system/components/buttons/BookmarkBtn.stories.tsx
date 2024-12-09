@@ -14,7 +14,7 @@ type Story = StoryObj<typeof BookmarkBtn>;
 
 export const Bookmarked: Story = {
   args: {},
-  render: (args) => {
+  Render: (args) => {
     return (
       <div>
         <BookmarkBtn {...args} />
