@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import axios from "axios";
@@ -232,43 +232,45 @@ export default function AddFormPage() {
 
   return (
     <FormProvider {...methods}>
-      <aside className="left-0 top-0 rounded-[24px] bg-background-200 lg:fixed lg:top-10 lg:p-10"></aside>
-      <TabMenuDropdown
-        options={[
-          {
-            label: "모집 내용",
-            isEditing: isEditingRecruitContent || initialLoad || currentParam === "recruit-condition",
-          },
-          { label: "모집 조건", isEditing: isEditingRecruitCondition || currentParam === "recruit-condition" },
-          { label: "근무 조건", isEditing: isEditingWorkCondition || currentParam === "work-condition" },
-        ]}
-        onChange={handleOptionChange}
-      />
-      {renderChildren()}
-      <div className="flex flex-col gap-2 lg:absolute">
-        <Button
-          type="button"
-          variant="outlined"
-          width="md"
-          color="orange"
-          className="h-[58px] border bg-background-100 lg:h-[72px] lg:text-xl lg:leading-8"
-          onClick={() => onTempSave()}
-          disabled={!isDirty}
-        >
-          임시 저장
-        </Button>
-        <Button
-          type="submit"
-          variant="solid"
-          width="md"
-          color="orange"
-          className="h-[58px] lg:h-[72px] lg:text-xl lg:leading-8"
-          disabled={!isValid}
-          onClick={handleSubmit(() => mutation.mutate())}
-        >
-          작성 완료
-        </Button>
-      </div>
+      <Suspense>
+        <aside className="left-0 top-0 rounded-[24px] bg-background-200 lg:fixed lg:top-10 lg:p-10"></aside>
+        <TabMenuDropdown
+          options={[
+            {
+              label: "모집 내용",
+              isEditing: isEditingRecruitContent || initialLoad || currentParam === "recruit-condition",
+            },
+            { label: "모집 조건", isEditing: isEditingRecruitCondition || currentParam === "recruit-condition" },
+            { label: "근무 조건", isEditing: isEditingWorkCondition || currentParam === "work-condition" },
+          ]}
+          onChange={handleOptionChange}
+        />
+        {renderChildren()}
+        <div className="flex flex-col gap-2 lg:absolute">
+          <Button
+            type="button"
+            variant="outlined"
+            width="md"
+            color="orange"
+            className="h-[58px] border bg-background-100 lg:h-[72px] lg:text-xl lg:leading-8"
+            onClick={() => onTempSave()}
+            disabled={!isDirty}
+          >
+            임시 저장
+          </Button>
+          <Button
+            type="submit"
+            variant="solid"
+            width="md"
+            color="orange"
+            className="h-[58px] lg:h-[72px] lg:text-xl lg:leading-8"
+            disabled={!isValid}
+            onClick={handleSubmit(() => mutation.mutate())}
+          >
+            작성 완료
+          </Button>
+        </div>
+      </Suspense>
     </FormProvider>
   );
 }
