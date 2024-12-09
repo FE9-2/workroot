@@ -8,6 +8,7 @@ import { BsCalendar4 } from "react-icons/bs";
 import { useDropdownOpen } from "@/hooks/useDropdownOpen";
 import { useFormContext } from "react-hook-form";
 import DatePickerHeader from "./DatePickerHeader";
+import { useEffect, useRef } from "react";
 interface DatePickerInputProps {
   startDateName: string;
   endDateName: string;
@@ -16,6 +17,7 @@ interface DatePickerInputProps {
   onChange: (dates: [Date | null, Date | null]) => void;
   required?: boolean;
   errormessage?: boolean;
+  displayValue: string;
 }
 const DatePickerInput = ({
   startDateName,
@@ -25,10 +27,18 @@ const DatePickerInput = ({
   onChange,
   required,
   errormessage,
+  displayValue,
 }: DatePickerInputProps) => {
   const { setValue, watch } = useFormContext();
   const { isOpen, handleOpenDropdown } = useDropdownOpen();
-  const dateValue = watch("displayDate");
+  const dateValue = watch(displayValue);
+
+  useEffect(() => {
+    const currentValue = watch(displayValue);
+    if (currentValue) {
+      setValue(displayValue, currentValue);
+    }
+  }, [displayValue, watch, setValue]);
 
   const iconStyle = "text-black-400 size-9 transition-transform duration-200";
 
@@ -47,16 +57,31 @@ const DatePickerInput = ({
     const [start, end] = update;
 
     if (start) {
-      setValue("displayDate", formatDisplayDate(start, end || undefined));
+      setValue(displayValue, formatDisplayDate(start, end || undefined));
       setValue(startDateName, start.toISOString());
     }
     if (start && end && end > start) {
-      setValue("displayDate", formatDisplayDate(start, end));
+      setValue(displayValue, formatDisplayDate(start, end));
       setValue(endDateName, end.toISOString());
       handleOpenDropdown();
     }
     onChange(update);
   };
+
+  //피커 바깥쪽 클릭 시 창 닫힘
+  const pickerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (pickerRef.current && !pickerRef.current.contains(e.target as Node)) {
+        handleOpenDropdown();
+      }
+    };
+    window.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      window.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [handleOpenDropdown]);
 
   return (
     <div className="relative">
@@ -78,6 +103,7 @@ const DatePickerInput = ({
           <>
             <div
               className="absolute z-20 mt-1 h-[388px] w-[327px] rounded-lg bg-white lg:h-[584px] lg:w-[640px]"
+              ref={pickerRef}
               onClick={(e) => {
                 e.stopPropagation();
                 e.preventDefault();

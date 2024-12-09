@@ -21,7 +21,8 @@
       "@/*": ["./src/*"]
     },
     "baseUrl": ".",
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": ["./node_modules/@types"],
+    "downlevelIteration": true // 이 플래그를 추가
   },
   "include": ["next-env.d.ts", "src/**/*.ts", "src/**/*.tsx", ".next/types/**/*.ts", "custom.d.ts"],
   "exclude": ["node_modules", ".next", ".storybook", "storybook-static"]

@@ -1,5 +1,4 @@
 import { AxiosError } from "axios";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import apiClient from "@/lib/apiClient";
 
