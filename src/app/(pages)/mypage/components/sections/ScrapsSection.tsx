@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useMyScraps } from "@/hooks/queries/user/me/useMyScraps";
-import { useSortStore } from "@/store/sortStore";
+import { useMySortStore } from "@/store/mySortStore";
 import type { FormListType } from "@/types/response/form";
 import FilterDropdown from "@/app/components/button/dropdown/FilterDropdown";
 import { filterPublicOptions, filterRecruitingOptions } from "@/constants/filterOptions";
@@ -19,7 +19,7 @@ export default function ScrapsSection() {
   // URL 쿼리 파라미터에서 필터 상태 가져오기
   const isPublic = searchParams.get("isPublic");
   const isRecruiting = searchParams.get("isRecruiting");
-  const { orderBy } = useSortStore();
+  const { orderBy } = useMySortStore();
 
   // 초기 마운트 시 필터 값 설정
   useEffect(() => {
