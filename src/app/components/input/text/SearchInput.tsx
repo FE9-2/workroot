@@ -1,16 +1,31 @@
 import { FiSearch } from "react-icons/fi";
-import BaseInput from "./BaseInput";
+import { ChangeEventHandler } from "react";
 
-const SearchInput = () => {
+interface SearchInputProps {
+  value?: string;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
+  placeholder?: string;
+  className?: string;
+}
+
+const SearchInput = ({ value, onChange, placeholder, className }: SearchInputProps) => {
   return (
-    <div>
-      <BaseInput
-        name="search"
+    <div className="relative w-full">
+      {/* 검색 아이콘 */}
+      <div className="absolute left-3 top-1/2 -translate-y-1/2">
+        <FiSearch className="size-5 text-grayscale-400" />
+      </div>
+
+      {/* 검색 입력창 */}
+      <input
         type="text"
-        variant="white"
-        placeholder="어떤 알바를 찾고 계세요?"
-        wrapperClassName="!rounded-2xl !lg:rounded-3xl"
-        beforeIcon={<FiSearch className="size-6 text-grayscale-200 lg:size-9" />}
+        name="search"
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder || "어떤 알바를 찾고 계세요?"}
+        className={`rounded-lg border border-grayscale-200 pl-11 pr-4 text-sm placeholder:text-grayscale-400 focus:border-grayscale-300 focus:outline-none ${
+          className || ""
+        }`}
       />
     </div>
   );
