@@ -8,7 +8,7 @@ export default function AddFormLayout({ children, title }: { children: ReactNode
 
   return (
     <>
-      <div className="mx-auto w-[327px] pb-[70px] lg:w-[640px]">
+      <div className="mx-auto my-10 w-[327px] pb-[70px] lg:ml-[600px] lg:w-[640px] lg:pl-10">
         <ApplyHeader title={title} onCancel={() => router.back()} />
         {children}
       </div>
