@@ -82,45 +82,69 @@ export default function AddFormPage() {
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
-      const submitData = new FormData();
+      // const submitData = new FormData();
 
-      Object.entries(currentValues).forEach(([key, value]) => {
-        if (key === "hourlyWage") {
-          //시급을 숫자형으로 제출
-          const numericValue = value.replaceAll(/,/g, "");
-          submitData.append(key, numericValue);
-        } else if (key === "workDays" && Array.isArray(value)) {
-          // workDays를 그대로 JSON 형식의 문자열로 추가
-          submitData.append(key, JSON.stringify(value));
-        } else if (
-          // SubmitFormData에 해당하지않는 필드는 제외하고 추가
-          key !== "displayDate" &&
-          key !== "workDateRange" &&
-          key !== "recruitDateRange" &&
-          key !== "imageFiles" &&
-          key !== "imageUrls"
-        ) {
-          submitData.append(key, value);
-        }
+      // Object.entries(currentValues).forEach(([key, value]) => {
+      //   if (key === "hourlyWage") {
+      //     //시급을 숫자형으로 제출
+      //     const numericValue = value.replaceAll(/,/g, "");
+      //     submitData.append(key, numericValue);
+      //   } else if (key === "workDays" && Array.isArray(value)) {
+      //     // workDays를 그대로 JSON 형식의 문자열로 추가
+      //     submitData.append(key, JSON.stringify(value));
+      //   } else if (
+      //     // SubmitFormData에 해당하지않는 필드는 제외하고 추가
+      //     key !== "displayDate" &&
+      //     key !== "workDateRange" &&
+      //     key !== "recruitDateRange" &&
+      //     key !== "imageFiles" &&
+      //     key !== "imageUrls"
+      //   ) {
+      //     submitData.append(key, value);
+      //   }
+      // });
+      // // 이미지 업로드 처리
+      // const uploadedUrls = await uploadImages(Array.from(currentValues.imageFiles));
+      // // 이미지 업로드가 성공하면 imageUrls를 submitData에 추가
+      // if (uploadedUrls && uploadedUrls.length > 0) {
+      //   const stringifiedUrls = JSON.stringify(uploadedUrls); // 배열을 문자열로 변환
+      //   submitData.append("imageUrls", stringifiedUrls); // imageUrls는 stringified 배열로 전송됩니다.
+      //   console.log("Submit에서 이미지 처리 성공");
+      // } else {
+      //   console.log("uploadedUrl 없음 - 이미지 업로드 실패");
+      //   // toast.error("이미지 업로드에 실패했습니다.");
+      // }
+
+      // console.log("▼ 이미지 처리 후 submitData 출력");
+      // for (const [key, value] of submitData.entries()) {
+      //   console.log(key, value);
+      // }
+
+      // const response = await axios.post("/api/forms", submitData);
+      // console.log("폼제출 리액트쿼리에서 출력 response.data", response.data);
+      // return response.data;
+      const excludedKeys = ["displayDate", "workDateRange", "recruitDateRange", "imageFiles"];
+
+      // 원하는 필드만 포함된 새로운 객체 만들기
+      const filteredData = Object.entries(currentValues)
+        .filter(([key]) => !excludedKeys.includes(key)) // 제외할 키를 필터링
+        .reduce((acc, [key, value]) => {
+          if (key === "numberOfPositions") {
+            // numberOfPositions는 숫자형으로 변환
+            acc[key] = Number(value);
+          } else if (key === "hourlyWage") {
+            // hourlyWage는 쉼표를 제거하고 숫자형으로 변환
+            acc[key] = Number(value.replaceAll(/,/g, "")); // 쉼표 제거 후 숫자형 변환
+          } else {
+            acc[key] = value; // 나머지 값은 그대로 추가
+          }
+          return acc;
+        }, {});
+      const response = await axios.post("/api/forms", filteredData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
-      // 이미지 업로드 처리
-      const uploadedUrls = await uploadImages(Array.from(currentValues.imageFiles));
-      // 이미지 업로드가 성공하면 imageUrls를 submitData에 추가
-      if (uploadedUrls && uploadedUrls.length > 0) {
-        const stringifiedUrls = JSON.stringify(uploadedUrls); // 배열을 문자열로 변환
-        submitData.append("imageUrls", stringifiedUrls); // imageUrls는 stringified 배열로 전송됩니다.
-        console.log("Submit에서 이미지 처리 성공");
-      } else {
-        console.log("uploadedUrl 없음 - 이미지 업로드 실패");
-        // toast.error("이미지 업로드에 실패했습니다.");
-      }
-
-      console.log("▼ 이미지 처리 후 submitData 출력");
-      for (const [key, value] of submitData.entries()) {
-        console.log(key, value);
-      }
-
-      const response = await axios.post("/api/forms", submitData);
       console.log("폼제출 리액트쿼리에서 출력 response.data", response.data);
       return response.data;
     },

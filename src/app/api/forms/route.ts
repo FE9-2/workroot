@@ -13,12 +13,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const formData = await req.formData();
+    const formData = req.body;
+    console.log("formData", formData);
 
     const response = await apiClient.post("/forms", formData, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
       },
     });
     // 디버깅
@@ -27,6 +28,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(response.data);
   } catch (error: unknown) {
+    // console.error(error);
     if (error instanceof AxiosError) {
       console.error("POST /api/forms error:", error);
       if (error.response) {
