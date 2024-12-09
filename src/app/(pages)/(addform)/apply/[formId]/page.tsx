@@ -78,7 +78,7 @@ export default function Apply() {
       setValue("resumeId", uploadedResume.resumeId);
       setValue("resumeName", uploadedResume.resumeName);
 
-      const { resume, ...submitData } = data;
+      const { ...submitData } = data;
 
       await axios.post(`/api/forms/${formId}/applications`, submitData, {
         headers: {
