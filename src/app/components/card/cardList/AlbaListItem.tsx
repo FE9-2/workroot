@@ -9,6 +9,8 @@ import useModalStore from "@/store/modalStore";
 import Indicator from "../../pagination/Indicator";
 import { FormListType } from "@/types/response/form";
 import { useFormScrap } from "@/hooks/queries/form/useFormScap";
+import { MdOutlineImage } from "react-icons/md";
+import { S3_URL } from "@/constants/config";
 
 /**
  * 알바폼 리스트 아이템 컴포넌트
@@ -81,22 +83,36 @@ const AlbaListItem = ({
     });
   };
 
+  // S3 URL 체크 함수
+  const isValidS3Url = (url: string) => {
+    return url.startsWith(S3_URL);
+  };
+
   return (
     <div className="relative h-[360px] w-[327px] overflow-hidden rounded-xl border border-grayscale-200 bg-white shadow-md transition-transform duration-300 hover:scale-[1.02] lg:h-[536px] lg:w-[477px]">
       {/* 이미지 슬라이더 영역 */}
       <div className="relative h-[200px] overflow-hidden rounded-t-xl lg:h-[310px]">
-        {/* 현재 이미지 */}
-        {imageUrls[currentImageIndex] && (
-          <Image
-            src={imageUrls[currentImageIndex]}
-            alt={`Recruit Image ${currentImageIndex + 1}`}
-            fill
-            className="object-cover transition-opacity duration-300"
-          />
+        {imageUrls[currentImageIndex] ? (
+          isValidS3Url(imageUrls[currentImageIndex]) ? (
+            <Image
+              src={imageUrls[currentImageIndex]}
+              alt={`Recruit Image ${currentImageIndex + 1}`}
+              fill
+              className="object-cover transition-opacity duration-300"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-grayscale-100">
+              <MdOutlineImage className="size-20 text-grayscale-400" />
+            </div>
+          )
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-grayscale-100">
+            <MdOutlineImage className="size-20 text-grayscale-400" />
+          </div>
         )}
 
-        {/* 이미지 인디케이터 */}
-        {imageUrls.length > 1 && (
+        {/* 이미지 인디케이터 - 유효한 이미지가 2개 이상일 때만 표시 */}
+        {imageUrls.filter((url) => isValidS3Url(url)).length > 1 && (
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
             <Indicator
               imageCount={imageUrls.length}
