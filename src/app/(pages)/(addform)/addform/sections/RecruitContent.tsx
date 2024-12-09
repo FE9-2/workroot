@@ -107,7 +107,7 @@ export default function RecruitContent() {
           onChange={(files: File[]) => {
             handleChangeImages(files);
           }}
-          initialImageList={initialImageList}
+          initialImageList={initialImageList || []}
         />
         {errors.imageUrls && <p className={cn(errorTextStyle, "")}>{errors.imageUrls.message as string}</p>}
       </form>

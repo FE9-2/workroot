@@ -17,7 +17,7 @@ interface ImageInputProps {
 }
 
 const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) => {
-  const [imageList, setImageList] = useState<ImageInputType[]>(props.initialImageList); // 단순히 이미지 프리뷰를 위한 상태 관리
+  const [imageList, setImageList] = useState<ImageInputType[]>(props.initialImageList || []); // 단순히 이미지 프리뷰를 위한 상태 관리
 
   const handleFileChange = (selectedFile: File | null) => {
     if (selectedFile) {
