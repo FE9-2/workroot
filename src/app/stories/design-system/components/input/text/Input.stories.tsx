@@ -47,7 +47,7 @@ export const Default_Hover_Focus: Story = {
     variant: "white",
     placeholder: "텍스트 입력",
   },
-  Render: (args) => {
+  render: (args) => {
     const { _storySize, ...rest } = args as StoryProps;
     const sizeClass = _storySize ? storySizeMap[_storySize] : "";
 

@@ -25,5 +25,5 @@ export const ScrapChip: Story = {
   args: {
     label: "스크랩",
   },
-  Render: (args: any) => <ChipWithIcon {...args} icon={args.isBookmarked ? <FaBookmark /> : <FaRegBookmark />} />,
+  render: (args: any) => <ChipWithIcon {...args} icon={args.isBookmarked ? <FaBookmark /> : <FaRegBookmark />} />,
 };

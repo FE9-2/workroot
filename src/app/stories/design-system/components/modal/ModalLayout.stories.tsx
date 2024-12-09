@@ -146,7 +146,7 @@ const ModalTester = () => {
 };
 
 export const ModalTest: Story = {
-  Render: () => (
+  render: () => (
     <div className="min-h-[600px] bg-background-200 p-4">
       <ModalTester />
     </div>

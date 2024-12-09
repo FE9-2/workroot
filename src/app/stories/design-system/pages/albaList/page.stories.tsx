@@ -65,7 +65,7 @@ const InfiniteScrollContainer = () => {
 
 // 기본 기능 테스트
 export const Default: Story = {
-  Render: () => (
+  render: () => (
     <AlbaListLayout>
       <InfiniteScrollContainer />
     </AlbaListLayout>
@@ -74,7 +74,7 @@ export const Default: Story = {
 
 // 데바일 - 아이폰
 export const IPhone12: Story = {
-  Render: () => (
+  render: () => (
     <AlbaListLayout>
       <InfiniteScrollContainer />
     </AlbaListLayout>
@@ -87,7 +87,7 @@ export const IPhone12: Story = {
 };
 
 export const IPhone12Pro: Story = {
-  Render: () => (
+  render: () => (
     <AlbaListLayout>
       <InfiniteScrollContainer />
     </AlbaListLayout>
@@ -101,7 +101,7 @@ export const IPhone12Pro: Story = {
 
 // 데바일 - 갤럭시
 export const GalaxyS8: Story = {
-  Render: () => (
+  render: () => (
     <AlbaListLayout>
       <InfiniteScrollContainer />
     </AlbaListLayout>
@@ -114,7 +114,7 @@ export const GalaxyS8: Story = {
 };
 
 export const GalaxyS20: Story = {
-  Render: () => (
+  render: () => (
     <AlbaListLayout>
       <InfiniteScrollContainer />
     </AlbaListLayout>
@@ -128,7 +128,7 @@ export const GalaxyS20: Story = {
 
 // 태블릿 - 아이패드
 export const IPadMini: Story = {
-  Render: () => (
+  render: () => (
     <AlbaListLayout>
       <InfiniteScrollContainer />
     </AlbaListLayout>
@@ -141,7 +141,7 @@ export const IPadMini: Story = {
 };
 
 export const IPadAir: Story = {
-  Render: () => (
+  render: () => (
     <AlbaListLayout>
       <InfiniteScrollContainer />
     </AlbaListLayout>
@@ -154,7 +154,7 @@ export const IPadAir: Story = {
 };
 
 export const IPadPro: Story = {
-  Render: () => (
+  render: () => (
     <AlbaListLayout>
       <InfiniteScrollContainer />
     </AlbaListLayout>
@@ -168,7 +168,7 @@ export const IPadPro: Story = {
 
 // 데스크톱 뷰
 export const Desktop: Story = {
-  Render: () => (
+  render: () => (
     <AlbaListLayout>
       <InfiniteScrollContainer />
     </AlbaListLayout>

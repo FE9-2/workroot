@@ -16,7 +16,7 @@ type Story = StoryObj<typeof DayPickerList>;
 
 export const DayPicker: Story = {
   args: {},
-  Render: () => {
+  render: () => {
     const StoryComponent = () => {
       const [selectedDays, setSelectedDays] = useState<string[]>(["월", "화"]);
 

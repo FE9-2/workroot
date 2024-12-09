@@ -26,7 +26,7 @@ export default meta;
 type Story = StoryObj<typeof DatePickerInput>;
 
 export const DatePicker: Story = {
-  Render: () => (
+  render: () => (
     <DatePickerInput
       startDateName="startDate"
       endDateName="endDate"

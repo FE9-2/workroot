@@ -24,27 +24,27 @@ const IndicatorWrapper = ({ imageCount }: { imageCount: number }) => {
 
 // 3개 이미지 인디케이터
 export const ThreeImages: Story = {
-  Render: () => <IndicatorWrapper imageCount={3} />,
+  render: () => <IndicatorWrapper imageCount={3} />,
 };
 
 // 5개 이미지 인디케이터
 export const FiveImages: Story = {
-  Render: () => <IndicatorWrapper imageCount={5} />,
+  render: () => <IndicatorWrapper imageCount={5} />,
 };
 
 // 단일 이미지 인디케이터
 export const SingleImage: Story = {
-  Render: () => <IndicatorWrapper imageCount={1} />,
+  render: () => <IndicatorWrapper imageCount={1} />,
 };
 
 // 많은 이미지 인디케이터
 export const ManyImages: Story = {
-  Render: () => <IndicatorWrapper imageCount={8} />,
+  render: () => <IndicatorWrapper imageCount={8} />,
 };
 
 // 기본 Props로 렌더링되는 인디케이터
 export const Default: Story = {
-  Render: () => <IndicatorWrapper imageCount={3} />,
+  render: () => <IndicatorWrapper imageCount={3} />,
   parameters: {
     docs: {
       description: {
