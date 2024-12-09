@@ -46,6 +46,7 @@ export default function Apply() {
   const formId = useParams().formId;
   const router = useRouter();
   const currentValues = getValues();
+  const { resume, ...submitData } = currentValues;
 
   // 이력서 업로드 api -> id, name 반환
   const uploadResume = async (file: FileList) => {
@@ -78,7 +79,6 @@ export default function Apply() {
   const mutation = useMutation({
     mutationFn: async () => {
       // 원하는 필드만 포함된 새로운 객체 만들기
-      const { resume, ...submitData } = currentValues;
 
       await axios.post(`/api/forms/${formId}/applications`, submitData, {
         headers: {
@@ -108,11 +108,9 @@ export default function Apply() {
       setValue("resumeId", uploadedResume.resumeId);
       setValue("resumeName", uploadedResume.resumeName);
 
-      const { resume, ...submitData } = currentValues;
       window.localStorage.setItem("tempApplyData", JSON.stringify(currentValues));
       toast.success("임시 저장되었습니다.");
-      console.log("currentData", currentValues);
-      console.log("submitData", submitData);
+      // console.log("currentData", currentValues);
     } catch (error) {
       console.error("Error uploading resume:", error);
       toast.error("이력서 업로드에 실패했습니다.");
