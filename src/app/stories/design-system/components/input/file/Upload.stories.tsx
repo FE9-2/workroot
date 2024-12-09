@@ -15,6 +15,7 @@ type Story = StoryObj<typeof UploadInput>;
 
 export const Upload: Story = {
   args: {
+    name: "upload",
     variant: "upload",
   },
 };
