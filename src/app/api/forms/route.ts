@@ -21,6 +21,9 @@ export async function POST(req: NextRequest) {
         "Content-Type": "multipart/form-data",
       },
     });
+    // 디버깅
+    console.log("리퀘스트 바디", req.body);
+    console.log("폼데이터", formData);
 
     return NextResponse.json(response.data);
   } catch (error: unknown) {

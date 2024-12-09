@@ -21,7 +21,7 @@ export default function RecruitCondition({ formData }: RecruitConditionProps) {
         <Label>모집인원</Label>
         <InputDropdown
           {...register("numberOfPositions", { required: "모집 인원을 선택해주세요" })}
-          options={["1", "2", "3", "직접 입력"]}
+          options={["1", "2", "3", "4", "5", "직접 입력"]}
           errormessage={errors.numberOfPositions?.message as string}
         />
 

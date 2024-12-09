@@ -72,12 +72,12 @@ export default function AddFormPage() {
     education: "",
     gender: "",
     numberOfPositions: 0,
-    imageUrls: [],
     recruitmentEndDate: undefined,
     recruitmentStartDate: undefined,
     description: "",
     title: "",
-    imageFiles: [],
+    imageUrls: [],
+    imageFiles: [], // 제외하고 submit
   };
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
@@ -93,13 +93,13 @@ export default function AddFormPage() {
           // workDays를 그대로 JSON 형식의 문자열로 추가
           submitData.append(key, JSON.stringify(value));
         } else if (
+          // SubmitFormData에 해당하지않는 필드는 제외하고 추가
           key !== "displayDate" &&
           key !== "workDateRange" &&
           key !== "recruitDateRange" &&
           key !== "imageFiles" &&
           key !== "imageUrls"
         ) {
-          // SubmitFormData에 해당하지않는 필드는 제외하고 추가
           submitData.append(key, value);
         }
       });
@@ -109,12 +109,17 @@ export default function AddFormPage() {
       if (uploadedUrls && uploadedUrls.length > 0) {
         const stringifiedUrls = JSON.stringify(uploadedUrls); // 배열을 문자열로 변환
         submitData.append("imageUrls", stringifiedUrls); // imageUrls는 stringified 배열로 전송됩니다.
+        console.log("Submit에서 이미지 처리 성공");
       } else {
-        toast.error("이미지 업로드에 실패했습니다.");
+        console.log("uploadedUrl 없음 - 이미지 업로드 실패");
+        // toast.error("이미지 업로드에 실패했습니다.");
       }
+
+      console.log("▼ 이미지 처리 후 submitData 출력");
       for (const [key, value] of submitData.entries()) {
         console.log(key, value);
       }
+
       const response = await axios.post("/api/forms", submitData, {
         headers: {
           "Content-Type": "application/json",
@@ -171,9 +176,10 @@ export default function AddFormPage() {
 
   // 이미지 업로드 api
   const uploadImages = async (files: File[]) => {
-    console.log("이미지 업로드 요청");
+    console.log("이미지 업로드 api 요청");
     if (currentValues.imageUrls.length === 0) {
       const uploadedUrls: string[] = [];
+
       // 전체 파일 배열을 순회하면서 업로드 로직 진행
       for (const file of files) {
         // 파일 크기 체크
@@ -191,12 +197,13 @@ export default function AddFormPage() {
           }
         } catch (uploadError) {
           console.error(`파일 ${file.name} 업로드 실패:`, uploadError);
-          toast.error(`${file.name} 업로드에 실패했습니다.`);
+          // toast.error(`${file.name} 업로드에 실패했습니다.`);
         }
       }
       return uploadedUrls;
     } else {
-      return;
+      console.log("이미 등록된 imageUrls 리턴");
+      return currentValues.imageUrls;
     }
   };
 

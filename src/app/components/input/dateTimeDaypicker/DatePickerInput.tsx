@@ -33,6 +33,13 @@ const DatePickerInput = ({
   const { isOpen, handleOpenDropdown } = useDropdownOpen();
   const dateValue = watch(displayValue);
 
+  useEffect(() => {
+    const currentValue = watch(displayValue);
+    if (currentValue) {
+      setValue(displayValue, currentValue);
+    }
+  }, [displayValue, watch, setValue]);
+
   const iconStyle = "text-black-400 size-9 transition-transform duration-200";
 
   const formatDisplayDate = (start: Date, end?: Date) => {
@@ -50,11 +57,11 @@ const DatePickerInput = ({
     const [start, end] = update;
 
     if (start) {
-      setValue(displayValue, formatDisplayDate(start, end || undefined)); // 수정된 부분
+      setValue(displayValue, formatDisplayDate(start, end || undefined));
       setValue(startDateName, start.toISOString());
     }
     if (start && end && end > start) {
-      setValue(displayValue, formatDisplayDate(start, end)); // 수정된 부분
+      setValue(displayValue, formatDisplayDate(start, end));
       setValue(endDateName, end.toISOString());
       handleOpenDropdown();
     }

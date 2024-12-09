@@ -7,7 +7,8 @@ import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePicker
 import { RecruitContentFormData } from "@/types/addform";
 import { cn } from "@/lib/tailwindUtil";
 import { useFormContext } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 interface RecruitContentProps {
   formData: RecruitContentFormData;
@@ -17,13 +18,45 @@ interface RecruitContentProps {
 export default function RecruitContent({ formData }: RecruitContentProps) {
   // 이미지 파일을 로컬 상태에 저장
   const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [initialImageList, setInitialImageList] = useState<{ file: File; url: string; id: string }[]>([]);
 
   //훅폼 하위 컴포넌트에서는 useFormcontext에서 메서드 호출
   const {
     register,
     setValue,
+    getValues,
     formState: { errors, isDirty },
   } = useFormContext();
+
+  const currentValue = getValues();
+
+  // 이미지 파일 change핸들러
+  const handleChangeImages = (files: File[]) => {
+    // 로컬 상태로 관리
+    setImageFiles(files);
+    // 훅폼 데이터에 추가-> 상위 페이지에서 "imageFiles" data를 관리할수있음
+    setValue("imageFiles", files);
+
+    // 하위 컴포넌트에 prop으로 넘겨줄 초기 데이터
+    setInitialImageList(
+      currentValue.imageFiles.map((file: File) => ({
+        file,
+        url: URL.createObjectURL(file),
+        id: crypto.randomUUID(),
+      }))
+    );
+  };
+
+  const searchParams = useSearchParams();
+  const currentParam = searchParams.get("tab");
+  const initialLoad = currentParam === null; // 초기 로딩 여부 확인
+  // 컴포넌트가 마운트될 때 이미지 초기값 설정 (초기로딩 제외)
+  useEffect(() => {
+    if (!initialLoad && currentValue.imageFiles && currentValue.imageFiles.length > 0) {
+      handleChangeImages(currentValue.imageFiles);
+    }
+    console.log("Content에서 initialImageList 출력", initialImageList);
+  }, []);
 
   // 날짜 선택
   const [recruitmentDateRange, setRecruitmentDateRange] = useState<[Date | null, Date | null]>([null, null]);
@@ -33,15 +66,6 @@ export default function RecruitContent({ formData }: RecruitContentProps) {
     if (start) setValue("recruitmentStartDate", start.toISOString());
     if (end) setValue("recruitmentEndDate", end.toISOString());
   };
-
-  // 이미지 파일 change핸들러
-  const handleChangeImages = (files: File[]) => {
-    // 로컬 상태로 관리
-    setImageFiles(files);
-    // 훅폼 데이터에 추가-> 상위 페이지에서 "imageFiles" data를 관리할수있음
-    setValue("imageFiles", files);
-  };
-
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
 
@@ -90,6 +114,7 @@ export default function RecruitContent({ formData }: RecruitContentProps) {
           onChange={(files: File[]) => {
             handleChangeImages(files);
           }}
+          initialImageList={initialImageList}
         />
         {errors.imageUrls && <p className={cn(errorTextStyle, "")}>{errors.imageUrls.message as string}</p>}
       </form>
