@@ -1,10 +1,10 @@
+import RecruitListItem from "@/app/components/card/cardList/RecruitListItem";
 import type { Meta, StoryObj } from "@storybook/react";
 import ModalLayout from "@/app/components/modal/ModalLayout";
-import AlbaListItem from "@/app/components/card/cardList/AlbaListItem";
 
-const meta: Meta<typeof AlbaListItem> = {
-  title: "Design System/Components/Card/CardList/AlbaListItem",
-  component: AlbaListItem,
+const meta: Meta<typeof RecruitListItem> = {
+  title: "Design System/Components/Card/CardList/RecruitListItem",
+  component: RecruitListItem,
   parameters: {
     layout: "centered",
     nextjs: {
@@ -27,10 +27,10 @@ const meta: Meta<typeof AlbaListItem> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof AlbaListItem>;
+type Story = StoryObj<typeof RecruitListItem>;
 
 const mockProps = {
-  id: 1,
+  id: "1",
   imageUrls: [
     "https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=1974&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1574126154517-d1e0d89ef734?q=80&w=1974&auto=format&fit=crop",
@@ -44,6 +44,9 @@ const mockProps = {
   title: "서울 강남구 카페 직원 모집합니다",
   applyCount: 5,
   scrapCount: 10,
+  location: "서울특별시 강남구 역삼동",
+  onEdit: () => console.log("Edit clicked"),
+  onDelete: () => console.log("Delete clicked"),
 };
 
 // 640px 미만
@@ -95,6 +98,14 @@ export const LongTitle: Story = {
   args: {
     ...mockProps,
     title: "서울 강남구 카페에서 주말 아르바이트 직원을 모집합니다. 경력자 우대, 성실한 분 환영합니다.",
+  },
+};
+
+// 긴 주소
+export const LongLocation: Story = {
+  args: {
+    ...mockProps,
+    location: "서울특별시 강남구 역삼동 테헤란로 123길 45, 67층 890호 (주)알바가게",
   },
 };
 

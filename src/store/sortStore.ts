@@ -2,28 +2,28 @@ import { create } from "zustand";
 import { postSortOptions } from "@/constants/postOptions";
 import { formSortOptions } from "@/constants/formOptions";
 
-type MyPageTabType = "posts" | "comments" | "scrap";
+type PageType = "posts" | "comments" | "scrap";
 
-interface MySortState {
+interface SortState {
   orderBy: {
     posts: string;
     comments: string;
     scrap: string;
   };
-  setOrderBy: (tabType: MyPageTabType, value: string) => void;
+  setOrderBy: (pageType: PageType, value: string) => void;
 }
 
-export const useMySortStore = create<MySortState>((set) => ({
+export const useSortStore = create<SortState>((set) => ({
   orderBy: {
     posts: postSortOptions.MOST_RECENT,
     comments: postSortOptions.MOST_RECENT,
     scrap: formSortOptions.MOST_RECENT,
   },
-  setOrderBy: (tabType, value) =>
+  setOrderBy: (pageType, value) =>
     set((state) => ({
       orderBy: {
         ...state.orderBy,
-        [tabType]: value,
+        [pageType]: value,
       },
     })),
 }));

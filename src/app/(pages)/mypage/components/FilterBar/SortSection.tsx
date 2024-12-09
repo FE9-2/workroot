@@ -3,14 +3,14 @@
 import React from "react";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { useMySortStore } from "@/store/mySortStore";
+import { useSortStore } from "@/store/sortStore";
 import FilterDropdown from "@/app/components/button/dropdown/FilterDropdown";
 import { SORT_OPTIONS, DEFAULT_SORT_VALUES } from "./constants";
 
 export default function SortSection() {
   const searchParams = useSearchParams();
   const currentTab = (searchParams.get("tab") || "posts") as keyof typeof SORT_OPTIONS;
-  const { orderBy, setOrderBy } = useMySortStore();
+  const { orderBy, setOrderBy } = useSortStore();
   const options = SORT_OPTIONS[currentTab];
   const currentLabel = options.find((opt) => opt.value === orderBy[currentTab])?.label || options[0].label;
   const isReadOnly = currentTab === "comments";

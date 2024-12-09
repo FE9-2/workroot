@@ -37,6 +37,12 @@ export async function POST(req: NextRequest) {
 // 알바폼 목록 조회
 export async function GET(req: NextRequest) {
   try {
+    const accessToken = cookies().get("accessToken")?.value;
+
+    if (!accessToken) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
     const { searchParams } = new URL(req.url);
     const params = {
       cursor: searchParams.get("cursor"),

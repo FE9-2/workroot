@@ -2,7 +2,6 @@ export type ModalType =
   | "applicationDetail"
   | "formContinue"
   | "recruitmentClosed"
-  | "customForm"
   | "deleteForm"
   | "selectProgress"
   | "changePassword"
@@ -60,7 +59,6 @@ export type ModalPropsMap = {
   applicationDetail: ApplicationDetailProps;
   formContinue: AlertModalProps;
   recruitmentClosed: AlertModalProps;
-  customForm: CustomFormModalProps;
   deleteForm: ConfirmFormModalProps;
   selectProgress: ConfirmFormModalProps;
   changePassword: FormModalProps;
