@@ -236,42 +236,45 @@ export default function AddFormPage() {
 
   return (
     <FormProvider {...methods}>
-      <aside className="left-0 top-0 rounded-[24px] bg-background-200 lg:fixed lg:top-10 lg:p-10"></aside>
-      <TabMenuDropdown
-        options={[
-          {
-            label: "모집 내용",
-            isEditing: isEditingRecruitContent || initialLoad || currentParam === "recruit-condition",
-          },
-          { label: "모집 조건", isEditing: isEditingRecruitCondition || currentParam === "recruit-condition" },
-          { label: "근무 조건", isEditing: isEditingWorkCondition || currentParam === "work-condition" },
-        ]}
-        onChange={handleOptionChange}
-      />
-      {renderChildren()}
-      <div className="flex flex-col gap-2 lg:absolute">
-        <Button
-          type="button"
-          variant="outlined"
-          width="md"
-          color="orange"
-          className="h-[58px] border bg-background-100 lg:h-[72px] lg:text-xl lg:leading-8"
-          onClick={() => onTempSave()}
-          disabled={!isDirty}
-        >
-          임시 저장
-        </Button>
-        <Button
-          type="submit"
-          variant="solid"
-          width="md"
-          color="orange"
-          className="h-[58px] lg:h-[72px] lg:text-xl lg:leading-8"
-          disabled={!isValid}
-          onClick={handleSubmit(() => mutation.mutate())}
-        >
-          작성 완료
-        </Button>
+      <div className="relative">
+        <aside className="flex flex-col items-center justify-between rounded-[24px] bg-background-200 lg:fixed lg:left-[108px] lg:top-[64px] lg:m-10 lg:h-[80vh] lg:p-10">
+          <TabMenuDropdown
+            options={[
+              {
+                label: "모집 내용",
+                isEditing: isEditingRecruitContent || initialLoad || currentParam === "recruit-condition",
+              },
+              { label: "모집 조건", isEditing: isEditingRecruitCondition || currentParam === "recruit-condition" },
+              { label: "근무 조건", isEditing: isEditingWorkCondition || currentParam === "work-condition" },
+            ]}
+            onChange={handleOptionChange}
+          />
+          <div className="absolute -bottom-[160px] flex flex-col gap-2 lg:relative lg:bottom-0">
+            <Button
+              type="button"
+              variant="outlined"
+              width="md"
+              color="orange"
+              className="h-[58px] border bg-background-100 lg:h-[72px] lg:text-xl lg:leading-8"
+              onClick={() => onTempSave()}
+              disabled={!isDirty}
+            >
+              임시 저장
+            </Button>
+            <Button
+              type="submit"
+              variant="solid"
+              width="md"
+              color="orange"
+              className="h-[58px] lg:h-[72px] lg:text-xl lg:leading-8"
+              disabled={!isValid}
+              onClick={handleSubmit(() => mutation.mutate())}
+            >
+              작성 완료
+            </Button>
+          </div>
+        </aside>
+        {renderChildren()}
       </div>
     </FormProvider>
   );
