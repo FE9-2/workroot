@@ -32,7 +32,7 @@ const Template = (args: any) => {
 };
 
 export const Default: Story = {
-  render: (args) => <Template {...args} />,
+  Render: (args) => <Template {...args} />,
   args: {
     options: ["Option 1", "Option 2", "직접입력"],
     className: "",
@@ -41,7 +41,7 @@ export const Default: Story = {
 };
 
 export const Error: Story = {
-  render: (args) => <Template {...args} />,
+  Render: (args) => <Template {...args} />,
   args: {
     options: ["Option 1", "Option 2", "직접입력"],
     className: "",

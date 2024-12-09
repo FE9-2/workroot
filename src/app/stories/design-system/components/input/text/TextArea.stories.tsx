@@ -40,7 +40,7 @@ export const Default_Hover_Focus: Story = {
   args: {
     variant: "white",
   },
-  render: (args) => {
+  Render: (args) => {
     const { _storySize, ...rest } = args as StoryProps;
     const sizeClass = _storySize ? storySizeMap[_storySize] : undefined;
 
@@ -75,7 +75,7 @@ export const textArea_with_error: Story = {
     placeholder: "에러 상태 테스트",
     errormessage: "가게 이름(상호명)을 필수로 입력해주세요",
   },
-  render: (args) => {
+  Render: (args) => {
     const { _storySize, ...rest } = args as StoryProps;
     const sizeClass = _storySize ? storySizeMap[_storySize] : undefined;
 
