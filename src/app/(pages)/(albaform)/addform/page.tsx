@@ -105,7 +105,9 @@ export default function AddFormPage() {
       });
     },
     onSuccess: () => {
-      window.localStorage.removeItem("tempAddFormData");
+      if (typeof window !== "undefined") {
+        window.localStorage.removeItem("tempAddFormData");
+      }
       toast.success("알바폼을 등록했습니다.");
       router.back(); // -> 추후 상세 페이지 이동으로 수정할것
     },
@@ -198,7 +200,9 @@ export default function AddFormPage() {
       }
     }
     // 임시저장
-    window.localStorage.setItem("tempAddFormData", JSON.stringify(currentValues));
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("tempAddFormData", JSON.stringify(currentValues));
+    }
     toast.success("임시 저장되었습니다.");
     // console.log("임시저장 데이터", currentValues);
   };
