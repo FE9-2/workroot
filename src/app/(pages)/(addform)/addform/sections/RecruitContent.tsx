@@ -17,7 +17,6 @@ interface RecruitContentProps {
 
 export default function RecruitContent({ formData }: RecruitContentProps) {
   // 이미지 파일을 로컬 상태에 저장
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [initialImageList, setInitialImageList] = useState<{ file: File; url: string; id: string }[]>([]);
 
   //훅폼 하위 컴포넌트에서는 useFormcontext에서 메서드 호출
@@ -32,19 +31,18 @@ export default function RecruitContent({ formData }: RecruitContentProps) {
 
   // 이미지 파일 change핸들러
   const handleChangeImages = (files: File[]) => {
-    // 로컬 상태로 관리
-    setImageFiles(files);
-    // 훅폼 데이터에 추가-> 상위 페이지에서 "imageFiles" data를 관리할수있음
+    // 훅폼 데이터에 추가-> 상위 페이지에서 "imageFiles" data를 관리할 수 있음
     setValue("imageFiles", files);
 
-    // 하위 컴포넌트에 prop으로 넘겨줄 초기 데이터
-    setInitialImageList(
-      currentValue.imageFiles.map((file: File) => ({
+    // 기존 이미지 리스트와 새로운 이미지를 합침
+    setInitialImageList((prevList) => [
+      ...prevList,
+      ...files.map((file: File) => ({
         file,
         url: URL.createObjectURL(file),
         id: crypto.randomUUID(),
-      }))
-    );
+      })),
+    ]);
   };
 
   const searchParams = useSearchParams();
@@ -52,7 +50,7 @@ export default function RecruitContent({ formData }: RecruitContentProps) {
   const initialLoad = currentParam === null; // 초기 로딩 여부 확인
   // 컴포넌트가 마운트될 때 이미지 초기값 설정 (초기로딩 제외)
   useEffect(() => {
-    if (!initialLoad && currentValue.imageFiles && currentValue.imageFiles.length > 0) {
+    if (!initialLoad && currentValue.imageFiles?.length > 0) {
       handleChangeImages(currentValue.imageFiles);
     }
     console.log("Content에서 initialImageList 출력", initialImageList);

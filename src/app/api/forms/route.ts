@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       },
     });
     // 디버깅
-    console.log("리퀘스트 바디", req.body);
+    console.log("액세스토큰", accessToken);
     console.log("폼데이터", formData);
 
     return NextResponse.json(response.data);

@@ -42,7 +42,7 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
       props.onChange?.(newImageList.map((img) => img.file).filter((file) => file !== null));
     }
   };
-  const handleImageSelect = () => {
+  const handleOpenFileSelecter = () => {
     if (typeof ref === "function") {
       // input 요소를 찾아서 클릭
       const fileInput = document.querySelector(`input[name="${props.name}"]`);
@@ -71,7 +71,7 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
     // 인풋 + 프리뷰 wrapper
     <div className="flex gap-5 lg:gap-6">
       <div
-        onClick={handleImageSelect}
+        onClick={handleOpenFileSelecter}
         className={cn(
           "relative size-20 cursor-pointer rounded-lg lg:size-[116px]",
           colorStyle.bgColor,

@@ -120,11 +120,7 @@ export default function AddFormPage() {
         console.log(key, value);
       }
 
-      const response = await axios.post("/api/forms", submitData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.post("/api/forms", submitData);
       console.log("폼제출 리액트쿼리에서 출력 response.data", response.data);
       return response.data;
     },
@@ -177,7 +173,7 @@ export default function AddFormPage() {
   // 이미지 업로드 api
   const uploadImages = async (files: File[]) => {
     console.log("이미지 업로드 api 요청");
-    if (currentValues.imageUrls.length === 0) {
+    if (currentValues.imageUrls.length !== currentValues.imageFiles.length) {
       const uploadedUrls: string[] = [];
 
       // 전체 파일 배열을 순회하면서 업로드 로직 진행
@@ -215,13 +211,12 @@ export default function AddFormPage() {
       try {
         const uploadedUrls = await uploadImages(Array.from(imageFiles));
         if (uploadedUrls && uploadedUrls.length > 0) {
-          setValue("imageUrls", [...currentValues.imageUrls, ...uploadedUrls]);
+          setValue("imageUrls", [...uploadedUrls]);
         } else {
-          setValue("imageUrls", []);
-          toast.error("이미지 업로드에 실패했습니다.");
+          setValue("imageUrls", [...currentValues.imageUrls]);
         }
       } catch (error) {
-        console.error("이미지 업로드 중 오류 발생:", error);
+        console.error("임시저장 - 이미지 업로드 중 오류 발생:", error);
         toast.error("이미지 업로드 중 오류가 발생했습니다.");
         setValue("imageUrls", []);
       }
