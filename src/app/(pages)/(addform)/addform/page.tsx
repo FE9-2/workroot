@@ -152,7 +152,6 @@ export default function AddFormPage() {
 
   // 이미지 업로드 api
   const uploadImages = async (files: File[]) => {
-    console.log("이미지 업로드 api 요청");
     if (currentValues.imageUrls.length !== currentValues.imageFiles.length) {
       const uploadedUrls: string[] = [];
 
@@ -173,12 +172,10 @@ export default function AddFormPage() {
           }
         } catch (uploadError) {
           console.error(`파일 ${file.name} 업로드 실패:`, uploadError);
-          // toast.error(`${file.name} 업로드에 실패했습니다.`);
         }
       }
       return uploadedUrls;
     } else {
-      console.log("이미 등록된 imageUrls 리턴");
       return currentValues.imageUrls;
     }
   };
@@ -187,7 +184,6 @@ export default function AddFormPage() {
   const onTempSave = async () => {
     // 이미지 처리 로직
     if (imageFiles && imageFiles.length > 0) {
-      console.log("임시저장 - 이미지 처리 로직 ");
       try {
         const uploadedUrls = await uploadImages(Array.from(imageFiles));
         if (uploadedUrls && uploadedUrls.length > 0) {
@@ -204,7 +200,7 @@ export default function AddFormPage() {
     // 임시저장
     window.localStorage.setItem("tempAddFormData", JSON.stringify(currentValues));
     toast.success("임시 저장되었습니다.");
-    console.log("임시저장 데이터", currentValues);
+    // console.log("임시저장 데이터", currentValues);
   };
 
   // 각각의 탭 작성중 여부
