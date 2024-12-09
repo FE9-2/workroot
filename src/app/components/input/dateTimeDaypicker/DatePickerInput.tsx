@@ -81,7 +81,7 @@ const DatePickerInput = ({
     return () => {
       window.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [handleOpenDropdown]);
 
   return (
     <div className="relative">
