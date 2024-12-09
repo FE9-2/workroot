@@ -10,6 +10,8 @@ import { fetchMockData, getInitialMockData } from "./mock/data";
 import SortSection from "@/app/(pages)/albaList/components/SortSection";
 import StorySearchSection from "../../components/SearchSection";
 import Header from "../../components/layout/Header";
+import Link from "next/link";
+import { IoAdd } from "react-icons/io5";
 
 interface AlbaListProps {
   mockData?: FormListType[][];
@@ -76,7 +78,9 @@ const AlbaList: React.FC<AlbaListProps> = () => {
           {/* 검색 섹션 */}
           <div className="w-full border-b border-grayscale-100">
             <div className="mx-auto flex max-w-screen-2xl flex-col gap-4 px-4 py-4 md:px-6 lg:px-8">
-              <StorySearchSection />
+              <div className="flex items-center justify-between">
+                <StorySearchSection />
+              </div>
             </div>
           </div>
 
@@ -88,23 +92,35 @@ const AlbaList: React.FC<AlbaListProps> = () => {
                 initialValue="전체"
                 onChange={() => {}}
               />
-              <SortSection />
+              <div className="flex items-center gap-4">
+                <SortSection />
+              </div>
             </div>
           </div>
         </div>
 
-        {/* 메인 콘텐츠 영역에 상단 여백 추가 */}
+        {/* 메인 콘텐츠 영역 */}
         <div className="w-full pt-[224px]">
-          {/* 알바폼 목록 랜더링 */}
+          {/* 폼 만들기 버튼 - 고정 위치 */}
+          <div className="fixed bottom-[28%] right-8 z-[9999] translate-y-1/2 md:right-12 lg:right-16 xl:right-20">
+            <Link
+              href="/addForm"
+              className="flex items-center gap-2 rounded-lg bg-[#FFB800] px-4 py-3 text-base font-semibold text-white shadow-lg transition-all hover:bg-[#FFA800] md:px-6 md:text-lg"
+            >
+              <IoAdd className="size-6" />
+              <span>폼 만들기</span>
+            </Link>
+          </div>
+
           {items.length === 0 ? (
-            <div className="flex h-[calc(100vh-200px)] items-center justify-center">
+            <div className="flex h-[calc(100vh-200px)] flex-col items-center justify-center">
               <p className="text-grayscale-500">등록된 알바 공고가 없습니다.</p>
             </div>
           ) : (
-            <div className="mx-auto mt-4 w-full max-w-screen-2xl">
+            <div className="mx-auto mt-4 w-full max-w-screen-2xl px-4 md:px-6 lg:px-8">
               <div className="flex flex-wrap items-center justify-center gap-6">
                 {items.map((form) => (
-                  <div key={form.id} className="space-x-6">
+                  <div key={form.id}>
                     <AlbaListItem {...form} />
                   </div>
                 ))}

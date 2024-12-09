@@ -9,6 +9,9 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import SortSection from "./components/SortSection";
 import AlbaListItem from "@/app/components/card/cardList/AlbaListItem";
 import SearchSection from "./components/SearchSection";
+import { useUser } from "@/hooks/queries/user/me/useUser";
+import Link from "next/link";
+import { IoAdd } from "react-icons/io5";
 
 const FORMS_PER_PAGE = 10;
 
@@ -16,12 +19,14 @@ export default function AlbaList() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { user } = useUser();
+  const isOwner = user?.role === "owner";
 
   // URL 쿼리 파라미터에서 필터 상태와 키워드 가져오기
   const isRecruiting = searchParams.get("isRecruiting");
   const keyword = searchParams.get("keyword");
 
-  // 초기 마운트 시 필터 값 설정
+  // 초기 마운트 시 필 값 설정
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
     if (!params.has("isRecruiting")) {
@@ -97,7 +102,9 @@ export default function AlbaList() {
         {/* 검색 섹션 */}
         <div className="w-full border-b border-grayscale-100">
           <div className="mx-auto flex max-w-screen-2xl flex-col gap-4 px-4 py-4 md:px-6 lg:px-8">
-            <SearchSection />
+            <div className="flex items-center justify-between">
+              <SearchSection />
+            </div>
           </div>
         </div>
 
@@ -109,21 +116,35 @@ export default function AlbaList() {
               initialValue={getInitialRecruitingValue(isRecruiting)}
               onChange={handleRecruitingFilter}
             />
-            <SortSection />
+            <div className="flex items-center gap-4">
+              <SortSection />
+            </div>
           </div>
         </div>
       </div>
 
-      {/* 메인 콘텐츠 영역에 상단 여백 추가 */}
+      {/* 메인 콘텐츠 영역 */}
       <div className="w-full pt-[224px]">
-        {/* 알바폼 목록 랜더링 */}
+        {/* 폼 만들기 버튼 - 고정 위치 */}
+        {isOwner && (
+          <div className="fixed bottom-[28%] right-8 z-[9999] translate-y-1/2 md:right-12 lg:right-16 xl:right-20">
+            <Link
+              href="/addForm"
+              className="flex items-center gap-2 rounded-lg bg-[#FFB800] px-4 py-3 text-base font-semibold text-white shadow-lg transition-all hover:bg-[#FFA800] md:px-6 md:text-lg"
+            >
+              <IoAdd className="size-6" />
+              <span>폼 만들기</span>
+            </Link>
+          </div>
+        )}
+
         {!data?.pages?.[0]?.data?.length ? (
-          <div className="flex h-[calc(100vh-200px)] items-center justify-center">
+          <div className="flex h-[calc(100vh-200px)] flex-col items-center justify-center">
             <p className="text-grayscale-500">등록된 알바 공고가 없습니다.</p>
           </div>
         ) : (
           <div className="mx-auto mt-4 w-full max-w-screen-2xl px-4 md:px-6 lg:px-8">
-            <div className="flex flex-wrap items-center justify-center gap-6 space-x-6">
+            <div className="flex flex-wrap items-center justify-center gap-6">
               {data?.pages.map((page) => (
                 <React.Fragment key={page.nextCursor}>
                   {page.data.map((form) => (
