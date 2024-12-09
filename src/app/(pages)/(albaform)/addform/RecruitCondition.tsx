@@ -1,6 +1,6 @@
 "use client";
 import { useFormContext } from "react-hook-form";
-import Label from "../../component/Label";
+import Label from "../Label";
 import InputDropdown from "@/app/components/button/dropdown/InputDropdown";
 
 // 알바폼 만들기 - 사장님- 2-모집조건

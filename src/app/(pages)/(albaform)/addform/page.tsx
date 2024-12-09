@@ -4,13 +4,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import axios from "axios";
 import TabMenuDropdown from "@/app/components/button/dropdown/TabMenuDropdown";
-import RecruitCondition from "./sections/RecruitCondition";
-import WorkCondition from "./sections/WorkCondition";
+import RecruitCondition from "./RecruitCondition";
 import Button from "@/app/components/button/default/Button";
 import { toast } from "react-hot-toast";
-import RecruitContent from "./sections/RecruitContent";
 import { useMutation } from "@tanstack/react-query";
 import { useUpdateProfile } from "@/hooks/queries/user/me/useUpdateProfile";
+import RecruitContent from "./RecruitContent";
+import WorkCondition from "./WorkCondition";
 
 interface SubmitFormDataType {
   isPublic: boolean;

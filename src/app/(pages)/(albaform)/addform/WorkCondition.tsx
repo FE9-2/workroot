@@ -2,7 +2,7 @@
 
 import { useFormContext } from "react-hook-form";
 import { useState, ChangeEvent, MouseEvent, useEffect } from "react";
-import Label from "../../component/Label";
+import Label from "../Label";
 import { cn } from "@/lib/tailwindUtil";
 import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePickerInput";
 import LocationInput from "@/app/components/input/text/LocationInput";
