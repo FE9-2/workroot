@@ -86,7 +86,7 @@ export default function AddFormPage() {
       // 원하는 필드만 포함된 새로운 객체 만들기
       const filteredData = Object.entries(currentValues)
         .filter(([key]) => !excludedKeys.includes(key)) // 제외할 키를 필터링
-        .reduce((acc, [key, value]) => {
+        .reduce((acc: Partial<SubmitFormDataType>, [key, value]) => {
           if (key === "numberOfPositions") {
             // numberOfPositions는 숫자형으로 변환
             acc[key] = Number(value);
@@ -94,7 +94,7 @@ export default function AddFormPage() {
             // hourlyWage는 쉼표를 제거하고 숫자형으로 변환
             acc[key] = Number(value.replaceAll(/,/g, "")); // 쉼표 제거 후 숫자형 변환
           } else {
-            acc[key] = value; // 나머지 값은 그대로 추가
+            acc[key as keyof SubmitFormDataType] = value; // 나머지 값은 그대로 추가
           }
           return acc;
         }, {});
