@@ -60,7 +60,7 @@ export default function Apply() {
         },
         timeout: 5000, // 5초 타임아웃 설정
       });
-      console.log("response", response);
+      console.log("이력서 업로드", response);
       return {
         resumeName: response.data.resumeName,
         resumeId: response.data.resumeId,
@@ -80,7 +80,11 @@ export default function Apply() {
 
       const { resume, ...submitData } = data;
 
-      await axios.post(`/api/forms/${formId}/applications`, submitData);
+      await axios.post(`/api/forms/${formId}/applications`, submitData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       window.localStorage.removeItem("tempApplyData");
       toast.success("지원이 완료되었습니다.");
       router.back();
