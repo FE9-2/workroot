@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useMyPosts } from "@/hooks/queries/user/me/useMyPosts";
-import { useSortStore } from "@/store/sortStore";
+import { useMySortStore } from "@/store/mySortStore";
 import type { PostListType } from "@/types/response/post";
 
 // 한 페이지당 게시글 수
@@ -11,7 +11,7 @@ const POSTS_PER_PAGE = 10;
 
 export default function PostsSection() {
   // 정렬 상태 관리
-  const { orderBy } = useSortStore();
+  const { orderBy } = useMySortStore();
 
   // 무한 스크롤을 위한 Intersection Observer 설정
   const { ref, inView } = useInView({
