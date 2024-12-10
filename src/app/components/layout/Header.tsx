@@ -25,12 +25,12 @@ export default function Header() {
   };
 
   const getLinkClassName = (path: string) => {
+    const isActive = pathname === path || pathname.startsWith(`${path}/`);
+
     return cn(
       "font-medium transition-colors h-16 flex items-center",
       "hover:text-lime-900",
-      pathname === path
-        ? "text-lime-900 text-sm sm:text-base md:text-lg md:font-bold"
-        : "text-lime-700 text-sm sm:text-base"
+      isActive ? "text-lime-900 text-sm sm:text-base md:text-lg md:font-bold" : "text-lime-700 text-sm sm:text-base"
     );
   };
 
