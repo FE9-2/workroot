@@ -7,9 +7,9 @@ import { filterRecruitingOptions } from "@/constants/filterOptions";
 import { FormListType } from "@/types/response/form";
 import AlbaListItem from "@/app/components/card/cardList/AlbaListItem";
 import { fetchMockData, getInitialMockData } from "./mock/data";
-import SortSection from "@/app/(pages)/albaList/components/SortSection";
-import StorySearchSection from "../../components/SearchSection";
-import Header from "../../components/layout/Header";
+import StorySortSection from "@/app/stories/design-system/components/layout/SortSection";
+import StorySearchSection from "@/app/stories/design-system/components/layout/SearchSection";
+import Header from "@/app/stories/design-system/components/layout/Header";
 import Link from "next/link";
 import { IoAdd } from "react-icons/io5";
 
@@ -73,7 +73,7 @@ const AlbaList: React.FC<AlbaListProps> = () => {
     <>
       <Header />
       <div className="flex min-h-screen flex-col items-center">
-        {/* 검색 섹션과 필터 드롭다운을 고정 위치로 설정 */}
+        {/* 검색 섹션과 필터 드롭다운을 고정 위치로 설 */}
         <div className="fixed left-0 right-0 top-16 z-40 bg-white shadow-sm">
           {/* 검색 섹션 */}
           <div className="w-full border-b border-grayscale-100">
@@ -93,7 +93,7 @@ const AlbaList: React.FC<AlbaListProps> = () => {
                 onChange={() => {}}
               />
               <div className="flex items-center gap-4">
-                <SortSection />
+                <StorySortSection />
               </div>
             </div>
           </div>
@@ -104,7 +104,7 @@ const AlbaList: React.FC<AlbaListProps> = () => {
           {/* 폼 만들기 버튼 - 고정 위치 */}
           <div className="fixed bottom-[50%] right-4 z-[9999] translate-y-1/2">
             <Link
-              href="/addForm"
+              href="/addform"
               className="flex items-center gap-2 rounded-lg bg-[#FFB800] px-4 py-3 text-base font-semibold text-white shadow-lg transition-all hover:bg-[#FFA800] md:px-6 md:text-lg"
             >
               <IoAdd className="size-6" />
