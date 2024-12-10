@@ -2,9 +2,9 @@
 
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { useForms } from "@/hooks/queries/form/useForms";
+import { useMyForms } from "@/hooks/queries/user/me/useMyForms";
 import FilterDropdown from "@/app/components/button/dropdown/FilterDropdown";
-import { filterRecruitingOptions } from "@/constants/filterOptions";
+import { filterRecruitingOptions, filterPublicOptions } from "@/constants/filterOptions";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import SortSection from "@/app/components/layout/forms/SortSection";
 import AlbaListItem from "@/app/components/card/cardList/AlbaListItem";
@@ -20,19 +20,39 @@ export default function AlbaList() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
   const isOwner = user?.role === userRoles.OWNER;
 
+  useEffect(() => {
+    if (!isLoading) {
+      if (!user) {
+        router.push("/login");
+      } else if (user.role !== userRoles.OWNER) {
+        router.push("/myAlbaform/applicant");
+      }
+    }
+  }, [user, isLoading, router]);
+
   // URL 쿼리 파라미터에서 필터 상태와 키워드 가져오기
+  const isPublic = searchParams.get("isPublic");
   const isRecruiting = searchParams.get("isRecruiting");
   const keyword = searchParams.get("keyword");
   const orderBy = searchParams.get("orderBy");
 
-  // 초기 마운트 시 필 값 설정
+  // 초기 마운트 시 필터 값 설정
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
+    let needsUpdate = false;
+
+    if (!params.has("isPublic")) {
+      params.set("isPublic", "true");
+      needsUpdate = true;
+    }
     if (!params.has("isRecruiting")) {
       params.set("isRecruiting", "true");
+      needsUpdate = true;
+    }
+    if (needsUpdate) {
       router.push(`${pathname}?${params.toString()}`);
     }
   }, []);
@@ -45,12 +65,41 @@ export default function AlbaList() {
   });
 
   // 알바폼 목록 조회
-  const { data, isLoading, error, hasNextPage, fetchNextPage, isFetchingNextPage } = useForms({
+  const {
+    data,
+    isLoading: isLoadingData,
+    error,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useMyForms({
     limit: FORMS_PER_PAGE,
+    isPublic: isPublic === "true" ? true : isPublic === "false" ? false : undefined,
     isRecruiting: isRecruiting === "true" ? true : isRecruiting === "false" ? false : undefined,
     keyword: keyword || undefined,
     orderBy: orderBy || undefined,
   });
+
+  // 공개 여부 필터 변경 함수
+  const handlePublicFilter = (selected: string) => {
+    const option = filterPublicOptions.find((opt) => opt.label === selected);
+    if (option) {
+      const params = new URLSearchParams(searchParams);
+      if (selected === "전체") {
+        params.delete("isPublic");
+      } else {
+        params.set("isPublic", String(option.value));
+      }
+      router.push(`${pathname}?${params.toString()}`);
+    }
+  };
+
+  // 현재 필터 상태에 따른 초기값 설정
+  const getInitialPublicValue = (isPublic: string | null) => {
+    if (!isPublic) return "전체";
+    const option = filterPublicOptions.find((opt) => String(opt.value) === isPublic);
+    return option?.label || "전체";
+  };
 
   // 모집 여부 필터 변경 함수
   const handleRecruitingFilter = (selected: string) => {
@@ -90,7 +139,7 @@ export default function AlbaList() {
   }
 
   // 로딩 상태 처리
-  if (isLoading) {
+  if (isLoadingData) {
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
         <div>로딩 중...</div>
@@ -114,11 +163,18 @@ export default function AlbaList() {
         {/* 필터 드롭다운 섹션 */}
         <div className="w-full border-b border-grayscale-100">
           <div className="mx-auto flex max-w-screen-2xl items-center justify-between gap-2 px-4 py-4 md:px-6 lg:px-8">
-            <FilterDropdown
-              options={filterRecruitingOptions.map((option) => option.label)}
-              initialValue={getInitialRecruitingValue(isRecruiting)}
-              onChange={handleRecruitingFilter}
-            />
+            <div className="flex items-center gap-2">
+              <FilterDropdown
+                options={filterPublicOptions.map((option) => option.label)}
+                initialValue={getInitialPublicValue(isPublic)}
+                onChange={handlePublicFilter}
+              />
+              <FilterDropdown
+                options={filterRecruitingOptions.map((option) => option.label)}
+                initialValue={getInitialRecruitingValue(isRecruiting)}
+                onChange={handleRecruitingFilter}
+              />
+            </div>
             <div className="flex items-center gap-4">
               <SortSection pathname={pathname} searchParams={searchParams} />
             </div>
