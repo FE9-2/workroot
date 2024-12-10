@@ -209,7 +209,7 @@ export default function AddFormPage() {
       : false;
   const isEditingRecruitCondition =
     currentValues.gender !== "" ||
-    currentValues.numberOfPositions !== 0 ||
+    currentValues.numberOfPositions > 0 ||
     currentValues.education !== "" ||
     currentValues.age !== "" ||
     currentValues.preferred !== ""

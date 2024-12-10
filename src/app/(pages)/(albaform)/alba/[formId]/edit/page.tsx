@@ -2,7 +2,7 @@
 // 알바폼 수정 페이지 (사장님)
 
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import axios from "axios";
 import TabMenuDropdown from "@/app/components/button/dropdown/TabMenuDropdown";
@@ -77,7 +77,9 @@ export default function EditFormPage() {
 
   const [selectedOption, setSelectedOption] = useState("모집 내용");
 
-  // 수정된 폼 제출 리액트쿼리
+  const formId = useParams().formId;
+
+  // 수정된 폼 제출 리액트쿼리 ( 전체 데이터를 보낼까? 수정된 데이터만 감지할수있나?)
   const mutation = useMutation({
     mutationFn: async () => {
       const excludedKeys = ["displayDate", "workDateRange", "recruitDateRange", "imageFiles"];
@@ -97,17 +99,13 @@ export default function EditFormPage() {
           }
           return acc;
         }, {});
-      await axios.post("/api/forms", filteredData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      await axios.patch(`/api/forms/${formId}`, filteredData);
     },
     onSuccess: () => {
       if (typeof window !== "undefined") {
         window.localStorage.removeItem("tempAddFormData");
       }
-      toast.success("알바폼을 등록했습니다.");
+      toast.success("알바폼을 수정했습니다.");
       router.back(); // -> 추후 상세 페이지 이동으로 수정할것
     },
     onError: (error) => {
