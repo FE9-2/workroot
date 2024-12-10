@@ -116,6 +116,61 @@ export default function EditFormPage() {
     },
   });
 
+  // 이미지 업로드 api
+  const uploadImages = async (files: File[]) => {
+    if (currentValues.imageUrls.length !== currentValues.imageFiles.length) {
+      const uploadedUrls: string[] = [];
+
+      // 전체 파일 배열을 순회하면서 업로드 로직 진행
+      for (const file of files) {
+        // 파일 크기 체크
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        if (file.size > maxSize) {
+          toast.error(`5MB 이상의 파일은 업로드할 수 없습니다.`);
+          continue;
+        }
+        const formData = new FormData();
+        formData.append("image", file);
+        try {
+          const uploadResponse = await uploadImageMutation.mutateAsync(file);
+          if (uploadResponse?.url) {
+            uploadedUrls.push(uploadResponse.url);
+          }
+        } catch (uploadError) {
+          console.error(`파일 ${file.name} 업로드 실패:`, uploadError);
+        }
+      }
+      return uploadedUrls;
+    } else {
+      return currentValues.imageUrls;
+    }
+  };
+
+  const imageFiles = currentValues.imageFiles;
+
+  // 폼데이터 임시 저장 함수
+  const onTempSave = async () => {
+    // 이미지 처리 로직
+    if (imageFiles && imageFiles.length > 0) {
+      try {
+        const uploadedUrls = await uploadImages(Array.from(imageFiles));
+        if (uploadedUrls && uploadedUrls.length > 0) {
+          setValue("imageUrls", [...uploadedUrls]);
+        } else {
+          setValue("imageUrls", [...currentValues.imageUrls]);
+        }
+      } catch (error) {
+        console.error("임시저장 - 이미지 업로드 중 오류 발생:", error);
+        setValue("imageUrls", []);
+      }
+    }
+    // 임시저장
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("tempAddFormData", JSON.stringify(currentValues));
+    }
+    console.log("임시저장 데이터", currentValues);
+  };
+
   // tab 선택 시 Url params 수정 & 하위 폼 데이터 임시저장
   const searchParams = useSearchParams();
   const currentParam = searchParams.get("tab");
@@ -123,6 +178,7 @@ export default function EditFormPage() {
   const initialLoad = currentParam === null; // 초기 로딩 여부 확인
 
   const handleOptionChange = async (option: string) => {
+    onTempSave();
     setSelectedOption(option);
     if (!initialLoad && option !== currentParam && option !== prevOption && isDirty) {
       setPrevOption(option);
