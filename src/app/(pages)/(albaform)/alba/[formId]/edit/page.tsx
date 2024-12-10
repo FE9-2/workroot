@@ -39,7 +39,7 @@ interface SubmitFormDataType {
 export default function EditFormPage() {
   const router = useRouter();
 
-  // 리액트 훅폼에서 관리할 데이터 타입 지정 및 메서드 호출 (상위 컴포넌트 = useForm 사용)
+  // 초기 데이터를 서버에서 가져와서 뿌려주기 (interface에 맞게 가공해줘야할듯)
   const methods = useForm<SubmitFormDataType>({
     mode: "onChange",
     defaultValues: {
@@ -75,11 +75,9 @@ export default function EditFormPage() {
   // 훅폼에서 관리하는 전체 데이터를 가져오는 함수
   const currentValues: SubmitFormDataType = methods.watch();
 
-  // 이미지 업로드 api 처리를 위해 별도 변수에 할당
-  const imageFiles = currentValues.imageFiles;
   const [selectedOption, setSelectedOption] = useState("모집 내용");
 
-  // 폼 제출 리액트쿼리
+  // 수정된 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
       const excludedKeys = ["displayDate", "workDateRange", "recruitDateRange", "imageFiles"];
@@ -150,36 +148,6 @@ export default function EditFormPage() {
     }
   };
   const { uploadImageMutation } = useUpdateProfile();
-
-  // 이미지 업로드 api
-  const uploadImages = async (files: File[]) => {
-    if (currentValues.imageUrls.length !== currentValues.imageFiles.length) {
-      const uploadedUrls: string[] = [];
-
-      // 전체 파일 배열을 순회하면서 업로드 로직 진행
-      for (const file of files) {
-        // 파일 크기 체크
-        const maxSize = 5 * 1024 * 1024; // 5MB
-        if (file.size > maxSize) {
-          toast.error(`5MB 이상의 파일은 업로드할 수 없습니다.`);
-          continue;
-        }
-        const formData = new FormData();
-        formData.append("image", file);
-        try {
-          const uploadResponse = await uploadImageMutation.mutateAsync(file);
-          if (uploadResponse?.url) {
-            uploadedUrls.push(uploadResponse.url);
-          }
-        } catch (uploadError) {
-          console.error(`파일 ${file.name} 업로드 실패:`, uploadError);
-        }
-      }
-      return uploadedUrls;
-    } else {
-      return currentValues.imageUrls;
-    }
-  };
 
   // 각각의 탭 작성중 여부
   const isEditingRecruitContent =

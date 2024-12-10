@@ -80,11 +80,7 @@ export default function Apply() {
     mutationFn: async () => {
       // 원하는 필드만 포함된 새로운 객체 만들기
 
-      await axios.post(`/api/forms/${formId}/applications`, submitData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      await axios.post(`/api/forms/${formId}/applications`, submitData);
     },
 
     onSuccess: () => {

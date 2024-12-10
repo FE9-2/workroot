@@ -97,11 +97,7 @@ export default function AddFormPage() {
           }
           return acc;
         }, {});
-      await axios.post("/api/forms", filteredData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      await axios.post("/api/forms", filteredData);
     },
     onSuccess: () => {
       if (typeof window !== "undefined") {
