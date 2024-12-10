@@ -26,8 +26,8 @@ const mockProps = {
       storeName: "스타벅스 강남점",
       id: 1,
     },
-    recruitmentEndDate: "2024-12-31T00:00:00.000Z",
-    recruitmentStartDate: "2024-06-01T00:00:00.000Z",
+    recruitmentEndDate: new Date("2024-12-31T00:00:00.000Z"),
+    recruitmentStartDate: new Date("2024-06-01T00:00:00.000Z"),
     description:
       "스타벅스 강남점에서 함께할 파트타이머를 모집합니다. 주말 근무 가능자 우대, 경력자 우대, 장기 근무자 우대",
     title: "스타벅스 강남점 파트타이머 모집",
@@ -80,7 +80,7 @@ export const RecruitmentClosed: Story = {
     ...mockProps,
     form: {
       ...mockProps.form,
-      recruitmentEndDate: "2024-01-01T00:00:00.000Z",
+      recruitmentEndDate: new Date("2024-01-01T00:00:00.000Z"),
     },
   },
 };

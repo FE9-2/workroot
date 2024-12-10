@@ -3,9 +3,9 @@ import { formatRecruitDate } from "@/utils/workDayFormatter";
 import Chip from "@/app/components/chip/Chip";
 import Image from "next/image";
 import { applicationStatus, ApplicationStatus } from "@/types/application";
-import { ApplicationListItemProps } from "@/types/response/application";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { MyApplicationType } from "@/types/response/user";
 
 // 지원 상태에 따른 Chip 컴포넌트의 variant를 반환하는 함수
 const getStatusVariant = (status: ApplicationStatus) => {
@@ -22,6 +22,8 @@ const getStatusVariant = (status: ApplicationStatus) => {
 // 지원 상태에 따른 한글 라벨을 반환하는 함수
 const getStatusLabel = (status: ApplicationStatus) => {
   switch (status) {
+    case applicationStatus.ALL:
+      return "전체";
     case applicationStatus.HIRED:
       return "채용 완료";
     case applicationStatus.REJECTED:
@@ -35,7 +37,7 @@ const getStatusLabel = (status: ApplicationStatus) => {
   }
 };
 
-const MyApplicationListItem = ({ createdAt, status, resumeId, resumeName, form }: ApplicationListItemProps) => {
+const MyApplicationListItem = ({ id, createdAt, status, resumeId, resumeName, form }: MyApplicationType) => {
   // 현재 공고의 모집 상태를 가져옴
   const recruitmentStatus = getRecruitmentStatus(new Date(form.recruitmentEndDate));
 
@@ -107,7 +109,10 @@ const MyApplicationListItem = ({ createdAt, status, resumeId, resumeName, form }
         {/* 하단 상태 표시 영역: 지원 상태와 모집 상태 */}
         <div className="flex gap-2">
           <div className="rounded-[4px] border border-primary-orange-300 md:text-base">
-            <Chip label={getStatusLabel(status)} variant={getStatusVariant(status)} />
+            <Chip
+              label={getStatusLabel(status as ApplicationStatus)}
+              variant={getStatusVariant(status as ApplicationStatus)}
+            />
           </div>
           <div className="rounded-[4px] border border-primary-orange-300 md:text-base">
             <Chip label={recruitmentStatus} variant={recruitmentStatus === "모집 중" ? "positive" : "negative"} />
