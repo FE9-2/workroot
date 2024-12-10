@@ -75,7 +75,7 @@ export default function AddFormPage() {
 
   // 이미지 업로드 api 처리를 위해 별도 변수에 할당
   const imageFiles = currentValues.imageFiles;
-  const [selectedOption, setSelectedOption] = useState<string>("");
+  const [, setSelectedOption] = useState<string>("");
 
   // 폼 제출 리액트쿼리
   const mutation = useMutation({

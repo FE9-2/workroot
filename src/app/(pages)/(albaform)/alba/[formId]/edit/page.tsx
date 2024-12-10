@@ -186,7 +186,7 @@ export default function EditFormPage() {
       "모집 조건": "recruit-condition",
       "근무 조건": "work-condition",
     }[option];
-    router.push(`/addform?tab=${params}`);
+    router.push(`/alba/${formId}?tab=${params}`);
   };
 
   const renderChildren = () => {
