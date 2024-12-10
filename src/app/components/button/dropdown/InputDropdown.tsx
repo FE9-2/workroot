@@ -37,7 +37,7 @@ const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
     // 작성중인 탭으로 다시 이동했을때 이전에 저장된 훅폼 데이터 연동
     useEffect(() => {
       const data = getValues();
-      setSelectedValue(data.name);
+      setSelectedValue(data.name || "");
     }, [getValues]);
 
     const textStyle = "text-base";
