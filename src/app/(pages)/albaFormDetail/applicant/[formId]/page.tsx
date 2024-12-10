@@ -1,28 +1,24 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useUserFormDetail } from "@/hooks/queries/form/userFormDetail";
 import React, { useEffect, useState } from "react";
 import CardChipIcon from "@/app/components/card/cardList/CardChipIcon";
 import Chip from "@/app/components/chip/Chip";
 
 export default function AlbaFormDetailPage() {
-  const searchParams = useSearchParams();
-  const [formId, setFormId] = useState<number>(0);
-  const router = useRouter();
+  const { formId } = useParams(); // useParams로 formId 추출
+  const [formIdState, setFormIdState] = useState<number>(0);
 
-  // URL에서 formId를 추출하여 state에 저장
   useEffect(() => {
-    const id = searchParams.get("formId");
-    console.log("id", id);
-
-    if (id) {
-      setFormId(Number(id)); // formId를 숫자로 변환하여 상태에 저장
+    // formId가 문자열로 전달되므로 숫자로 변환하여 상태에 저장
+    if (formId) {
+      setFormIdState(Number(formId)); // formId를 숫자로 변환하여 상태에 저장
     }
-  }, [searchParams]);
+  }, [formId]);
 
   // formId가 설정되면 useUserFormDetail 호출
-  const { data, isLoading, error } = useUserFormDetail({ formId });
+  const { data, isLoading, error } = useUserFormDetail({ formId: formIdState });
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -72,7 +68,6 @@ export default function AlbaFormDetailPage() {
           />
           <div className="text-2xl">{data.description}</div>
         </div>
-        <div>{/* 오른쪽 콘텐츠 */}</div>
       </div>
     </div>
   );
