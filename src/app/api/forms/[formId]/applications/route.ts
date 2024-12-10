@@ -20,9 +20,10 @@ export async function POST(req: NextRequest, { params }: { params: { formId: str
         "Content-Type": "application/json",
       },
     });
-
+    console.log(response.data);
     return NextResponse.json(response.data);
   } catch (error: unknown) {
+    console.error(error);
     if (error instanceof AxiosError) {
       console.error(`POST /api/forms/${params.formId}/applications error:`, error);
       if (error.response) {
