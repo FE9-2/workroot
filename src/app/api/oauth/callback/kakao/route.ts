@@ -3,6 +3,7 @@ import axios from "axios";
 import apiClient from "@/lib/apiClient";
 import { OauthLoginUser, OauthResponse, OauthSignupUser } from "@/types/oauth/oauth";
 import { cookies } from "next/headers";
+import { RedirectError } from "@/utils/oauthLoginError";
 
 export const GET = async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;
@@ -71,8 +72,13 @@ export const GET = async (request: NextRequest) => {
       const { accessToken, refreshToken } = loginResponse;
       setCookies(accessToken, refreshToken);
     } catch (error: any) {
-      console.error("카카오 로그인 중 오류:", error.message || error);
-      throw new Error("로그인 중 서버 오류");
+      if (error.response?.status === 403) {
+        console.log("회원가입이 필요합니다. 회원가입 시도 중...");
+        //회원가입 페이지로 리다이렉트
+        throw new RedirectError("/signup");
+      } else {
+        throw new Error("회원가입 중 서버 오류");
+      }
     }
   };
 
@@ -98,5 +104,5 @@ export const GET = async (request: NextRequest) => {
     return NextResponse.json({ message: error.message || "서버 오류" }, { status: 500 });
   }
 
-  return NextResponse.redirect(new URL("/", request.url));
+  return NextResponse.redirect(new URL("/mypage", request.url));
 };

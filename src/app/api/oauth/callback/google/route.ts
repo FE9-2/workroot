@@ -4,6 +4,7 @@ import { decodeJwt } from "@/middleware";
 import apiClient from "@/lib/apiClient";
 import { OauthLoginUser, OauthResponse, OauthSignupUser } from "@/types/oauth/oauth";
 import { cookies } from "next/headers";
+import { RedirectError } from "@/utils/oauthLoginError";
 
 export const GET = async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;
@@ -82,15 +83,25 @@ export const GET = async (request: NextRequest) => {
     };
 
     const loginUser = async () => {
-      const { data: loginResponse } = await axios.post<OauthResponse>(
-        `${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/oauth/login/${provider}`,
-        googleUser.login
-      );
-      console.log("구글 로그인 성공:", loginResponse);
+      try {
+        const { data: loginResponse } = await axios.post<OauthResponse>(
+          `${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/oauth/login/${provider}`,
+          googleUser.login
+        );
+        console.log("구글 로그인 성공:", loginResponse);
 
-      // 쿠키 저장
-      const { accessToken, refreshToken } = loginResponse;
-      setCookies(accessToken, refreshToken);
+        // 쿠키 저장
+        const { accessToken, refreshToken } = loginResponse;
+        setCookies(accessToken, refreshToken);
+      } catch (error: any) {
+        if (error.response?.status === 403) {
+          console.log("회원가입이 필요합니다. 회원가입 페이지로 이동합니다...");
+          throw new RedirectError("/signup");
+        } else {
+          console.error("구글 로그인 중 오류:", error.message || error);
+          throw new Error("로그인 중 서버 오류");
+        }
+      }
     };
 
     const setCookies = (accessToken: string, refreshToken: string) => {
@@ -108,11 +119,18 @@ export const GET = async (request: NextRequest) => {
       });
     };
 
-    await processUser();
+    try {
+      await processUser();
+    } catch (error) {
+      if (error instanceof RedirectError) {
+        return NextResponse.redirect(new URL(error.redirectPath, request.url));
+      }
+      throw error;
+    }
   } catch (error: any) {
     console.error("OAuth 처리 중 오류:", error.message || error);
     return NextResponse.json({ message: error.message || "서버 오류" }, { status: 500 });
   }
 
-  return NextResponse.redirect(new URL("/", request.url));
+  return NextResponse.redirect(new URL("/mypage", request.url));
 };
