@@ -12,7 +12,7 @@ import BaseInput from "@/app/components/input/text/BaseInput";
 import CheckBtn from "@/app/components/button/default/CheckBtn";
 
 // 알바폼 만들기 - 사장님 - 3-근무조건
-export default function WorkCondition() {
+export default function WorkConditionSection() {
   const {
     register,
     setValue,

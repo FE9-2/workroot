@@ -17,7 +17,7 @@ interface ImageInputProps {
 }
 
 const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) => {
-  const [imageList, setImageList] = useState<ImageInputType[]>(props.initialImageList || []); // 단순히 이미지 프리뷰를 위한 상태 관리
+  const [imageList, setImageList] = useState<ImageInputType[]>([]); // 단순히 이미지 프리뷰를 위한 상태 관리
 
   const handleFileChange = (selectedFile: File | null) => {
     if (selectedFile) {
@@ -42,6 +42,7 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
       props.onChange?.(newImageList.map((img) => img.file).filter((file) => file !== null));
     }
   };
+
   const handleOpenFileSelecter = () => {
     if (typeof ref === "function") {
       // input 요소를 찾아서 클릭
@@ -55,6 +56,10 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
   };
 
   const handleDeleteImage = (targetId: string) => {
+    const targetImage = imageList.find((image) => image.id === targetId);
+    if (targetImage) {
+      URL.revokeObjectURL(targetImage.url); // URL 객체 해제
+    }
     const newImageList = imageList.filter((image) => image.id !== targetId);
     setImageList(newImageList);
     props.onChange?.(newImageList.map((img) => img.file).filter((file) => file !== null));

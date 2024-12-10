@@ -4,7 +4,7 @@ import Label from "../Label";
 import InputDropdown from "@/app/components/button/dropdown/InputDropdown";
 
 // 알바폼 만들기 - 사장님- 2-모집조건
-export default function RecruitCondition() {
+export default function RecruitConditionSection() {
   const {
     register,
     formState: { errors },
