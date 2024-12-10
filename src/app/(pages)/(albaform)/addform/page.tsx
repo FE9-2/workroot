@@ -134,7 +134,7 @@ export default function AddFormPage() {
       "모집 조건": "recruit-condition",
       "근무 조건": "work-condition",
     }[option];
-    router.replace(`/addform?tab=${params}`);
+    router.push(`/addform?tab=${params}`);
   };
 
   const renderChildren = () => {
