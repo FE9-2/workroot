@@ -1,6 +1,11 @@
 import { workDayOptions } from "@/constants/workDayOptions";
 
 export const formatRecruitDate = (date: Date, isMd: boolean = false) => {
+  // 유효한 Date 객체인지 확인
+  if (!(date instanceof Date) || isNaN(date.getTime())) {
+    return new Date().toLocaleDateString("ko-KR", { year: "numeric", month: "2-digit", day: "2-digit" });
+  }
+
   const year = isMd ? date.getFullYear().toString() : date.getFullYear().toString().slice(2);
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");

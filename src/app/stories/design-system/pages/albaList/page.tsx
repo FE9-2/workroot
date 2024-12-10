@@ -100,9 +100,9 @@ const AlbaList: React.FC<AlbaListProps> = () => {
         </div>
 
         {/* 메인 콘텐츠 영역 */}
-        <div className="w-full pt-[224px]">
+        <div className="w-full pt-[132px]">
           {/* 폼 만들기 버튼 - 고정 위치 */}
-          <div className="fixed bottom-[28%] right-8 z-[9999] translate-y-1/2 md:right-12 lg:right-16 xl:right-20">
+          <div className="fixed bottom-[50%] right-4 z-[9999] translate-y-1/2">
             <Link
               href="/addForm"
               className="flex items-center gap-2 rounded-lg bg-[#FFB800] px-4 py-3 text-base font-semibold text-white shadow-lg transition-all hover:bg-[#FFA800] md:px-6 md:text-lg"
@@ -117,8 +117,8 @@ const AlbaList: React.FC<AlbaListProps> = () => {
               <p className="text-grayscale-500">등록된 알바 공고가 없습니다.</p>
             </div>
           ) : (
-            <div className="mx-auto mt-4 w-full max-w-screen-2xl px-4 md:px-6 lg:px-8">
-              <div className="flex flex-wrap items-center justify-center gap-6">
+            <div className="mx-auto mt-4 w-full max-w-screen-xl px-3">
+              <div className="flex flex-wrap justify-start gap-6">
                 {items.map((form) => (
                   <div key={form.id}>
                     <AlbaListItem {...form} />
