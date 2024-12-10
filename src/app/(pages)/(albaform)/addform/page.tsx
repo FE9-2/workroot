@@ -66,13 +66,12 @@ export default function AddFormPage() {
 
   const {
     setValue,
-    getValues,
     handleSubmit,
     formState: { isDirty, isValid },
   } = methods;
 
   // 훅폼에서 관리하는 전체 데이터를 가져오는 함수
-  const currentValues: SubmitFormDataType = getValues();
+  const currentValues: SubmitFormDataType = methods.watch();
 
   // 이미지 업로드 api 처리를 위해 별도 변수에 할당
   const imageFiles = currentValues.imageFiles;
@@ -204,33 +203,27 @@ export default function AddFormPage() {
       window.localStorage.setItem("tempAddFormData", JSON.stringify(currentValues));
     }
     toast.success("임시 저장되었습니다.");
-    // console.log("임시저장 데이터", currentValues);
+    console.log("임시저장 데이터", currentValues);
   };
 
   // 각각의 탭 작성중 여부
   const isEditingRecruitContent =
-    currentValues.title !== "" ||
-    currentValues.description !== "" ||
-    currentValues.recruitmentStartDate !== "" ||
-    currentValues.imageUrls
+    currentValues.title !== "" || currentValues.description !== "" || currentValues.recruitmentStartDate !== undefined
       ? true
       : false;
   const isEditingRecruitCondition =
-    currentValues.gender ||
-    currentValues.numberOfPositions ||
-    currentValues.education ||
-    currentValues.age ||
-    currentValues.preferred
+    currentValues.gender !== "" ||
+    currentValues.numberOfPositions !== 0 ||
+    currentValues.education !== "" ||
+    currentValues.age !== "" ||
+    currentValues.preferred !== ""
       ? true
       : false;
   const isEditingWorkCondition =
-    currentValues.location ||
-    currentValues.workDays ||
-    currentValues.workStartTime ||
-    currentValues.workStartDate ||
-    currentValues.hourlyWage ||
-    currentValues.isNegotiableWorkDays ||
-    currentValues.isPublic
+    currentValues.location !== "" ||
+    currentValues.workStartTime !== "" ||
+    currentValues.workStartDate !== "" ||
+    currentValues.hourlyWage > 0
       ? true
       : false;
 
@@ -242,7 +235,7 @@ export default function AddFormPage() {
             options={[
               {
                 label: "모집 내용",
-                isEditing: isEditingRecruitContent || initialLoad || currentParam === "recruit-condition",
+                isEditing: isEditingRecruitContent || initialLoad || currentParam === "recruit-content",
               },
               { label: "모집 조건", isEditing: isEditingRecruitCondition || currentParam === "recruit-condition" },
               { label: "근무 조건", isEditing: isEditingWorkCondition || currentParam === "work-condition" },
