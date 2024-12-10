@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import { userRoles } from "@/constants/userRoles";
 
-export default function MyAlbaForm() {
+export default function ApplicantPage() {
   const router = useRouter();
   const { user, isLoading } = useUser();
 
@@ -13,12 +13,8 @@ export default function MyAlbaForm() {
     if (!isLoading) {
       if (!user) {
         router.push("/login");
-      } else {
-        if (user.role === userRoles.OWNER) {
-          router.push("/myAlbaform/owner");
-        } else {
-          router.push("/myAlbaform/applicant");
-        }
+      } else if (user.role === userRoles.OWNER) {
+        router.push("/myAlbaform/owner");
       }
     }
   }, [user, isLoading, router]);
@@ -31,5 +27,11 @@ export default function MyAlbaForm() {
     );
   }
 
-  return null;
+  // 지원자용 페이지 컨텐츠
+  return (
+    <div>
+      <h1>지원자 페이지</h1>
+      {/* 지원자용 컨텐츠 */}
+    </div>
+  );
 }
