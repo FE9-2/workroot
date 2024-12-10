@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import axios from "axios";
@@ -75,7 +75,7 @@ export default function AddFormPage() {
 
   // 이미지 업로드 api 처리를 위해 별도 변수에 할당
   const imageFiles = currentValues.imageFiles;
-  const [selectedOption, setSelectedOption] = useState("모집 내용");
+  const [selectedOption, setSelectedOption] = useState<string>("");
 
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
@@ -133,16 +133,32 @@ export default function AddFormPage() {
     router.push(`/addform?tab=${params}`);
   };
 
+  useEffect(() => {
+    switch (currentParam) {
+      case "recruit-content":
+        setSelectedOption("모집 내용");
+        break;
+      case "recruit-condition":
+        setSelectedOption("모집 조건");
+        break;
+      case "work-condition":
+        setSelectedOption("근무 조건");
+        break;
+      default:
+        setSelectedOption("모집 내용");
+    }
+  }, [currentParam]);
+
   const renderChildren = () => {
-    switch (selectedOption) {
-      case "모집 내용":
+    switch (currentParam) {
+      case "recruit-content":
         return <RecruitContentSection key="recruitContent" />;
-      case "모집 조건":
+      case "recruit-condition":
         return <RecruitConditionSection key="recruitCondition" />;
-      case "근무 조건":
+      case "work-condition":
         return <WorkConditionSection key="workCondition" />;
       default:
-        return <></>;
+        return <RecruitContentSection key="recruitContent" />;
     }
   };
   const { uploadImageMutation } = useUpdateProfile();

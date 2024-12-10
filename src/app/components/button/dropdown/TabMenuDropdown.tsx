@@ -1,8 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { cn } from "@/lib/tailwindUtil";
 import useWidth from "@/hooks/useWidth";
+import { useSearchParams } from "next/navigation";
 
 interface TopMenuDropdownProps {
   options: { label: string; isEditing: boolean }[];
@@ -21,6 +22,24 @@ const TabMenuDropdown = ({ options, className = "", onChange }: TopMenuDropdownP
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedLabel, setSelectedLabel] = useState<string>(options[0].label); // 선택된 값 (label을 저장)
   const { isDesktop } = useWidth();
+  const searchParams = useSearchParams();
+  const currentParam = searchParams.get("tab");
+
+  useEffect(() => {
+    switch (currentParam) {
+      case "recruit-content":
+        setSelectedLabel("모집 내용");
+        break;
+      case "recruit-condition":
+        setSelectedLabel("모집 조건");
+        break;
+      case "work-condition":
+        setSelectedLabel("근무 조건");
+        break;
+      default:
+        setSelectedLabel("모집 내용");
+    }
+  }, []);
 
   const handleOptionClick = (label: string) => {
     setSelectedLabel(label); // 선택된 레이블을 저장
