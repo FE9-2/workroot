@@ -64,9 +64,24 @@ const AlbaListItem = ({
       title: "지원하기",
       content: "정말로 지원하시겠습니까?",
       onConfirm: () => {
+        openModal("customForm", {
+          isOpen: false,
+          title: "",
+          content: "",
+          onConfirm: () => {},
+          onCancel: () => {},
+        });
         router.push(`/apply/${id}`);
       },
-      onCancel: () => {},
+      onCancel: () => {
+        openModal("customForm", {
+          isOpen: false,
+          title: "",
+          content: "",
+          onConfirm: () => {},
+          onCancel: () => {},
+        });
+      },
     });
   };
 
@@ -78,9 +93,24 @@ const AlbaListItem = ({
       title: "스크랩 확인",
       content: "이 공고를 스크랩하시겠습니까?",
       onConfirm: () => {
+        openModal("customForm", {
+          isOpen: false,
+          title: "",
+          content: "",
+          onConfirm: () => {},
+          onCancel: () => {},
+        });
         scrap();
       },
-      onCancel: () => {},
+      onCancel: () => {
+        openModal("customForm", {
+          isOpen: false,
+          title: "",
+          content: "",
+          onConfirm: () => {},
+          onCancel: () => {},
+        });
+      },
     });
   };
 

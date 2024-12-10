@@ -105,7 +105,7 @@ export default function ApplicantPage() {
           </div>
         ) : (
           <div className="mx-auto mt-4 w-full max-w-screen-xl px-3">
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-wrap justify-start gap-6">
               {data?.pages.map((page) => (
                 <React.Fragment key={page.nextCursor}>
                   {page.data.map((application) => (

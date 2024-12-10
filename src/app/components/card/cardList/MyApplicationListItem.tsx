@@ -6,6 +6,7 @@ import { applicationStatus, ApplicationStatus } from "@/types/application";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { MyApplicationType } from "@/types/response/user";
+import { MdOutlineImage } from "react-icons/md";
 
 // 지원 상태에 따른 Chip 컴포넌트의 variant를 반환하는 함수
 const getStatusVariant = (status: ApplicationStatus) => {
@@ -38,9 +39,6 @@ const getStatusLabel = (status: ApplicationStatus) => {
 };
 
 const MyApplicationListItem = ({ id, createdAt, status, resumeId, resumeName, form }: MyApplicationType) => {
-  // 현재 공고의 모집 상태를 가져옴
-  const recruitmentStatus = getRecruitmentStatus(new Date(form.recruitmentEndDate));
-
   // 이력서 다운로드 핸들러
   const handleResumeDownload = async () => {
     try {
@@ -72,7 +70,7 @@ const MyApplicationListItem = ({ id, createdAt, status, resumeId, resumeName, fo
   };
 
   return (
-    <div className="relative h-auto w-full overflow-hidden rounded-xl border border-grayscale-200 bg-white p-6 shadow-sm transition-transform duration-300 hover:scale-[1.02] sm:h-[219px] sm:w-[375px] md:h-[328px] md:w-[477px]">
+    <div className="relative h-auto w-[327px] overflow-hidden rounded-xl border border-grayscale-200 bg-white p-4 shadow-md transition-transform duration-300 hover:scale-[1.02] lg:w-[372px]">
       <div className="flex h-full flex-col">
         {/* 상단 영역: 지원일시와 이력서 링크 */}
         <div className="flex items-center justify-between">
@@ -94,7 +92,13 @@ const MyApplicationListItem = ({ id, createdAt, status, resumeId, resumeName, fo
           {/* 가게 프로필 이미지와 이름 */}
           <div className="flex items-center gap-2">
             <div className="relative h-10 w-10 overflow-hidden rounded-full md:h-14 md:w-14">
-              <Image src={form.owner.imageUrl} alt={form.owner.storeName} fill className="object-cover" />
+              {form.owner.imageUrl ? (
+                <Image src={form.owner.imageUrl} alt={form.owner.storeName} fill className="object-cover" />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center bg-grayscale-100">
+                  <MdOutlineImage className="size-6 text-grayscale-400" />
+                </div>
+              )}
             </div>
             <span className="text-grayscale-900 text-base font-medium md:text-lg">{form.owner.storeName}</span>
           </div>
@@ -115,7 +119,10 @@ const MyApplicationListItem = ({ id, createdAt, status, resumeId, resumeName, fo
             />
           </div>
           <div className="rounded-[4px] border border-primary-orange-300 md:text-base">
-            <Chip label={recruitmentStatus} variant={recruitmentStatus === "모집 중" ? "positive" : "negative"} />
+            <Chip
+              label={getRecruitmentStatus(form.recruitmentEndDate)}
+              variant={getRecruitmentStatus(form.recruitmentEndDate) === "모집 중" ? "positive" : "negative"}
+            />
           </div>
         </div>
       </div>
