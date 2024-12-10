@@ -36,7 +36,7 @@ jobs:
 
       - name: Chromatic에 게시
         id: chromatic
-        uses: chromaui/action@v1 # Chromatic의 GitHub Action
+        uses: chromaui/action@latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }} # 환경 변수 참조
           token: ${{ secrets.GITHUB_TOKEN }} # GitHub 인증 토큰
