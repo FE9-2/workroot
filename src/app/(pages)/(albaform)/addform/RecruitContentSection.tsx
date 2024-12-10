@@ -7,7 +7,6 @@ import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePicker
 import { cn } from "@/lib/tailwindUtil";
 import { useFormContext } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 
 // 알바폼 만들기 - 사장님 - 1-모집내용
 
@@ -41,12 +40,9 @@ export default function RecruitContentSection() {
     ]);
   };
 
-  const searchParams = useSearchParams();
-  const currentParam = searchParams.get("tab");
-  const initialLoad = currentParam === null; // 초기 로딩 여부 확인
   // 컴포넌트가 마운트될 때 이미지 초기값 설정 (초기로딩 제외)
   useEffect(() => {
-    if (!initialLoad && currentValue.imageFiles?.length > 0) {
+    if (currentValue.imageFiles?.length > 0) {
       handleChangeImages(currentValue.imageFiles);
     }
   }, []);
