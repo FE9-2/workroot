@@ -8,7 +8,8 @@ import { cn } from "@/lib/tailwindUtil";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
-import Label from "../../component/Label";
+import Label from "@/app/(pages)/(albaform)/Label";
+import { useMutation } from "@tanstack/react-query";
 interface ApplyFormData {
   name: string;
   phoneNumber: string;
@@ -44,6 +45,8 @@ export default function Apply() {
 
   const formId = useParams().formId;
   const router = useRouter();
+  const currentValues = getValues();
+  const { resume, ...submitData } = currentValues;
 
   // 이력서 업로드 api -> id, name 반환
   const uploadResume = async (file: FileList) => {
@@ -60,7 +63,7 @@ export default function Apply() {
         },
         timeout: 5000, // 5초 타임아웃 설정
       });
-      console.log("response", response);
+      console.log("이력서 업로드", response.data);
       return {
         resumeName: response.data.resumeName,
         resumeId: response.data.resumeId,
@@ -72,39 +75,42 @@ export default function Apply() {
     return uploadedFile;
   };
 
-  const onSubmit = async (data: ApplyFormData) => {
-    try {
-      const uploadedResume = await uploadResume(data.resume);
-      setValue("resumeId", uploadedResume.resumeId);
-      setValue("resumeName", uploadedResume.resumeName);
+  // 폼 제출 리액트쿼리
+  const mutation = useMutation({
+    mutationFn: async () => {
+      // 원하는 필드만 포함된 새로운 객체 만들기
 
-      const { resume, ...submitData } = data;
+      await axios.post(`/api/forms/${formId}/applications`, submitData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    },
 
-      await axios.post(`/api/forms/${formId}/applications`, submitData);
-      window.localStorage.removeItem("tempApplyData");
-      toast.success("지원이 완료되었습니다.");
-      router.back();
-      /**
-       * @Todo formId 페이지로 돌아가기 로 수정*/
-    } catch (error) {
-      toast.error("에러가 발생했습니다. 작성 중인 내용은 임시 저장됩니다.");
-      console.error("Error submitting application:", error);
+    onSuccess: () => {
+      if (typeof window !== "undefined") {
+        window.localStorage.removeItem("tempAddFormData");
+      }
+      toast.success("알바폼을 등록했습니다.");
+      router.back(); // -> 추후 상세 페이지 이동으로 수정할것
+    },
+
+    onError: (error) => {
+      console.error("에러가 발생했습니다.", error);
+      toast.error("에러가 발생했습니다.");
       onTempSave();
-    }
-  };
+    },
+  });
 
   const onTempSave = async () => {
-    const currentData = getValues();
     try {
-      const uploadedResume = await uploadResume(currentData.resume);
+      const uploadedResume = await uploadResume(currentValues.resume);
       setValue("resumeId", uploadedResume.resumeId);
       setValue("resumeName", uploadedResume.resumeName);
 
-      const { resume, ...submitData } = currentData;
-      window.localStorage.setItem("tempApplyData", JSON.stringify(submitData));
+      window.localStorage.setItem("tempApplyData", JSON.stringify(currentValues));
       toast.success("임시 저장되었습니다.");
-      console.log("currentData", currentData);
-      console.log("submitData", submitData);
+      // console.log("currentData", currentValues);
     } catch (error) {
       console.error("Error uploading resume:", error);
       toast.error("이력서 업로드에 실패했습니다.");
@@ -115,7 +121,7 @@ export default function Apply() {
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
 
   return (
-    <form className="my-8 flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
+    <form className="my-8 flex flex-col gap-4" onSubmit={handleSubmit(() => mutation.mutate())}>
       <Label>이름</Label>
       <BaseInput
         {...register("name", { required: "이름은 필수입니다" })}

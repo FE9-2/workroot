@@ -4,7 +4,7 @@ import BaseInput from "../text/BaseInput";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 
 const ApplicantCountInput = () => {
-  const { isOpen, handleOpenDropdown } = useDropdownOpen();
+  const { isOpen } = useDropdownOpen();
   const iconStyle = "text-black-400 size-9";
   const arrowIcon = isOpen ? <IoMdArrowDropup className={iconStyle} /> : <IoMdArrowDropdown className={iconStyle} />;
   return (

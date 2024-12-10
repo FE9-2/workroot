@@ -84,6 +84,7 @@ export const useUpdateProfile = () => {
 
   return {
     updateProfile,
+    uploadImageMutation,
     isUpdating: updateProfileMutation.isPending || uploadImageMutation.isPending,
   };
 };
