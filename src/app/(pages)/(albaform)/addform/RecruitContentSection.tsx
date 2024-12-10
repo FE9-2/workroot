@@ -24,12 +24,13 @@ export default function RecruitContentSection() {
   } = useFormContext();
 
   const currentValue = getValues();
-  const prevImageFiles = currentValue.imageFiles;
+
   // 이미지 파일 change핸들러
   const handleChangeImages = (files: File[]) => {
     // 훅폼 데이터에 추가-> 상위 페이지에서 "imageFiles" data를 관리할 수 있음
-    setValue("imageFiles", [...prevImageFiles, files]);
+    setValue("imageFiles", files);
 
+    // 기존 이미지 리스트와 새로운 이미지를 합침
     setInitialImageList((prevList) => [
       ...prevList,
       ...files.map((file: File) => ({
