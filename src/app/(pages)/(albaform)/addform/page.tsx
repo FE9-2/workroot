@@ -4,13 +4,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import axios from "axios";
 import TabMenuDropdown from "@/app/components/button/dropdown/TabMenuDropdown";
-import RecruitCondition from "./RecruitCondition";
 import Button from "@/app/components/button/default/Button";
 import { toast } from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import { useUpdateProfile } from "@/hooks/queries/user/me/useUpdateProfile";
-import RecruitContent from "./RecruitContent";
-import WorkCondition from "./WorkCondition";
+import RecruitContentSection from "./RecruitContentSection";
+import RecruitConditionSection from "./RecruitConditionSection";
+import WorkConditionSection from "./WorkConditionSection";
 
 interface SubmitFormDataType {
   isPublic: boolean;
@@ -140,11 +140,11 @@ export default function AddFormPage() {
   const renderChildren = () => {
     switch (selectedOption) {
       case "모집 내용":
-        return <RecruitContent key="recruitContent" />;
+        return <RecruitContentSection key="recruitContent" />;
       case "모집 조건":
-        return <RecruitCondition key="recruitCondition" />;
+        return <RecruitConditionSection key="recruitCondition" />;
       case "근무 조건":
-        return <WorkCondition key="workCondition" />;
+        return <WorkConditionSection key="workCondition" />;
       default:
         return <></>;
     }

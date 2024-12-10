@@ -11,7 +11,7 @@ import { useSearchParams } from "next/navigation";
 
 // 알바폼 만들기 - 사장님 - 1-모집내용
 
-export default function RecruitContent() {
+export default function RecruitContentSection() {
   // 이미지 파일을 로컬 상태에 저장
   const [initialImageList, setInitialImageList] = useState<{ file: File; url: string; id: string }[]>([]);
 
