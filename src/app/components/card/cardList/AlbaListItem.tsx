@@ -39,10 +39,6 @@ const AlbaListItem = ({
   const recruitmentStatus = getRecruitmentStatus(recruitmentEndDate);
   const dDay = getRecruitmentDday(recruitmentEndDate);
 
-  // 날짜 형식 변환
-  const startDate = new Date(recruitmentStartDate); // Date 객체로 변환
-  const endDate = new Date(recruitmentEndDate); // Date 객체로 변환
-
   // 드롭다운 메뉴 외부 클릭 감지
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
