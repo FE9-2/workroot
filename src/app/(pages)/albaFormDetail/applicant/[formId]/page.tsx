@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import CardChipIcon from "@/app/components/card/cardList/CardChipIcon";
 import Chip from "@/app/components/chip/Chip";
 
+// 알바폼 상세 지원자 페이지
 export default function AlbaFormDetailPage() {
   const { formId } = useParams(); // useParams로 formId 추출
   const [formIdState, setFormIdState] = useState<number>(0);
