@@ -108,7 +108,7 @@ export default function AlbaList() {
         </div>
       ) : (
         <div className="mx-auto mt-4 w-full max-w-screen-2xl px-4 md:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-center gap-6 space-x-6">
+          <div className="flex flex-wrap items-center gap-6 space-x-6">
             {data?.pages.map((page) => (
               <React.Fragment key={page.nextCursor}>
                 {page.data.map((form) => (
