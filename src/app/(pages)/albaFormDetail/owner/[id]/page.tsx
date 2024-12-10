@@ -1,13 +1,14 @@
+"use client";
 import CardChipIcon from "@/app/components/card/cardList/CardChipIcon";
 import Chip from "@/app/components/chip/Chip";
 import ChipWithIcon from "@/app/components/chip/ChipWithIcon";
 import React from "react";
 
-// 알바폼 상세 페이지
+// 알바폼 상세 사장님 페이지
 export default function AlbaFormDetailPage({ formId }: { formId: number }) {
   return (
     <div className="container flex min-h-screen flex-col">
-      <div className="h-[562px] bg-black-100">지도영역</div>
+      <div className="h-[562px] bg-black-100">사진영역</div>
       <div>
         <div className="mt-20 w-[770px] space-y-10">
           <div className="flex items-center">
