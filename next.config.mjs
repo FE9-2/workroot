@@ -1,11 +1,5 @@
 /** @type {import('next').NextConfig} */
 
-import path from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
@@ -25,18 +19,12 @@ const nextConfig = {
       },
     ],
   },
+  // Webpack 커스터마이징 제거
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
       use: ["@svgr/webpack"],
     });
-
-    config.module.rules.push({
-      test: /\.css$/,
-      use: ["style-loader", "css-loader", "postcss-loader"],
-      include: [path.resolve(__dirname, "node_modules/react-datepicker"), path.resolve(__dirname, "src/app")],
-    });
-
     return config;
   },
 };
