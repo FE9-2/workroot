@@ -33,28 +33,6 @@ export default function EditFormPage() {
 
   const methods = useForm<SubmitFormDataType>({
     mode: "onChange",
-    defaultValues: {
-      isPublic: false,
-      hourlyWage: 0,
-      isNegotiableWorkDays: false,
-      workDays: [],
-      workEndTime: "",
-      workStartTime: "",
-      workEndDate: "",
-      workStartDate: "",
-      location: "",
-      preferred: "",
-      age: "",
-      education: "",
-      gender: "",
-      numberOfPositions: 0,
-      recruitmentEndDate: undefined,
-      recruitmentStartDate: undefined,
-      description: "",
-      title: "",
-      imageUrls: [],
-      imageFiles: [],
-    },
   });
 
   const {
@@ -66,7 +44,13 @@ export default function EditFormPage() {
 
   // 훅폼에서 관리하는 전체 데이터를 가져오는 함수
   const currentValues: SubmitFormDataType = methods.watch();
+  const imageFiles = currentValues.imageFiles;
+  // 탭 선택 옵션 관리
   const [selectedOption, setSelectedOption] = useState("모집 내용");
+  // 이미지 업로드 훅
+  const { uploadImageMutation } = useUpdateProfile();
+  // 각각의 탭 작성중 여부
+  const { isEditingRecruitContent, isEditingRecruitCondition, isEditingWorkCondition } = useEditing(currentValues);
 
   // 비동기 데이터로 폼 상태 업데이트
   useEffect(() => {
@@ -96,14 +80,67 @@ export default function EditFormPage() {
     }
   }, [data, reset]);
 
-  useEffect(() => {
-    if (data) {
-      console.log("data", data);
-      console.log("currentValues", currentValues);
-    }
-  }, [data, currentValues]);
+  // useEffect(() => {
+  //   if (data) {
+  //     console.log("data", data);
+  //     console.log("currentValues", currentValues);
+  //   }
+  // }, [data, currentValues]);
 
-  // 수정된 폼 제출 리액트쿼리 ( 전체 데이터를 보낼까? 수정된 데이터만 감지할수있나?)
+  // 이미지 업로드 api
+  const uploadImages = async (files: File[]) => {
+    if (currentValues.imageUrls.length !== currentValues.imageFiles.length) {
+      const uploadedUrls: string[] = [];
+
+      // 전체 파일 배열을 순회하면서 업로드 로직 진행
+      for (const file of files) {
+        // 파일 크기 체크
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        if (file.size > maxSize) {
+          toast.error(`5MB 이상의 파일은 업로드할 수 없습니다.`);
+          continue;
+        }
+        const formData = new FormData();
+        formData.append("image", file);
+        try {
+          const uploadResponse = await uploadImageMutation.mutateAsync(file);
+          if (uploadResponse?.url) {
+            uploadedUrls.push(uploadResponse.url);
+          }
+        } catch (uploadError) {
+          console.error(`파일 ${file.name} 업로드 실패:`, uploadError);
+        }
+      }
+      return uploadedUrls;
+    } else {
+      return currentValues.imageUrls;
+    }
+  };
+
+  // 폼데이터 임시 저장 함수
+  const onTempSave = async () => {
+    // 이미지 처리 로직
+    if (imageFiles && imageFiles.length > 0) {
+      try {
+        const uploadedUrls = await uploadImages(Array.from(imageFiles));
+        if (uploadedUrls && uploadedUrls.length > 0) {
+          setValue("imageUrls", [...uploadedUrls]);
+        } else {
+          setValue("imageUrls", [...currentValues.imageUrls]);
+        }
+      } catch (error) {
+        console.error("임시저장 - 이미지 업로드 중 오류 발생:", error);
+        setValue("imageUrls", []);
+      }
+    }
+    // 임시저장
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("tempAddFormData", JSON.stringify(currentValues));
+    }
+    console.log("임시저장 데이터", currentValues);
+  };
+
+  // 수정된 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
       const excludedKeys = ["displayDate", "workDateRange", "recruitDateRange", "imageFiles"];
@@ -138,61 +175,6 @@ export default function EditFormPage() {
     },
   });
 
-  // 이미지 업로드 api
-  const uploadImages = async (files: File[]) => {
-    if (currentValues.imageUrls.length !== currentValues.imageFiles.length) {
-      const uploadedUrls: string[] = [];
-
-      // 전체 파일 배열을 순회하면서 업로드 로직 진행
-      for (const file of files) {
-        // 파일 크기 체크
-        const maxSize = 5 * 1024 * 1024; // 5MB
-        if (file.size > maxSize) {
-          toast.error(`5MB 이상의 파일은 업로드할 수 없습니다.`);
-          continue;
-        }
-        const formData = new FormData();
-        formData.append("image", file);
-        try {
-          const uploadResponse = await uploadImageMutation.mutateAsync(file);
-          if (uploadResponse?.url) {
-            uploadedUrls.push(uploadResponse.url);
-          }
-        } catch (uploadError) {
-          console.error(`파일 ${file.name} 업로드 실패:`, uploadError);
-        }
-      }
-      return uploadedUrls;
-    } else {
-      return currentValues.imageUrls;
-    }
-  };
-
-  const imageFiles = currentValues.imageFiles;
-
-  // 폼데이터 임시 저장 함수
-  const onTempSave = async () => {
-    // 이미지 처리 로직
-    if (imageFiles && imageFiles.length > 0) {
-      try {
-        const uploadedUrls = await uploadImages(Array.from(imageFiles));
-        if (uploadedUrls && uploadedUrls.length > 0) {
-          setValue("imageUrls", [...uploadedUrls]);
-        } else {
-          setValue("imageUrls", [...currentValues.imageUrls]);
-        }
-      } catch (error) {
-        console.error("임시저장 - 이미지 업로드 중 오류 발생:", error);
-        setValue("imageUrls", []);
-      }
-    }
-    // 임시저장
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem("tempAddFormData", JSON.stringify(currentValues));
-    }
-    console.log("임시저장 데이터", currentValues);
-  };
-
   // tab 선택 시 Url params 수정 & 하위 폼 데이터 임시저장
   const searchParams = useSearchParams();
   const currentParam = searchParams.get("tab");
@@ -225,10 +207,6 @@ export default function EditFormPage() {
         return <></>;
     }
   };
-  const { uploadImageMutation } = useUpdateProfile();
-
-  // 각각의 탭 작성중 여부
-  const { isEditingRecruitContent, isEditingRecruitCondition, isEditingWorkCondition } = useEditing(currentValues);
 
   if (isLoading) {
     return <div>Loading...</div>;
