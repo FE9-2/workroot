@@ -1,7 +1,6 @@
 "use client";
 import CardChipIcon from "@/app/components/card/cardList/CardChipIcon";
 import Chip from "@/app/components/chip/Chip";
-import ChipWithIcon from "@/app/components/chip/ChipWithIcon";
 import React from "react";
 
 // 알바폼 상세 사장님 페이지

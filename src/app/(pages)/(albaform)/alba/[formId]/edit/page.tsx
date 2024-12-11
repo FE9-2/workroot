@@ -29,36 +29,33 @@ export default function EditFormPage() {
     }
   }, [formId]);
 
-  // formId가 설정되면 useUserFormDetail 호출
   const { data, isLoading, error } = useUserFormDetail({ formId: formIdState });
 
-  // 초기 데이터를 서버에서 가져와서 뿌려주기 (interface에 맞게 가공해줘야할듯)
   const methods = useForm<SubmitFormDataType>({
     mode: "onChange",
     defaultValues: {
-      isPublic: false,
-      hourlyWage: 0,
-      isNegotiableWorkDays: false,
-      workDays: [],
-      workEndTime: "",
-      workStartTime: "",
-      workEndDate: "",
-      workStartDate: "",
-      location: "",
-      preferred: "",
-      age: "",
-      education: "",
-      gender: "",
-      numberOfPositions: 0,
-      recruitmentEndDate: undefined,
-      recruitmentStartDate: undefined,
-      description: "",
-      title: "",
-      imageUrls: [],
-      imageFiles: [],
+      isPublic: data?.isPublic,
+      hourlyWage: data?.hourlyWage,
+      isNegotiableWorkDays: data?.isNegotiableWorkDays,
+      workDays: data?.workDays,
+      workEndTime: data?.workEndTime,
+      workStartTime: data?.workStartTime,
+      workEndDate: data?.workEndDate,
+      workStartDate: data?.workStartDate,
+      location: data?.location,
+      preferred: data?.preferred,
+      age: data?.age,
+      education: data?.education,
+      gender: data?.gender,
+      numberOfPositions: data?.numberOfPositions,
+      recruitmentEndDate: data?.recruitmentEndDate,
+      recruitmentStartDate: data?.recruitmentStartDate,
+      description: data?.description,
+      title: data?.title,
+      imageUrls: data?.imageUrls,
+      imageFiles: [], // 이미지 업로드 처리(url 반환) 이전의 파일
     },
   });
-
   const {
     setValue,
     handleSubmit,
@@ -67,7 +64,6 @@ export default function EditFormPage() {
 
   // 훅폼에서 관리하는 전체 데이터를 가져오는 함수
   const currentValues: SubmitFormDataType = methods.watch();
-
   const [selectedOption, setSelectedOption] = useState("모집 내용");
 
   // 수정된 폼 제출 리액트쿼리 ( 전체 데이터를 보낼까? 수정된 데이터만 감지할수있나?)
