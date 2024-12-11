@@ -62,7 +62,7 @@ const AlbaListItem = ({
     openModal("customForm", {
       isOpen: true,
       title: "지원하기",
-      content: "정말로 지원하시겠습니까?",
+      content: "지원하시겠습니까?",
       onConfirm: () => {
         openModal("customForm", {
           isOpen: false,
@@ -91,7 +91,7 @@ const AlbaListItem = ({
     openModal("customForm", {
       isOpen: true,
       title: "스크랩 확인",
-      content: "이 공고를 스크랩하시겠습니까?",
+      content: "스크랩하시겠습니까?",
       onConfirm: () => {
         openModal("customForm", {
           isOpen: false,
