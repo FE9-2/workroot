@@ -7,31 +7,36 @@ interface ApplicationStatusProps {
 }
 
 export default function ApplicationStatus({ formId }: ApplicationStatusProps) {
-  const { applicationStatusData, isLoading, error } = useApplicationStatus({
+  const { applicationStatusData } = useApplicationStatus({
     formId,
     limit: 5, // 요청당 데이터 수 제한
   });
 
-  if (isLoading) return <div>지원 현황을 불러오는 중입니다...</div>;
-  if (error && "status" in error) {
-    if (error.status === 403) {
-      return (
-        <div>
-          <p>지원 현황을 볼 권한이 없습니다.</p>
-          <p>{error.message}</p>
-        </div>
-      );
-    }
-    console.log("지원현황 에러", error);
-  }
-  if (error || !applicationStatusData) return <div>지원 현황 데이터를 불러오는데 실패했습니다.</div>;
-  console.log("applicationStatusData:", applicationStatusData);
+  // 개발중일 때는 아래 코드를 사용하여 에러를 확인할 수 있습니다.
+  // if (error || !applicationStatusData) {
+  //   let errorMessage = "로딩 중입니다...";
+
+  //   if (!error && !applicationStatusData) {
+  //     // 로딩 중 메시지 설정
+  //     errorMessage = "데이터를 불러오는 중입니다...";
+  //   } else if (axios.isAxiosError(error)) {
+  //     const axiosError = error as AxiosError;
+  //     errorMessage = (axiosError.response?.data as { message?: string })?.message || axiosError.message;
+  //   } else if (error instanceof Error) {
+  //     errorMessage = error.message;
+  //   }
+
+  //   console.log("지원 현황 불러오기 에러: ", errorMessage);
+  // }
 
   return (
     <div className="space-y-4 text-2xl">
-      <p className="text-3xl font-bold">지원 현황</p>
-
-      <ApplicationStatusCard applicationStatusData={applicationStatusData.data} />
+      {applicationStatusData && (
+        <>
+          <p className="text-3xl font-bold">지원 현황</p>
+          <ApplicationStatusCard applicationStatusData={applicationStatusData.data} />
+        </>
+      )}
     </div>
   );
 }
