@@ -50,10 +50,10 @@ const Button = ({
   };
 
   const widths = {
-    xs: "w-[80px]",
-    sm: "w-[180px]",
-    md: "w-[327px]",
-    lg: "w-[640px]",
+    xs: "w-[60px] md:w-[80px]",
+    sm: "w-[120px] md:w-[180px]",
+    md: "w-[240px] lg:w-[327px]",
+    lg: "w-[480px] xl:w-[640px]",
   };
 
   const radiuses = {
