@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import axios from "axios";
 import TabMenuDropdown from "@/app/components/button/dropdown/TabMenuDropdown";
@@ -16,7 +16,7 @@ import { SubmitFormDataType } from "@/types/addform";
 
 export default function AddFormPage() {
   const router = useRouter();
-
+  const formId = useParams().formId;
   // 리액트 훅폼에서 관리할 데이터 타입 지정 및 메서드 호출 (상위 컴포넌트 = useForm 사용)
   const methods = useForm<SubmitFormDataType>({
     mode: "onChange",
@@ -84,7 +84,7 @@ export default function AddFormPage() {
         window.localStorage.removeItem("tempAddFormData");
       }
       toast.success("알바폼을 등록했습니다.");
-      router.back(); // -> 추후 상세 페이지 이동으로 수정할것
+      router.push(`/albaFormDetail/owner/${formId}`); // -> 추후 상세 페이지 이동으로 수정할것
     },
     onError: (error) => {
       console.error("에러가 발생했습니다.", error);

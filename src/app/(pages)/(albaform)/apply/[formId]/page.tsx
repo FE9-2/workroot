@@ -88,7 +88,7 @@ export default function Apply() {
         window.localStorage.removeItem("tempAddFormData");
       }
       toast.success("알바폼을 등록했습니다.");
-      router.push(`/alba/${formId}`);
+      router.push(`/albaFormDetail/applicant/${formId}`);
     },
 
     onError: (error) => {
