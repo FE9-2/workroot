@@ -79,13 +79,6 @@ export default function EditFormPage() {
     }
   }, [albaFormDetailData, reset]);
 
-  // useEffect(() => {
-  //   if (albaFormDetailData) {
-  //     console.log("edit page에서 data", albaFormDetailData);
-  //     console.log("edit page에서 currentValues", currentValues);
-  //   }
-  // }, [albaFormDetailData, currentValues]);
-
   // 이미지 업로드 api
   const uploadImages = async (files: File[]) => {
     if (currentValues.imageUrls.length !== currentValues.imageFiles.length) {
