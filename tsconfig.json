@@ -24,6 +24,6 @@
     "typeRoots": ["./node_modules/@types"],
     "downlevelIteration": true // 이 플래그를 추가
   },
-  "include": ["next-env.d.ts", "src/**/*.ts", "src/**/*.tsx", ".next/types/**/*.ts", "custom.d.ts"],
+  "include": ["next-env.d.ts", "src/**/*.ts", "src/**/*.tsx", ".next/types/**/*.ts", "custom.d.ts", "kakao.maps.d.ts"],
   "exclude": ["node_modules", ".next", ".storybook", "storybook-static"]
 }

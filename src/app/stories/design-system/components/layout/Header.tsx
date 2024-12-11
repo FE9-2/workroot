@@ -36,7 +36,7 @@ export default function Header() {
               <Link href="/albaTalk" className={getLinkClassName("/albaTalk")}>
                 알바 토크
               </Link>
-              <Link href="/myAlbaform" className={getLinkClassName("/myAlbaform")}>
+              <Link href="/myalbaform" className={getLinkClassName("/myalbaform")}>
                 내 알바폼
               </Link>
             </div>

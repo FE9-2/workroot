@@ -48,7 +48,7 @@ export default function ApplicantPage() {
       if (!user) {
         router.push("/login");
       } else if (user.role === userRoles.OWNER) {
-        router.push("/myAlbaform/owner");
+        router.push("/myalbaform/owner");
       }
     }
   }, [user, isUserLoading, router]);
