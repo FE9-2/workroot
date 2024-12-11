@@ -34,29 +34,31 @@ export default function EditFormPage() {
   const methods = useForm<SubmitFormDataType>({
     mode: "onChange",
     defaultValues: {
-      isPublic: data?.isPublic,
-      hourlyWage: data?.hourlyWage,
-      isNegotiableWorkDays: data?.isNegotiableWorkDays,
-      workDays: data?.workDays,
-      workEndTime: data?.workEndTime,
-      workStartTime: data?.workStartTime,
-      workEndDate: data?.workEndDate,
-      workStartDate: data?.workStartDate,
-      location: data?.location,
-      preferred: data?.preferred,
-      age: data?.age,
-      education: data?.education,
-      gender: data?.gender,
-      numberOfPositions: data?.numberOfPositions,
-      recruitmentEndDate: data?.recruitmentEndDate,
-      recruitmentStartDate: data?.recruitmentStartDate,
-      description: data?.description,
-      title: data?.title,
-      imageUrls: data?.imageUrls,
-      imageFiles: [], // 이미지 업로드 처리(url 반환) 이전의 파일
+      isPublic: false,
+      hourlyWage: 0,
+      isNegotiableWorkDays: false,
+      workDays: [],
+      workEndTime: "",
+      workStartTime: "",
+      workEndDate: "",
+      workStartDate: "",
+      location: "",
+      preferred: "",
+      age: "",
+      education: "",
+      gender: "",
+      numberOfPositions: 0,
+      recruitmentEndDate: undefined,
+      recruitmentStartDate: undefined,
+      description: "",
+      title: "",
+      imageUrls: [],
+      imageFiles: [],
     },
   });
+
   const {
+    reset,
     setValue,
     handleSubmit,
     formState: { isDirty, isValid },
@@ -65,6 +67,41 @@ export default function EditFormPage() {
   // 훅폼에서 관리하는 전체 데이터를 가져오는 함수
   const currentValues: SubmitFormDataType = methods.watch();
   const [selectedOption, setSelectedOption] = useState("모집 내용");
+
+  // 비동기 데이터로 폼 상태 업데이트
+  useEffect(() => {
+    if (data) {
+      reset({
+        isPublic: data.isPublic,
+        hourlyWage: data.hourlyWage,
+        isNegotiableWorkDays: data.isNegotiableWorkDays,
+        workDays: data.workDays,
+        workEndTime: data.workEndTime,
+        workStartTime: data.workStartTime,
+        workEndDate: data.workEndDate,
+        workStartDate: data.workStartDate,
+        location: data.location,
+        preferred: data.preferred,
+        age: data.age,
+        education: data.education,
+        gender: data.gender,
+        numberOfPositions: data.numberOfPositions,
+        recruitmentEndDate: data.recruitmentEndDate,
+        recruitmentStartDate: data.recruitmentStartDate,
+        description: data.description,
+        title: data.title,
+        imageUrls: data.imageUrls,
+        imageFiles: [],
+      });
+    }
+  }, [data, reset]);
+
+  useEffect(() => {
+    if (data) {
+      console.log("data", data);
+      console.log("currentValues", currentValues);
+    }
+  }, [data, currentValues]);
 
   // 수정된 폼 제출 리액트쿼리 ( 전체 데이터를 보낼까? 수정된 데이터만 감지할수있나?)
   const mutation = useMutation({
@@ -201,9 +238,6 @@ export default function EditFormPage() {
     return <div>Error: 데이터를 불러오는데 문제가 발생했습니다.</div>;
   }
 
-  if (!data) {
-    return <div>데이터가 없습니다.</div>;
-  }
   return (
     <FormProvider {...methods}>
       <div className="relative">
