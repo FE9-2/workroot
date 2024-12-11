@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { cn } from "@/lib/tailwindUtil";
 import useWidth from "@/hooks/useWidth";
-import { useSearchParams } from "next/navigation";
 
 interface TopMenuDropdownProps {
   options: { label: string; isEditing: boolean }[];
   className?: string;
   onChange?: (menu: string) => void;
+  currentParam: string;
 }
 
 const EditingChip = ({ className = "", selected }: { className?: string; selected?: boolean }) => {
@@ -18,12 +18,10 @@ const EditingChip = ({ className = "", selected }: { className?: string; selecte
   return <span className={cn(chipStyle, selected ? selectedStyle : defaultStyle, className)}>작성중</span>;
 };
 
-const TabMenuDropdown = ({ options, className = "", onChange }: TopMenuDropdownProps) => {
+const TabMenuDropdown = ({ options, className = "", onChange, currentParam = "" }: TopMenuDropdownProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedLabel, setSelectedLabel] = useState<string>(options[0].label); // 선택된 값 (label을 저장)
   const { isDesktop } = useWidth();
-  const searchParams = useSearchParams();
-  const currentParam = searchParams.get("tab");
 
   useEffect(() => {
     switch (currentParam) {
