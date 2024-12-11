@@ -74,6 +74,8 @@ export const RecruitIcon = ({
     },
   ];
 
+  console.log("요일", getWorkDaysDisplay(isNegotiableWorkDays, workDays));
+
   return (
     // 반응형 컨테이너
     <div className="h-auto w-full sm:h-[156px] sm:w-[327px] sm:p-3 md:h-[336px] md:w-[640px]">
