@@ -6,10 +6,10 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useInView } from "react-intersection-observer";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import { userRoles } from "@/constants/userRoles";
-import ApplicantSortSection from "./components/ApplicantSortSection";
 import SearchSection from "@/app/components/layout/forms/SearchSection";
 import MyApplicationListItem from "@/app/components/card/cardList/MyApplicationListItem";
 import { useMyApplications } from "@/hooks/queries/user/me/useMyApplications";
+import ApplicantSortSection from "./components/ApplicantSortSection";
 
 const APPLICATIONS_PER_PAGE = 10;
 
