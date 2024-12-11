@@ -75,17 +75,16 @@ export default function EditFormPage() {
         description: albaFormDetailData.description,
         title: albaFormDetailData.title,
         imageUrls: albaFormDetailData.imageUrls, // 프리뷰 반영하기
-        imageFiles: [],
       });
     }
   }, [albaFormDetailData, reset]);
 
-  useEffect(() => {
-    if (albaFormDetailData) {
-      // console.log("data", data);
-      console.log("currentValues", currentValues);
-    }
-  }, [albaFormDetailData, currentValues]);
+  // useEffect(() => {
+  //   if (albaFormDetailData) {
+  //     console.log("edit page에서 data", albaFormDetailData);
+  //     console.log("edit page에서 currentValues", currentValues);
+  //   }
+  // }, [albaFormDetailData, currentValues]);
 
   // 이미지 업로드 api
   const uploadImages = async (files: File[]) => {
