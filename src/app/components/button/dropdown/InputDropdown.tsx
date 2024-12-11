@@ -19,17 +19,17 @@ const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
     const [selectedValue, setSelectedValue] = useState<string>("");
     const [isCustomInput, setIsCustomInput] = useState<boolean>(false);
     const { setValue, watch } = useFormContext();
-    const currentValues = watch();
+
     const handleOptionClick = (option: string) => {
       if (option === "직접 입력") {
         setIsCustomInput(true);
         setSelectedValue("");
         // 동적으로 받아온 name에 값 할당 -> 훅폼에 저장
-        setValue(name, selectedValue);
+        setValue(name, selectedValue, { shouldDirty: true });
       } else {
         setSelectedValue(option);
         setIsCustomInput(false);
-        setValue(name, option);
+        setValue(name, option, { shouldDirty: true });
         setIsOpen(false);
       }
     };

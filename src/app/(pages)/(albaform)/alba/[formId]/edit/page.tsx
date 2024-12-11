@@ -231,7 +231,7 @@ export default function EditFormPage() {
             onChange={handleOptionChange}
             currentParam={currentParam || ""}
           />
-          <div className="absolute -bottom-[120px] mb-5 flex w-full lg:relative lg:bottom-0">
+          <div className="absolute -bottom-[120px] mb-10 flex w-[320px] lg:relative lg:bottom-0 lg:w-full">
             <Button
               type="submit"
               variant="solid"
