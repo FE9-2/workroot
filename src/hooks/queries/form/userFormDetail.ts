@@ -6,7 +6,7 @@ interface UseUserFormDetailParams {
   formId?: number;
 }
 
-export const useUserFormDetail = ({ formId }: UseUserFormDetailParams) => {
+const useUserFormDetail = ({ formId }: UseUserFormDetailParams) => {
   const query = useQuery<FormDetailResponse>({
     queryKey: ["formDetail", formId],
     queryFn: async () => {
@@ -25,3 +25,4 @@ export const useUserFormDetail = ({ formId }: UseUserFormDetailParams) => {
     error: query.error,
   };
 };
+export default useUserFormDetail;

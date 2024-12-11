@@ -13,7 +13,7 @@ export default function AddFormLayout({ children }: { children: ReactNode }) {
     <>
       <div
         className={cn(
-          "mx-auto my-10 w-[327px] pb-[70px] lg:w-[640px] lg:pl-10",
+          "mx-auto my-10 w-[327px] pb-[70px] lg:w-[680px] lg:pb-0 lg:pl-10",
           title === "알바폼 만들기" ? "lg:ml-[600px]" : ""
         )}
       >

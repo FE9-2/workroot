@@ -46,8 +46,8 @@ export interface FormListResponse {
 
 // 알바폼 상세 조회/스크랩 응답
 export interface FormDetailResponse {
-  updatedAt: Date;
-  createdAt: Date;
+  updatedAt: string;
+  createdAt: string;
   preferred: string;
   age: string;
   education: string;
@@ -59,12 +59,12 @@ export interface FormDetailResponse {
   workDays: Array<string>;
   workEndTime: string;
   workStartTime: string;
-  workEndDate: Date;
-  workStartDate: Date;
+  workEndDate: string;
+  workStartDate: string;
   location: string;
   imageUrls: Array<string>;
-  recruitmentEndDate: Date;
-  recruitmentStartDate: Date;
+  recruitmentEndDate: string;
+  recruitmentStartDate: string;
   description: string;
   title: string;
   ownerId: number;

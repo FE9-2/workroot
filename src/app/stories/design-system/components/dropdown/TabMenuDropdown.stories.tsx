@@ -29,4 +29,11 @@ export const Default: Story = {
       { label: "근무 조건", isEditing: false },
     ],
   },
+  render: (args) => {
+    // 기본 값을 전달합니다.
+    const mockSearchParams = new URLSearchParams("?tab=recruit-content");
+    const currentParam = mockSearchParams.get("tab") || "recruit-content";
+
+    return <TabMenuDropdown {...args} currentParam={currentParam} />;
+  },
 };

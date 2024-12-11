@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { cn } from "@/lib/tailwindUtil";
 import useWidth from "@/hooks/useWidth";
@@ -8,6 +8,7 @@ interface TopMenuDropdownProps {
   options: { label: string; isEditing: boolean }[];
   className?: string;
   onChange?: (menu: string) => void;
+  currentParam: string;
 }
 
 const EditingChip = ({ className = "", selected }: { className?: string; selected?: boolean }) => {
@@ -17,10 +18,26 @@ const EditingChip = ({ className = "", selected }: { className?: string; selecte
   return <span className={cn(chipStyle, selected ? selectedStyle : defaultStyle, className)}>작성중</span>;
 };
 
-const TabMenuDropdown = ({ options, className = "", onChange }: TopMenuDropdownProps) => {
+const TabMenuDropdown = ({ options, className = "", onChange, currentParam = "" }: TopMenuDropdownProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedLabel, setSelectedLabel] = useState<string>(options[0].label); // 선택된 값 (label을 저장)
   const { isDesktop } = useWidth();
+
+  useEffect(() => {
+    switch (currentParam) {
+      case "recruit-content":
+        setSelectedLabel("모집 내용");
+        break;
+      case "recruit-condition":
+        setSelectedLabel("모집 조건");
+        break;
+      case "work-condition":
+        setSelectedLabel("근무 조건");
+        break;
+      default:
+        setSelectedLabel("모집 내용");
+    }
+  }, []);
 
   const handleOptionClick = (label: string) => {
     setSelectedLabel(label); // 선택된 레이블을 저장

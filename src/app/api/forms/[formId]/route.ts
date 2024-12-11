@@ -40,7 +40,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { formId: st
     return NextResponse.json(response.data);
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
-      console.error(`PATCH /api/forms/${params.formId} error:`, error);
+      console.error(`수정api요청 실패 : /api/forms/${params.formId} error:`, error);
       if (error.response) {
         return NextResponse.json({ message: error.response.data.message }, { status: error.response.status });
       }
