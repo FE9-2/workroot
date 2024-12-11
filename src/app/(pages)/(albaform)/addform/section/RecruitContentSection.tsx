@@ -1,5 +1,5 @@
 "use client";
-import Label from "../Label";
+import Label from "../../component/Label";
 import BaseInput from "@/app/components/input/text/BaseInput";
 import BaseTextArea from "@/app/components/input/textarea/BaseTextArea";
 import ImageInput from "@/app/components/input/file/ImageInput/ImageInput";

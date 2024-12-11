@@ -8,9 +8,9 @@ import Button from "@/app/components/button/default/Button";
 import { toast } from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import { useUpdateProfile } from "@/hooks/queries/user/me/useUpdateProfile";
-import RecruitContentSection from "./RecruitContentSection";
-import RecruitConditionSection from "./RecruitConditionSection";
-import WorkConditionSection from "./WorkConditionSection";
+import RecruitContentSection from "./section/RecruitContentSection";
+import RecruitConditionSection from "./section/RecruitConditionSection";
+import WorkConditionSection from "./section/WorkConditionSection";
 import useEditing from "@/hooks/useEditing";
 import { SubmitFormDataType } from "@/types/addform";
 

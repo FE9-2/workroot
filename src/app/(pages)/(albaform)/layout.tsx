@@ -1,5 +1,5 @@
 "use client";
-import AddFormLayout from "@/app/components/layout/addFormLayout/AddFormLayout";
+import AddFormLayout from "@/app/(pages)/(albaform)/component/addFormLayout/AddFormLayout";
 import { ReactNode, Suspense } from "react";
 
 export default function Layout({ children }: { children: ReactNode }) {

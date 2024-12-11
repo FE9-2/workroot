@@ -8,7 +8,7 @@ import { cn } from "@/lib/tailwindUtil";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
-import Label from "@/app/(pages)/(albaform)/Label";
+import Label from "@/app/(pages)/(albaform)/component/Label";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
 interface ApplyFormData {
