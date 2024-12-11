@@ -80,14 +80,14 @@ export default function Header() {
             </Link>
 
             <div className="ml-4 flex h-16 space-x-2 sm:ml-6 sm:space-x-4 md:ml-10 md:space-x-6">
-              <Link href="/albaList" className={getLinkClassName("/albaList")}>
+              <Link href="/albalist" className={getLinkClassName("/albalist")}>
                 알바 목록
               </Link>
-              <Link href="/albaTalk" className={getLinkClassName("/albaTalk")}>
+              <Link href="/albatalk" className={getLinkClassName("/albatalk")}>
                 알바 토크
               </Link>
               {user && (
-                <Link href="/myAlbaform" className={getLinkClassName("/myAlbaform")}>
+                <Link href="/myalbaform" className={getLinkClassName("/myalbaform")}>
                   내 알바폼
                 </Link>
               )}
