@@ -9,11 +9,8 @@ interface ApplicationStatusCardProps {
 
 // 지원현황 카드 컴포넌트
 const ApplicationStatusCard = ({ applicationStatusData }: ApplicationStatusCardProps) => {
-  const [sortOrder, setSortOrder] = useState(false);
-
-  const handleSort = () => {
-    setSortOrder((prev) => !prev);
-  };
+  const [experienceSort, setExperienceSort] = useState(false);
+  const [statusSort, setStatusSort] = useState(false);
 
   const theadStyle = "text-left font-semibold text-grayscale-700";
   const tbodyStyle = "text-left";
@@ -27,14 +24,14 @@ const ApplicationStatusCard = ({ applicationStatusData }: ApplicationStatusCardP
           <span className={theadStyle}>전화번호</span>
           <div className="flex items-center gap-2">
             <span className={theadStyle}>경력</span>
-            <button>
-              <FaSortAmountDown className={cn(sortIconStyle, sortOrder ? "rotate-0" : "rotate-180")} />
+            <button onClick={() => setExperienceSort((prev) => !prev)}>
+              <FaSortAmountDown className={cn(sortIconStyle, experienceSort ? "rotate-0" : "rotate-180")} />
             </button>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-grayscale-700 text-left font-semibold">상태</span>
-            <button onClick={() => handleSort()}>
-              <FaSortAmountDown className={cn(sortIconStyle, sortOrder ? "rotate-0" : "rotate-180")} />
+            <button onClick={() => setStatusSort((prev) => !prev)}>
+              <FaSortAmountDown className={cn(sortIconStyle, statusSort ? "rotate-0" : "rotate-180")} />
             </button>
           </div>
         </div>
