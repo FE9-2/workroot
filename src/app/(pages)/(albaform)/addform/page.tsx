@@ -11,6 +11,7 @@ import { useUpdateProfile } from "@/hooks/queries/user/me/useUpdateProfile";
 import RecruitContentSection from "./RecruitContentSection";
 import RecruitConditionSection from "./RecruitConditionSection";
 import WorkConditionSection from "./WorkConditionSection";
+import useEditing from "@/hooks/useEditing";
 
 interface SubmitFormDataType {
   isPublic: boolean;
@@ -219,25 +220,7 @@ export default function AddFormPage() {
   };
 
   // 각각의 탭 작성중 여부
-  const isEditingRecruitContent =
-    currentValues.title !== "" || currentValues.description !== "" || currentValues.recruitmentStartDate !== undefined
-      ? true
-      : false;
-  const isEditingRecruitCondition =
-    currentValues.gender !== "" ||
-    currentValues.numberOfPositions > 0 ||
-    currentValues.education !== "" ||
-    currentValues.age !== "" ||
-    currentValues.preferred !== ""
-      ? true
-      : false;
-  const isEditingWorkCondition =
-    currentValues.location !== "" ||
-    currentValues.workStartTime !== "" ||
-    currentValues.workStartDate !== "" ||
-    currentValues.hourlyWage > 0
-      ? true
-      : false;
+  const { isEditingRecruitContent, isEditingRecruitCondition, isEditingWorkCondition } = useEditing(currentValues);
 
   return (
     <FormProvider {...methods}>

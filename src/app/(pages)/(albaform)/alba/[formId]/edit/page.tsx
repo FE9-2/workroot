@@ -1,7 +1,7 @@
 "use client";
 // 알바폼 수정 페이지 (사장님)
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import axios from "axios";
@@ -13,31 +13,24 @@ import { useUpdateProfile } from "@/hooks/queries/user/me/useUpdateProfile";
 import RecruitContentSection from "../../../addform/RecruitContentSection";
 import RecruitConditionSection from "../../../addform/RecruitConditionSection";
 import WorkConditionSection from "../../../addform/WorkConditionSection";
+import useUserFormDetail from "@/hooks/queries/form/userFormDetail";
+import { SubmitFormDataType } from "@/types/addform";
+import useEditing from "@/hooks/useEditing";
 
-interface SubmitFormDataType {
-  isPublic: boolean;
-  hourlyWage: number;
-  isNegotiableWorkDays: boolean;
-  workDays: string[];
-  workEndTime: string;
-  workStartTime: string;
-  workEndDate: string;
-  workStartDate: string;
-  location: string;
-  preferred: string;
-  age: string;
-  education: string;
-  gender: string;
-  numberOfPositions: number;
-  imageUrls: string[];
-  recruitmentEndDate: string | undefined;
-  recruitmentStartDate: string | undefined;
-  description: string;
-  title: string;
-  imageFiles: File[];
-}
 export default function EditFormPage() {
   const router = useRouter();
+  const [formIdState, setFormIdState] = useState<number>(0);
+  const formId = useParams().formId;
+
+  useEffect(() => {
+    // formId가 문자열로 전달되므로 숫자로 변환하여 상태에 저장
+    if (formId) {
+      setFormIdState(Number(formId)); // formId를 숫자로 변환하여 상태에 저장
+    }
+  }, [formId]);
+
+  // formId가 설정되면 useUserFormDetail 호출
+  const { data, isLoading, error } = useUserFormDetail({ formId: formIdState });
 
   // 초기 데이터를 서버에서 가져와서 뿌려주기 (interface에 맞게 가공해줘야할듯)
   const methods = useForm<SubmitFormDataType>({
@@ -76,8 +69,6 @@ export default function EditFormPage() {
   const currentValues: SubmitFormDataType = methods.watch();
 
   const [selectedOption, setSelectedOption] = useState("모집 내용");
-
-  const formId = useParams().formId;
 
   // 수정된 폼 제출 리액트쿼리 ( 전체 데이터를 보낼까? 수정된 데이터만 감지할수있나?)
   const mutation = useMutation({
@@ -204,26 +195,19 @@ export default function EditFormPage() {
   const { uploadImageMutation } = useUpdateProfile();
 
   // 각각의 탭 작성중 여부
-  const isEditingRecruitContent =
-    currentValues.title !== "" || currentValues.description !== "" || currentValues.recruitmentStartDate !== undefined
-      ? true
-      : false;
-  const isEditingRecruitCondition =
-    currentValues.gender !== "" ||
-    currentValues.numberOfPositions !== 0 ||
-    currentValues.education !== "" ||
-    currentValues.age !== "" ||
-    currentValues.preferred !== ""
-      ? true
-      : false;
-  const isEditingWorkCondition =
-    currentValues.location !== "" ||
-    currentValues.workStartTime !== "" ||
-    currentValues.workStartDate !== "" ||
-    currentValues.hourlyWage > 0
-      ? true
-      : false;
+  const { isEditingRecruitContent, isEditingRecruitCondition, isEditingWorkCondition } = useEditing(currentValues);
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: 데이터를 불러오는데 문제가 발생했습니다.</div>;
+  }
+
+  if (!data) {
+    return <div>데이터가 없습니다.</div>;
+  }
   return (
     <FormProvider {...methods}>
       <div className="relative">
