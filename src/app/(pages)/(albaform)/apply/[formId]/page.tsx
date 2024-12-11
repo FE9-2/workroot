@@ -23,7 +23,6 @@ interface ApplyFormData {
 // 알바폼 만들기 - 지원자 (지원하기)
 export default function Apply() {
   const {
-    reset,
     register,
     handleSubmit,
     formState: { errors, isValid, isDirty },
@@ -89,7 +88,7 @@ export default function Apply() {
         window.localStorage.removeItem("tempAddFormData");
       }
       toast.success("알바폼을 등록했습니다.");
-      router.push(`/albaFormDetail/applicant/${formId}`);
+      router.push(`/alba/${formId}`);
     },
 
     onError: (error) => {

@@ -84,7 +84,7 @@ export default function AddFormPage() {
         window.localStorage.removeItem("tempAddFormData");
       }
       toast.success("알바폼을 등록했습니다.");
-      router.push(`/albaFormDetail/owner/${formId}`); // -> 추후 상세 페이지 이동으로 수정할것
+      router.push(`/alba/${formId}`);
     },
     onError: (error) => {
       console.error("에러가 발생했습니다.", error);

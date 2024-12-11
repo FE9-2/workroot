@@ -13,9 +13,9 @@ import { useUpdateProfile } from "@/hooks/queries/user/me/useUpdateProfile";
 import RecruitContentSection from "../../../addform/section/RecruitContentSection";
 import RecruitConditionSection from "../../../addform/section/RecruitConditionSection";
 import WorkConditionSection from "../../../addform/section/WorkConditionSection";
-import useUserFormDetail from "@/hooks/queries/form/userFormDetail";
 import { SubmitFormDataType } from "@/types/addform";
 import useEditing from "@/hooks/useEditing";
+import useFormDetail from "@/hooks/queries/form/detail/useFormDetail";
 
 export default function EditFormPage() {
   const router = useRouter();
@@ -29,7 +29,7 @@ export default function EditFormPage() {
     }
   }, [formId]);
 
-  const { data, isLoading, error } = useUserFormDetail({ formId: formIdState });
+  const { albaFormDetailData, isLoading, error } = useFormDetail({ formId: formIdState });
 
   const methods = useForm<SubmitFormDataType>({
     mode: "onChange",
@@ -54,38 +54,38 @@ export default function EditFormPage() {
 
   // 비동기 데이터로 폼 상태 업데이트
   useEffect(() => {
-    if (data) {
+    if (albaFormDetailData) {
       reset({
-        isPublic: data.isPublic,
-        hourlyWage: data.hourlyWage, // 쉼표 추가하기
-        isNegotiableWorkDays: data.isNegotiableWorkDays,
-        workDays: data.workDays,
-        workEndTime: data.workEndTime,
-        workStartTime: data.workStartTime,
-        workEndDate: data.workEndDate, // display값에 반영하기
-        workStartDate: data.workStartDate,
-        location: data.location,
-        preferred: data.preferred, //value 반영하기
-        age: data.age, //value 반영하기
-        education: data.education, //value 반영하기
-        gender: data.gender, //value 반영하기
-        numberOfPositions: data.numberOfPositions, //value 반영하기
-        recruitmentEndDate: data.recruitmentEndDate, // display값에 반영하기
-        recruitmentStartDate: data.recruitmentStartDate,
-        description: data.description,
-        title: data.title,
-        imageUrls: data.imageUrls, // 프리뷰 반영하기
+        isPublic: albaFormDetailData.isPublic,
+        hourlyWage: albaFormDetailData.hourlyWage, // 쉼표 추가하기
+        isNegotiableWorkDays: albaFormDetailData.isNegotiableWorkDays,
+        workDays: albaFormDetailData.workDays,
+        workEndTime: albaFormDetailData.workEndTime,
+        workStartTime: albaFormDetailData.workStartTime,
+        workEndDate: albaFormDetailData.workEndDate, // display값에 반영하기
+        workStartDate: albaFormDetailData.workStartDate,
+        location: albaFormDetailData.location,
+        preferred: albaFormDetailData.preferred, //value 반영하기
+        age: albaFormDetailData.age, //value 반영하기
+        education: albaFormDetailData.education, //value 반영하기
+        gender: albaFormDetailData.gender, //value 반영하기
+        numberOfPositions: albaFormDetailData.numberOfPositions, //value 반영하기
+        recruitmentEndDate: albaFormDetailData.recruitmentEndDate, // display값에 반영하기
+        recruitmentStartDate: albaFormDetailData.recruitmentStartDate,
+        description: albaFormDetailData.description,
+        title: albaFormDetailData.title,
+        imageUrls: albaFormDetailData.imageUrls, // 프리뷰 반영하기
         imageFiles: [],
       });
     }
-  }, [data, reset]);
+  }, [albaFormDetailData, reset]);
 
   useEffect(() => {
-    if (data) {
+    if (albaFormDetailData) {
       // console.log("data", data);
       console.log("currentValues", currentValues);
     }
-  }, [data, currentValues]);
+  }, [albaFormDetailData, currentValues]);
 
   // 이미지 업로드 api
   const uploadImages = async (files: File[]) => {
@@ -167,7 +167,7 @@ export default function EditFormPage() {
         window.localStorage.removeItem("tempAddFormData");
       }
       toast.success("알바폼을 수정했습니다.");
-      router.push(`/albaFormDetail/applicant/${formId}`);
+      router.push(`/alba/${formId}`);
     },
     onError: (error) => {
       console.error("에러가 발생했습니다.", error);
