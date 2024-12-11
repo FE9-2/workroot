@@ -215,6 +215,7 @@ export default function AddFormPage() {
               { label: "근무 조건", isEditing: isEditingWorkCondition || currentParam === "work-condition" },
             ]}
             onChange={handleOptionChange}
+            currentParam={currentParam || ""}
           />
           <div className="absolute -bottom-[160px] flex flex-col gap-2 lg:relative lg:bottom-0">
             <Button
