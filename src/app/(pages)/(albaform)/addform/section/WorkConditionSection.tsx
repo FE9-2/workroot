@@ -54,14 +54,14 @@ export default function WorkConditionSection() {
     }
   };
 
-  // 시급 상태 추가
-  const [displayWage, setDisplayWage] = useState<string>("");
+  // 시급 상태 추가 (초기값: '25 최저시급)
+  const [displayWage, setDisplayWage] = useState<string>("10,030");
 
   // 리액트 훅폼 데이터를 가져와서 렌더링
   useEffect(() => {
     const selectedDays = getValues("workDays") || [];
     setSelectedWorkDays(selectedDays);
-    const wage = getValues("hourlyWage") || 0;
+    const wage = getValues("hourlyWage") || "10,030";
     setDisplayWage(wage);
   }, [getValues]);
 

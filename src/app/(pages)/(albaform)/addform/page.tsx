@@ -22,7 +22,7 @@ export default function AddFormPage() {
     mode: "onChange",
     defaultValues: {
       isPublic: false,
-      hourlyWage: 10030,
+      hourlyWage: 0,
       isNegotiableWorkDays: false,
       workDays: [],
       workEndTime: "",
