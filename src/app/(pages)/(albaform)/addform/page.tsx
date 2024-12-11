@@ -217,13 +217,13 @@ export default function AddFormPage() {
             onChange={handleOptionChange}
             currentParam={currentParam || ""}
           />
-          <div className="absolute -bottom-[160px] mb-20 flex flex-col gap-2 lg:relative lg:bottom-0 lg:mb-0">
+          <div className="absolute -bottom-[160px] mb-20 flex w-full flex-col gap-2 lg:relative lg:bottom-0 lg:mb-0">
             <Button
               type="button"
               variant="outlined"
               width="md"
               color="orange"
-              className="h-[58px] border bg-background-100 lg:h-[72px] lg:text-xl lg:leading-8"
+              className="lg: h-[58px] w-[320px] border bg-background-100 lg:h-[72px] lg:w-full lg:text-xl lg:leading-8"
               onClick={() => onTempSave()}
               disabled={!isDirty}
             >
@@ -234,7 +234,7 @@ export default function AddFormPage() {
               variant="solid"
               width="md"
               color="orange"
-              className="h-[58px] lg:h-[72px] lg:text-xl lg:leading-8"
+              className="lg: h-[58px] w-[320px] lg:h-[72px] lg:w-full lg:text-xl lg:leading-8"
               disabled={!isValid}
               onClick={handleSubmit(() => mutation.mutate())}
             >

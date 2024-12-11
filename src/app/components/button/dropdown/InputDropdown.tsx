@@ -18,7 +18,7 @@ const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [selectedValue, setSelectedValue] = useState<string>("");
     const [isCustomInput, setIsCustomInput] = useState<boolean>(false);
-    const { setValue, getValues } = useFormContext();
+    const { setValue, watch } = useFormContext();
 
     const handleOptionClick = (option: string) => {
       if (option === "직접 입력") {
@@ -34,11 +34,16 @@ const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
       }
     };
 
+    const data = watch();
     // 작성중인 탭으로 다시 이동했을때 이전에 저장된 훅폼 데이터 연동
     useEffect(() => {
-      const data = getValues();
       setSelectedValue(data.name || "");
-    }, [getValues]);
+    }, [watch]);
+
+    useEffect(() => {
+      console.log("input dropdown 컴포넌트에서 data 출력", data);
+      setSelectedValue(data.name);
+    }, []);
 
     const textStyle = "text-base";
 
