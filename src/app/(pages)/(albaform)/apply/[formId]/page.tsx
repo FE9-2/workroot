@@ -78,9 +78,9 @@ export default function Apply() {
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
-      // 원하는 필드만 포함된 새로운 객체 만들기
-
-      await axios.post(`/api/forms/${formId}/applications`, submitData);
+      console.log("apply 제출 submitData 출력", submitData);
+      const response = await axios.post(`/api/forms/${formId}/applications`, submitData);
+      console.log("apply 제출 response.data 출력", response.data);
     },
 
     onSuccess: () => {
@@ -106,7 +106,8 @@ export default function Apply() {
 
       window.localStorage.setItem("tempApplyData", JSON.stringify(currentValues));
       toast.success("임시 저장되었습니다.");
-      // console.log("currentData", currentValues);
+      console.log("임시저장 currentData", currentValues);
+      console.log("임시저장 submitData", submitData);
     } catch (error) {
       console.error("Error uploading resume:", error);
       toast.error("이력서 업로드에 실패했습니다.");
