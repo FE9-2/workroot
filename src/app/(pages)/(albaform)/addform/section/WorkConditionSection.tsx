@@ -2,7 +2,6 @@
 
 import { useFormContext } from "react-hook-form";
 import { useState, ChangeEvent, MouseEvent, useEffect } from "react";
-import Label from "../../component/Label";
 import { cn } from "@/lib/tailwindUtil";
 import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePickerInput";
 import LocationInput from "@/app/components/input/text/LocationInput";
@@ -11,6 +10,7 @@ import DayPickerList from "@/app/components/input/dateTimeDaypicker/DayPickerLis
 import BaseInput from "@/app/components/input/text/BaseInput";
 import CheckBtn from "@/app/components/button/default/CheckBtn";
 import formatMoney from "@/utils/formatMoney";
+import Label from "../../component/Label";
 
 // 알바폼 만들기 - 사장님 - 3-근무조건
 export default function WorkConditionSection() {
@@ -55,7 +55,7 @@ export default function WorkConditionSection() {
   };
 
   // 시급 상태 추가
-  const [displayWage, setDisplayWage] = useState<string>("10,030");
+  const [displayWage, setDisplayWage] = useState<string>("");
 
   // 리액트 훅폼 데이터를 가져와서 렌더링
   useEffect(() => {
