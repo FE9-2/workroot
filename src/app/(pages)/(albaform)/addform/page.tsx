@@ -64,19 +64,19 @@ export default function AddFormPage() {
 
       // 원하는 필드만 포함된 새로운 객체 만들기
       const filteredData = Object.entries(currentValues)
-        .filter(([key]) => !excludedKeys.includes(key)) // 제외할 키를 필터링
+        .filter(([key]) => !excludedKeys.includes(key))
         .reduce((acc: Partial<SubmitFormDataType>, [key, value]) => {
           if (key === "numberOfPositions") {
-            // numberOfPositions는 숫자형으로 변환
             acc[key] = Number(value);
           } else if (key === "hourlyWage") {
-            // hourlyWage는 쉼표를 제거하고 숫자형으로 변환
-            if (value.includes(",")) acc[key] = Number(value.replaceAll(/,/g, "")); // 쉼표 제거 후 숫자형 변환
+            // 문자열이면 콤마 제거 후 숫자로 변환
+            acc[key] = typeof value === "string" ? Number(value.replace(/,/g, "")) : Number(value);
           } else {
-            acc[key as keyof SubmitFormDataType] = value; // 나머지 값은 그대로 추가
+            acc[key as keyof SubmitFormDataType] = value;
           }
           return acc;
         }, {});
+
       await axios.post("/api/forms", filteredData);
     },
     onSuccess: () => {

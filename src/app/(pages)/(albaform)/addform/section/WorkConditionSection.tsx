@@ -1,16 +1,17 @@
 "use client";
 
 import { useFormContext } from "react-hook-form";
-import { useState, ChangeEvent, MouseEvent, useEffect } from "react";
+import { useState, ChangeEvent, MouseEvent, useEffect, useCallback } from "react";
 import { cn } from "@/lib/tailwindUtil";
 import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePickerInput";
-import LocationInput from "@/app/components/input/text/LocationInput";
 import TimePickerInput from "@/app/components/input/dateTimeDaypicker/TimePickerInput";
 import DayPickerList from "@/app/components/input/dateTimeDaypicker/DayPickerList";
 import BaseInput from "@/app/components/input/text/BaseInput";
 import CheckBtn from "@/app/components/button/default/CheckBtn";
 import formatMoney from "@/utils/formatMoney";
 import Label from "../../component/Label";
+import Script from "next/script";
+import LocationInput from "@/app/components/input/text/LocationInput";
 
 // 알바폼 만들기 - 사장님 - 3-근무조건
 export default function WorkConditionSection() {
@@ -61,19 +62,47 @@ export default function WorkConditionSection() {
   useEffect(() => {
     const selectedDays = getValues("workDays") || [];
     setSelectedWorkDays(selectedDays);
-    const wage = getValues("hourlyWage") || 0;
-    setDisplayWage(wage);
-  }, [getValues]);
+    const wage = getValues("hourlyWage");
+    // wage가 숫자인 경우에만 formatMoney 적용
+    setDisplayWage(wage ? formatMoney(wage.toString()) : "");
+
+    // 로컬 스토리지에서 주소 데이터 가져오기
+    const tempData = localStorage.getItem("tempAddFormData");
+    if (tempData) {
+      const { location } = JSON.parse(tempData);
+      if (location) {
+        setValue("location", location);
+        trigger("location");
+      }
+    }
+  }, [getValues, setValue, trigger]);
 
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
 
+  // 주소 변경 핸들러만 유지
+  const handleAddressChange = useCallback(
+    (fullAddress: string) => {
+      setValue("location", fullAddress);
+      trigger("location");
+    },
+    [setValue, trigger]
+  );
+
   return (
     <div className="relative">
+      <Script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" strategy="afterInteractive" />
+
       <form className="my-8 flex flex-col gap-4">
-        {/* 지도 API 연동 */}
         <Label>근무 위치</Label>
-        <LocationInput variant="white" {...register("location", { required: "근무 위치를 작성해주세요." })} />
+        <div className="relative">
+          <LocationInput
+            onAddressChange={handleAddressChange}
+            errormessage={errors.location?.message as string}
+            variant="white"
+            value={watch("location")}
+          />
+        </div>
 
         <div className="relative flex flex-col gap-2">
           <Label>근무 기간</Label>
@@ -137,7 +166,7 @@ export default function WorkConditionSection() {
             required: "시급을 작성해주세요.",
           })}
           value={displayWage}
-          // type = "string" -> 폼데이터에는 숫자형으로, 화면에는 세자리 콤마 추가
+          // type = "string" -> 폼데이터에는 자형으로, 화면에는 세자리 콤마 추가
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value;
             const numericValue = Number(value.replace(/,/g, ""));

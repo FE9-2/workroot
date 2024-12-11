@@ -7,6 +7,8 @@ import { cn } from "@/lib/tailwindUtil";
 import { useFormContext } from "react-hook-form";
 import { useEffect, useState } from "react";
 import Label from "../../component/Label";
+import { SubmitFormDataType } from "@/types/addform";
+import Image from "next/image";
 
 // 알바폼 만들기 - 사장님 - 1-모집내용
 
@@ -24,28 +26,51 @@ export default function RecruitContentSection() {
 
   const currentValue = getValues();
 
+  // 임시저장 데이터 불러오기
+  useEffect(() => {
+    const tempData = localStorage.getItem("tempAddFormData");
+    if (tempData) {
+      const parsedData: SubmitFormDataType = JSON.parse(tempData);
+
+      // 기본 필드 설정
+      if (parsedData.title) setValue("title", parsedData.title);
+      if (parsedData.description) setValue("description", parsedData.description);
+
+      // 모집 기간 설정
+      if (parsedData.recruitmentStartDate && parsedData.recruitmentEndDate) {
+        const startDate = new Date(parsedData.recruitmentStartDate);
+        const endDate = new Date(parsedData.recruitmentEndDate);
+        setRecruitmentDateRange([startDate, endDate]);
+        setValue("recruitmentStartDate", startDate.toISOString());
+        setValue("recruitmentEndDate", endDate.toISOString());
+      }
+
+      // 이미지 URL 설정
+      if (parsedData.imageUrls?.length > 0) {
+        setValue("imageUrls", parsedData.imageUrls);
+        // URL을 직접 사용하여 이미지 리스트 생성
+        const savedImageList = parsedData.imageUrls.map((url: string) => ({
+          file: new File([], url.split("/").pop() || "saved-image"),
+          url,
+          id: crypto.randomUUID(),
+        }));
+        setInitialImageList(savedImageList);
+      }
+    }
+  }, [setValue]);
+
   // 이미지 파일 change핸들러
   const handleChangeImages = (files: File[]) => {
-    // 훅폼 데이터에 추가-> 상위 페이지에서 "imageFiles" data를 관리할 수 있음
     setValue("imageFiles", files);
 
-    // 기존 이미지 리스트와 새로운 이미지를 합침
-    setInitialImageList((prevList) => [
-      ...prevList,
-      ...files.map((file: File) => ({
-        file,
-        url: URL.createObjectURL(file),
-        id: crypto.randomUUID(),
-      })),
-    ]);
-  };
+    const newImages = files.map((file: File) => ({
+      file,
+      url: URL.createObjectURL(file),
+      id: crypto.randomUUID(),
+    }));
 
-  // 컴포넌트가 마운트될 때 이미지 초기값 설정 (초기로딩 제외)
-  useEffect(() => {
-    if (currentValue.imageFiles?.length > 0) {
-      handleChangeImages(currentValue.imageFiles);
-    }
-  }, []);
+    setInitialImageList(newImages); // 새 이미지로 완전히 교체
+  };
 
   // 날짜 선택
   const [recruitmentDateRange, setRecruitmentDateRange] = useState<[Date | null, Date | null]>([null, null]);
@@ -98,14 +123,16 @@ export default function RecruitContentSection() {
         </div>
 
         <Label>이미지 첨부</Label>
-        <ImageInput
-          {...register("imageUrls", { required: "이미지는 필수입니다." })}
-          onChange={(files: File[]) => {
-            handleChangeImages(files);
-          }}
-          initialImageList={initialImageList || []}
-        />
-        {errors.imageUrls && <p className={cn(errorTextStyle, "")}>{errors.imageUrls.message as string}</p>}
+        <div>
+          <ImageInput
+            {...register("imageUrls", { required: "이미지는 필수입니다." })}
+            onChange={(files: File[]) => {
+              handleChangeImages(files);
+            }}
+            initialImageList={initialImageList}
+          />
+          {errors.imageUrls && <p className={cn(errorTextStyle, "")}>{errors.imageUrls.message as string}</p>}
+        </div>
       </form>
     </div>
   );
