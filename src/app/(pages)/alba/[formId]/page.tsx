@@ -32,18 +32,18 @@ export default function AlbaFormDetailPage() {
   if (!albaFormDetailData) return <div>데이터가 없습니다.</div>;
 
   return (
-    <div className="container flex min-h-screen flex-col">
-      <div className="h-[562px] bg-black-100">사진영역</div>
-      <div className="mt-20 flex justify-between">
+    <div className="container flex min-h-screen flex-col px-4 md:px-0">
+      <div className="h-[300px] bg-black-100 md:h-[562px]">사진영역</div>
+      <div className="mt-4 flex flex-col justify-between md:mt-20 md:flex-row">
         {/* 왼쪽 영역 */}
-        <div className="w-[770px] space-y-10">
+        <div className="w-full space-y-10 md:w-[770px]">
           <FormHeader albaFormDetailData={albaFormDetailData} />
           <FormDetails albaFormDetailData={albaFormDetailData} />
           {/* 지도 영역 */}
-          <div className="h-[400px] bg-black-100">카카오지도</div>
+          <div className="h-[200px] bg-black-100 md:h-[400px]">카카오지도</div>
         </div>
         {/* 오른쪽 영역 */}
-        <div className="flex w-[640px] flex-col space-y-12">
+        <div className="flex w-full flex-col space-y-12 md:w-[640px]">
           <RecruitInformation albaFormDetailData={albaFormDetailData} />
         </div>
       </div>

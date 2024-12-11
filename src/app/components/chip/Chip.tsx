@@ -16,7 +16,13 @@ interface ChipProps {
  * @param icon
  * @param textStyle - 추가 스타일
  */
-const Chip: React.FC<ChipProps> = ({ label = "Label", variant, border, icon, textStyle = "" }: ChipProps) => {
+const Chip: React.FC<ChipProps> = ({
+  label = "Label",
+  variant,
+  border,
+  icon,
+  textStyle = "text-sm md:text-base",
+}: ChipProps) => {
   const wrapperStyle = "rounded flex items-center justify-center min-w-[60px] m-1";
   const paddingStyle = icon
     ? "px-[8px] py-1 md:px-[12px] md:py-1 lg:px-[8px] lg:py-[6px]"
