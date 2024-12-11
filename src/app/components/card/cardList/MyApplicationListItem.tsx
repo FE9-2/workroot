@@ -43,7 +43,7 @@ const MyApplicationListItem = ({ id, createdAt, status, resumeId, resumeName, fo
   const handleResumeDownload = async () => {
     try {
       // API를 통해 이력서 파일을 다운로드
-      const response = await axios.get(`/api/resumes/${resumeId}`, {
+      const response = await axios.get(`/api/resume/${resumeId}/download`, {
         responseType: "blob",
       });
 
@@ -111,17 +111,19 @@ const MyApplicationListItem = ({ id, createdAt, status, resumeId, resumeName, fo
         </div>
 
         {/* 하단 상태 표시 영역: 지원 상태와 모집 상태 */}
-        <div className="flex gap-2">
-          <div className="rounded-[4px] border border-primary-orange-300 md:text-base">
+        <div className="text-grayscale-700 mt-4 flex h-[50px] items-center justify-start gap-2 rounded-2xl text-sm lg:text-base">
+          <div className="rounded-[4px] border border-primary-orange-300 bg-primary-orange-50">
             <Chip
               label={getStatusLabel(status as ApplicationStatus)}
               variant={getStatusVariant(status as ApplicationStatus)}
+              textStyle="font-bold"
             />
           </div>
-          <div className="rounded-[4px] border border-primary-orange-300 md:text-base">
+          <div className="rounded-[4px] border border-primary-orange-300 bg-primary-orange-50">
             <Chip
               label={getRecruitmentStatus(form.recruitmentEndDate)}
               variant={getRecruitmentStatus(form.recruitmentEndDate) === "모집 중" ? "positive" : "negative"}
+              textStyle="font-bold"
             />
           </div>
         </div>
