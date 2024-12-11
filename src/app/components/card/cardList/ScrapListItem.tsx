@@ -61,7 +61,7 @@ const ScrapListItem = ({
     openModal("customForm", {
       isOpen: true,
       title: "지원하기",
-      content: "정말로 지원하시겠습니까?",
+      content: "지원하시겠습니까?",
       onConfirm: () => {
         router.push(`/apply/${id}`);
       },
@@ -75,7 +75,7 @@ const ScrapListItem = ({
     openModal("customForm", {
       isOpen: true,
       title: "스크랩 취소 확인",
-      content: "정말로 스크랩을 취소하시겠습니까?",
+      content: "스크랩을 취소하시겠습니까?",
       onConfirm: () => {
         unscrap();
       },

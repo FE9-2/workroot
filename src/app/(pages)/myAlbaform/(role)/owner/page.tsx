@@ -13,6 +13,7 @@ import { useUser } from "@/hooks/queries/user/me/useUser";
 import Link from "next/link";
 import { IoAdd } from "react-icons/io5";
 import { userRoles } from "@/constants/userRoles";
+import FloatingBtn from "@/app/components/button/default/FloatingBtn";
 
 const FORMS_PER_PAGE = 10;
 
@@ -28,7 +29,7 @@ export default function AlbaList() {
       if (!user) {
         router.push("/login");
       } else if (user.role !== userRoles.OWNER) {
-        router.push("/myAlbaform/applicant");
+        router.push("/myalbaform/applicant");
       }
     }
   }, [user, isLoading, router]);
@@ -186,15 +187,11 @@ export default function AlbaList() {
       <div className="w-full pt-[132px]">
         {/* 폼 만들기 버튼 - 고정 위치 */}
         {isOwner && (
-          <div className="fixed bottom-[50%] right-4 z-[9999] translate-y-1/2">
-            <Link
-              href="/addform"
-              className="flex items-center gap-2 rounded-lg bg-[#FFB800] px-4 py-3 text-base font-semibold text-white shadow-lg transition-all hover:bg-[#FFA800] md:px-6 md:text-lg"
-            >
-              <IoAdd className="size-6" />
-              <span>폼 만들기</span>
-            </Link>
-          </div>
+          <Link href="/addform" className="fixed bottom-[50%] right-4 z-[9999] translate-y-1/2">
+            <FloatingBtn icon={<IoAdd className="size-6" />} variant="orange">
+              폼 만들기
+            </FloatingBtn>
+          </Link>
         )}
 
         {!data?.pages?.[0]?.data?.length ? (

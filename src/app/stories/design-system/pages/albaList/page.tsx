@@ -12,6 +12,7 @@ import StorySearchSection from "@/app/stories/design-system/components/layout/Se
 import Header from "@/app/stories/design-system/components/layout/Header";
 import Link from "next/link";
 import { IoAdd } from "react-icons/io5";
+import FloatingBtn from "@/app/components/button/default/FloatingBtn";
 
 interface AlbaListProps {
   mockData?: FormListType[][];
@@ -107,8 +108,9 @@ const AlbaList: React.FC<AlbaListProps> = () => {
               href="/addform"
               className="flex items-center gap-2 rounded-lg bg-[#FFB800] px-4 py-3 text-base font-semibold text-white shadow-lg transition-all hover:bg-[#FFA800] md:px-6 md:text-lg"
             >
-              <IoAdd className="size-6" />
-              <span>폼 만들기</span>
+              <FloatingBtn icon={<IoAdd className="size-6" />} variant="orange">
+                폼 만들기
+              </FloatingBtn>
             </Link>
           </div>
 
