@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
 import Label from "@/app/(pages)/(albaform)/Label";
 import { useMutation } from "@tanstack/react-query";
+import { useEffect } from "react";
 interface ApplyFormData {
   name: string;
   phoneNumber: string;
@@ -23,6 +24,7 @@ interface ApplyFormData {
 // 알바폼 만들기 - 지원자 (지원하기)
 export default function Apply() {
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors, isValid, isDirty },

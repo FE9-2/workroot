@@ -57,35 +57,35 @@ export default function EditFormPage() {
     if (data) {
       reset({
         isPublic: data.isPublic,
-        hourlyWage: data.hourlyWage,
+        hourlyWage: data.hourlyWage, // 쉼표 추가하기
         isNegotiableWorkDays: data.isNegotiableWorkDays,
         workDays: data.workDays,
         workEndTime: data.workEndTime,
         workStartTime: data.workStartTime,
-        workEndDate: data.workEndDate,
+        workEndDate: data.workEndDate, // display값에 반영하기
         workStartDate: data.workStartDate,
         location: data.location,
-        preferred: data.preferred,
-        age: data.age,
-        education: data.education,
-        gender: data.gender,
-        numberOfPositions: data.numberOfPositions,
-        recruitmentEndDate: data.recruitmentEndDate,
+        preferred: data.preferred, //value 반영하기
+        age: data.age, //value 반영하기
+        education: data.education, //value 반영하기
+        gender: data.gender, //value 반영하기
+        numberOfPositions: data.numberOfPositions, //value 반영하기
+        recruitmentEndDate: data.recruitmentEndDate, // display값에 반영하기
         recruitmentStartDate: data.recruitmentStartDate,
         description: data.description,
         title: data.title,
-        imageUrls: data.imageUrls,
+        imageUrls: data.imageUrls, // 프리뷰 반영하기
         imageFiles: [],
       });
     }
   }, [data, reset]);
 
-  // useEffect(() => {
-  //   if (data) {
-  //     console.log("data", data);
-  //     console.log("currentValues", currentValues);
-  //   }
-  // }, [data, currentValues]);
+  useEffect(() => {
+    if (data) {
+      // console.log("data", data);
+      console.log("currentValues", currentValues);
+    }
+  }, [data, currentValues]);
 
   // 이미지 업로드 api
   const uploadImages = async (files: File[]) => {
@@ -232,7 +232,7 @@ export default function EditFormPage() {
             onChange={handleOptionChange}
             currentParam={currentParam || ""}
           />
-          <div className="absolute -bottom-[160px] flex flex-col gap-2 lg:relative lg:bottom-0">
+          <div className="absolute -bottom-[120px] mb-5 flex flex-col gap-2 lg:relative lg:bottom-0">
             <Button
               type="submit"
               variant="solid"

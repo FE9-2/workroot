@@ -203,7 +203,7 @@ export default function AddFormPage() {
 
   return (
     <FormProvider {...methods}>
-      <div className="relative">
+      <div className="relative pb-10 lg:pb-0">
         <aside className="flex flex-col items-center justify-between rounded-[24px] bg-background-200 lg:fixed lg:left-[108px] lg:top-[64px] lg:m-10 lg:h-[80vh] lg:p-10">
           <TabMenuDropdown
             options={[
@@ -217,7 +217,7 @@ export default function AddFormPage() {
             onChange={handleOptionChange}
             currentParam={currentParam || ""}
           />
-          <div className="absolute -bottom-[160px] flex flex-col gap-2 lg:relative lg:bottom-0">
+          <div className="absolute -bottom-[160px] mb-20 flex flex-col gap-2 lg:relative lg:bottom-0 lg:mb-0">
             <Button
               type="button"
               variant="outlined"
