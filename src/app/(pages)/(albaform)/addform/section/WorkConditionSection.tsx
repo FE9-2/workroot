@@ -55,7 +55,7 @@ export default function WorkConditionSection() {
   };
 
   // 시급 상태 추가
-  const [displayWage, setDisplayWage] = useState<string>("");
+  const [displayWage, setDisplayWage] = useState<string>("10,030");
 
   // 리액트 훅폼 데이터를 가져와서 렌더링
   useEffect(() => {
