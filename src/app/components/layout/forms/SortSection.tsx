@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import FilterDropdown from "@/app/components/button/dropdown/FilterDropdown";
 import { formSortOptions } from "@/constants/formOptions";
-
-type FormSortOption = (typeof formSortOptions)[keyof typeof formSortOptions];
+import { useRouter } from "next/navigation";
 
 const SORT_OPTIONS = [
   { label: "최신순", value: formSortOptions.MOST_RECENT },
@@ -13,15 +12,23 @@ const SORT_OPTIONS = [
   { label: "스크랩 많은순", value: formSortOptions.MOST_SCRAPPED },
 ];
 
-export default function SortSection() {
-  const [currentSort, setCurrentSort] = useState<FormSortOption>(formSortOptions.MOST_RECENT);
+interface SortSectionProps {
+  pathname: string;
+  searchParams: URLSearchParams;
+}
 
-  const currentLabel = SORT_OPTIONS.find((opt) => opt.value === currentSort)?.label || SORT_OPTIONS[0].label;
+export default function SortSection({ pathname, searchParams }: SortSectionProps) {
+  const router = useRouter();
+  const currentOrderBy = searchParams.get("orderBy") || formSortOptions.MOST_RECENT;
+
+  const currentLabel = SORT_OPTIONS.find((opt) => opt.value === currentOrderBy)?.label || SORT_OPTIONS[0].label;
 
   const handleSortChange = (selected: string) => {
     const option = SORT_OPTIONS.find((opt) => opt.label === selected);
     if (option) {
-      setCurrentSort(option.value);
+      const params = new URLSearchParams(searchParams);
+      params.set("orderBy", option.value);
+      router.push(`${pathname}?${params.toString()}`);
     }
   };
 
