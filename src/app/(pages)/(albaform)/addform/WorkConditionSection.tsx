@@ -10,6 +10,7 @@ import TimePickerInput from "@/app/components/input/dateTimeDaypicker/TimePicker
 import DayPickerList from "@/app/components/input/dateTimeDaypicker/DayPickerList";
 import BaseInput from "@/app/components/input/text/BaseInput";
 import CheckBtn from "@/app/components/button/default/CheckBtn";
+import formatMoney from "@/utils/formatMoney";
 
 // 알바폼 만들기 - 사장님 - 3-근무조건
 export default function WorkConditionSection() {
@@ -55,15 +56,6 @@ export default function WorkConditionSection() {
 
   // 시급 상태 추가
   const [displayWage, setDisplayWage] = useState<string>("");
-
-  const formatNumber = (value: string) => {
-    let numericValue = value.replaceAll(/,/g, "");
-    if (numericValue.startsWith("0")) {
-      numericValue = numericValue.slice(1);
-    }
-    const formatNumber = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return formatNumber;
-  };
 
   // 리액트 훅폼 데이터를 가져와서 렌더링
   useEffect(() => {
@@ -150,7 +142,7 @@ export default function WorkConditionSection() {
             const value = e.target.value;
             const numericValue = Number(value.replace(/,/g, ""));
             setValue("hourlyWage", numericValue); // 콤마 제거하고 숫자형으로 저장
-            setDisplayWage(formatNumber(value));
+            setDisplayWage(formatMoney(value));
           }}
           variant="white"
           afterString="원"
