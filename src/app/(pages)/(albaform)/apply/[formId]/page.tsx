@@ -8,8 +8,8 @@ import { cn } from "@/lib/tailwindUtil";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
-import Label from "@/app/(pages)/(albaform)/Label";
 import { useMutation } from "@tanstack/react-query";
+import Label from "../../component/Label";
 interface ApplyFormData {
   name: string;
   phoneNumber: string;
@@ -78,13 +78,9 @@ export default function Apply() {
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
-      // 원하는 필드만 포함된 새로운 객체 만들기
-
-      await axios.post(`/api/forms/${formId}/applications`, submitData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      console.log("apply 제출 submitData 출력", submitData);
+      const response = await axios.post(`/api/forms/${formId}/applications`, submitData);
+      console.log("apply 제출 response.data 출력", response.data);
     },
 
     onSuccess: () => {
@@ -92,7 +88,7 @@ export default function Apply() {
         window.localStorage.removeItem("tempAddFormData");
       }
       toast.success("알바폼을 등록했습니다.");
-      router.back(); // -> 추후 상세 페이지 이동으로 수정할것
+      router.push(`/alba/${formId}`);
     },
 
     onError: (error) => {
@@ -110,7 +106,8 @@ export default function Apply() {
 
       window.localStorage.setItem("tempApplyData", JSON.stringify(currentValues));
       toast.success("임시 저장되었습니다.");
-      // console.log("currentData", currentValues);
+      console.log("임시저장 currentData", currentValues);
+      console.log("임시저장 submitData", submitData);
     } catch (error) {
       console.error("Error uploading resume:", error);
       toast.error("이력서 업로드에 실패했습니다.");

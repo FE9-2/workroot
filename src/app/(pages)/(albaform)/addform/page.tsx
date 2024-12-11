@@ -1,6 +1,6 @@
 "use client";
-import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import axios from "axios";
 import TabMenuDropdown from "@/app/components/button/dropdown/TabMenuDropdown";
@@ -8,41 +8,21 @@ import Button from "@/app/components/button/default/Button";
 import { toast } from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import { useUpdateProfile } from "@/hooks/queries/user/me/useUpdateProfile";
-import RecruitContentSection from "./RecruitContentSection";
-import RecruitConditionSection from "./RecruitConditionSection";
-import WorkConditionSection from "./WorkConditionSection";
+import RecruitContentSection from "./section/RecruitContentSection";
+import RecruitConditionSection from "./section/RecruitConditionSection";
+import WorkConditionSection from "./section/WorkConditionSection";
+import useEditing from "@/hooks/useEditing";
+import { SubmitFormDataType } from "@/types/addform";
 
-interface SubmitFormDataType {
-  isPublic: boolean;
-  hourlyWage: number;
-  isNegotiableWorkDays: boolean;
-  workDays: string[];
-  workEndTime: string;
-  workStartTime: string;
-  workEndDate: string;
-  workStartDate: string;
-  location: string;
-  preferred: string;
-  age: string;
-  education: string;
-  gender: string;
-  numberOfPositions: number;
-  imageUrls: string[];
-  recruitmentEndDate: string | undefined;
-  recruitmentStartDate: string | undefined;
-  description: string;
-  title: string;
-  imageFiles: File[];
-}
 export default function AddFormPage() {
   const router = useRouter();
-
+  const formId = useParams().formId;
   // 리액트 훅폼에서 관리할 데이터 타입 지정 및 메서드 호출 (상위 컴포넌트 = useForm 사용)
   const methods = useForm<SubmitFormDataType>({
     mode: "onChange",
     defaultValues: {
       isPublic: false,
-      hourlyWage: 0,
+      hourlyWage: 10030,
       isNegotiableWorkDays: false,
       workDays: [],
       workEndTime: "",
@@ -75,7 +55,7 @@ export default function AddFormPage() {
 
   // 이미지 업로드 api 처리를 위해 별도 변수에 할당
   const imageFiles = currentValues.imageFiles;
-  const [selectedOption, setSelectedOption] = useState("모집 내용");
+  const [, setSelectedOption] = useState<string>("");
 
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
@@ -91,24 +71,20 @@ export default function AddFormPage() {
             acc[key] = Number(value);
           } else if (key === "hourlyWage") {
             // hourlyWage는 쉼표를 제거하고 숫자형으로 변환
-            acc[key] = Number(value.replaceAll(/,/g, "")); // 쉼표 제거 후 숫자형 변환
+            if (value.includes(",")) acc[key] = Number(value.replaceAll(/,/g, "")); // 쉼표 제거 후 숫자형 변환
           } else {
             acc[key as keyof SubmitFormDataType] = value; // 나머지 값은 그대로 추가
           }
           return acc;
         }, {});
-      await axios.post("/api/forms", filteredData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      await axios.post("/api/forms", filteredData);
     },
     onSuccess: () => {
       if (typeof window !== "undefined") {
         window.localStorage.removeItem("tempAddFormData");
       }
       toast.success("알바폼을 등록했습니다.");
-      router.back(); // -> 추후 상세 페이지 이동으로 수정할것
+      router.push(`/alba/${formId}`);
     },
     onError: (error) => {
       console.error("에러가 발생했습니다.", error);
@@ -137,16 +113,32 @@ export default function AddFormPage() {
     router.push(`/addform?tab=${params}`);
   };
 
+  useEffect(() => {
+    switch (currentParam) {
+      case "recruit-content":
+        setSelectedOption("모집 내용");
+        break;
+      case "recruit-condition":
+        setSelectedOption("모집 조건");
+        break;
+      case "work-condition":
+        setSelectedOption("근무 조건");
+        break;
+      default:
+        setSelectedOption("모집 내용");
+    }
+  }, [currentParam]);
+
   const renderChildren = () => {
-    switch (selectedOption) {
-      case "모집 내용":
+    switch (currentParam) {
+      case "recruit-content":
         return <RecruitContentSection key="recruitContent" />;
-      case "모집 조건":
+      case "recruit-condition":
         return <RecruitConditionSection key="recruitCondition" />;
-      case "근무 조건":
+      case "work-condition":
         return <WorkConditionSection key="workCondition" />;
       default:
-        return <></>;
+        return <RecruitContentSection key="recruitContent" />;
     }
   };
   const { uploadImageMutation } = useUpdateProfile();
@@ -207,29 +199,11 @@ export default function AddFormPage() {
   };
 
   // 각각의 탭 작성중 여부
-  const isEditingRecruitContent =
-    currentValues.title !== "" || currentValues.description !== "" || currentValues.recruitmentStartDate !== undefined
-      ? true
-      : false;
-  const isEditingRecruitCondition =
-    currentValues.gender !== "" ||
-    currentValues.numberOfPositions !== 0 ||
-    currentValues.education !== "" ||
-    currentValues.age !== "" ||
-    currentValues.preferred !== ""
-      ? true
-      : false;
-  const isEditingWorkCondition =
-    currentValues.location !== "" ||
-    currentValues.workStartTime !== "" ||
-    currentValues.workStartDate !== "" ||
-    currentValues.hourlyWage > 0
-      ? true
-      : false;
+  const { isEditingRecruitContent, isEditingRecruitCondition, isEditingWorkCondition } = useEditing(currentValues);
 
   return (
     <FormProvider {...methods}>
-      <div className="relative">
+      <div className="relative pb-10 lg:pb-0">
         <aside className="flex flex-col items-center justify-between rounded-[24px] bg-background-200 lg:fixed lg:left-[108px] lg:top-[64px] lg:m-10 lg:h-[80vh] lg:p-10">
           <TabMenuDropdown
             options={[
@@ -241,8 +215,9 @@ export default function AddFormPage() {
               { label: "근무 조건", isEditing: isEditingWorkCondition || currentParam === "work-condition" },
             ]}
             onChange={handleOptionChange}
+            currentParam={currentParam || ""}
           />
-          <div className="absolute -bottom-[160px] flex flex-col gap-2 lg:relative lg:bottom-0">
+          <div className="absolute -bottom-[160px] mb-20 flex flex-col gap-2 lg:relative lg:bottom-0 lg:mb-0">
             <Button
               type="button"
               variant="outlined"

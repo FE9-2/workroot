@@ -17,7 +17,7 @@ const TimePickerInput = forwardRef<HTMLInputElement, BaseInputProps>((props, ref
     handleOpenDropdown();
   };
   const { isOpen, handleOpenDropdown } = useDropdownOpen();
-  const beforeIconStyle = "text-grayscale-400 size-[13px] lg:size-5";
+  const beforeIconStyle = "text-grayscale-400 size-5 lg:size-8";
   const afterIconStyle =
     "text-black-400 size-6 lg:size-9  transition-all transition-transform duration-200 ease-in-out";
   const width = "w-[150px] lg:w-[210px]";
@@ -38,7 +38,7 @@ const TimePickerInput = forwardRef<HTMLInputElement, BaseInputProps>((props, ref
         placeholder="00:00"
         value={value || ""}
         size="w-[150px] h-[54px] lg:w-[210px] lg:h-[64px]"
-        beforeIcon={<LuClock className={beforeIconStyle} />}
+        beforeIcon={<LuClock className={beforeIconStyle} strokeWidth="1" />}
         afterIcon={<IoMdArrowDropup className={`${afterIconStyle} ${isOpen ? "rotate-180" : ""}`} />}
         errormessage={errormessage}
       />

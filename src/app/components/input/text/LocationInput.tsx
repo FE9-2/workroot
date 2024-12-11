@@ -12,7 +12,7 @@ const LocationInput = forwardRef<HTMLInputElement, BaseInputProps>(
         ref={ref}
         type={type}
         variant={variant || "white"}
-        beforeIcon={<IoLocationSharp className="size-6 text-grayscale-100 lg:size-8" />}
+        beforeIcon={<IoLocationSharp className="size-5 text-grayscale-100 lg:size-8" />}
         placeholder="위치를 입력해주세요."
         errormessage={errormessage}
         feedbackMessage={feedbackMessage}

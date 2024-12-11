@@ -1,5 +1,4 @@
 "use client";
-import Label from "../Label";
 import BaseInput from "@/app/components/input/text/BaseInput";
 import BaseTextArea from "@/app/components/input/textarea/BaseTextArea";
 import ImageInput from "@/app/components/input/file/ImageInput/ImageInput";
@@ -7,6 +6,7 @@ import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePicker
 import { cn } from "@/lib/tailwindUtil";
 import { useFormContext } from "react-hook-form";
 import { useEffect, useState } from "react";
+import Label from "../../component/Label";
 
 // 알바폼 만들기 - 사장님 - 1-모집내용
 

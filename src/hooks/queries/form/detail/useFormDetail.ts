@@ -26,3 +26,4 @@ export const useFormDetail = ({ formId }: UseFormDetailParams) => {
     error: query.error,
   };
 };
+export default useFormDetail;
