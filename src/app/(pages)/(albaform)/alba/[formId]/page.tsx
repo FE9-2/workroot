@@ -3,13 +3,13 @@
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useUser } from "@/hooks/queries/user/me/useUser";
+import { useFormDetail } from "@/hooks/queries/form/detail/useFormDetail";
+import { Map, MapMarker, useKakaoLoader } from "react-kakao-maps-sdk";
+import Script from "next/script";
 import FormHeader from "./edit/components/FormHeader";
 import FormDetails from "./edit/components/FormDetail";
 import RecruitInformation from "./edit/components/RecruitInfomation";
 import ApplicationStatus from "./edit/components/ApplicationStatus";
-import { useFormDetail } from "@/hooks/queries/form/detail/useFormDetail";
-import { Map, MapMarker, useKakaoLoader } from "react-kakao-maps-sdk";
-import Script from "next/script";
 
 interface Coords {
   lat: number;
