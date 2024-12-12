@@ -1,9 +1,12 @@
 import React from "react";
-import Button from "@/app/components/button/default/Button";
-import { FcEmptyTrash, FcEditImage, FcFile, FcSearch } from "react-icons/fc";
 import Link from "next/link";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import { FormDetailResponse } from "@/types/response/form";
+import FloatingBtn from "@/app/components/button/default/FloatingBtn";
+import { FaEdit } from "react-icons/fa";
+import { MdDeleteForever } from "react-icons/md";
+import { VscGitStashApply } from "react-icons/vsc";
+import { CiMemoPad } from "react-icons/ci";
 
 interface FormActionsProps {
   formId: string | number;
@@ -15,18 +18,18 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
   const isMyAlbaForm = user?.id === albaFormDetailData.ownerId;
   const isOwnerRole = user?.role === "OWNER";
 
-  const buttonStyle = "h-10 lg:h-16";
+  const buttonStyle = "h-10 lg:h-16 w-full rounded-lg font-bold ";
   if (!user) return null;
   // 사장님이 아니면 지원하기/내 지원내역 보기 버튼
   if (!isOwnerRole) {
     return (
       <div className="space-y-4 text-2xl">
-        <Button className={buttonStyle} width="lg" icon={<FcFile />}>
+        <FloatingBtn className={buttonStyle} icon={<VscGitStashApply />}>
           지원하기
-        </Button>
-        <Button className={buttonStyle} width="lg" icon={<FcSearch />} variant="outlined">
+        </FloatingBtn>
+        <FloatingBtn variant="white" className={buttonStyle} icon={<CiMemoPad />}>
           내 지원내역 보기
-        </Button>
+        </FloatingBtn>
       </div>
     );
   }
@@ -37,13 +40,13 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
     return (
       <div className="space-y-4 text-2xl">
         <Link href={`/alba/${formId}/edit`}>
-          <Button className={buttonStyle} width="lg" icon={<FcEditImage />}>
+          <FloatingBtn className={`${buttonStyle}`} icon={<FaEdit />}>
             수정하기
-          </Button>
+          </FloatingBtn>
         </Link>
-        <Button className={buttonStyle} width="lg" icon={<FcEmptyTrash />} variant="outlined">
+        <FloatingBtn variant="white" className={buttonStyle} icon={<MdDeleteForever />}>
           삭제하기
-        </Button>
+        </FloatingBtn>
       </div>
     );
   }
