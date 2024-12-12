@@ -56,8 +56,17 @@ const AlbaListItem = ({
     };
   }, [showDropdown]);
 
-  // 지원하기
-  const handleFormApplication = () => {
+  // 드롭다운 토글 핸들러 수정
+  const handleDropdownToggle = (e: React.MouseEvent) => {
+    e.preventDefault(); // Link 클릭 방지
+    e.stopPropagation(); // 이벤트 전파 방지
+    setShowDropdown(!showDropdown);
+  };
+
+  // 드롭다운 메뉴 아이템 클릭 핸들러 수정
+  const handleFormApplication = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     setShowDropdown(false);
     openModal("customForm", {
       isOpen: true,
@@ -85,8 +94,9 @@ const AlbaListItem = ({
     });
   };
 
-  // 스크랩
-  const handleFormScrap = () => {
+  const handleFormScrap = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     setShowDropdown(false);
     openModal("customForm", {
       isOpen: true,
@@ -172,10 +182,7 @@ const AlbaListItem = ({
             </div>
             {/* 케밥 메뉴 */}
             <div ref={dropdownRef} className="relative">
-              <button
-                className="hover:text-grayscale-700 text-grayscale-500"
-                onClick={() => setShowDropdown(!showDropdown)}
-              >
+              <button className="hover:text-grayscale-700 text-grayscale-500" onClick={handleDropdownToggle}>
                 <BsThreeDotsVertical className="h-6 w-6" />
               </button>
               {/* 드롭다운 메뉴 */}

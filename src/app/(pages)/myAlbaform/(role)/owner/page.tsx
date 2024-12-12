@@ -205,7 +205,9 @@ export default function AlbaList() {
                 <React.Fragment key={page.nextCursor}>
                   {page.data.map((form) => (
                     <div key={form.id}>
-                      <AlbaListItem {...form} />
+                      <Link href={`/alba/${form.id}`}>
+                        <AlbaListItem {...form} />
+                      </Link>
                     </div>
                   ))}
                 </React.Fragment>

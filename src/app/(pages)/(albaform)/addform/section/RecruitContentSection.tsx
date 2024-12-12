@@ -5,7 +5,7 @@ import ImageInput from "@/app/components/input/file/ImageInput/ImageInput";
 import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePickerInput";
 import { cn } from "@/lib/tailwindUtil";
 import { useFormContext } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Label from "../../component/Label";
 
 // 알바폼 만들기 - 사장님 - 1-모집내용
@@ -19,33 +19,8 @@ export default function RecruitContentSection() {
     register,
     setValue,
     getValues,
-    formState: { errors, isDirty },
+    formState: { errors },
   } = useFormContext();
-
-  const currentValue = getValues();
-
-  // 이미지 파일 change핸들러
-  const handleChangeImages = (files: File[]) => {
-    // 훅폼 데이터에 추가-> 상위 페이지에서 "imageFiles" data를 관리할 수 있음
-    setValue("imageFiles", files);
-
-    // 기존 이미지 리스트와 새로운 이미지를 합침
-    setInitialImageList((prevList) => [
-      ...prevList,
-      ...files.map((file: File) => ({
-        file,
-        url: URL.createObjectURL(file),
-        id: crypto.randomUUID(),
-      })),
-    ]);
-  };
-
-  // 컴포넌트가 마운트될 때 이미지 초기값 설정 (초기로딩 제외)
-  useEffect(() => {
-    if (currentValue.imageFiles?.length > 0) {
-      handleChangeImages(currentValue.imageFiles);
-    }
-  }, []);
 
   // 날짜 선택
   const [recruitmentDateRange, setRecruitmentDateRange] = useState<[Date | null, Date | null]>([null, null]);
@@ -55,6 +30,20 @@ export default function RecruitContentSection() {
     if (start) setValue("recruitmentStartDate", start.toISOString());
     if (end) setValue("recruitmentEndDate", end.toISOString());
   };
+
+  // 이미지 파일 change핸들러
+  const handleChangeImages = (files: File[]) => {
+    setValue("imageFiles", files);
+
+    const newImages = files.map((file: File) => ({
+      file,
+      url: URL.createObjectURL(file),
+      id: crypto.randomUUID(),
+    }));
+
+    setInitialImageList(newImages);
+  };
+
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
 
@@ -90,7 +79,7 @@ export default function RecruitContentSection() {
             endDate={recruitmentDateRange[1] || undefined}
             onChange={handleRecruitmentDateChange}
             required={true}
-            errormessage={isDirty && (!recruitmentDateRange[0] || !recruitmentDateRange[1])}
+            errormessage={!recruitmentDateRange[0] || !recruitmentDateRange[1]}
             displayValue="recruitDateRange"
           />
           {!recruitmentDateRange[0] ||
@@ -98,14 +87,16 @@ export default function RecruitContentSection() {
         </div>
 
         <Label>이미지 첨부</Label>
-        <ImageInput
-          {...register("imageUrls", { required: "이미지는 필수입니다." })}
-          onChange={(files: File[]) => {
-            handleChangeImages(files);
-          }}
-          initialImageList={initialImageList || []}
-        />
-        {errors.imageUrls && <p className={cn(errorTextStyle, "")}>{errors.imageUrls.message as string}</p>}
+        <div>
+          <ImageInput
+            {...register("imageUrls", { required: "이미지는 필수입니다." })}
+            onChange={(files: File[]) => {
+              handleChangeImages(files);
+            }}
+            initialImageList={initialImageList}
+          />
+          {errors.imageUrls && <p className={cn(errorTextStyle, "")}>{errors.imageUrls.message as string}</p>}
+        </div>
       </form>
     </div>
   );
