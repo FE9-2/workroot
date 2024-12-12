@@ -6,11 +6,15 @@ import { useMyComments } from "@/hooks/queries/user/me/useMyComments";
 import Pagination from "@/app/components/pagination/Pagination";
 import Comment from "@/app/components/card/board/Comment";
 import Link from "next/link";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
+import { useUser } from "@/hooks/queries/user/me/useUser";
 
 // 한 페이지당 댓글 수
 const COMMENTS_PER_PAGE = 10;
 
 export default function CommentsSection() {
+  const { user } = useUser();
+
   // 현재 페이지 상태 관리
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -63,12 +67,12 @@ export default function CommentsSection() {
         {data.data.map((comment) => (
           <div key={comment.id} className="rounded-lg border border-grayscale-100 p-4 hover:bg-grayscale-50">
             <Link href={`/albatalk/${comment.post.id}`}>
-              {/* <Comment
-                nickname={comment.writer.nickname}
+              <Comment
+                nickname={user?.nickname || ""}
                 updatedAt={comment.updatedAt}
                 content={comment.content}
                 onKebabClick={() => console.log("케밥 메뉴 클릭", comment.id)}
-              /> */}
+              />
             </Link>
           </div>
         ))}

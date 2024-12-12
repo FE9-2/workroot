@@ -19,13 +19,6 @@ const StatusMessage = ({ message, className = "text-grayscale-500" }: { message:
   </div>
 );
 
-// 로딩 스피너 컴포넌트
-const LoadingSpinner = () => (
-  <div className="flex justify-center py-4">
-    <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary-orange-300 border-t-transparent" />
-  </div>
-);
-
 export default function PostsSection() {
   // 정렬 상태 관리
   const { orderBy } = useMySortStore();
