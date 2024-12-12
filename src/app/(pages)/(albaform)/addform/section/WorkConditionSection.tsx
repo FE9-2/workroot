@@ -1,7 +1,7 @@
 "use client";
 
 import { useFormContext } from "react-hook-form";
-import { useState, ChangeEvent, MouseEvent, useEffect, useCallback } from "react";
+import { useState, ChangeEvent, MouseEvent, useCallback, useEffect } from "react";
 import { cn } from "@/lib/tailwindUtil";
 import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePickerInput";
 import TimePickerInput from "@/app/components/input/dateTimeDaypicker/TimePickerInput";
@@ -12,6 +12,7 @@ import formatMoney from "@/utils/formatMoney";
 import Label from "../../component/Label";
 import Script from "next/script";
 import LocationInput from "@/app/components/input/text/LocationInput";
+import { toast } from "react-hot-toast";
 
 // 알바폼 만들기 - 사장님 - 3-근무조건
 export default function WorkConditionSection() {
@@ -21,7 +22,7 @@ export default function WorkConditionSection() {
     getValues,
     trigger,
     watch,
-    formState: { errors, isDirty },
+    formState: { errors },
   } = useFormContext();
 
   // 근무 날짜 지정
@@ -55,27 +56,33 @@ export default function WorkConditionSection() {
     }
   };
 
+  // 최저시급 상수 수정 (2025년 기준)
+  const MINIMUM_WAGE = 10030;
+
   // 시급 상태 추가
-  const [displayWage, setDisplayWage] = useState<string>("");
+  const [displayWage, setDisplayWage] = useState<string>(formatMoney(MINIMUM_WAGE.toString()));
 
-  // 리액트 훅폼 데이터를 가져와서 렌더링
+  // 컴포넌트 마운트 시 최저시급으로 초기화
   useEffect(() => {
-    const selectedDays = getValues("workDays") || [];
-    setSelectedWorkDays(selectedDays);
-    const wage = getValues("hourlyWage");
-    // wage가 숫자인 경우에만 formatMoney 적용
-    setDisplayWage(wage ? formatMoney(wage.toString()) : "");
+    setValue("hourlyWage", MINIMUM_WAGE);
+  }, [setValue]);
 
-    // 로컬 스토리지에서 주소 데이터 가져오기
-    const tempData = localStorage.getItem("tempAddFormData");
-    if (tempData) {
-      const { location } = JSON.parse(tempData);
-      if (location) {
-        setValue("location", location);
-        trigger("location");
-      }
+  // 시급 변경 핸들러 수정
+  const handleWageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/,/g, "");
+    const numericValue = Number(value);
+
+    // 최저시급 미만으로 설정 시도할 경우
+    if (numericValue < MINIMUM_WAGE) {
+      toast.error(`최저시급(${formatMoney(MINIMUM_WAGE.toString())}원) 이상을 입력해주세요.`);
+      setDisplayWage(formatMoney(MINIMUM_WAGE.toString()));
+      setValue("hourlyWage", MINIMUM_WAGE);
+      return;
     }
-  }, [getValues, setValue, trigger]);
+
+    setValue("hourlyWage", numericValue);
+    setDisplayWage(formatMoney(value));
+  };
 
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
@@ -113,7 +120,7 @@ export default function WorkConditionSection() {
             endDate={workDateRange[1] || undefined}
             onChange={handleWorkDateChange}
             required={true}
-            errormessage={isDirty && (!workDateRange[0] || !workDateRange[1])}
+            errormessage={!workDateRange[0] || !workDateRange[1]}
             displayValue="workDateRange"
           />
           {!workDateRange[0] ||
@@ -139,7 +146,7 @@ export default function WorkConditionSection() {
             }}
           />
           {!errors.workStartDate ||
-            (!errors.workEndDate && !workStartTime && !workEndTime && isDirty && (
+            (!errors.workEndDate && !workStartTime && !workEndTime && (
               <p className={cn(errorTextStyle, "")}>근무 시간을 선택해주세요.</p>
             ))}
         </div>
@@ -154,9 +161,7 @@ export default function WorkConditionSection() {
               checked={watch("isNegotiableWorkDays")}
               {...register("isNegotiableWorkDays")}
             />
-            {selectedWorkDays.length === 0 && isDirty && (
-              <p className={cn(errorTextStyle, "")}>근무 요일을 선택해주세요.</p>
-            )}
+            {selectedWorkDays.length === 0 && <p className={cn(errorTextStyle, "")}>근무 요일을 선택해주세요.</p>}
           </div>
         </div>
 
@@ -164,15 +169,13 @@ export default function WorkConditionSection() {
         <BaseInput
           {...register("hourlyWage", {
             required: "시급을 작성해주세요.",
+            min: {
+              value: MINIMUM_WAGE,
+              message: `최저시급(${formatMoney(MINIMUM_WAGE.toString())}원) 이상을 입력해주세요.`,
+            },
           })}
           value={displayWage}
-          // type = "string" -> 폼데이터에는 자형으로, 화면에는 세자리 콤마 추가
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            const value = e.target.value;
-            const numericValue = Number(value.replace(/,/g, ""));
-            setValue("hourlyWage", numericValue); // 콤마 제거하고 숫자형으로 저장
-            setDisplayWage(formatMoney(value));
-          }}
+          onChange={handleWageChange}
           variant="white"
           afterString="원"
           errormessage={errors.hourlyWage?.message as string}

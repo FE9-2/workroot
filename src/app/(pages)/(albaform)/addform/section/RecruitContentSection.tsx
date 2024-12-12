@@ -5,10 +5,8 @@ import ImageInput from "@/app/components/input/file/ImageInput/ImageInput";
 import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePickerInput";
 import { cn } from "@/lib/tailwindUtil";
 import { useFormContext } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Label from "../../component/Label";
-import { SubmitFormDataType } from "@/types/addform";
-import Image from "next/image";
 
 // 알바폼 만들기 - 사장님 - 1-모집내용
 
@@ -21,43 +19,17 @@ export default function RecruitContentSection() {
     register,
     setValue,
     getValues,
-    formState: { errors, isDirty },
+    formState: { errors },
   } = useFormContext();
 
-  const currentValue = getValues();
-
-  // 임시저장 데이터 불러오기
-  useEffect(() => {
-    const tempData = localStorage.getItem("tempAddFormData");
-    if (tempData) {
-      const parsedData: SubmitFormDataType = JSON.parse(tempData);
-
-      // 기본 필드 설정
-      if (parsedData.title) setValue("title", parsedData.title);
-      if (parsedData.description) setValue("description", parsedData.description);
-
-      // 모집 기간 설정
-      if (parsedData.recruitmentStartDate && parsedData.recruitmentEndDate) {
-        const startDate = new Date(parsedData.recruitmentStartDate);
-        const endDate = new Date(parsedData.recruitmentEndDate);
-        setRecruitmentDateRange([startDate, endDate]);
-        setValue("recruitmentStartDate", startDate.toISOString());
-        setValue("recruitmentEndDate", endDate.toISOString());
-      }
-
-      // 이미지 URL 설정
-      if (parsedData.imageUrls?.length > 0) {
-        setValue("imageUrls", parsedData.imageUrls);
-        // URL을 직접 사용하여 이미지 리스트 생성
-        const savedImageList = parsedData.imageUrls.map((url: string) => ({
-          file: new File([], url.split("/").pop() || "saved-image"),
-          url,
-          id: crypto.randomUUID(),
-        }));
-        setInitialImageList(savedImageList);
-      }
-    }
-  }, [setValue]);
+  // 날짜 선택
+  const [recruitmentDateRange, setRecruitmentDateRange] = useState<[Date | null, Date | null]>([null, null]);
+  const handleRecruitmentDateChange = (dates: [Date | null, Date | null]) => {
+    setRecruitmentDateRange(dates);
+    const [start, end] = dates;
+    if (start) setValue("recruitmentStartDate", start.toISOString());
+    if (end) setValue("recruitmentEndDate", end.toISOString());
+  };
 
   // 이미지 파일 change핸들러
   const handleChangeImages = (files: File[]) => {
@@ -69,17 +41,9 @@ export default function RecruitContentSection() {
       id: crypto.randomUUID(),
     }));
 
-    setInitialImageList(newImages); // 새 이미지로 완전히 교체
+    setInitialImageList(newImages);
   };
 
-  // 날짜 선택
-  const [recruitmentDateRange, setRecruitmentDateRange] = useState<[Date | null, Date | null]>([null, null]);
-  const handleRecruitmentDateChange = (dates: [Date | null, Date | null]) => {
-    setRecruitmentDateRange(dates);
-    const [start, end] = dates;
-    if (start) setValue("recruitmentStartDate", start.toISOString());
-    if (end) setValue("recruitmentEndDate", end.toISOString());
-  };
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
 
@@ -115,7 +79,7 @@ export default function RecruitContentSection() {
             endDate={recruitmentDateRange[1] || undefined}
             onChange={handleRecruitmentDateChange}
             required={true}
-            errormessage={isDirty && (!recruitmentDateRange[0] || !recruitmentDateRange[1])}
+            errormessage={!recruitmentDateRange[0] || !recruitmentDateRange[1]}
             displayValue="recruitDateRange"
           />
           {!recruitmentDateRange[0] ||
