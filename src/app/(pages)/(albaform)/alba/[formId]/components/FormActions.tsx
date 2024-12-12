@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react"; // useState 추가
 import Link from "next/link";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import { FormDetailResponse } from "@/types/response/form";
@@ -11,6 +11,7 @@ import { CiMemoPad } from "react-icons/ci";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
 
 interface FormActionsProps {
   formId: string | number;
@@ -24,28 +25,20 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
   const isOwnerRole = user?.role === "OWNER";
 
   const buttonStyle = "h-10 lg:h-16 w-full rounded-lg font-bold ";
+  const [loading, setLoading] = useState(false);
+
   if (!user) return null;
-  // 사장님이 아니면 지원하기/내 지원내역 보기 버튼
-  if (!isOwnerRole) {
-    return (
-      <div className="space-y-4 text-2xl">
-        <FloatingBtn className={buttonStyle} icon={<VscGitStashApply />}>
-          지원하기
-        </FloatingBtn>
-        <FloatingBtn variant="white" className={buttonStyle} icon={<CiMemoPad />}>
-          내 지원내역 보기
-        </FloatingBtn>
-      </div>
-    );
-  }
 
   const handleDelete = async () => {
+    setLoading(true);
     try {
       await axios.delete(`/api/forms/${formId}`);
       toast.success("성공적으로 삭제되었습니다.");
       router.push(`/albalist`);
     } catch (error) {
       toast.error("삭제 중 오류가 발생했습니다.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,12 +48,32 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
     return (
       <div className="space-y-4 text-2xl">
         <Link href={`/alba/${formId}/edit`}>
-          <FloatingBtn className={`${buttonStyle}`} icon={<FaEdit />}>
+          <FloatingBtn className={`${buttonStyle}`} icon={<FaEdit />} disabled={loading}>
             수정하기
           </FloatingBtn>
         </Link>
-        <FloatingBtn variant="white" className={buttonStyle} icon={<MdDeleteForever />} onClick={handleDelete}>
-          삭제하기
+        <FloatingBtn
+          variant="white"
+          className={buttonStyle}
+          icon={<MdDeleteForever />}
+          onClick={handleDelete}
+          disabled={loading}
+        >
+          {loading ? <DotLoadingSpinner /> : "삭제하기"}
+        </FloatingBtn>
+      </div>
+    );
+  }
+
+  // 사장님이 아니면 지원하기/내 지원내역 보기 버튼
+  if (!isOwnerRole) {
+    return (
+      <div className="space-y-4 text-2xl">
+        <FloatingBtn className={buttonStyle} icon={<VscGitStashApply />}>
+          지원하기
+        </FloatingBtn>
+        <FloatingBtn variant="white" className={buttonStyle} icon={<CiMemoPad />}>
+          내 지원내역 보기
         </FloatingBtn>
       </div>
     );
