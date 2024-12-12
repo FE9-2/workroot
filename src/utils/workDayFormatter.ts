@@ -18,7 +18,19 @@ export const getWorkDaysDisplay = (isNegotiableWorkDays: boolean, workDays: stri
 
   // 요일 순서 정의
   const dayOrder = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"];
-  const sortedDays = workDays.sort((a, b) => dayOrder.indexOf(a) - dayOrder.indexOf(b));
+
+  // 한글 요일을 영어 요일로 변환
+  const translatedWorkDays = workDays.map((day) => {
+    const key = (Object.keys(workDayOptions) as Array<keyof typeof workDayOptions>).find(
+      (k) => workDayOptions[k] === day
+    );
+    return key ? key : day; // 변환된 요일 또는 원래 요일 반환
+  });
+
+  // 유효한 요일만 필터링
+  const validWorkDays = translatedWorkDays.filter((day) => dayOrder.includes(day));
+  const sortedDays = validWorkDays.sort((a, b) => dayOrder.indexOf(a) - dayOrder.indexOf(b));
+  console.log("getWorkDaysDisplay", sortedDays);
 
   const result: string[] = [];
   let startDay = sortedDays[0];
@@ -44,5 +56,5 @@ export const getWorkDaysDisplay = (isNegotiableWorkDays: boolean, workDays: stri
     prevIndex = currentIndex;
   }
 
-  return result.join(", ");
+  return result.filter((day) => day).join(", "); // 빈 문자열 필터링 후 join
 };
