@@ -45,7 +45,7 @@ export default function AlbaFormDetailPage() {
         </div>
         {/* 오른쪽 영역 */}
         <div className="flex w-full flex-col space-y-12 sm:w-[400px] md:w-[640px]">
-          <RecruitInformation albaFormDetailData={albaFormDetailData} />
+          <RecruitInformation albaFormDetailData={albaFormDetailData} formId={formIdState} />
         </div>
       </div>
       {/* 지원 현황 */}

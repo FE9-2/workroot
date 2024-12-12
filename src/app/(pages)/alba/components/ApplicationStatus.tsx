@@ -30,13 +30,13 @@ export default function ApplicationStatus({ formId }: ApplicationStatusProps) {
   // }
 
   return (
-    <div className="mt-20 space-y-6 border-t-2 pt-20 text-2xl">
+    <>
       {applicationStatusData && (
-        <>
+        <div className="mt-20 space-y-6 border-t-2 pt-20 text-2xl">
           <p className="text-3xl font-bold">지원 현황</p>
           <ApplicationStatusCard applicationStatusData={applicationStatusData.data} />
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 }
