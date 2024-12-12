@@ -23,7 +23,7 @@ const RecruitIconItem = ({ icon, label, value }: RecruitIconItemProps) => {
       </div>
       <div className="flex-1">
         <div className="text-grayscale-600 text-[10px] font-medium sm:text-xs lg:text-xl">{label}</div>
-        <div className="text-xs font-semibold text-primary-orange-300 sm:text-sm lg:text-2xl">{value}</div>
+        <div className="text-xs font-semibold text-primary-orange-300 sm:text-sm lg:h-[68px] lg:text-2xl">{value}</div>
       </div>
     </div>
   );
