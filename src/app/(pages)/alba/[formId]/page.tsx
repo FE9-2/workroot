@@ -10,6 +10,7 @@ import ApplicationStatus from "../components/ApplicationStatus";
 import { useFormDetail } from "@/hooks/queries/form/detail/useFormDetail";
 import { Map, MapMarker, useKakaoLoader } from "react-kakao-maps-sdk";
 import Script from "next/script";
+import FormImage from "../components/FormImage";
 
 interface Coords {
   lat: number;
@@ -19,6 +20,7 @@ interface Coords {
 export default function AlbaFormDetailPage() {
   const { formId } = useParams();
   const [formIdState, setFormIdState] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(0);
   const { user } = useUser();
   const isOwner = user?.role === "OWNER";
 
@@ -57,7 +59,13 @@ export default function AlbaFormDetailPage() {
   return (
     <div className="container flex min-h-screen flex-col px-4 sm:px-6 md:px-0">
       {/* 사진영역 */}
-      <div className="h-[300px] bg-black-100 sm:h-[400px] md:h-[562px]">사진영역</div>
+      {albaFormDetailData && (
+        <FormImage
+          imageUrls={albaFormDetailData.imageUrls}
+          currentPage={currentPage}
+          onPageChange={(page) => setCurrentPage(page)}
+        />
+      )}
       <div className="mt-4 flex flex-col justify-between sm:mt-10 md:mt-20 md:flex-row">
         {/* 왼쪽 영역 */}
         <div className="w-full space-y-10 sm:w-[600px] md:w-[770px]">
