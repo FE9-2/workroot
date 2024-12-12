@@ -9,14 +9,14 @@ interface RecruitConditionProps {
 
 // 모집조건 카드 컴포넌트
 const RecruitCondition = ({ recruitData }: RecruitConditionProps) => {
-  const titleStyle = "text-black-200 min-w-[64px] md:min-w-[120px]";
+  const titleStyle = "text-black-200 min-w-[64px] lg:min-w-[120px]";
   return (
-    <div className="flex w-[327px] flex-col gap-5 rounded-lg border border-line-100 bg-white p-4 text-xs md:w-[640px] md:p-6 md:text-lg">
+    <div className="flex w-[327px] flex-col gap-5 rounded-lg border border-line-100 bg-white p-4 text-xs lg:w-[640px] lg:p-6 lg:text-lg">
       <div className="flex">
         <span className={cn(titleStyle)}>모집 인원</span>
         <div>
           <strong>{recruitData.numberOfPositions}명</strong>
-          <span className="text-grayscale-500 md:text-base">(인원미정)</span>
+          <span className="text-grayscale-500 lg:text-base">(인원미정)</span>
         </div>
       </div>
 

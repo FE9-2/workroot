@@ -1,5 +1,6 @@
 import { formatLocalDate, getWorkDaysDisplay } from "@/utils/workDayFormatter";
 import RecruitIconItem from "./RecruitIconItem";
+import React from "react";
 
 // 채용 공고 아이콘 컴포넌트의 Props 인터페이스
 interface RecruitIconProps {
@@ -24,7 +25,7 @@ export const RecruitIcon = ({
 }: RecruitIconProps) => {
   // 모집 기간을 반응형으로 표시하는 컴포넌트
   const periodValue = (
-    <>
+    <React.Fragment>
       {/* 모바일에서 표시되는 기간 형식 */}
       <span className="whitespace-normal lg:hidden">
         {formatLocalDate(recruitmentStartDate)}~{formatLocalDate(recruitmentEndDate)}
@@ -35,7 +36,7 @@ export const RecruitIcon = ({
         <br />
         {formatLocalDate(recruitmentEndDate, true)}
       </span>
-    </>
+    </React.Fragment>
   );
 
   // 근무 조건 데이터 배열
@@ -76,7 +77,7 @@ export const RecruitIcon = ({
 
   return (
     // 반응형 컨테이너
-    <div className="h-auto w-auto p-3 lg:w-[640px]">
+    <div className="h-auto w-full p-3">
       {/* 2x2 그리드 레이아웃 */}
       <div className="grid h-full grid-cols-2 gap-2">
         {conditions.map((condition, index) => (

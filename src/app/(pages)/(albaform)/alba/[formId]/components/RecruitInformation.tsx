@@ -4,16 +4,13 @@ import RecruitIcon from "@/app/components/card/cardList/RecruitIcon";
 import RecruitCondition from "@/app/components/card/cardList/RecruitCondition";
 import { FormDetailResponse } from "@/types/response/form";
 import FormActions from "./FormActions";
-import { useUser } from "@/hooks/queries/user/me/useUser";
 
-interface FormDetailsProps {
+interface RecruitInformationProps {
   albaFormDetailData: FormDetailResponse;
+  formId: number;
 }
 
-export default function RecruitInformation({ albaFormDetailData }: FormDetailsProps) {
-  const { user } = useUser();
-  const isOwner = user?.role === "OWNER";
-
+export default function RecruitInformation({ albaFormDetailData, formId }: RecruitInformationProps) {
   const recruitmentDetails = {
     hourlyWage: albaFormDetailData.hourlyWage,
     recruitmentStartDate: new Date(albaFormDetailData.recruitmentStartDate),
@@ -28,8 +25,7 @@ export default function RecruitInformation({ albaFormDetailData }: FormDetailsPr
     <>
       <RecruitIcon {...recruitmentDetails} />
       <RecruitDetail recruitData={albaFormDetailData} />
-      <FormActions isOwner={isOwner} />
-
+      <FormActions formId={formId} albaFormDetailData={albaFormDetailData} />
       <p className="text-3xl font-bold">모집 조건</p>
       <RecruitCondition recruitData={albaFormDetailData} />
     </>
