@@ -10,6 +10,7 @@ import SearchSection from "@/app/components/layout/forms/SearchSection";
 import MyApplicationListItem from "@/app/components/card/cardList/MyApplicationListItem";
 import { useMyApplications } from "@/hooks/queries/user/me/useMyApplications";
 import ApplicantSortSection from "./components/ApplicantSortSection";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 const APPLICATIONS_PER_PAGE = 10;
 
@@ -73,7 +74,7 @@ export default function ApplicantPage() {
   if (isUserLoading || isLoadingData) {
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <div>로딩 중...</div>
+        <LoadingSpinner />
       </div>
     );
   }

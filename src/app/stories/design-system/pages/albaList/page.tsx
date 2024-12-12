@@ -13,6 +13,7 @@ import Header from "@/app/stories/design-system/components/layout/Header";
 import Link from "next/link";
 import { IoAdd } from "react-icons/io5";
 import FloatingBtn from "@/app/components/button/default/FloatingBtn";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 interface AlbaListProps {
   mockData?: FormListType[][];
@@ -65,7 +66,7 @@ const AlbaList: React.FC<AlbaListProps> = () => {
   if (isLoading && items.length === 0) {
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <div>로딩 중...</div>
+        <LoadingSpinner />
       </div>
     );
   }

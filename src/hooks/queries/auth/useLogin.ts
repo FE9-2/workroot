@@ -27,7 +27,7 @@ export const useLogin = () => {
       if (data?.user) {
         queryClient.setQueryData(["user"], { user: data.user });
         toast.success("로그인되었습니다!");
-        router.push("/mypage");
+        router.push("/");
         router.refresh();
       }
     },

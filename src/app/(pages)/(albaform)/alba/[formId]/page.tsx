@@ -6,10 +6,12 @@ import { useUser } from "@/hooks/queries/user/me/useUser";
 import { useFormDetail } from "@/hooks/queries/form/detail/useFormDetail";
 import { Map, MapMarker, useKakaoLoader } from "react-kakao-maps-sdk";
 import Script from "next/script";
-import FormHeader from "./edit/components/FormHeader";
-import FormDetails from "./edit/components/FormDetail";
-import RecruitInformation from "./edit/components/RecruitInfomation";
-import ApplicationStatus from "./edit/components/ApplicationStatus";
+import FormHeader from "./components/FormHeader";
+import FormDetails from "./components/FormDetail";
+import RecruitInformation from "./components/RecruitInformation";
+import ApplicationStatus from "./components/ApplicationStatus";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
+import FormImage from "./components/FormImage";
 
 interface Coords {
   lat: number;
@@ -19,6 +21,7 @@ interface Coords {
 export default function AlbaFormDetailPage() {
   const { formId } = useParams();
   const [formIdState, setFormIdState] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(0);
   const { user } = useUser();
   const isOwner = user?.role === "OWNER";
 
@@ -35,7 +38,7 @@ export default function AlbaFormDetailPage() {
     }
   }, [formId]);
 
-  const { albaFormDetailData, isLoading, error: formError } = useFormDetail({ formId: formIdState });
+  const { albaFormDetailData, isLoading } = useFormDetail({ formId: formIdState });
 
   // 주소로 좌표 검색
   useEffect(() => {
@@ -52,31 +55,44 @@ export default function AlbaFormDetailPage() {
     });
   }, [albaFormDetailData?.location]);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (formError) return <div>Error: 데이터를 불러오는데 문제가 발생했습니다.</div>;
-  if (!albaFormDetailData) return <div>데이터가 없습니다.</div>;
+  if (isLoading)
+    return (
+      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
 
   return (
-    <div className="container flex min-h-screen flex-col px-4 sm:px-6 md:px-0">
+    <div className="container flex min-h-screen flex-col px-4 lg:px-0">
       {/* 사진영역 */}
-      <div className="h-[300px] bg-black-100 sm:h-[400px] md:h-[562px]">사진영역</div>
-      <div className="mt-4 flex flex-col justify-between sm:mt-10 md:mt-20 md:flex-row">
+      {albaFormDetailData && (
+        <FormImage
+          imageUrls={albaFormDetailData.imageUrls}
+          currentPage={currentPage}
+          onPageChange={(page) => setCurrentPage(page)}
+        />
+      )}
+      <div className="mt-4 flex flex-col justify-between lg:mt-20 lg:flex-row">
         {/* 왼쪽 영역 */}
-        <div className="w-full space-y-10 sm:w-[600px] md:w-[770px]">
-          <FormHeader albaFormDetailData={albaFormDetailData} />
-          <FormDetails albaFormDetailData={albaFormDetailData} />
-
+        <div className="w-full space-y-10 lg:w-[770px]">
+          {albaFormDetailData && (
+            <>
+              <FormHeader albaFormDetailData={albaFormDetailData} />
+              <FormDetails albaFormDetailData={albaFormDetailData} />
+            </>
+          )}
           {/* 카카오맵 스크립트 */}
           <Script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" strategy="afterInteractive" />
 
           {/* 지도 영역 */}
-          <div className="h-[280px] md:h-[320px]">
+          <div className="h-[280px] lg:h-[320px]">
             {error && <div className="text-red-500">Map load error: {String(error)}</div>}
-            {loading && <div className="flex h-full items-center justify-center">Loading map...</div>}
-            {!loading && !error && (
+            {!loading && !error && albaFormDetailData && (
               <Map center={coords} style={{ width: "100%", height: "100%" }} level={3}>
                 <MapMarker position={coords}>
-                  <div className="p-2">{albaFormDetailData.title}</div>
+                  <div className="whitespace-nowrap p-2 text-center">
+                    <p className="">{albaFormDetailData.storeName}</p>
+                  </div>
                 </MapMarker>
               </Map>
             )}
@@ -84,8 +100,8 @@ export default function AlbaFormDetailPage() {
         </div>
 
         {/* 오른쪽 영역 */}
-        <div className="flex w-full flex-col space-y-12 sm:w-[400px] md:w-[640px]">
-          <RecruitInformation albaFormDetailData={albaFormDetailData} />
+        <div className="flex w-full flex-col space-y-12 lg:w-[640px]">
+          {albaFormDetailData && <RecruitInformation albaFormDetailData={albaFormDetailData} formId={formIdState} />}
         </div>
       </div>
       {/* 지원 현황 */}

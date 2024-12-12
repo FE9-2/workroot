@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { formatRecruitDate } from "@/utils/workDayFormatter";
+import { formatLocalDate } from "@/utils/workDayFormatter";
 import { getRecruitmentStatus, getRecruitmentDday } from "@/utils/recruitDateFormatter";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Chip from "@/app/components/chip/Chip";
@@ -11,6 +11,7 @@ import { FormListType } from "@/types/response/form";
 import { useFormScrap } from "@/hooks/queries/form/useFormScap";
 import { MdOutlineImage } from "react-icons/md";
 import { S3_URL } from "@/constants/config";
+import DotLoadingSpinner from "../../loading-spinner/DotLodingSpinner";
 
 /**
  * 알바폼 리스트 아이템 컴포넌트
@@ -176,7 +177,7 @@ const AlbaListItem = ({
                 <Chip label={isPublic ? "공개" : "비공개"} variant={isPublic ? "positive" : "negative"} />
                 <Chip label={recruitmentStatus} variant={recruitmentStatus === "모집 중" ? "positive" : "negative"} />
                 <span className="text-xs font-medium tracking-tighter text-grayscale-500 md:inline lg:text-sm">
-                  {formatRecruitDate(recruitmentStartDate, true)} ~ {formatRecruitDate(recruitmentEndDate, true)}
+                  {formatLocalDate(recruitmentStartDate, true)} ~ {formatLocalDate(recruitmentEndDate, true)}
                 </span>
               </div>
             </div>
@@ -199,7 +200,7 @@ const AlbaListItem = ({
                     onClick={handleFormScrap}
                     disabled={isScrapLoading}
                   >
-                    {isScrapLoading ? "스크랩 중..." : "스크랩"}
+                    {isScrapLoading ? <DotLoadingSpinner /> : "스크랩"}
                   </button>
                 </div>
               )}

@@ -1,5 +1,5 @@
 import { getRecruitmentStatus } from "@/utils/recruitDateFormatter";
-import { formatRecruitDate } from "@/utils/workDayFormatter";
+import { formatLocalDate } from "@/utils/workDayFormatter";
 import Chip from "@/app/components/chip/Chip";
 import Image from "next/image";
 import { applicationStatus, ApplicationStatus } from "@/types/application";
@@ -77,7 +77,7 @@ const MyApplicationListItem = ({ id, createdAt, status, resumeId, resumeName, fo
           <div className="flex items-center gap-2 text-sm text-grayscale-500 md:text-base">
             <span>지원일시</span>
             <span>|</span>
-            <span>{formatRecruitDate(createdAt, true)}</span>
+            <span>{formatLocalDate(createdAt, true)}</span>
           </div>
           <button
             onClick={handleResumeDownload}
