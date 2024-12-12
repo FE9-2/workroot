@@ -13,11 +13,12 @@ import RecruitConditionSection from "./section/RecruitConditionSection";
 import WorkConditionSection from "./section/WorkConditionSection";
 import useEditing from "@/hooks/useEditing";
 import { SubmitFormDataType } from "@/types/addform";
+import CustomFormModal from "@/app/components/modal/modals/confirm/CustomFormModal";
 
 export default function AddFormPage() {
   const router = useRouter();
   const formId = useParams().formId;
-  // 리액트 훅폼에서 관리할 데이터 타입 지정 및 메서드 호출 (상위 컴포넌트 = useForm 사용)
+  // 리액트 훅폼에서 관리할 데이터 타입 지정 및 메서드 호출 (상위 컴���트 = useForm 사용)
   const methods = useForm<SubmitFormDataType>({
     mode: "onChange",
     defaultValues: {
@@ -60,23 +61,47 @@ export default function AddFormPage() {
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
+      // 이미지 필수 체크
+      if (!imageFiles || imageFiles.length === 0) {
+        toast.error("이미지를 첨부해주세요.");
+        throw new Error("이미지는 필수입니다.");
+      }
+
+      // 이미지 업로드 처리
+      let uploadedUrls: string[] = [];
+      try {
+        uploadedUrls = await uploadImages(Array.from(imageFiles));
+        if (!uploadedUrls.length) {
+          toast.error("이미지 업로드에 실패했습니다.");
+          throw new Error("이미지 업로드 실패");
+        }
+        setValue("imageUrls", uploadedUrls);
+      } catch (error) {
+        console.error("이미지 업로드 중 오류 발생:", error);
+        toast.error("이미지 업로드 중 오류가 발생했습니다.");
+        throw error;
+      }
+
       const excludedKeys = ["displayDate", "workDateRange", "recruitDateRange", "imageFiles"];
 
       // 원하는 필드만 포함된 새로운 객체 만들기
       const filteredData = Object.entries(currentValues)
-        .filter(([key]) => !excludedKeys.includes(key)) // 제외할 키를 필터링
+        .filter(([key]) => !excludedKeys.includes(key))
         .reduce((acc: Partial<SubmitFormDataType>, [key, value]) => {
           if (key === "numberOfPositions") {
-            // numberOfPositions는 숫자형으로 변환
             acc[key] = Number(value);
           } else if (key === "hourlyWage") {
-            // hourlyWage는 쉼표를 제거하고 숫자형으로 변환
-            if (value.includes(",")) acc[key] = Number(value.replaceAll(/,/g, "")); // 쉼표 제거 후 숫자형 변환
+            // 문자열이면 콤마 제거 후 숫자로 변환
+            acc[key] = typeof value === "string" ? Number(value.replace(/,/g, "")) : Number(value);
+          } else if (key === "imageUrls") {
+            // 업로드된 이미지 URL 사용
+            acc[key] = uploadedUrls;
           } else {
-            acc[key as keyof SubmitFormDataType] = value; // 나머지 값은 그대로 추가
+            acc[key as keyof SubmitFormDataType] = value;
           }
           return acc;
         }, {});
+
       await axios.post("/api/forms", filteredData);
     },
     onSuccess: () => {
@@ -175,21 +200,6 @@ export default function AddFormPage() {
 
   // 폼데이터 임시 저장 함수
   const onTempSave = async () => {
-    // 이미지 처리 로직
-    if (imageFiles && imageFiles.length > 0) {
-      try {
-        const uploadedUrls = await uploadImages(Array.from(imageFiles));
-        if (uploadedUrls && uploadedUrls.length > 0) {
-          setValue("imageUrls", [...uploadedUrls]);
-        } else {
-          setValue("imageUrls", [...currentValues.imageUrls]);
-        }
-      } catch (error) {
-        console.error("임시저장 - 이미지 업로드 중 오류 발생:", error);
-        toast.error("이미지 업로드 중 오류가 발생했습니다.");
-        setValue("imageUrls", []);
-      }
-    }
     // 임시저장
     if (typeof window !== "undefined") {
       window.localStorage.setItem("tempAddFormData", JSON.stringify(currentValues));
@@ -200,6 +210,64 @@ export default function AddFormPage() {
 
   // 각각의 탭 작성중 여부
   const { isEditingRecruitContent, isEditingRecruitCondition, isEditingWorkCondition } = useEditing(currentValues);
+
+  const [showTempDataModal, setShowTempDataModal] = useState(false);
+
+  // 임시저장 데이터 로드 함수
+  const loadTempData = () => {
+    const tempData = localStorage.getItem("tempAddFormData");
+    if (tempData) {
+      const parsedData: SubmitFormDataType = JSON.parse(tempData);
+
+      // 기본 필드들 설정
+      Object.entries(parsedData).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          setValue(key as keyof SubmitFormDataType, value);
+        }
+      });
+
+      // 날짜 관련 필드들은 Date 객체로 변환
+      if (parsedData.recruitmentStartDate && parsedData.recruitmentEndDate) {
+        setValue("recruitmentStartDate", parsedData.recruitmentStartDate);
+        setValue("recruitmentEndDate", parsedData.recruitmentEndDate);
+      }
+
+      if (parsedData.workStartDate && parsedData.workEndDate) {
+        setValue("workStartDate", parsedData.workStartDate);
+        setValue("workEndDate", parsedData.workEndDate);
+      }
+
+      // 이미지 URL 설정
+      if (parsedData.imageUrls?.length > 0) {
+        setValue("imageUrls", parsedData.imageUrls);
+      }
+    }
+  };
+
+  // 임시저장 데이터 초기화
+  const clearTempData = () => {
+    localStorage.removeItem("tempAddFormData");
+  };
+
+  // 임시저장 데이터 확인 및 모달 표시
+  useEffect(() => {
+    const tempData = localStorage.getItem("tempAddFormData");
+    if (tempData) {
+      setShowTempDataModal(true);
+    }
+  }, []);
+
+  // 모달 확인 버튼 핸들러
+  const handleConfirmTemp = () => {
+    loadTempData();
+    setShowTempDataModal(false);
+  };
+
+  // 모달 취소 버튼 핸들러
+  const handleCancelTemp = () => {
+    clearTempData();
+    setShowTempDataModal(false);
+  };
 
   return (
     <FormProvider {...methods}>
@@ -225,7 +293,6 @@ export default function AddFormPage() {
               color="orange"
               className="lg: h-[58px] w-[320px] border bg-background-100 lg:h-[72px] lg:w-full lg:text-xl lg:leading-8"
               onClick={() => onTempSave()}
-              disabled={!isDirty}
             >
               임시 저장
             </Button>
@@ -243,6 +310,17 @@ export default function AddFormPage() {
           </div>
         </aside>
         {renderChildren()}
+        {/* 임시저장 데이터 확인 모달 */}
+        <CustomFormModal
+          isOpen={showTempDataModal}
+          title="임시저장 데이터 확인"
+          content="임시저장된 데이터가 있습니다. 이어서 작성하시겠습니까?"
+          confirmText="이어서 작성하기"
+          cancelText="새로 작성하기"
+          onConfirm={handleConfirmTemp}
+          onCancel={handleCancelTemp}
+          closeOnOverlayClick={false}
+        />
       </div>
     </FormProvider>
   );
