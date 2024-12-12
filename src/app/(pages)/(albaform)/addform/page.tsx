@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import axios from "axios";
 import TabMenuDropdown from "@/app/components/button/dropdown/TabMenuDropdown";
@@ -23,7 +23,7 @@ export default function AddFormPage() {
     mode: "onChange",
     defaultValues: {
       isPublic: true,
-      hourlyWage: 10030,
+      hourlyWage: "10,030",
       isNegotiableWorkDays: false,
       workDays: [],
       workEndTime: "",
@@ -92,7 +92,7 @@ export default function AddFormPage() {
             acc[key] = Number(value);
           } else if (key === "hourlyWage") {
             // 문자열이면 콤마 제거 후 숫자로 변환
-            acc[key] = typeof value === "string" ? Number(value.replace(/,/g, "")) : Number(value);
+            acc[key] = typeof value === "string" ? String(Number(value.replace(/,/g, ""))) : String(Number(value));
           } else if (key === "imageUrls") {
             // 업로드된 이미지 URL 사용
             acc[key] = uploadedUrls;
@@ -285,7 +285,7 @@ export default function AddFormPage() {
             options={[
               {
                 label: "모집 내용",
-                isEditing: isEditingRecruitContent || initialLoad || currentParam === "recruit-content",
+                isEditing: isEditingRecruitContent || currentParam === "recruit-content",
               },
               { label: "모집 조건", isEditing: isEditingRecruitCondition || currentParam === "recruit-condition" },
               { label: "근무 조건", isEditing: isEditingWorkCondition || currentParam === "work-condition" },
