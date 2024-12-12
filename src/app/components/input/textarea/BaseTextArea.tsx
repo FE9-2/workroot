@@ -40,7 +40,7 @@ const BaseTextArea = forwardRef<HTMLTextAreaElement, BaseTextAreaProps>((props, 
 
   const bgStyle = variantStyles[props.variant].bg;
 
-  const textareaStyle = `bg-transparent ${baseStyle} ${textStyle} ${props.innerClassName || ""}`;
+  const textareaStyle = `bg-transparent whitespace-pre-wrap ${baseStyle} ${textStyle} ${props.innerClassName || ""}`;
   const wrapperStyle = `p-[14px] lg:py-[18px] relative rounded-lg ${sizeStyles} ${variantStyle} ${bgStyle} ${errorStyle} ${props.wrapperClassName}`;
 
   return (

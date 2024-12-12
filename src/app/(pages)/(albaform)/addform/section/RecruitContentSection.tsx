@@ -18,7 +18,6 @@ export default function RecruitContentSection() {
   const {
     register,
     setValue,
-    getValues,
     formState: { errors },
   } = useFormContext();
 
