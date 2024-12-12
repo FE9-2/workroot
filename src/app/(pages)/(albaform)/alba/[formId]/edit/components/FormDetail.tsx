@@ -24,7 +24,7 @@ export default function FormDetails({ albaFormDetailData }: FormDetailsProps) {
       </div>
       <p className="text-3xl font-bold">{albaFormDetailData.title}</p>
       <div className="space-y-32">
-        <div className="text-2xl">{albaFormDetailData.description}</div>
+        <div className="whitespace-pre-wrap text-2xl">{albaFormDetailData.description}</div>
         <p className="text-3xl font-bold">근무 지역</p>
       </div>
       <div className="flex space-x-5 text-2xl">

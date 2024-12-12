@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import axios from "axios";
 import TabMenuDropdown from "@/app/components/button/dropdown/TabMenuDropdown";
@@ -17,13 +17,13 @@ import CustomFormModal from "@/app/components/modal/modals/confirm/CustomFormMod
 
 export default function AddFormPage() {
   const router = useRouter();
-  const formId = useParams().formId;
-  // 리액트 훅폼에서 관리할 데이터 타입 지정 및 메서드 호출 (상위 컴���트 = useForm 사용)
+  const [formId, setFormId] = useState<number | undefined>(undefined);
+  // 리액트 훅폼에서 관리할 데이터 타입 지정 및 메서드 호출 (상위 컴포넌트 = useForm 사용)
   const methods = useForm<SubmitFormDataType>({
     mode: "onChange",
     defaultValues: {
-      isPublic: false,
-      hourlyWage: 0,
+      isPublic: true,
+      hourlyWage: "10,030",
       isNegotiableWorkDays: false,
       workDays: [],
       workEndTime: "",
@@ -92,7 +92,7 @@ export default function AddFormPage() {
             acc[key] = Number(value);
           } else if (key === "hourlyWage") {
             // 문자열이면 콤마 제거 후 숫자로 변환
-            acc[key] = typeof value === "string" ? Number(value.replace(/,/g, "")) : Number(value);
+            acc[key] = typeof value === "string" ? String(Number(value.replace(/,/g, ""))) : String(Number(value));
           } else if (key === "imageUrls") {
             // 업로드된 이미지 URL 사용
             acc[key] = uploadedUrls;
@@ -102,14 +102,16 @@ export default function AddFormPage() {
           return acc;
         }, {});
 
-      await axios.post("/api/forms", filteredData);
+      const response = await axios.post("/api/forms", filteredData);
+      const id = response.data.id;
+      setFormId(id);
     },
     onSuccess: () => {
       if (typeof window !== "undefined") {
         window.localStorage.removeItem("tempAddFormData");
       }
       toast.success("알바폼을 등록했습니다.");
-      router.push(`/alba/${formId}`);
+      // if (formId) router.push(`/alba/${formId}`);
     },
     onError: (error) => {
       console.error("에러가 발생했습니다.", error);
@@ -117,6 +119,12 @@ export default function AddFormPage() {
       onTempSave();
     },
   });
+
+  useEffect(() => {
+    if (formId) {
+      router.push(`/alba/${formId}`);
+    }
+  }, [formId]);
 
   // tab 선택 시 Url params 수정 & 하위 폼 데이터 임시저장
   const searchParams = useSearchParams();
@@ -277,7 +285,7 @@ export default function AddFormPage() {
             options={[
               {
                 label: "모집 내용",
-                isEditing: isEditingRecruitContent || initialLoad || currentParam === "recruit-content",
+                isEditing: isEditingRecruitContent || currentParam === "recruit-content",
               },
               { label: "모집 조건", isEditing: isEditingRecruitCondition || currentParam === "recruit-condition" },
               { label: "근무 조건", isEditing: isEditingWorkCondition || currentParam === "work-condition" },

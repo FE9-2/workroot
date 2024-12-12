@@ -12,12 +12,12 @@ interface CheckBtnProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const CheckBtn = forwardRef<HTMLInputElement, CheckBtnProps>(
-  ({ label, name, checked = false, disabled = false, onChange, className, ...props }, ref) => {
+  ({ label, name, checked = true, disabled = false, onChange, className, ...props }, ref) => {
     return (
       <label
         htmlFor={name}
         className={cn(
-          "flex items-center gap-[10px] rounded-lg text-sm",
+          "flex items-center gap-[10px] rounded-lg text-sm lg:text-base",
           disabled ? "cursor-not-allowed text-grayscale-400" : "text-black cursor-pointer",
           className
         )}
