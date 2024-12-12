@@ -75,17 +75,9 @@ export default function EditFormPage() {
         description: albaFormDetailData.description,
         title: albaFormDetailData.title,
         imageUrls: albaFormDetailData.imageUrls, // 프리뷰 반영하기
-        imageFiles: [],
       });
     }
   }, [albaFormDetailData, reset]);
-
-  useEffect(() => {
-    if (albaFormDetailData) {
-      // console.log("data", data);
-      console.log("currentValues", currentValues);
-    }
-  }, [albaFormDetailData, currentValues]);
 
   // 이미지 업로드 api
   const uploadImages = async (files: File[]) => {
@@ -232,13 +224,13 @@ export default function EditFormPage() {
             onChange={handleOptionChange}
             currentParam={currentParam || ""}
           />
-          <div className="absolute -bottom-[120px] mb-5 flex flex-col gap-2 lg:relative lg:bottom-0">
+          <div className="absolute -bottom-[120px] mb-10 flex w-[320px] lg:relative lg:bottom-0 lg:w-full">
             <Button
               type="submit"
               variant="solid"
               width="md"
               color="orange"
-              className="h-[58px] lg:h-[72px] lg:text-xl lg:leading-8"
+              className="h-[58px] w-full lg:h-[72px] lg:text-xl lg:leading-8"
               disabled={!isValid}
               onClick={handleSubmit(() => mutation.mutate())}
             >
