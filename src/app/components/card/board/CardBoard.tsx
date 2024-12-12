@@ -2,14 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { formatLocalDate } from "@/utils/workDayFormatter";
 
 export interface CardBoardProps {
   title: string;
   content: string;
-  userName: string;
-  date: string;
-  comments: number;
-  likes: number;
+  nickname: string;
+  updatedAt: Date;
+  commentCount: number;
+  likeCount: number;
   variant?: "default" | "primary";
   onKebabClick?: () => void; // 케밥 버튼 클릭 핸들러
 }
@@ -17,16 +18,16 @@ export interface CardBoardProps {
 const CardBoard: React.FC<CardBoardProps> = ({
   title,
   content,
-  userName,
-  date,
-  comments,
-  likes,
+  nickname,
+  updatedAt,
+  commentCount,
+  likeCount,
   variant = "default",
   onKebabClick,
 }) => {
   const [isLargeScreen, setIsLargeScreen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(likes);
+  const [likeDisplayCount, setLikeDisplayCount] = useState(likeCount);
 
   useEffect(() => {
     const handleResize = () => {
@@ -41,9 +42,9 @@ const CardBoard: React.FC<CardBoardProps> = ({
 
   const handleLikeClick = () => {
     if (isLiked) {
-      setLikeCount((prev) => prev - 1); // 좋아요 취소 시 감소
+      setLikeDisplayCount((prev) => prev - 1); // 좋아요 취소 시 감소
     } else {
-      setLikeCount((prev) => prev + 1); // 좋아요 클릭 시 증가
+      setLikeDisplayCount((prev) => prev + 1); // 좋아요 클릭 시 증가
     }
     setIsLiked((prev) => !prev); // 좋아요 상태 토글
   };
@@ -55,10 +56,10 @@ const CardBoard: React.FC<CardBoardProps> = ({
     <div
       className={`flex flex-col rounded-[16px] border p-4 ${
         variant === "primary" ? "border-primary-orange-100 bg-primary-orange-50" : "border-line-100 bg-grayscale-50"
-      } h-[210px] w-[327px] sm:h-[280px] sm:w-[477px]`}
+      } h-[210px] w-[327px] lg:h-[280px] lg:w-[477px]`}
     >
       {/* Content Section */}
-      <div className="flex h-[162px] w-[279px] flex-1 flex-col sm:h-[232px] sm:w-[429px]">
+      <div className="flex h-[162px] w-[279px] flex-1 flex-col lg:h-[232px] lg:w-[429px]">
         {/* Header */}
         <div className="mb-2 flex items-center justify-between">
           <h2 className="line-clamp-2 font-nexon text-[16px] font-semibold text-black-400 sm:text-[18px]">{title}</h2>
@@ -78,15 +79,15 @@ const CardBoard: React.FC<CardBoardProps> = ({
           </button>
         </div>
         {/* Content */}
-        <p className="line-clamp-2 font-nexon text-[14px] font-normal leading-[1.5] text-grayscale-500 sm:text-[16px]">
+        <p className="line-clamp-2 whitespace-pre-wrap font-nexon text-[14px] font-normal leading-[1.5] text-grayscale-500 lg:text-[16px]">
           {content}
         </p>
       </div>
 
       {/* Footer Section */}
-      <div className="mt-4 flex h-[24px] w-[279px] items-center justify-between sm:h-[36px] sm:w-[429px]">
+      <div className="mt-4 flex h-[24px] w-[279px] items-center justify-between lg:h-[36px] lg:w-[429px]">
         {/* Left Info */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-2 lg:gap-3">
           {/* 유저 아이콘 */}
           <Image
             src={`/icons/user/${isLargeScreen ? "user-profile-md.svg" : "user-profile-sm.svg"}`}
@@ -94,20 +95,20 @@ const CardBoard: React.FC<CardBoardProps> = ({
             width={28}
             height={28}
           />
-          {/* 이름 + 날짜 */}
+          {/* 닉네임 + 수정일 */}
           <div className="flex items-center gap-1 truncate">
-            <span className="truncate font-nexon text-[14px] font-normal text-grayscale-500 sm:text-[16px]">
-              {userName}
+            <span className="truncate font-nexon text-[14px] font-normal text-grayscale-500 lg:text-[16px]">
+              {nickname}
             </span>
             <span className="text-grayscale-500">|</span>
             <span className="whitespace-nowrap font-nexon text-[14px] font-normal text-grayscale-500 sm:text-[16px]">
-              {date}
+              {formatLocalDate(updatedAt)}
             </span>
           </div>
         </div>
 
         {/* Right Info */}
-        <div className="flex items-center gap-1 sm:gap-2 md:gap-3">
+        <div className="flex items-center gap-1 lg:gap-2">
           {/* 댓글 아이콘 */}
           <div className="flex items-center gap-1">
             <Image
@@ -116,7 +117,7 @@ const CardBoard: React.FC<CardBoardProps> = ({
               width={22}
               height={22}
             />
-            <span className="font-nexon text-[14px] font-normal text-grayscale-500 sm:text-[16px]">{comments}</span>
+            <span className="font-nexon text-[14px] font-normal text-grayscale-500 lg:text-[16px]">{commentCount}</span>
           </div>
           {/* 좋아요 */}
           <div className="flex items-center gap-1">
@@ -136,7 +137,9 @@ const CardBoard: React.FC<CardBoardProps> = ({
               className="cursor-pointer"
               onClick={handleLikeClick}
             />
-            <span className="font-nexon text-[14px] font-normal text-grayscale-500 sm:text-[16px]">{likeCount}</span>
+            <span className="font-nexon text-[14px] font-normal text-grayscale-500 lg:text-[16px]">
+              {likeDisplayCount}
+            </span>
           </div>
         </div>
       </div>

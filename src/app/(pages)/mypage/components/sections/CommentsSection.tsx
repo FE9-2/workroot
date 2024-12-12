@@ -4,13 +4,17 @@ import React from "react";
 import { useState } from "react";
 import { useMyComments } from "@/hooks/queries/user/me/useMyComments";
 import Pagination from "@/app/components/pagination/Pagination";
-import type { MyCommentType } from "@/types/response/user";
+import Comment from "@/app/components/card/board/Comment";
+import Link from "next/link";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
+import { useUser } from "@/hooks/queries/user/me/useUser";
 
 // 한 페이지당 댓글 수
 const COMMENTS_PER_PAGE = 10;
 
 export default function CommentsSection() {
+  const { user } = useUser();
+
   // 현재 페이지 상태 관리
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -57,18 +61,22 @@ export default function CommentsSection() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="mx-auto w-full max-w-screen-xl space-y-4 px-3">
       {/* 댓글 목록 렌더링 */}
-      {data.data.map((comment: MyCommentType) => (
-        <div key={comment.id} className="rounded-lg border p-4">
-          <h3 className="text-grayscale-900 mb-2 font-medium">{comment.post.title}</h3>
-          <p className="text-grayscale-600">{comment.content}</p>
-          <div className="mt-2 text-sm text-grayscale-500">
-            <time>{new Date(comment.createdAt).toLocaleDateString()}</time>
-            {comment.updatedAt !== comment.createdAt && <span className="ml-2 text-grayscale-400">(수정됨)</span>}
+      <div className="flex flex-col gap-4">
+        {data.data.map((comment) => (
+          <div key={comment.id} className="rounded-lg border border-grayscale-100 p-4 hover:bg-grayscale-50">
+            <Link href={`/albatalk/${comment.post.id}`}>
+              <Comment
+                nickname={user?.nickname || ""}
+                updatedAt={comment.updatedAt}
+                content={comment.content}
+                onKebabClick={() => console.log("케밥 메뉴 클릭", comment.id)}
+              />
+            </Link>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
 
       {/* 페이지네이션 */}
       {totalPages > 1 && (
