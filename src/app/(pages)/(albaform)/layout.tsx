@@ -26,8 +26,25 @@ export default function Layout({ children }: { children: ReactNode }) {
             isOpen: true,
             title: "폼 작성 취소",
             content: "작성을 취소하시겠습니까?",
-            onCancel: () => {},
-            onConfirm: () => router.back(),
+            onConfirm: () => {
+              openModal("customForm", {
+                isOpen: false,
+                title: "",
+                content: "",
+                onConfirm: () => {},
+                onCancel: () => {},
+              });
+              router.back();
+            },
+            onCancel: () => {
+              openModal("customForm", {
+                isOpen: false,
+                title: "",
+                content: "",
+                onConfirm: () => {},
+                onCancel: () => {},
+              });
+            },
           })
         }
       />

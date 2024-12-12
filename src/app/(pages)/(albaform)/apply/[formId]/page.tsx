@@ -220,13 +220,13 @@ export default function Apply() {
           errormessage={errors.password?.message}
         />
       </div>
-      <div className="lg:flex-2 mt-4 flex flex-col gap-[10px] lg:mt-8 lg:flex-row">
+      <div className="lg:flex-2 mt-4 flex w-full flex-col gap-[10px] lg:mt-8 lg:flex-row">
         <Button
           type="button"
           variant="outlined"
           width="md"
           color="orange"
-          className="h-[58px] border lg:h-[72px] lg:text-xl lg:leading-8"
+          className="h-[58px] w-full border lg:h-[72px] lg:text-xl lg:leading-8"
           onClick={onTempSave}
           disabled={!isDirty}
         >
@@ -237,7 +237,7 @@ export default function Apply() {
           variant="solid"
           width="md"
           color="orange"
-          className="h-[58px] lg:h-[72px] lg:text-xl lg:leading-8"
+          className="h-[58px] w-full lg:h-[72px] lg:text-xl lg:leading-8"
           disabled={!isValid || !isDirty}
         >
           작성 완료
