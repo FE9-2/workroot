@@ -11,6 +11,7 @@ import { useFormDetail } from "@/hooks/queries/form/detail/useFormDetail";
 import { Map, MapMarker, useKakaoLoader } from "react-kakao-maps-sdk";
 import Script from "next/script";
 import FormImage from "../components/FormImage";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 interface Coords {
   lat: number;
@@ -54,7 +55,12 @@ export default function AlbaFormDetailPage() {
     });
   }, [albaFormDetailData?.location]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div>
+        <LoadingSpinner />
+      </div>
+    );
 
   return (
     <div className="container flex min-h-screen flex-col px-4 sm:px-6 md:px-0">
