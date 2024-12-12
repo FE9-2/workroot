@@ -14,6 +14,7 @@ import Link from "next/link";
 import { IoAdd } from "react-icons/io5";
 import { userRoles } from "@/constants/userRoles";
 import FloatingBtn from "@/app/components/button/default/FloatingBtn";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 const FORMS_PER_PAGE = 10;
 
@@ -143,7 +144,7 @@ export default function AlbaList() {
   if (isLoadingData) {
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <div>로딩 중...</div>
+        <LoadingSpinner />
       </div>
     );
   }

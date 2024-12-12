@@ -6,6 +6,7 @@ import { useMyPosts } from "@/hooks/queries/user/me/useMyPosts";
 import { useMySortStore } from "@/store/mySortStore";
 import type { PostListType } from "@/types/response/post";
 import { useProfileStringValue } from "@/hooks/queries/user/me/useProfileStringValue";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 // 한 페이지당 게시글 수
 const POSTS_PER_PAGE = 10;
@@ -26,12 +27,6 @@ const PostCard = ({ post }: { post: PostListType }) => (
       <span className="mx-2">•</span>
       <span>좋아요 {post.likeCount}</span>
     </div>
-  </div>
-);
-
-const LoadingSpinner = () => (
-  <div className="flex justify-center py-4">
-    <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary-orange-300 border-t-transparent" />
   </div>
 );
 
@@ -74,7 +69,7 @@ export default function PostsSection() {
 
   // 에러 상태 처리
   if (error) return <StatusMessage message="게시글을 불러오는데 실패했습니다." className="text-red-500" />;
-  if (isLoading) return <StatusMessage message="로딩 중..." />;
+  if (isLoading) return <LoadingSpinner />;
   // 데이터가 없는 경우 처리
   if (!data?.pages[0]?.data?.length) return <StatusMessage message="작성한 게시글이 없습니다." />;
 

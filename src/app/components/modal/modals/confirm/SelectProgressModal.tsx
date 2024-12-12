@@ -8,6 +8,7 @@ import { positionOptions } from "@/constants/positionOptions";
 import axios from "axios";
 import toast from "react-hot-toast";
 import type { ConfirmFormModalProps } from "@/types/modal";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
 
 const SelectProgressModal = ({ id, isOpen, onClose, className }: ConfirmFormModalProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -101,7 +102,7 @@ const SelectProgressModal = ({ id, isOpen, onClose, className }: ConfirmFormModa
                 width="sm"
                 className="h-[48px] text-base font-medium hover:border-primary-orange-50 hover:bg-primary-orange-100 hover:text-white md:h-[62px] md:text-lg"
               >
-                {isSubmitting ? "변경 중..." : "선택하기"}
+                {isSubmitting ? <DotLoadingSpinner /> : "선택하기"}
               </Button>
             </div>
           </div>
