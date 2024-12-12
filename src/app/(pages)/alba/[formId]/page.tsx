@@ -1,5 +1,5 @@
 "use client";
-
+// 알바폼 상세 페이지
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useUser } from "@/hooks/queries/user/me/useUser";
@@ -32,18 +32,19 @@ export default function AlbaFormDetailPage() {
   if (!albaFormDetailData) return <div>데이터가 없습니다.</div>;
 
   return (
-    <div className="container flex min-h-screen flex-col">
-      <div className="h-[562px] bg-black-100">사진영역</div>
-      <div className="mt-20 flex justify-between">
+    <div className="container flex min-h-screen flex-col px-4 sm:px-6 md:px-0">
+      {/* 사진영역 */}
+      <div className="h-[300px] bg-black-100 sm:h-[400px] md:h-[562px]">사진영역</div>
+      <div className="mt-4 flex flex-col justify-between sm:mt-10 md:mt-20 md:flex-row">
         {/* 왼쪽 영역 */}
-        <div className="w-[770px] space-y-10">
+        <div className="w-full space-y-10 sm:w-[600px] md:w-[770px]">
           <FormHeader albaFormDetailData={albaFormDetailData} />
           <FormDetails albaFormDetailData={albaFormDetailData} />
           {/* 지도 영역 */}
-          <div className="h-[400px] bg-black-100">카카오지도</div>
+          <div className="h-[200px] bg-black-100 sm:h-[300px] md:h-[400px]">카카오지도</div>
         </div>
         {/* 오른쪽 영역 */}
-        <div className="flex w-[640px] flex-col space-y-12">
+        <div className="flex w-full flex-col space-y-12 sm:w-[400px] md:w-[640px]">
           <RecruitInformation albaFormDetailData={albaFormDetailData} />
         </div>
       </div>

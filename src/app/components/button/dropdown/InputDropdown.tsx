@@ -18,27 +18,29 @@ const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [selectedValue, setSelectedValue] = useState<string>("");
     const [isCustomInput, setIsCustomInput] = useState<boolean>(false);
-    const { setValue, getValues } = useFormContext();
+    const { setValue, watch } = useFormContext();
 
     const handleOptionClick = (option: string) => {
       if (option === "직접 입력") {
         setIsCustomInput(true);
         setSelectedValue("");
         // 동적으로 받아온 name에 값 할당 -> 훅폼에 저장
-        setValue(name, selectedValue);
+        setValue(name, selectedValue, { shouldDirty: true });
       } else {
         setSelectedValue(option);
         setIsCustomInput(false);
-        setValue(name, option);
+        setValue(name, option, { shouldDirty: true });
         setIsOpen(false);
       }
     };
 
     // 작성중인 탭으로 다시 이동했을때 이전에 저장된 훅폼 데이터 연동
     useEffect(() => {
-      const data = getValues();
-      setSelectedValue(data.name || "");
-    }, [getValues]);
+      const value = watch(name); // 동적으로 필드 값 가져오기
+      if (value !== undefined) {
+        setSelectedValue(value); // 초기값 동기화
+      }
+    }, [name, watch]);
 
     const textStyle = "text-base";
 

@@ -19,7 +19,7 @@ export default function SearchSection() {
       params.delete("keyword");
     }
 
-    router.push(`/albaList?${params.toString()}`);
+    router.push(`/albalist?${params.toString()}`);
   };
 
   return (

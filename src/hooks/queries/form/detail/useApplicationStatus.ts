@@ -37,7 +37,6 @@ export const useApplicationStatus = (props: UseApplicationStatusProps) => {
     enabled: !!props.formId,
   });
 
-  console.log("지원형황", query.data);
   return {
     ...query,
     applicationStatusData: query.data,
