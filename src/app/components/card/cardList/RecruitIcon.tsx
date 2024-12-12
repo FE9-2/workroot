@@ -26,11 +26,11 @@ export const RecruitIcon = ({
   const periodValue = (
     <>
       {/* 모바일에서 표시되는 기간 형식 */}
-      <span className="whitespace-normal md:hidden">
+      <span className="whitespace-normal lg:hidden">
         {formatLocalDate(recruitmentStartDate)}~{formatLocalDate(recruitmentEndDate)}
       </span>
       {/* 데스크탑에서 표시되는 기간 형식 */}
-      <span className="hidden whitespace-normal md:inline">
+      <span className="hidden whitespace-normal lg:inline">
         {formatLocalDate(recruitmentStartDate, true)}~
         <br />
         {formatLocalDate(recruitmentEndDate, true)}
