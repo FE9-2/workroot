@@ -22,12 +22,11 @@ export default function Layout({ children }: { children: ReactNode }) {
       <ApplyHeader
         title={title}
         onCancel={() =>
-          openModal("deleteForm", {
-            id: "",
+          openModal("customForm", {
             isOpen: true,
             title: "폼 작성 취소",
-            message: "작성을 취소하시겠습니까?",
-            onCancel: () => console.log("모달 닫기"),
+            content: "작성을 취소하시겠습니까?",
+            onCancel: () => {},
             onConfirm: () => router.back(),
           })
         }

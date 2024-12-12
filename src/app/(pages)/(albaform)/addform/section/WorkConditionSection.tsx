@@ -56,26 +56,14 @@ export default function WorkConditionSection() {
     }
   };
 
-<<<<<<< HEAD
-  // 시급 상태 추가 (초기값: '25 최저시급)
-  const [displayWage, setDisplayWage] = useState<string>("10,030");
-=======
   // 최저시급 상수 수정 (2025년 기준)
   const MINIMUM_WAGE = 10030;
->>>>>>> origin/dev
 
   // 시급 상태 추가
   const [displayWage, setDisplayWage] = useState<string>(formatMoney(MINIMUM_WAGE.toString()));
 
   // 컴포넌트 마운트 시 최저시급으로 초기화
   useEffect(() => {
-<<<<<<< HEAD
-    const selectedDays = getValues("workDays") || [];
-    setSelectedWorkDays(selectedDays);
-    const wage = getValues("hourlyWage") || "10,030";
-    setDisplayWage(wage);
-  }, [getValues]);
-=======
     setValue("hourlyWage", MINIMUM_WAGE);
   }, [setValue]);
 
@@ -95,7 +83,6 @@ export default function WorkConditionSection() {
     setValue("hourlyWage", numericValue);
     setDisplayWage(formatMoney(value));
   };
->>>>>>> origin/dev
 
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
