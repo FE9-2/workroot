@@ -1,4 +1,4 @@
-import { formatRecruitDate, getWorkDaysDisplay } from "@/utils/workDayFormatter";
+import { formatLocalDate, getWorkDaysDisplay } from "@/utils/workDayFormatter";
 import RecruitIconItem from "./RecruitIconItem";
 
 // 채용 공고 아이콘 컴포넌트의 Props 인터페이스
@@ -27,13 +27,13 @@ export const RecruitIcon = ({
     <>
       {/* 모바일에서 표시되는 기간 형식 */}
       <span className="whitespace-normal md:hidden">
-        {formatRecruitDate(recruitmentStartDate)}~{formatRecruitDate(recruitmentEndDate)}
+        {formatLocalDate(recruitmentStartDate)}~{formatLocalDate(recruitmentEndDate)}
       </span>
       {/* 데스크탑에서 표시되는 기간 형식 */}
       <span className="hidden whitespace-normal md:inline">
-        {formatRecruitDate(recruitmentStartDate, true)}~
+        {formatLocalDate(recruitmentStartDate, true)}~
         <br />
-        {formatRecruitDate(recruitmentEndDate, true)}
+        {formatLocalDate(recruitmentEndDate, true)}
       </span>
     </>
   );

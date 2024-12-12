@@ -2,14 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { formatLocalDate } from "@/utils/workDayFormatter";
 
 export interface CardBoardProps {
   title: string;
   content: string;
-  userName: string;
-  date: string;
-  comments: number;
-  likes: number;
+  nickname: string;
+  updatedAt: Date;
+  commentCount: number;
+  likeCount: number;
   variant?: "default" | "primary";
   onKebabClick?: () => void; // 케밥 버튼 클릭 핸들러
 }
@@ -17,16 +18,16 @@ export interface CardBoardProps {
 const CardBoard: React.FC<CardBoardProps> = ({
   title,
   content,
-  userName,
-  date,
-  comments,
-  likes,
+  nickname,
+  updatedAt,
+  commentCount,
+  likeCount,
   variant = "default",
   onKebabClick,
 }) => {
   const [isLargeScreen, setIsLargeScreen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(likes);
+  const [likeDisplayCount, setLikeDisplayCount] = useState(likeCount);
 
   useEffect(() => {
     const handleResize = () => {
@@ -41,9 +42,9 @@ const CardBoard: React.FC<CardBoardProps> = ({
 
   const handleLikeClick = () => {
     if (isLiked) {
-      setLikeCount((prev) => prev - 1); // 좋아요 취소 시 감소
+      setLikeDisplayCount((prev) => prev - 1); // 좋아요 취소 시 감소
     } else {
-      setLikeCount((prev) => prev + 1); // 좋아요 클릭 시 증가
+      setLikeDisplayCount((prev) => prev + 1); // 좋아요 클릭 시 증가
     }
     setIsLiked((prev) => !prev); // 좋아요 상태 토글
   };
@@ -94,14 +95,14 @@ const CardBoard: React.FC<CardBoardProps> = ({
             width={28}
             height={28}
           />
-          {/* 이름 + 날짜 */}
+          {/* 닉네임 + 수정일 */}
           <div className="flex items-center gap-1 truncate">
             <span className="truncate font-nexon text-[14px] font-normal text-grayscale-500 sm:text-[16px]">
-              {userName}
+              {nickname}
             </span>
             <span className="text-grayscale-500">|</span>
             <span className="whitespace-nowrap font-nexon text-[14px] font-normal text-grayscale-500 sm:text-[16px]">
-              {date}
+              {formatLocalDate(updatedAt)}
             </span>
           </div>
         </div>
@@ -116,7 +117,7 @@ const CardBoard: React.FC<CardBoardProps> = ({
               width={22}
               height={22}
             />
-            <span className="font-nexon text-[14px] font-normal text-grayscale-500 sm:text-[16px]">{comments}</span>
+            <span className="font-nexon text-[14px] font-normal text-grayscale-500 sm:text-[16px]">{commentCount}</span>
           </div>
           {/* 좋아요 */}
           <div className="flex items-center gap-1">
@@ -136,7 +137,9 @@ const CardBoard: React.FC<CardBoardProps> = ({
               className="cursor-pointer"
               onClick={handleLikeClick}
             />
-            <span className="font-nexon text-[14px] font-normal text-grayscale-500 sm:text-[16px]">{likeCount}</span>
+            <span className="font-nexon text-[14px] font-normal text-grayscale-500 sm:text-[16px]">
+              {likeDisplayCount}
+            </span>
           </div>
         </div>
       </div>

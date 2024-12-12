@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { formatRecruitDate } from "@/utils/workDayFormatter";
+import { formatLocalDate } from "@/utils/workDayFormatter";
 import { getRecruitmentStatus, getRecruitmentDday } from "@/utils/recruitDateFormatter";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Chip from "@/app/components/chip/Chip";
@@ -135,7 +135,7 @@ const ScrapListItem = ({
                 <Chip label={isPublic ? "공개" : "비공개"} variant={isPublic ? "positive" : "negative"} />
                 <Chip label={recruitmentStatus} variant={recruitmentStatus === "모집 중" ? "positive" : "negative"} />
                 <span className="text-xs font-medium tracking-tighter text-grayscale-500 md:inline lg:text-sm">
-                  {formatRecruitDate(recruitmentStartDate, true)} ~ {formatRecruitDate(recruitmentEndDate, true)}
+                  {formatLocalDate(recruitmentStartDate, true)} ~ {formatLocalDate(recruitmentEndDate, true)}
                 </span>
               </div>
             </div>
