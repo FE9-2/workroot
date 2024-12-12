@@ -26,11 +26,11 @@ export const RecruitIcon = ({
   const periodValue = (
     <>
       {/* 모바일에서 표시되는 기간 형식 */}
-      <span className="whitespace-normal md:hidden">
+      <span className="whitespace-normal lg:hidden">
         {formatRecruitDate(recruitmentStartDate)}~{formatRecruitDate(recruitmentEndDate)}
       </span>
       {/* 데스크탑에서 표시되는 기간 형식 */}
-      <span className="hidden whitespace-normal md:inline">
+      <span className="hidden whitespace-normal lg:inline">
         {formatRecruitDate(recruitmentStartDate, true)}~
         <br />
         {formatRecruitDate(recruitmentEndDate, true)}
@@ -76,9 +76,9 @@ export const RecruitIcon = ({
 
   return (
     // 반응형 컨테이너
-    <div className="h-auto w-full sm:h-[156px] sm:w-[327px] sm:p-3 md:h-[336px] md:w-[640px]">
+    <div className="h-auto w-auto p-3 lg:w-[640px]">
       {/* 2x2 그리드 레이아웃 */}
-      <div className="grid h-full grid-cols-2 gap-2 sm:gap-3">
+      <div className="grid h-full grid-cols-2 gap-2">
         {conditions.map((condition, index) => (
           <RecruitIconItem key={index} icon={condition.icon} label={condition.label} value={condition.value} />
         ))}
