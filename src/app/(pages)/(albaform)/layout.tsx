@@ -4,6 +4,7 @@ import { cn } from "@/lib/tailwindUtil";
 import ApplyHeader from "./component/ApplyHeader";
 import useModalStore from "@/store/modalStore";
 import { usePathname, useRouter } from "next/navigation";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 export default function Layout({ children }: { children: ReactNode }) {
   const { openModal } = useModalStore();
@@ -59,7 +60,13 @@ export default function Layout({ children }: { children: ReactNode }) {
           }
         />
       )}
-      <Suspense fallback={<div className="flex h-[calc(100vh-200px)] items-center justify-center">Loading...</div>}>
+      <Suspense
+        fallback={
+          <div className="flex h-[calc(100vh-200px)] items-center justify-center">
+            <LoadingSpinner />
+          </div>
+        }
+      >
         {children}
       </Suspense>
     </div>
