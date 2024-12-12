@@ -9,8 +9,8 @@ interface IndicatorProps {
 }
 
 const Indicator = ({ imageCount, currentPage, onPageChange }: IndicatorProps) => {
-  const activeStyle = "size-4 text-grayscale-300 opacity-60";
-  const defaultStyle = "size-3 text-grayscale-50 opacity-60";
+  const activeStyle = "lg:size-5 text-primary-orange-300 opacity-60 size:3";
+  const defaultStyle = "lg:size-3 text-primary-orange-100 opacity-60 size:1";
 
   // 이미지 개수 만큼 동적으로 생성
   const indicators = Array(imageCount)
@@ -24,7 +24,10 @@ const Indicator = ({ imageCount, currentPage, onPageChange }: IndicatorProps) =>
     ));
 
   return (
-    <button type="button" className="flex items-center justify-between gap-2">
+    <button
+      type="button"
+      className="flex items-center justify-between gap-1 rounded-full bg-primary-orange-50 bg-opacity-70 p-1 lg:gap-2 lg:p-2"
+    >
       {indicators}
     </button>
   );

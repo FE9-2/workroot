@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import { useUser } from "@/hooks/queries/user/me/useUser";
@@ -7,6 +8,9 @@ import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { VscGitStashApply } from "react-icons/vsc";
 import { CiMemoPad } from "react-icons/ci";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface FormActionsProps {
   formId: string | number;
@@ -15,6 +19,7 @@ interface FormActionsProps {
 
 export default function FormActions({ formId, albaFormDetailData }: FormActionsProps) {
   const { user } = useUser();
+  const router = useRouter();
   const isMyAlbaForm = user?.id === albaFormDetailData.ownerId;
   const isOwnerRole = user?.role === "OWNER";
 
@@ -34,6 +39,16 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
     );
   }
 
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`/api/forms/${formId}`);
+      toast.success("성공적으로 삭제되었습니다.");
+      router.push(`/albalist`);
+    } catch (error) {
+      toast.error("삭제 중 오류가 발생했습니다.");
+    }
+  };
+
   // 사장님이면 수정하기/삭제하기 버튼
   if (isOwnerRole) {
     if (!isMyAlbaForm) return null;
@@ -44,7 +59,7 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
             수정하기
           </FloatingBtn>
         </Link>
-        <FloatingBtn variant="white" className={buttonStyle} icon={<MdDeleteForever />}>
+        <FloatingBtn variant="white" className={buttonStyle} icon={<MdDeleteForever />} onClick={handleDelete}>
           삭제하기
         </FloatingBtn>
       </div>
