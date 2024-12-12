@@ -19,7 +19,6 @@ export default function WorkConditionSection() {
   const {
     register,
     setValue,
-    getValues,
     trigger,
     watch,
     formState: { errors },
@@ -40,6 +39,7 @@ export default function WorkConditionSection() {
 
   //근무 요일 지정
   const [selectedWorkDays, setSelectedWorkDays] = useState<string[]>([]);
+  const negotiable = watch("isNegotiableWorkDays");
 
   const handleClickDay = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -53,6 +53,9 @@ export default function WorkConditionSection() {
       }
       setValue("workDays", [...selectedWorkDays, day]);
       trigger("workDays");
+    }
+    if (negotiable) {
+      setSelectedWorkDays([]);
     }
   };
 
@@ -100,7 +103,7 @@ export default function WorkConditionSection() {
     <div className="relative">
       <Script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" strategy="afterInteractive" />
 
-      <form className="my-8 flex flex-col gap-4">
+      <form className="my-8 flex flex-col gap-8">
         <Label>근무 위치</Label>
         <div className="relative">
           <LocationInput
@@ -151,9 +154,10 @@ export default function WorkConditionSection() {
             ))}
         </div>
 
+        {/* 요일 협의 가능하다면 근무요일은 선택하지 않아도 됨 */}
         <div className="flex flex-col gap-4">
           <Label>근무 요일</Label>
-          <DayPickerList workDays={selectedWorkDays} onClick={handleClickDay} />
+          <DayPickerList workDays={selectedWorkDays} onClick={handleClickDay} disabled={negotiable} />
 
           <div className="relative flex flex-col pl-[14px]">
             <CheckBtn
@@ -161,25 +165,28 @@ export default function WorkConditionSection() {
               checked={watch("isNegotiableWorkDays")}
               {...register("isNegotiableWorkDays")}
             />
-            {selectedWorkDays.length === 0 && <p className={cn(errorTextStyle, "")}>근무 요일을 선택해주세요.</p>}
+            {selectedWorkDays.length === 0 && !negotiable && (
+              <p className={cn(errorTextStyle, "")}>근무 요일을 선택해주세요.</p>
+            )}
           </div>
         </div>
-
-        <Label>시급</Label>
-        <BaseInput
-          {...register("hourlyWage", {
-            required: "시급을 작성해주세요.",
-            min: {
-              value: MINIMUM_WAGE,
-              message: `최저시급(${formatMoney(MINIMUM_WAGE.toString())}원) 이상을 입력해주세요.`,
-            },
-          })}
-          value={displayWage}
-          onChange={handleWageChange}
-          variant="white"
-          afterString="원"
-          errormessage={errors.hourlyWage?.message as string}
-        />
+        <div className="flex flex-col gap-4">
+          <Label>시급</Label>
+          <BaseInput
+            {...register("hourlyWage", {
+              required: "시급을 작성해주세요.",
+              min: {
+                value: MINIMUM_WAGE,
+                message: `최저시급(${formatMoney(MINIMUM_WAGE.toString())}원) 이상을 입력해주세요.`,
+              },
+            })}
+            value={displayWage}
+            onChange={handleWageChange}
+            variant="white"
+            afterString="원"
+            errormessage={errors.hourlyWage?.message as string}
+          />
+        </div>
 
         <div className="relative flex flex-col gap-4">
           <Label>공개 설정</Label>

@@ -18,7 +18,7 @@ import CustomFormModal from "@/app/components/modal/modals/confirm/CustomFormMod
 export default function AddFormPage() {
   const router = useRouter();
   const formId = useParams().formId;
-  // 리액트 훅폼에서 관리할 데이터 타입 지정 및 메서드 호출 (상위 컴���트 = useForm 사용)
+  // 리액트 훅폼에서 관리할 데이터 타입 지정 및 메서드 호출 (상위 컴포넌트 = useForm 사용)
   const methods = useForm<SubmitFormDataType>({
     mode: "onChange",
     defaultValues: {
