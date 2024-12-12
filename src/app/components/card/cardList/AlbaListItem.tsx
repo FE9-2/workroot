@@ -10,8 +10,8 @@ import Indicator from "../../pagination/Indicator";
 import { FormListType } from "@/types/response/form";
 import { useFormScrap } from "@/hooks/queries/form/useFormScap";
 import { MdOutlineImage } from "react-icons/md";
-import { S3_URL } from "@/constants/config";
 import DotLoadingSpinner from "../../loading-spinner/DotLodingSpinner";
+import { isValidS3Url } from "@/utils/checkS3Url";
 
 /**
  * 알바폼 리스트 아이템 컴포넌트
@@ -123,11 +123,6 @@ const AlbaListItem = ({
         });
       },
     });
-  };
-
-  // S3 URL 체크 함수
-  const isValidS3Url = (url: string) => {
-    return url.startsWith(S3_URL);
   };
 
   return (
