@@ -17,7 +17,12 @@ const useEditing = (data: SubmitFormDataType) => {
   }, [data.gender, data.numberOfPositions, data.education, data.age, data.preferred]);
 
   const isEditingWorkCondition = useMemo(() => {
-    return data.location !== "" || data.workStartTime !== "" || data.workStartDate !== "" || (data.hourlyWage ?? 0) > 0;
+    return (
+      data.location !== "" ||
+      data.workStartTime !== "" ||
+      data.workStartDate !== "" ||
+      (Number(data.hourlyWage) ?? 0) > 10030
+    );
   }, [data.location, data.workStartTime, data.workStartDate, data.hourlyWage]);
 
   return { isEditingRecruitContent, isEditingRecruitCondition, isEditingWorkCondition };

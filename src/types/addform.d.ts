@@ -1,6 +1,6 @@
 export interface SubmitFormDataType {
   isPublic: boolean;
-  hourlyWage: number;
+  hourlyWage: string;
   isNegotiableWorkDays: boolean;
   workDays: string[];
   workEndTime: string;

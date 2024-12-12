@@ -17,6 +17,7 @@ import { SubmitFormDataType } from "@/types/addform";
 import useEditing from "@/hooks/useEditing";
 import useFormDetail from "@/hooks/queries/form/detail/useFormDetail";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
+import formatMoney from "@/utils/formatMoney";
 
 export default function EditFormPage() {
   const router = useRouter();
@@ -58,7 +59,7 @@ export default function EditFormPage() {
     if (albaFormDetailData) {
       reset({
         isPublic: albaFormDetailData.isPublic,
-        hourlyWage: albaFormDetailData.hourlyWage, // 쉼표 추가하기
+        hourlyWage: formatMoney(String(albaFormDetailData.hourlyWage)), // 쉼표 추가하기
         isNegotiableWorkDays: albaFormDetailData.isNegotiableWorkDays,
         workDays: albaFormDetailData.workDays,
         workEndTime: albaFormDetailData.workEndTime,
@@ -147,7 +148,7 @@ export default function EditFormPage() {
             acc[key] = Number(value);
           } else if (key === "hourlyWage") {
             // hourlyWage는 쉼표를 제거하고 숫자형으로 변환
-            if (value.includes(",")) acc[key] = Number(value.replaceAll(/,/g, "")); // 쉼표 제거 후 숫자형 변환
+            if (value.includes(",")) acc[key] = String(Number(value.replaceAll(/,/g, ""))); // 쉼표 제거 후 숫자형 변환
           } else {
             acc[key as keyof SubmitFormDataType] = value; // 나머지 값은 그대로 추가
           }
