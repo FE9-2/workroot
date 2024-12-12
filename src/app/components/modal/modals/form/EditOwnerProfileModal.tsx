@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { nicknameSchema, storePhoneSchema, mobilePhoneSchema } from "@/schemas/commonSchema";
+import DotLodingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
 
 interface EditOwnerProfileModalProps {
   isOpen: boolean;
@@ -218,7 +219,7 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
             disabled={isUpdating}
             className="w-[158px] rounded-md bg-orange-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-orange-600 md:w-[314px] md:text-base"
           >
-            {isUpdating ? "수정 중..." : "수정하기"}
+            {isUpdating ? <DotLodingSpinner /> : "수정하기"}
           </button>
         </div>
       </form>
