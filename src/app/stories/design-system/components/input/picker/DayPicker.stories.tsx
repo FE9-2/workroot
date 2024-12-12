@@ -28,7 +28,7 @@ export const DayPicker: Story = {
       return (
         <>
           <div className="text-grayscale-600 my-4">요일 선택 (토글)</div>
-          <DayPickerList workDays={selectedDays} onClick={handleClick} />
+          <DayPickerList workDays={selectedDays} onClick={handleClick} disabled={true} />
           <div className="mt-4">
             <strong>Selected Days:</strong> {selectedDays.join(", ") || "None"}
           </div>

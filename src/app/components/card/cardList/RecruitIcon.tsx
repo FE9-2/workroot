@@ -76,9 +76,9 @@ export const RecruitIcon = ({
 
   return (
     // 반응형 컨테이너
-    <div className="h-auto w-full sm:h-[156px] sm:w-[327px] sm:p-3 md:h-[336px] md:w-[640px]">
+    <div className="h-auto w-auto p-3 lg:w-[640px]">
       {/* 2x2 그리드 레이아웃 */}
-      <div className="grid h-full grid-cols-2 gap-2 sm:gap-3">
+      <div className="grid h-full grid-cols-2 gap-2">
         {conditions.map((condition, index) => (
           <RecruitIconItem key={index} icon={condition.icon} label={condition.label} value={condition.value} />
         ))}
