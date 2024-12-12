@@ -17,13 +17,13 @@ import CustomFormModal from "@/app/components/modal/modals/confirm/CustomFormMod
 
 export default function AddFormPage() {
   const router = useRouter();
-  const formId = useParams().formId;
+  const [formId, setFormId] = useState<number | undefined>(undefined);
   // 리액트 훅폼에서 관리할 데이터 타입 지정 및 메서드 호출 (상위 컴포넌트 = useForm 사용)
   const methods = useForm<SubmitFormDataType>({
     mode: "onChange",
     defaultValues: {
-      isPublic: false,
-      hourlyWage: 0,
+      isPublic: true,
+      hourlyWage: 10030,
       isNegotiableWorkDays: false,
       workDays: [],
       workEndTime: "",
@@ -102,14 +102,16 @@ export default function AddFormPage() {
           return acc;
         }, {});
 
-      await axios.post("/api/forms", filteredData);
+      const response = await axios.post("/api/forms", filteredData);
+      const id = response.data.id;
+      setFormId(id);
     },
     onSuccess: () => {
       if (typeof window !== "undefined") {
         window.localStorage.removeItem("tempAddFormData");
       }
       toast.success("알바폼을 등록했습니다.");
-      router.push(`/alba/${formId}`);
+      // if (formId) router.push(`/alba/${formId}`);
     },
     onError: (error) => {
       console.error("에러가 발생했습니다.", error);
@@ -117,6 +119,12 @@ export default function AddFormPage() {
       onTempSave();
     },
   });
+
+  useEffect(() => {
+    if (formId) {
+      router.push(`/alba/${formId}`);
+    }
+  }, [formId]);
 
   // tab 선택 시 Url params 수정 & 하위 폼 데이터 임시저장
   const searchParams = useSearchParams();

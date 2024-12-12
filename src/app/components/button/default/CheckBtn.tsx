@@ -12,7 +12,7 @@ interface CheckBtnProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const CheckBtn = forwardRef<HTMLInputElement, CheckBtnProps>(
-  ({ label, name, checked = false, disabled = false, onChange, className, ...props }, ref) => {
+  ({ label, name, checked = true, disabled = false, onChange, className, ...props }, ref) => {
     return (
       <label
         htmlFor={name}
