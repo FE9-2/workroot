@@ -87,9 +87,9 @@ const KakaoMapPage = () => {
 
       <div className="h-96 w-full border">
         {error && <div className="text-red-500">Map load error: {String(error)}</div>}
-        {loading && !error && (
+        {/* {loading && !error && (
           <div className="flex h-full items-center justify-center text-gray-500">Kakao Maps 로딩 중...</div>
-        )}
+        )} */}
         {!loading && !error && (
           <Map center={coords} style={{ width: "100%", height: "100%" }} level={3}>
             <MapMarker position={coords}>현재 위치</MapMarker>

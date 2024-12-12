@@ -8,7 +8,7 @@ import BaseInput from "@/app/components/input/text/BaseInput";
 import ImageInputwithPlaceHolder from "../../../components/input/file/ImageInput/ImageInputwithPlaceHolder";
 import { usePost } from "../../../../hooks/usePost";
 import axios from "axios";
-import DotLodingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
 
 interface FormInputs {
   title: string;
@@ -108,7 +108,7 @@ export default function AddTalk() {
                 onClick={handleSubmit(onSubmit)}
                 disabled={isPending}
               >
-                {isPending ? <DotLodingSpinner /> : "등록하기"}
+                {isPending ? <DotLoadingSpinner /> : "등록하기"}
               </Button>
             </div>
           </div>
@@ -188,7 +188,7 @@ export default function AddTalk() {
           onClick={handleSubmit(onSubmit)}
           disabled={isPending}
         >
-          {isPending ? <DotLodingSpinner /> : "등록하기"}
+          {isPending ? <DotLoadingSpinner /> : "등록하기"}
         </button>
       </div>
     </>

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useMyComments } from "@/hooks/queries/user/me/useMyComments";
 import Pagination from "@/app/components/pagination/Pagination";
 import type { MyCommentType } from "@/types/response/user";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 // 한 페이지당 댓글 수
 const COMMENTS_PER_PAGE = 10;
@@ -41,7 +42,7 @@ export default function CommentsSection() {
   if (isLoading) {
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <div>로딩 중...</div>
+        <LoadingSpinner />
       </div>
     );
   }

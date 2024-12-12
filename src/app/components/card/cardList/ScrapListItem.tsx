@@ -11,7 +11,7 @@ import { useFormScrap } from "@/hooks/queries/form/useFormScap";
 import { useRouter } from "next/navigation";
 import { MdOutlineImage } from "react-icons/md";
 import { S3_URL } from "@/constants/config";
-import DotLodingSpinner from "../../loading-spinner/DotLodingSpinner";
+import DotLoadingSpinner from "../../loading-spinner/DotLodingSpinner";
 
 /**
  * 알바폼 스크랩 리스트 아이템 컴포넌트
@@ -162,7 +162,7 @@ const ScrapListItem = ({
                     onClick={handleFormUnscrap}
                     disabled={isUnscrapLoading}
                   >
-                    {isUnscrapLoading ? <DotLodingSpinner /> : "스크랩 취소"}
+                    {isUnscrapLoading ? <DotLoadingSpinner /> : "스크랩 취소"}
                   </button>
                 </div>
               )}

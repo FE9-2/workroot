@@ -7,7 +7,7 @@ import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import type { ConfirmFormModalProps } from "@/types/modal";
-import DotLodingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
 
 const DeleteFormModal = ({ id, isOpen, onClose, onConfirm, className }: ConfirmFormModalProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -72,7 +72,7 @@ const DeleteFormModal = ({ id, isOpen, onClose, onConfirm, className }: ConfirmF
               disabled={isDeleting}
               className="h-[48px] w-[300px] text-base font-medium md:h-[62px] md:w-[360px] md:text-lg"
             >
-              {isDeleting ? <DotLodingSpinner /> : "삭제하기"}
+              {isDeleting ? <DotLoadingSpinner /> : "삭제하기"}
             </Button>
             <Button
               type="button"

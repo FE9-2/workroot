@@ -11,7 +11,7 @@ import { FormListType } from "@/types/response/form";
 import { useFormScrap } from "@/hooks/queries/form/useFormScap";
 import { MdOutlineImage } from "react-icons/md";
 import { S3_URL } from "@/constants/config";
-import DotLodingSpinner from "../../loading-spinner/DotLodingSpinner";
+import DotLoadingSpinner from "../../loading-spinner/DotLodingSpinner";
 
 /**
  * 알바폼 리스트 아이템 컴포넌트
@@ -200,7 +200,7 @@ const AlbaListItem = ({
                     onClick={handleFormScrap}
                     disabled={isScrapLoading}
                   >
-                    {isScrapLoading ? <DotLodingSpinner /> : "스크랩"}
+                    {isScrapLoading ? <DotLoadingSpinner /> : "스크랩"}
                   </button>
                 </div>
               )}

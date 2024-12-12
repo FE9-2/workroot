@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLogout } from "@/hooks/queries/auth/useLogout";
 import { usePassword } from "@/hooks/queries/user/me/useChangePassword";
-import DotLodingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
 
 interface ChangePasswordModalProps {
   isOpen: boolean;
@@ -133,7 +133,7 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
             disabled={isPending}
             className="flex-1 rounded-md bg-orange-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-orange-600 md:text-base"
           >
-            {isPending ? <DotLodingSpinner /> : "변경하기"}
+            {isPending ? <DotLoadingSpinner /> : "변경하기"}
           </button>
         </div>
       </form>

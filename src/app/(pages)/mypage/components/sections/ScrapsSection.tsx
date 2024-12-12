@@ -9,6 +9,7 @@ import FilterDropdown from "@/app/components/button/dropdown/FilterDropdown";
 import { filterPublicOptions, filterRecruitingOptions } from "@/constants/filterOptions";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import AlbaListItem from "@/app/components/card/cardList/AlbaListItem";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 const SCRAPS_PER_PAGE = 10;
 
@@ -119,7 +120,7 @@ export default function ScrapsSection() {
   if (isLoading) {
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <div>로딩 중...</div>
+        <LoadingSpinner />
       </div>
     );
   }

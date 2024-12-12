@@ -2,7 +2,7 @@
 
 import React from "react";
 
-export default function DotLodingSpinner() {
+export default function DotLoadingSpinner() {
   return (
     <div className="flex justify-center py-2">
       <div className="flex items-center justify-center">

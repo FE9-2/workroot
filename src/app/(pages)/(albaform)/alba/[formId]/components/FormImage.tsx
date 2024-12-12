@@ -9,7 +9,7 @@ interface FormImageProps {
 
 export default function FormImage({ imageUrls, currentPage, onPageChange }: FormImageProps) {
   return (
-    <div className="h-[300px]sm:h-[400px] relative flex justify-center md:h-[562px]">
+    <div className="relative flex h-[300px] justify-center lg:h-[562px]">
       {/* 이미지 표시 */}
       {imageUrls?.map((imageUrl, index) => (
         <div
