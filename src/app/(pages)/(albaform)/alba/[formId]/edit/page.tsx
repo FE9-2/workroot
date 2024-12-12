@@ -16,6 +16,7 @@ import WorkConditionSection from "../../../addform/section/WorkConditionSection"
 import { SubmitFormDataType } from "@/types/addform";
 import useEditing from "@/hooks/useEditing";
 import useFormDetail from "@/hooks/queries/form/detail/useFormDetail";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 export default function EditFormPage() {
   const router = useRouter();
@@ -200,9 +201,12 @@ export default function EditFormPage() {
     }
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  if (isLoading)
+    return (
+      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
 
   if (error) {
     return <div>Error: 데이터를 불러오는데 문제가 발생했습니다.</div>;

@@ -29,6 +29,10 @@ export default function ApplicationStatus({ formId }: ApplicationStatusProps) {
   //   console.log("지원 현황 불러오기 에러: ", errorMessage);
   // }
 
+  if (!applicationStatusData || applicationStatusData.data.length === 0) {
+    return null;
+  }
+
   return (
     <>
       {applicationStatusData && (

@@ -57,7 +57,7 @@ export default function AlbaFormDetailPage() {
 
   if (isLoading)
     return (
-      <div>
+      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
         <LoadingSpinner />
       </div>
     );
@@ -87,7 +87,6 @@ export default function AlbaFormDetailPage() {
           {/* 지도 영역 */}
           <div className="h-[280px] md:h-[320px]">
             {error && <div className="text-red-500">Map load error: {String(error)}</div>}
-            {loading && <div className="flex h-full items-center justify-center">Loading map...</div>}
             {!loading && !error && albaFormDetailData && (
               <Map center={coords} style={{ width: "100%", height: "100%" }} level={3}>
                 <MapMarker position={coords}>
