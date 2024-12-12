@@ -13,7 +13,7 @@ export const formatLocalDate = (date: Date, isMd: boolean = false) => {
 };
 
 export const getWorkDaysDisplay = (isNegotiableWorkDays: boolean, workDays: string[] = []) => {
-  if (isNegotiableWorkDays) return "요일협의";
+  if (isNegotiableWorkDays) return "요일 협의";
   if (!workDays.length) return "-";
 
   // 요일 순서 정의
@@ -30,7 +30,7 @@ export const getWorkDaysDisplay = (isNegotiableWorkDays: boolean, workDays: stri
   // 유효한 요일만 필터링
   const validWorkDays = translatedWorkDays.filter((day) => dayOrder.includes(day));
   const sortedDays = validWorkDays.sort((a, b) => dayOrder.indexOf(a) - dayOrder.indexOf(b));
-  console.log("getWorkDaysDisplay", sortedDays);
+  // console.log("getWorkDaysDisplay", sortedDays);
 
   const result: string[] = [];
   let startDay = sortedDays[0];
