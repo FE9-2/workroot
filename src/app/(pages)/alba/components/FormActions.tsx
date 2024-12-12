@@ -35,9 +35,11 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
     if (!isMyAlbaForm) return null;
     return (
       <div className="space-y-4 text-2xl">
-        <Button className="h-10 sm:h-12 md:h-16" width="lg" icon={<FcEditImage />}>
-          <Link href={`/alba/${formId}/edit`}>수정하기</Link>
-        </Button>
+        <Link href={`/alba/${formId}/edit`}>
+          <Button className="h-10 sm:h-12 md:h-16" width="lg" icon={<FcEditImage />}>
+            수정하기
+          </Button>
+        </Link>
         <Button className="h-10 sm:h-12 md:h-16" width="lg" icon={<FcEmptyTrash />} variant="outlined">
           삭제하기
         </Button>
