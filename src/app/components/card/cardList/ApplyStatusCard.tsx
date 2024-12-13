@@ -3,12 +3,12 @@ import React, { useState } from "react";
 import { ApplicationResponse } from "@/types/response/application";
 import { FaSortAmountDown } from "react-icons/fa";
 import { cn } from "@/lib/tailwindUtil";
-interface ApplicationStatusCardProps {
-  applicationStatusData: ApplicationResponse[];
+interface ApplyStatusCardProps {
+  applyStatusData: ApplicationResponse[];
 }
 
 // 지원현황 카드 컴포넌트
-const ApplicationStatusCard = ({ applicationStatusData }: ApplicationStatusCardProps) => {
+const ApplyStatusCard = ({ applyStatusData }: ApplyStatusCardProps) => {
   const [experienceSort, setExperienceSort] = useState(false);
   const [statusSort, setStatusSort] = useState(false);
 
@@ -38,7 +38,7 @@ const ApplicationStatusCard = ({ applicationStatusData }: ApplicationStatusCardP
 
         {/* Tbody */}
         <div className="scrollbar-custom h-[360px] overflow-y-auto md:h-[400px]">
-          {applicationStatusData.map((application) => (
+          {applyStatusData.map((application) => (
             <div key={application.id} className="grid grid-cols-[1fr_2fr_2fr_1fr] border-b border-line-100 px-6 py-4">
               <span className={tbodyStyle}>{application.name}</span>
               <span className={tbodyStyle}>{application.phoneNumber}</span>
@@ -52,4 +52,4 @@ const ApplicationStatusCard = ({ applicationStatusData }: ApplicationStatusCardP
   );
 };
 
-export default ApplicationStatusCard;
+export default ApplyStatusCard;

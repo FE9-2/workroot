@@ -2,14 +2,14 @@ import { getRecruitmentStatus } from "@/utils/recruitDateFormatter";
 import { formatLocalDate } from "@/utils/workDayFormatter";
 import Chip from "@/app/components/chip/Chip";
 import Image from "next/image";
-import { applicationStatus, ApplicationStatus } from "@/types/application";
+import { applicationStatus, ApplyStatus } from "@/types/application";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { MyApplicationType } from "@/types/response/user";
 import { MdOutlineImage } from "react-icons/md";
 
 // 지원 상태에 따른 Chip 컴포넌트의 variant를 반환하는 함수
-const getStatusVariant = (status: ApplicationStatus) => {
+const getStatusVariant = (status: ApplyStatus) => {
   switch (status) {
     case applicationStatus.HIRED:
       return "positive";
@@ -21,7 +21,7 @@ const getStatusVariant = (status: ApplicationStatus) => {
 };
 
 // 지원 상태에 따른 한글 라벨을 반환하는 함수
-const getStatusLabel = (status: ApplicationStatus) => {
+const getStatusLabel = (status: ApplyStatus) => {
   switch (status) {
     case applicationStatus.ALL:
       return "전체";
@@ -114,8 +114,8 @@ const MyApplicationListItem = ({ id, createdAt, status, resumeId, resumeName, fo
         <div className="text-grayscale-700 mt-4 flex h-[50px] items-center justify-start gap-2 rounded-2xl text-sm lg:text-base">
           <div className="rounded-[4px] border border-primary-orange-300 bg-primary-orange-50">
             <Chip
-              label={getStatusLabel(status as ApplicationStatus)}
-              variant={getStatusVariant(status as ApplicationStatus)}
+              label={getStatusLabel(status as ApplyStatus)}
+              variant={getStatusVariant(status as ApplyStatus)}
               textStyle="font-bold"
             />
           </div>

@@ -4,7 +4,7 @@ import { ApplicationListResponse } from "@/types/response/application";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-interface UseApplicationStatusProps {
+interface UseApplyStatusProps {
   formId: number;
   limit: number;
   cursor?: number;
@@ -12,7 +12,7 @@ interface UseApplicationStatusProps {
   orderByStatus?: string;
 }
 
-export const useApplicationStatus = (props: UseApplicationStatusProps) => {
+export const useApplyStatus = (props: UseApplyStatusProps) => {
   const query = useQuery<ApplicationListResponse>({
     queryKey: [
       "applicationStatus",
@@ -39,7 +39,7 @@ export const useApplicationStatus = (props: UseApplicationStatusProps) => {
 
   return {
     ...query,
-    applicationStatusData: query.data,
+    applyStatusData: query.data,
     isPending: query.isPending,
     error: query.error,
   };

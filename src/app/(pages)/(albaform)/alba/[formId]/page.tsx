@@ -9,7 +9,7 @@ import Script from "next/script";
 import FormHeader from "./components/FormHeader";
 import FormDetails from "./components/FormDetail";
 import RecruitInformation from "./components/RecruitInformation";
-import ApplicationStatus from "./components/ApplicationStatus";
+import ApplyStatus from "./components/ApplyStatus";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import FormImage from "./components/FormImage";
 import ScrapBtn from "@/app/components/button/default/ScrapBtn";
@@ -125,7 +125,7 @@ export default function AlbaFormDetailPage() {
         </div>
       </div>
       {/* 지원 현황 */}
-      {isOwner && <ApplicationStatus formId={formIdState} />}
+      {isOwner && <ApplyStatus formId={formIdState} />}
 
       <div className="fixed right-10 top-1/2 flex flex-col gap-5">
         <ScrapBtn formId={formIdState} />
