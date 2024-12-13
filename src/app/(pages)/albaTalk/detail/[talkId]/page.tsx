@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams } from "next/navigation";
-import Comment from "@/app/components/card/board/DetailComment";
+import CommentDetail from "@/app/components/card/board/CommentDetail";
 import BaseTextArea from "@/app/components/input/textarea/BaseTextArea";
 import Button from "@/app/components/button/default/Button";
 import { usePostActions } from "@/hooks/usePostActions";
@@ -274,7 +274,7 @@ export default function PostDetailPage() {
                   ref={index === comments.length - 1 ? lastCommentElementRef : undefined}
                   className="w-full"
                 >
-                  <Comment
+                  <CommentDetail
                     key={comment.id}
                     id={comment.id}
                     userName={comment.userName}
