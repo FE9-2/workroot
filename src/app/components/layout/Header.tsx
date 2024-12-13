@@ -72,8 +72,8 @@ export default function Header() {
   }
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 bg-lime-100 -tracking-widest md:tracking-normal">
-      <nav className="mx-6 flex h-16 items-center justify-between md:mx-[72px] lg:mx-[220px]">
+    <header className="fixed left-0 right-0 top-0 z-50 border-b border-b-line-100 bg-lime-100 -tracking-widest md:tracking-normal">
+      <nav className="mx-auto flex h-16 min-w-[327px] items-center justify-between px-6 md:max-w-[600px] lg:max-w-[1480px]">
         {/* 로고와 메인 네비게이션 */}
         <div className="flex items-center">
           <Link href="/" className="text-xl text-white hover:text-blue-100">
@@ -86,7 +86,7 @@ export default function Header() {
             />
           </Link>
 
-          <div className="ml-2 flex h-16 gap-2 md:ml-4 md:gap-5 lg:ml-5">
+          <div className="ml-4 flex h-16 gap-4 md:ml-8 md:gap-6 lg:ml-[46px]">
             <Link href="/albalist" className={getLinkClassName("/albalist")}>
               알바 목록
             </Link>
