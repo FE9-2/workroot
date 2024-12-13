@@ -36,14 +36,14 @@ const RecruitmentClosedModal = ({ formId, isOpen, onClose, className }: Recruitm
               alt="warning"
               width={80}
               height={80}
-              className="hidden lg:block"
+              className="block sm:hidden"
             />
             <Image
               src="/images/modal/closed-orange-md.svg"
               alt="warning"
               width={120}
               height={120}
-              className="block lg:hidden"
+              className="hidden sm:block"
             />
           </div>
           <h2 className="mb-2 text-lg font-bold lg:text-xl">모집 마감</h2>

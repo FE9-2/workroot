@@ -205,7 +205,7 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
           </div>
         </div>
 
-        <div className="sticky bottom-0 w-full border-grayscale-100 bg-white pt-6 lg:pt-10">
+        <div className="sticky bottom-0 w-full border-grayscale-100 bg-white pt-4 lg:pt-10">
           <div className="flex h-[36px] justify-between gap-3 lg:h-[48px]">
             <Button
               type="button"

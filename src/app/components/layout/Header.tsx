@@ -34,7 +34,7 @@ export default function Header() {
     );
   };
   const headerStyle =
-    "fixed left-0 right-0 top-0 z-50 border-b border-b-line-100 bg-lime-100 -tracking-widest md:tracking-normal";
+    "fixed left-0 right-0 top-0 z-40 border-b border-b-line-100 bg-lime-100 -tracking-widest md:tracking-normal";
   const navStyle =
     "mx-auto flex h-16 min-w-[327px] items-center justify-between px-6 md:max-w-[600px] lg:max-w-[1480px]";
   const menuStyle = "ml-4 flex h-16 items-center gap-4 md:ml-8 md:gap-6 lg:ml-[46px]";
@@ -141,13 +141,13 @@ export default function Header() {
 
       {/* 사이드바 오버레이 */}
       {isSideMenuOpen && (
-        <div className="bg-black fixed inset-0 z-40 bg-opacity-50" onClick={() => setIsSideMenuOpen(false)} />
+        <div className="bg-black fixed inset-0 z-30 bg-opacity-50" onClick={() => setIsSideMenuOpen(false)} />
       )}
 
       {/* 사이드바 */}
       <div
         className={cn(
-          "fixed right-0 top-0 z-50 h-full w-40 transform bg-white shadow-lg transition-transform duration-300 ease-in-out md:w-64",
+          "fixed right-0 top-0 z-40 h-full w-40 transform bg-white shadow-lg transition-transform duration-300 ease-in-out md:w-64",
           isSideMenuOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
