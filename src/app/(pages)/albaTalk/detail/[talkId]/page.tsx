@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams } from "next/navigation";
-import Comment from "@/app/components/card/board/detailComment";
+import Comment from "@/app/components/card/board/DetailComment";
 import BaseTextArea from "@/app/components/input/textarea/BaseTextArea";
 import Button from "@/app/components/button/default/Button";
 import { usePostActions } from "@/hooks/usePostActions";

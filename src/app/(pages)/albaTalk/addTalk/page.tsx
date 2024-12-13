@@ -8,7 +8,7 @@ import BaseInput from "@/app/components/input/text/BaseInput";
 import ImageInputWithPlaceHolder from "@/app/components/input/file/ImageInput/ImageInputWithPlaceHolder";
 import { usePost } from "@/hooks/usePost";
 import axios from "axios";
-import DotLoadingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 
 interface FormInputs {
   title: string;
