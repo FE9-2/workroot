@@ -13,9 +13,9 @@ import WorkConditionSection from "./section/WorkConditionSection";
 import useEditing from "@/hooks/useEditing";
 import { SubmitFormDataType } from "@/types/addform";
 import CustomFormModal from "@/app/components/modal/modals/confirm/CustomFormModal";
-import uploadImages from "@/utils/uploadImages";
 import tempSave from "@/utils/tempSave";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
+import useUploadImages from "@/hooks/queries/user/me/useImageUpload";
 
 export default function AddFormPage() {
   const router = useRouter();
@@ -60,6 +60,8 @@ export default function AddFormPage() {
   const imageFiles = currentValues.imageFiles;
   const [, setSelectedOption] = useState<string>("");
   const [showTempDataModal, setShowTempDataModal] = useState(false);
+
+  const { uploadImages } = useUploadImages();
 
   // 각각의 탭 작성중 여부
   const { isEditingRecruitContent, isEditingRecruitCondition, isEditingWorkCondition } = useEditing(currentValues);
@@ -134,6 +136,7 @@ export default function AddFormPage() {
     onError: (error) => {
       setLoading(false);
       toast.error("에러가 발생했습니다.");
+      console.error(error);
       onTempSave();
     },
   });
