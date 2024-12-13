@@ -11,13 +11,13 @@ interface ImageInputType {
   id: string;
 }
 
-interface ImageInputWithPlaceHolderProps {
+interface ImageInputPlaceHolderProps {
   onImageUpload: (file: File) => Promise<string>;
   onImagesChange: (images: ImageInputType[]) => void;
   size?: "small" | "large";
 }
 
-const ImageInputWithPlaceHolder: React.FC<ImageInputWithPlaceHolderProps> = ({
+const ImageInputPlaceHolder: React.FC<ImageInputPlaceHolderProps> = ({
   onImageUpload,
   onImagesChange,
   size = "large",
@@ -80,4 +80,4 @@ const ImageInputWithPlaceHolder: React.FC<ImageInputWithPlaceHolderProps> = ({
   );
 };
 
-export default ImageInputWithPlaceHolder;
+export default ImageInputPlaceHolder;

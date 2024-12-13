@@ -4,7 +4,7 @@ import React, { useCallback, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Button from "@/app/components/button/default/Button";
 import BaseInput from "@/app/components/input/text/BaseInput";
-import ImageInputWithPlaceHolder from "@/app/components/input/file/ImageInput/ImageInputWithPlaceHolder";
+import ImageInputWithPlaceHolder from "@/app/components/input/file/ImageInput/ImageInputPlaceHolder";
 import axios from "axios";
 import { Post } from "@/types/post";
 import { useMutation } from "@tanstack/react-query";

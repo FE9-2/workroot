@@ -5,7 +5,7 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Button from "@/app/components/button/default/Button";
 import BaseInput from "@/app/components/input/text/BaseInput";
-import ImageInputWithPlaceHolder from "@/app/components/input/file/ImageInput/ImageInputWithPlaceHolder";
+import ImageInputPlaceHolder from "@/app/components/input/file/ImageInput/ImageInputPlaceHolder";
 import { usePost } from "@/hooks/usePost";
 import axios from "axios";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
@@ -166,7 +166,7 @@ export default function AddTalk() {
               >
                 이미지
               </label>
-              <ImageInputWithPlaceHolder onImageUpload={uploadImage} onImagesChange={handleImagesChange} />
+              <ImageInputPlaceHolder onImageUpload={uploadImage} onImagesChange={handleImagesChange} />
             </div>
           </form>
         </div>
