@@ -2,10 +2,15 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { formatLocalDate } from "@/utils/workDayFormatter";
 import useWidth from "@/hooks/useWidth";
+import KebabDropdown from "@/app/components/button/dropdown/KebabDropdown";
+import useModalStore from "@/store/modalStore";
+import { useDeletePost } from "@/hooks/queries/post/useDeletePost";
 
 export interface CardBoardProps {
+  id: string;
   title: string;
   content: string;
   nickname: string;
@@ -13,10 +18,11 @@ export interface CardBoardProps {
   commentCount: number;
   likeCount: number;
   variant?: "default" | "primary";
-  onKebabClick?: () => void;
+  isAuthor?: boolean;
 }
 
 const CardBoard = ({
+  id,
   title,
   content,
   nickname,
@@ -24,18 +30,54 @@ const CardBoard = ({
   commentCount,
   likeCount,
   variant = "default",
-  onKebabClick,
+  isAuthor = false,
 }: CardBoardProps) => {
   const { isDesktop } = useWidth();
+  const router = useRouter();
   const [isLiked, setIsLiked] = useState(false);
   const [likeDisplayCount, setLikeDisplayCount] = useState(likeCount);
+  const { openModal } = useModalStore();
 
-  const formatContent = (text: string) => {
-    if (text.length > 30) {
-      return text.slice(0, 30) + "...";
-    }
-    return text;
+  const deletePost = useDeletePost(id);
+
+  const handleDelete = () => {
+    openModal("customForm", {
+      isOpen: true,
+      title: "게시글을 삭제할까요?",
+      content: "삭제된 게시글은 복구할 수 없습니다.",
+      confirmText: "삭제하기",
+      cancelText: "취소",
+      onConfirm: () => {
+        deletePost.mutate(undefined, {
+          onSuccess: () => {
+            openModal("customForm", {
+              isOpen: false,
+              title: "",
+              content: "",
+              onConfirm: () => {},
+              onCancel: () => {},
+            });
+          },
+        });
+      },
+      onCancel: () => {
+        openModal("customForm", { isOpen: false, title: "", content: "", onConfirm: () => {}, onCancel: () => {} });
+      },
+    });
   };
+
+  const handleRedirect = () => {
+    router.push(`/albatalk/${id}`);
+  };
+
+  const dropdownOptions = [
+    { label: "이동하기", onClick: handleRedirect },
+    {
+      label: "삭제하기",
+      onClick: handleDelete,
+      disabled: deletePost.isPending,
+    },
+  ];
 
   const handleLikeClick = () => {
     if (isLiked) {
@@ -45,8 +87,6 @@ const CardBoard = ({
     }
     setIsLiked((prev) => !prev);
   };
-
-  const kebabSrc = `/icons/menu/${isDesktop ? "kebab-menu-md.svg" : "kebab-menu-sm.svg"}`;
 
   return (
     <div
@@ -62,19 +102,11 @@ const CardBoard = ({
             <h2 className="line-clamp-2 flex-1 font-nexon text-[16px] font-semibold text-black-400 lg:text-[18px]">
               {title}
             </h2>
-            {/* Kebab Icon */}
-            <button
-              type="button"
-              onClick={onKebabClick}
-              className="hover:text-grayscale-700 ml-2 flex shrink-0 items-center justify-center text-grayscale-500"
-              aria-label="Options"
-            >
-              <Image src={kebabSrc} alt="Kebab Menu Icon" width={isDesktop ? 28 : 24} height={isDesktop ? 28 : 24} />
-            </button>
+            {isAuthor && <KebabDropdown options={dropdownOptions} />}
           </div>
           {/* Content */}
           <div className="line-clamp-2 whitespace-pre-wrap break-all font-nexon text-xs font-normal leading-[1.5] text-grayscale-500 lg:text-base">
-            {formatContent(content)}
+            {content}
           </div>
         </div>
 
@@ -82,7 +114,6 @@ const CardBoard = ({
         <div className="flex items-center justify-between">
           {/* Left Info */}
           <div className="flex items-center gap-2 lg:gap-3">
-            {/* 유저 아이콘 */}
             <Image
               src={`/icons/user/${isDesktop ? "user-profile-md.svg" : "user-profile-sm.svg"}`}
               alt="User Icon"
@@ -90,7 +121,6 @@ const CardBoard = ({
               height={28}
               className="shrink-0"
             />
-            {/* 닉네임 + 수정일 */}
             <div className="flex min-w-0 items-center gap-1">
               <span className="truncate font-nexon text-[14px] font-normal text-grayscale-500 lg:text-[16px]">
                 {nickname}
@@ -104,7 +134,6 @@ const CardBoard = ({
 
           {/* Right Info */}
           <div className="flex shrink-0 items-center gap-1 lg:gap-2">
-            {/* 댓글 아이콘 */}
             <div className="flex items-center gap-1">
               <Image
                 src={`/icons/comment/${isDesktop ? "comment-md.svg" : "comment-sm.svg"}`}
@@ -116,7 +145,6 @@ const CardBoard = ({
                 {commentCount}
               </span>
             </div>
-            {/* 좋아요 */}
             <div className="flex items-center gap-1">
               <Image
                 src={`/icons/like/${

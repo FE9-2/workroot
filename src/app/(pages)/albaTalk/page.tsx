@@ -108,13 +108,14 @@ export default function AlbaTalk() {
                     <div key={post.id}>
                       <Link href={`/albatalk/${post.id}`}>
                         <CardBoard
+                          id={post.id.toString()}
                           title={post.title}
                           content={post.content}
                           nickname={post.writer.nickname}
                           updatedAt={post.updatedAt}
                           commentCount={post.commentCount}
                           likeCount={post.likeCount}
-                          onKebabClick={() => console.log("케밥 메뉴 클릭", post.id)}
+                          isAuthor={post.writer.id === user?.id}
                         />
                       </Link>
                     </div>

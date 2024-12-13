@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Button from "@/app/components/button/default/Button";
 import BaseInput from "@/app/components/input/text/BaseInput";
 import ImageInputPlaceHolder from "@/app/components/input/file/ImageInput/ImageInputPlaceHolder";
-import { usePost } from "@/hooks/usePost";
+import { useAddPost } from "@/hooks/queries/post/useAddPost";
 import axios from "axios";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 
@@ -32,7 +32,7 @@ export default function AddTalk() {
 
   const [imageList, setImageList] = useState<ImageInputType[]>([]);
   const router = useRouter();
-  const { mutate: createPost, isPending } = usePost();
+  const { mutate: createPost, isPending } = useAddPost();
 
   const uploadImage = useCallback(async (file: File): Promise<string> => {
     const formData = new FormData();
