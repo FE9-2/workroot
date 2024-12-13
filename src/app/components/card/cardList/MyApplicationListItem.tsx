@@ -7,6 +7,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { MyApplicationType } from "@/types/response/user";
 import { MdOutlineImage } from "react-icons/md";
+import translateStatus from "@/utils/translateStatus";
 
 // 지원 상태에 따른 Chip 컴포넌트의 variant를 반환하는 함수
 const getStatusVariant = (status: ApplyStatus) => {
@@ -20,25 +21,7 @@ const getStatusVariant = (status: ApplyStatus) => {
   }
 };
 
-// 지원 상태에 따른 한글 라벨을 반환하는 함수
-const getStatusLabel = (status: ApplyStatus) => {
-  switch (status) {
-    case applicationStatus.ALL:
-      return "전체";
-    case applicationStatus.HIRED:
-      return "채용 완료";
-    case applicationStatus.REJECTED:
-      return "거절";
-    case applicationStatus.INTERVIEW_PENDING:
-      return "면접 대기";
-    case applicationStatus.INTERVIEW_COMPLETED:
-      return "면접 완료";
-    default:
-      return status;
-  }
-};
-
-const MyApplicationListItem = ({ id, createdAt, status, resumeId, resumeName, form }: MyApplicationType) => {
+const MyApplicationListItem = ({ createdAt, status, resumeId, resumeName, form }: MyApplicationType) => {
   // 이력서 다운로드 핸들러
   const handleResumeDownload = async () => {
     try {
@@ -114,7 +97,7 @@ const MyApplicationListItem = ({ id, createdAt, status, resumeId, resumeName, fo
         <div className="text-grayscale-700 mt-4 flex h-[50px] items-center justify-start gap-2 rounded-2xl text-sm lg:text-base">
           <div className="rounded-[4px] border border-primary-orange-300 bg-primary-orange-50">
             <Chip
-              label={getStatusLabel(status as ApplyStatus)}
+              label={translateStatus(status as ApplyStatus)}
               variant={getStatusVariant(status as ApplyStatus)}
               textStyle="font-bold"
             />
