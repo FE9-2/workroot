@@ -31,7 +31,7 @@ export default function TabMenu() {
   };
 
   return (
-    <div className="flex space-x-4 sm:space-x-8">
+    <div className="flex gap-4 lg:gap-8">
       {TABS.map((tab) => (
         <Link key={tab.value} href={`/mypage?${createQueryString(tab.value)}`} className={getLinkClassName(tab.value)}>
           {tab.name}

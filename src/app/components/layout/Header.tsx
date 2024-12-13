@@ -33,60 +33,62 @@ export default function Header() {
       isActive ? "text-lime-900 text-sm md:text-base lg:text-lg lg:font-bold" : "text-lime-700 text-sm md:text-base"
     );
   };
-
+  const headerStyle =
+    "fixed left-0 right-0 top-0 z-50 border-b border-b-line-100 bg-lime-100 -tracking-widest md:tracking-normal";
+  const navStyle =
+    "mx-auto flex h-16 min-w-[327px] items-center justify-between px-6 md:max-w-[600px] lg:max-w-[1480px]";
+  const menuStyle = "ml-4 flex h-16 items-center gap-4 md:ml-8 md:gap-6 lg:ml-[46px]";
   const buttonStyle = "rounded-lg border-2 px-2 py-1 text-sm md:px-3 md:py-1.5 md:text-base lg:px-4 lg:py-2";
-
+  const skeletonStyle = "w-16 animate-pulse bg-lime-200";
   // 로딩 시간이 1초 이상일 때만 스켈레톤 UI 표시
   if (isLoading) {
     return (
-      <header className="fixed left-0 right-0 top-0 z-50 bg-lime-100 -tracking-widest md:tracking-normal">
-        <div className="container mx-auto px-4">
-          <nav className="flex h-16 items-center justify-between">
-            {/* 로고와 메인 네비게이션 */}
-            <div className="flex items-center">
-              {/* 로고 스켈레톤 - 이미지로 대체*/}
-              <Image
-                src="/logo.svg"
-                alt="Work Root Logo"
-                width={200}
-                height={60}
-                className="w-32 hover:opacity-90 sm:w-40 md:w-[200px]"
-              />
+      <header className={headerStyle}>
+        <nav className={navStyle}>
+          {/* 로고와 메인 네비게이션 */}
+          <div className="flex items-center">
+            {/* 로고 스켈레톤 - 이미지로 대체*/}
+            <Image
+              src="/logo.svg"
+              alt="Work Root Logo"
+              width={200}
+              height={60}
+              className="w-32 hover:opacity-90 sm:w-40 md:w-[200px]"
+            />
 
-              {/* 메뉴 스켈레톤 - 실제 메뉴와 동일한 위치에 배치 */}
-              <div className="ml-4 flex h-16 items-center space-x-2 sm:ml-6 sm:space-x-4 md:ml-10 md:space-x-6">
-                <div className="h-6 w-16 animate-pulse bg-lime-200" />
-                <div className="h-6 w-16 animate-pulse bg-lime-200" />
-              </div>
+            {/* 메뉴 스켈레톤 - 실제 메뉴와 동일한 위치에 배치 */}
+            <div className={menuStyle}>
+              <div className={cn("h-6", skeletonStyle)} />
+              <div className={cn("h-6", skeletonStyle)} />
             </div>
+          </div>
 
-            {/* 로그인/회원가입 버튼 스켈레톤 */}
-            <div className="flex items-center space-x-2 sm:space-x-4">
-              <div className="h-8 w-16 animate-pulse bg-lime-200" />
-              <div className="h-8 w-16 animate-pulse bg-lime-200" />
-            </div>
-          </nav>
-        </div>
+          {/* 로그인/회원가입 버튼 스켈레톤 */}
+          <div className="flex items-center gap-2 lg:gap-4">
+            <div className={cn("h-8", skeletonStyle)} />
+            <div className={cn("h-8", skeletonStyle)} />
+          </div>
+        </nav>
       </header>
     );
   }
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 border-b border-b-line-100 bg-lime-100 -tracking-widest md:tracking-normal">
-      <nav className="mx-auto flex h-16 min-w-[327px] items-center justify-between px-6 md:max-w-[600px] lg:max-w-[1480px]">
+    <header className={headerStyle}>
+      <nav className={navStyle}>
         {/* 로고와 메인 네비게이션 */}
         <div className="flex items-center">
           <Link href="/" className="text-xl text-white hover:text-blue-100">
             <Image
               src="/logo.svg"
-              alt="Work Root Logo"
+              alt="WorkRoot"
               width={200}
               height={60}
               className="w-32 hover:opacity-90 md:w-[200px]"
             />
           </Link>
 
-          <div className="ml-4 flex h-16 gap-4 md:ml-8 md:gap-6 lg:ml-[46px]">
+          <div className={menuStyle}>
             <Link href="/albalist" className={getLinkClassName("/albalist")}>
               알바 목록
             </Link>

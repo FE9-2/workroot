@@ -29,7 +29,7 @@ export default function SortSection() {
   return (
     <FilterDropdown
       options={options.map((option) => option.label)}
-      className="!w-28 md:!w-40"
+      className="!w-28 border-transparent md:!w-40"
       initialValue={currentLabel}
       onChange={handleSortChange}
       readOnly={isReadOnly}
