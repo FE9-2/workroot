@@ -180,8 +180,8 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
             </div>
 
             {fields.map((field) => (
-              <div key={field.name} className="h-[62px] space-y-1">
-                <label className="text-grayscale-700 block px-2 text-sm font-medium lg:text-base lg:font-semibold">
+              <div key={field.name} className="h-[64px] space-y-1">
+                <label className="text-grayscale-700 block px-2 pb-1 text-sm font-medium lg:text-base lg:font-semibold">
                   {field.label}
                   {field.required && <span className="text-orange-500">*</span>}
                 </label>
@@ -212,7 +212,7 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
           </div>
         </div>
 
-        <div className="sticky bottom-0 border-t border-grayscale-100 bg-white p-6 lg:p-8">
+        <div className="sticky bottom-0 border-grayscale-100 bg-white p-6 lg:p-8">
           <div className="flex h-[36px] justify-between gap-3 lg:h-[48px]">
             <button
               type="button"
