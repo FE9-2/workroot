@@ -34,6 +34,8 @@ export default function Header() {
     );
   };
 
+  const buttonStyle = "rounded-lg border-2 px-2 py-1 text-sm sm:px-3 sm:py-1.5 sm:text-base md:px-4 md:py-2";
+
   // 로딩 시간이 1초 이상일 때만 스켈레톤 UI 표시
   if (isLoading) {
     return (
@@ -101,13 +103,16 @@ export default function Header() {
           </div>
 
           {/* 로그인/회원가입 또는 메뉴 버튼 */}
-          <ul className="flex items-center space-x-2 sm:space-x-4 md:space-x-6">
+          <ul className="flex items-center gap-2 lg:gap-4">
             {!user ? (
               <>
                 <li className="flex items-center">
                   <Link
                     href="/login"
-                    className="rounded-lg border-2 border-lime-700 px-2 py-1 text-sm text-lime-700 transition-colors hover:bg-lime-700 hover:text-white sm:px-3 sm:py-1.5 sm:text-base md:px-4 md:py-2"
+                    className={cn(
+                      buttonStyle,
+                      "border-lime-700 px-2 py-1 text-sm text-lime-700 transition-colors hover:bg-lime-700 hover:text-white"
+                    )}
                   >
                     로그인
                   </Link>
@@ -115,7 +120,10 @@ export default function Header() {
                 <li className="flex items-center">
                   <Link
                     href="/signup"
-                    className="rounded-lg bg-lime-700 px-2 py-1 text-sm font-semibold text-white transition-colors hover:bg-lime-800 sm:px-3 sm:py-1.5 sm:text-base md:px-4 md:py-2"
+                    className={cn(
+                      buttonStyle,
+                      "border-lime-700 bg-lime-700 text-white transition-colors hover:bg-lime-800"
+                    )}
                   >
                     회원가입
                   </Link>
