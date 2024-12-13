@@ -128,7 +128,7 @@ export default function EditFormPage() {
         setValue("imageUrls", []);
       }
     }
-    tempSave(currentValues);
+    tempSave("addformData", currentValues);
   };
 
   // 수정된 폼 제출 리액트쿼리

@@ -160,7 +160,7 @@ export default function AddFormPage() {
         setValue("imageUrls", []);
       }
     }
-    tempSave(currentValues);
+    tempSave("addformData", currentValues);
   };
 
   const handleOptionChange = async (option: string) => {
