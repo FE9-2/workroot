@@ -79,7 +79,12 @@ const CommentDetail: React.FC<CommentDetailProps> = ({
 
         {isAuthor && (
           <div className="relative" ref={optionsRef}>
-            <button onClick={() => setShowOptions(!showOptions)} className="text-grayscale-500" aria-label="Options">
+            <button
+              type="button"
+              onClick={() => setShowOptions(!showOptions)}
+              className="text-grayscale-500"
+              aria-label="Options"
+            >
               <Image src="/icons/menu/kebab-menu-md.svg" alt="Menu" width={28} height={28} />
             </button>
             {showOptions && (

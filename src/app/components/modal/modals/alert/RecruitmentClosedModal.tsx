@@ -22,6 +22,7 @@ const RecruitmentClosedModal = ({ formId, isOpen, onClose, className }: Recruitm
     >
       <div className="relative h-full">
         <button
+          type="button"
           onClick={onClose}
           className="hover:text-grayscale-600 absolute right-0 top-0 flex items-center justify-center text-grayscale-400"
         >

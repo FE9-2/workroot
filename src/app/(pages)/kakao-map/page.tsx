@@ -73,10 +73,15 @@ const KakaoMapPage = () => {
           onChange={(e) => setAddress(e.target.value)}
           className="flex-1 border p-2"
         />
-        <button onClick={handleOpenPostcode} className="rounded bg-green-500 p-2 text-white hover:bg-green-600">
+        <button
+          type="button"
+          onClick={handleOpenPostcode}
+          className="rounded bg-green-500 p-2 text-white hover:bg-green-600"
+        >
           우편번호 찾기
         </button>
         <button
+          type="button"
           onClick={searchAddress}
           disabled={loading || !!error}
           className="rounded bg-blue-500 p-2 text-white hover:bg-blue-600 disabled:bg-gray-400"

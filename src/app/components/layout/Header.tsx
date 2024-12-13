@@ -122,7 +122,7 @@ export default function Header() {
                 </li>
               </>
             ) : (
-              <button onClick={() => setIsSideMenuOpen(true)} className="block" aria-label="메뉴 열기">
+              <button type="button" onClick={() => setIsSideMenuOpen(true)} className="block" aria-label="메뉴 열기">
                 <Image src="/icons/menu/menu-sm.svg" width={24} height={24} alt="메뉴" className="block sm:hidden" />
                 <Image src="/icons/menu/menu-md.svg" width={36} height={36} alt="메뉴" className="hidden sm:block" />
               </button>
@@ -146,7 +146,11 @@ export default function Header() {
         <div className="flex w-full flex-col p-6">
           <div className="mb-6 flex items-center justify-between">
             <span className="px-3 text-lg font-bold text-lime-700">메뉴</span>
-            <button onClick={() => setIsSideMenuOpen(false)} className="hover:text-grayscale-700 text-grayscale-500">
+            <button
+              type="button"
+              onClick={() => setIsSideMenuOpen(false)}
+              className="hover:text-grayscale-700 text-grayscale-500"
+            >
               ✕
             </button>
           </div>
@@ -161,6 +165,7 @@ export default function Header() {
                 마이페이지
               </Link>
               <button
+                type="button"
                 onClick={handleLogout}
                 className="rounded-lg border-2 border-lime-700 px-4 py-3 text-lime-700 hover:bg-lime-700 hover:text-white"
               >

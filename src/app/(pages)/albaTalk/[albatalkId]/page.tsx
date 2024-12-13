@@ -121,7 +121,7 @@ export default function PostDetailPage() {
                 <h1 className="text-[16px] font-semibold lg:text-[24px]">{post.title}</h1>
                 {post.writer.id === user?.id && (
                   <div className="relative" ref={optionsRef}>
-                    <button onClick={() => setShowOptions(!showOptions)} className="text-grayscale-500">
+                    <button type="button" onClick={() => setShowOptions(!showOptions)} className="text-grayscale-500">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                           d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"

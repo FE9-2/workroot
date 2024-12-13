@@ -16,6 +16,7 @@ const BookmarkBtn = ({ className = "" }: BookmarkBtnProps) => {
 
   return (
     <button
+      type="button"
       className={cn(
         "inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary-orange-50 p-2 transition-colors",
         className

@@ -49,6 +49,7 @@ const BoardComment = ({ title, content, comments, date, variant = "default", onK
 
         {/* Right Content: Kebab */}
         <button
+          type="button"
           onClick={onKebabClick}
           className="hover:text-grayscale-700 flex items-center justify-center text-grayscale-500"
           aria-label="Options"

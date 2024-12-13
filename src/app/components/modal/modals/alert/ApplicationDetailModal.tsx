@@ -107,6 +107,7 @@ const ApplicationDetailModal = ({
         </div>
 
         <button
+          type="button"
           onClick={onClose}
           aria-label="모달 닫기"
           className="hover:text-grayscale-600 absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-white text-grayscale-400"

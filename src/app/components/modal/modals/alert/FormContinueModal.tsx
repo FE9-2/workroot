@@ -21,6 +21,7 @@ const FormContinueModal = ({ isOpen, onClose, className }: FormContinueModalProp
     >
       <div className="relative h-full">
         <button
+          type="button"
           onClick={onClose}
           className="hover:text-grayscale-600 absolute right-0 top-0 flex items-center justify-center text-grayscale-400"
         >
