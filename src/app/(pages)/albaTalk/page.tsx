@@ -88,9 +88,9 @@ export default function AlbaTalk() {
 
       {/* 메인 콘텐츠 영역 */}
       <div className="w-full pt-[132px]">
-        {/* 글쓰기 버튼 - 고정 위치 */}
+        {/* 글쓰기 버튼 - 고정 위치 수정 */}
         {user && (
-          <Link href="/albatalk/addtalk" className="fixed bottom-[50%] right-4 z-[9999] translate-y-1/2">
+          <Link href="/albatalk/addtalk" className="fixed bottom-[50%] right-[8%] z-[9999] translate-y-1/2">
             <FloatingBtn icon={<RiEdit2Fill className="size-6" />} variant="orange" />
           </Link>
         )}
