@@ -13,9 +13,14 @@ interface ImageInputType {
 interface ImageInputwithPlaceHolderProps {
   onImageUpload: (file: File) => Promise<string>;
   onImagesChange: (images: ImageInputType[]) => void;
+  size?: "small" | "large";
 }
 
-const ImageInputwithPlaceHolder: React.FC<ImageInputwithPlaceHolderProps> = ({ onImageUpload, onImagesChange }) => {
+const ImageInputwithPlaceHolder: React.FC<ImageInputwithPlaceHolderProps> = ({
+  onImageUpload,
+  onImagesChange,
+  size = "large",
+}) => {
   const [imageList, setImageList] = useState<ImageInputType[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -51,15 +56,16 @@ const ImageInputwithPlaceHolder: React.FC<ImageInputwithPlaceHolderProps> = ({ o
     fileInputRef.current?.click();
   };
 
-  const size = "size-[160px] lg:size-[240px]";
+  const sizeClass = size === "small" ? "size-[160px]" : "size-[160px] lg:size-[240px]";
+  const gapClass = size === "small" ? "gap-5" : "gap-5 lg:gap-6";
 
   return (
-    <div className="flex gap-5 lg:gap-6">
+    <div className={`flex ${gapClass}`}>
       <div className="relative">
         <button
           type="button"
           onClick={handleImageButtonClick}
-          className={`${size} flex flex-col items-center justify-center bg-gray-100 hover:bg-gray-200`}
+          className={`${sizeClass} flex flex-col items-center justify-center bg-gray-100 hover:bg-gray-200`}
         >
           <HiUpload className="text-[36px] text-grayscale-200" />
           <p className="mt-2 text-grayscale-500">이미지 넣기</p>
