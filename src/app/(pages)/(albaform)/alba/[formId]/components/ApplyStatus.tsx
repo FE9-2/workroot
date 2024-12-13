@@ -1,4 +1,4 @@
-import ApplyStatusCard from "@/app/components/card/cardList/ApplyStatusCard";
+import ApplyStatusCard from "@/app/components/card/cardList/apply/ApplyStatusCard";
 import React from "react";
 
 interface ApplyStatusProps {

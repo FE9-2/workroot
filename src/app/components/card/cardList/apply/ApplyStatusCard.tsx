@@ -3,33 +3,12 @@ import React, { useState } from "react";
 import { FaSortAmountDown } from "react-icons/fa";
 import { cn } from "@/lib/tailwindUtil";
 import { useApplyStatus } from "@/hooks/queries/form/detail/useApplyStatus";
+import translateStatus from "@/utils/translateStatus";
+import { SkeletonRow } from "./SkeletonRow";
 
 interface ApplyStatusCardProps {
   formId: number;
 }
-
-// 상태 값을 한글로 변환
-const translateStatus = (status: string) => {
-  const statusMap: { [key: string]: string } = {
-    REJECTED: "거절됨",
-    INTERVIEW_PENDING: "면접 대기 중",
-    INTERVIEW_COMPLETED: "면접 완료",
-    HIRED: "채용됨",
-  };
-  return statusMap[status] || status;
-};
-
-// 스켈레톤 컴포넌트
-const SkeletonRow = () => (
-  <div className="grid animate-pulse grid-cols-[1fr_2fr_1fr_1fr] border-b border-line-100 px-6 py-4">
-    {[1, 2, 3, 4].map((index) => (
-      <div
-        key={index}
-        className={`h-4 ${index === 1 || index === 3 ? "w-2/5" : "w-1/4"} rounded bg-grayscale-200`}
-      ></div>
-    ))}
-  </div>
-);
 
 // 지원현황 카드 컴포넌트
 const ApplyStatusCard = ({ formId }: ApplyStatusCardProps) => {
