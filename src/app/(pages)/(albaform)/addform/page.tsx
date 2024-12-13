@@ -14,6 +14,7 @@ import WorkConditionSection from "./section/WorkConditionSection";
 import useEditing from "@/hooks/useEditing";
 import { SubmitFormDataType } from "@/types/addform";
 import CustomFormModal from "@/app/components/modal/modals/confirm/CustomFormModal";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
 
 export default function AddFormPage() {
   const router = useRouter();
@@ -61,6 +62,7 @@ export default function AddFormPage() {
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
+      setLoading(true);
       // 이미지 필수 체크
       if (!imageFiles || imageFiles.length === 0) {
         toast.error("이미지를 첨부해주세요.");
@@ -110,11 +112,12 @@ export default function AddFormPage() {
       if (typeof window !== "undefined") {
         window.localStorage.removeItem("tempAddFormData");
       }
+      setLoading(false);
       toast.success("알바폼을 등록했습니다.");
       // if (formId) router.push(`/alba/${formId}`);
     },
     onError: (error) => {
-      console.error("에러가 발생했습니다.", error);
+      setLoading(false);
       toast.error("에러가 발생했습니다.");
       onTempSave();
     },
@@ -131,6 +134,7 @@ export default function AddFormPage() {
   const currentParam = searchParams.get("tab");
   const [prevOption, setPrevOption] = useState<string | null>(null);
   const initialLoad = currentParam === null; // 초기 로딩 여부 확인
+  const [loading, setLoading] = useState(false);
 
   const handleOptionChange = async (option: string) => {
     setSelectedOption(option);
@@ -313,7 +317,7 @@ export default function AddFormPage() {
               disabled={!isValid}
               onClick={handleSubmit(() => mutation.mutate())}
             >
-              작성 완료
+              {loading ? <DotLoadingSpinner /> : "작성 완료"}
             </Button>
           </div>
         </aside>
