@@ -6,13 +6,13 @@ import { FormDetailResponse } from "@/types/response/form";
 import FloatingBtn from "@/app/components/button/default/FloatingBtn";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
-import { VscGitStashApply } from "react-icons/vsc";
 import { CiMemoPad } from "react-icons/ci";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
-
+import { HiMail } from "react-icons/hi";
+import { HiDocumentText } from "react-icons/hi";
 interface FormActionsProps {
   formId: string | number;
   albaFormDetailData: FormDetailResponse;
@@ -71,12 +71,12 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
     return (
       <div className="space-y-4 text-2xl">
         <Link href={`/apply/${formId}`}>
-          <FloatingBtn className={buttonStyle} icon={<VscGitStashApply />}>
+          <FloatingBtn className={`${buttonStyle} mb-4`} icon={<HiMail />}>
             {isLoading ? <DotLoadingSpinner /> : "지원하기"}
           </FloatingBtn>
         </Link>
         <Link href={`/myapply/${formId}`}>
-          <FloatingBtn variant="white" className={buttonStyle} icon={<CiMemoPad />}>
+          <FloatingBtn variant="white" className={buttonStyle} icon={<HiDocumentText />}>
             {isLoading ? <DotLoadingSpinner /> : "내 지원내역 보기"}
           </FloatingBtn>
         </Link>
