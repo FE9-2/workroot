@@ -71,9 +71,7 @@ export default function FilterBar() {
       <nav className="border-b border-line-100">
         <div className="mx-auto flex max-w-screen-2xl items-center justify-between py-4">
           <TabMenu />
-          <div className="ml-auto">
-            <SortSection />
-          </div>
+          <SortSection />
         </div>
       </nav>
     </div>
