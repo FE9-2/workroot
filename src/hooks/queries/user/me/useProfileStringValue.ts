@@ -14,9 +14,8 @@ export const useProfileStringValue = () => {
       const user = userData?.user;
 
       if (!user) return false;
-
       const hasString = Object.values(user).some(
-        (value) => value !== null && value !== undefined && value === "string"
+        (value) => value !== null && value !== undefined && typeof value === "string" && value.trim() !== ""
       );
 
       if (hasString) {
