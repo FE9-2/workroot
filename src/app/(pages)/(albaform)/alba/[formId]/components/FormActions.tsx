@@ -11,7 +11,7 @@ import { CiMemoPad } from "react-icons/ci";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import DotLoadingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 
 interface FormActionsProps {
   formId: string | number;
@@ -36,6 +36,7 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
       toast.success("성공적으로 삭제되었습니다.");
       router.push(`/albalist`);
     } catch (error) {
+      console.error(error);
       toast.error("삭제 중 오류가 발생했습니다.");
     } finally {
       setLoading(false);

@@ -14,7 +14,7 @@ import useEditing from "@/hooks/useEditing";
 import { SubmitFormDataType } from "@/types/addform";
 import CustomFormModal from "@/app/components/modal/modals/confirm/CustomFormModal";
 import tempSave from "@/utils/tempSave";
-import DotLoadingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import useUploadImages from "@/hooks/queries/user/me/useImageUpload";
 
 export default function AddFormPage() {

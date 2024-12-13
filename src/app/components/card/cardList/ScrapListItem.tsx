@@ -11,7 +11,7 @@ import { useFormScrap } from "@/hooks/queries/form/useFormScap";
 import { useRouter } from "next/navigation";
 import { MdOutlineImage } from "react-icons/md";
 import { S3_URL } from "@/constants/config";
-import DotLoadingSpinner from "../../loading-spinner/DotLodingSpinner";
+import DotLoadingSpinner from "../../loading-spinner/DotLoadingSpinner";
 
 /**
  * 알바폼 스크랩 리스트 아이템 컴포넌트

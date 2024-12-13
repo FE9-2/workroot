@@ -131,7 +131,7 @@ export default function AlbaList() {
       <div className="w-full pt-[132px]">
         {/* 폼 만들기 버튼 - 고정 위치 */}
         {isOwner && (
-          <Link href="/addform" className="fixed bottom-[50%] right-4 z-[9999] translate-y-1/2">
+          <Link href="/addform" className="fixed bottom-[50%] right-[5%] z-[9999] translate-y-1/2">
             <FloatingBtn icon={<IoAdd className="size-6" />} variant="orange">
               폼 만들기
             </FloatingBtn>
