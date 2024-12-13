@@ -1,20 +1,18 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Button from "@/app/components/button/default/Button";
 import BaseInput from "@/app/components/input/text/BaseInput";
 import ImageInputPlaceHolder from "@/app/components/input/file/ImageInput/ImageInputPlaceHolder";
-import { useAddPost } from "@/hooks/queries/post/useAddPost";
+import { useEditPost } from "@/hooks/queries/post/useEditPost";
+import { usePostDetail } from "@/hooks/queries/post/usePostDetail";
 import axios from "axios";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
-
-interface FormInputs {
-  title: string;
-  content: string;
-  imageUrl?: string;
-}
+import { PostSchema } from "@/schemas/postSchema";
+import toast from "react-hot-toast";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 interface ImageInputType {
   file: File | null;
@@ -22,17 +20,55 @@ interface ImageInputType {
   id: string;
 }
 
-export default function AddTalk() {
+export default function EditTalk({ params }: { params: { id: string } }) {
+  const [imageList, setImageList] = useState<ImageInputType[]>([]);
+  const router = useRouter();
+  const postId = params.id;
+
+  const { data: post, isLoading, error } = usePostDetail(postId);
+  const { mutate: editPost, isPending } = useEditPost(postId);
+
   const {
     control,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<FormInputs>({ defaultValues: { title: "", content: "" } });
+    reset,
+  } = useForm<PostSchema>({
+    defaultValues: {
+      title: "",
+      content: "",
+      imageUrl: "",
+    },
+  });
 
-  const [imageList, setImageList] = useState<ImageInputType[]>([]);
-  const router = useRouter();
-  const { mutate: createPost, isPending } = useAddPost();
+  // 게시글 데이터로 폼 초기화
+  useEffect(() => {
+    if (post) {
+      reset({
+        title: post.title,
+        content: post.content,
+        imageUrl: post.imageUrl || "",
+      });
+
+      if (post.imageUrl) {
+        const initialImages = post.imageUrl.split(",").map((url, index) => ({
+          file: null,
+          url,
+          id: `initial-${index}`,
+        }));
+        setImageList(initialImages);
+      }
+    }
+  }, [post, reset]);
+
+  // 에러 처리
+  useEffect(() => {
+    if (error) {
+      toast.error("게시글을 불러오는데 실패했습니다.");
+      router.push("/albatalk");
+    }
+  }, [error, router]);
 
   const uploadImage = useCallback(async (file: File): Promise<string> => {
     const formData = new FormData();
@@ -49,8 +85,9 @@ export default function AddTalk() {
         return response.data.url;
       }
 
-      throw new Error("이미지 업로드 실패");
+      throw new Error("이미지 업로드에 실패했습니다.");
     } catch (error) {
+      toast.error("이미지 업로드에 실패했습니다.");
       console.error("이미지 업로드 실패:", error);
       throw error;
     }
@@ -65,40 +102,57 @@ export default function AddTalk() {
     [setValue]
   );
 
-  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
-    if (!data.title || !data.content) {
-      alert("제목과 내용을 입력하세요.");
-      return;
+  const onSubmit: SubmitHandler<PostSchema> = async (data) => {
+    try {
+      if (!data.title) {
+        toast.error("제목을 입력하세요.");
+        return;
+      }
+
+      if (!data.content) {
+        toast.error("내용을 입력하세요.");
+        return;
+      }
+
+      const postData: PostSchema = {
+        title: data.title,
+        content: data.content,
+        imageUrl: imageList.map((img) => img.url).join(","),
+      };
+
+      editPost(postData, {
+        onSuccess: () => {
+          router.push(`/albatalk/${postId}`);
+        },
+      });
+    } catch (error) {
+      console.error("게시글 수정 실패:", error);
     }
-
-    const postData = {
-      ...data,
-      imageUrl: imageList.map((img) => img.url).join(","),
-    };
-
-    createPost(postData, {
-      onSuccess: (response) => {
-        alert("게시글이 등록되었습니다.");
-        const boardId = response?.id;
-        router.push(`/boards/${boardId}`);
-      },
-      onError: (err) => {
-        alert(err.message || "게시글 등록에 실패했습니다.");
-      },
-    });
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (!post) return null;
 
   return (
     <>
       <div className="flex min-h-screen w-full items-start justify-center bg-grayscale-50 py-8 font-nexon">
         <div className="w-full max-w-[1480px] rounded-md bg-white px-4 md:px-8 lg:px-10">
           <div className="mb-[40px] flex h-[58px] w-full items-center justify-between border-b border-[#line-100] md:h-[78px] lg:h-[126px]">
-            <h1 className="flex items-center text-[18px] font-semibold md:text-[20px] lg:text-[32px]">글쓰기</h1>
+            <div className="flex items-center text-[18px] font-semibold md:text-[20px] lg:text-[32px]">
+              게시글 수정하기
+            </div>
             <div className="hidden space-x-1 font-semibold md:flex md:space-x-2 lg:space-x-4">
               <Button
                 variant="solid"
                 className="bg-grayscale-100 text-grayscale-50 hover:bg-grayscale-200 md:h-[46px] md:w-[108px] md:text-[14px] lg:h-[58px] lg:w-[180px] lg:text-[18px]"
-                onClick={() => router.push("/albaTalk")}
+                onClick={() => router.push(`/albatalk/${postId}`)}
               >
                 취소
               </Button>
@@ -108,7 +162,7 @@ export default function AddTalk() {
                 onClick={handleSubmit(onSubmit)}
                 disabled={isPending}
               >
-                {isPending ? <DotLoadingSpinner /> : "등록하기"}
+                {isPending ? <DotLoadingSpinner /> : "수정하기"}
               </Button>
             </div>
           </div>
@@ -176,7 +230,7 @@ export default function AddTalk() {
       <div className="fixed bottom-4 left-4 right-4 flex w-full flex-col items-center space-y-2 rounded-t-lg bg-white p-4 font-semibold md:hidden">
         <button
           className="mb-2 h-[58px] w-[327px] rounded-[8px] bg-grayscale-100 text-white hover:bg-grayscale-200"
-          onClick={() => router.push("/albaTalk")}
+          onClick={() => router.push(`/albatalk/${postId}`)}
         >
           취소
         </button>
@@ -185,7 +239,7 @@ export default function AddTalk() {
           onClick={handleSubmit(onSubmit)}
           disabled={isPending}
         >
-          {isPending ? <DotLoadingSpinner /> : "등록하기"}
+          {isPending ? <DotLoadingSpinner /> : "수정하기"}
         </button>
       </div>
     </>

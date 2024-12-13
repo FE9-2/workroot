@@ -12,10 +12,12 @@ import { RiEdit2Fill } from "react-icons/ri";
 import FloatingBtn from "@/app/components/button/default/FloatingBtn";
 import CardBoard from "@/app/components/card/board/CardBoard";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
+import { useRouter } from "next/navigation";
 
 const POSTS_PER_PAGE = 10;
 
 export default function AlbaTalk() {
+  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { user } = useUser();
@@ -90,7 +92,7 @@ export default function AlbaTalk() {
       <div className="w-full pt-[132px]">
         {/* 글쓰기 버튼 - 고정 위치 수정 */}
         {user && (
-          <Link href="/albatalk/addtalk" className="fixed bottom-[50%] right-[8%] z-[9999] translate-y-1/2">
+          <Link href="/albatalk/add" className="fixed bottom-[50%] right-[8%] z-[9999] translate-y-1/2">
             <FloatingBtn icon={<RiEdit2Fill className="size-6" />} variant="orange" />
           </Link>
         )}
@@ -105,19 +107,17 @@ export default function AlbaTalk() {
               {data?.pages.map((page) => (
                 <React.Fragment key={page.nextCursor}>
                   {page.data.map((post) => (
-                    <div key={post.id}>
-                      <Link href={`/albatalk/${post.id}`}>
-                        <CardBoard
-                          id={post.id.toString()}
-                          title={post.title}
-                          content={post.content}
-                          nickname={post.writer.nickname}
-                          updatedAt={post.updatedAt}
-                          commentCount={post.commentCount}
-                          likeCount={post.likeCount}
-                          isAuthor={post.writer.id === user?.id}
-                        />
-                      </Link>
+                    <div className="cursor-pointer" key={post.id} onClick={() => router.push(`/albatalk/${post.id}`)}>
+                      <CardBoard
+                        id={post.id.toString()}
+                        title={post.title}
+                        content={post.content}
+                        nickname={post.writer.nickname}
+                        updatedAt={post.updatedAt}
+                        commentCount={post.commentCount}
+                        likeCount={post.likeCount}
+                        isAuthor={post.writer.id === user?.id}
+                      />
                     </div>
                   ))}
                 </React.Fragment>

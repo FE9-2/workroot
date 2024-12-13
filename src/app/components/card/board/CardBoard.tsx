@@ -54,24 +54,30 @@ const CardBoard = ({
               isOpen: false,
               title: "",
               content: "",
-              onConfirm: () => {},
-              onCancel: () => {},
+              onConfirm: () => undefined,
+              onCancel: () => undefined,
             });
           },
         });
       },
       onCancel: () => {
-        openModal("customForm", { isOpen: false, title: "", content: "", onConfirm: () => {}, onCancel: () => {} });
+        openModal("customForm", {
+          isOpen: false,
+          title: "",
+          content: "",
+          onConfirm: () => undefined,
+          onCancel: () => undefined,
+        });
       },
     });
   };
 
-  const handleRedirect = () => {
-    router.push(`/albatalk/${id}`);
+  const handleEditTalk = () => {
+    router.push(`/albatalk/edit/${id}`);
   };
 
   const dropdownOptions = [
-    { label: "이동하기", onClick: handleRedirect },
+    { label: "수정하기", onClick: handleEditTalk },
     {
       label: "삭제하기",
       onClick: handleDelete,
@@ -79,7 +85,8 @@ const CardBoard = ({
     },
   ];
 
-  const handleLikeClick = () => {
+  const handleLikeClick = (e: React.MouseEvent<HTMLImageElement>) => {
+    e.stopPropagation();
     if (isLiked) {
       setLikeDisplayCount((prev) => prev - 1);
     } else {
@@ -92,27 +99,34 @@ const CardBoard = ({
     <div
       className={`h-[220px] w-[320px] rounded-[16px] border p-4 lg:h-[240px] lg:w-[360px] ${
         variant === "primary" ? "border-primary-orange-100 bg-primary-orange-50" : "border-line-100 bg-grayscale-50"
-      }`}
+      } cursor-pointer`}
+      onClick={() => router.push(`/albatalk/${id}`)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          router.push(`/albatalk/${id}`);
+        }
+      }}
     >
       <div className="flex h-full flex-col justify-between">
-        {/* Content Section */}
         <div className="flex flex-col">
-          {/* Header */}
           <div className="mb-2 flex items-center justify-between">
             <h2 className="line-clamp-2 flex-1 font-nexon text-[16px] font-semibold text-black-400 lg:text-[18px]">
               {title}
             </h2>
-            {isAuthor && <KebabDropdown options={dropdownOptions} />}
+            {isAuthor && (
+              <div onClick={(e) => e.stopPropagation()}>
+                <KebabDropdown options={dropdownOptions} />
+              </div>
+            )}
           </div>
-          {/* Content */}
           <div className="line-clamp-2 whitespace-pre-wrap break-all font-nexon text-xs font-normal leading-[1.5] text-grayscale-500 lg:text-base">
             {content}
           </div>
         </div>
 
-        {/* Footer Section */}
         <div className="flex items-center justify-between">
-          {/* Left Info */}
           <div className="flex items-center gap-2 lg:gap-3">
             <Image
               src={`/icons/user/${isDesktop ? "user-profile-md.svg" : "user-profile-sm.svg"}`}
@@ -132,7 +146,6 @@ const CardBoard = ({
             </div>
           </div>
 
-          {/* Right Info */}
           <div className="flex shrink-0 items-center gap-1 lg:gap-2">
             <div className="flex items-center gap-1">
               <Image
