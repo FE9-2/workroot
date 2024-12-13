@@ -4,21 +4,20 @@ import type { FormListResponse } from "@/types/response/form";
 import toast from "react-hot-toast";
 
 interface UseFormsParams {
-  cursor?: string;
   limit?: number;
   orderBy?: string;
   keyword?: string;
   isRecruiting?: boolean;
 }
 
-export const useForms = ({ cursor, limit = 10, orderBy, keyword, isRecruiting }: UseFormsParams = {}) => {
+export const useForms = ({ limit = 10, orderBy, keyword, isRecruiting }: UseFormsParams = {}) => {
   const query = useInfiniteQuery<FormListResponse>({
     queryKey: ["forms", { limit, orderBy, keyword, isRecruiting }],
-    queryFn: async () => {
+    queryFn: async ({ pageParam }) => {
       try {
         const response = await axios.get("/api/forms", {
           params: {
-            cursor,
+            cursor: pageParam,
             limit,
             orderBy,
             keyword,
@@ -35,7 +34,12 @@ export const useForms = ({ cursor, limit = 10, orderBy, keyword, isRecruiting }:
         throw error;
       }
     },
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    getNextPageParam: (lastPage) => {
+      if (!lastPage.nextCursor || lastPage.data.length === 0) {
+        return undefined;
+      }
+      return lastPage.nextCursor;
+    },
     initialPageParam: undefined,
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 30,

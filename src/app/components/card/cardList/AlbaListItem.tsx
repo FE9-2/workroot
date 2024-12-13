@@ -6,11 +6,11 @@ import Chip from "@/app/components/chip/Chip";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import useModalStore from "@/store/modalStore";
-import Indicator from "../../pagination/Indicator";
+import Indicator from "@/app/components/pagination/Indicator";
 import { FormListType } from "@/types/response/form";
 import { useFormScrap } from "@/hooks/queries/form/useFormScap";
 import { MdOutlineImage } from "react-icons/md";
-import DotLoadingSpinner from "../../loading-spinner/DotLodingSpinner";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import { isValidS3Url } from "@/utils/checkS3Url";
 
 /**
