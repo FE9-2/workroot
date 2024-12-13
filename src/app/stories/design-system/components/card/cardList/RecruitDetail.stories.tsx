@@ -14,8 +14,8 @@ export default meta;
 type Story = StoryObj<typeof RecruitDetail>;
 
 const mockRecruitData: FormDetailResponse = {
-  updatedAt: new Date(),
-  createdAt: new Date(),
+  updatedAt: "2024-12-11T04:43:46.052Z",
+  createdAt: "2024-12-11T04:43:46.052Z",
   preferred: "string",
   age: "string",
   education: "string",
@@ -27,12 +27,12 @@ const mockRecruitData: FormDetailResponse = {
   workDays: ["월요일", "화요일"],
   workEndTime: "18:00",
   workStartTime: "09:00",
-  workEndDate: new Date(),
-  workStartDate: new Date(),
+  workEndDate: "2024-12-11T04:43:46.052Z",
+  workStartDate: "2024-12-11T04:43:46.052Z",
   location: "서울",
   imageUrls: ["url1", "url2"],
-  recruitmentEndDate: new Date(),
-  recruitmentStartDate: new Date(),
+  recruitmentEndDate: "2024-12-11T04:43:46.052Z",
+  recruitmentStartDate: "2024-12-11T04:43:46.052Z",
   description: "모집 설명",
   title: "모집 제목",
   ownerId: 1,

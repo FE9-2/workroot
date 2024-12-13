@@ -8,6 +8,8 @@ import type { FormListType } from "@/types/response/form";
 import FilterDropdown from "@/app/components/button/dropdown/FilterDropdown";
 import { filterPublicOptions, filterRecruitingOptions } from "@/constants/filterOptions";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import AlbaListItem from "@/app/components/card/cardList/AlbaListItem";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 const SCRAPS_PER_PAGE = 10;
 
@@ -118,7 +120,7 @@ export default function ScrapsSection() {
   if (isLoading) {
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <div>로딩 중...</div>
+        <LoadingSpinner />
       </div>
     );
   }
@@ -126,44 +128,41 @@ export default function ScrapsSection() {
   return (
     <div className="space-y-4">
       {/* 필터 드롭다운 섹션 */}
-      <div className="border-b border-grayscale-100">
-        <div className="flex items-center gap-2 py-4">
-          <FilterDropdown
-            options={filterPublicOptions.map((option) => option.label)}
-            initialValue={getInitialPublicValue(isPublic)}
-            onChange={handlePublicFilter}
-          />
-          <FilterDropdown
-            options={filterRecruitingOptions.map((option) => option.label)}
-            initialValue={getInitialRecruitingValue(isRecruiting)}
-            onChange={handleRecruitingFilter}
-          />
+      <div className="w-full border-b border-grayscale-100">
+        <div className="mx-auto flex max-w-screen-2xl items-center justify-between gap-2 px-4 py-4 md:px-6 lg:px-8">
+          <div className="flex items-center gap-2">
+            <FilterDropdown
+              options={filterPublicOptions.map((option) => option.label)}
+              initialValue={getInitialPublicValue(isPublic)}
+              onChange={handlePublicFilter}
+            />
+            <FilterDropdown
+              options={filterRecruitingOptions.map((option) => option.label)}
+              initialValue={getInitialRecruitingValue(isRecruiting)}
+              onChange={handleRecruitingFilter}
+            />
+          </div>
         </div>
       </div>
 
       {/* 스크랩 목록 렌더링 */}
       {!data?.pages?.[0]?.data?.length ? (
-        <div className="flex h-[calc(100vh-200px)] items-center justify-center">
+        <div className="flex h-[calc(100vh-200px)] flex-col items-center justify-center">
           <p className="text-grayscale-500">스크랩한 공고가 없습니다.</p>
         </div>
       ) : (
-        <>
-          {data?.pages.map((page) => (
-            <React.Fragment key={page.nextCursor}>
-              {page.data.map((scrap: FormListType) => (
-                <div key={scrap.id} className="rounded-lg border p-4 transition-all hover:border-primary-orange-200">
-                  <h3 className="font-bold">{scrap.title}</h3>
-                  <div className="mt-2 text-sm text-grayscale-500">
-                    <span>지원자 {scrap.applyCount}명</span>
-                    <span className="mx-2">•</span>
-                    <span>스크랩 {scrap.scrapCount}명</span>
-                    <span className="mx-2">•</span>
-                    <span>마감 {new Date(scrap.recruitmentEndDate).toLocaleDateString()}</span>
+        <div className="mx-auto mt-4 w-full max-w-screen-xl px-3">
+          <div className="flex flex-wrap justify-start gap-6">
+            {data?.pages.map((page) => (
+              <React.Fragment key={page.nextCursor}>
+                {page.data.map((scrap: FormListType) => (
+                  <div key={scrap.id}>
+                    <AlbaListItem {...scrap} />
                   </div>
-                </div>
-              ))}
-            </React.Fragment>
-          ))}
+                ))}
+              </React.Fragment>
+            ))}
+          </div>
 
           {/* 무한 스크롤 트리거 영역 */}
           <div ref={ref} className="h-4 w-full">
@@ -173,7 +172,7 @@ export default function ScrapsSection() {
               </div>
             )}
           </div>
-        </>
+        </div>
       )}
     </div>
   );

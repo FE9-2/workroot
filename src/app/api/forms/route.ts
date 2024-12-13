@@ -13,14 +13,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const formData = await req.formData();
+    const body = await req.json();
 
-    const response = await apiClient.post("/forms", formData, {
+    const response = await apiClient.post("/forms", body, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
       },
     });
+    console.log(response.data);
 
     return NextResponse.json(response.data);
   } catch (error: unknown) {

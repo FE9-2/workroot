@@ -24,7 +24,7 @@ export const useSignup = () => {
     },
     onSuccess: () => {
       toast.success("회원가입이 완료되었습니다!");
-      router.push("/login");
+      router.push("/");
     },
     onError: (error: Error) => {
       toast.error(error.message);

@@ -3,10 +3,12 @@
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useUser } from "@/hooks/queries/user/me/useUser";
 
 export default function Home() {
   const [visibleSections, setVisibleSections] = useState(new Set<string>());
   const observer = useRef<IntersectionObserver | null>(null);
+  const { user } = useUser();
 
   useEffect(() => {
     // 클라이언트 환경에서만 IntersectionObserver 실행
@@ -57,11 +59,19 @@ export default function Home() {
             <p className="font-nexon-regular mb-4 text-base leading-snug sm:text-lg md:text-xl lg:text-2xl lg:leading-relaxed">
               한 곳에서 관리하는 알바 구인 플랫폼
             </p>
-            <Link href="/login">
-              <p className="font-nexon-regular text-black inline-block rounded-lg bg-green-500 px-4 py-2 text-sm sm:px-6 sm:py-3 sm:text-base md:px-8 md:py-4 md:text-lg lg:px-10 lg:py-5 lg:text-xl">
-                알바를 시작하기
-              </p>
-            </Link>
+            {user ? (
+              <Link href="/albalist">
+                <p className="font-nexon-regular text-black inline-block rounded-lg bg-green-500 px-4 py-2 text-sm sm:px-6 sm:py-3 sm:text-base md:px-8 md:py-4 md:text-lg lg:px-10 lg:py-5 lg:text-xl">
+                  알바 둘러보기
+                </p>
+              </Link>
+            ) : (
+              <Link href="/login">
+                <p className="font-nexon-regular text-black inline-block rounded-lg bg-green-500 px-4 py-2 text-sm sm:px-6 sm:py-3 sm:text-base md:px-8 md:py-4 md:text-lg lg:px-10 lg:py-5 lg:text-xl">
+                  알바를 시작하기
+                </p>
+              </Link>
+            )}
           </div>
 
           {/* 배경 이미지 */}

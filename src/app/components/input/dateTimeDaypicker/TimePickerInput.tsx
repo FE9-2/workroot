@@ -3,20 +3,25 @@ import { LuClock } from "react-icons/lu";
 import { IoMdArrowDropup } from "react-icons/io";
 import BaseInput from "../text/BaseInput";
 import { useDropdownOpen } from "@/hooks/useDropdownOpen";
-import { useFormContext } from "react-hook-form";
 import DropdownList from "../../button/dropdown/dropdownComponent/DropdownList";
+import { forwardRef } from "react";
+import { BaseInputProps } from "@/types/textInput";
 
-const TimePickerInput = () => {
-  const { register, setValue, watch } = useFormContext();
-  const timeValue = watch("timepicker");
+const TimePickerInput = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
+  const { value, onChange, errormessage } = props;
+
   const handleTimeSelect = (time: string) => {
-    setValue("timepicker", time);
+    if (onChange) {
+      onChange({ target: { value: time } } as React.ChangeEvent<HTMLInputElement>);
+    }
     handleOpenDropdown();
   };
   const { isOpen, handleOpenDropdown } = useDropdownOpen();
-  const beforeIconStyle = "text-grayscale-400 size-[13px] lg:size-5";
+  const beforeIconStyle = "text-grayscale-400 size-5 lg:size-8";
   const afterIconStyle =
     "text-black-400 size-6 lg:size-9  transition-all transition-transform duration-200 ease-in-out";
+  const width = "w-[150px] lg:w-[210px]";
+
   const timeOption = Array.from({ length: 24 }, (_, index) => {
     const hour = index.toString().padStart(2, "0");
     return `${hour}:00`;
@@ -26,25 +31,28 @@ const TimePickerInput = () => {
     <div onClick={handleOpenDropdown} className="relative">
       <div>{isOpen}</div>
       <BaseInput
+        ref={ref}
         type="text"
         readOnly={true}
         variant="white"
         placeholder="00:00"
-        value={timeValue || ""}
+        value={value || ""}
         size="w-[150px] h-[54px] lg:w-[210px] lg:h-[64px]"
-        beforeIcon={<LuClock className={beforeIconStyle} />}
+        beforeIcon={<LuClock className={beforeIconStyle} strokeWidth="1" />}
         afterIcon={<IoMdArrowDropup className={`${afterIconStyle} ${isOpen ? "rotate-180" : ""}`} />}
-        {...register("timepicker")}
+        errormessage={errormessage}
       />
       {isOpen && (
         <DropdownList
           list={timeOption}
           onSelect={handleTimeSelect}
-          wrapperStyle="h-[200px] w-[150px] lg:w-[210px]"
-          itemStyle="pl-[35px] text-sm font-normal leading-[26px] lg:text-base lg:leading-8 !important"
+          wrapperStyle={width}
+          itemStyle="pl-[35px] text-base font-normal leading-[26px] lg:text-lg lg:leading-8 !important"
         />
       )}
     </div>
   );
-};
+});
+TimePickerInput.displayName = "TimePickerInput";
+
 export default TimePickerInput;

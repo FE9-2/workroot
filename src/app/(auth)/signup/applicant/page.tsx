@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
 
 export default function ApplicantSignupPage() {
   const { signup, isPending } = useSignup();
@@ -103,8 +104,13 @@ export default function ApplicantSignupPage() {
               disabled={isPending}
               className="group relative flex w-full justify-center rounded-lg bg-lime-600 px-4 py-2 text-sm font-medium text-white hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-lime-500 focus:ring-offset-2 disabled:bg-lime-300"
             >
-              {isPending ? "회원가입 중..." : "회원가입"}
+              {isPending ? <DotLoadingSpinner /> : "회원가입"}
             </button>
+          </div>
+          <div className="flex items-center justify-center">
+            <hr className="flex-grow border-t border-grayscale-200" />
+            <span className="mx-4 text-sm text-grayscale-400">SNS 계정으로 회원가입하기</span>
+            <hr className="flex-grow border-t border-grayscale-200" />
           </div>
           <div className="flex justify-center space-x-4">
             <Link

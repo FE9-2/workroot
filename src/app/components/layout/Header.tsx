@@ -25,12 +25,12 @@ export default function Header() {
   };
 
   const getLinkClassName = (path: string) => {
+    const isActive = pathname === path || pathname.startsWith(`${path}/`);
+
     return cn(
       "font-medium transition-colors h-16 flex items-center",
       "hover:text-lime-900",
-      pathname === path
-        ? "text-lime-900 text-sm sm:text-base md:text-lg md:font-bold"
-        : "text-lime-700 text-sm sm:text-base"
+      isActive ? "text-lime-900 text-sm sm:text-base md:text-lg md:font-bold" : "text-lime-700 text-sm sm:text-base"
     );
   };
 
@@ -42,8 +42,14 @@ export default function Header() {
           <nav className="flex h-16 items-center justify-between">
             {/* 로고와 메인 네비게이션 */}
             <div className="flex items-center">
-              {/* 로고 스켈레톤 */}
-              <div className="h-8 w-32 animate-pulse bg-lime-200 sm:w-40 md:w-[200px]" />
+              {/* 로고 스켈레톤 - 이미지로 대체*/}
+              <Image
+                src="/logo.svg"
+                alt="Work Root Logo"
+                width={200}
+                height={60}
+                className="w-32 hover:opacity-90 sm:w-40 md:w-[200px]"
+              />
 
               {/* 메뉴 스켈레톤 - 실제 메뉴와 동일한 위치에 배치 */}
               <div className="ml-4 flex h-16 items-center space-x-2 sm:ml-6 sm:space-x-4 md:ml-10 md:space-x-6">
@@ -80,14 +86,14 @@ export default function Header() {
             </Link>
 
             <div className="ml-4 flex h-16 space-x-2 sm:ml-6 sm:space-x-4 md:ml-10 md:space-x-6">
-              <Link href="/albaList" className={getLinkClassName("/albaList")}>
+              <Link href="/albalist" className={getLinkClassName("/albalist")}>
                 알바 목록
               </Link>
-              <Link href="/albaTalk" className={getLinkClassName("/albaTalk")}>
+              <Link href="/albatalk" className={getLinkClassName("/albatalk")}>
                 알바 토크
               </Link>
               {user && (
-                <Link href="/myAlbaform" className={getLinkClassName("/myAlbaform")}>
+                <Link href="/myalbaform" className={getLinkClassName("/myalbaform")}>
                   내 알바폼
                 </Link>
               )}

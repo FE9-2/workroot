@@ -7,21 +7,30 @@ import apiClient from "@/lib/apiClient";
 export async function POST(req: NextRequest, { params }: { params: { formId: string } }) {
   try {
     const accessToken = cookies().get("accessToken")?.value;
-
-    if (!accessToken) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
-
     const body = await req.json();
+    console.log("apply 라우트에서 body출력", body);
 
-    const response = await apiClient.post(`/forms/${params.formId}/applications`, body, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    return NextResponse.json(response.data);
+    // 토큰 없어도 비회원 apply 가능
+    if (!accessToken) {
+      const response = await apiClient.post(`/forms/${params.formId}/applications`, body, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log("apply 라우터에서 response.data출력 ", response.data);
+      return NextResponse.json(response.data);
+    } else {
+      const response = await apiClient.post(`/forms/${params.formId}/applications`, body, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+      console.log("apply 라우터에서 response.data출력 ", response.data);
+      return NextResponse.json(response.data);
+    }
   } catch (error: unknown) {
+    console.error(error);
     if (error instanceof AxiosError) {
       console.error(`POST /api/forms/${params.formId}/applications error:`, error);
       if (error.response) {

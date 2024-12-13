@@ -1,6 +1,6 @@
 "use client";
 import { HiUpload } from "react-icons/hi";
-import { forwardRef, useState } from "react";
+import { forwardRef, useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import PreviewItem from "./PreviewItem";
 import { cn } from "@/lib/tailwindUtil";
@@ -13,10 +13,17 @@ interface ImageInputType {
 interface ImageInputProps {
   name: string;
   onChange?: (files: File[]) => void;
+  initialImageList: ImageInputType[];
 }
 
 const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) => {
-  const [imageList, setImageList] = useState<ImageInputType[]>([]); // 단순히 이미지 프리뷰를 위한 상태 관리
+  const [imageList, setImageList] = useState<ImageInputType[]>(props.initialImageList || []);
+
+  useEffect(() => {
+    if (props.initialImageList?.length > 0) {
+      setImageList(props.initialImageList);
+    }
+  }, [props.initialImageList]);
 
   const handleFileChange = (selectedFile: File | null) => {
     if (selectedFile) {
@@ -38,11 +45,11 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
       ];
 
       setImageList(newImageList);
-
-      props.onChange?.(newImageList.map((img) => img.file).filter((file) => file !== null));
+      props.onChange?.(newImageList.map((img) => img.file).filter((file) => file !== null) as File[]);
     }
   };
-  const handleImageSelect = () => {
+
+  const handleOpenFileSelector = () => {
     if (typeof ref === "function") {
       // input 요소를 찾아서 클릭
       const fileInput = document.querySelector(`input[name="${props.name}"]`);
@@ -55,6 +62,10 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
   };
 
   const handleDeleteImage = (targetId: string) => {
+    const targetImage = imageList.find((image) => image.id === targetId);
+    if (targetImage) {
+      URL.revokeObjectURL(targetImage.url); // URL 객체 해제
+    }
     const newImageList = imageList.filter((image) => image.id !== targetId);
     setImageList(newImageList);
     props.onChange?.(newImageList.map((img) => img.file).filter((file) => file !== null));
@@ -69,18 +80,17 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
 
   return (
     // 인풋 + 프리뷰 wrapper
-    <div className="flex cursor-pointer gap-5 lg:gap-6">
+    <div className="flex gap-5 lg:gap-6">
       <div
-        onClick={handleImageSelect}
+        onClick={handleOpenFileSelector}
         className={cn(
-          "relative size-20 rounded-lg lg:size-[116px]",
+          "relative size-20 cursor-pointer rounded-lg lg:size-[116px]",
           colorStyle.bgColor,
           colorStyle.borderColor,
           colorStyle.hoverColor
         )}
       >
         <input
-          {...props}
           ref={ref}
           type="file"
           name={props.name}

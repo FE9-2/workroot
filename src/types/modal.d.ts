@@ -34,6 +34,7 @@ type CustomFormModalProps = BaseModalProps & {
   cancelText?: string;
   onConfirm: () => void;
   onCancel: () => void;
+  closeOnOverlayClick?: boolean;
 };
 
 type ConfirmFormModalProps = BaseModalProps & {

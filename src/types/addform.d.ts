@@ -1,21 +1,6 @@
-export interface RecruitContentFormData {
-  imageUrls: string[];
-  recruitmentEndDate: string | undefined;
-  recruitmentStartDate: string | undefined;
-  description: string;
-  title: string;
-}
-
-export interface RecruitConditionFormData {
-  numberOfPositions: number;
-  gender: string;
-  education: string;
-  age: string;
-  preferred: string;
-}
-
-export interface WorkConditionFormData {
-  hourlyWage: number;
+export interface SubmitFormDataType {
+  isPublic: boolean;
+  hourlyWage: string;
   isNegotiableWorkDays: boolean;
   workDays: string[];
   workEndTime: string;
@@ -23,4 +8,15 @@ export interface WorkConditionFormData {
   workEndDate: string;
   workStartDate: string;
   location: string;
+  preferred: string;
+  age: string;
+  education: string;
+  gender: string;
+  numberOfPositions: number;
+  imageUrls: string[];
+  recruitmentEndDate: string | undefined;
+  recruitmentStartDate: string | undefined;
+  description: string;
+  title: string;
+  imageFiles: File[];
 }

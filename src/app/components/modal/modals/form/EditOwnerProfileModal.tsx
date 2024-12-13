@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { nicknameSchema, storePhoneSchema, mobilePhoneSchema } from "@/schemas/commonSchema";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
 
 interface EditOwnerProfileModalProps {
   isOpen: boolean;
@@ -129,97 +130,106 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
   return (
     <div
       className={cn(
-        "relative left-1/2 h-[842px] w-[375px] -translate-x-1/2 overflow-hidden rounded-2xl bg-white p-6 shadow-lg sm:p-8 md:h-[1138px] md:w-[720px]",
+        "relative left-1/2 w-[375px] -translate-x-1/2 overflow-hidden rounded-2xl bg-white shadow-lg md:w-[480px] lg:w-[540px]",
         className
       )}
     >
-      <div className="h-[26px] text-center md:h-[46px]">
-        <h2 className="text-[18px] font-semibold md:text-[32px]">사장님 정보 관리</h2>
+      <div className="p-6 pb-0 text-center lg:p-8 lg:pb-0">
+        <h2 className="text-[18px] font-semibold lg:text-[24px]">사장님 정보 관리</h2>
       </div>
 
-      <form
-        onSubmit={handleSubmit(onSubmitHandler)}
-        className="flex h-[calc(100%-26px)] flex-col md:h-[calc(100%-46px)]"
-      >
-        <div className="flex-1 space-y-4 md:space-y-10">
-          <div className="my-6 flex justify-center md:my-8">
-            <div className="relative">
-              <div className="relative h-[110px] w-[110px] md:h-[120px] md:w-[120px]">
-                <button
-                  type="button"
-                  onClick={handleImageClick}
-                  className="h-full w-full overflow-hidden rounded-full bg-grayscale-100"
-                >
-                  {previewUrl ? (
-                    <Image
-                      src={previewUrl}
-                      alt="Profile"
-                      width={120}
-                      height={120}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <FiUser className="h-full w-full p-6 text-grayscale-200" />
-                  )}
-                </button>
-                <button
-                  type="button"
-                  onClick={handleImageClick}
-                  className="absolute bottom-1 right-1 flex h-8 w-8 items-center justify-center rounded-full border-[2px] border-white bg-grayscale-100 shadow-lg"
-                >
-                  <FiEdit2 className="text-grayscale-600 h-4 w-4" />
-                </button>
-              </div>
-              <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
-            </div>
-          </div>
-
-          {fields.map((field) => (
-            <div key={field.name} className="h-[88px] space-y-1.5 md:h-[114px] md:space-y-2">
-              <label className="text-grayscale-700 block px-2 text-sm font-medium md:text-base md:font-semibold">
-                {field.label}
-                {field.required && <span className="text-orange-500">*</span>}
-              </label>
-              <div className="flex w-full flex-col items-center">
-                <div className="relative w-full">
-                  <BaseInput
-                    {...register(field.name)}
-                    type="text"
-                    placeholder={field.hint || `${field.label}${field.postPosition} 입력해주세요.`}
-                    variant="white"
-                    size="h-[54px] w-[327px] md:h-[64px] md:w-[640px]"
-                    wrapperClassName={`px-[14px] md:px-[20px] ${field.icon ? "pl-[40px] md:pl-[48px]" : ""}`}
-                    disabled={isUpdating}
-                    errormessage={errors[field.name]?.message}
-                  />
-                  {field.icon && <div className="absolute left-4 top-1/2 -translate-y-1/2 md:left-5">{field.icon}</div>}
+      <form onSubmit={handleSubmit(onSubmitHandler)} className="flex flex-col">
+        <div className="max-h-[calc(100vh-300px)] overflow-y-auto p-6 lg:p-8">
+          <div className="space-y-4 lg:space-y-10">
+            <div className="flex justify-center">
+              <div className="relative">
+                <div className="relative h-[80px] w-[80px] lg:h-[100px] lg:w-[100px]">
+                  <button
+                    type="button"
+                    onClick={handleImageClick}
+                    className="h-full w-full overflow-hidden rounded-full bg-grayscale-100"
+                  >
+                    {previewUrl ? (
+                      <Image
+                        src={previewUrl}
+                        alt="Profile"
+                        width={120}
+                        height={120}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <FiUser className="h-full w-full p-6 text-grayscale-200" />
+                    )}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleImageClick}
+                    className="absolute bottom-1 right-1 flex h-8 w-8 items-center justify-center rounded-full border-[2px] border-white bg-grayscale-100 shadow-lg"
+                  >
+                    <FiEdit2 className="text-grayscale-600 h-4 w-4" />
+                  </button>
                 </div>
-                {field.hint && (
-                  <div className="mt-1 w-full px-2 text-left">
-                    <p className="text-sm text-orange-500 md:text-base">{field.hint}</p>
-                  </div>
-                )}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
               </div>
             </div>
-          ))}
+
+            {fields.map((field) => (
+              <div key={field.name} className="h-[64px] space-y-1">
+                <label className="text-grayscale-700 block px-2 pb-1 text-sm font-medium lg:text-base lg:font-semibold">
+                  {field.label}
+                  {field.required && <span className="text-orange-500">*</span>}
+                </label>
+                <div className="flex w-full flex-col items-center">
+                  <div className="relative w-full">
+                    <BaseInput
+                      {...register(field.name)}
+                      type="text"
+                      placeholder={field.hint || `${field.label}${field.postPosition} 입력해주세요.`}
+                      variant="white"
+                      size="w-full"
+                      wrapperClassName={`px-[14px] lg:px-[20px] ${field.icon ? "pl-[40px] lg:pl-[48px]" : ""}`}
+                      disabled={isUpdating}
+                      errormessage={errors[field.name]?.message}
+                    />
+                    {field.icon && (
+                      <div className="absolute left-4 top-1/2 -translate-y-1/2 lg:left-5">{field.icon}</div>
+                    )}
+                  </div>
+                  {field.hint && (
+                    <div className="mt-1 w-full px-2 text-left">
+                      <p className="text-sm text-orange-500 lg:text-base">{field.hint}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="flex h-[58px] justify-between gap-3 md:h-[72px]">
-          <button
-            type="button"
-            onClick={onClose}
-            disabled={isUpdating}
-            className="text-grayscale-700 w-[158px] rounded-md border border-grayscale-300 bg-white px-4 py-2 text-sm font-semibold transition-colors hover:bg-grayscale-50 md:w-[314px] md:text-base"
-          >
-            취소
-          </button>
-          <button
-            type="submit"
-            disabled={isUpdating}
-            className="w-[158px] rounded-md bg-orange-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-orange-600 md:w-[314px] md:text-base"
-          >
-            {isUpdating ? "수정 중..." : "수정하기"}
-          </button>
+        <div className="sticky bottom-0 border-grayscale-100 bg-white p-6 lg:p-8">
+          <div className="flex h-[36px] justify-between gap-3 lg:h-[48px]">
+            <button
+              type="button"
+              onClick={onClose}
+              disabled={isUpdating}
+              className="text-grayscale-700 w-[158px] rounded-md border border-grayscale-300 bg-white px-4 py-2 text-sm font-semibold transition-colors hover:bg-grayscale-50 md:w-[314px] md:text-base"
+            >
+              취소
+            </button>
+            <button
+              type="submit"
+              disabled={isUpdating}
+              className="w-[158px] rounded-md bg-orange-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-orange-600 md:w-[314px] md:text-base"
+            >
+              {isUpdating ? <DotLoadingSpinner /> : "수정하기"}
+            </button>
+          </div>
         </div>
       </form>
     </div>
