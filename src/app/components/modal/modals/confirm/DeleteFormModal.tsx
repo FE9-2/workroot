@@ -7,7 +7,7 @@ import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import type { ConfirmFormModalProps } from "@/types/modal";
-import DotLoadingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 
 const DeleteFormModal = ({ id, isOpen, onClose, onConfirm, className }: ConfirmFormModalProps) => {
   const [isDeleting, setIsDeleting] = useState(false);

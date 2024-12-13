@@ -12,7 +12,6 @@ export async function POST(req: NextRequest) {
 
   try {
     const formData = await req.formData();
-
     try {
       const response = await apiClient.post("/images/upload", formData, {
         headers: {
@@ -21,7 +20,6 @@ export async function POST(req: NextRequest) {
           "Content-Type": "multipart/form-data",
         },
       });
-
       if (response.status === 201 && response.data?.url) {
         return NextResponse.json(response.data, { status: 201 });
       }

@@ -17,7 +17,6 @@ export async function POST(req: NextRequest, { params }: { params: { formId: str
           "Content-Type": "application/json",
         },
       });
-      console.log("apply 라우터에서 response.data출력 ", response.data);
       return NextResponse.json(response.data);
     } else {
       const response = await apiClient.post(`/forms/${params.formId}/applications`, body, {
@@ -26,7 +25,6 @@ export async function POST(req: NextRequest, { params }: { params: { formId: str
           "Content-Type": "application/json",
         },
       });
-      console.log("apply 라우터에서 response.data출력 ", response.data);
       return NextResponse.json(response.data);
     }
   } catch (error: unknown) {

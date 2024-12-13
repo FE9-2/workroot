@@ -10,6 +10,8 @@ import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import Label from "../../component/Label";
+import uploadResume from "@/utils/uploadResume";
+import tempSave from "@/utils/tempSave";
 interface ApplyFormData {
   name: string;
   phoneNumber: string;
@@ -48,33 +50,6 @@ export default function Apply() {
   const currentValues = getValues();
   const { resume, ...submitData } = currentValues;
 
-  // 이력서 업로드 api -> id, name 반환
-  const uploadResume = async (file: FileList) => {
-    const uploadedFile: { resumeName: string; resumeId: number } = {
-      resumeName: "",
-      resumeId: 0,
-    };
-    const formData = new FormData();
-    formData.append("file", file[0]);
-    try {
-      const response = await axios.post(`/api/resume/upload`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        timeout: 5000, // 5초 타임아웃 설정
-      });
-      console.log("이력서 업로드", response.data);
-      return {
-        resumeName: response.data.resumeName,
-        resumeId: response.data.resumeId,
-      };
-    } catch (error) {
-      console.error("Error uploading resume:", error);
-      toast.error("이력서 업로드에 실패했습니다.");
-    }
-    return uploadedFile;
-  };
-
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
@@ -103,11 +78,7 @@ export default function Apply() {
       const uploadedResume = await uploadResume(currentValues.resume);
       setValue("resumeId", uploadedResume.resumeId);
       setValue("resumeName", uploadedResume.resumeName);
-
-      window.localStorage.setItem("tempApplyData", JSON.stringify(currentValues));
-      toast.success("임시 저장되었습니다.");
-      console.log("임시저장 currentData", currentValues);
-      console.log("임시저장 submitData", submitData);
+      tempSave("applyData", currentValues);
     } catch (error) {
       console.error("Error uploading resume:", error);
       toast.error("이력서 업로드에 실패했습니다.");

@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLogout } from "@/hooks/queries/auth/useLogout";
 import { usePassword } from "@/hooks/queries/user/me/useChangePassword";
-import DotLoadingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 
 interface ChangePasswordModalProps {
   isOpen: boolean;

@@ -8,7 +8,7 @@ import { positionOptions } from "@/constants/positionOptions";
 import axios from "axios";
 import toast from "react-hot-toast";
 import type { ConfirmFormModalProps } from "@/types/modal";
-import DotLoadingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 
 const SelectProgressModal = ({ id, isOpen, onClose, className }: ConfirmFormModalProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);

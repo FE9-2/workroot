@@ -3,12 +3,12 @@
 import React, { useState, useCallback } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import Button from "../../../components/button/default/Button";
+import Button from "@/app/components/button/default/Button";
 import BaseInput from "@/app/components/input/text/BaseInput";
-import ImageInputwithPlaceHolder from "../../../components/input/file/ImageInput/ImageInputwithPlaceHolder";
-import { usePost } from "../../../../hooks/usePost";
+import ImageInputPlaceHolder from "@/app/components/input/file/ImageInput/ImageInputPlaceHolder";
+import { usePost } from "@/hooks/usePost";
 import axios from "axios";
-import DotLoadingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 
 interface FormInputs {
   title: string;
@@ -91,7 +91,7 @@ export default function AddTalk() {
   return (
     <>
       <div className="flex min-h-screen w-full items-start justify-center bg-grayscale-50 py-8 font-nexon">
-        <div className="w-full max-w-[1480px] rounded-md bg-white px-4 sm:px-6 md:px-8 lg:px-10">
+        <div className="w-full max-w-[1480px] rounded-md bg-white px-4 md:px-8 lg:px-10">
           <div className="mb-[40px] flex h-[58px] w-full items-center justify-between border-b border-[#line-100] md:h-[78px] lg:h-[126px]">
             <h1 className="flex items-center text-[18px] font-semibold md:text-[20px] lg:text-[32px]">글쓰기</h1>
             <div className="hidden space-x-1 font-semibold md:flex md:space-x-2 lg:space-x-4">
@@ -112,10 +112,7 @@ export default function AddTalk() {
               </Button>
             </div>
           </div>
-          <form
-            className="mx-auto max-w-[1432px] space-y-6 px-2 sm:px-0 md:space-y-8"
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <form className="mx-auto max-w-[1432px] space-y-6 px-2 md:space-y-8" onSubmit={handleSubmit(onSubmit)}>
             <div className="w-full">
               <label
                 htmlFor="title"
@@ -169,7 +166,7 @@ export default function AddTalk() {
               >
                 이미지
               </label>
-              <ImageInputwithPlaceHolder onImageUpload={uploadImage} onImagesChange={handleImagesChange} />
+              <ImageInputPlaceHolder onImageUpload={uploadImage} onImagesChange={handleImagesChange} />
             </div>
           </form>
         </div>
