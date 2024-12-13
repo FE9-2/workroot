@@ -14,14 +14,7 @@ interface UseApplyStatusProps {
 
 export const useApplyStatus = (props: UseApplyStatusProps) => {
   const query = useQuery<ApplicationListResponse>({
-    queryKey: [
-      "applicationStatus",
-      props.formId,
-      props.limit,
-      props.cursor,
-      props.orderByExperience,
-      props.orderByStatus,
-    ],
+    queryKey: ["applyStatus", props.formId, props.limit, props.cursor, props.orderByExperience, props.orderByStatus],
     queryFn: async () => {
       const response = await axios.get(`/api/forms/${props.formId}/applications`, {
         params: {
