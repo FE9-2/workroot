@@ -58,6 +58,16 @@ export default function AddFormPage() {
   // 이미지 업로드 api 처리를 위해 별도 변수에 할당
   const imageFiles = currentValues.imageFiles;
   const [, setSelectedOption] = useState<string>("");
+  const [showTempDataModal, setShowTempDataModal] = useState(false);
+
+  // 각각의 탭 작성중 여부
+  const { isEditingRecruitContent, isEditingRecruitCondition, isEditingWorkCondition } = useEditing(currentValues);
+
+  // tab 선택 시 Url params 수정 & 하위 폼 데이터 임시저장
+  const searchParams = useSearchParams();
+  const currentParam = searchParams.get("tab");
+  const [prevOption, setPrevOption] = useState<string | null>(null);
+  const initialLoad = currentParam === null; // 초기 로딩 여부 확인
 
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
@@ -133,7 +143,7 @@ export default function AddFormPage() {
   // 폼데이터 임시 저장 함수
   const onTempSave = async () => {
     // 이미지 처리 로직
-    if (imageFiles && imageFiles.length > 0) {
+    if (currentValues.imageUrls.length !== currentValues.imageFiles.length) {
       try {
         const uploadedUrls = await uploadImages(Array.from(imageFiles));
         if (uploadedUrls && uploadedUrls.length > 0) {
@@ -148,12 +158,6 @@ export default function AddFormPage() {
     }
     tempSave(currentValues);
   };
-
-  // tab 선택 시 Url params 수정 & 하위 폼 데이터 임시저장
-  const searchParams = useSearchParams();
-  const currentParam = searchParams.get("tab");
-  const [prevOption, setPrevOption] = useState<string | null>(null);
-  const initialLoad = currentParam === null; // 초기 로딩 여부 확인
 
   const handleOptionChange = async (option: string) => {
     setSelectedOption(option);
@@ -197,11 +201,6 @@ export default function AddFormPage() {
         return <RecruitContentSection key="recruitContent" />;
     }
   };
-
-  // 각각의 탭 작성중 여부
-  const { isEditingRecruitContent, isEditingRecruitCondition, isEditingWorkCondition } = useEditing(currentValues);
-
-  const [showTempDataModal, setShowTempDataModal] = useState(false);
 
   // 임시저장 데이터 로드 함수
   const loadTempData = () => {
