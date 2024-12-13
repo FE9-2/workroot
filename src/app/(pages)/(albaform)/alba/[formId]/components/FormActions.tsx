@@ -25,12 +25,12 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
   const isOwnerRole = user?.role === "OWNER";
 
   const buttonStyle = "h-10 lg:h-16 w-full rounded-lg font-bold ";
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   if (!user) return null;
 
   const handleDelete = async () => {
-    setLoading(true);
+    setIsLoading(true);
     try {
       await axios.delete(`/api/forms/${formId}`);
       toast.success("성공적으로 삭제되었습니다.");
@@ -39,7 +39,7 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
       console.error(error);
       toast.error("삭제 중 오류가 발생했습니다.");
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -49,8 +49,8 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
     return (
       <div className="space-y-4 text-2xl">
         <Link href={`/alba/${formId}/edit`}>
-          <FloatingBtn className={`${buttonStyle}`} icon={<FaEdit />} disabled={loading}>
-            수정하기
+          <FloatingBtn className={`${buttonStyle}`} icon={<FaEdit />} disabled={isLoading}>
+            {isLoading ? <DotLoadingSpinner /> : "수정하기"}
           </FloatingBtn>
         </Link>
         <FloatingBtn
@@ -58,9 +58,9 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
           className={buttonStyle}
           icon={<MdDeleteForever />}
           onClick={handleDelete}
-          disabled={loading}
+          disabled={isLoading}
         >
-          {loading ? <DotLoadingSpinner /> : "삭제하기"}
+          {isLoading ? <DotLoadingSpinner /> : "삭제하기"}
         </FloatingBtn>
       </div>
     );
@@ -70,12 +70,16 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
   if (!isOwnerRole) {
     return (
       <div className="space-y-4 text-2xl">
-        <FloatingBtn className={buttonStyle} icon={<VscGitStashApply />}>
-          지원하기
-        </FloatingBtn>
-        <FloatingBtn variant="white" className={buttonStyle} icon={<CiMemoPad />}>
-          내 지원내역 보기
-        </FloatingBtn>
+        <Link href={`/apply/${formId}`}>
+          <FloatingBtn className={buttonStyle} icon={<VscGitStashApply />}>
+            {isLoading ? <DotLoadingSpinner /> : "지원하기"}
+          </FloatingBtn>
+        </Link>
+        <Link href={`/myapply/${formId}`}>
+          <FloatingBtn variant="white" className={buttonStyle} icon={<CiMemoPad />}>
+            {isLoading ? <DotLoadingSpinner /> : "내 지원내역 보기"}
+          </FloatingBtn>
+        </Link>
       </div>
     );
   }
