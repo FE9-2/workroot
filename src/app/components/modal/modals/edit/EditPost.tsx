@@ -8,6 +8,7 @@ import ImageInputWithPlaceHolder from "@/app/components/input/file/ImageInput/Im
 import axios from "axios";
 import { Post } from "@/types/post";
 import { useMutation } from "@tanstack/react-query";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 
 interface EditPostModalProps {
   post: Post;
@@ -72,7 +73,7 @@ export default function EditPostModal({ post, onClose, onUpdate }: EditPostModal
   };
 
   return (
-    <div className="bg-black fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 p-4 backdrop-blur-sm">
+    <div className="bg-black fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 p-6 backdrop-blur-sm lg:p-10">
       <div className="w-full max-w-lg rounded-lg border border-gray-300 bg-white">
         <div className="p-6">
           <h2 className="mb-4 text-2xl font-bold">게시글 수정</h2>
@@ -131,7 +132,7 @@ export default function EditPostModal({ post, onClose, onUpdate }: EditPostModal
                 취소
               </Button>
               <Button type="submit" disabled={editPostMutation.isPending}>
-                {editPostMutation.isPending ? "수정 중..." : "수정하기"}
+                {editPostMutation.isPending ? <DotLoadingSpinner /> : "수정하기"}
               </Button>
             </div>
           </form>

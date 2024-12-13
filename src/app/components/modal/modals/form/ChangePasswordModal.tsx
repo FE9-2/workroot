@@ -95,7 +95,7 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
   return (
     <div
       className={cn(
-        "relative left-1/2 w-[375px] -translate-x-1/2 overflow-hidden rounded-2xl bg-white p-6 shadow-lg sm:p-8 lg:w-[720px]",
+        "relative left-1/2 w-[375px] -translate-x-1/2 overflow-hidden rounded-2xl bg-white p-6 shadow-lg lg:w-[720px] lg:p-10",
         className
       )}
     >
@@ -120,18 +120,17 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
 
         <div className="mt-4 flex h-[58px] gap-3 lg:mt-6 lg:h-[72px]">
           <Button
-            variant="outlined"
             color="gray"
             onClick={() => {
               onClose();
               reset();
             }}
             disabled={isPending}
-            className="h-full"
+            className="h-full text-base font-medium text-white lg:text-lg"
           >
             취소
           </Button>
-          <Button type="submit" disabled={isPending} className="h-full">
+          <Button type="submit" disabled={isPending} className="h-full text-base font-medium lg:text-lg">
             {isPending ? <DotLoadingSpinner /> : "변경하기"}
           </Button>
         </div>
