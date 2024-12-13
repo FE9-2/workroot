@@ -111,7 +111,6 @@ export default function AddFormPage() {
         window.localStorage.removeItem("tempAddFormData");
       }
       toast.success("알바폼을 등록했습니다.");
-      // if (formId) router.push(`/alba/${formId}`);
     },
     onError: (error) => {
       console.error("에러가 발생했습니다.", error);
@@ -189,10 +188,15 @@ export default function AddFormPage() {
           toast.error(`5MB 이상의 파일은 업로드할 수 없습니다.`);
           continue;
         }
-        const formData = new FormData();
-        formData.append("image", file);
+        const now = new Date();
+        const timestamp = now.toISOString().replace(/[-:T]/g, "").slice(0, 14);
+        const fileExtension = file.name.split(".").pop(); // 확장자 추출
+        const newFileName = `${timestamp}.${fileExtension}`; // 새로운 이름 생성
+
+        const renamedFile = new File([file], newFileName, { type: file.type });
+
         try {
-          const uploadResponse = await uploadImageMutation.mutateAsync(file);
+          const uploadResponse = await uploadImageMutation.mutateAsync(renamedFile);
           if (uploadResponse?.url) {
             uploadedUrls.push(uploadResponse.url);
           }
