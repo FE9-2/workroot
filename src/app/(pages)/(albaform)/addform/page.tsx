@@ -7,7 +7,6 @@ import TabMenuDropdown from "@/app/components/button/dropdown/TabMenuDropdown";
 import Button from "@/app/components/button/default/Button";
 import { toast } from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
-import { useUpdateProfile } from "@/hooks/queries/user/me/useUpdateProfile";
 import RecruitContentSection from "./section/RecruitContentSection";
 import RecruitConditionSection from "./section/RecruitConditionSection";
 import WorkConditionSection from "./section/WorkConditionSection";
@@ -15,6 +14,7 @@ import useEditing from "@/hooks/useEditing";
 import { SubmitFormDataType } from "@/types/addform";
 import CustomFormModal from "@/app/components/modal/modals/confirm/CustomFormModal";
 import uploadImages from "@/utils/uploadImages";
+import tempSave from "@/utils/tempSave";
 
 export default function AddFormPage() {
   const router = useRouter();
@@ -120,7 +120,7 @@ export default function AddFormPage() {
     onError: (error) => {
       console.error("에러가 발생했습니다.", error);
       toast.error("에러가 발생했습니다.");
-      onTempSave();
+      tempSave();
     },
   });
 
@@ -139,7 +139,7 @@ export default function AddFormPage() {
   const handleOptionChange = async (option: string) => {
     setSelectedOption(option);
     if (!initialLoad && option !== currentParam && option !== prevOption && isDirty) {
-      await onTempSave();
+      await tempSave();
       setPrevOption(option);
     }
     const params = {
@@ -177,17 +177,6 @@ export default function AddFormPage() {
       default:
         return <RecruitContentSection key="recruitContent" />;
     }
-  };
-  const { uploadImageMutation } = useUpdateProfile();
-
-  // 폼데이터 임시 저장 함수
-  const onTempSave = async () => {
-    // 임시저장
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem("tempAddFormData", JSON.stringify(currentValues));
-    }
-    toast.success("임시 저장되었습니다.");
-    console.log("임시저장 데이터", currentValues);
   };
 
   // 각각의 탭 작성중 여부
@@ -274,7 +263,7 @@ export default function AddFormPage() {
               width="md"
               color="orange"
               className="lg: h-[58px] w-[320px] border bg-background-100 lg:h-[72px] lg:w-full lg:text-xl lg:leading-8"
-              onClick={() => onTempSave()}
+              onClick={() => tempSave()}
             >
               임시 저장
             </Button>
