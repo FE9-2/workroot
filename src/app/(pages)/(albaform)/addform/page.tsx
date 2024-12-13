@@ -14,6 +14,7 @@ import WorkConditionSection from "./section/WorkConditionSection";
 import useEditing from "@/hooks/useEditing";
 import { SubmitFormDataType } from "@/types/addform";
 import CustomFormModal from "@/app/components/modal/modals/confirm/CustomFormModal";
+import uploadImages from "@/utils/uploadImages";
 
 export default function AddFormPage() {
   const router = useRouter();
@@ -70,7 +71,11 @@ export default function AddFormPage() {
       // 이미지 업로드 처리
       let uploadedUrls: string[] = [];
       try {
-        uploadedUrls = await uploadImages(Array.from(imageFiles));
+        if (currentValues.imageUrls.length !== currentValues.imageFiles.length) {
+          uploadedUrls = await uploadImages(Array.from(imageFiles));
+        } else {
+          uploadedUrls = currentValues.imageUrls;
+        }
         if (!uploadedUrls.length) {
           toast.error("이미지 업로드에 실패했습니다.");
           throw new Error("이미지 업로드 실패");
@@ -174,41 +179,6 @@ export default function AddFormPage() {
     }
   };
   const { uploadImageMutation } = useUpdateProfile();
-
-  // 이미지 업로드 api
-  const uploadImages = async (files: File[]) => {
-    if (currentValues.imageUrls.length !== currentValues.imageFiles.length) {
-      const uploadedUrls: string[] = [];
-
-      // 전체 파일 배열을 순회하면서 업로드 로직 진행
-      for (const file of files) {
-        // 파일 크기 체크
-        const maxSize = 5 * 1024 * 1024; // 5MB
-        if (file.size > maxSize) {
-          toast.error(`5MB 이상의 파일은 업로드할 수 없습니다.`);
-          continue;
-        }
-        const now = new Date();
-        const timestamp = now.toISOString().replace(/[-:T]/g, "").slice(0, 14);
-        const fileExtension = file.name.split(".").pop(); // 확장자 추출
-        const newFileName = `${timestamp}.${fileExtension}`; // 새로운 이름 생성
-
-        const renamedFile = new File([file], newFileName, { type: file.type });
-
-        try {
-          const uploadResponse = await uploadImageMutation.mutateAsync(renamedFile);
-          if (uploadResponse?.url) {
-            uploadedUrls.push(uploadResponse.url);
-          }
-        } catch (uploadError) {
-          console.error(`파일 ${file.name} 업로드 실패:`, uploadError);
-        }
-      }
-      return uploadedUrls;
-    } else {
-      return currentValues.imageUrls;
-    }
-  };
 
   // 폼데이터 임시 저장 함수
   const onTempSave = async () => {
