@@ -105,7 +105,7 @@ export default function AlbaTalk() {
                 <React.Fragment key={page.nextCursor}>
                   {page.data.map((post) => (
                     <div key={post.id} className="rounded-lg border border-grayscale-100 p-4 hover:bg-grayscale-50">
-                      <Link href={`/albatalk/${post.id}`}>
+                      <Link href={`/albatalk/detail/${post.id}`}>
                         <CardBoard
                           title={post.title}
                           content={post.content}

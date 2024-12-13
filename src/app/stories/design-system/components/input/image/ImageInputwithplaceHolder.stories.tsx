@@ -1,4 +1,4 @@
-import ImageInputwithPlaceHolder from "@/app/components/input/file/ImageInput/ImageInputwithPlaceHolder";
+import ImageInputwithPlaceHolder from "@/app/components/input/file/ImageInput/ImageInputWithPlaceHolder";
 import { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

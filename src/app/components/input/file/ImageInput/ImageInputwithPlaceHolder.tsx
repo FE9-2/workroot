@@ -1,4 +1,5 @@
 "use client";
+
 import { HiUpload } from "react-icons/hi";
 import { useState, useRef } from "react";
 import { toast } from "react-hot-toast";
@@ -10,13 +11,13 @@ interface ImageInputType {
   id: string;
 }
 
-interface ImageInputwithPlaceHolderProps {
+interface ImageInputWithPlaceHolderProps {
   onImageUpload: (file: File) => Promise<string>;
   onImagesChange: (images: ImageInputType[]) => void;
   size?: "small" | "large";
 }
 
-const ImageInputwithPlaceHolder: React.FC<ImageInputwithPlaceHolderProps> = ({
+const ImageInputWithPlaceHolder: React.FC<ImageInputWithPlaceHolderProps> = ({
   onImageUpload,
   onImagesChange,
   size = "large",
@@ -79,4 +80,4 @@ const ImageInputwithPlaceHolder: React.FC<ImageInputwithPlaceHolderProps> = ({
   );
 };
 
-export default ImageInputwithPlaceHolder;
+export default ImageInputWithPlaceHolder;
