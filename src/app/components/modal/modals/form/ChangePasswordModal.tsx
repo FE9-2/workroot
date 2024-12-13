@@ -113,6 +113,7 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
                 disabled={isPending}
                 size="w-[327px] h-[54px] lg:w-[640px] lg:h-[64px]"
                 errormessage={errors[field.name]?.message}
+                innerClassName="placeholder:text-sm placeholder:leading-[26px] font-normal text-sm leading-[26px]"
               />
             </div>
           </div>
