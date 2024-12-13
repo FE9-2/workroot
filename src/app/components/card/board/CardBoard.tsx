@@ -46,10 +46,10 @@ const CardBoard = ({
     <div
       className={`flex flex-col rounded-[16px] border p-4 ${
         variant === "primary" ? "border-primary-orange-100 bg-primary-orange-50" : "border-line-100 bg-grayscale-50"
-      } h-[210px] w-[327px] lg:h-[280px] lg:w-[477px]`}
+      } w-[277px] lg:w-[320px]`}
     >
       {/* Content Section */}
-      <div className="flex h-[162px] w-[279px] flex-1 flex-col lg:h-[232px] lg:w-[429px]">
+      <div className="flex w-[279px] flex-1 flex-col lg:w-[320px]">
         {/* Header */}
         <div className="mb-2 flex items-center justify-between">
           <h2 className="line-clamp-2 font-nexon text-[16px] font-semibold text-black-400 lg:text-[18px]">{title}</h2>

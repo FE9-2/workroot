@@ -11,6 +11,7 @@ import Link from "next/link";
 import { RiEdit2Fill } from "react-icons/ri";
 import FloatingBtn from "@/app/components/button/default/FloatingBtn";
 import CardBoard from "@/app/components/card/board/CardBoard";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 const POSTS_PER_PAGE = 10;
 
@@ -57,7 +58,7 @@ export default function AlbaTalk() {
   if (isLoading) {
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <div>로딩 중...</div>
+        <LoadingSpinner />
       </div>
     );
   }
@@ -100,12 +101,12 @@ export default function AlbaTalk() {
           </div>
         ) : (
           <div className="mx-auto mt-4 w-full max-w-screen-xl px-3">
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-wrap justify-start gap-6">
               {data?.pages.map((page) => (
                 <React.Fragment key={page.nextCursor}>
                   {page.data.map((post) => (
-                    <div key={post.id} className="rounded-lg border border-grayscale-100 p-4 hover:bg-grayscale-50">
-                      <Link href={`/albatalk/detail/${post.id}`}>
+                    <div key={post.id}>
+                      <Link href={`/albatalk/${post.id}`}>
                         <CardBoard
                           title={post.title}
                           content={post.content}
@@ -113,6 +114,7 @@ export default function AlbaTalk() {
                           updatedAt={post.updatedAt}
                           commentCount={post.commentCount}
                           likeCount={post.likeCount}
+                          onKebabClick={() => console.log("케밥 메뉴 클릭", post.id)}
                         />
                       </Link>
                     </div>
@@ -125,7 +127,7 @@ export default function AlbaTalk() {
             <div ref={ref} className="h-4 w-full">
               {isFetchingNextPage && (
                 <div className="flex justify-center py-4">
-                  <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary-orange-300 border-t-transparent" />
+                  <LoadingSpinner />
                 </div>
               )}
             </div>
