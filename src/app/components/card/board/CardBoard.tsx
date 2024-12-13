@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { formatLocalDate } from "@/utils/workDayFormatter";
 import useWidth from "@/hooks/useWidth";
@@ -16,7 +16,7 @@ export interface CardBoardProps {
   onKebabClick?: () => void; // 케밥 버튼 클릭 핸들러
 }
 
-const CardBoard: React.FC<CardBoardProps> = ({
+const CardBoard = ({
   title,
   content,
   nickname,
@@ -25,7 +25,7 @@ const CardBoard: React.FC<CardBoardProps> = ({
   likeCount,
   variant = "default",
   onKebabClick,
-}) => {
+}: CardBoardProps) => {
   const { isDesktop } = useWidth();
   const [isLiked, setIsLiked] = useState(false);
   const [likeDisplayCount, setLikeDisplayCount] = useState(likeCount);
