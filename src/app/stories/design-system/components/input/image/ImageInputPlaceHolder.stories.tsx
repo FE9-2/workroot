@@ -1,17 +1,17 @@
-import ImageInputwithPlaceHolder from "@/app/components/input/file/ImageInput/ImageInputwithPlaceHolder";
+import ImageInputPlaceHolder from "@/app/components/input/file/ImageInput/ImageInputPlaceHolder";
 import { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
   title: "Design System/Components/FileInput",
-  component: ImageInputwithPlaceHolder,
+  component: ImageInputPlaceHolder,
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof ImageInputwithPlaceHolder>;
+} satisfies Meta<typeof ImageInputPlaceHolder>;
 
 export default meta;
 
-type Story = StoryObj<typeof ImageInputwithPlaceHolder>;
+type Story = StoryObj<typeof ImageInputPlaceHolder>;
 
 export const UploadImagePlaceHolder: Story = {
   args: {

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Indicator from "@/app/components/pagination/Indicator";
+import { isValidS3Url } from "@/utils/checkS3Url";
 
 interface FormImageProps {
   imageUrls: string[];
@@ -30,9 +31,11 @@ export default function FormImage({ imageUrls, currentPage, onPageChange }: Form
       ))}
 
       {/* 인디케이터 */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
-        <Indicator imageCount={imageUrls?.length ?? 0} currentPage={currentPage} onPageChange={onPageChange} />
-      </div>
+      {imageUrls.filter((url) => isValidS3Url(url)).length > 1 && (
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
+          <Indicator imageCount={imageUrls?.length ?? 0} currentPage={currentPage} onPageChange={onPageChange} />
+        </div>
+      )}
     </div>
   );
 }

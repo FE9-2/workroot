@@ -25,9 +25,14 @@ export default function RecruitInformation({ albaFormDetailData, formId }: Recru
     <>
       <RecruitIcon {...recruitmentDetails} />
       <RecruitDetail recruitData={albaFormDetailData} />
-      <FormActions formId={formId} albaFormDetailData={albaFormDetailData} />
       <p className="text-3xl font-bold">모집 조건</p>
       <RecruitCondition recruitData={albaFormDetailData} />
+      <div className="hidden lg:block">
+        <FormActions formId={formId} albaFormDetailData={albaFormDetailData} />
+      </div>
+      <div className="block lg:hidden">
+        <FormActions formId={formId} albaFormDetailData={albaFormDetailData} />
+      </div>
     </>
   );
 }

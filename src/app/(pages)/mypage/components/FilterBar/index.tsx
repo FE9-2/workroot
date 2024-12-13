@@ -71,9 +71,11 @@ export default function FilterBar() {
 
       {/* 탭 메뉴 섹션 */}
       <nav className="border-b border-grayscale-200">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+        <div className="mx-auto flex max-w-screen-2xl items-center justify-between px-4 py-4 md:px-6 lg:px-8">
           <TabMenu />
-          <SortSection />
+          <div className="ml-auto">
+            <SortSection />
+          </div>
         </div>
       </nav>
     </div>
