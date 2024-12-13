@@ -30,11 +30,11 @@ export default function Header() {
     return cn(
       "font-medium transition-colors h-16 flex items-center",
       "hover:text-lime-900",
-      isActive ? "text-lime-900 text-sm sm:text-base md:text-lg md:font-bold" : "text-lime-700 text-sm sm:text-base"
+      isActive ? "text-lime-900 text-sm md:text-base lg:text-lg lg:font-bold" : "text-lime-700 text-sm md:text-base"
     );
   };
 
-  const buttonStyle = "rounded-lg border-2 px-2 py-1 text-sm sm:px-3 sm:py-1.5 sm:text-base md:px-4 md:py-2";
+  const buttonStyle = "rounded-lg border-2 px-2 py-1 text-sm md:px-3 md:py-1.5 md:text-base lg:px-4 lg:py-2";
 
   // 로딩 시간이 1초 이상일 때만 스켈레톤 UI 표시
   if (isLoading) {
@@ -73,71 +73,69 @@ export default function Header() {
 
   return (
     <header className="fixed left-0 right-0 top-0 z-50 bg-lime-100 -tracking-widest md:tracking-normal">
-      <div className="container mx-auto px-4">
-        <nav className="flex h-16 items-center justify-between">
-          {/* 로고와 메인 네비게이션 */}
-          <div className="flex items-center">
-            <Link href="/" className="text-xl text-white hover:text-blue-100">
-              <Image
-                src="/logo.svg"
-                alt="Work Root Logo"
-                width={200}
-                height={60}
-                className="w-32 hover:opacity-90 sm:w-40 md:w-[200px]"
-              />
+      <nav className="mx-6 flex h-16 items-center justify-between md:mx-[72px] lg:mx-[220px]">
+        {/* 로고와 메인 네비게이션 */}
+        <div className="flex items-center">
+          <Link href="/" className="text-xl text-white hover:text-blue-100">
+            <Image
+              src="/logo.svg"
+              alt="Work Root Logo"
+              width={200}
+              height={60}
+              className="w-32 hover:opacity-90 md:w-[200px]"
+            />
+          </Link>
+
+          <div className="ml-2 flex h-16 gap-2 md:ml-4 md:gap-5 lg:ml-5">
+            <Link href="/albalist" className={getLinkClassName("/albalist")}>
+              알바 목록
             </Link>
-
-            <div className="ml-2 flex h-16 gap-2 md:ml-4 md:gap-5 lg:ml-5">
-              <Link href="/albalist" className={getLinkClassName("/albalist")}>
-                알바 목록
+            <Link href="/albatalk" className={getLinkClassName("/albatalk")}>
+              알바 토크
+            </Link>
+            {user && (
+              <Link href="/myalbaform" className={getLinkClassName("/myalbaform")}>
+                내 알바폼
               </Link>
-              <Link href="/albatalk" className={getLinkClassName("/albatalk")}>
-                알바 토크
-              </Link>
-              {user && (
-                <Link href="/myalbaform" className={getLinkClassName("/myalbaform")}>
-                  내 알바폼
-                </Link>
-              )}
-            </div>
-          </div>
-
-          {/* 로그인/회원가입 또는 메뉴 버튼 */}
-          <ul className="flex items-center gap-2 lg:gap-4">
-            {!user ? (
-              <>
-                <li className="flex items-center">
-                  <Link
-                    href="/login"
-                    className={cn(
-                      buttonStyle,
-                      "border-lime-700 px-2 py-1 text-sm text-lime-700 transition-colors hover:bg-lime-700 hover:text-white"
-                    )}
-                  >
-                    로그인
-                  </Link>
-                </li>
-                <li className="flex items-center">
-                  <Link
-                    href="/signup"
-                    className={cn(
-                      buttonStyle,
-                      "border-lime-700 bg-lime-700 text-white transition-colors hover:bg-lime-800"
-                    )}
-                  >
-                    회원가입
-                  </Link>
-                </li>
-              </>
-            ) : (
-              <button type="button" onClick={() => setIsSideMenuOpen(true)} className="block" aria-label="메뉴 열기">
-                <Image src="/icons/menu/menu-sm.svg" width={24} height={24} alt="메뉴" className="block sm:hidden" />
-                <Image src="/icons/menu/menu-md.svg" width={36} height={36} alt="메뉴" className="hidden sm:block" />
-              </button>
             )}
-          </ul>
-        </nav>
-      </div>
+          </div>
+        </div>
+
+        {/* 로그인/회원가입 또는 메뉴 버튼 */}
+        <ul className="flex items-center gap-2 lg:gap-4">
+          {!user ? (
+            <>
+              <li className="flex items-center">
+                <Link
+                  href="/login"
+                  className={cn(
+                    buttonStyle,
+                    "border-lime-700 px-2 py-1 text-sm text-lime-700 transition-colors hover:bg-lime-700 hover:text-white"
+                  )}
+                >
+                  로그인
+                </Link>
+              </li>
+              <li className="flex items-center">
+                <Link
+                  href="/signup"
+                  className={cn(
+                    buttonStyle,
+                    "border-lime-700 bg-lime-700 text-white transition-colors hover:bg-lime-800"
+                  )}
+                >
+                  회원가입
+                </Link>
+              </li>
+            </>
+          ) : (
+            <button type="button" onClick={() => setIsSideMenuOpen(true)} className="block" aria-label="메뉴 열기">
+              <Image src="/icons/menu/menu-sm.svg" width={24} height={24} alt="메뉴" className="block sm:hidden" />
+              <Image src="/icons/menu/menu-md.svg" width={36} height={36} alt="메뉴" className="hidden sm:block" />
+            </button>
+          )}
+        </ul>
+      </nav>
 
       {/* 사이드바 오버레이 */}
       {isSideMenuOpen && (
