@@ -53,14 +53,14 @@ const ModalLayout = () => {
 
   return createPortal(
     <div
-      className="bg-black/50 z-99999 fixed inset-0 flex items-center justify-center"
+      className="bg-black50 !z-99999 fixed inset-0 flex items-center justify-center"
       onClick={(e) => {
         if (e.target === e.currentTarget) closeModal();
       }}
       role="dialog"
       aria-modal="true"
     >
-      <div className="bg-black/50 z-99999 w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+      <div className="w-full max-w-md" onClick={(e) => e.stopPropagation()}>
         <ModalComponent isOpen={isOpen} onClose={closeModal} {...(modalProps as any)} />
       </div>
     </div>,
