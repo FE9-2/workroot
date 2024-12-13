@@ -1,33 +1,32 @@
 import ApplyStatusCard from "@/app/components/card/cardList/ApplyStatusCard";
 import { useApplyStatus } from "@/hooks/queries/form/detail/useApplyStatus";
-import React from "react";
+import React, { useState } from "react";
 
 interface ApplyStatusProps {
   formId: number;
 }
 
 export default function ApplyStatus({ formId }: ApplyStatusProps) {
-  const { applyStatusData } = useApplyStatus({
+  const [experienceSort, setExperienceSort] = useState<boolean>(false);
+  const [statusSort, setStatusSort] = useState<boolean>(false);
+
+  const { applyStatusData, refetch } = useApplyStatus({
     formId,
     limit: 5, // 요청당 데이터 수 제한
+    cursor: 0, // 페이지네이션 커서
+    orderByExperience: experienceSort ? "desc" : "asc", // 경력순 정렬
+    orderByStatus: statusSort ? "asc" : "desc", // 상태순 정렬
   });
 
-  // 개발중일 때는 아래 코드를 사용하여 에러를 확인할 수 있습니다.
-  // if (error || !applyStatusData) {
-  //   let errorMessage = "로딩 중입니다...";
+  const toggleExperienceSort = () => {
+    setExperienceSort((prev) => !prev);
+    refetch(); // 정렬 상태가 변경될 때 데이터 다시 요청
+  };
 
-  //   if (!error && !applyStatusData) {
-  //     // 로딩 중 메시지 설정
-  //     errorMessage = "데이터를 불러오는 중입니다...";
-  //   } else if (axios.isAxiosError(error)) {
-  //     const axiosError = error as AxiosError;
-  //     errorMessage = (axiosError.response?.data as { message?: string })?.message || axiosError.message;
-  //   } else if (error instanceof Error) {
-  //     errorMessage = error.message;
-  //   }
-
-  //   console.log("지원 현황 불러오기 에러: ", errorMessage);
-  // }
+  const toggleStatusSort = () => {
+    setStatusSort((prev) => !prev);
+    refetch(); // 정렬 상태가 변경될 때 데이터 다시 요청
+  };
 
   if (!applyStatusData || applyStatusData.data.length === 0) {
     return null;
@@ -38,6 +37,10 @@ export default function ApplyStatus({ formId }: ApplyStatusProps) {
       {applyStatusData && (
         <div className="mt-20 space-y-6 border-t-2 pt-20 text-2xl">
           <p className="text-3xl font-bold">지원 현황</p>
+          <div className="flex gap-4">
+            <button onClick={toggleExperienceSort}>경력 정렬: {experienceSort ? "내림차순" : "오름차순"}</button>
+            <button onClick={toggleStatusSort}>상태 정렬: {statusSort ? "오름차순" : "내림차순"}</button>
+          </div>
           <ApplyStatusCard applyStatusData={applyStatusData.data} />
         </div>
       )}

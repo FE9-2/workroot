@@ -50,12 +50,12 @@ export async function GET(req: NextRequest, { params }: { params: { formId: stri
 
     const { searchParams } = new URL(req.url);
     const queryParams = {
-      page: searchParams.get("page"),
+      formId: params.formId,
       limit: searchParams.get("limit"),
-      status: searchParams.get("status"),
-      sort: searchParams.get("sort"),
+      cursor: searchParams.get("cursor"),
+      orderByExperience: searchParams.get("orderByExperience"),
+      orderByStatus: searchParams.get("orderByStatus"),
     };
-
     const response = await apiClient.get(`/forms/${params.formId}/applications`, {
       params: queryParams,
       headers: {

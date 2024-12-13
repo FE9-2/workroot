@@ -15,7 +15,9 @@ import FormImage from "./components/FormImage";
 import ScrapBtn from "@/app/components/button/default/ScrapBtn";
 import FloatingBtn from "@/app/components/button/default/FloatingBtn";
 import { IoShareSocialSharp } from "react-icons/io5";
-import { handleShare } from "@/utils/kakaoShare";
+import shareToKakao from "@/utils/shareToKakao";
+import toast from "react-hot-toast";
+import ExpandedFloatingBtn from "@/app/components/button/default/ExpandedFloatingBtn";
 
 interface Coords {
   lat: number;
@@ -45,7 +47,7 @@ export default function AlbaFormDetailPage() {
 
   // 카카오 SDK 초기화
   useEffect(() => {
-    if (typeof window !== "undefined" && window.Kakao && !window.Kakao.isInitialized()) {
+    if (window.Kakao && !window.Kakao.isInitialized()) {
       window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APP_KEY);
     }
   }, []);
@@ -127,21 +129,9 @@ export default function AlbaFormDetailPage() {
       {/* 지원 현황 */}
       {isOwner && <ApplyStatus formId={formIdState} />}
 
-      <div className="fixed right-10 top-1/2 flex flex-col gap-5">
+      <div className="fixed right-10 top-1/2 flex flex-col items-end gap-5">
         <ScrapBtn formId={formIdState} />
-        <FloatingBtn
-          icon={<IoShareSocialSharp />}
-          variant="orange"
-          onClick={() =>
-            handleShare({
-              title: "알바폼 공유",
-              description: "자세한 내용을 확인하세요!",
-              imageUrl: albaFormDetailData?.imageUrls[0] || "기본 이미지 URL",
-              mobileWebUrl: `http://example.com/form/${formIdState}`,
-              webUrl: `http://example.com/form/${formIdState}`,
-            })
-          }
-        />
+        <ExpandedFloatingBtn icon={<IoShareSocialSharp />} variant="orange" />
       </div>
     </div>
   );
