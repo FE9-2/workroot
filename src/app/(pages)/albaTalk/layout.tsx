@@ -1,4 +1,5 @@
-import React, { Suspense } from "react";
+import { Suspense } from "react";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 export default function AlbaTalkLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -6,7 +7,7 @@ export default function AlbaTalkLayout({ children }: { children: React.ReactNode
       <Suspense
         fallback={
           <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-            <div>로딩 중...</div>
+            <LoadingSpinner />
           </div>
         }
       >

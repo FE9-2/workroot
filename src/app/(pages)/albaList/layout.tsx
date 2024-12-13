@@ -1,5 +1,5 @@
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 
 export default function AlbaListLayout({ children }: { children: React.ReactNode }) {
   return (
