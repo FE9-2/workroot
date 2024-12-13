@@ -18,6 +18,7 @@ import useEditing from "@/hooks/useEditing";
 import useFormDetail from "@/hooks/queries/form/detail/useFormDetail";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import formatMoney from "@/utils/formatMoney";
+import tempSave from "@/utils/tempSave";
 
 export default function EditFormPage() {
   const router = useRouter();
@@ -127,11 +128,7 @@ export default function EditFormPage() {
         setValue("imageUrls", []);
       }
     }
-    // 임시저장
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem("tempAddFormData", JSON.stringify(currentValues));
-    }
-    console.log("임시저장 데이터", currentValues);
+    tempSave(currentValues);
   };
 
   // 수정된 폼 제출 리액트쿼리
