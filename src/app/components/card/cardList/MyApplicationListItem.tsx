@@ -2,24 +2,12 @@ import { getRecruitmentStatus } from "@/utils/recruitDateFormatter";
 import { formatLocalDate } from "@/utils/workDayFormatter";
 import Chip from "@/app/components/chip/Chip";
 import Image from "next/image";
-import { applicationStatus, ApplyStatus } from "@/types/application";
+import { ApplyStatus } from "@/types/application";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { MyApplicationType } from "@/types/response/user";
 import { MdOutlineImage } from "react-icons/md";
-import translateStatus from "@/utils/translateStatus";
-
-// 지원 상태에 따른 Chip 컴포넌트의 variant를 반환하는 함수
-const getStatusVariant = (status: ApplyStatus) => {
-  switch (status) {
-    case applicationStatus.HIRED:
-      return "positive";
-    case applicationStatus.REJECTED:
-      return "negative";
-    default:
-      return "positive";
-  }
-};
+import translateStatus, { getStatusVariant } from "@/utils/translateStatus";
 
 const MyApplicationListItem = ({ createdAt, status, resumeId, resumeName, form }: MyApplicationType) => {
   // 이력서 다운로드 핸들러
