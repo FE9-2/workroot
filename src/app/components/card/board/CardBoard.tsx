@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { formatLocalDate } from "@/utils/workDayFormatter";
+import useWidth from "@/hooks/useWidth";
 
 export interface CardBoardProps {
   title: string;
@@ -25,20 +26,9 @@ const CardBoard: React.FC<CardBoardProps> = ({
   variant = "default",
   onKebabClick,
 }) => {
-  const [isLargeScreen, setIsLargeScreen] = useState(false);
+  const { isDesktop } = useWidth();
   const [isLiked, setIsLiked] = useState(false);
   const [likeDisplayCount, setLikeDisplayCount] = useState(likeCount);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsLargeScreen(window.innerWidth >= 600);
-    };
-
-    handleResize(); // 초기 상태 설정
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize); // 컴포넌트 언마운트 시 정리
-  }, []);
 
   const handleLikeClick = () => {
     if (isLiked) {
@@ -50,7 +40,7 @@ const CardBoard: React.FC<CardBoardProps> = ({
   };
 
   // 케밥 아이콘 경로 설정
-  const kebabSrc = `/icons/menu/${isLargeScreen ? "kebab-menu-md.svg" : "kebab-menu-sm.svg"}`;
+  const kebabSrc = `/icons/menu/${isDesktop ? "kebab-menu-md.svg" : "kebab-menu-sm.svg"}`;
 
   return (
     <div
@@ -62,19 +52,15 @@ const CardBoard: React.FC<CardBoardProps> = ({
       <div className="flex h-[162px] w-[279px] flex-1 flex-col lg:h-[232px] lg:w-[429px]">
         {/* Header */}
         <div className="mb-2 flex items-center justify-between">
-          <h2 className="line-clamp-2 font-nexon text-[16px] font-semibold text-black-400 sm:text-[18px]">{title}</h2>
+          <h2 className="line-clamp-2 font-nexon text-[16px] font-semibold text-black-400 lg:text-[18px]">{title}</h2>
           {/* Kebab Icon */}
           <button
+            type="button"
             onClick={onKebabClick}
             className="hover:text-grayscale-700 flex items-center justify-center text-grayscale-500"
             aria-label="Options"
           >
-            <Image
-              src={kebabSrc}
-              alt="Kebab Menu Icon"
-              width={isLargeScreen ? 28 : 24}
-              height={isLargeScreen ? 28 : 24}
-            />{" "}
+            <Image src={kebabSrc} alt="Kebab Menu Icon" width={isDesktop ? 28 : 24} height={isDesktop ? 28 : 24} />
             {/* 크기 조정 */}
           </button>
         </div>
@@ -90,7 +76,7 @@ const CardBoard: React.FC<CardBoardProps> = ({
         <div className="flex items-center gap-2 lg:gap-3">
           {/* 유저 아이콘 */}
           <Image
-            src={`/icons/user/${isLargeScreen ? "user-profile-md.svg" : "user-profile-sm.svg"}`}
+            src={`/icons/user/${isDesktop ? "user-profile-md.svg" : "user-profile-sm.svg"}`}
             alt="User Icon"
             width={28}
             height={28}
@@ -101,7 +87,7 @@ const CardBoard: React.FC<CardBoardProps> = ({
               {nickname}
             </span>
             <span className="text-grayscale-500">|</span>
-            <span className="whitespace-nowrap font-nexon text-[14px] font-normal text-grayscale-500 sm:text-[16px]">
+            <span className="whitespace-nowrap font-nexon text-[14px] font-normal text-grayscale-500 lg:text-[16px]">
               {formatLocalDate(updatedAt)}
             </span>
           </div>
@@ -112,7 +98,7 @@ const CardBoard: React.FC<CardBoardProps> = ({
           {/* 댓글 아이콘 */}
           <div className="flex items-center gap-1">
             <Image
-              src={`/icons/comment/${isLargeScreen ? "comment-md.svg" : "comment-sm.svg"}`}
+              src={`/icons/comment/${isDesktop ? "comment-md.svg" : "comment-sm.svg"}`}
               alt="Comment Icon"
               width={22}
               height={22}
@@ -124,10 +110,10 @@ const CardBoard: React.FC<CardBoardProps> = ({
             <Image
               src={`/icons/like/${
                 isLiked
-                  ? isLargeScreen
+                  ? isDesktop
                     ? "like-md-active.svg"
                     : "like-sm-active.svg"
-                  : isLargeScreen
+                  : isDesktop
                     ? "like-md.svg"
                     : "like-sm.svg"
               }`}
