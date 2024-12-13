@@ -14,7 +14,7 @@ import WorkConditionSection from "./section/WorkConditionSection";
 import useEditing from "@/hooks/useEditing";
 import { SubmitFormDataType } from "@/types/addform";
 import CustomFormModal from "@/app/components/modal/modals/confirm/CustomFormModal";
-import DotLoadingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 
 export default function AddFormPage() {
   const router = useRouter();
