@@ -87,7 +87,7 @@ export default function Header() {
               />
             </Link>
 
-            <div className="ml-4 flex h-16 space-x-2 sm:ml-6 sm:space-x-4 md:ml-10 md:space-x-6">
+            <div className="ml-2 flex h-16 gap-2 md:ml-4 md:gap-5 lg:ml-5">
               <Link href="/albalist" className={getLinkClassName("/albalist")}>
                 알바 목록
               </Link>
