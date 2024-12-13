@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams } from "next/navigation";
-import Comment from "@/app/components/card/board/detailComment";
+import CommentDetail from "@/app/components/card/board/CommentDetail";
 import BaseTextArea from "@/app/components/input/textarea/BaseTextArea";
 import Button from "@/app/components/button/default/Button";
 import { usePostActions } from "@/hooks/usePostActions";
@@ -111,14 +111,14 @@ export default function PostDetailPage() {
 
   return (
     <div className="min-h-screen bg-white py-12">
-      <div className="mx-auto flex w-full max-w-[1480px] flex-col items-center px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex w-full max-w-[1480px] flex-col items-center px-4 lg:px-8">
         {/* Post Content Box */}
-        <div className="mb-12 flex h-[372px] w-full max-w-[327px] flex-col sm:h-[378px] sm:max-w-[600px] lg:h-[356px] lg:max-w-[1480px]">
+        <div className="mb-12 flex h-[372px] w-full max-w-[327px] flex-col lg:h-[356px]">
           <div className="flex h-full flex-col">
             {/* Title and Profile Section */}
-            <div className="flex h-[98px] flex-col justify-between sm:h-[104px] lg:h-[128px]">
+            <div className="flex h-[98px] flex-col justify-between lg:h-[128px]">
               <div className="mb-4 flex items-center justify-between">
-                <h1 className="text-[16px] font-semibold sm:text-[20px] lg:text-[24px]">{post.title}</h1>
+                <h1 className="text-[16px] font-semibold lg:text-[24px]">{post.title}</h1>
                 {post.writer.id === user?.id && (
                   <div className="relative" ref={optionsRef}>
                     <button onClick={() => setShowOptions(!showOptions)} className="text-grayscale-500">
@@ -147,14 +147,14 @@ export default function PostDetailPage() {
                       </svg>
                     </button>
                     {showOptions && (
-                      <div className="absolute right-0 mt-2 w-[80px] rounded-lg bg-white shadow-lg sm:w-[132px] lg:w-[132px]">
-                        <div className="flex h-[68px] flex-col justify-center gap-2 p-2 sm:h-[104px] lg:h-[104px]">
+                      <div className="absolute right-0 mt-2 w-[80px] rounded-lg bg-white shadow-lg lg:w-[132px]">
+                        <div className="flex h-[68px] flex-col justify-center gap-2 p-2 lg:h-[104px]">
                           <button
                             onClick={() => {
                               setShowEditModal(true);
                               setShowOptions(false);
                             }}
-                            className="rounded-md bg-grayscale-50 p-2 text-xs text-grayscale-400 hover:bg-orange-50 hover:text-black-400 sm:text-sm"
+                            className="rounded-md bg-grayscale-50 p-2 text-xs text-grayscale-400 hover:bg-orange-50 hover:text-black-400 lg:text-sm"
                           >
                             수정하기
                           </button>
@@ -165,7 +165,7 @@ export default function PostDetailPage() {
                               }
                               setShowOptions(false);
                             }}
-                            className="rounded-md bg-grayscale-50 p-2 text-xs text-grayscale-400 hover:bg-orange-50 hover:text-black-400 sm:text-sm"
+                            className="rounded-md bg-grayscale-50 p-2 text-xs text-grayscale-400 hover:bg-orange-50 hover:text-black-400 lg:text-sm"
                           >
                             삭제하기
                           </button>
@@ -178,7 +178,7 @@ export default function PostDetailPage() {
               <hr className="mb-4 border-t border-line-200" />
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  {authorImageError ? ( // Updated author image rendering
+                  {authorImageError ? (
                     <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-300">
                       <span className="text-sm font-semibold text-gray-600">
                         {post.writer.nickname.charAt(0).toUpperCase()}
@@ -194,11 +194,9 @@ export default function PostDetailPage() {
                       onError={() => setAuthorImageError(true)}
                     />
                   )}
-                  <span className="text-xs text-grayscale-500 sm:text-sm lg:text-base">{post.writer.nickname}</span>
-                  <span className="text-xs text-grayscale-500 sm:text-sm lg:text-base">|</span>
-                  <span className="text-xs text-grayscale-500 sm:text-sm lg:text-base">
-                    {formatDate(post.createdAt)}
-                  </span>
+                  <span className="text-xs text-grayscale-500 lg:text-base">{post.writer.nickname}</span>
+                  <span className="text-xs text-grayscale-500 lg:text-base">|</span>
+                  <span className="text-xs text-grayscale-500 lg:text-base">{formatDate(post.createdAt)}</span>
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-1 sm:gap-2">
@@ -207,37 +205,37 @@ export default function PostDetailPage() {
                       alt="Comments"
                       width={24}
                       height={24}
-                      className="h-[22px] w-[22px] sm:h-6 sm:w-6"
+                      className="h-[22px] w-[22px] lg:h-6 lg:w-6"
                     />
-                    <span className="text-xs text-grayscale-500 sm:text-sm">{post.commentCount}</span>
+                    <span className="text-xs text-grayscale-500 lg:text-base">{post.commentCount}</span>
                   </div>
-                  <div className="flex items-center gap-1 sm:gap-2">
+                  <div className="flex items-center gap-1 lg:gap-2">
                     <button onClick={handleLikeClick} disabled={isPendingLike}>
                       <Image
                         src={post.isLiked ? "/icons/like/like-sm-active.svg" : "/icons/like/like-sm.svg"}
                         alt="Like"
                         width={24}
                         height={24}
-                        className="h-[22px] w-[22px] sm:h-6 sm:w-6"
+                        className="h-[22px] w-[22px] lg:h-6 lg:w-6"
                       />
                     </button>
-                    <span className="text-xs text-grayscale-500 sm:text-sm">{post.likeCount}</span>
+                    <span className="text-xs text-grayscale-500 lg:text-base">{post.likeCount}</span>
                   </div>
                 </div>
               </div>
             </div>
             {/* Content Section */}
-            <div className="mt-auto h-[210px] overflow-y-auto whitespace-pre-wrap text-xs text-black-400 sm:text-sm lg:h-[140px] lg:text-base">
+            <div className="mt-auto h-[210px] overflow-y-auto whitespace-pre-wrap text-xs text-black-400 lg:h-[140px] lg:text-base">
               {post.content}
             </div>
           </div>
         </div>
 
         {/* Comment Section */}
-        <div className="mb-12 flex w-full max-w-[327px] flex-col sm:max-w-[600px] lg:max-w-[1480px]">
+        <div className="mb-12 flex w-full max-w-[327px] flex-col lg:max-w-[1480px]">
           <h2 className="mb-4 text-[16px] font-semibold sm:text-[20px] lg:text-[24px]">댓글({post.commentCount})</h2>
           <hr className="mb-4 border-t border-line-200" />
-          <div className="mb-[7px] flex-grow sm:mb-[8.5px] lg:mb-[10px]"></div>
+          <div className="mb-[7px] flex-grow lg:mb-[10px]"></div>
           {/* Comment Input Box */}
           <div className="mt-auto">
             <div className="relative mb-4">
@@ -247,7 +245,7 @@ export default function PostDetailPage() {
                 placeholder="댓글을 입력해주세요."
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
-                size="w-full h-[132px] sm:h-[132px] lg:h-[160px]"
+                size="w-full h-[132px] lg:h-[160px]"
               />
             </div>
             <div className="flex justify-end">
@@ -258,7 +256,7 @@ export default function PostDetailPage() {
                     setNewComment("");
                   }
                 }}
-                className="h-[52px] w-[108px] text-base sm:h-[50px] sm:text-base lg:h-[64px] lg:w-[214px] lg:text-xl"
+                className="h-[52px] w-[108px] text-base lg:h-[64px] lg:w-[214px] lg:text-xl"
               >
                 등록하기
               </Button>
@@ -267,7 +265,7 @@ export default function PostDetailPage() {
         </div>
 
         {/* Comments List or Empty State */}
-        <div className="w-full max-w-[327px] sm:max-w-[600px] lg:max-w-[1480px]">
+        <div className="w-full max-w-[327px]">
           {comments.length > 0 ? (
             <div className="space-y-4">
               {comments.map((comment, index) => (
@@ -276,7 +274,7 @@ export default function PostDetailPage() {
                   ref={index === comments.length - 1 ? lastCommentElementRef : undefined}
                   className="w-full"
                 >
-                  <Comment
+                  <CommentDetail
                     key={comment.id}
                     id={comment.id}
                     userName={comment.userName}
@@ -293,12 +291,7 @@ export default function PostDetailPage() {
             </div>
           ) : (
             <div className="mt-8 flex justify-center">
-              <Image
-                src={`/images/emptyComment-${window.innerWidth >= 1024 ? "md" : "sm"}.svg`}
-                alt="No comments"
-                width={window.innerWidth >= 1024 ? 206 : 206}
-                height={window.innerWidth >= 1024 ? 204 : 152}
-              />
+              <Image src={`/images/emptyComment-md.svg`} alt="No comments" width={206} height={204} />
             </div>
           )}
         </div>

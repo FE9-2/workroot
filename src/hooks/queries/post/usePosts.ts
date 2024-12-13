@@ -4,20 +4,19 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 interface UsePostsParams {
-  cursor?: string;
   limit?: number;
   orderBy?: string;
   keyword?: string;
 }
 
-export const usePosts = ({ cursor, limit = 10, orderBy, keyword }: UsePostsParams = {}) => {
+export const usePosts = ({ limit = 10, orderBy, keyword }: UsePostsParams = {}) => {
   const query = useInfiniteQuery<PostListResponse>({
     queryKey: ["posts", { limit, orderBy, keyword }],
-    queryFn: async () => {
+    queryFn: async ({ pageParam }) => {
       try {
         const response = await axios.get("/api/posts", {
           params: {
-            cursor,
+            cursor: pageParam,
             limit,
             orderBy,
             keyword,
@@ -27,13 +26,18 @@ export const usePosts = ({ cursor, limit = 10, orderBy, keyword }: UsePostsParam
         return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          const errorMessage = error.response?.data?.message || "게시글 목록을 불러오는데 실패했습니다.";
+          const errorMessage = error.response?.data?.message || "알바 토크를 불러오는데 실패했습니다.";
           toast.error(errorMessage);
         }
         throw error;
       }
     },
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    getNextPageParam: (lastPage) => {
+      if (!lastPage.nextCursor || lastPage.data.length === 0) {
+        return undefined;
+      }
+      return lastPage.nextCursor;
+    },
     initialPageParam: undefined,
     staleTime: 1000 * 60 * 5, // 5분
     gcTime: 1000 * 60 * 30, // 30분

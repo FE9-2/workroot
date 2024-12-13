@@ -5,7 +5,7 @@ import Image from "next/image";
 import BaseTextArea from "@/app/components/input/textarea/BaseTextArea";
 import Button from "@/app/components/button/default/Button";
 
-export interface CommentProps {
+export interface CommentDetailProps {
   id: number;
   userName: string;
   userImageUrl?: string;
@@ -16,7 +16,16 @@ export interface CommentProps {
   onDelete: (id: number) => void;
 }
 
-const Comment: React.FC<CommentProps> = ({ id, userName, userImageUrl, date, comment, isAuthor, onEdit, onDelete }) => {
+const CommentDetail: React.FC<CommentDetailProps> = ({
+  id,
+  userName,
+  userImageUrl,
+  date,
+  comment,
+  isAuthor,
+  onEdit,
+  onDelete,
+}) => {
   const [showOptions, setShowOptions] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedComment, setEditedComment] = useState(comment);
@@ -129,4 +138,4 @@ const Comment: React.FC<CommentProps> = ({ id, userName, userImageUrl, date, com
   );
 };
 
-export default Comment;
+export default CommentDetail;

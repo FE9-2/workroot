@@ -1,5 +1,5 @@
 "use client";
-import DotLoadingSpinner from "@/app/components/loading-spinner/DotLodingSpinner";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import { useLogin } from "@/hooks/queries/auth/useLogin";
 import { type LoginSchema, loginSchema } from "@/schemas/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";

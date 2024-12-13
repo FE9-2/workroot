@@ -4,7 +4,7 @@ import React, { useCallback, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Button from "@/app/components/button/default/Button";
 import BaseInput from "@/app/components/input/text/BaseInput";
-import ImageInputwithPlaceHolder from "@/app/components/input/file/ImageInput/ImageInputwithPlaceHolder";
+import ImageInputWithPlaceHolder from "@/app/components/input/file/ImageInput/ImageInputPlaceHolder";
 import axios from "axios";
 import { Post } from "@/types/post";
 import { useMutation } from "@tanstack/react-query";
@@ -117,7 +117,7 @@ export default function EditPostModal({ post, onClose, onUpdate }: EditPostModal
               <label htmlFor="image" className="mb-2 block text-sm font-medium text-gray-700">
                 이미지
               </label>
-              <ImageInputwithPlaceHolder
+              <ImageInputWithPlaceHolder
                 onImageUpload={uploadImage}
                 onImagesChange={(newImages) => {
                   const imageUrls = newImages.map((img) => img.url).join(",");
