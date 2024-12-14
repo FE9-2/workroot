@@ -77,6 +77,9 @@ export default function Apply() {
       const response = await axios.post(`/api/forms/${formId}/applications`, submitData);
       return response.data;
     },
+    onMutate: () => {
+      setIsLoading(true); // 로딩 상태 시작
+    },
 
     onSuccess: () => {
       // 로컬 스토리지 데이터 삭제
