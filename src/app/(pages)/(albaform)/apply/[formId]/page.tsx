@@ -50,6 +50,7 @@ export default function Apply() {
   const formId = useParams().formId;
   const router = useRouter();
   const queryClient = useQueryClient();
+  const [isLoding, setIsLoading] = useState(false);
 
   const onTempSave = async () => {
     try {
