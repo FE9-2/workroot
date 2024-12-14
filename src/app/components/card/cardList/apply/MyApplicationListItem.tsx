@@ -50,15 +50,12 @@ const MyApplicationListItem = ({ createdAt, status, resumeId, resumeName, form }
             <span>|</span>
             <span>{formatLocalDate(createdAt, true)}</span>
           </div>
-          {resumeId > 0 && (
-            <button
-              type="button"
-              onClick={handleResumeDownload}
-              className="decoration-grayscale-600/50 hover:text-grayscale-600 hover:decoration-grayscale-600 text-sm font-medium text-grayscale-500 underline decoration-1 underline-offset-4 hover:cursor-pointer md:text-base"
-            >
-              이력서 보기
-            </button>
-          )}
+          <button
+            onClick={handleResumeDownload}
+            className="decoration-grayscale-600/50 hover:text-grayscale-600 hover:decoration-grayscale-600 text-sm font-medium text-grayscale-500 underline decoration-1 underline-offset-4 hover:cursor-pointer md:text-base"
+          >
+            이력서 보기
+          </button>
         </div>
 
         {/* 중앙 컨텐츠 영역: 가게 정보, 제목, 설명 */}

@@ -62,6 +62,13 @@ export const GET = async (request: NextRequest) => {
       },
     };
 
+    // role이 APPLICANT일 경우 추가 정보 설정
+    if (role === "APPLICANT") {
+      googleUser.signup.storeName = "x";
+      googleUser.signup.storePhoneNumber = "x";
+      googleUser.signup.location = "x";
+    }
+
     const processUser = async () => {
       if (action === "signup") {
         try {
@@ -75,6 +82,7 @@ export const GET = async (request: NextRequest) => {
             throw new Error("회원가입 중 서버 오류");
           }
         }
+        return NextResponse.redirect(new URL("/mypage", request.url));
       } else if (action === "login") {
         await loginUser();
       } else {
