@@ -83,16 +83,16 @@ export default function ApplicantPage() {
   return (
     <div className="flex min-h-screen flex-col items-center">
       {/* 검색 섹션과 필터를 고정 위치로 설정 */}
-      <div className="fixed left-0 right-0 top-16 z-40 bg-white shadow-sm">
+      <div className="fixed left-0 right-0 top-16 z-30 bg-white shadow-sm">
         {/* 검색 섹션 */}
-        <div className="w-full border-b border-grayscale-100">
+        <div className="w-full border-b border-line-100">
           <div className="mx-auto flex max-w-screen-2xl flex-col gap-4 px-4 py-4 md:px-6 lg:px-8">
             <SearchSection />
           </div>
         </div>
 
         {/* 필터 섹션 */}
-        <div className="w-full border-b border-grayscale-100">
+        <div className="w-full border-b border-line-100">
           <div className="mx-auto flex max-w-screen-2xl items-center justify-between gap-2 px-4 py-4 md:px-6 lg:px-8">
             <ApplicantSortSection pathname={pathname} searchParams={searchParams} />
           </div>

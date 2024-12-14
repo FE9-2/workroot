@@ -36,7 +36,7 @@ export default function Header() {
   const headerStyle =
     "fixed left-0 right-0 top-0 z-40 border-b border-b-line-100 bg-lime-100 -tracking-widest md:tracking-normal";
   const navStyle =
-    "mx-auto flex h-16 min-w-[327px] items-center justify-between px-6 md:max-w-[600px] lg:max-w-[1480px]";
+    "mx-auto flex h-16 min-w-[327px] items-center justify-between px-6 md:max-w-[920px] lg:max-w-[1480px]";
   const menuStyle = "ml-4 flex h-16 items-center gap-4 md:ml-8 md:gap-6 lg:ml-[46px]";
   const buttonStyle = "rounded-lg border-2 px-2 py-1 text-sm md:px-3 md:py-1.5 md:text-base lg:px-4 lg:py-2";
   const skeletonStyle = "w-16 animate-pulse bg-lime-200";
