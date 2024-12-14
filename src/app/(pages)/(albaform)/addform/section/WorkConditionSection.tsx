@@ -137,7 +137,7 @@ export default function WorkConditionSection() {
             value={workStartTime}
             {...register("workStartTime", { required: "근무 시작 시간을 선택해주세요" })}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              setValue("workStartTime", e.target.value);
+              setValue("workStartTime", e.target.value, { shouldDirty: true });
             }}
           />
           <TimePickerInput

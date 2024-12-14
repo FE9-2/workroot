@@ -10,6 +10,7 @@ import { filterPublicOptions, filterRecruitingOptions } from "@/constants/filter
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import AlbaListItem from "@/app/components/card/cardList/AlbaListItem";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
+import Link from "next/link";
 
 const SCRAPS_PER_PAGE = 10;
 
@@ -49,7 +50,7 @@ export default function ScrapsSection() {
     rootMargin: "100px",
   });
 
-  // 내가 스크랩한 알폼 목록 조회
+  // 내가 스크랩한 폼 목록 조회
   const { data, isLoading, error, hasNextPage, fetchNextPage, isFetchingNextPage } = useMyScraps({
     limit: SCRAPS_PER_PAGE,
     orderBy: orderBy.scrap,
@@ -157,7 +158,9 @@ export default function ScrapsSection() {
               <React.Fragment key={page.nextCursor}>
                 {page.data.map((scrap: FormListType) => (
                   <div key={scrap.id}>
-                    <AlbaListItem {...scrap} />
+                    <Link href={`/alba/${scrap.id}/`}>
+                      <AlbaListItem {...scrap} />
+                    </Link>
                   </div>
                 ))}
               </React.Fragment>

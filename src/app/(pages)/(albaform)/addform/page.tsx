@@ -7,14 +7,15 @@ import TabMenuDropdown from "@/app/components/button/dropdown/TabMenuDropdown";
 import Button from "@/app/components/button/default/Button";
 import { toast } from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
-import { useUpdateProfile } from "@/hooks/queries/user/me/useUpdateProfile";
 import RecruitContentSection from "./section/RecruitContentSection";
 import RecruitConditionSection from "./section/RecruitConditionSection";
 import WorkConditionSection from "./section/WorkConditionSection";
 import useEditing from "@/hooks/useEditing";
 import { SubmitFormDataType } from "@/types/addform";
 import CustomFormModal from "@/app/components/modal/modals/confirm/CustomFormModal";
+import tempSave from "@/utils/tempSave";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
+import useUploadImages from "@/hooks/queries/user/me/useImageUpload";
 
 export default function AddFormPage() {
   const router = useRouter();
@@ -58,6 +59,19 @@ export default function AddFormPage() {
   // 이미지 업로드 api 처리를 위해 별도 변수에 할당
   const imageFiles = currentValues.imageFiles;
   const [, setSelectedOption] = useState<string>("");
+  const [showTempDataModal, setShowTempDataModal] = useState(false);
+
+  const { uploadImages } = useUploadImages();
+
+  // 각각의 탭 작성중 여부
+  const { isEditingRecruitContent, isEditingRecruitCondition, isEditingWorkCondition } = useEditing(currentValues);
+
+  // tab 선택 시 Url params 수정 & 하위 폼 데이터 임시저장
+  const searchParams = useSearchParams();
+  const currentParam = searchParams.get("tab");
+  const [prevOption, setPrevOption] = useState<string | null>(null);
+  const initialLoad = currentParam === null; // 초기 로딩 여부 확인
+  const [loading, setLoading] = useState(false);
 
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
@@ -72,7 +86,11 @@ export default function AddFormPage() {
       // 이미지 업로드 처리
       let uploadedUrls: string[] = [];
       try {
-        uploadedUrls = await uploadImages(Array.from(imageFiles));
+        if (currentValues.imageUrls.length !== currentValues.imageFiles.length) {
+          uploadedUrls = await uploadImages(Array.from(imageFiles));
+        } else {
+          uploadedUrls = currentValues.imageUrls;
+        }
         if (!uploadedUrls.length) {
           toast.error("이미지 업로드에 실패했습니다.");
           throw new Error("이미지 업로드 실패");
@@ -114,11 +132,11 @@ export default function AddFormPage() {
       }
       setLoading(false);
       toast.success("알바폼을 등록했습니다.");
-      // if (formId) router.push(`/alba/${formId}`);
     },
     onError: (error) => {
       setLoading(false);
       toast.error("에러가 발생했습니다.");
+      console.error(error);
       onTempSave();
     },
   });
@@ -129,12 +147,24 @@ export default function AddFormPage() {
     }
   }, [formId]);
 
-  // tab 선택 시 Url params 수정 & 하위 폼 데이터 임시저장
-  const searchParams = useSearchParams();
-  const currentParam = searchParams.get("tab");
-  const [prevOption, setPrevOption] = useState<string | null>(null);
-  const initialLoad = currentParam === null; // 초기 로딩 여부 확인
-  const [loading, setLoading] = useState(false);
+  // 폼데이터 임시 저장 함수
+  const onTempSave = async () => {
+    // 이미지 처리 로직
+    if (currentValues.imageUrls.length !== currentValues.imageFiles.length) {
+      try {
+        const uploadedUrls = await uploadImages(Array.from(imageFiles));
+        if (uploadedUrls && uploadedUrls.length > 0) {
+          setValue("imageUrls", [...uploadedUrls]);
+        } else {
+          setValue("imageUrls", [...currentValues.imageUrls]);
+        }
+      } catch (error) {
+        console.error("임시저장 - 이미지 업로드 중 오류 발생:", error);
+        setValue("imageUrls", []);
+      }
+    }
+    tempSave("addformData", currentValues);
+  };
 
   const handleOptionChange = async (option: string) => {
     setSelectedOption(option);
@@ -178,52 +208,6 @@ export default function AddFormPage() {
         return <RecruitContentSection key="recruitContent" />;
     }
   };
-  const { uploadImageMutation } = useUpdateProfile();
-
-  // 이미지 업로드 api
-  const uploadImages = async (files: File[]) => {
-    if (currentValues.imageUrls.length !== currentValues.imageFiles.length) {
-      const uploadedUrls: string[] = [];
-
-      // 전체 파일 배열을 순회하면서 업로드 로직 진행
-      for (const file of files) {
-        // 파일 크기 체크
-        const maxSize = 5 * 1024 * 1024; // 5MB
-        if (file.size > maxSize) {
-          toast.error(`5MB 이상의 파일은 업로드할 수 없습니다.`);
-          continue;
-        }
-        const formData = new FormData();
-        formData.append("image", file);
-        try {
-          const uploadResponse = await uploadImageMutation.mutateAsync(file);
-          if (uploadResponse?.url) {
-            uploadedUrls.push(uploadResponse.url);
-          }
-        } catch (uploadError) {
-          console.error(`파일 ${file.name} 업로드 실패:`, uploadError);
-        }
-      }
-      return uploadedUrls;
-    } else {
-      return currentValues.imageUrls;
-    }
-  };
-
-  // 폼데이터 임시 저장 함수
-  const onTempSave = async () => {
-    // 임시저장
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem("tempAddFormData", JSON.stringify(currentValues));
-    }
-    toast.success("임시 저장되었습니다.");
-    console.log("임시저장 데이터", currentValues);
-  };
-
-  // 각각의 탭 작성중 여부
-  const { isEditingRecruitContent, isEditingRecruitCondition, isEditingWorkCondition } = useEditing(currentValues);
-
-  const [showTempDataModal, setShowTempDataModal] = useState(false);
 
   // 임시저장 데이터 로드 함수
   const loadTempData = () => {
