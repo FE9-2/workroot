@@ -1,5 +1,5 @@
 "use client";
-import React, { forwardRef, useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState, useRef } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { cn } from "@/lib/tailwindUtil";
 import DropdownList from "./dropdownComponent/DropdownList";
@@ -19,12 +19,35 @@ const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
     const [selectedValue, setSelectedValue] = useState<string>("");
     const [isCustomInput, setIsCustomInput] = useState<boolean>(false);
     const { setValue, watch } = useFormContext();
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
-    const handleOptionClick = (option: string) => {
+    useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+          setIsOpen(false);
+        }
+      };
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, []);
+
+    const toggleDropdown = (e: React.MouseEvent) => {
+      e.preventDefault();
+      setIsOpen((prev) => !prev);
+    };
+
+    const handleSelect = (option: string | null) => {
+      if (!option) {
+        setIsOpen(false);
+        return;
+      }
+
       if (option === "직접 입력") {
         setIsCustomInput(true);
         setSelectedValue("");
-        // 동적으로 받아온 name에 값 할당 -> 훅폼에 저장
         setValue(name, selectedValue, { shouldDirty: true });
       } else {
         setSelectedValue(option);
@@ -34,11 +57,10 @@ const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
       }
     };
 
-    // 작성중인 탭으로 다시 이동했을때 이전에 저장된 훅폼 데이터 연동
     useEffect(() => {
-      const value = watch(name); // 동적으로 필드 값 가져오기
+      const value = watch(name);
       if (value !== undefined) {
-        setSelectedValue(value); // 초기값 동기화
+        setSelectedValue(value);
       }
     }, [name, watch]);
 
@@ -49,9 +71,12 @@ const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
       "absolute -bottom-[26px] text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
 
     return (
-      <div className={cn("relative inline-block text-left", "w-80 lg:w-[640px]", textStyle, className, errorStyle)}>
+      <div
+        ref={dropdownRef}
+        className={cn("relative inline-block text-left", "w-80 lg:w-[640px]", textStyle, className, errorStyle)}
+      >
         <div
-          onMouseDown={() => setIsOpen(!isOpen)}
+          onClick={toggleDropdown}
           className={cn(
             "cursor-pointer rounded-md border border-transparent bg-background-200 p-2",
             "hover:border-grayscale-200 hover:bg-background-300",
@@ -68,17 +93,18 @@ const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
                 setValue(name, e.target.value);
               }
             }}
+            onClick={(e) => e.stopPropagation()}
             className={cn(
               "text-grayscale-700 flex w-full items-center justify-between px-4 py-2 font-medium focus:outline-none",
               "cursor-pointer bg-transparent"
             )}
             placeholder={isCustomInput ? "직접 입력하세요" : "선택"}
           />
-          <button type="button" className="absolute right-3 top-3.5 text-3xl">
+          <button type="button" className="absolute right-3 top-3.5 text-3xl" onClick={(e) => e.stopPropagation()}>
             <IoMdArrowDropdown className={cn("transition-transform duration-200", isOpen && "rotate-180")} />
           </button>
         </div>
-        {isOpen && <DropdownList list={options} onSelect={handleOptionClick} itemStyle={textStyle} />}
+        {isOpen && <DropdownList list={options} onSelect={handleSelect} itemStyle={textStyle} />}
         {errormessage && <p className={cn(errorTextStyle, "right-0 pr-2")}>{errormessage}</p>}
       </div>
     );

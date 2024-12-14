@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 export const useDropdownOpen = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleOpenDropdown = (): void => {
-    setIsOpen(!isOpen);
-  };
+  const handleOpenDropdown = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
 
-  return { isOpen, handleOpenDropdown };
+  return { isOpen, setIsOpen, handleOpenDropdown };
 };
