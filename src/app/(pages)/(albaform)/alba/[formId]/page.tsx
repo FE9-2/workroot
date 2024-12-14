@@ -13,10 +13,7 @@ import ApplyStatus from "./components/ApplyStatus";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import FormImage from "./components/FormImage";
 import ScrapBtn from "@/app/components/button/default/ScrapBtn";
-import FloatingBtn from "@/app/components/button/default/FloatingBtn";
 import { IoShareSocialSharp } from "react-icons/io5";
-import shareToKakao from "@/utils/shareToKakao";
-import toast from "react-hot-toast";
 import ExpandedFloatingBtn from "@/app/components/button/default/ExpandedFloatingBtn";
 
 interface Coords {
@@ -36,7 +33,6 @@ export default function AlbaFormDetailPage() {
   const [formIdState, setFormIdState] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const { user } = useUser();
-  const isOwner = user?.role === "OWNER";
 
   // 카카오맵 관련 상태
   const [coords, setCoords] = useState<Coords>({ lat: 37.5665, lng: 126.978 });
@@ -59,6 +55,8 @@ export default function AlbaFormDetailPage() {
   }, [formId]);
 
   const { albaFormDetailData, isLoading } = useFormDetail({ formId: formIdState });
+  const isOwner = user?.role === "OWNER";
+  const isAuthor = user?.id === albaFormDetailData?.ownerId;
 
   // 주소로 좌표 검색
   useEffect(() => {
@@ -74,6 +72,11 @@ export default function AlbaFormDetailPage() {
       }
     });
   }, [albaFormDetailData?.location]);
+
+  // 사용자 데이터가 로딩 중인지 확인
+  if (!user) {
+    return <LoadingSpinner />;
+  }
 
   if (isLoading)
     return (
@@ -127,7 +130,7 @@ export default function AlbaFormDetailPage() {
         </div>
       </div>
       {/* 지원 현황 */}
-      {isOwner && <ApplyStatus formId={formIdState} />}
+      {isOwner && isAuthor && <ApplyStatus formId={formIdState} />}
 
       <div className="fixed right-10 top-1/2 flex flex-col items-end gap-5">
         <ScrapBtn formId={formIdState} />

@@ -2,23 +2,23 @@ import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import type { QueryKey, UseQueryOptions } from "@tanstack/react-query";
 
-const PROFILE_STRING_KEY = "profileStringValue";
+const VALID_USER_INFO_KEY = "isUserInfoValid";
 
 export const useProfileStringValue = () => {
   const queryClient = useQueryClient();
 
-  const { data: hasStringValue = false } = useQuery({
-    queryKey: [PROFILE_STRING_KEY],
+  const { data: isUserInfoValid = false } = useQuery({
+    queryKey: [VALID_USER_INFO_KEY],
     queryFn: async () => {
       const userData = queryClient.getQueryData<{ user: any }>(["user"]);
       const user = userData?.user;
 
       if (!user) return false;
-      const hasString = Object.values(user).some(
-        (value) => value !== null && value !== undefined && typeof value === "string" && value.trim() !== ""
+      const isProfileComplete = Object.values(user).some(
+        (value) => value !== null && value !== undefined && value === "string"
       );
 
-      if (hasString) {
+      if (isProfileComplete) {
         toast.error("내 정보를 수정하세요", {
           duration: 3000,
           position: "top-center",
@@ -26,7 +26,7 @@ export const useProfileStringValue = () => {
         });
       }
 
-      return hasString;
+      return isProfileComplete;
     },
     enabled: !!queryClient.getQueryData(["user"]),
     staleTime: 0,
@@ -40,16 +40,16 @@ export const useProfileStringValue = () => {
     enabled: false,
     onSettled: () => {
       // user 데이터가 변경되면 profileStringValue 쿼리 재실행
-      queryClient.invalidateQueries({ queryKey: [PROFILE_STRING_KEY] });
+      queryClient.invalidateQueries({ queryKey: [VALID_USER_INFO_KEY] });
     },
   } as UseQueryOptions);
 
-  const { mutate: setHasStringValue } = useMutation({
+  const { mutate: setIsUserInfoValid } = useMutation({
     mutationFn: (newValue: boolean) => Promise.resolve(newValue),
     onSuccess: (newValue) => {
-      queryClient.setQueryData([PROFILE_STRING_KEY], newValue);
+      queryClient.setQueryData([VALID_USER_INFO_KEY], newValue);
     },
   });
 
-  return { hasStringValue, setHasStringValue };
+  return { isUserInfoValid, setIsUserInfoValid };
 };

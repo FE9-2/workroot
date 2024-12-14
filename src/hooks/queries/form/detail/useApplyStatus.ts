@@ -13,11 +13,9 @@ interface UseApplyStatusProps {
 }
 
 export const useApplyStatus = (props: UseApplyStatusProps) => {
-  console.log("useApplyStatus response.data 출력", props);
   const query = useQuery<ApplicationListResponse>({
     queryKey: ["applyStatus", props.formId, props.limit, props.cursor, props.orderByExperience, props.orderByStatus],
     queryFn: async () => {
-      console.log("API 요청 중...");
       const response = await axios.get(`/api/forms/${props.formId}/applications`, {
         params: {
           limit: props.limit,
@@ -26,7 +24,6 @@ export const useApplyStatus = (props: UseApplyStatusProps) => {
           orderByStatus: props.orderByStatus,
         },
       });
-      console.log("API 응답:", response.data);
       return response.data;
     },
     enabled: !!props.formId,
