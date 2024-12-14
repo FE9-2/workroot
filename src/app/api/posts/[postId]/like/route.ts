@@ -6,7 +6,6 @@ import apiClient from "@/lib/apiClient";
 // 게시글 좋아요 API
 export async function POST(request: Request, { params }: { params: { postId: string } }) {
   try {
-    // 쿠키에서 액세스 토큰 가져오기
     const accessToken = cookies().get("accessToken")?.value;
 
     if (!accessToken) {
@@ -15,12 +14,16 @@ export async function POST(request: Request, { params }: { params: { postId: str
 
     const postId = params.postId;
 
-    // 게시글 좋아요 요청
-    const response = await apiClient.post(`/posts/${postId}/like`, null, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    // body를 빈 객체로 전송
+    const response = await apiClient.post(
+      `/posts/${postId}/like`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
 
     return NextResponse.json(response.data);
   } catch (error: unknown) {
@@ -37,7 +40,6 @@ export async function POST(request: Request, { params }: { params: { postId: str
 // 게시글 좋아요 취소 API
 export async function DELETE(request: Request, { params }: { params: { postId: string } }) {
   try {
-    // 쿠키에서 액세스 토큰 가져오기
     const accessToken = cookies().get("accessToken")?.value;
 
     if (!accessToken) {
@@ -46,7 +48,6 @@ export async function DELETE(request: Request, { params }: { params: { postId: s
 
     const postId = params.postId;
 
-    // 게시글 좋아요 취소 요청
     const response = await apiClient.delete(`/posts/${postId}/like`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
