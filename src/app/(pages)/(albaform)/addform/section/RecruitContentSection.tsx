@@ -16,10 +16,15 @@ export default function RecruitContentSection() {
 
   //훅폼 하위 컴포넌트에서는 useFormcontext에서 메서드 호출
   const {
+    watch,
     register,
     setValue,
     formState: { errors },
   } = useFormContext();
+  const currentValues = watch();
+  const imageFilesData: File[] = currentValues.imageFiles;
+  const length = imageFilesData.length;
+  const lastImageFile = imageFilesData[length - 1];
 
   // 날짜 선택
   const [recruitmentDateRange, setRecruitmentDateRange] = useState<[Date | null, Date | null]>([null, null]);
@@ -35,8 +40,8 @@ export default function RecruitContentSection() {
     setValue("imageFiles", files);
 
     const newImages = files.map((file: File) => ({
-      file,
-      url: URL.createObjectURL(file),
+      file: lastImageFile,
+      url: URL.createObjectURL(lastImageFile),
       id: crypto.randomUUID(),
     }));
 

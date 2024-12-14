@@ -68,7 +68,7 @@ const TabMenuDropdown = ({ options, className = "", onChange, currentParam = "" 
             key={option.label}
             onClick={() => handleOptionClick(option.label)}
           >
-            <span className="relative">
+            <span className="relative flex items-center">
               <span className={cn(numberStyle, selected && selectedIndexStyle)}>{idx + 1}</span>
               <span>{option.label}</span>
               <EditingChip
