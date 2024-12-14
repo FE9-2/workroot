@@ -73,7 +73,7 @@ const CardBoard = ({
   };
 
   const handleEditTalk = () => {
-    router.push(`/albatalk/edit/${id}`);
+    router.push(`/albatalk/${id}/edit`);
   };
 
   const dropdownOptions = [

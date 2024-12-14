@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="scrollbar-custom">
         <ClientLayout>
           <Header />
-          <main className="min-h-screen pt-16">{children}</main>
+          <main className="min-h-[80vh] pt-16">{children}</main>
         </ClientLayout>
       </body>
     </html>

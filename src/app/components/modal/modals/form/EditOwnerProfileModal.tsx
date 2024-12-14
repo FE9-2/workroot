@@ -131,18 +131,16 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
   return (
     <div
       className={cn(
-        "relative left-1/2 w-[375px] -translate-x-1/2 overflow-hidden rounded-2xl bg-white p-6 shadow-lg lg:w-[540px] lg:p-10",
+        "relative left-1/2 w-[375px] -translate-x-1/2 overflow-hidden rounded-2xl bg-white p-6 shadow-lg lg:h-[80vh] lg:w-[540px] lg:p-10",
         className
       )}
     >
-      <div className="pb-2 pt-6 text-center lg:pb-2 lg:pt-8">
-        <h2 className="text-[18px] font-semibold lg:text-[24px]">사장님 정보 관리</h2>
-      </div>
+      <h2 className="py-2 text-center text-[18px] font-semibold lg:text-[24px]">사장님 정보 관리</h2>
 
-      <form onSubmit={handleSubmit(onSubmitHandler)} className="flex flex-col">
-        <div className="scrollbar-custom max-h-[calc(100vh-300px)] pr-2">
-          <div className="space-y-8 lg:space-y-14">
-            <div className="flex justify-center">
+      <form onSubmit={handleSubmit(onSubmitHandler)} className="relative flex flex-col">
+        <div className="scrollbar-custom h-[calc(100vh-400px)] pr-2">
+          <div className="space-y-8 lg:space-y-12">
+            <div className="mt-6 flex justify-center">
               <div className="relative h-[80px] w-[80px] lg:h-[100px] lg:w-[100px]">
                 <button
                   type="button"
@@ -205,18 +203,18 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
           </div>
         </div>
 
-        <div className="sticky bottom-0 w-full border-grayscale-100 bg-white pt-4 lg:pt-10">
-          <div className="flex h-[36px] justify-between gap-3 lg:h-[48px]">
+        <div className="sticky bottom-0 w-full border-grayscale-100 bg-white pt-6 lg:pt-10">
+          <div className="flex h-[58px] justify-between gap-3 lg:h-[72px]">
             <Button
               type="button"
               color="gray"
               onClick={onClose}
               disabled={isUpdating}
-              className="text-sm font-semibold text-white lg:text-base"
+              className="h-full text-sm font-semibold text-white lg:text-base"
             >
               취소
             </Button>
-            <Button type="submit" disabled={isUpdating} className="text-sm font-semibold lg:text-base">
+            <Button type="submit" disabled={isUpdating} className="h-full text-sm font-semibold lg:text-base">
               {isUpdating ? <DotLoadingSpinner /> : "수정하기"}
             </Button>
           </div>
