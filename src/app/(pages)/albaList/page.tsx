@@ -106,7 +106,7 @@ export default function AlbaList() {
       <div className="fixed left-0 right-0 top-16 z-30 bg-white shadow-sm">
         {/* 검색 섹션 */}
         <div className="w-full border-b border-line-100">
-          <div className="mx-auto flex max-w-screen-2xl flex-col gap-4 px-4 py-4 md:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-screen-xl flex-col gap-4 px-4 py-4 md:px-6 lg:px-8">
             <div className="flex items-center justify-between">
               <SearchSection />
             </div>
@@ -115,7 +115,7 @@ export default function AlbaList() {
 
         {/* 필터 드롭다운 섹션 */}
         <div className="w-full border-b border-line-100">
-          <div className="mx-auto flex max-w-screen-2xl items-center justify-between gap-2 px-4 py-4 md:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-screen-xl items-center justify-between gap-2 px-4 py-4 md:px-6 lg:px-8">
             <FilterDropdown
               options={filterRecruitingOptions.map((option) => option.label)}
               initialValue={getInitialRecruitingValue(isRecruiting)}
