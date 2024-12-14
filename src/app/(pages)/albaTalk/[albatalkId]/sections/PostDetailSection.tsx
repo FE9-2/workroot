@@ -69,7 +69,7 @@ export function PostDetailSection({ postId }: { postId: string }) {
   ];
 
   return (
-    <section className="mb-12 w-full rounded-lg bg-white p-4 md:p-6 lg:p-8">
+    <section className="mb-12 w-full rounded-lg bg-white">
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-[16px] font-semibold md:text-[20px] lg:text-[24px]">{post?.title}</h1>
