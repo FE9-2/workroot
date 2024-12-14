@@ -12,11 +12,14 @@ interface FilterDropdownProps {
   readOnly?: boolean;
 }
 
+// 필터링 옵션을 선택할 수 있는 드롭다운 컴포넌트
 const FilterDropdown = ({ options, className = "", onChange, initialValue, readOnly = false }: FilterDropdownProps) => {
+  // 드롭다운 상태 관리
   const [isOpen, setIsOpen] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState(initialValue || options[0]);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // 외부 클릭 감지하여 드롭다운 닫기
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -30,17 +33,20 @@ const FilterDropdown = ({ options, className = "", onChange, initialValue, readO
     };
   }, []);
 
+  // initialValue가 변경되면 선택된 라벨 업데이트
   useEffect(() => {
     if (initialValue) {
       setSelectedLabel(initialValue);
     }
   }, [initialValue]);
 
+  // 드롭다운 토글 핸들러
   const toggleDropdown = () => {
     if (readOnly) return;
     setIsOpen((prev) => !prev);
   };
 
+  // 옵션 선택 핸들러
   const handleSelect = (option: string | null) => {
     if (option !== null) {
       setSelectedLabel(option);
