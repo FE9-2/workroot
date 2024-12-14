@@ -1,6 +1,7 @@
 import React from "react";
 import Chip from "@/app/components/chip/Chip";
 import { FormDetailResponse } from "@/types/response/form";
+import { formatDateTime } from "@/utils/formatters";
 
 interface FormHeaderProps {
   albaFormDetailData: FormDetailResponse;
@@ -15,7 +16,9 @@ export default function FormHeader({ albaFormDetailData }: FormHeaderProps) {
         variant={albaFormDetailData.isPublic ? "positive" : "negative"}
       />
       <Chip label={recruitmentStatus} variant="positive" />
-      <p className="ml-2 text-lg text-grayscale-500">{new Date(albaFormDetailData.createdAt).toLocaleString()} 등록</p>
+      <p className="ml-2 text-lg text-grayscale-500">
+        {formatDateTime(albaFormDetailData.createdAt.toLocaleString())} 등록
+      </p>
     </div>
   );
 }
