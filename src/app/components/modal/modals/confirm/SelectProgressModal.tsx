@@ -3,7 +3,7 @@ import { cn } from "@/lib/tailwindUtil";
 import RadioBtn from "@/app/components/button/default/RadioBtn";
 import RadioGroup from "@/app/components/button/default/RadioGroup";
 import Button from "@/app/components/button/default/Button";
-import { ApplicationStatus, applicationStatus } from "@/types/application";
+import { ApplyStatus, applicationStatus } from "@/types/application";
 import { positionOptions } from "@/constants/positionOptions";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -12,7 +12,7 @@ import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinne
 
 const SelectProgressModal = ({ id, isOpen, onClose, className }: ConfirmFormModalProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedValue, setSelectedValue] = useState<ApplicationStatus>(applicationStatus.INTERVIEW_PENDING);
+  const [selectedValue, setSelectedValue] = useState<ApplyStatus>(applicationStatus.INTERVIEW_PENDING);
 
   if (!isOpen) return null;
 
@@ -23,7 +23,7 @@ const SelectProgressModal = ({ id, isOpen, onClose, className }: ConfirmFormModa
     { id: "hired", value: applicationStatus.HIRED, label: "채용 완료" },
   ] as const;
 
-  const handleValueChange = (value: ApplicationStatus) => {
+  const handleValueChange = (value: ApplyStatus) => {
     setSelectedValue(value);
   };
 

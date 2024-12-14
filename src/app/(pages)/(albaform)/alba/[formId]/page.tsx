@@ -9,13 +9,12 @@ import Script from "next/script";
 import FormHeader from "./components/FormHeader";
 import FormDetails from "./components/FormDetail";
 import RecruitInformation from "./components/RecruitInformation";
-import ApplicationStatus from "./components/ApplicationStatus";
+import ApplyStatus from "./components/ApplyStatus";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import FormImage from "./components/FormImage";
 import ScrapBtn from "@/app/components/button/default/ScrapBtn";
-import FloatingBtn from "@/app/components/button/default/FloatingBtn";
 import { IoShareSocialSharp } from "react-icons/io5";
-import { handleShare } from "@/utils/kakaoShare";
+import ExpandedFloatingBtn from "@/app/components/button/default/ExpandedFloatingBtn";
 
 interface Coords {
   lat: number;
@@ -34,7 +33,6 @@ export default function AlbaFormDetailPage() {
   const [formIdState, setFormIdState] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const { user } = useUser();
-  const isOwner = user?.role === "OWNER";
 
   // 카카오맵 관련 상태
   const [coords, setCoords] = useState<Coords>({ lat: 37.5665, lng: 126.978 });
@@ -45,7 +43,7 @@ export default function AlbaFormDetailPage() {
 
   // 카카오 SDK 초기화
   useEffect(() => {
-    if (typeof window !== "undefined" && window.Kakao && !window.Kakao.isInitialized()) {
+    if (window.Kakao && !window.Kakao.isInitialized()) {
       window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APP_KEY);
     }
   }, []);
@@ -57,6 +55,8 @@ export default function AlbaFormDetailPage() {
   }, [formId]);
 
   const { albaFormDetailData, isLoading } = useFormDetail({ formId: formIdState });
+  const isOwner = user?.role === "OWNER";
+  const isAuthor = user?.id === albaFormDetailData?.ownerId;
 
   // 주소로 좌표 검색
   useEffect(() => {
@@ -72,6 +72,11 @@ export default function AlbaFormDetailPage() {
       }
     });
   }, [albaFormDetailData?.location]);
+
+  // 사용자 데이터가 로딩 중인지 확인
+  if (!user) {
+    return <LoadingSpinner />;
+  }
 
   if (isLoading)
     return (
@@ -125,23 +130,11 @@ export default function AlbaFormDetailPage() {
         </div>
       </div>
       {/* 지원 현황 */}
-      {isOwner && <ApplicationStatus formId={formIdState} />}
+      {isOwner && isAuthor && <ApplyStatus formId={formIdState} />}
 
-      <div className="fixed right-10 top-1/2 flex flex-col gap-5">
+      <div className="fixed right-10 top-1/2 flex flex-col items-end gap-5">
         <ScrapBtn formId={formIdState} />
-        <FloatingBtn
-          icon={<IoShareSocialSharp />}
-          variant="orange"
-          onClick={() =>
-            handleShare({
-              title: "알바폼 공유",
-              description: "자세한 내용을 확인하세요!",
-              imageUrl: albaFormDetailData?.imageUrls[0] || "기본 이미지 URL",
-              mobileWebUrl: `http://example.com/form/${formIdState}`,
-              webUrl: `http://example.com/form/${formIdState}`,
-            })
-          }
-        />
+        <ExpandedFloatingBtn icon={<IoShareSocialSharp />} variant="orange" />
       </div>
     </div>
   );

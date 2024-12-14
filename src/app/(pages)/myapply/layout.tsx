@@ -1,7 +1,7 @@
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import React, { Suspense } from "react";
 
-export default function AlbaFormDetailLayout({ children }: { children: React.ReactNode }) {
+export default function MyApplyLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="mx-auto max-w-screen-xl px-4 py-8">
       <Suspense

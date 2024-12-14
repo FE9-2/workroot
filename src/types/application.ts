@@ -6,4 +6,4 @@ export const applicationStatus = {
   HIRED: "HIRED",
 } as const;
 
-export type ApplicationStatus = (typeof applicationStatus)[keyof typeof applicationStatus];
+export type ApplyStatus = (typeof applicationStatus)[keyof typeof applicationStatus];
