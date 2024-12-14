@@ -93,7 +93,7 @@ export default function AlbaTalk() {
       <div className="w-full pt-[132px]">
         {/* 글쓰기 버튼 - 고정 위치 수정 */}
         {user && (
-          <Link href="/albatalk/add" className="fixed bottom-[50%] right-[8%] z-30 translate-y-1/2">
+          <Link href="/alba-talk/add" className="fixed bottom-[50%] right-[8%] z-30 translate-y-1/2">
             <FloatingBtn icon={<RiEdit2Fill className="size-6" />} variant="orange" />
           </Link>
         )}
@@ -108,7 +108,7 @@ export default function AlbaTalk() {
               {data?.pages.map((page) => (
                 <React.Fragment key={page.nextCursor}>
                   {page.data.map((post) => (
-                    <div className="cursor-pointer" key={post.id} onClick={() => router.push(`/albatalk/${post.id}`)}>
+                    <div className="cursor-pointer" key={post.id} onClick={() => router.push(`/alba-talk/${post.id}`)}>
                       <CardBoard
                         id={post.id.toString()}
                         title={post.title}

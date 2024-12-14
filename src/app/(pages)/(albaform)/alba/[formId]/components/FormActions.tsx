@@ -34,7 +34,7 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
     try {
       await axios.delete(`/api/forms/${formId}`);
       toast.success("성공적으로 삭제되었습니다.");
-      router.push(`/albalist`);
+      router.push(`/alba-list`);
     } catch (error) {
       console.error(error);
       toast.error("삭제 중 오류가 발생했습니다.");
@@ -75,7 +75,7 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
             {isLoading ? <DotLoadingSpinner /> : "지원하기"}
           </FloatingBtn>
         </Link>
-        <Link href={`/myapply/${formId}`}>
+        <Link href={`/my-apply/${formId}`}>
           <FloatingBtn variant="white" className={buttonStyle} icon={<HiDocumentText />}>
             {isLoading ? <DotLoadingSpinner /> : "내 지원내역 보기"}
           </FloatingBtn>
