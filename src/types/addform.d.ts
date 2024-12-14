@@ -20,3 +20,9 @@ export interface SubmitFormDataType {
   title: string;
   imageFiles: File[];
 }
+
+export interface ImageInputType {
+  file: File | null;
+  url: string;
+  id: string;
+}

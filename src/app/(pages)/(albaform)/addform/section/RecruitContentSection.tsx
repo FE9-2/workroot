@@ -7,12 +7,13 @@ import { cn } from "@/lib/tailwindUtil";
 import { useFormContext } from "react-hook-form";
 import { useEffect, useState } from "react";
 import Label from "../../component/Label";
+import { ImageInputType } from "@/types/addform";
 
 // 알바폼 만들기 - 사장님 - 1-모집내용
 
 export default function RecruitContentSection() {
   // 이미지 파일을 로컬 상태에 저장
-  const [initialImageList, setInitialImageList] = useState<{ file: File; url: string; id: string }[]>([]);
+  const [initialImageList, setInitialImageList] = useState<ImageInputType[]>([]);
 
   //훅폼 하위 컴포넌트에서는 useFormcontext에서 메서드 호출
   const {
@@ -22,8 +23,8 @@ export default function RecruitContentSection() {
     formState: { errors },
   } = useFormContext();
 
-  const currentValues = watch();
-  const imageFilesData: File[] = currentValues.imageFiles;
+  const imageImagesData: string[] = watch("imageUrls");
+  const imageFilesData: File[] = watch("imageFiles");
   const length = imageFilesData?.length || 0;
   const lastImageFile = length > 0 ? imageFilesData[length - 1] : null;
 
@@ -53,6 +54,18 @@ export default function RecruitContentSection() {
       setInitialImageList(updatedImageList);
     }
   }, [imageFilesData]);
+
+  // edit 페이지에서 쿼리 데이터로 프리뷰 추가
+  useEffect(() => {
+    if (imageImagesData?.length > 0) {
+      const updatedImageList = imageImagesData.map((url: string) => ({
+        file: null,
+        url,
+        id: crypto.randomUUID(),
+      }));
+      setInitialImageList(updatedImageList);
+    }
+  }, [imageImagesData]);
 
   // 날짜 선택
   const [recruitmentDateRange, setRecruitmentDateRange] = useState<[Date | null, Date | null]>([null, null]);

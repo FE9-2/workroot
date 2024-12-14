@@ -60,20 +60,20 @@ export default function EditFormPage() {
     if (albaFormDetailData) {
       reset({
         isPublic: albaFormDetailData.isPublic,
-        hourlyWage: formatMoney(String(albaFormDetailData.hourlyWage)), // 쉼표 추가하기
+        hourlyWage: formatMoney(String(albaFormDetailData.hourlyWage)),
         isNegotiableWorkDays: albaFormDetailData.isNegotiableWorkDays,
         workDays: albaFormDetailData.workDays,
         workEndTime: albaFormDetailData.workEndTime,
         workStartTime: albaFormDetailData.workStartTime,
-        workEndDate: albaFormDetailData.workEndDate, // display값에 반영하기
+        workEndDate: albaFormDetailData.workEndDate, // display & value 값에 반영하기
         workStartDate: albaFormDetailData.workStartDate,
         location: albaFormDetailData.location,
-        preferred: albaFormDetailData.preferred, //value 반영하기
-        age: albaFormDetailData.age, //value 반영하기
-        education: albaFormDetailData.education, //value 반영하기
-        gender: albaFormDetailData.gender, //value 반영하기
-        numberOfPositions: albaFormDetailData.numberOfPositions, //value 반영하기
-        recruitmentEndDate: albaFormDetailData.recruitmentEndDate, // display값에 반영하기
+        preferred: albaFormDetailData.preferred,
+        age: albaFormDetailData.age,
+        education: albaFormDetailData.education,
+        gender: albaFormDetailData.gender,
+        numberOfPositions: albaFormDetailData.numberOfPositions,
+        recruitmentEndDate: albaFormDetailData.recruitmentEndDate, // display & value 값에 반영하기
         recruitmentStartDate: albaFormDetailData.recruitmentStartDate,
         description: albaFormDetailData.description,
         title: albaFormDetailData.title,

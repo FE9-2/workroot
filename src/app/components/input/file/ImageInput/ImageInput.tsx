@@ -4,11 +4,7 @@ import { forwardRef, useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import PreviewItem from "./PreviewItem";
 import { cn } from "@/lib/tailwindUtil";
-interface ImageInputType {
-  file: File | null;
-  url: string;
-  id: string;
-}
+import { ImageInputType } from "@/types/addform";
 
 interface ImageInputProps {
   name: string;
