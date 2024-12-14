@@ -1,7 +1,7 @@
 "use client";
 
 import { HiUpload } from "react-icons/hi";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import PreviewItem from "./PreviewItem";
 
@@ -15,15 +15,21 @@ interface ImageInputPlaceHolderProps {
   onImageUpload: (file: File) => Promise<string>;
   onImagesChange: (images: ImageInputType[]) => void;
   size?: "small" | "large";
+  initialImages?: ImageInputType[];
 }
 
 const ImageInputPlaceHolder: React.FC<ImageInputPlaceHolderProps> = ({
   onImageUpload,
   onImagesChange,
   size = "large",
+  initialImages = [],
 }) => {
-  const [imageList, setImageList] = useState<ImageInputType[]>([]);
+  const [imageList, setImageList] = useState<ImageInputType[]>(initialImages);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setImageList(initialImages);
+  }, [initialImages]);
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
