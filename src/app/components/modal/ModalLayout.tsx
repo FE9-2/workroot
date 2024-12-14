@@ -53,7 +53,7 @@ const ModalLayout = () => {
 
   return createPortal(
     <div
-      className="bg-black50 !z-99999 fixed inset-0 flex items-center justify-center"
+      className="!z-99999 fixed inset-0 flex items-center justify-center"
       onClick={(e) => {
         if (e.target === e.currentTarget) closeModal();
       }}

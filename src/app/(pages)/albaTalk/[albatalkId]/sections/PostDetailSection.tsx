@@ -45,6 +45,7 @@ export function PostDetailSection({ postId }: { postId: string }) {
               onConfirm: () => {},
               onCancel: () => {},
             });
+            router.push("/albatalk");
           },
         });
       },
@@ -60,7 +61,7 @@ export function PostDetailSection({ postId }: { postId: string }) {
   };
 
   const handleEdit = () => {
-    router.push(`/albatalk/edit/${postId}`);
+    router.push(`/albatalk/${postId}/edit`);
   };
 
   const dropdownOptions = [
@@ -69,7 +70,7 @@ export function PostDetailSection({ postId }: { postId: string }) {
   ];
 
   return (
-    <section className="mb-12 w-full rounded-lg bg-white p-4 md:p-6 lg:p-8">
+    <section className="mb-12 w-full rounded-lg bg-white">
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-[16px] font-semibold md:text-[20px] lg:text-[24px]">{post?.title}</h1>
@@ -82,12 +83,48 @@ export function PostDetailSection({ postId }: { postId: string }) {
       </div>
 
       {/* Author Info */}
-      <div className="mb-4 flex items-center gap-2">
-        <Image src="/icons/user/user-profile-sm.svg" alt="User Icon" className="rounded-full" width={32} height={32} />
+      <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="font-medium text-black-400">{post?.writer.nickname}</span>
-          <span className="text-grayscale-400">|</span>
-          <span className="text-sm text-grayscale-400">{formatLocalDate(post?.createdAt || new Date())}</span>
+          <Image
+            src="/icons/user/user-profile-sm.svg"
+            alt="User Icon"
+            className="rounded-full"
+            width={32}
+            height={32}
+          />
+          <div className="flex items-center gap-2">
+            <span className="font-medium text-black-400">{post?.writer.nickname}</span>
+            <span className="text-grayscale-400">|</span>
+            <span className="text-sm text-grayscale-400">{formatLocalDate(post?.createdAt || new Date())}</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1">
+            <Image
+              src={`/icons/comment/${isDesktop ? "comment-md.svg" : "comment-sm.svg"}`}
+              alt="Comment Icon"
+              width={24}
+              height={24}
+            />
+            <span className="text-sm text-grayscale-500">{post?.commentCount}</span>
+          </div>
+          <div className="flex cursor-pointer items-center gap-1" onClick={handleLikeClick}>
+            <Image
+              src={`/icons/like/${
+                post?.isLiked
+                  ? isDesktop
+                    ? "like-md-active.svg"
+                    : "like-sm-active.svg"
+                  : isDesktop
+                    ? "like-md.svg"
+                    : "like-sm.svg"
+              }`}
+              alt="Like Icon"
+              width={24}
+              height={24}
+            />
+            <span className="text-sm text-grayscale-500">{post?.likeCount}</span>
+          </div>
         </div>
       </div>
 
@@ -110,36 +147,6 @@ export function PostDetailSection({ postId }: { postId: string }) {
             />
           </div>
         ) : null}
-      </div>
-
-      {/* Footer */}
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-1">
-          <Image
-            src={`/icons/comment/${isDesktop ? "comment-md.svg" : "comment-sm.svg"}`}
-            alt="Comment Icon"
-            width={24}
-            height={24}
-          />
-          <span className="text-sm text-grayscale-500">{post?.commentCount}</span>
-        </div>
-        <div className="flex cursor-pointer items-center gap-1" onClick={handleLikeClick}>
-          <Image
-            src={`/icons/like/${
-              post?.isLiked
-                ? isDesktop
-                  ? "like-md-active.svg"
-                  : "like-sm-active.svg"
-                : isDesktop
-                  ? "like-md.svg"
-                  : "like-sm.svg"
-            }`}
-            alt="Like Icon"
-            width={24}
-            height={24}
-          />
-          <span className="text-sm text-grayscale-500">{post?.likeCount}</span>
-        </div>
       </div>
     </section>
   );

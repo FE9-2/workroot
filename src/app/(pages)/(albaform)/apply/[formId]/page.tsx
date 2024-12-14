@@ -8,10 +8,9 @@ import { cn } from "@/lib/tailwindUtil";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Label from "../../component/Label";
 import uploadResume from "@/utils/uploadResume";
-import tempSave from "@/utils/tempSave";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import { useState } from "react";
 interface ApplyFormData {
@@ -49,48 +48,59 @@ export default function Apply() {
 
   const formId = useParams().formId;
   const router = useRouter();
-  const currentValues = getValues();
-  const { resume, ...submitData } = currentValues;
+  const queryClient = useQueryClient();
   const [isLoding, setIsLoading] = useState(false);
+
+  const onTempSave = async () => {
+    try {
+      const values = getValues();
+      const uploadedResume = await uploadResume(values.resume);
+      setValue("resumeId", uploadedResume.resumeId);
+      setValue("resumeName", uploadedResume.resumeName);
+    } catch (error) {
+      console.error("Error uploading resume:", error);
+      toast.error("이력서 업로드에 실패했습니다.");
+    }
+  };
 
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
-      console.log("apply 제출 submitData 출력", submitData);
+      // 이력서 업로드 및 임시저장 먼저 수행
+      await onTempSave();
+
+      // 최신 값을 가져오기
+      const values = getValues();
+      const { ...submitData } = values;
+
       const response = await axios.post(`/api/forms/${formId}/applications`, submitData);
-      console.log("apply 제출 response.data 출력", response.data);
+      return response.data;
     },
     onMutate: () => {
       setIsLoading(true); // 로딩 상태 시작
     },
     onSuccess: () => {
       setIsLoading(false);
+      // 로컬 스토리지 데이터 삭제
       if (typeof window !== "undefined") {
         window.localStorage.removeItem("tempAddFormData");
       }
-      toast.success("알바폼을 등록했습니다.");
-      router.push(`/alba/${formId}`);
+
+      // 내 지원서 목록 캐시 무효화
+      queryClient.invalidateQueries({ queryKey: ["myApplications"] });
+
+      toast.success("지원이 완료되었습니다.");
+      router.push("/myalbaform");
     },
 
     onError: (error) => {
       setIsLoading(false);
-      console.error("에러가 발생했습니다.", error);
-      toast.error("에러가 발생했습니다.");
+      console.error("지원하기에 실패했습니다.", error);
+      toast.error("지원하기에 실패했습니다.");
+      // 에러 발생 시 자동으로 임시저장
       onTempSave();
     },
   });
-
-  const onTempSave = async () => {
-    try {
-      const uploadedResume = await uploadResume(currentValues.resume);
-      setValue("resumeId", uploadedResume.resumeId);
-      setValue("resumeName", uploadedResume.resumeName);
-      tempSave("applyData", currentValues);
-    } catch (error) {
-      console.error("Error uploading resume:", error);
-      toast.error("이력서 업로드에 실패했습니다.");
-    }
-  };
 
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";

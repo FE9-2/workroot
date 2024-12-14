@@ -15,6 +15,7 @@ import { IoAdd } from "react-icons/io5";
 import { userRoles } from "@/constants/userRoles";
 import FloatingBtn from "@/app/components/button/default/FloatingBtn";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
+import ContentSection from "@/app/components/layout/ContentSection";
 
 const FORMS_PER_PAGE = 10;
 
@@ -152,10 +153,10 @@ export default function AlbaList() {
   return (
     <div className="flex min-h-screen flex-col items-center">
       {/* 검색 섹션과 필터 드롭다운을 고정 위치로 설정 */}
-      <div className="fixed left-0 right-0 top-16 z-40 bg-white shadow-sm">
+      <div className="fixed left-0 right-0 top-16 z-30 bg-white shadow-sm">
         {/* 검색 섹션 */}
         <div className="w-full border-b border-line-100">
-          <div className="mx-auto flex max-w-screen-2xl flex-col gap-4 px-4 py-4 md:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-screen-xl flex-col gap-4 px-4 py-4 md:px-6 lg:px-8">
             <div className="flex items-center justify-between">
               <SearchSection />
             </div>
@@ -164,7 +165,7 @@ export default function AlbaList() {
 
         {/* 필터 드롭다운 섹션 */}
         <div className="w-full border-b border-line-100">
-          <div className="mx-auto flex max-w-screen-2xl items-center justify-between gap-2 px-4 py-4 md:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-screen-xl items-center justify-between gap-2 px-4 py-4 md:px-6 lg:px-8">
             <div className="flex items-center gap-2">
               <FilterDropdown
                 options={filterPublicOptions.map((option) => option.label)}
@@ -201,7 +202,7 @@ export default function AlbaList() {
           </div>
         ) : (
           <div className="mx-auto mt-4 w-full max-w-screen-xl px-3">
-            <div className="flex flex-wrap justify-start gap-6">
+            <ContentSection>
               {data?.pages.map((page) => (
                 <React.Fragment key={page.nextCursor}>
                   {page.data.map((form) => (
@@ -213,7 +214,7 @@ export default function AlbaList() {
                   ))}
                 </React.Fragment>
               ))}
-            </div>
+            </ContentSection>
 
             {/* 무한 스크롤 트리거 영역 */}
             <div ref={ref} className="h-4 w-full">

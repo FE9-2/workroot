@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import SearchInput from "@/app/components/input/text/SearchInput";
+import Button from "../../button/default/Button";
 
 export default function SearchSection() {
   const router = useRouter();
@@ -24,20 +25,15 @@ export default function SearchSection() {
 
   return (
     <form onSubmit={handleSubmit} className="w-full">
-      <div className="mx-auto flex items-center justify-between gap-4">
-        <div className="w-[270px] md:w-[500px] lg:w-[700px] xl:w-[900px]">
-          <SearchInput
-            value={keyword}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setKeyword(e.target.value)}
-            className="h-10 w-full bg-background-200 hover:bg-background-300"
-          />
-        </div>
-        <button
-          type="submit"
-          className="rounded-lg bg-primary-orange-300 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-orange-200 md:px-8 md:text-base lg:px-12 lg:text-lg xl:px-16 xl:text-xl"
-        >
+      <div className="mx-auto flex items-center gap-4">
+        <SearchInput
+          value={keyword}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setKeyword(e.target.value)}
+          className="text:lg lg:text:xl h-[52px] w-full border-none bg-background-200 hover:bg-background-300"
+        />
+        <Button type="submit" width="sm">
           검색
-        </button>
+        </Button>
       </div>
     </form>
   );

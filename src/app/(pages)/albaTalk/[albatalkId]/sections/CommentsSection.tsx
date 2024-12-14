@@ -65,44 +65,40 @@ export function CommentsSection({ postId }: CommentsSectionProps): JSX.Element {
 
   return (
     <section className="w-full" aria-label="댓글 섹션">
-      <div className="mb-6 ml-6 text-[16px] font-semibold text-black-400 md:text-[20px] lg:text-[24px]">
+      <div className="mb-6 text-[16px] font-semibold text-black-400 md:text-[20px] lg:text-[24px]">
         댓글({commentsData?.totalItemCount ?? 0})
       </div>
 
-      <div className="p-4">
-        <BaseTextArea
-          name="newComment"
-          placeholder="댓글을 입력해주세요."
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          className="h-[90px] w-[344px] resize-none rounded-lg bg-background-200 p-4 md:w-[742px] lg:h-[100px] lg:w-[994px] xl:w-[1410px]"
-          size="h-[120px] w-[375px] md:w-[768px] lg:w-[1024px] xl:w-[1440px] lg:h-[144px]"
-          variant="white"
-        />
-      </div>
-      <div className="flex justify-end p-4">
+      <BaseTextArea
+        name="newComment"
+        placeholder="댓글을 입력해주세요."
+        value={newComment}
+        onChange={(e) => setNewComment(e.target.value)}
+        size="h-[120px] w-full lg:h-[144px]"
+        variant="white"
+      />
+      <div className="flex justify-end pb-10 pt-4">
         <Button
           onClick={handleAddComment}
           disabled={addComment.isPending || !newComment.trim()}
-          className="h-[64px] w-[140px] rounded-lg text-[14px] font-medium"
+          className="h-[50px] w-[108px] rounded-lg text-[14px] font-medium lg:h-[64px] lg:w-[214px]"
         >
           {addComment.isPending ? <DotLoadingSpinner /> : "등록하기"}
         </Button>
       </div>
 
-      <div className="mt-4">
+      <div className="mb-6">
         {commentsData?.data?.length ? (
           <>
             {commentsData.data.map((comment) => (
-              <div key={comment.id} className="rounded-lg bg-white p-2">
-                <Comment
-                  id={comment.id.toString()}
-                  nickname={comment.writer.nickname}
-                  updatedAt={comment.createdAt}
-                  content={comment.content}
-                  isAuthor={comment.writer.id === user?.id}
-                />
-              </div>
+              <Comment
+                key={comment.id}
+                id={comment.id.toString()}
+                nickname={comment.writer.nickname}
+                updatedAt={comment.createdAt}
+                content={comment.content}
+                isAuthor={comment.writer.id === user?.id}
+              />
             ))}
           </>
         ) : (

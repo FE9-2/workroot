@@ -126,7 +126,7 @@ const AlbaListItem = ({
   };
 
   return (
-    <div className="relative h-auto w-[327px] overflow-hidden rounded-xl border border-grayscale-200 bg-white shadow-md transition-transform duration-300 hover:scale-[1.02] lg:w-[372px]">
+    <div className="relative h-auto w-[327px] overflow-hidden rounded-xl border border-line-200 bg-white shadow-md transition-transform duration-300 hover:scale-[1.02] lg:w-[372px]">
       {/* 이미지 슬라이더 영역 */}
       <div className="relative h-[200px] overflow-hidden rounded-t-xl lg:h-[240px]">
         {imageUrls[currentImageIndex] && !imageError ? (
@@ -171,7 +171,7 @@ const AlbaListItem = ({
               <div className="flex items-center justify-between">
                 <Chip label={isPublic ? "공개" : "비공개"} variant={isPublic ? "positive" : "negative"} />
                 <Chip label={recruitmentStatus} variant={recruitmentStatus === "모집 중" ? "positive" : "negative"} />
-                <span className="text-xs font-medium tracking-tighter text-grayscale-500 md:inline lg:text-sm">
+                <span className="ml-4 text-xs font-medium tracking-tighter text-grayscale-500 md:inline lg:text-sm">
                   {formatLocalDate(recruitmentStartDate, true)} ~ {formatLocalDate(recruitmentEndDate, true)}
                 </span>
               </div>

@@ -7,7 +7,7 @@ import { PostSchema } from "@/schemas/postSchema";
 export const useAddPost = () => {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation({
+  const mutation = useMutation<PostDetailResponse, Error, PostSchema>({
     mutationFn: async (data: PostSchema) => {
       const response = await axios.post<PostDetailResponse>("/api/posts", data, {
         headers: {
@@ -17,7 +17,7 @@ export const useAddPost = () => {
       });
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success("게시글이 등록되었습니다!", {
         style: {
           textAlign: "center",
@@ -25,6 +25,7 @@ export const useAddPost = () => {
       });
       // 게시글 목록 캐시 무효화
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+      return data; // 응답 데이터 반환
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
@@ -41,6 +42,7 @@ export const useAddPost = () => {
           },
         });
       }
+      throw error; // 에러를 다시 throw하여 컴포넌트에서 처리할 수 있도록 함
     },
   });
 
