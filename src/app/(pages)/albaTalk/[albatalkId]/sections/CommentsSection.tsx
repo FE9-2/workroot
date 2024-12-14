@@ -15,7 +15,7 @@ interface CommentsSectionProps {
   postId: string;
 }
 
-export function CommentsSection({ postId }: CommentsSectionProps) {
+export function CommentsSection({ postId }: CommentsSectionProps): JSX.Element {
   const [currentPage, setCurrentPage] = useState(1);
   const [newComment, setNewComment] = useState("");
 
@@ -42,10 +42,13 @@ export function CommentsSection({ postId }: CommentsSectionProps) {
     }
   }, [addComment, newComment]);
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+    const commentSection = document.querySelector("#comments-section");
+    if (commentSection) {
+      commentSection.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
 
   if (isCommentsLoading) {
     return (
@@ -60,39 +63,37 @@ export function CommentsSection({ postId }: CommentsSectionProps) {
   }
 
   return (
-    <section className="w-full max-w-[327px]">
-      <h2 className="mb-4 text-[16px] font-semibold sm:text-[20px] lg:text-[24px]">
-        댓글({commentsData?.totalItemCount || 0})
-      </h2>
+    <section className="w-full" aria-label="댓글 섹션">
+      <div className="mb-6 ml-6 text-[16px] font-semibold text-black-400 sm:text-[20px] lg:text-[24px]">
+        댓글({commentsData?.totalItemCount ?? 0})
+      </div>
 
-      <hr className="mb-4 border-t border-line-200" />
-
-      {/* 댓글 입력 영역 */}
-      <div className="mb-8">
-        <BaseTextArea
-          name="newComment"
-          variant="white"
-          placeholder="댓글을 입력해주세요."
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          className="mb-4 h-[132px] w-full lg:h-[160px]"
-        />
+      <div className="mb-12 rounded-lg bg-white p-5">
+        <div className="mb-4">
+          <BaseTextArea
+            name="newComment"
+            placeholder="댓글을 입력해주세요."
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            className="h-[132px] w-full resize-none rounded-lg border border-line-200 bg-white p-4"
+            variant="white"
+          />
+        </div>
         <div className="flex justify-end">
           <Button
             onClick={handleAddComment}
             disabled={addComment.isPending || !newComment.trim()}
-            className="h-[52px] w-[108px] text-base lg:h-[64px] lg:w-[214px] lg:text-xl"
+            className="h-[52px] w-[108px] rounded-lg text-[14px] font-medium sm:h-[64px] sm:w-[140px]"
           >
             {addComment.isPending ? "등록 중..." : "등록하기"}
           </Button>
         </div>
       </div>
 
-      {/* 댓글 목록 */}
-      {commentsData?.data && commentsData.data.length > 0 ? (
-        <div className="space-y-4">
+      {commentsData?.data?.length ? (
+        <div className="space-y-8">
           {commentsData.data.map((comment) => (
-            <div key={comment.id}>
+            <div key={comment.id} className="rounded-lg bg-white p-5">
               <Comment
                 id={comment.id.toString()}
                 nickname={comment.writer.nickname}
@@ -104,15 +105,18 @@ export function CommentsSection({ postId }: CommentsSectionProps) {
           ))}
         </div>
       ) : (
-        <div className="mt-8 flex justify-center">
-          <Image src="/images/emptyComment-md.svg" alt="No comments" width={206} height={204} />
+        <div className="flex min-h-[300px] flex-col items-center justify-center gap-4 rounded-lg bg-white p-5">
+          <Image src="/images/emptyComment-md.svg" alt="No comments" width={206} height={204} className="mb-4" />
         </div>
       )}
 
-      {/* 페이지네이션 */}
-      {commentsData?.totalPages && commentsData.totalPages > 0 && (
-        <div className="mt-8">
-          <Pagination currentPage={currentPage} totalPage={commentsData.totalPages} onPageChange={handlePageChange} />
+      {(commentsData?.totalPages ?? 0) > 1 && (
+        <div className="mt-12 flex justify-center">
+          <Pagination
+            currentPage={currentPage}
+            totalPage={commentsData?.totalPages ?? 0}
+            onPageChange={handlePageChange}
+          />
         </div>
       )}
     </section>

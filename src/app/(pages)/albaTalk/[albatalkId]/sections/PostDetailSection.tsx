@@ -46,62 +46,59 @@ export function PostDetailSection({ postId }: { postId: string }) {
           },
         });
       },
-      onCancel: () => {
-        openModal("customForm", { isOpen: false, title: "", content: "", onConfirm: () => {}, onCancel: () => {} });
-      },
+      onCancel: () =>
+        openModal("customForm", {
+          isOpen: false,
+          title: "",
+          content: "",
+          onConfirm: () => {},
+          onCancel: () => {},
+        }),
     });
   };
 
   const dropdownOptions = [{ label: "삭제하기", onClick: handleDelete, disabled: deletePost.isPending }];
 
   return (
-    <article className="mb-12 w-full max-w-[327px] rounded-lg border border-line-200 bg-white p-4">
+    <section className="mb-12 w-full rounded-lg bg-white p-4 sm:p-6 lg:p-8">
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-[16px] font-semibold lg:text-[24px]">{post?.title}</h1>
+        <h1 className="text-[16px] font-semibold sm:text-[20px] lg:text-[24px]">{post?.title}</h1>
         {post?.writer.id === user?.id && <KebabDropdown options={dropdownOptions} />}
+      </div>
+
+      {/* Divider Line */}
+      <div className="my-[9px] flex items-center justify-center lg:my-[16px]">
+        <div className="w-full bg-line-100" style={{ height: "1px" }}></div>
       </div>
 
       {/* Author Info */}
       <div className="mb-4 flex items-center gap-2">
-        <Image
-          src="/icons/user/user-profile-sm.svg"
-          alt="User Icon"
-          className="rounded-full"
-          width={24}
-          height={24}
-          sizes="(max-width: 600px) 24px, (max-width: 1480px) 28px, 30px"
-        />
-        <div className="flex items-center gap-1">
-          <span className="font-nexon text-[14px] font-medium text-black-400 md:text-[16px] lg:text-[18px]">
-            {post?.writer.nickname}
-          </span>
+        <Image src="/icons/user/user-profile-sm.svg" alt="User Icon" className="rounded-full" width={32} height={32} />
+        <div className="flex items-center gap-2">
+          <span className="font-medium text-black-400">{post?.writer.nickname}</span>
           <span className="text-grayscale-400">|</span>
-          <span className="font-nexon text-[12px] text-grayscale-400 md:text-[14px] lg:text-[16px]">
-            {formatLocalDate(post?.createdAt || new Date())}
-          </span>
+          <span className="text-sm text-grayscale-400">{formatLocalDate(post?.createdAt || new Date())}</span>
         </div>
       </div>
 
       {/* Content */}
-      <div className="mb-4 min-h-[200px] whitespace-pre-wrap break-words font-nexon text-[14px] leading-[1.6] text-black-400 md:text-[16px] lg:text-[18px]">
+      <div className="mb-6 whitespace-pre-wrap text-sm leading-[1.6] text-black-400 sm:text-base lg:text-lg">
         {post?.content}
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-end gap-2">
+      <div className="flex items-center gap-4">
         <div className="flex items-center gap-1">
           <Image
             src={`/icons/comment/${isDesktop ? "comment-md.svg" : "comment-sm.svg"}`}
             alt="Comment Icon"
-            width={22}
-            height={22}
+            width={24}
+            height={24}
           />
-          <span className="font-nexon text-[14px] font-normal text-grayscale-500 lg:text-[16px]">
-            {post?.commentCount}
-          </span>
+          <span className="text-sm text-grayscale-500">{post?.commentCount}</span>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex cursor-pointer items-center gap-1" onClick={handleLikeClick}>
           <Image
             src={`/icons/like/${
               post?.isLiked
@@ -113,16 +110,12 @@ export function PostDetailSection({ postId }: { postId: string }) {
                   : "like-sm.svg"
             }`}
             alt="Like Icon"
-            width={22}
-            height={22}
-            className="cursor-pointer"
-            onClick={handleLikeClick}
+            width={24}
+            height={24}
           />
-          <span className="font-nexon text-[14px] font-normal text-grayscale-500 lg:text-[16px]">
-            {post?.likeCount}
-          </span>
+          <span className="text-sm text-grayscale-500">{post?.likeCount}</span>
         </div>
       </div>
-    </article>
+    </section>
   );
 }
