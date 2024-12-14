@@ -11,8 +11,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Label from "../../component/Label";
 import uploadResume from "@/utils/uploadResume";
-import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
-import { useState } from "react";
+import tempSave from "@/utils/tempSave";
 interface ApplyFormData {
   name: string;
   phoneNumber: string;
@@ -49,7 +48,6 @@ export default function Apply() {
   const formId = useParams().formId;
   const router = useRouter();
   const queryClient = useQueryClient();
-  const [isLoding, setIsLoading] = useState(false);
 
   const onTempSave = async () => {
     try {
@@ -71,16 +69,13 @@ export default function Apply() {
 
       // 최신 값을 가져오기
       const values = getValues();
-      const { ...submitData } = values;
+      const { resume, ...submitData } = values;
 
       const response = await axios.post(`/api/forms/${formId}/applications`, submitData);
       return response.data;
     },
-    onMutate: () => {
-      setIsLoading(true); // 로딩 상태 시작
-    },
+
     onSuccess: () => {
-      setIsLoading(false);
       // 로컬 스토리지 데이터 삭제
       if (typeof window !== "undefined") {
         window.localStorage.removeItem("tempAddFormData");
@@ -94,7 +89,6 @@ export default function Apply() {
     },
 
     onError: (error) => {
-      setIsLoading(false);
       console.error("지원하기에 실패했습니다.", error);
       toast.error("지원하기에 실패했습니다.");
       // 에러 발생 시 자동으로 임시저장
@@ -228,7 +222,7 @@ export default function Apply() {
           className="h-[58px] w-full lg:h-[72px] lg:text-xl lg:leading-8"
           disabled={!isValid || !isDirty}
         >
-          {isLoding ? <DotLoadingSpinner /> : "작성 완료"}
+          작성 완료
         </Button>
       </div>
     </form>
