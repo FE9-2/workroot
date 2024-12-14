@@ -5,7 +5,7 @@ import ImageInput from "@/app/components/input/file/ImageInput/ImageInput";
 import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePickerInput";
 import { cn } from "@/lib/tailwindUtil";
 import { useFormContext } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Label from "../../component/Label";
 
 // 알바폼 만들기 - 사장님 - 1-모집내용
@@ -21,10 +21,38 @@ export default function RecruitContentSection() {
     setValue,
     formState: { errors },
   } = useFormContext();
+
   const currentValues = watch();
   const imageFilesData: File[] = currentValues.imageFiles;
   const length = imageFilesData.length;
-  const lastImageFile = imageFilesData[length - 1];
+  const lastImageFile = length > 0 ? imageFilesData[length - 1] : null;
+
+  // 이미지 파일 change핸들러
+  const handleChangeImages = (files: File[]) => {
+    setValue("imageFiles", files);
+    if (!lastImageFile) {
+      console.error("No files found");
+      return;
+    }
+    const updatedImageList = files.map((file) => ({
+      file,
+      url: URL.createObjectURL(file),
+      id: crypto.randomUUID(),
+    }));
+
+    setInitialImageList(updatedImageList);
+  };
+
+  useEffect(() => {
+    if (imageFilesData.length > 0) {
+      const updatedImageList = imageFilesData.map((file: File) => ({
+        file,
+        url: URL.createObjectURL(file),
+        id: crypto.randomUUID(),
+      }));
+      setInitialImageList(updatedImageList);
+    }
+  }, [imageFilesData]);
 
   // 날짜 선택
   const [recruitmentDateRange, setRecruitmentDateRange] = useState<[Date | null, Date | null]>([null, null]);
@@ -34,20 +62,6 @@ export default function RecruitContentSection() {
     if (start) setValue("recruitmentStartDate", start.toISOString());
     if (end) setValue("recruitmentEndDate", end.toISOString());
   };
-
-  // 이미지 파일 change핸들러
-  const handleChangeImages = (files: File[]) => {
-    setValue("imageFiles", files);
-
-    const newImages = files.map((file: File) => ({
-      file: lastImageFile,
-      url: URL.createObjectURL(lastImageFile),
-      id: crypto.randomUUID(),
-    }));
-
-    setInitialImageList(newImages);
-  };
-
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
 
