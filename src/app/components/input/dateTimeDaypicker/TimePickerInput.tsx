@@ -37,11 +37,15 @@ const TimePickerInput = forwardRef<HTMLInputElement, BaseInputProps>((props, ref
       }
 
       if (onChange) {
-        onChange({ target: { value: time } } as React.ChangeEvent<HTMLInputElement>);
+        const event = {
+          target: { value: time, name: props.name },
+        } as React.ChangeEvent<HTMLInputElement>;
+        onChange(event);
       }
+
       setIsOpen(false);
     },
-    [onChange, setIsOpen]
+    [onChange, props.name, setIsOpen]
   );
 
   const beforeIconStyle = "text-grayscale-400 size-5 lg:size-8";

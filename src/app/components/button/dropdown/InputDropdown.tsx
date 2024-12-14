@@ -39,23 +39,39 @@ const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
       setIsOpen((prev) => !prev);
     };
 
-    const handleSelect = (option: string | null) => {
-      if (!option) {
-        setIsOpen(false);
-        return;
-      }
+    const handleSelect = useCallback(
+      (option: string | null) => {
+        if (!option) {
+          setIsOpen(false);
+          return;
+        }
 
-      if (option === "직접 입력") {
-        setIsCustomInput(true);
-        setSelectedValue("");
-        setValue(name, selectedValue, { shouldDirty: true });
-      } else {
+        if (option === "직접 입력") {
+          setIsCustomInput(true);
+          setSelectedValue("");
+          setValue(name, "", { shouldDirty: true });
+          setIsOpen(false);
+          return;
+        }
+
         setSelectedValue(option);
         setIsCustomInput(false);
         setValue(name, option, { shouldDirty: true });
         setIsOpen(false);
-      }
-    };
+      },
+      [name, setValue]
+    );
+
+    const handleInputChange = useCallback(
+      (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (isCustomInput) {
+          const value = e.target.value;
+          setSelectedValue(value);
+          setValue(name, value, { shouldDirty: true });
+        }
+      },
+      [isCustomInput, name, setValue]
+    );
 
     useEffect(() => {
       const value = watch(name);
@@ -73,9 +89,11 @@ const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
     const handleInputClick = useCallback(
       (e: React.MouseEvent) => {
         e.stopPropagation();
-        setIsOpen(true);
+        if (!isCustomInput) {
+          setIsOpen(true);
+        }
       },
-      [setIsOpen]
+      [isCustomInput]
     );
 
     return (
@@ -84,10 +102,10 @@ const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
         className={cn("relative inline-block text-left", "w-80 lg:w-[640px]", textStyle, className, errorStyle)}
       >
         <div
-          onClick={toggleDropdown}
+          onClick={isCustomInput ? undefined : toggleDropdown}
           className={cn(
-            "cursor-pointer rounded-md border border-transparent bg-background-200 p-2",
-            "hover:border-grayscale-200 hover:bg-background-300",
+            "rounded-md border border-transparent bg-background-200 p-2",
+            !isCustomInput && "cursor-pointer hover:border-grayscale-200 hover:bg-background-300",
             isOpen && "ring-1 ring-grayscale-300"
           )}
         >
@@ -95,20 +113,28 @@ const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
             type="text"
             ref={ref}
             value={selectedValue}
-            onChange={(e) => {
-              if (isCustomInput) {
-                setSelectedValue(e.target.value);
-                setValue(name, e.target.value);
-              }
-            }}
+            onChange={handleInputChange}
             onClick={handleInputClick}
+            readOnly={!isCustomInput}
             className={cn(
-              "text-grayscale-700 flex w-full items-center justify-between px-4 py-2 font-medium focus:outline-none",
-              "cursor-pointer bg-transparent"
+              "flex w-full items-center justify-between px-4 py-2 font-medium focus:outline-none",
+              isCustomInput ? "cursor-text bg-transparent" : "cursor-pointer bg-transparent",
+              "text-grayscale-700"
             )}
             placeholder={isCustomInput ? "직접 입력하세요" : "선택"}
           />
-          <button type="button" className="absolute right-3 top-3.5 text-3xl" onClick={(e) => e.stopPropagation()}>
+          <button
+            type="button"
+            className="absolute right-3 top-3.5 text-3xl"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (isCustomInput) {
+                setIsCustomInput(false);
+                setSelectedValue("");
+                setValue(name, "", { shouldDirty: true });
+              }
+            }}
+          >
             <IoMdArrowDropdown className={cn("transition-transform duration-200", isOpen && "rotate-180")} />
           </button>
         </div>
