@@ -12,10 +12,21 @@ import RecruitInformation from "./components/RecruitInformation";
 import ApplicationStatus from "./components/ApplicationStatus";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import FormImage from "./components/FormImage";
+import ScrapBtn from "@/app/components/button/default/ScrapBtn";
+import FloatingBtn from "@/app/components/button/default/FloatingBtn";
+import { IoShareSocialSharp } from "react-icons/io5";
+import { handleShare } from "@/utils/kakaoShare";
 
 interface Coords {
   lat: number;
   lng: number;
+}
+
+declare global {
+  interface Window {
+    Kakao: any;
+    kakao: any;
+  }
 }
 
 export default function AlbaFormDetailPage() {
@@ -31,6 +42,13 @@ export default function AlbaFormDetailPage() {
     appkey: process.env.NEXT_PUBLIC_KAKAO_APP_KEY as string,
     libraries: ["services"],
   });
+
+  // 카카오 SDK 초기화
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.Kakao && !window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APP_KEY);
+    }
+  }, []);
 
   useEffect(() => {
     if (formId) {
@@ -64,6 +82,8 @@ export default function AlbaFormDetailPage() {
 
   return (
     <div className="container flex min-h-screen flex-col px-4 lg:px-0">
+      {/* 카카오 공유 스트립트 */}
+      <Script src="https://developers.kakao.com/sdk/js/kakao.min.js" strategy="beforeInteractive" />
       {/* 사진영역 */}
       {albaFormDetailData && (
         <FormImage
@@ -106,6 +126,23 @@ export default function AlbaFormDetailPage() {
       </div>
       {/* 지원 현황 */}
       {isOwner && <ApplicationStatus formId={formIdState} />}
+
+      <div className="fixed right-10 top-1/2 flex flex-col gap-5">
+        <ScrapBtn formId={formIdState} />
+        <FloatingBtn
+          icon={<IoShareSocialSharp />}
+          variant="orange"
+          onClick={() =>
+            handleShare({
+              title: "알바폼 공유",
+              description: "자세한 내용을 확인하세요!",
+              imageUrl: albaFormDetailData?.imageUrls[0] || "기본 이미지 URL",
+              mobileWebUrl: `http://example.com/form/${formIdState}`,
+              webUrl: `http://example.com/form/${formIdState}`,
+            })
+          }
+        />
+      </div>
     </div>
   );
 }
