@@ -16,9 +16,7 @@ export default function FormDetails({ albaFormDetailData }: FormDetailsProps) {
     <>
       <div className="mb-4 flex items-end gap-4">
         <span className="text-lg text-black-400 underline lg:text-2xl">{albaFormDetailData.storeName || "가게명"}</span>
-        <span className="text-md text-grayscale-500 lg:text-xl">
-          {albaFormDetailData.location || "위치"} ・ {"경력 정보 없음"}
-        </span>
+        <span className="text-md text-grayscale-500 lg:text-xl">{albaFormDetailData.location || "위치"}</span>
       </div>
       <p className="text-3xl font-bold">{albaFormDetailData.title}</p>
       <div className="space-y-32">
