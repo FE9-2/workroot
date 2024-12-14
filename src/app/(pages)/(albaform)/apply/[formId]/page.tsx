@@ -11,7 +11,6 @@ import { useParams, useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Label from "../../component/Label";
 import uploadResume from "@/utils/uploadResume";
-import tempSave from "@/utils/tempSave";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import { useState } from "react";
 interface ApplyFormData {
@@ -72,7 +71,7 @@ export default function Apply() {
 
       // 최신 값을 가져오기
       const values = getValues();
-      const { resume, ...submitData } = values;
+      const { ...submitData } = values;
 
       const response = await axios.post(`/api/forms/${formId}/applications`, submitData);
       return response.data;
