@@ -5,7 +5,7 @@ import { useState } from "react";
 import SearchInput from "@/app/components/input/text/SearchInput";
 import Button from "../../button/default/Button";
 
-export default function SearchSection() {
+export default function SearchSection({ pathname }: { pathname: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [keyword, setKeyword] = useState(searchParams.get("keyword") || "");
@@ -20,7 +20,7 @@ export default function SearchSection() {
       params.delete("keyword");
     }
 
-    router.push(`/albalist?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   return (

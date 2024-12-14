@@ -2,6 +2,7 @@
 import { cn } from "@/lib/tailwindUtil";
 import { useEffect, useRef } from "react";
 
+// 드롭다운 메뉴의 각 항목 컴포넌트
 const DropdownItem = ({
   item,
   onSelect,
@@ -11,9 +12,10 @@ const DropdownItem = ({
   onSelect: (item: string | null) => void;
   itemStyle?: string;
 }) => {
+  // 항목 클릭 핸들러
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    e.stopPropagation();
+    e.stopPropagation(); // 이벤트 버블링 방지
     onSelect(item);
   };
 
@@ -30,6 +32,7 @@ const DropdownItem = ({
   );
 };
 
+// 드롭다운 메뉴 리스트 컴포넌트
 const DropdownList = ({
   list,
   onSelect,
@@ -43,6 +46,7 @@ const DropdownList = ({
 }) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // 외부 클릭 감지 및 드롭다운 닫기
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -57,6 +61,7 @@ const DropdownList = ({
     };
   }, [onSelect]);
 
+  // 컨테이너 클릭 이벤트 처리
   const handleContainerClick = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
