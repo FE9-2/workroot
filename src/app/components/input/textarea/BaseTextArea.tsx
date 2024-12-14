@@ -26,7 +26,7 @@ const BaseTextArea = forwardRef<HTMLTextAreaElement, BaseTextAreaProps>((props, 
       hover: "hover:border-grayscale-300",
     },
   };
-  const defaultSize = "w-[327px] h-[132px] lg:w-[640px] lg:h-[160px]";
+  const defaultSize = "w-[327px] h-[132px] lg:w-[640px] lg:h-[160px] md:w-[480px] lg:w-full";
   const sizeStyles = props.size || defaultSize;
 
   // textareaStyle

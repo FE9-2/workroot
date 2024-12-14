@@ -23,8 +23,21 @@ type Story = StoryObj<typeof Pagination>;
 export const DefaultPagination: Story = {
   args: {
     totalPage: 8,
+    currentPage: 1,
+    onPageChange: (page: number) => console.log(`페이지 ${page}로 이동`),
   },
   argTypes: {
-    totalPage: { control: "range" },
+    totalPage: {
+      control: { type: "number", min: 1, max: 100 },
+      description: "전체 페이지 수",
+    },
+    currentPage: {
+      control: { type: "number", min: 1 },
+      description: "현재 페이지",
+    },
+    onPageChange: {
+      action: "clicked",
+      description: "페이지 변경 핸들러",
+    },
   },
 };

@@ -28,7 +28,7 @@ export const useDeleteComment = (commentId: string) => {
           },
         });
       } else {
-        toast.error("댓글 삭제 중 오류가 발���했습니다.", {
+        toast.error("댓글 삭제 중 오류가 발생했습니다.", {
           style: {
             textAlign: "center",
           },
