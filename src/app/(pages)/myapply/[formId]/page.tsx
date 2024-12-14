@@ -3,7 +3,7 @@ import Chip from "@/app/components/chip/Chip";
 import React from "react";
 
 // 알바폼 지원내역 상세 페이지
-export default function AlbaFormSupportDetailPage({ formId }: { formId: number }) {
+export default function MyApplyPage({ formId }: { formId: number }) {
   return (
     <div className="container flex min-h-screen flex-col">
       <div className="h-[562px] bg-black-100">지도영역</div>
