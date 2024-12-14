@@ -4,8 +4,9 @@ import debounce from "@/utils/debounce";
 import { useEffect, useState } from "react";
 
 const BREAKPOINTS = {
-  MOBILE: 640,
-  TABLET: 1024,
+  TABLET: 768,
+  DESKTOP: 1024,
+  DESKTOP_LARGE: 1440,
 };
 
 const useWidth = () => {
@@ -22,11 +23,12 @@ const useWidth = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const isMobile = width < BREAKPOINTS.MOBILE;
-  const isTablet = width >= BREAKPOINTS.MOBILE && width < BREAKPOINTS.TABLET;
-  const isDesktop = width >= BREAKPOINTS.TABLET;
+  const isMobile = width < BREAKPOINTS.TABLET;
+  const isTablet = width >= BREAKPOINTS.TABLET && width < BREAKPOINTS.DESKTOP;
+  const isDesktop = width >= BREAKPOINTS.DESKTOP && width < BREAKPOINTS.DESKTOP_LARGE;
+  const isDesktopLarge = width >= BREAKPOINTS.DESKTOP_LARGE;
 
-  return { isMobile, isTablet, isDesktop, width };
+  return { isMobile, isTablet, isDesktop, isDesktopLarge, width };
 };
 
 export default useWidth;
