@@ -11,7 +11,7 @@ export { metadata, viewport };
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko">
-      <body>
+      <body className="scrollbar-custom">
         <ClientLayout>
           <Header />
           <main className="min-h-screen pt-16">{children}</main>

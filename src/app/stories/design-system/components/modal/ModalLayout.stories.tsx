@@ -129,6 +129,7 @@ const ModalTester = () => {
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
           {modalButtons.map((button, index) => (
             <button
+              type="button"
               key={index}
               onClick={button.onClick}
               className={`rounded-md px-4 py-2 text-sm text-white transition-colors ${

@@ -60,15 +60,13 @@ const SelectProgressModal = ({ id, isOpen, onClose, className }: ConfirmFormModa
   return (
     <>
       <div className="bg-black fixed inset-0 z-50 bg-opacity-50" onClick={onClose} />
-      <div
-        className={cn("h-[454px] w-[375px] rounded-3xl bg-white p-4 shadow-lg md:h-[566px] md:w-[440px]", className)}
-      >
+      <div className={cn("w-[375px] rounded-3xl bg-white p-6 shadow-lg lg:w-[440px] lg:p-10", className)}>
         <form onSubmit={handleSubmit} className="flex h-full flex-col items-center">
           <div className="text-center">
-            <h2 className="mb-2 text-lg font-bold md:mb-3 md:text-2xl">진행상태 선택</h2>
-            <p className="text-muted-foreground mb-6 text-sm md:mb-8 md:text-base">현재 진행상태를 알려주세요.</p>
+            <h2 className="mb-2 text-lg font-bold lg:mb-3 lg:text-2xl">진행상태 선택</h2>
+            <p className="text-muted-foreground mb-6 text-sm lg:mb-8 lg:text-base">현재 진행상태를 알려주세요.</p>
           </div>
-          <div className="h-auto w-full md:h-[264px] md:w-[360px]">
+          <div className="h-auto w-full">
             <RadioGroup value={selectedValue} onValueChange={handleValueChange} className="space-y-3">
               {radioOptions.map((option) => (
                 <RadioBtn
@@ -78,33 +76,29 @@ const SelectProgressModal = ({ id, isOpen, onClose, className }: ConfirmFormModa
                   value={option.value}
                   id={option.id}
                   position={positionOptions.POSITION_RIGHT}
-                  className="text-sm md:text-base"
+                  className="text-sm lg:text-base"
                   disabled={isSubmitting}
                 />
               ))}
             </RadioGroup>
           </div>
-          <div className="mt-auto w-full md:w-[360px]">
-            <div className="grid grid-cols-2 gap-4">
-              <Button
-                type="button"
-                onClick={handleCancel}
-                color="gray"
-                disabled={isSubmitting}
-                width="sm"
-                className="h-[48px] text-base font-medium md:h-[62px] md:text-lg"
-              >
-                취소
-              </Button>
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                width="sm"
-                className="h-[48px] text-base font-medium hover:border-primary-orange-50 hover:bg-primary-orange-100 hover:text-white md:h-[62px] md:text-lg"
-              >
-                {isSubmitting ? <DotLoadingSpinner /> : "선택하기"}
-              </Button>
-            </div>
+          <div className="mt-[30px] flex w-full justify-between lg:w-[360px]">
+            <Button
+              type="button"
+              onClick={handleCancel}
+              color="gray"
+              disabled={isSubmitting}
+              className="h-[58px] w-[158px] text-base font-medium text-white lg:h-[72px] lg:w-[176px] lg:text-lg"
+            >
+              취소
+            </Button>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="h-[58px] w-[158px] text-base font-medium lg:h-[72px] lg:w-[176px] lg:text-lg"
+            >
+              {isSubmitting ? <DotLoadingSpinner /> : "선택하기"}
+            </Button>
           </div>
         </form>
       </div>

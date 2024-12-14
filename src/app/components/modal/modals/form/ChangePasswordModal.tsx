@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useLogout } from "@/hooks/queries/auth/useLogout";
 import { usePassword } from "@/hooks/queries/user/me/useChangePassword";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
+import Button from "@/app/components/button/default/Button";
 
 interface ChangePasswordModalProps {
   isOpen: boolean;
@@ -94,15 +95,15 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
   return (
     <div
       className={cn(
-        "relative left-1/2 h-[484px] w-[375px] -translate-x-1/2 overflow-hidden rounded-2xl bg-white p-6 shadow-lg sm:p-8 md:h-[666px] md:w-[720px]",
+        "relative left-1/2 w-[375px] -translate-x-1/2 overflow-hidden rounded-2xl bg-white p-6 shadow-lg lg:w-[720px] lg:p-10",
         className
       )}
     >
-      <div className="mb-8 h-[46px] text-center text-xl font-semibold md:mb-12 md:text-2xl">비밀번호 변경</div>
-      <form onSubmit={handleSubmit(onSubmitHandler)} className="space-y-4 md:space-y-6">
+      <div className="mb-8 h-[46px] text-center text-xl font-semibold lg:mb-12 lg:text-2xl">비밀번호 변경</div>
+      <form onSubmit={handleSubmit(onSubmitHandler)} className="space-y-4 lg:space-y-6">
         {defaultFields.map((field) => (
-          <div key={field.name} className="h-[88px] space-y-1.5 md:h-[114px] md:space-y-2">
-            <label className="text-grayscale-700 block text-sm font-semibold md:px-2 md:text-base">{field.label}</label>
+          <div key={field.name} className="h-[88px] space-y-1.5 lg:h-[114px] lg:space-y-2">
+            <label className="text-grayscale-700 block text-sm font-semibold lg:px-2 lg:text-base">{field.label}</label>
             <div className="flex w-full flex-col items-center">
               <BaseInput
                 {...register(field.name)}
@@ -110,31 +111,29 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
                 placeholder={field.placeholder}
                 variant="white"
                 disabled={isPending}
-                size="w-[327px] h-[54px] md:w-[640px] md:h-[64px]"
+                size="w-[327px] h-[54px] lg:w-[640px] lg:h-[64px]"
                 errormessage={errors[field.name]?.message}
+                innerClassName="placeholder:text-sm placeholder:leading-[26px] font-normal text-sm leading-[26px]"
               />
             </div>
           </div>
         ))}
-        <div className="mt-4 flex h-[58px] gap-3 md:mt-6 md:h-[72px]">
-          <button
-            type="button"
+
+        <div className="mt-4 flex h-[58px] gap-3 lg:mt-6 lg:h-[72px]">
+          <Button
+            color="gray"
             onClick={() => {
               onClose();
               reset();
             }}
             disabled={isPending}
-            className="text-grayscale-700 flex-1 rounded-md border border-grayscale-300 bg-white px-4 py-2 text-sm font-semibold transition-colors hover:bg-grayscale-50 md:text-base"
+            className="h-full text-base font-medium text-white lg:text-lg"
           >
             취소
-          </button>
-          <button
-            type="submit"
-            disabled={isPending}
-            className="flex-1 rounded-md bg-orange-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-orange-600 md:text-base"
-          >
+          </Button>
+          <Button type="submit" disabled={isPending} className="h-full text-base font-medium lg:text-lg">
             {isPending ? <DotLoadingSpinner /> : "변경하기"}
-          </button>
+          </Button>
         </div>
       </form>
     </div>

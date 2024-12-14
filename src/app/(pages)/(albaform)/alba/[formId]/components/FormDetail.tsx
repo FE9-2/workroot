@@ -27,7 +27,7 @@ export default function FormDetails({ albaFormDetailData }: FormDetailsProps) {
       </div>
       <div className="flex space-x-5 text-2xl">
         <p>{albaFormDetailData.location}</p>
-        <button className="text-xl text-primary-orange-300" onClick={handleCopyLocation}>
+        <button type="button" className="text-xl text-primary-orange-300" onClick={handleCopyLocation}>
           복사
         </button>
       </div>

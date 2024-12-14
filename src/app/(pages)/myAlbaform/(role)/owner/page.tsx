@@ -154,7 +154,7 @@ export default function AlbaList() {
       {/* 검색 섹션과 필터 드롭다운을 고정 위치로 설정 */}
       <div className="fixed left-0 right-0 top-16 z-40 bg-white shadow-sm">
         {/* 검색 섹션 */}
-        <div className="w-full border-b border-grayscale-100">
+        <div className="w-full border-b border-line-100">
           <div className="mx-auto flex max-w-screen-2xl flex-col gap-4 px-4 py-4 md:px-6 lg:px-8">
             <div className="flex items-center justify-between">
               <SearchSection />
@@ -163,7 +163,7 @@ export default function AlbaList() {
         </div>
 
         {/* 필터 드롭다운 섹션 */}
-        <div className="w-full border-b border-grayscale-100">
+        <div className="w-full border-b border-line-100">
           <div className="mx-auto flex max-w-screen-2xl items-center justify-between gap-2 px-4 py-4 md:px-6 lg:px-8">
             <div className="flex items-center gap-2">
               <FilterDropdown

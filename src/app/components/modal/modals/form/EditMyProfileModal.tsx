@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { nicknameSchema, mobilePhoneSchema } from "@/schemas/commonSchema";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
+import Button from "@/app/components/button/default/Button";
 
 interface EditMyProfileModalProps {
   isOpen: boolean;
@@ -103,54 +104,50 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
   return (
     <div
       className={cn(
-        "relative left-1/2 h-[610px] w-[375px] -translate-x-1/2 overflow-hidden rounded-2xl bg-white p-6 shadow-lg sm:p-8 md:h-[818px] md:w-[720px]",
+        "relative left-1/2 w-[375px] -translate-x-1/2 overflow-hidden rounded-2xl bg-white p-6 shadow-lg lg:w-[540px] lg:p-10",
         className
       )}
     >
-      <div className="h-[26px] text-center md:h-[46px]">
-        <h2 className="text-[18px] font-semibold md:text-[32px]">내 정보 수정</h2>
-      </div>
+      <h2 className="h-[26px] text-center text-[18px] font-semibold lg:h-[46px] lg:text-[32px]">내 정보 수정</h2>
 
       <form
         onSubmit={handleSubmit(onSubmitHandler)}
-        className="flex h-[calc(100%-26px)] flex-col md:h-[calc(100%-46px)]"
+        className="flex h-[calc(100%-26px)] flex-col lg:h-[calc(100%-46px)]"
       >
-        <div className="flex-1 space-y-2 md:space-y-8">
-          <div className="my-6 flex justify-center md:my-8">
-            <div className="relative">
-              <div className="relative h-[110px] w-[110px] md:h-[120px] md:w-[120px]">
-                <button
-                  type="button"
-                  onClick={handleImageClick}
-                  className="h-full w-full overflow-hidden rounded-full bg-grayscale-100"
-                >
-                  {previewUrl ? (
-                    <Image
-                      src={previewUrl}
-                      alt="Profile"
-                      width={120}
-                      height={120}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <FiUser className="h-full w-full bg-grayscale-100 p-6 text-grayscale-200" />
-                  )}
-                </button>
-                <button
-                  type="button"
-                  onClick={handleImageClick}
-                  className="absolute bottom-1 right-1 flex h-8 w-8 items-center justify-center rounded-full border-[2px] border-white bg-grayscale-100 shadow-lg"
-                >
-                  <FiEdit2 className="text-grayscale-600 h-4 w-4" />
-                </button>
-              </div>
-              <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+        <div className="flex-1 space-y-2 lg:space-y-8">
+          <div className="relative my-6 flex justify-center lg:my-8">
+            <div className="relative h-[110px] w-[110px] lg:h-[120px] lg:w-[120px]">
+              <button
+                type="button"
+                onClick={handleImageClick}
+                className="h-full w-full overflow-hidden rounded-full bg-grayscale-100"
+              >
+                {previewUrl ? (
+                  <Image
+                    src={previewUrl}
+                    alt="Profile"
+                    width={120}
+                    height={120}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <FiUser className="h-full w-full bg-grayscale-100 p-6 text-grayscale-200" />
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={handleImageClick}
+                className="absolute bottom-1 right-1 flex h-8 w-8 items-center justify-center rounded-full border-[2px] border-white bg-grayscale-100 shadow-lg"
+              >
+                <FiEdit2 className="text-grayscale-600 h-4 w-4" />
+              </button>
             </div>
+            <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
           </div>
 
           {fields.map((field) => (
-            <div key={field.name} className="h-[88px] space-y-1.5 md:h-[114px] md:space-y-2">
-              <label className="text-grayscale-700 block px-2 text-sm font-semibold md:text-base">
+            <div key={field.name} className="space-y-1.5 lg:space-y-2">
+              <label className="text-grayscale-700 block px-2 text-sm font-semibold lg:text-base">
                 {field.label}
                 <span className="text-orange-500">*</span>
               </label>
@@ -160,8 +157,8 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
                   type="text"
                   placeholder={`${field.label}${field.postPosition} 입력해주세요.`}
                   variant="white"
-                  size="w-[327px] h-[54px] md:w-[640px] md:h-[64px]"
-                  wrapperClassName="px-[14px] md:px-[20px]"
+                  size="w-[327px] h-[54px] lg:w-[460px] lg:h-[64px]"
+                  wrapperClassName="px-[14px] lg:px-[20px]"
                   disabled={isUpdating}
                   errormessage={errors[field.name]?.message}
                 />
@@ -170,22 +167,25 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
           ))}
         </div>
 
-        <div className="flex h-[58px] justify-between gap-3 md:h-[72px]">
-          <button
-            type="button"
-            onClick={onClose}
+        <div className="mt-4 flex h-[58px] w-full justify-between gap-3 lg:mt-6 lg:h-[72px]">
+          <Button
+            color="gray"
+            onClick={() => {
+              onClose();
+              reset();
+            }}
             disabled={isUpdating}
-            className="text-grayscale-700 w-[158px] rounded-md border border-grayscale-300 bg-white px-4 py-2 text-sm font-semibold transition-colors hover:bg-grayscale-100 md:w-[314px] md:text-base"
+            className="h-[58px] w-[158px] text-base font-medium text-white lg:h-[72] lg:w-[314px] lg:text-lg"
           >
             취소
-          </button>
-          <button
+          </Button>
+          <Button
             type="submit"
             disabled={isUpdating}
-            className="w-[158px] rounded-md bg-primary-orange-300 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-orange-200 md:w-[314px] md:text-base"
+            className="h-[58px] w-[158px] text-base font-medium lg:h-[72] lg:w-[314px] lg:text-lg"
           >
             {isUpdating ? <DotLoadingSpinner /> : "수정하기"}
-          </button>
+          </Button>
         </div>
       </form>
     </div>

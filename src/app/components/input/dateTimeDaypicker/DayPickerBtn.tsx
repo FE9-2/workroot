@@ -28,6 +28,7 @@ const DayPickerBtn = ({
   return (
     <div>
       <button
+        type="button"
         onClick={handleClick}
         disabled={disabled}
         className={cn(

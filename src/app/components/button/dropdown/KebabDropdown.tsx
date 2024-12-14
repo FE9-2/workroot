@@ -28,6 +28,7 @@ const KebabDropdown = ({ options, className = "" }: KebabDropdownProps) => {
   return (
     <div ref={dropdownRef} className={cn("relative inline-block text-left", className)}>
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="rounded-full p-2 hover:bg-grayscale-50"
         aria-label="메뉴 더보기"
@@ -40,6 +41,7 @@ const KebabDropdown = ({ options, className = "" }: KebabDropdownProps) => {
           <div className="py-1">
             {options.map((option, index) => (
               <button
+                type="button"
                 key={`${index}-${option.label}`}
                 onClick={() => {
                   option.onClick();
