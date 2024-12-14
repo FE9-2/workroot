@@ -121,7 +121,7 @@ const AlbaList: React.FC<AlbaListProps> = () => {
             </div>
           ) : (
             <div className="mx-auto mt-4 w-full max-w-screen-xl px-3">
-              <div className="flex flex-wrap justify-start gap-6">
+              <div className="flex flex-wrap justify-center gap-6">
                 {items.map((form) => (
                   <div key={form.id}>
                     <AlbaListItem {...form} />
