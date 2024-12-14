@@ -65,7 +65,7 @@ export function CommentsSection({ postId }: CommentsSectionProps): JSX.Element {
 
   return (
     <section className="w-full" aria-label="댓글 섹션">
-      <div className="mb-6 ml-6 text-[16px] font-semibold text-black-400 sm:text-[20px] lg:text-[24px]">
+      <div className="mb-6 ml-6 text-[16px] font-semibold text-black-400 md:text-[20px] lg:text-[24px]">
         댓글({commentsData?.totalItemCount ?? 0})
       </div>
 

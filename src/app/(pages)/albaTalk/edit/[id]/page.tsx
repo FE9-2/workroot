@@ -52,12 +52,15 @@ export default function EditTalk({ params }: { params: { id: string } }) {
       });
 
       if (post.imageUrl) {
-        const initialImages = post.imageUrl.split(",").map((url, index) => ({
-          file: null,
-          url,
-          id: `initial-${index}`,
-        }));
-        setImageList(initialImages);
+        setImageList([
+          {
+            file: null,
+            url: post.imageUrl,
+            id: "initial-image",
+          },
+        ]);
+      } else {
+        setImageList([]);
       }
     }
   }, [post, reset]);
@@ -222,7 +225,11 @@ export default function EditTalk({ params }: { params: { id: string } }) {
               >
                 이미지
               </label>
-              <ImageInputPlaceHolder onImageUpload={uploadImage} onImagesChange={handleImagesChange} />
+              <ImageInputPlaceHolder
+                onImageUpload={uploadImage}
+                onImagesChange={handleImagesChange}
+                initialImages={imageList}
+              />
             </div>
           </form>
         </div>

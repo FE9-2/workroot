@@ -9,10 +9,12 @@ import KebabDropdown from "@/app/components/button/dropdown/KebabDropdown";
 import useModalStore from "@/store/modalStore";
 import useWidth from "@/hooks/useWidth";
 import { usePostDetail } from "@/hooks/queries/post/usePostDetail";
+import { useRouter } from "next/navigation";
 
 export function PostDetailSection({ postId }: { postId: string }) {
   const { isDesktop } = useWidth();
   const { user } = useUser();
+  const router = useRouter();
   const { data: post } = usePostDetail(postId);
   const { likePost, unlikePost } = useLikePost(postId);
   const deletePost = useDeletePost(postId);
@@ -57,13 +59,20 @@ export function PostDetailSection({ postId }: { postId: string }) {
     });
   };
 
-  const dropdownOptions = [{ label: "삭제하기", onClick: handleDelete, disabled: deletePost.isPending }];
+  const handleEdit = () => {
+    router.push(`/albatalk/edit/${postId}`);
+  };
+
+  const dropdownOptions = [
+    { label: "수정하기", onClick: handleEdit },
+    { label: "삭제하기", onClick: handleDelete, disabled: deletePost.isPending },
+  ];
 
   return (
-    <section className="mb-12 w-full rounded-lg bg-white p-4 sm:p-6 lg:p-8">
+    <section className="mb-12 w-full rounded-lg bg-white p-4 md:p-6 lg:p-8">
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-[16px] font-semibold sm:text-[20px] lg:text-[24px]">{post?.title}</h1>
+        <h1 className="text-[16px] font-semibold md:text-[20px] lg:text-[24px]">{post?.title}</h1>
         {post?.writer.id === user?.id && <KebabDropdown options={dropdownOptions} />}
       </div>
 
@@ -83,8 +92,24 @@ export function PostDetailSection({ postId }: { postId: string }) {
       </div>
 
       {/* Content */}
-      <div className="mb-6 whitespace-pre-wrap text-sm leading-[1.6] text-black-400 sm:text-base lg:text-lg">
+      <div className="mb-6 whitespace-pre-wrap text-sm leading-[1.6] text-black-400 md:text-base lg:text-lg">
         {post?.content}
+      </div>
+
+      {/* Image */}
+      <div className="mb-6">
+        {post?.imageUrl ? (
+          <div className="relative aspect-square w-full max-w-[600px] overflow-hidden rounded-lg">
+            <Image
+              src={post.imageUrl}
+              alt="Post Image"
+              fill
+              sizes="(max-width: 768px) 100vw, 600px"
+              className="object-contain"
+              priority
+            />
+          </div>
+        ) : null}
       </div>
 
       {/* Footer */}
