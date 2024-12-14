@@ -24,7 +24,7 @@ export default function RecruitContentSection() {
 
   const currentValues = watch();
   const imageFilesData: File[] = currentValues.imageFiles;
-  const length = imageFilesData.length;
+  const length = imageFilesData?.length || 0;
   const lastImageFile = length > 0 ? imageFilesData[length - 1] : null;
 
   // 이미지 파일 change핸들러
@@ -44,7 +44,7 @@ export default function RecruitContentSection() {
   };
 
   useEffect(() => {
-    if (imageFilesData.length > 0) {
+    if (imageFilesData?.length > 0) {
       const updatedImageList = imageFilesData.map((file: File) => ({
         file,
         url: URL.createObjectURL(file),
