@@ -142,7 +142,7 @@ export default function EditTalk({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <div className="flex min-h-screen w-full items-start justify-center bg-grayscale-50 py-8 font-nexon">
+      <div className="flex min-h-screen w-full items-start justify-center bg-grayscale-50 font-nexon">
         <div className="w-full max-w-[1480px] rounded-md bg-white px-4 md:px-8 lg:px-10">
           <div className="mb-[40px] flex h-[58px] w-full items-center justify-between border-b border-[#line-100] md:h-[78px] lg:h-[126px]">
             <div className="flex items-center text-[18px] font-semibold md:text-[20px] lg:text-[32px]">
@@ -228,19 +228,20 @@ export default function EditTalk({ params }: { params: { id: string } }) {
 
       {/* 모바일 버전 버튼 */}
       <div className="fixed bottom-4 left-4 right-4 flex w-full flex-col items-center space-y-2 rounded-t-lg bg-white p-4 font-semibold md:hidden">
-        <button
-          className="mb-2 h-[58px] w-[327px] rounded-[8px] bg-grayscale-100 text-white hover:bg-grayscale-200"
-          onClick={() => router.push(`/albatalk/${postId}`)}
+        <Button
+          color="gray"
+          className="mb-2 h-[58px] rounded-[8px] bg-grayscale-100 text-white hover:bg-grayscale-200"
+          onClick={() => router.push("/albaTalk")}
         >
           취소
-        </button>
-        <button
-          className="h-[58px] w-[327px] rounded-[8px] bg-primary-orange-300 text-white hover:bg-orange-400"
+        </Button>
+        <Button
+          className="h-[58px] rounded-[8px] bg-primary-orange-300 text-white hover:bg-orange-400"
           onClick={handleSubmit(onSubmit)}
           disabled={isPending}
         >
           {isPending ? <DotLoadingSpinner /> : "수정하기"}
-        </button>
+        </Button>
       </div>
     </>
   );
