@@ -51,6 +51,7 @@ const MyApplicationListItem = ({ createdAt, status, resumeId, resumeName, form }
             <span>{formatLocalDate(createdAt, true)}</span>
           </div>
           <button
+            type="button"
             onClick={handleResumeDownload}
             className="decoration-grayscale-600/50 hover:text-grayscale-600 hover:decoration-grayscale-600 text-sm font-medium text-grayscale-500 underline decoration-1 underline-offset-4 hover:cursor-pointer md:text-base"
           >

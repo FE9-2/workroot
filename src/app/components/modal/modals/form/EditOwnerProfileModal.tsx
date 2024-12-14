@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { nicknameSchema, storePhoneSchema, mobilePhoneSchema } from "@/schemas/commonSchema";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
+import Button from "@/app/components/button/default/Button";
 
 interface EditOwnerProfileModalProps {
   isOpen: boolean;
@@ -130,53 +131,45 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
   return (
     <div
       className={cn(
-        "relative left-1/2 w-[375px] -translate-x-1/2 overflow-hidden rounded-2xl bg-white shadow-lg md:w-[480px] lg:w-[540px]",
+        "relative left-1/2 w-[375px] -translate-x-1/2 overflow-hidden rounded-2xl bg-white p-6 shadow-lg lg:w-[540px] lg:p-10",
         className
       )}
     >
-      <div className="p-6 pb-0 text-center lg:p-8 lg:pb-0">
+      <div className="pb-2 pt-6 text-center lg:pb-2 lg:pt-8">
         <h2 className="text-[18px] font-semibold lg:text-[24px]">사장님 정보 관리</h2>
       </div>
 
       <form onSubmit={handleSubmit(onSubmitHandler)} className="flex flex-col">
-        <div className="max-h-[calc(100vh-300px)] overflow-y-auto p-6 lg:p-8">
-          <div className="space-y-4 lg:space-y-10">
+        <div className="scrollbar-custom max-h-[calc(100vh-300px)] pr-2">
+          <div className="space-y-8 lg:space-y-14">
             <div className="flex justify-center">
-              <div className="relative">
-                <div className="relative h-[80px] w-[80px] lg:h-[100px] lg:w-[100px]">
-                  <button
-                    type="button"
-                    onClick={handleImageClick}
-                    className="h-full w-full overflow-hidden rounded-full bg-grayscale-100"
-                  >
-                    {previewUrl ? (
-                      <Image
-                        src={previewUrl}
-                        alt="Profile"
-                        width={120}
-                        height={120}
-                        className="h-full w-full object-cover"
-                      />
-                    ) : (
-                      <FiUser className="h-full w-full p-6 text-grayscale-200" />
-                    )}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleImageClick}
-                    className="absolute bottom-1 right-1 flex h-8 w-8 items-center justify-center rounded-full border-[2px] border-white bg-grayscale-100 shadow-lg"
-                  >
-                    <FiEdit2 className="text-grayscale-600 h-4 w-4" />
-                  </button>
-                </div>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="hidden"
-                />
+              <div className="relative h-[80px] w-[80px] lg:h-[100px] lg:w-[100px]">
+                <button
+                  type="button"
+                  onClick={handleImageClick}
+                  className="h-full w-full overflow-hidden rounded-full bg-grayscale-100"
+                >
+                  {previewUrl ? (
+                    <Image
+                      src={previewUrl}
+                      alt="Profile"
+                      width={120}
+                      height={120}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <FiUser className="h-full w-full p-6 text-grayscale-200" />
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleImageClick}
+                  className="absolute bottom-1 right-1 flex h-8 w-8 items-center justify-center rounded-full border-[2px] border-white bg-grayscale-100 shadow-lg"
+                >
+                  <FiEdit2 className="text-grayscale-600 h-4 w-4" />
+                </button>
               </div>
+              <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
             </div>
 
             {fields.map((field) => (
@@ -212,23 +205,20 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
           </div>
         </div>
 
-        <div className="sticky bottom-0 border-grayscale-100 bg-white p-6 lg:p-8">
+        <div className="sticky bottom-0 w-full border-grayscale-100 bg-white pt-4 lg:pt-10">
           <div className="flex h-[36px] justify-between gap-3 lg:h-[48px]">
-            <button
+            <Button
               type="button"
+              color="gray"
               onClick={onClose}
               disabled={isUpdating}
-              className="text-grayscale-700 w-[158px] rounded-md border border-grayscale-300 bg-white px-4 py-2 text-sm font-semibold transition-colors hover:bg-grayscale-50 md:w-[314px] md:text-base"
+              className="text-sm font-semibold text-white lg:text-base"
             >
               취소
-            </button>
-            <button
-              type="submit"
-              disabled={isUpdating}
-              className="w-[158px] rounded-md bg-orange-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-orange-600 md:w-[314px] md:text-base"
-            >
+            </Button>
+            <Button type="submit" disabled={isUpdating} className="text-sm font-semibold lg:text-base">
               {isUpdating ? <DotLoadingSpinner /> : "수정하기"}
-            </button>
+            </Button>
           </div>
         </div>
       </form>

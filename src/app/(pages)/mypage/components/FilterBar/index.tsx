@@ -49,33 +49,29 @@ export default function FilterBar() {
   return (
     <div className="w-full bg-white">
       {/* 마이페이지 섹션 */}
-      <div className="border-b border-grayscale-200">
-        <div className="flex items-center justify-between">
-          <h1 className="text-grayscale-900 py-4 text-xl font-bold sm:py-6 sm:text-2xl">마이페이지</h1>
-          {/* sm, md에서는 케밥 메뉴, lg 이상에서는 버튼 */}
-          <div>
-            <div className="hidden lg:flex lg:gap-2">
-              <Button variant="solid" width="sm" onClick={handleEditProfile}>
-                내 정보 수정
-              </Button>
-              <Button variant="outlined" width="sm" onClick={handleChangePassword}>
-                비밀번호 변경
-              </Button>
-            </div>
-            <div className="lg:hidden">
-              <KebabDropdown options={dropdownOptions} />
-            </div>
+      <div className="flex items-center justify-between">
+        <h1 className="text-grayscale-900 py-4 text-xl font-bold sm:py-6 sm:text-2xl">마이페이지</h1>
+        {/* sm, md에서는 케밥 메뉴, lg 이상에서는 버튼 */}
+        <div>
+          <div className="hidden lg:flex lg:gap-2">
+            <Button variant="solid" width="sm" onClick={handleEditProfile}>
+              내 정보 수정
+            </Button>
+            <Button variant="outlined" width="sm" onClick={handleChangePassword}>
+              비밀번호 변경
+            </Button>
+          </div>
+          <div className="lg:hidden">
+            <KebabDropdown options={dropdownOptions} />
           </div>
         </div>
       </div>
 
       {/* 탭 메뉴 섹션 */}
-      <nav className="border-b border-grayscale-200">
-        <div className="mx-auto flex max-w-screen-2xl items-center justify-between px-4 py-4 md:px-6 lg:px-8">
+      <nav className="border-b border-line-100">
+        <div className="mx-auto flex max-w-screen-2xl items-center justify-between py-4">
           <TabMenu />
-          <div className="ml-auto">
-            <SortSection />
-          </div>
+          <SortSection />
         </div>
       </nav>
     </div>

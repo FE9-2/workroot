@@ -178,7 +178,11 @@ const AlbaListItem = ({
             </div>
             {/* 케밥 메뉴 */}
             <div ref={dropdownRef} className="relative">
-              <button className="hover:text-grayscale-700 text-grayscale-500" onClick={handleDropdownToggle}>
+              <button
+                type="button"
+                className="hover:text-grayscale-700 text-grayscale-500"
+                onClick={handleDropdownToggle}
+              >
                 <BsThreeDotsVertical className="h-6 w-6" />
               </button>
               {/* 드롭다운 메뉴 */}

@@ -34,7 +34,7 @@ export default function SearchSection() {
         </div>
         <button
           type="submit"
-          className="rounded-lg bg-[#FFB800] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#FFA800] md:px-8 md:text-base lg:px-12 lg:text-lg xl:px-16 xl:text-xl"
+          className="rounded-lg bg-primary-orange-300 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-orange-200 md:px-8 md:text-base lg:px-12 lg:text-lg xl:px-16 xl:text-xl"
         >
           검색
         </button>

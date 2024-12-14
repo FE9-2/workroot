@@ -57,31 +57,29 @@ const FilterDropdown = ({ options, className = "", onChange, initialValue, readO
         className
       )}
     >
-      <div>
-        <button
-          type="button"
+      <button
+        type="button"
+        className={cn(
+          "flex w-full items-center justify-between rounded-md border p-2 font-medium shadow-sm",
+          "text-grayscale-700 hover:bg-primary-orange-50",
+          selectedLabel === options[0]
+            ? "border border-grayscale-100 bg-white"
+            : "border-primary-orange-300 bg-primary-orange-50"
+        )}
+        onClick={toggleDropdown}
+        disabled={readOnly}
+      >
+        <span className={selectedLabel === options[0] ? "text-black-100" : "text-primary-orange-300"}>
+          {selectedLabel}
+        </span>
+        <IoIosArrowDown
           className={cn(
-            "flex w-full items-center justify-between rounded-md border p-2 font-medium shadow-sm",
-            "text-grayscale-700 hover:bg-primary-orange-50",
-            selectedLabel === options[0]
-              ? "border border-grayscale-100 bg-white"
-              : "border-primary-orange-300 bg-primary-orange-50"
+            "text-orange-400 transition-transform duration-200",
+            isOpen && "rotate-180",
+            selectedLabel === options[0] ? "text-grayscale-200" : "text-primary-orange-300"
           )}
-          onClick={toggleDropdown}
-          disabled={readOnly}
-        >
-          <span className={selectedLabel === options[0] ? "text-black-100" : "text-primary-orange-300"}>
-            {selectedLabel}
-          </span>
-          <IoIosArrowDown
-            className={cn(
-              "text-orange-400 transition-transform duration-200",
-              isOpen && "rotate-180",
-              selectedLabel === options[0] ? "text-grayscale-200" : "text-primary-orange-300"
-            )}
-          />
-        </button>
-      </div>
+        />
+      </button>
 
       {isOpen && !readOnly && (
         <DropdownList
