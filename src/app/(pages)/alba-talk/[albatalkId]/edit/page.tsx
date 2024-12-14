@@ -1,16 +1,18 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Button from "@/app/components/button/default/Button";
 import BaseInput from "@/app/components/input/text/BaseInput";
 import ImageInputPlaceHolder from "@/app/components/input/file/ImageInput/ImageInputPlaceHolder";
-import { useAddPost } from "@/hooks/queries/post/useAddPost";
+import { useEditPost } from "@/hooks/queries/post/useEditPost";
+import { usePostDetail } from "@/hooks/queries/post/usePostDetail";
 import axios from "axios";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import { PostSchema } from "@/schemas/postSchema";
 import toast from "react-hot-toast";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 interface ImageInputType {
   file: File | null;
@@ -18,17 +20,58 @@ interface ImageInputType {
   id: string;
 }
 
-export default function AddTalk() {
+export default function EditTalk({ params }: { params: { albatalkId: string } }) {
+  const [imageList, setImageList] = useState<ImageInputType[]>([]);
+  const router = useRouter();
+  const postId = params.albatalkId;
+
+  const { data: post, isLoading, error } = usePostDetail(postId);
+  const { mutate: editPost, isPending } = useEditPost(postId);
+
   const {
     control,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<PostSchema>({ defaultValues: { title: "", content: "" } });
+    reset,
+  } = useForm<PostSchema>({
+    defaultValues: {
+      title: "",
+      content: "",
+      imageUrl: "",
+    },
+  });
 
-  const [imageList, setImageList] = useState<ImageInputType[]>([]);
-  const router = useRouter();
-  const { mutate: createPost, isPending } = useAddPost();
+  // 게시글 데이터로 폼 초기화
+  useEffect(() => {
+    if (post) {
+      reset({
+        title: post.title,
+        content: post.content,
+        imageUrl: post.imageUrl || "",
+      });
+
+      if (post.imageUrl) {
+        setImageList([
+          {
+            file: null,
+            url: post.imageUrl,
+            id: "initial-image",
+          },
+        ]);
+      } else {
+        setImageList([]);
+      }
+    }
+  }, [post, reset]);
+
+  // 에러 처리
+  useEffect(() => {
+    if (error) {
+      toast.error("게시글을 불러오는데 실패했습니다.");
+      router.push("/alba-talk");
+    }
+  }, [error, router]);
 
   const uploadImage = useCallback(async (file: File): Promise<string> => {
     const formData = new FormData();
@@ -64,8 +107,13 @@ export default function AddTalk() {
 
   const onSubmit: SubmitHandler<PostSchema> = async (data) => {
     try {
-      if (!data.title || !data.content) {
-        toast.error("제목과 내용을 입력하세요.");
+      if (!data.title) {
+        toast.error("제목을 입력하세요.");
+        return;
+      }
+
+      if (!data.content) {
+        toast.error("내용을 입력하세요.");
         return;
       }
 
@@ -75,21 +123,33 @@ export default function AddTalk() {
         imageUrl: imageList.map((img) => img.url).join(","),
       };
 
-      createPost(postData, {
-        onSuccess: (response) => {
-          router.push(`/albatalk/${response.id}`);
+      editPost(postData, {
+        onSuccess: () => {
+          router.push(`/alba-talk/${postId}`);
         },
       });
     } catch (error) {
-      console.error("게시글 등록 실패:", error);
+      console.error("게시글 수정 실패:", error);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (!post) return null;
 
   return (
     <div className="flex w-full flex-col bg-grayscale-50 px-6 font-nexon lg:px-10">
       <div className="w-full max-w-[1480px] rounded-md bg-white">
         <div className="mb-[40px] flex h-[58px] w-full items-center justify-between border-b border-line-100 md:h-[78px] lg:h-[126px]">
-          <div className="flex items-center text-[18px] font-semibold md:text-[20px] lg:text-[32px]">게시글 쓰기</div>
+          <div className="flex items-center text-[18px] font-semibold md:text-[20px] lg:text-[32px]">
+            게시글 수정하기
+          </div>
           <div className="hidden space-x-1 font-semibold md:flex md:space-x-2 lg:space-x-4">
             <Button
               color="gray"
@@ -103,7 +163,7 @@ export default function AddTalk() {
               onClick={handleSubmit(onSubmit)}
               disabled={isPending}
             >
-              {isPending ? <DotLoadingSpinner /> : "등록하기"}
+              {isPending ? <DotLoadingSpinner /> : "수정하기"}
             </Button>
           </div>
         </div>
@@ -161,7 +221,11 @@ export default function AddTalk() {
             >
               이미지
             </label>
-            <ImageInputPlaceHolder onImageUpload={uploadImage} onImagesChange={handleImagesChange} />
+            <ImageInputPlaceHolder
+              onImageUpload={uploadImage}
+              onImagesChange={handleImagesChange}
+              initialImages={imageList}
+            />
           </div>
         </form>
       </div>
@@ -179,7 +243,7 @@ export default function AddTalk() {
           onClick={handleSubmit(onSubmit)}
           disabled={isPending}
         >
-          {isPending ? <DotLoadingSpinner /> : "등록하기"}
+          {isPending ? <DotLoadingSpinner /> : "수정하기"}
         </Button>
       </div>
     </div>
