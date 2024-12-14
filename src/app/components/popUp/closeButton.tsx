@@ -9,7 +9,7 @@ interface CloseButtonProps {
 
 export default function CloseButton({ onClose }: CloseButtonProps) {
   return (
-    <button onClick={onClose} className="absolute right-2 top-1/2 -translate-y-1/2 transform md:right-4">
+    <button type="button" onClick={onClose} className="absolute right-2 top-1/2 -translate-y-1/2 transform md:right-4">
       <Image
         src="/icons/x/x-md.svg"
         alt="닫기"

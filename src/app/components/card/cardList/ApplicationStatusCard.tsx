@@ -24,13 +24,13 @@ const ApplicationStatusCard = ({ applicationStatusData }: ApplicationStatusCardP
           <span className={theadStyle}>전화번호</span>
           <div className="flex items-center gap-2">
             <span className={theadStyle}>경력</span>
-            <button onClick={() => setExperienceSort((prev) => !prev)}>
+            <button type="button" onClick={() => setExperienceSort((prev) => !prev)}>
               <FaSortAmountDown className={cn(sortIconStyle, experienceSort ? "rotate-0" : "rotate-180")} />
             </button>
           </div>
           <div className="flex items-center gap-2">
             <span className={theadStyle}>상태</span>
-            <button onClick={() => setStatusSort((prev) => !prev)}>
+            <button type="button" onClick={() => setStatusSort((prev) => !prev)}>
               <FaSortAmountDown className={cn(sortIconStyle, statusSort ? "rotate-0" : "rotate-180")} />
             </button>
           </div>

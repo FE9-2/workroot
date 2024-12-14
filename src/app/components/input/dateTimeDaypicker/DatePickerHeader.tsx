@@ -22,13 +22,13 @@ const DatePickerHeader = ({
         기간 선택
       </div>
       <div className="lg:h-15 mb-2 flex h-12 items-center justify-between px-[14px] py-3">
-        <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
+        <button type="button" onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
           <MdKeyboardArrowLeft className={iconStyle} />
         </button>
         <span className="text-base font-semibold leading-[26px] text-black-400 lg:text-[20px] lg:leading-8">
           {`${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, "0")}`}
         </span>
-        <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
+        <button type="button" onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
           <MdKeyboardArrowRight className={iconStyle} />
         </button>
       </div>
