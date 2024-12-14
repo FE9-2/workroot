@@ -13,6 +13,7 @@ import FloatingBtn from "@/app/components/button/default/FloatingBtn";
 import CardBoard from "@/app/components/card/board/CardBoard";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import { useRouter } from "next/navigation";
+import ContentSection from "@/app/components/layout/ContentSection";
 
 const POSTS_PER_PAGE = 10;
 
@@ -103,7 +104,7 @@ export default function AlbaTalk() {
           </div>
         ) : (
           <div className="mx-auto mt-4 w-full max-w-screen-xl px-3">
-            <div className="flex flex-wrap justify-center gap-6">
+            <ContentSection>
               {data?.pages.map((page) => (
                 <React.Fragment key={page.nextCursor}>
                   {page.data.map((post) => (
@@ -122,7 +123,7 @@ export default function AlbaTalk() {
                   ))}
                 </React.Fragment>
               ))}
-            </div>
+            </ContentSection>
 
             {/* 무한 스크롤 트리거 영역 */}
             <div ref={ref} className="h-4 w-full">
