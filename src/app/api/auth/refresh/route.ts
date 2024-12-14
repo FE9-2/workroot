@@ -4,10 +4,26 @@ import { NextResponse } from "next/server";
 import apiClient from "@/lib/apiClient";
 
 export const POST = async (): Promise<NextResponse> => {
+  const cookieStore = cookies();
+  const refreshToken = cookieStore.get("refreshToken");
+
+  if (!refreshToken) {
+    return new NextResponse(
+      JSON.stringify({
+        message: "리프레시 토큰이 없습니다. 다시 로그인해주세요.",
+      }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
+
   try {
-    const refreshToken = cookies().get("refreshToken")?.value;
     // 토큰 갱신
-    const refreshResponse = await apiClient.post("/auth/refresh", { refreshToken });
+    const refreshResponse = await apiClient.post("/auth/refresh", {
+      refreshToken: refreshToken.value,
+    });
     const { accessToken } = refreshResponse.data;
 
     if (!accessToken) {
@@ -23,21 +39,7 @@ export const POST = async (): Promise<NextResponse> => {
       path: "/",
     });
 
-    // 새로운 accessToken으로 사용자 정보 조회
-    const userResponse = await apiClient.get("/users/me", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    const user = userResponse.data;
-
-    if (!user) {
-      return NextResponse.json({ message: "사용자 정보를 찾을 수 없습니다." }, { status: 404 });
-    }
-
-    // user 정보 반환
-    return NextResponse.json({ user }, { status: 200 });
+    return NextResponse.json(refreshResponse.data, { status: 200 });
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
       console.error("Refresh token error:", error);

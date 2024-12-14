@@ -5,7 +5,7 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./stories/**/*.{js,ts,jsx,tsx}", // Storybook의 스토리 파일 경로 추가
+    "./stories/**/*.{js,ts,jsx,tsx}",
     "./src/app/globals.css",
     "./src/stories/**/*.{js,ts,jsx,tsx,mdx}",
   ],
@@ -20,7 +20,8 @@ const config: Config = {
           400: "#1F1F1F",
           500: "#040404",
         },
-        gray: {
+        grayscale: {
+          50: "#FFFFFF",
           100: "#DEDEDE",
           200: "#C4C4C4",
           300: "#ABABAB",
@@ -55,18 +56,9 @@ const config: Config = {
         },
       },
       fontFamily: {
-        nexon: [
-          "NEXON Lv1 Gothic OTF",
-          "sans-serif",
-          "-apple-system",
-          "BlinkMacSystemFont",
-          "system-ui",
-          "Helvetica Neue",
-          "Apple SD Gothic Neo",
-          "sans-serif",
-          "sans-serif",
-        ],
+        nexon: ["NEXON Lv1 Gothic OTF", "sans-serif"],
         school: ["HakgyoansimDunggeunmisoTTF-R", "HakgyoansimDunggeunmisoTTF-B", "sans-serif"],
+        sans: ["Pretendard", "sans-serif"],
       },
     },
   },
