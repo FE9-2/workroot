@@ -75,7 +75,7 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
             {isLoading ? <DotLoadingSpinner /> : "지원하기"}
           </FloatingBtn>
         </Link>
-        <Link href={`/myapply/${formId}`}>
+        <Link href={`/my-apply/${formId}`}>
           <FloatingBtn variant="white" className={buttonStyle} icon={<HiDocumentText />}>
             {isLoading ? <DotLoadingSpinner /> : "내 지원내역 보기"}
           </FloatingBtn>
