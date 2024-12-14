@@ -60,7 +60,7 @@ export function PostDetailSection({ postId }: { postId: string }) {
   };
 
   const handleEdit = () => {
-    router.push(`/albatalk/edit/${postId}`);
+    router.push(`/albatalk/${postId}/edit`);
   };
 
   const dropdownOptions = [

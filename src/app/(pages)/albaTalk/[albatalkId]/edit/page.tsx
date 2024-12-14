@@ -20,10 +20,10 @@ interface ImageInputType {
   id: string;
 }
 
-export default function EditTalk({ params }: { params: { id: string } }) {
+export default function EditTalk({ params }: { params: { albatalkId: string } }) {
   const [imageList, setImageList] = useState<ImageInputType[]>([]);
   const router = useRouter();
-  const postId = params.id;
+  const postId = params.albatalkId;
 
   const { data: post, isLoading, error } = usePostDetail(postId);
   const { mutate: editPost, isPending } = useEditPost(postId);
