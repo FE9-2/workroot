@@ -1,21 +1,30 @@
 import { cn } from "@/lib/tailwindUtil";
 
+interface PaginationBtnProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+  disabled?: boolean;
+  extraStyle?: string;
+  "aria-label"?: string;
+  "aria-current"?: boolean;
+}
+
 const PaginationBtn = ({
   children,
-  extraStyle,
+  onClick,
   disabled,
-}: {
-  children: React.ReactNode;
-  extraStyle?: string;
-  disabled?: boolean;
-}) => {
-  const wrapperStyle =
-    "size-[34px] lg:radius-lg flex items-center justify-center rounded-md lg:size-[48px] bg-background-200";
-  const textStyle = "leading-[24px] lg:text-lg text-sm lg:leading-[26px]";
-  const defaultStyle = "text-grayscale-200 font-medium lg:font-normal";
-
+  extraStyle,
+  "aria-label": ariaLabel,
+  "aria-current": ariaCurrent,
+}: PaginationBtnProps) => {
   return (
-    <button type="button" disabled={disabled} className={cn(wrapperStyle, textStyle, defaultStyle, extraStyle)}>
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className={`flex h-8 w-8 items-center justify-center rounded-lg text-sm hover:bg-grayscale-100 disabled:cursor-not-allowed disabled:opacity-50 lg:h-10 lg:w-10 lg:text-base ${extraStyle}`}
+      aria-label={ariaLabel}
+      aria-current={ariaCurrent}
+    >
       {children}
     </button>
   );

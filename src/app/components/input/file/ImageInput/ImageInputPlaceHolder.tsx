@@ -28,7 +28,9 @@ const ImageInputPlaceHolder: React.FC<ImageInputPlaceHolderProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setImageList(initialImages);
+    if (JSON.stringify(imageList) !== JSON.stringify(initialImages)) {
+      setImageList(initialImages);
+    }
   }, [initialImages]);
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,7 +74,7 @@ const ImageInputPlaceHolder: React.FC<ImageInputPlaceHolderProps> = ({
         <button
           type="button"
           onClick={handleImageButtonClick}
-          className={`${sizeClass} flex flex-col items-center justify-center bg-gray-100 hover:bg-gray-200`}
+          className={`${sizeClass} flex flex-col items-center justify-center rounded-lg bg-gray-100 hover:bg-gray-200`}
         >
           <HiUpload className="text-[36px] text-grayscale-200" />
           <p className="mt-2 text-grayscale-500">이미지 넣기</p>

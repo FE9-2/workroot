@@ -18,23 +18,20 @@
 
 /* 넥슨 폰트 */
 @font-face {
-  font-family: "NEXON Lv1 Gothic OTF Light";
-  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Light.woff")
-    format("woff");
-  font-weight: 300;
-}
-@font-face {
-  font-family: "NEXON Lv1 Gothic OTF Regular";
-  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Regular.woff")
-    format("woff");
+  font-family: "NEXON Lv1 Gothic OTF";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff") format("woff");
   font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
+
 @font-face {
-  font-family: "NEXON Lv1 Gothic OTF Bold";
-  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Bold.woff")
+  font-family: "NEXON Lv1 Gothic OTF";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Bold.woff")
     format("woff");
   font-weight: 700;
   font-style: normal;
+  font-display: swap;
 }
 
 /* 기본적인 스타일을 정의 */
@@ -114,7 +111,7 @@ input[type="radio"].radio-custom:checked {
   box-shadow: 0 0 0 1.6px #fbaf37;
 }
 
-/* 체크박스 기본 스타일 */
+/* 체크박스 본 스타일 */
 input[type="checkbox"] {
   appearance: none;
   width: 16px;
@@ -330,3 +327,9 @@ input[type="checkbox"]:disabled {
 .bg-black50 {
   @apply !bg-[#141414] !bg-opacity-50;
 }
+
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+/* 또는 */
+
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap");

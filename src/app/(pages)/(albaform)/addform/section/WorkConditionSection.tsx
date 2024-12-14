@@ -74,15 +74,6 @@ export default function WorkConditionSection() {
   const handleWageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/,/g, "");
     const numericValue = Number(value);
-
-    // 최저시급 미만으로 설정 시도할 경우
-    if (numericValue < MINIMUM_WAGE) {
-      toast.error(`최저시급(${formatMoney(MINIMUM_WAGE.toString())}원) 이상을 입력해주세요.`);
-      setDisplayWage(formatMoney(MINIMUM_WAGE.toString()));
-      setValue("hourlyWage", MINIMUM_WAGE);
-      return;
-    }
-
     setValue("hourlyWage", numericValue);
     setDisplayWage(formatMoney(value));
   };

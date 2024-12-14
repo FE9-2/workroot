@@ -8,7 +8,7 @@ export default function PostDetailPage() {
   const { albatalkId } = useParams();
 
   return (
-    <div className="mx-auto flex w-full min-w-[375px] flex-col items-center px-4 lg:w-[1024px] xl:w-[1480px]">
+    <div className="mx-auto flex w-full min-w-[375px] max-w-screen-xl flex-col items-center px-4">
       <PostDetailSection postId={albatalkId.toString()} />
       <CommentsSection postId={albatalkId.toString()} />
     </div>

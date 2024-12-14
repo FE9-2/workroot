@@ -11,6 +11,7 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import AlbaListItem from "@/app/components/card/cardList/AlbaListItem";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import Link from "next/link";
+import ContentSection from "@/app/components/layout/ContentSection";
 
 const SCRAPS_PER_PAGE = 10;
 
@@ -130,7 +131,7 @@ export default function ScrapsSection() {
     <div className="space-y-4">
       {/* 필터 드롭다운 섹션 */}
       <div className="w-full border-b border-line-100">
-        <div className="mx-auto flex max-w-screen-2xl items-center justify-between gap-2 py-4">
+        <div className="mx-auto flex max-w-screen-xl items-center justify-between gap-2 py-4">
           <div className="flex items-center gap-2">
             <FilterDropdown
               options={filterPublicOptions.map((option) => option.label)}
@@ -153,7 +154,7 @@ export default function ScrapsSection() {
         </div>
       ) : (
         <div className="mx-auto mt-4 w-full max-w-screen-xl px-3">
-          <div className="flex flex-wrap justify-start gap-6">
+          <ContentSection>
             {data?.pages.map((page) => (
               <React.Fragment key={page.nextCursor}>
                 {page.data.map((scrap: FormListType) => (
@@ -165,7 +166,7 @@ export default function ScrapsSection() {
                 ))}
               </React.Fragment>
             ))}
-          </div>
+          </ContentSection>
 
           {/* 무한 스크롤 트리거 영역 */}
           <div ref={ref} className="h-4 w-full">

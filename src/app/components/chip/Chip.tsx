@@ -23,7 +23,7 @@ const Chip: React.FC<ChipProps> = ({
   icon,
   textStyle = "text-sm md:text-base",
 }: ChipProps) => {
-  const wrapperStyle = "rounded flex items-center justify-center min-w-[60px] m-1";
+  const wrapperStyle = "rounded flex items-center justify-center m-1";
   const paddingStyle = icon
     ? "px-[8px] py-1 md:px-[12px] md:py-1 lg:px-[8px] lg:py-[6px]"
     : "px-2 py-1 md:px-2 lg:py-[6px] lg:px-2";
