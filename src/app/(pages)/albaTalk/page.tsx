@@ -5,7 +5,7 @@ import { useInView } from "react-intersection-observer";
 import { usePosts } from "@/hooks/queries/post/usePosts";
 import { usePathname, useSearchParams } from "next/navigation";
 import SortSection from "@/app/components/layout/posts/SortSection";
-import SearchSection from "@/app/components/layout/posts/SearchSection";
+import SearchSection from "@/app/components/layout/forms/SearchSection";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import Link from "next/link";
 import { RiEdit2Fill } from "react-icons/ri";
