@@ -1,36 +1,48 @@
 "use client";
 
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMyComments } from "@/hooks/queries/user/me/useMyComments";
 import Pagination from "@/app/components/pagination/Pagination";
-import Link from "next/link";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import BoardComment from "@/app/components/card/board/BoardComment";
-
-// 한 페이지당 댓글 수
-const COMMENTS_PER_PAGE = 10;
+import ContentSection from "@/app/components/layout/ContentSection";
+import useWidth from "@/hooks/useWidth";
 
 export default function CommentsSection() {
-  // 현재 페이지 상태 관리
   const [currentPage, setCurrentPage] = useState(1);
+  const { isMobile, isTablet, isDesktop } = useWidth();
 
-  // 내가 작성한 댓글 목록 조회
-  const { data, isLoading, error } = useMyComments({
-    page: currentPage,
-    pageSize: COMMENTS_PER_PAGE,
-  });
-
-  // 총 페이지 수 계산
-  const totalPages = data ? Math.ceil(data.totalItemCount / COMMENTS_PER_PAGE) : 0;
-
-  // 페이지 변경 핸들러
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    window.scrollTo(0, 0); // 페이지 변경 시 상단으로 스크롤
+  // 화면 크기에 따른 페이지당 댓글 수 계산
+  const getCommentsPerPage = () => {
+    if (isMobile) return 2; // 1열 x 2줄 = 2개
+    if (isTablet) return 4; // 2열 x 2줄 = 4개
+    if (isDesktop) return 6; // 3열 x 2줄 = 6개
+    return 8; // xl 사이즈: 4열 x 2줄 = 8개
   };
 
-  // 에러 상태 처리
+  const commentsPerPage = getCommentsPerPage();
+
+  const { data, isLoading, error } = useMyComments({
+    page: currentPage,
+    pageSize: commentsPerPage,
+  });
+
+  const totalPages = data ? Math.ceil(data.totalItemCount / commentsPerPage) : 0;
+
+  // 화면 크기가 변경될 때 현재 페이지 재조정
+  useEffect(() => {
+    const newTotalPages = data ? Math.ceil(data.totalItemCount / commentsPerPage) : 0;
+    if (currentPage > newTotalPages && newTotalPages > 0) {
+      setCurrentPage(newTotalPages);
+    }
+  }, [commentsPerPage, data, currentPage]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo(0, 0);
+  };
+
   if (error) {
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
@@ -39,7 +51,6 @@ export default function CommentsSection() {
     );
   }
 
-  // 로딩 상태 처리
   if (isLoading) {
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
@@ -48,40 +59,41 @@ export default function CommentsSection() {
     );
   }
 
-  // 데이터가 없는 경우 처리
   if (!data?.data?.length) {
     return (
-      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
+      <div className="flex h-[calc(100vh-200px)] flex-col items-center justify-center">
         <p className="text-grayscale-500">작성한 댓글이 없습니다.</p>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto w-full max-w-screen-xl space-y-4 px-3">
-      {/* 댓글 목록 렌더링 */}
-      <div className="flex flex-col gap-4">
-        {data.data.map((comment) => (
-          <div key={comment.id} className="rounded-lg border border-grayscale-100 p-4 hover:bg-grayscale-50">
-            <Link href={`/albatalk/${comment.post.id}`}>
-              <BoardComment
-                id={comment.id.toString()}
-                postTitle={comment.post.title}
-                comment={comment.content}
-                updatedAt={comment.updatedAt}
-                isAuthor={true}
-              />
-            </Link>
+    <div className="flex min-h-screen flex-col items-center">
+      <div className="mx-auto mt-4 w-full max-w-screen-xl px-3">
+        <ContentSection>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {data.data.map((comment) => (
+              <div key={comment.id} className="flex justify-center">
+                <BoardComment
+                  id={comment.id.toString()}
+                  postId={comment.post.id.toString()}
+                  postTitle={comment.post.title}
+                  comment={comment.content}
+                  updatedAt={comment.updatedAt}
+                  isAuthor={true}
+                />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </ContentSection>
 
-      {/* 페이지네이션 */}
-      {totalPages > 1 && (
-        <div className="flex justify-center py-4">
-          <Pagination totalPage={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
-        </div>
-      )}
+        {/* 페이지네이션 */}
+        {totalPages > 1 && (
+          <div className="mt-12 flex justify-center">
+            <Pagination totalPage={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

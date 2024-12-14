@@ -87,7 +87,7 @@ export default function ApplicantPage() {
         {/* 검색 섹션 */}
         <div className="w-full border-b border-line-100">
           <div className="mx-auto flex max-w-screen-xl flex-col gap-4 px-4 py-4 md:px-6 lg:px-8">
-            <SearchSection />
+            <SearchSection pathname={pathname} />
           </div>
         </div>
 

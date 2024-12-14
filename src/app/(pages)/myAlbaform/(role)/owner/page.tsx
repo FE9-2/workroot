@@ -158,7 +158,7 @@ export default function AlbaList() {
         <div className="w-full border-b border-line-100">
           <div className="mx-auto flex max-w-screen-xl flex-col gap-4 px-4 py-4 md:px-6 lg:px-8">
             <div className="flex items-center justify-between">
-              <SearchSection />
+              <SearchSection pathname={pathname} />
             </div>
           </div>
         </div>
