@@ -8,13 +8,11 @@ interface MypageLayoutProps {
 
 export default function MypageLayout({ children }: MypageLayoutProps) {
   return (
-    <div className="flex min-h-screen flex-col">
-      <div className="mx-auto w-full min-w-[327px] px-6 md:max-w-[600px] lg:max-w-[1480px]">
-        <Suspense fallback={<LoadingSpinner />}>
-          <FilterBar />
-          {children}
-        </Suspense>
-      </div>
+    <div className="mx-auto flex w-full min-w-[327px] flex-col px-6 md:max-w-[600px] lg:max-w-[1480px]">
+      <Suspense fallback={<LoadingSpinner />}>
+        <FilterBar />
+        {children}
+      </Suspense>
     </div>
   );
 }

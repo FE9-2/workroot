@@ -3,11 +3,23 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import apiClient from "@/lib/apiClient";
 
-// 알바폼 상세 조회(로그인 안한 유저도 조회 가능)
+// 알바폼 상세 조회(로그인 여부에 따라 다른 응답)
 export async function GET(req: NextRequest, { params }: { params: { formId: string } }) {
   try {
-    const response = await apiClient.get(`/forms/${params.formId}`);
+    const accessToken = cookies().get("accessToken")?.value;
 
+    // 로그인한 유저의 경우 토큰과 함께 요청
+    if (accessToken) {
+      const response = await apiClient.get(`/forms/${params.formId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      return NextResponse.json(response.data);
+    }
+
+    // 로그인하지 않은 유저의 경우 토큰 없이 요청
+    const response = await apiClient.get(`/forms/${params.formId}`);
     return NextResponse.json(response.data);
   } catch (error: unknown) {
     if (error instanceof AxiosError) {

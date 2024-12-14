@@ -53,7 +53,7 @@ const RadioBtn = ({
   );
 
   const labelElement = label && (
-    <label htmlFor={props.id || value} className="cursor-pointer text-sm md:text-lg">
+    <label htmlFor={props.id || value} className="cursor-pointer text-sm lg:text-lg">
       {label}
     </label>
   );
@@ -62,7 +62,7 @@ const RadioBtn = ({
     <div
       onClick={handleClick}
       className={cn(
-        "flex w-full cursor-pointer items-center rounded-lg border border-grayscale-200 p-4 transition-colors md:p-6",
+        "flex w-full cursor-pointer items-center rounded-lg border border-grayscale-200 p-4 transition-colors lg:px-6 lg:py-[17px]",
         checked && "border-primary-orange-300 bg-primary-orange-50",
         !checked && "hover:border-grayscale-300 hover:bg-grayscale-50",
         position === positionOptions.POSITION_RIGHT ? "justify-between" : "gap-2",

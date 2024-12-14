@@ -143,6 +143,7 @@ const ScrapListItem = ({
             {/* 케밥 메뉴 */}
             <div ref={dropdownRef} className="relative">
               <button
+                type="button"
                 className="hover:text-grayscale-700 text-grayscale-500"
                 onClick={() => setShowDropdown(!showDropdown)}
               >
