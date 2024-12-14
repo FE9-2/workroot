@@ -7,10 +7,20 @@ import apiClient from "@/lib/apiClient";
 export async function GET(request: Request, { params }: { params: { postId: string } }) {
   try {
     const postId = params.postId;
+    const accessToken = cookies().get("accessToken")?.value;
 
-    // 게시글 상세 조회 요청
+    // 로그인한 유저의 경우 토큰과 함께 요청
+    if (accessToken) {
+      const response = await apiClient.get(`/posts/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      return NextResponse.json(response.data);
+    }
+
+    // 로그인하지 않은 유저의 경우 토큰 없이 요청
     const response = await apiClient.get(`/posts/${postId}`);
-
     return NextResponse.json(response.data);
   } catch (error: unknown) {
     if (error instanceof AxiosError) {

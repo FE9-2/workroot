@@ -28,7 +28,9 @@ const ImageInputPlaceHolder: React.FC<ImageInputPlaceHolderProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setImageList(initialImages);
+    if (JSON.stringify(imageList) !== JSON.stringify(initialImages)) {
+      setImageList(initialImages);
+    }
   }, [initialImages]);
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
