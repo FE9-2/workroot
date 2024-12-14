@@ -41,10 +41,14 @@ const FilterDropdown = ({ options, className = "", onChange, initialValue, readO
     setIsOpen((prev) => !prev);
   };
 
-  const handleSelect = (option: string) => {
-    setSelectedLabel(option);
-    setIsOpen(false);
-    onChange?.(option);
+  const handleSelect = (option: string | null) => {
+    if (option !== null) {
+      setSelectedLabel(option);
+      setIsOpen(false);
+      onChange?.(option);
+    } else {
+      setIsOpen(false);
+    }
   };
 
   return (
@@ -66,7 +70,10 @@ const FilterDropdown = ({ options, className = "", onChange, initialValue, readO
             ? "border border-grayscale-100 bg-white"
             : "border-primary-orange-300 bg-primary-orange-50"
         )}
-        onClick={toggleDropdown}
+        onClick={(e) => {
+          e.preventDefault();
+          toggleDropdown();
+        }}
         disabled={readOnly}
       >
         <span className={selectedLabel === options[0] ? "text-black-100" : "text-primary-orange-300"}>

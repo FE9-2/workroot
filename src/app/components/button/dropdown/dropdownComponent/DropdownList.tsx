@@ -8,12 +8,18 @@ const DropdownItem = ({
   itemStyle,
 }: {
   item: string;
-  onSelect: (item: string) => void;
+  onSelect: (item: string | null) => void;
   itemStyle?: string;
 }) => {
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onSelect(item);
+  };
+
   return (
     <li
-      onClick={() => onSelect(item)}
+      onClick={handleClick}
       className={cn(
         "flex w-full cursor-pointer bg-grayscale-50 px-[10px] py-2 text-sm font-normal leading-[18px] text-black-100 hover:bg-primary-orange-50 lg:text-lg lg:leading-[26px]",
         itemStyle
@@ -23,6 +29,7 @@ const DropdownItem = ({
     </li>
   );
 };
+
 const DropdownList = ({
   list,
   onSelect,
@@ -30,7 +37,7 @@ const DropdownList = ({
   itemStyle,
 }: {
   list: string[];
-  onSelect: (item: string) => void;
+  onSelect: (item: string | null) => void;
   wrapperStyle?: string;
   itemStyle?: string;
 }) => {
@@ -39,15 +46,20 @@ const DropdownList = ({
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        onSelect("");
+        event.preventDefault();
+        onSelect(null);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside, { capture: true });
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside, { capture: true });
     };
-  }, []);
+  }, [onSelect]);
+
+  const handleContainerClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
 
   return (
     <div
@@ -55,6 +67,7 @@ const DropdownList = ({
       aria-orientation="vertical"
       aria-labelledby="options-menu"
       ref={dropdownRef}
+      onClick={handleContainerClick}
       className={cn(
         "absolute left-0 right-0 z-10 mt-[6px] rounded border border-grayscale-100 bg-grayscale-50 pr-[2px] pt-1",
         wrapperStyle
