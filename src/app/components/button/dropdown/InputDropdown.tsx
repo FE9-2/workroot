@@ -1,5 +1,5 @@
 "use client";
-import React, { forwardRef, useEffect, useState, useRef } from "react";
+import React, { forwardRef, useEffect, useState, useRef, useCallback } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { cn } from "@/lib/tailwindUtil";
 import DropdownList from "./dropdownComponent/DropdownList";
@@ -70,6 +70,14 @@ const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
     const errorTextStyle =
       "absolute -bottom-[26px] text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
 
+    const handleInputClick = useCallback(
+      (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setIsOpen(true);
+      },
+      [setIsOpen]
+    );
+
     return (
       <div
         ref={dropdownRef}
@@ -93,7 +101,7 @@ const InputDropdown = forwardRef<HTMLInputElement, InputDropdownProps>(
                 setValue(name, e.target.value);
               }
             }}
-            onClick={(e) => e.stopPropagation()}
+            onClick={handleInputClick}
             className={cn(
               "text-grayscale-700 flex w-full items-center justify-between px-4 py-2 font-medium focus:outline-none",
               "cursor-pointer bg-transparent"
