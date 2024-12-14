@@ -49,40 +49,7 @@ export default function Apply() {
 
   const formId = useParams().formId;
   const router = useRouter();
-<<<<<<< HEAD
   const queryClient = useQueryClient();
-=======
-  const currentValues = getValues();
-  const { resume, ...submitData } = currentValues;
-  const [isLoding, setIsLoading] = useState(false);
-
-  // 폼 제출 리액트쿼리
-  const mutation = useMutation({
-    mutationFn: async () => {
-      console.log("apply 제출 submitData 출력", submitData);
-      const response = await axios.post(`/api/forms/${formId}/applications`, submitData);
-      console.log("apply 제출 response.data 출력", response.data);
-    },
-    onMutate: () => {
-      setIsLoading(true); // 로딩 상태 시작
-    },
-    onSuccess: () => {
-      setIsLoading(false);
-      if (typeof window !== "undefined") {
-        window.localStorage.removeItem("tempAddFormData");
-      }
-      toast.success("알바폼을 등록했습니다.");
-      router.push(`/alba/${formId}`);
-    },
-
-    onError: (error) => {
-      setIsLoading(false);
-      console.error("에러가 발생했습니다.", error);
-      toast.error("에러가 발생했습니다.");
-      onTempSave();
-    },
-  });
->>>>>>> 82982ef1843dcbf8b62ec9dfc3499cabf1ac2db4
 
   const onTempSave = async () => {
     try {
