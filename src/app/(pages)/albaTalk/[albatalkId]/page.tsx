@@ -10,11 +10,9 @@ export default function PostDetailPage() {
   // 에러 처리
 
   return (
-    <div className="min-h-screen bg-white py-12">
-      <div className="mx-auto flex w-full max-w-[1480px] flex-col items-center px-4 lg:px-8">
-        <PostDetailSection postId={albatalkId.toString()} />
-        <CommentsSection postId={albatalkId.toString()} />
-      </div>
+    <div className="mx-auto flex w-full min-w-[375px] flex-col items-center px-4 lg:w-[1024px] xl:w-[1480px]">
+      <PostDetailSection postId={albatalkId.toString()} />
+      <CommentsSection postId={albatalkId.toString()} />
     </div>
   );
 }

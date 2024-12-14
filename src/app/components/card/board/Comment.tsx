@@ -9,6 +9,7 @@ import KebabDropdown from "@/app/components/button/dropdown/KebabDropdown";
 import useModalStore from "@/store/modalStore";
 import { useEditComment } from "@/hooks/queries/post/comment/useEditComment";
 import { useDeleteComment } from "@/hooks/queries/post/comment/useDeleteComment";
+import { useQueryClient } from "@tanstack/react-query";
 
 export interface CommentProps {
   id: string;
@@ -22,6 +23,7 @@ const Comment = ({ id, nickname, updatedAt, content, isAuthor = false }: Comment
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(content);
   const { openModal } = useModalStore();
+  const queryClient = useQueryClient();
 
   const editComment = useEditComment(id);
   const deleteComment = useDeleteComment(id);
@@ -34,6 +36,7 @@ const Comment = ({ id, nickname, updatedAt, content, isAuthor = false }: Comment
       {
         onSuccess: () => {
           setIsEditing(false);
+          queryClient.invalidateQueries({ queryKey: ["comments"] });
         },
       }
     );
@@ -49,6 +52,7 @@ const Comment = ({ id, nickname, updatedAt, content, isAuthor = false }: Comment
       onConfirm: () => {
         deleteComment.mutate(undefined, {
           onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["comments"] });
             openModal("customForm", {
               isOpen: false,
               title: "",
@@ -84,13 +88,14 @@ const Comment = ({ id, nickname, updatedAt, content, isAuthor = false }: Comment
           value={editedContent}
           onChange={(e) => setEditedContent(e.target.value)}
           placeholder="댓글을 입력해주세요."
-          className="h-[132px] w-full lg:h-[160px]"
+          className="h-[90px] w-[344px] resize-none rounded-lg bg-background-200 p-4 md:w-[742px] lg:h-[100px] lg:w-[994px] xl:w-[1410px]"
+          size="h-[120px] w-[375px] md:w-[768px] lg:w-[1024px] xl:w-[1440px] lg:h-[144px]"
           variant="white"
         />
         <div className="flex justify-end gap-2">
           <Button
             onClick={() => setIsEditing(false)}
-            className="h-[40px] w-[80px] bg-grayscale-50 text-sm lg:h-[48px] lg:w-[100px]"
+            className="h-[40px] w-[80px] bg-grayscale-300 text-sm hover:bg-grayscale-200 lg:h-[48px] lg:w-[100px]"
           >
             취소
           </Button>

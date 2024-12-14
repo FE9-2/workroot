@@ -69,47 +69,48 @@ export function CommentsSection({ postId }: CommentsSectionProps): JSX.Element {
         댓글({commentsData?.totalItemCount ?? 0})
       </div>
 
-      <div className="mb-12 rounded-lg bg-white p-5">
-        <div className="mb-4">
-          <BaseTextArea
-            name="newComment"
-            placeholder="댓글을 입력해주세요."
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            className="h-[132px] w-full resize-none rounded-lg border border-line-200 bg-white p-4"
-            variant="white"
-          />
-        </div>
-        <div className="flex justify-end">
-          <Button
-            onClick={handleAddComment}
-            disabled={addComment.isPending || !newComment.trim()}
-            className="h-[52px] w-[108px] rounded-lg text-[14px] font-medium sm:h-[64px] sm:w-[140px]"
-          >
-            {addComment.isPending ? <DotLoadingSpinner /> : "등록하기"}
-          </Button>
-        </div>
+      <div className="p-4">
+        <BaseTextArea
+          name="newComment"
+          placeholder="댓글을 입력해주세요."
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+          className="h-[90px] w-[344px] resize-none rounded-lg bg-background-200 p-4 md:w-[742px] lg:h-[100px] lg:w-[994px] xl:w-[1410px]"
+          size="h-[120px] w-[375px] md:w-[768px] lg:w-[1024px] xl:w-[1440px] lg:h-[144px]"
+          variant="white"
+        />
+      </div>
+      <div className="flex justify-end p-4">
+        <Button
+          onClick={handleAddComment}
+          disabled={addComment.isPending || !newComment.trim()}
+          className="h-[64px] w-[140px] rounded-lg text-[14px] font-medium"
+        >
+          {addComment.isPending ? <DotLoadingSpinner /> : "등록하기"}
+        </Button>
       </div>
 
-      {commentsData?.data?.length ? (
-        <div className="space-y-8">
-          {commentsData.data.map((comment) => (
-            <div key={comment.id} className="rounded-lg bg-white p-5">
-              <Comment
-                id={comment.id.toString()}
-                nickname={comment.writer.nickname}
-                updatedAt={comment.createdAt}
-                content={comment.content}
-                isAuthor={comment.writer.id === user?.id}
-              />
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="flex min-h-[300px] flex-col items-center justify-center gap-4 rounded-lg bg-white p-5">
-          <Image src="/images/emptyComment-md.svg" alt="No comments" width={206} height={204} className="mb-4" />
-        </div>
-      )}
+      <div className="mt-4">
+        {commentsData?.data?.length ? (
+          <>
+            {commentsData.data.map((comment) => (
+              <div key={comment.id} className="rounded-lg bg-white p-2">
+                <Comment
+                  id={comment.id.toString()}
+                  nickname={comment.writer.nickname}
+                  updatedAt={comment.createdAt}
+                  content={comment.content}
+                  isAuthor={comment.writer.id === user?.id}
+                />
+              </div>
+            ))}
+          </>
+        ) : (
+          <div className="flex min-h-[300px] flex-col items-center justify-center gap-4 rounded-lg bg-white p-5">
+            <Image src="/images/emptyComment-md.svg" alt="No comments" width={206} height={204} className="mb-4" />
+          </div>
+        )}
+      </div>
 
       {(commentsData?.totalPages ?? 0) > 1 && (
         <div className="mt-12 flex justify-center">
