@@ -2,7 +2,6 @@
 import React, { useState, ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/tailwindUtil";
 import { IoShareSocialSharp } from "react-icons/io5"; // 기본 공유 아이콘
-import { FaLink } from "react-icons/fa"; // 링크 및 카카오톡 아이콘
 import { FcShare } from "react-icons/fc";
 import shareToKakao from "@/utils/shareToKakao";
 import toast from "react-hot-toast";
@@ -16,7 +15,7 @@ interface ExpandedFloatingBtnProps extends ButtonHTMLAttributes<HTMLButtonElemen
 const ExpandedFloatingBtn = ({ variant = "orange", className, ...props }: ExpandedFloatingBtnProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const baseStyles = "inline-flex items-center justify-center transition-colors font-medium rounded-full";
+  const baseStyles = "inline-flex items-center justify-center transition-colors font-medium rounded-full z-50";
   const expandedStyles = "h-32 px-1 bg-primary-orange-200  hover:bg-primary-orange-100";
   const collapsedStyles = "h-12 w-full";
 
