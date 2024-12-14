@@ -61,41 +61,55 @@ const Pagination = ({ totalPage, currentPage, onPageChange }: PaginationProps): 
 
   return (
     <nav className="flex gap-1" aria-label="페이지네이션">
-      <button onClick={handleClickPrevBtn} disabled={prevDisabled} aria-label="이전 페이지">
-        <PaginationBtn extraStyle="mr-[6px]" disabled={prevDisabled}>
-          <IoIosArrowBack className={cn(prevDisabled ? defaultStyle : activeStyle)} />
-        </PaginationBtn>
-      </button>
+      <PaginationBtn
+        onClick={handleClickPrevBtn}
+        disabled={prevDisabled}
+        extraStyle="mr-[6px]"
+        aria-label="이전 페이지"
+      >
+        <IoIosArrowBack className={cn(prevDisabled ? defaultStyle : activeStyle)} />
+      </PaginationBtn>
+
       <ul className="flex gap-1">
         {pageList.map((page) => (
           <li key={page}>
-            <button
+            <PaginationBtn
               onClick={() => handleChangePage(page)}
+              extraStyle={page === currentPage ? activeStyle : ""}
               aria-label={`${page}페이지`}
               aria-current={page === currentPage}
             >
-              <PaginationBtn extraStyle={page === currentPage ? activeStyle : ""}>{page}</PaginationBtn>
-            </button>
+              {page}
+            </PaginationBtn>
           </li>
         ))}
       </ul>
+
       {totalPage > maxPageShow + 2 && lastPage < totalPage - 1 && (
         <>
           <li>
             <PaginationBtn>...</PaginationBtn>
           </li>
           <li>
-            <button onClick={() => handleChangePage(totalPage)} aria-label={`${totalPage}페이지`}>
-              <PaginationBtn extraStyle={totalPage === currentPage ? activeStyle : ""}>{totalPage}</PaginationBtn>
-            </button>
+            <PaginationBtn
+              onClick={() => handleChangePage(totalPage)}
+              extraStyle={totalPage === currentPage ? activeStyle : ""}
+              aria-label={`${totalPage}페이지`}
+            >
+              {totalPage}
+            </PaginationBtn>
           </li>
         </>
       )}
-      <button onClick={handleClickNextBtn} disabled={nextDisabled} aria-label="다음 페이지">
-        <PaginationBtn extraStyle="ml-[6px]" disabled={nextDisabled}>
-          <IoIosArrowForward className={cn(nextDisabled ? defaultStyle : activeStyle)} />
-        </PaginationBtn>
-      </button>
+
+      <PaginationBtn
+        onClick={handleClickNextBtn}
+        disabled={nextDisabled}
+        extraStyle="ml-[6px]"
+        aria-label="다음 페이지"
+      >
+        <IoIosArrowForward className={cn(nextDisabled ? defaultStyle : activeStyle)} />
+      </PaginationBtn>
     </nav>
   );
 };
