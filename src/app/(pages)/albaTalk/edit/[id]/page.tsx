@@ -151,14 +151,16 @@ export default function EditTalk({ params }: { params: { id: string } }) {
             <div className="hidden space-x-1 font-semibold md:flex md:space-x-2 lg:space-x-4">
               <Button
                 variant="solid"
-                className="bg-grayscale-100 text-grayscale-50 hover:bg-grayscale-200 md:h-[46px] md:w-[108px] md:text-[14px] lg:h-[58px] lg:w-[180px] lg:text-[18px]"
+                color="gray"
+                className="md:h-[46px] md:w-[108px] md:text-[14px] lg:h-[58px] lg:w-[180px] lg:text-[18px]"
                 onClick={() => router.push(`/albatalk/${postId}`)}
               >
                 취소
               </Button>
               <Button
                 variant="solid"
-                className="bg-primary-orange-300 text-grayscale-50 hover:bg-orange-400 md:h-[46px] md:w-[108px] md:text-[14px] lg:h-[58px] lg:w-[180px] lg:text-[18px]"
+                color="orange"
+                className="md:h-[46px] md:w-[108px] md:text-[14px] lg:h-[58px] lg:w-[180px] lg:text-[18px]"
                 onClick={handleSubmit(onSubmit)}
                 disabled={isPending}
               >
@@ -228,19 +230,23 @@ export default function EditTalk({ params }: { params: { id: string } }) {
 
       {/* 모바일 버전 버튼 */}
       <div className="fixed bottom-4 left-4 right-4 flex w-full flex-col items-center space-y-2 rounded-t-lg bg-white p-4 font-semibold md:hidden">
-        <button
-          className="mb-2 h-[58px] w-[327px] rounded-[8px] bg-grayscale-100 text-white hover:bg-grayscale-200"
+        <Button
+          variant="solid"
+          color="gray"
+          className="h-[58px] w-[327px] rounded-[8px]"
           onClick={() => router.push(`/albatalk/${postId}`)}
         >
           취소
-        </button>
-        <button
-          className="h-[58px] w-[327px] rounded-[8px] bg-primary-orange-300 text-white hover:bg-orange-400"
+        </Button>
+        <Button
+          variant="solid"
+          color="orange"
+          className="h-[58px] w-[327px] rounded-[8px]"
           onClick={handleSubmit(onSubmit)}
           disabled={isPending}
         >
           {isPending ? <DotLoadingSpinner /> : "수정하기"}
-        </button>
+        </Button>
       </div>
     </>
   );

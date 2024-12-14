@@ -8,8 +8,9 @@ import Button from "@/app/components/button/default/Button";
 import { useAddComment } from "@/hooks/queries/post/comment/useAddComment";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import { useComments } from "@/hooks/queries/post/comment/useComments";
-import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import Pagination from "@/app/components/pagination/Pagination";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 
 interface CommentsSectionProps {
   postId: string;
@@ -85,7 +86,7 @@ export function CommentsSection({ postId }: CommentsSectionProps): JSX.Element {
             disabled={addComment.isPending || !newComment.trim()}
             className="h-[52px] w-[108px] rounded-lg text-[14px] font-medium sm:h-[64px] sm:w-[140px]"
           >
-            {addComment.isPending ? "등록 중..." : "등록하기"}
+            {addComment.isPending ? <DotLoadingSpinner /> : "등록하기"}
           </Button>
         </div>
       </div>
