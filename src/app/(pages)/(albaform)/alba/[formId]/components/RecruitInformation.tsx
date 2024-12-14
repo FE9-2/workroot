@@ -22,17 +22,21 @@ export default function RecruitInformation({ albaFormDetailData, formId }: Recru
   };
 
   return (
-    <>
+    <div className="flex flex-col gap-10 lg:pl-6">
       <RecruitIcon {...recruitmentDetails} />
       <RecruitDetail recruitData={albaFormDetailData} />
-      <p className="text-3xl font-bold">모집 조건</p>
-      <RecruitCondition recruitData={albaFormDetailData} />
-      <div className="hidden lg:block">
-        <FormActions formId={formId} albaFormDetailData={albaFormDetailData} />
+      <div className="flex flex-col gap-6">
+        <span className="text-3xl font-bold">모집 조건</span>
+        <RecruitCondition recruitData={albaFormDetailData} />
       </div>
-      <div className="block lg:hidden">
-        <FormActions formId={formId} albaFormDetailData={albaFormDetailData} />
+      <div>
+        <div className="hidden lg:block">
+          <FormActions formId={formId} albaFormDetailData={albaFormDetailData} />
+        </div>
+        <div className="block lg:hidden">
+          <FormActions formId={formId} albaFormDetailData={albaFormDetailData} />
+        </div>
       </div>
-    </>
+    </div>
   );
 }
