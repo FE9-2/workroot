@@ -104,6 +104,7 @@ export default function EditFormPage() {
           return acc;
         }, {});
       await axios.patch(`/api/forms/${formId}`, filteredData);
+      console.log("filteredData", filteredData);
     },
     onSuccess: () => {
       if (typeof window !== "undefined") {
@@ -114,6 +115,7 @@ export default function EditFormPage() {
     },
     onError: (error) => {
       console.error("에러가 발생했습니다.", error);
+      console.log("currentValues", currentValues);
       toast.error("에러가 발생했습니다.");
     },
   });
@@ -135,7 +137,7 @@ export default function EditFormPage() {
       "모집 조건": "recruit-condition",
       "근무 조건": "work-condition",
     }[option];
-    router.push(`/alba/${formId}/edit?tab=${params}`);
+    router.replace(`/alba/${formId}/edit?tab=${params}`);
   };
 
   const renderChildren = () => {

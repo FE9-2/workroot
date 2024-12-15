@@ -1,3 +1,4 @@
+import { ImageInputType } from "@/types/addform";
 import Image from "next/image";
 
 const PreviewItem = ({
@@ -5,7 +6,7 @@ const PreviewItem = ({
   handleDeleteImage,
   placeholder,
 }: {
-  image: { url: string; id: string };
+  image: ImageInputType;
   handleDeleteImage: (id: string) => void;
   placeholder: boolean;
 }) => {

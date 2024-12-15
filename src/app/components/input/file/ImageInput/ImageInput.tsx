@@ -32,19 +32,18 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
         toast.error("이미지는 최대 3개까지 업로드할 수 있습니다.");
         return;
       }
-
-      const newImageList = [
-        ...imageList,
-        {
-          file: selectedFile,
-          url: URL.createObjectURL(selectedFile),
-          id: crypto.randomUUID(),
-        },
-      ];
-
-      setImageList(newImageList);
-      props.onChange?.(newImageList.map((img) => img.file).filter((file) => file !== null) as File[]);
+      props.onChange?.([selectedFile]); // 파일을 상위로 전달하면 url이 prop으로 내려옴
     }
+  };
+
+  const handleDeleteImage = (targetId: string) => {
+    const targetImage = imageList.find((image) => image.id === targetId);
+    if (targetImage) {
+      URL.revokeObjectURL(targetImage.url); // URL 객체 해제
+    }
+    const newImageList = imageList.filter((image) => image.id !== targetId);
+    setImageList(newImageList);
+    // props.onChange?.(newImageList.map((img) => img.file).filter((file) => file !== null));
   };
 
   const handleOpenFileSelector = () => {
@@ -57,16 +56,6 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
     } else if (ref && "current" in ref) {
       ref.current?.click();
     }
-  };
-
-  const handleDeleteImage = (targetId: string) => {
-    const targetImage = imageList.find((image) => image.id === targetId);
-    if (targetImage) {
-      URL.revokeObjectURL(targetImage.url); // URL 객체 해제
-    }
-    const newImageList = imageList.filter((image) => image.id !== targetId);
-    setImageList(newImageList);
-    props.onChange?.(newImageList.map((img) => img.file).filter((file) => file !== null));
   };
 
   const colorStyle = {

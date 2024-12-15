@@ -21,7 +21,6 @@ export interface SubmitFormDataType {
 }
 
 export interface ImageInputType {
-  file: File | null;
   url: string;
   id: string;
 }

@@ -25,38 +25,55 @@ export default function RecruitContentSection() {
   } = useFormContext();
   const { uploadImages } = useUploadImages();
 
-  const imageImagesData: string[] = watch("imageUrls");
+  const imageUrlsData: string[] = watch("imageUrls");
 
   // 이미지 파일 change핸들러
   const handleChangeImages = async (files: File[]) => {
     let uploadedUrls: string[] = [];
+    //파일 선택 시 업로드 api 요청
     try {
       uploadedUrls = await uploadImages(files);
-      setValue("imageUrls", uploadedUrls);
       console.log("이미지 파일 change 핸들러 - 이미지 업로드 성공");
     } catch (err) {
       console.log("이미지 파일 체인지 핸들러 - 이미지 업로드 실패");
       console.error(err);
     }
-    const updatedImageList = uploadedUrls.map((url) => ({
-      file: null,
-      url,
-      id: crypto.randomUUID(),
-    }));
+    // 선택한 이미지 업데이트
+    const updatedImageList =
+      uploadedUrls.map((url) => ({
+        url,
+        id: crypto.randomUUID(),
+      })) || [];
 
-    setInitialImageList(updatedImageList);
+    // 기존 이미지 포함하기
+    const originalImageList =
+      imageUrlsData.map((url) => ({
+        url,
+        id: crypto.randomUUID(),
+      })) || [];
+
+    const allImageList = [...originalImageList, ...updatedImageList];
+    const submitImageList = [...imageUrlsData, ...uploadedUrls];
+
+    // prop으로 전달
+    setInitialImageList(allImageList);
+    // 훅폼 데이터에 세팅
+    setValue("imageUrls", submitImageList);
+
+    console.log("이미지 핸들러 - 이미지 세팅");
   };
 
+  // 초기 이미지 데이터 로딩
   useEffect(() => {
-    if (imageImagesData?.length > 0) {
-      const updatedFileList = imageImagesData.map((url) => ({
-        file: null,
+    if (imageUrlsData?.length > 0) {
+      const originalUrls = imageUrlsData.map((url) => ({
         url,
         id: crypto.randomUUID(),
       }));
-      setInitialImageList(updatedFileList);
+      setInitialImageList(originalUrls);
+      console.log("초기 로딩 - 이미지 세팅");
     }
-  }, [imageImagesData]);
+  }, [imageUrlsData]);
 
   // 날짜 선택
   const [recruitmentDateRange, setRecruitmentDateRange] = useState<[Date | null, Date | null]>([null, null]);
