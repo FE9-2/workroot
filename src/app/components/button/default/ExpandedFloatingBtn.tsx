@@ -15,7 +15,7 @@ interface ExpandedFloatingBtnProps extends ButtonHTMLAttributes<HTMLButtonElemen
 const ExpandedFloatingBtn = ({ variant = "orange", className, ...props }: ExpandedFloatingBtnProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const baseStyles = "inline-flex items-center justify-center transition-colors font-medium rounded-full z-50";
+  const baseStyles = "inline-flex items-center justify-center transition-colors font-medium rounded-full";
   const expandedStyles = "h-32 px-1 bg-primary-orange-200  hover:bg-primary-orange-100";
   const collapsedStyles = "h-12 w-full";
 
