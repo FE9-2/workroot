@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
+import Button from "@/app/components/button/default/Button";
 
 export default function OwnerSignupPage() {
   const { signup, isPending } = useSignup();
@@ -34,7 +35,7 @@ export default function OwnerSignupPage() {
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-lime-200 to-lime-300 px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-lg">
         <div>
-          <h2 className="text-grayscale-900 text-center text-3xl font-bold tracking-tight">사장님 회원가입</h2>
+          <div className="text-grayscale-900 text-center text-3xl font-bold tracking-tight">사장님 회원가입</div>
           <p className="text-grayscale-600 mt-2 text-center text-sm">
             이미 계정이 있으신가요?{" "}
             <Link href="/login" className="font-medium text-lime-600 hover:text-lime-500">
@@ -120,14 +121,10 @@ export default function OwnerSignupPage() {
               {errors.location && <p className="mt-1 text-sm text-red-600">{errors.location.message}</p>}
             </div>
           </div>
-          <div>
-            <button
-              type="submit"
-              disabled={isPending}
-              className="group relative flex w-full justify-center rounded-lg bg-lime-600 px-4 py-2 text-sm font-medium text-white hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-lime-500 focus:ring-offset-2 disabled:bg-lime-300"
-            >
+          <div className="flex justify-center">
+            <Button variant="solid" color="lime" width="md" disabled={isPending}>
               {isPending ? <DotLoadingSpinner /> : "회원가입"}
-            </button>
+            </Button>
           </div>
           <div className="flex items-center justify-center">
             <hr className="flex-grow border-t border-grayscale-200" />

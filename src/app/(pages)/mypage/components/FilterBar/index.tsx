@@ -54,10 +54,10 @@ export default function FilterBar() {
         {/* sm, md에서는 케밥 메뉴, lg 이상에서는 버튼 */}
         <div>
           <div className="hidden lg:flex lg:gap-2">
-            <Button variant="solid" width="sm" onClick={handleEditProfile}>
+            <Button variant="outlined" color="lime" width="sm" onClick={handleEditProfile}>
               내 정보 수정
             </Button>
-            <Button variant="outlined" width="sm" onClick={handleChangePassword}>
+            <Button variant="solid" color="lime" width="sm" onClick={handleChangePassword}>
               비밀번호 변경
             </Button>
           </div>
