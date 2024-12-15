@@ -50,7 +50,7 @@ export default function FilterBar() {
     <div className="w-full bg-white">
       {/* 마이페이지 섹션 */}
       <div className="flex items-center justify-between">
-        <h1 className="text-grayscale-900 py-4 text-xl font-bold sm:py-6 sm:text-2xl">마이페이지</h1>
+        <div className="text-grayscale-900 py-4 text-xl font-bold sm:py-6 sm:text-2xl">마이페이지</div>
         {/* sm, md에서는 케밥 메뉴, lg 이상에서는 버튼 */}
         <div>
           <div className="hidden lg:flex lg:gap-2">
