@@ -77,7 +77,7 @@ export default function AddTalk() {
 
       createPost(postData, {
         onSuccess: (response) => {
-          router.push(`/albatalk/${response.id}`);
+          router.push(`/alba-talk/${response.id}`);
         },
       });
     } catch (error) {
@@ -94,7 +94,7 @@ export default function AddTalk() {
             <Button
               color="gray"
               className="text-grayscale-50md:h-[46px] text-white md:w-[108px] md:text-[14px] lg:h-[58px] lg:w-[180px] lg:text-[18px]"
-              onClick={() => router.push("/albaTalk")}
+              onClick={() => router.push("/alba-talk")}
             >
               취소
             </Button>
@@ -170,7 +170,7 @@ export default function AddTalk() {
         <Button
           color="gray"
           className="mb-2 h-[58px] w-full rounded-[8px] bg-grayscale-100 text-white hover:bg-grayscale-200"
-          onClick={() => router.push("/albaTalk")}
+          onClick={() => router.push("/alba-talk")}
         >
           취소
         </Button>
