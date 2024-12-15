@@ -10,18 +10,22 @@ const shareToKakao = () => {
     getMetaContentByProperty("og:description") || `🌳 "일"을 통해 자신의 뿌리를 내리며 "성장"하는 구인구직 사이트`;
   const ogImage = getMetaContentByProperty("og:image") || "/logo.svg";
 
-  Kakao.Link.sendDefault({
-    objectType: "feed",
-    content: {
-      title: ogTitle,
-      description: ogDescription,
-      imageUrl: ogImage,
-      link: {
-        mobileWebUrl: url,
-        webUrl: url,
+  if (window.Kakao && window.Kakao.isInitialized()) {
+    Kakao.Link.sendDefault({
+      objectType: "feed",
+      content: {
+        title: ogTitle,
+        description: ogDescription,
+        imageUrl: ogImage,
+        link: {
+          mobileWebUrl: url,
+          webUrl: url,
+        },
       },
-    },
-  });
+    });
+  } else {
+    console.error("Kakao SDK가 초기화되지 않았습니다.");
+  }
 };
 
 export default shareToKakao;
