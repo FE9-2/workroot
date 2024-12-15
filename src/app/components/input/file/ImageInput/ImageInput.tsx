@@ -20,8 +20,6 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
     if (props.initialImageList?.length > 0) {
       setImageList(props.initialImageList);
     }
-    console.log("이미지 초기값 prop", props.initialImageList);
-    console.log("이미지 초기값 local", imageList);
   }, [props.initialImageList, imageList]);
 
   const handleFileChange = (selectedFile: File | null) => {

@@ -59,8 +59,6 @@ export default function RecruitContentSection() {
     setInitialImageList(allImageList);
     // 훅폼 데이터에 세팅
     setValue("imageUrls", submitImageList, { shouldDirty: true });
-
-    console.log("이미지 핸들러 - 이미지 세팅");
   };
 
   const handleDeleteImage = (url: string) => {
@@ -77,7 +75,6 @@ export default function RecruitContentSection() {
         id: crypto.randomUUID(),
       }));
       setInitialImageList(originalUrls);
-      console.log("초기 로딩 - 이미지 세팅");
     }
   }, [imageUrlsData]);
 
