@@ -46,18 +46,18 @@ export default function RecruitContentSection() {
 
   useEffect(() => {
     if (imageFilesData?.length > 0) {
-      const updatedImageList = imageFilesData.map((file: File) => ({
+      const updatedFileList = imageFilesData.map((file: File) => ({
         file,
         url: URL.createObjectURL(file),
         id: crypto.randomUUID(),
       }));
-      setInitialImageList(updatedImageList);
+      setInitialImageList(updatedFileList);
     }
-  }, [imageFilesData]);
+  }, [imageFilesData, imageImagesData]);
 
   // edit 페이지에서 쿼리 데이터로 프리뷰 추가
   useEffect(() => {
-    if (imageImagesData?.length > 0) {
+    if (imageImagesData?.length > 0 || imageFilesData?.length === 0) {
       const updatedImageList = imageImagesData.map((url: string) => ({
         file: null,
         url,

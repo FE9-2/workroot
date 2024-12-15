@@ -226,13 +226,13 @@ export default function EditFormPage() {
             onChange={handleOptionChange}
             currentParam={currentParam || ""}
           />
-          <div className="absolute -bottom-[120px] mb-10 flex w-[320px] lg:relative lg:bottom-0 lg:w-full">
+          <div className="absolute -bottom-[120px] flex w-[320px] lg:relative lg:bottom-0 lg:w-full">
             <Button
               type="submit"
               variant="solid"
               width="md"
               color="orange"
-              className="h-[58px] w-full lg:h-[72px] lg:text-xl lg:leading-8"
+              className="h-[58px] w-[372px] lg:h-[72px] lg:text-xl lg:leading-8"
               disabled={!isValid}
               onClick={handleSubmit(() => mutation.mutate())}
             >
