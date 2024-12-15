@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react"; // useState 추가
+import React, { useState } from "react";
 import Link from "next/link";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import { FormDetailResponse } from "@/types/response/form";
@@ -69,9 +69,8 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
 
   // 이미 지원한 공고인지 확인
   const hasApplied = applicantData?.pages
-    ?.flatMap((page) => page.data)
-    .some((applicant) => applicant.form?.id === formId);
-  console.log("이미 지원한 공고인가요 ", hasApplied);
+    ?.flatMap((page) => page.data) // 1차원 배열로 변환
+    .some((applicant) => applicant.form?.id === formId); // 일치하는 항목을 찾으면 즉시 true를 반환
 
   // 사장님이 아니면 지원하기/내 지원내역 보기 버튼
   if (!isOwnerRole) {
