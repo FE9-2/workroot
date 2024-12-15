@@ -58,7 +58,7 @@ export default function RecruitContentSection() {
     // prop으로 전달
     setInitialImageList(allImageList);
     // 훅폼 데이터에 세팅
-    setValue("imageUrls", submitImageList);
+    setValue("imageUrls", submitImageList, { shouldDirty: true });
 
     console.log("이미지 핸들러 - 이미지 세팅");
   };
@@ -66,7 +66,8 @@ export default function RecruitContentSection() {
   const handleDeleteImage = (url: string) => {
     const newImageList = initialImageList.filter((item) => item.url !== url);
     setInitialImageList(newImageList);
-    setValue("imageUrls", newImageList);
+    const urls = newImageList.map((item) => item.url);
+    setValue("imageUrls", urls, { shouldDirty: true });
   };
   // 초기 이미지 데이터 로딩
   useEffect(() => {
@@ -133,7 +134,7 @@ export default function RecruitContentSection() {
         <Label>이미지 첨부</Label>
         <div>
           <ImageInput
-            {...register("imageUrls", { required: "이미지는 필수입니다." })}
+            {...register("imageUrls")}
             onChange={(files: File[]) => {
               handleChangeImages(files);
             }}

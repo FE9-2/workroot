@@ -8,7 +8,7 @@ import axios from "axios";
 import TabMenuDropdown from "@/app/components/button/dropdown/TabMenuDropdown";
 import Button from "@/app/components/button/default/Button";
 import { toast } from "react-hot-toast";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import RecruitContentSection from "../../../addform/section/RecruitContentSection";
 import RecruitConditionSection from "../../../addform/section/RecruitConditionSection";
 import WorkConditionSection from "../../../addform/section/WorkConditionSection";
@@ -39,10 +39,11 @@ export default function EditFormPage() {
 
   const {
     reset,
-    setValue,
     handleSubmit,
-    formState: { isDirty, isValid },
+    formState: { isDirty },
   } = methods;
+
+  const queryClient = useQueryClient();
 
   // 훅폼에서 관리하는 전체 데이터를 가져오는 함수
   const currentValues: SubmitFormDataType = methods.watch();
@@ -112,6 +113,10 @@ export default function EditFormPage() {
       }
       toast.success("알바폼을 수정했습니다.");
       router.push(`/alba/${formId}`);
+      // 쿼리 무효화
+      queryClient.invalidateQueries({
+        queryKey: ["formDetail", formId],
+      });
     },
     onError: (error) => {
       console.error("에러가 발생했습니다.", error);
@@ -187,7 +192,7 @@ export default function EditFormPage() {
               width="md"
               color="orange"
               className="h-[58px] w-[372px] lg:h-[72px] lg:text-xl lg:leading-8"
-              disabled={!isValid}
+              disabled={!isDirty}
               onClick={handleSubmit(() => mutation.mutate())}
             >
               수정하기
