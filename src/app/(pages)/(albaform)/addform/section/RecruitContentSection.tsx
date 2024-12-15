@@ -63,6 +63,11 @@ export default function RecruitContentSection() {
     console.log("이미지 핸들러 - 이미지 세팅");
   };
 
+  const handleDeleteImage = (url: string) => {
+    const newImageList = initialImageList.filter((item) => item.url !== url);
+    setInitialImageList(newImageList);
+    setValue("imageUrls", newImageList);
+  };
   // 초기 이미지 데이터 로딩
   useEffect(() => {
     if (imageUrlsData?.length > 0) {
@@ -132,6 +137,7 @@ export default function RecruitContentSection() {
             onChange={(files: File[]) => {
               handleChangeImages(files);
             }}
+            onDelete={(id) => handleDeleteImage(id)}
             initialImageList={initialImageList}
           />
           {errors.imageUrls && <p className={cn(errorTextStyle, "")}>{errors.imageUrls.message as string}</p>}

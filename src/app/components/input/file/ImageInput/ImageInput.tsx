@@ -9,6 +9,7 @@ import { ImageInputType } from "@/types/addform";
 interface ImageInputProps {
   name: string;
   onChange?: (files: File[]) => void;
+  onDelete?: (id: string) => void;
   initialImageList: ImageInputType[];
 }
 
@@ -21,7 +22,7 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
     }
     console.log("이미지 초기값 prop", props.initialImageList);
     console.log("이미지 초기값 local", imageList);
-  }, [props.initialImageList]);
+  }, [props.initialImageList, imageList]);
 
   const handleFileChange = (selectedFile: File | null) => {
     if (selectedFile) {
@@ -36,14 +37,12 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
     }
   };
 
-  const handleDeleteImage = (targetId: string) => {
-    const targetImage = imageList.find((image) => image.id === targetId);
-    if (targetImage) {
-      URL.revokeObjectURL(targetImage.url); // URL 객체 해제
-    }
-    const newImageList = imageList.filter((image) => image.id !== targetId);
+  const handleDeleteImage = (targetUrl: string) => {
+    // 삭제 했을때 다른 이미지 미리보기도 엑박뜨는 현상 있음 !
+    const newImageList = imageList.filter((image) => image.url !== targetUrl);
     setImageList(newImageList);
-    // props.onChange?.(newImageList.map((img) => img.file).filter((file) => file !== null));
+    // 제거한 리스트를 상위에서 setValue
+    props.onDelete?.(targetUrl);
   };
 
   const handleOpenFileSelector = () => {
