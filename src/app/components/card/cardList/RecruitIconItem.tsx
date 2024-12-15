@@ -1,3 +1,4 @@
+import { cn } from "@/lib/tailwindUtil";
 import Image from "next/image";
 
 interface RecruitIconItemProps {
@@ -11,8 +12,15 @@ interface RecruitIconItemProps {
 
 // 채용 공고의 근무 조건을 아이콘으로 표시하는 컴포넌트의 아이템 컴포넌트
 const RecruitIconItem = ({ icon, label, value }: RecruitIconItemProps) => {
+  const isPeriodLabel = label === "기간";
+
   return (
-    <div className="flex h-[54px] items-start gap-2 overflow-hidden rounded-lg border border-grayscale-200 p-2 lg:h-[150px] lg:gap-6 lg:p-[30px]">
+    <div
+      className={cn(
+        "flex h-[54px] items-start gap-2 overflow-hidden rounded-lg border border-grayscale-200 p-2 lg:h-[150px] lg:gap-6 lg:p-[30px]",
+        { "lg:items-center": !isPeriodLabel }
+      )}
+    >
       <div className="flex h-9 w-9 items-center justify-center rounded-full bg-grayscale-100 bg-opacity-30 lg:h-14 lg:w-14">
         <div className="block lg:hidden">
           <Image src={icon.sm} alt={label} width={24} height={24} />
@@ -23,9 +31,16 @@ const RecruitIconItem = ({ icon, label, value }: RecruitIconItemProps) => {
       </div>
       <div className="flex-1">
         <div className="text-grayscale-600 text-sm font-medium lg:text-xl">{label}</div>
-        <div className="text-sm font-semibold text-primary-orange-300 lg:h-[68px] lg:text-2xl">{value}</div>
+        <div
+          className={cn("text-sm font-semibold text-primary-orange-300 lg:text-2xl", {
+            "lg:h-0": isPeriodLabel,
+          })}
+        >
+          {value}
+        </div>
       </div>
     </div>
   );
 };
+
 export default RecruitIconItem;
