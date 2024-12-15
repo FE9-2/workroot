@@ -6,13 +6,13 @@ import { FormDetailResponse } from "@/types/response/form";
 import FloatingBtn from "@/app/components/button/default/FloatingBtn";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
-import { CiMemoPad } from "react-icons/ci";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import { HiMail } from "react-icons/hi";
 import { HiDocumentText } from "react-icons/hi";
+import { useMyApplications } from "@/hooks/queries/user/me/useMyApplications";
 interface FormActionsProps {
   formId: string | number;
   albaFormDetailData: FormDetailResponse;
@@ -20,6 +20,7 @@ interface FormActionsProps {
 
 export default function FormActions({ formId, albaFormDetailData }: FormActionsProps) {
   const { user } = useUser();
+  const { data: applicantData, isLoading: applicantLoading } = useMyApplications();
   const router = useRouter();
   const isMyAlbaForm = user?.id === albaFormDetailData.ownerId;
   const isOwnerRole = user?.role === "OWNER";
@@ -66,15 +67,27 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
     );
   }
 
+  // 이미 지원한 공고인지 확인
+  const hasApplied = applicantData?.pages
+    ?.flatMap((page) => page.data)
+    .some((applicant) => applicant.form?.id === formId);
+  console.log("이미 지원한 공고인가요 ", hasApplied);
+
   // 사장님이 아니면 지원하기/내 지원내역 보기 버튼
   if (!isOwnerRole) {
     return (
       <div className="space-y-4 text-2xl">
-        <Link href={`/apply/${formId}`}>
-          <FloatingBtn className={`${buttonStyle} mb-4`} icon={<HiMail />}>
-            {isLoading ? <DotLoadingSpinner /> : "지원하기"}
+        {hasApplied ? (
+          <FloatingBtn className={`${buttonStyle} mb-4`} icon={<HiMail />} disabled>
+            {isLoading ? <DotLoadingSpinner /> : "이미 지원한 공고"}
           </FloatingBtn>
-        </Link>
+        ) : (
+          <Link href={`/apply/${formId}`}>
+            <FloatingBtn className={`${buttonStyle} mb-4`} icon={<HiMail />}>
+              {isLoading ? <DotLoadingSpinner /> : "지원하기"}
+            </FloatingBtn>
+          </Link>
+        )}
         <Link href={`/my-apply/${formId}`}>
           <FloatingBtn variant="white" className={buttonStyle} icon={<HiDocumentText />}>
             {isLoading ? <DotLoadingSpinner /> : "내 지원내역 보기"}
