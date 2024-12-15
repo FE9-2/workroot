@@ -41,13 +41,6 @@ export default function AlbaFormDetailPage() {
     libraries: ["services"],
   });
 
-  // 카카오 SDK 초기화
-  useEffect(() => {
-    if (window.Kakao && !window.Kakao.isInitialized()) {
-      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APP_KEY);
-    }
-  }, []);
-
   useEffect(() => {
     if (formId) {
       setFormIdState(Number(formId));
@@ -88,7 +81,17 @@ export default function AlbaFormDetailPage() {
   return (
     <div className="container flex min-h-screen flex-col px-4 lg:px-0">
       {/* 카카오 공유 스트립트 */}
-      <Script src="https://developers.kakao.com/sdk/js/kakao.min.js" strategy="beforeInteractive" />
+      <Script
+        src={`https://developers.kakao.com/sdk/js/kakao.min.js?v=${new Date().getTime()}`}
+        strategy="afterInteractive"
+        onLoad={() => {
+          const kakaoKey = process.env.NEXT_PUBLIC_KAKAO_APP_KEY;
+          if (window.Kakao && !window.Kakao.isInitialized()) {
+            window.Kakao.init(kakaoKey);
+          }
+        }}
+      />
+
       {/* 사진영역 */}
       {albaFormDetailData && (
         <FormImage

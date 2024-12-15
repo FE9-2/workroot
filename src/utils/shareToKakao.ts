@@ -2,7 +2,6 @@ import getMetaContentByProperty from "./getMetaContentByProperty";
 
 const shareToKakao = () => {
   const { Kakao, location } = window;
-
   const url = String(new URL(location.href));
 
   const ogTitle = getMetaContentByProperty("og:title") || "WorkRoot";
