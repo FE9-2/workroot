@@ -18,7 +18,6 @@ export interface SubmitFormDataType {
   recruitmentStartDate: string | undefined;
   description: string;
   title: string;
-  imageFiles: File[];
 }
 
 export interface ImageInputType {

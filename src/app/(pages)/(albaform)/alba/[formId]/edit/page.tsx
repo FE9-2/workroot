@@ -9,7 +9,6 @@ import TabMenuDropdown from "@/app/components/button/dropdown/TabMenuDropdown";
 import Button from "@/app/components/button/default/Button";
 import { toast } from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
-import { useUpdateProfile } from "@/hooks/queries/user/me/useUpdateProfile";
 import RecruitContentSection from "../../../addform/section/RecruitContentSection";
 import RecruitConditionSection from "../../../addform/section/RecruitConditionSection";
 import WorkConditionSection from "../../../addform/section/WorkConditionSection";
@@ -47,11 +46,8 @@ export default function EditFormPage() {
 
   // 훅폼에서 관리하는 전체 데이터를 가져오는 함수
   const currentValues: SubmitFormDataType = methods.watch();
-  const imageFiles = currentValues.imageFiles;
   // 탭 선택 옵션 관리
   const [selectedOption, setSelectedOption] = useState("모집 내용");
-  // 이미지 업로드 훅
-  const { uploadImageMutation } = useUpdateProfile();
   // 각각의 탭 작성중 여부
   const { isEditingRecruitContent, isEditingRecruitCondition, isEditingWorkCondition } = useEditing(currentValues);
 
@@ -82,59 +78,15 @@ export default function EditFormPage() {
     }
   }, [albaFormDetailData, reset]);
 
-  // 이미지 업로드 api
-  const uploadImages = async (files: File[]) => {
-    if (currentValues.imageUrls.length !== currentValues.imageFiles.length) {
-      const uploadedUrls: string[] = [];
-
-      // 전체 파일 배열을 순회하면서 업로드 로직 진행
-      for (const file of files) {
-        // 파일 크기 체크
-        const maxSize = 5 * 1024 * 1024; // 5MB
-        if (file.size > maxSize) {
-          toast.error(`5MB 이상의 파일은 업로드할 수 없습니다.`);
-          continue;
-        }
-        const formData = new FormData();
-        formData.append("image", file);
-        try {
-          const uploadResponse = await uploadImageMutation.mutateAsync(file);
-          if (uploadResponse?.url) {
-            uploadedUrls.push(uploadResponse.url);
-          }
-        } catch (uploadError) {
-          console.error(`파일 ${file.name} 업로드 실패:`, uploadError);
-        }
-      }
-      return uploadedUrls;
-    } else {
-      return currentValues.imageUrls;
-    }
-  };
-
   // 폼데이터 임시 저장 함수
   const onTempSave = async () => {
-    // 이미지 처리 로직
-    if (imageFiles && imageFiles.length > 0) {
-      try {
-        const uploadedUrls = await uploadImages(Array.from(imageFiles));
-        if (uploadedUrls && uploadedUrls.length > 0) {
-          setValue("imageUrls", [...uploadedUrls]);
-        } else {
-          setValue("imageUrls", [...currentValues.imageUrls]);
-        }
-      } catch (error) {
-        console.error("임시저장 - 이미지 업로드 중 오류 발생:", error);
-        setValue("imageUrls", []);
-      }
-    }
     tempSave("addformData", currentValues);
   };
 
   // 수정된 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
-      const excludedKeys = ["displayDate", "workDateRange", "recruitDateRange", "imageFiles"];
+      const excludedKeys = ["displayDate", "workDateRange", "recruitDateRange"];
 
       // 원하는 필드만 포함된 새로운 객체 만들기
       const filteredData = Object.entries(currentValues)

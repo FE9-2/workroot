@@ -8,6 +8,7 @@ import { useFormContext } from "react-hook-form";
 import { useEffect, useState } from "react";
 import Label from "../../component/Label";
 import { ImageInputType } from "@/types/addform";
+import useUploadImages from "@/hooks/queries/user/me/useImageUpload";
 
 // 알바폼 만들기 - 사장님 - 1-모집내용
 
@@ -22,22 +23,24 @@ export default function RecruitContentSection() {
     setValue,
     formState: { errors },
   } = useFormContext();
+  const { uploadImages } = useUploadImages();
 
   const imageImagesData: string[] = watch("imageUrls");
-  const imageFilesData: File[] = watch("imageFiles");
-  const length = imageFilesData?.length || 0;
-  const lastImageFile = length > 0 ? imageFilesData[length - 1] : null;
 
   // 이미지 파일 change핸들러
-  const handleChangeImages = (files: File[]) => {
-    setValue("imageFiles", files);
-    if (!lastImageFile) {
-      console.error("No files found");
-      return;
+  const handleChangeImages = async (files: File[]) => {
+    let uploadedUrls: string[] = [];
+    try {
+      uploadedUrls = await uploadImages(files);
+      setValue("imageUrls", uploadedUrls);
+      console.log("이미지 파일 change 핸들러 - 이미지 업로드 성공");
+    } catch (err) {
+      console.log("이미지 파일 체인지 핸들러 - 이미지 업로드 실패");
+      console.error(err);
     }
-    const updatedImageList = files.map((file) => ({
-      file,
-      url: URL.createObjectURL(file),
+    const updatedImageList = uploadedUrls.map((url) => ({
+      file: null,
+      url,
       id: crypto.randomUUID(),
     }));
 
@@ -45,25 +48,13 @@ export default function RecruitContentSection() {
   };
 
   useEffect(() => {
-    if (imageFilesData?.length > 0) {
-      const updatedFileList = imageFilesData.map((file: File) => ({
-        file,
-        url: URL.createObjectURL(file),
-        id: crypto.randomUUID(),
-      }));
-      setInitialImageList(updatedFileList);
-    }
-  }, [imageFilesData, imageImagesData]);
-
-  // edit 페이지에서 쿼리 데이터로 프리뷰 추가
-  useEffect(() => {
-    if (imageImagesData?.length > 0 || imageFilesData?.length === 0) {
-      const updatedImageList = imageImagesData.map((url: string) => ({
+    if (imageImagesData?.length > 0) {
+      const updatedFileList = imageImagesData.map((url) => ({
         file: null,
         url,
         id: crypto.randomUUID(),
       }));
-      setInitialImageList(updatedImageList);
+      setInitialImageList(updatedFileList);
     }
   }, [imageImagesData]);
 
