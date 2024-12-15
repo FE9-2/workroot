@@ -135,8 +135,8 @@ export default function AlbaFormDetailPage() {
       {/* 지원 현황 */}
       {isOwner && isAuthor && <ApplyStatus formId={formIdState} />}
 
-      <div className="fixed right-10 top-1/2 flex flex-col items-end gap-5">
-        <ScrapBtn formId={formIdState} />
+      <div className="fixed right-10 top-1/2 flex w-12 flex-col items-end gap-5">
+        {user && !isOwner && <ScrapBtn formId={formIdState} />}
         <ExpandedFloatingBtn icon={<IoShareSocialSharp />} variant="orange" />
       </div>
     </div>
