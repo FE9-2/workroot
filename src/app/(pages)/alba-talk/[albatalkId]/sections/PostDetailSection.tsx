@@ -45,7 +45,7 @@ export function PostDetailSection({ postId }: { postId: string }) {
               onConfirm: () => {},
               onCancel: () => {},
             });
-            router.push("/albatalk");
+            router.push("/alba-talk");
           },
         });
       },
@@ -61,7 +61,7 @@ export function PostDetailSection({ postId }: { postId: string }) {
   };
 
   const handleEdit = () => {
-    router.push(`/albatalk/${postId}/edit`);
+    router.push(`/alba-talk/${postId}/edit`);
   };
 
   const dropdownOptions = [

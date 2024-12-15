@@ -59,7 +59,7 @@ export default function Home() {
             한 곳에서 관리하는 알바 구인 플랫폼
           </p>
           {user ? (
-            <Link href="/albalist">
+            <Link href="/alba-list">
               <p className="font-nexon-regular text-black inline-block rounded-lg bg-green-500 px-4 py-2 text-sm sm:px-6 sm:py-3 sm:text-base md:px-8 md:py-4 md:text-lg lg:px-10 lg:py-5 lg:text-xl">
                 알바 둘러보기
               </p>

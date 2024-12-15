@@ -5,79 +5,146 @@ import { useInView } from "react-intersection-observer";
 import { useMyPosts } from "@/hooks/queries/user/me/useMyPosts";
 import { useMySortStore } from "@/store/mySortStore";
 import { useProfileStringValue } from "@/hooks/queries/user/me/useProfileStringValue";
-import CardBoard from "@/app/components/card/board/CardBoard";
 import Link from "next/link";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
-
-// 한 페이지당 게시글 수
-const POSTS_PER_PAGE = 10;
-
-// 상태 메시지 컴포넌트
-const StatusMessage = ({ message, className = "text-grayscale-500" }: { message: string; className?: string }) => (
-  <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-    <p className={className}>{message}</p>
-  </div>
-);
+import ContentSection from "@/app/components/layout/ContentSection";
+import SortSection from "@/app/components/layout/posts/SortSection";
+import { usePathname, useSearchParams } from "next/navigation";
+import Image from "next/image";
+import { formatLocalDate } from "@/utils/workDayFormatter";
+import useWidth from "@/hooks/useWidth";
 
 export default function PostsSection() {
-  // 정렬 상태 관리
   const { orderBy } = useMySortStore();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const { isMobile, isTablet, isDesktop } = useWidth();
   useProfileStringValue();
 
-  // 무한 스크롤을 위한 Intersection Observer 설정
+  // 화면 크기에 따른 페이지당 게시글 수 계산
+  const getPostsPerPage = () => {
+    if (isMobile) return 2; // 1열 x 2줄 = 2개
+    if (isTablet) return 4; // 2열 x 2줄 = 4개
+    if (isDesktop) return 6; // 3열 x 2줄 = 6개
+    return 8; // xl 사이즈: 4열 x 2줄 = 8개
+  };
+
+  const postsPerPage = getPostsPerPage();
+
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: false,
     rootMargin: "100px",
   });
 
-  // 내가 작성한 게시글 목록 조회
   const { data, isLoading, error, hasNextPage, fetchNextPage, isFetchingNextPage } = useMyPosts({
-    limit: POSTS_PER_PAGE,
+    limit: postsPerPage,
     orderBy: orderBy.posts,
   });
 
-  // 스크롤이 하단에 도달하면 다음 페이지 로드
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
   }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage]);
 
-  // 에러 상태 처리
-  if (error) return <StatusMessage message="게시글을 불러오는데 실패했습니다." className="text-red-500" />;
-  if (isLoading) return <LoadingSpinner />;
-  // 데이터가 없는 경우 처리
-  if (!data?.pages[0]?.data?.length) return <StatusMessage message="작성한 게시글이 없습니다." />;
+  if (error) {
+    return (
+      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
+        <p className="text-red-500">게시글을 불러오는데 실패했습니다.</p>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
-    <div className="mx-auto w-full max-w-screen-xl space-y-4 px-3">
-      {/* 게시글 목록 렌더링 */}
-      <div className="flex flex-col gap-4">
-        {data.pages.map((page) => (
-          <React.Fragment key={page.nextCursor}>
-            {page.data.map((post) => (
-              <div key={post.id} className="rounded-lg border border-grayscale-100 p-4 hover:bg-grayscale-50">
-                <Link href={`/albatalk/${post.id}`}>
-                  <CardBoard
-                    id={post.id.toString()}
-                    title={post.title}
-                    content={post.content}
-                    nickname={post.writer.nickname}
-                    updatedAt={post.updatedAt}
-                    commentCount={post.commentCount}
-                    likeCount={post.likeCount}
-                  />
-                </Link>
-              </div>
-            ))}
-          </React.Fragment>
-        ))}
+    <div className="flex min-h-screen flex-col items-center">
+      {/* 정렬 옵션 섹션 */}
+      <div className="fixed left-0 right-0 top-16 z-30 bg-white shadow-sm">
+        <div className="w-full border-b border-line-100">
+          <div className="mx-auto flex max-w-screen-xl items-center justify-end gap-2 px-4 py-4 md:px-6 lg:px-8">
+            <div className="flex items-center gap-4">
+              <SortSection pathname={pathname} searchParams={searchParams} />
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* 무한 스크롤 트리거 영역 */}
-      <div ref={ref} className="h-4 w-full">
-        {isFetchingNextPage && <LoadingSpinner />}
+      {/* 메인 콘텐츠 영역 */}
+      <div className="w-full">
+        {!data?.pages?.[0]?.data?.length ? (
+          <div className="flex h-[calc(100vh-200px)] flex-col items-center justify-center">
+            <p className="text-grayscale-500">작성한 게시글이 없습니다.</p>
+          </div>
+        ) : (
+          <div className="mx-auto mt-4 w-full max-w-screen-xl px-3">
+            <ContentSection>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {data.pages.map((page) => (
+                  <React.Fragment key={page.nextCursor}>
+                    {page.data.map((post) => (
+                      <div key={post.id} className="flex justify-center">
+                        <Link
+                          href={`/alba-talk/${post.id}`}
+                          className="block cursor-pointer transition-transform duration-300 hover:scale-[1.02]"
+                        >
+                          <div className="rounded-lg border border-grayscale-100 bg-white p-6">
+                            <div className="flex flex-col gap-4">
+                              {/* 제목 */}
+                              <h3 className="text-lg font-semibold text-black-400 md:text-xl">{post.title}</h3>
+
+                              {/* 내용 */}
+                              <p className="line-clamp-2 text-sm text-grayscale-400 md:text-base">{post.content}</p>
+
+                              {/* 하단 정보 */}
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-sm font-medium text-black-400 md:text-base">
+                                    {post.writer.nickname}
+                                  </span>
+                                  <span className="text-grayscale-400">|</span>
+                                  <span className="text-sm text-grayscale-400 md:text-base">
+                                    {formatLocalDate(post.updatedAt)}
+                                  </span>
+                                </div>
+                                <div className="flex items-center gap-4">
+                                  <div className="flex items-center gap-1">
+                                    <Image src="/icons/comment/comment-sm.svg" alt="댓글" width={20} height={20} />
+                                    <span className="text-sm text-grayscale-400">{post.commentCount}</span>
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                    <Image src="/icons/like/like-sm.svg" alt="좋아요" width={20} height={20} />
+                                    <span className="text-sm text-grayscale-400">{post.likeCount}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                      </div>
+                    ))}
+                  </React.Fragment>
+                ))}
+              </div>
+            </ContentSection>
+
+            {/* 무한 스크롤 트리거 영역 */}
+            <div ref={ref} className="h-4 w-full">
+              {isFetchingNextPage && (
+                <div className="flex justify-center py-4">
+                  <LoadingSpinner />
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

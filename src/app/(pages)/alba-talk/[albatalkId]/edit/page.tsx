@@ -69,7 +69,7 @@ export default function EditTalk({ params }: { params: { albatalkId: string } })
   useEffect(() => {
     if (error) {
       toast.error("게시글을 불러오는데 실패했습니다.");
-      router.push("/albatalk");
+      router.push("/alba-talk");
     }
   }, [error, router]);
 
@@ -125,7 +125,7 @@ export default function EditTalk({ params }: { params: { albatalkId: string } })
 
       editPost(postData, {
         onSuccess: () => {
-          router.push(`/albatalk/${postId}`);
+          router.push(`/alba-talk/${postId}`);
         },
       });
     } catch (error) {
