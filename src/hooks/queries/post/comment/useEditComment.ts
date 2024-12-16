@@ -27,6 +27,7 @@ export const useEditComment = (commentId: string) => {
       });
       // 댓글 목록과 게시글 상세 캐시 무효화
       queryClient.invalidateQueries({ queryKey: ["comments", commentId] });
+      queryClient.invalidateQueries({ queryKey: ["myComments"] });
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {

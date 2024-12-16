@@ -14,6 +14,7 @@ import CardBoard from "@/app/components/card/board/CardBoard";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import { useRouter } from "next/navigation";
 import ContentSection from "@/app/components/layout/ContentSection";
+import useModalStore from "@/store/modalStore";
 
 const POSTS_PER_PAGE = 10;
 
@@ -22,6 +23,7 @@ export default function AlbaTalk() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { user } = useUser();
+  const { openModal, closeModal } = useModalStore();
 
   // URL 쿼리 파라미터에서 키워드와 정렬 기준 가져오기
   const keyword = searchParams.get("keyword");
@@ -48,6 +50,28 @@ export default function AlbaTalk() {
     }
   }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage]);
 
+  // 리스트 아이템 클릭 시 로그인 여부 확인 후 이동
+  const handlePostClick = (postId: number) => {
+    if (!user) {
+      openModal("customForm", {
+        isOpen: true,
+        title: "로그인이 필요합니다",
+        content: "워크톡 게시글을 확인하려면 로그인이 필요합니다.\n로그인 페이지로 이동하시겠습니까?",
+        confirmText: "로그인하기",
+        cancelText: "취소",
+        onConfirm: () => {
+          closeModal();
+          router.push("/login");
+        },
+        onCancel: () => {
+          closeModal();
+        },
+      });
+      return;
+    }
+    router.push(`/alba-talk/${postId}`);
+  };
+
   // 에러 상태 처리
   if (error) {
     return (
@@ -70,7 +94,7 @@ export default function AlbaTalk() {
     <div className="flex min-h-screen flex-col items-center">
       {/* 검색 섹션과 정렬 옵션을 고정 위치로 설정 */}
       <div className="fixed left-0 right-0 top-16 z-30 bg-white shadow-sm">
-        {/* 검색 섹션 */}
+        {/* ���색 섹션 */}
         <div className="w-full border-b border-line-100">
           <div className="mx-auto flex max-w-screen-xl flex-col gap-4 px-4 py-4 md:px-6 lg:px-8">
             <div className="flex items-center justify-between">
@@ -100,7 +124,7 @@ export default function AlbaTalk() {
 
         {!data?.pages?.[0]?.data?.length ? (
           <div className="flex h-[calc(100vh-200px)] flex-col items-center justify-center">
-            <p className="text-grayscale-500">등록된 게시글이 없습니다.</p>
+            <p className="text-grayscale-500">등록된 게시��이 없습니다.</p>
           </div>
         ) : (
           <div className="mx-auto mt-4 w-full max-w-screen-xl px-3">
@@ -108,7 +132,7 @@ export default function AlbaTalk() {
               {data?.pages.map((page) => (
                 <React.Fragment key={page.nextCursor}>
                   {page.data.map((post) => (
-                    <div className="cursor-pointer" key={post.id} onClick={() => router.push(`/alba-talk/${post.id}`)}>
+                    <div className="cursor-pointer" key={post.id} onClick={() => handlePostClick(post.id)}>
                       <CardBoard
                         id={post.id.toString()}
                         title={post.title}

@@ -6,12 +6,9 @@ import { ko } from "date-fns/locale";
 import { IoIosClose, IoMdArrowDropup } from "react-icons/io";
 import { BsCalendar4 } from "react-icons/bs";
 import { useDropdownOpen } from "@/hooks/useDropdownOpen";
-import { useFormContext } from "react-hook-form";
 import DatePickerHeader from "./DatePickerHeader";
 import { useEffect, useRef } from "react";
 interface DatePickerInputProps {
-  startDateName: string;
-  endDateName: string;
   startDate?: Date;
   endDate?: Date;
   onChange: (dates: [Date | null, Date | null]) => void;
@@ -20,8 +17,6 @@ interface DatePickerInputProps {
   displayValue: string;
 }
 const DatePickerInput = ({
-  startDateName,
-  endDateName,
   startDate,
   endDate,
   onChange,
@@ -29,43 +24,29 @@ const DatePickerInput = ({
   errormessage,
   displayValue,
 }: DatePickerInputProps) => {
-  const { setValue, watch } = useFormContext();
   const { isOpen, handleOpenDropdown } = useDropdownOpen();
-  const dateValue = watch(displayValue);
 
-  useEffect(() => {
-    const currentValue = watch(displayValue);
-    if (currentValue) {
-      setValue(displayValue, currentValue);
+  const handleClick = () => {
+    if (endDate) {
+      onChange([null, null]);
     }
-  }, [displayValue, watch, setValue]);
-
-  const iconStyle = "text-black-400 size-9 transition-transform duration-200";
-
-  const formatDisplayDate = (start: Date, end?: Date) => {
-    const formatToDisplay = (date: Date) => {
-      return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getDate().toString().padStart(2, "0")}`;
-    };
-
-    if (start && end) {
-      return `${formatToDisplay(start)} ~ ${formatToDisplay(end)}`;
-    }
-    return formatToDisplay(start);
+    handleOpenDropdown();
   };
-
   const handleChange = (update: [Date | null, Date | null]) => {
+    // 날짜를 선택하면 onChange 호출 -> 상위로 전달
     const [start, end] = update;
-
-    if (start) {
-      setValue(displayValue, formatDisplayDate(start, end || undefined));
-      setValue(startDateName, start.toISOString());
+    let newDateRange: [Date | null, Date | null] = [start || null, end || null];
+    // 시작 날짜가 설정되지 않았거나, 종료 날짜가 선택되지 않은 경우 처리
+    if (start && end && end < start) {
+      newDateRange = [start, null];
     }
+
+    // 시작 날짜와 종료 날짜가 올바르게 선택된 경우
     if (start && end && end > start) {
-      setValue(displayValue, formatDisplayDate(start, end));
-      setValue(endDateName, end.toISOString());
+      newDateRange = [start, end]; // 시작 및 종료 날짜 설정
       handleOpenDropdown();
     }
-    onChange(update);
+    onChange(newDateRange);
   };
 
   //피커 바깥쪽 클릭 시 창 닫힘
@@ -83,16 +64,18 @@ const DatePickerInput = ({
     };
   }, [handleOpenDropdown]);
 
+  const iconStyle = "text-black-400 size-9 transition-transform duration-200";
+
   return (
     <div className="relative">
-      <div onClick={handleOpenDropdown}>
+      <div onClick={handleClick}>
         <BaseInput
           type="text"
           placeholder="시작일 ~ 종료일"
           variant="white"
           beforeIcon={<BsCalendar4 className="size-4 text-grayscale-200 lg:size-8" />}
           afterIcon={<IoMdArrowDropup className={`${iconStyle} ${isOpen ? "rotate-180" : ""}`} />}
-          value={dateValue || ""}
+          value={displayValue || ""}
           readOnly
           required={required}
           wrapperClassName="cursor-pointer"
