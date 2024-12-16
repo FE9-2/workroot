@@ -56,8 +56,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        nexon: ["NEXON Lv1 Gothic OTF", "sans-serif"],
-        school: ["HakgyoansimDunggeunmisoTTF-R", "HakgyoansimDunggeunmisoTTF-B", "sans-serif"],
+        nexon: ["var(--font-nexon)", "sans-serif"],
+        hakgyo: ["var(--font-hakgyo)", "sans-serif"],
         sans: ["Pretendard", "sans-serif"],
       },
     },

@@ -169,20 +169,24 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
 
         <div className="mt-4 flex h-[58px] w-full justify-between gap-3 lg:mt-6 lg:h-[72px]">
           <Button
-            color="gray"
+            type="button"
+            color="lime"
+            variant="outlined"
             onClick={() => {
               onClose();
               reset();
             }}
             disabled={isUpdating}
-            className="h-[58px] w-[158px] text-base font-medium text-white lg:h-[72] lg:w-[314px] lg:text-lg"
+            className="h-[58px] w-[158px] text-base font-medium lg:h-[72px] lg:w-[314px] lg:text-lg"
           >
             취소
           </Button>
           <Button
             type="submit"
+            color="lime"
+            variant="solid"
             disabled={isUpdating}
-            className="h-[58px] w-[158px] text-base font-medium lg:h-[72] lg:w-[314px] lg:text-lg"
+            className="h-[58px] w-[158px] text-base font-medium lg:h-[72px] lg:w-[314px] lg:text-lg"
           >
             {isUpdating ? <DotLoadingSpinner /> : "수정하기"}
           </Button>
