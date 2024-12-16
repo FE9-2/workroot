@@ -43,8 +43,7 @@ export default function Header() {
       isActive ? "text-lime-900 text-sm md:text-base lg:text-lg lg:font-bold" : "text-lime-700 text-sm md:text-base"
     );
   };
-  const headerStyle =
-    "fixed left-0 right-0 top-0 z-40 border-b border-b-line-100 bg-lime-100 -tracking-widest md:tracking-normal";
+  const headerStyle = "fixed left-0 right-0 top-0 z-40 shadow-sm bg-lime-100 -tracking-widest md:tracking-normal";
   const navStyle = "mx-auto flex h-16 min-w-[327px] items-center justify-between px-6 max-w-screen-xl ";
   const menuStyle = "ml-4 flex h-16 items-center gap-4 md:ml-8 md:gap-6 lg:ml-[46px]";
   const skeletonStyle = "w-16 animate-pulse bg-lime-200";
