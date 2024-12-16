@@ -16,6 +16,7 @@ import { userRoles } from "@/constants/userRoles";
 import FloatingBtn from "@/app/components/button/default/FloatingBtn";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import ContentSection from "@/app/components/layout/ContentSection";
+import useModalStore from "@/store/modalStore";
 
 const FORMS_PER_PAGE = 10;
 
@@ -25,6 +26,7 @@ export default function AlbaList() {
   const searchParams = useSearchParams();
   const { user } = useUser();
   const isOwner = user?.role === userRoles.OWNER;
+  const { openModal, closeModal } = useModalStore();
 
   // URL 쿼리 파라미터에서 필터 상태와 키워드 가져오기
   const isRecruiting = searchParams.get("isRecruiting");
@@ -47,7 +49,7 @@ export default function AlbaList() {
     rootMargin: "100px",
   });
 
-  // 알바폼 목록 조회
+  // 워크폼 목록 조회
   const { data, isLoading, error, hasNextPage, fetchNextPage, isFetchingNextPage } = useForms({
     limit: FORMS_PER_PAGE,
     isRecruiting: isRecruiting === "true" ? true : isRecruiting === "false" ? false : undefined,
@@ -87,7 +89,7 @@ export default function AlbaList() {
   if (error) {
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <p className="text-red-500">알바 목록을 불러오는데 실패했습니다.</p>
+        <p className="text-red-500">워크 채널을 불러오는데 실패했습니다.</p>
       </div>
     );
   }
@@ -99,6 +101,28 @@ export default function AlbaList() {
         <LoadingSpinner />
       </div>
     );
+
+  // 리스트 아이템 클릭 시 로그인 여부 확인 후 이동
+  const handleFormClick = (formId: number) => {
+    if (!user) {
+      openModal("customForm", {
+        isOpen: true,
+        title: "로그인이 필요합니다",
+        content: "채용공고를 확인하려면 로그인이 필요합니다.\n로그인 페이지로 이동하시겠습니까?",
+        confirmText: "로그인하기",
+        cancelText: "취소",
+        onConfirm: () => {
+          closeModal();
+          router.push("/login");
+        },
+        onCancel: () => {
+          closeModal();
+        },
+      });
+      return;
+    }
+    router.push(`/alba/${formId}`);
+  };
 
   return (
     <div className="flex min-h-screen flex-col items-center">
@@ -149,10 +173,8 @@ export default function AlbaList() {
               {data?.pages.map((page) => (
                 <React.Fragment key={page.nextCursor}>
                   {page.data.map((form) => (
-                    <div key={form.id}>
-                      <Link href={`/alba/${form.id}`}>
-                        <AlbaListItem {...form} />
-                      </Link>
+                    <div key={form.id} onClick={() => handleFormClick(form.id)} className="cursor-pointer">
+                      <AlbaListItem {...form} />
                     </div>
                   ))}
                 </React.Fragment>

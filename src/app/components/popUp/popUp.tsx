@@ -28,7 +28,7 @@ export default function Popup({ viewers, onClose }: PopupProps) {
           className="mr-3 block md:hidden"
         />
         <p className="text-[12px] md:text-[18px]">
-          현재 <strong className="text-primary-orange-300">{viewers}명</strong>이 알바폼을 보는 중이에요!
+          현재 <strong className="text-primary-orange-300">{viewers}명</strong>이 워크폼을 보는 중이에요!
         </p>
       </div>
       <CloseButton onClose={onClose} />

@@ -1,5 +1,5 @@
 "use client";
-// 알바폼 수정 페이지 (사장님)
+// 워크폼 수정 페이지 (사장님)
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -99,20 +99,20 @@ export default function EditFormPage() {
             acc[key] = Number(value);
           } else if (key === "hourlyWage") {
             // hourlyWage는 쉼표를 제거하고 숫자형으로 변환
-            if (value.includes(",")) acc[key] = String(Number(value.replaceAll(/,/g, ""))); // 쉼표 제거 후 숫자형 변환
+            if (typeof value === "string" && value.includes(",")) acc[key] = String(Number(value.replaceAll(/,/g, ""))); // 쉼표 제거 후 숫자형 변환
           } else {
             acc[key as keyof SubmitFormDataType] = value; // 나머지 값은 그대로 추가
           }
           return acc;
         }, {});
-      await axios.patch(`/api/forms/${formId}`, filteredData);
       console.log("filteredData", filteredData);
+      await axios.patch(`/api/forms/${formId}`, filteredData);
     },
     onSuccess: () => {
       if (typeof window !== "undefined") {
         window.localStorage.removeItem("tempAddFormData");
       }
-      toast.success("알바폼을 수정했습니다.");
+      toast.success("워크폼을 수정했습니다.");
       router.push(`/alba/${formId}`);
       // 쿼리 무효화
       queryClient.invalidateQueries({
@@ -164,7 +164,7 @@ export default function EditFormPage() {
 
   useEffect(() => {
     if (user?.role !== "OWNER") {
-      toast.error("사장님만 알바폼을 작성할 수 있습니다.");
+      toast.error("사장님만 워크폼을 작성할 수 있습니다.");
       router.push("/alba-list");
     }
   }, [user, router]);

@@ -43,8 +43,7 @@ export default function Header() {
       isActive ? "text-lime-900 text-sm md:text-base lg:text-lg lg:font-bold" : "text-lime-700 text-sm md:text-base"
     );
   };
-  const headerStyle =
-    "fixed left-0 right-0 top-0 z-40 border-b border-b-line-100 bg-lime-100 -tracking-widest md:tracking-normal";
+  const headerStyle = "fixed left-0 right-0 top-0 z-40 shadow-sm bg-lime-100 -tracking-widest md:tracking-normal";
   const navStyle = "mx-auto flex h-16 min-w-[327px] items-center justify-between px-6 max-w-screen-xl ";
   const menuStyle = "ml-4 flex h-16 items-center gap-4 md:ml-8 md:gap-6 lg:ml-[46px]";
   const skeletonStyle = "w-16 animate-pulse bg-lime-200";
@@ -56,14 +55,10 @@ export default function Header() {
           {/* 로고와 메인 네비게이션 */}
           <div className="flex items-center">
             {/* 로고 스켈레톤 - 이미지로 대체*/}
-            <Image
-              src="/logo.svg"
-              alt="Work Root Logo"
-              width={200}
-              height={60}
-              className="w-32 hover:opacity-90 sm:w-40 md:w-[200px]"
-            />
-
+            <div className="flex gap-[6px]">
+              <Image src="/logo.svg" alt="Work Root" width={52} height={40} className="w-14" />
+              <div className="hidden items-center text-3xl font-semibold text-lime-600 md:flex">WorkRoot</div>
+            </div>
             {/* 메뉴 스켈레톤 - 실제 메뉴와 동일한 위치에 배치 */}
             <div className={menuStyle}>
               <div className={cn("h-6", skeletonStyle)} />
@@ -86,26 +81,21 @@ export default function Header() {
       <nav className={navStyle}>
         {/* 로고와 메인 네비게이션 */}
         <div className="flex items-center">
-          <Link href="/" className="text-xl text-white hover:text-blue-100">
-            <Image
-              src="/logo.svg"
-              alt="WorkRoot"
-              width={200}
-              height={60}
-              className="w-32 hover:opacity-90 md:w-[200px]"
-            />
+          <Link href="/" className="flex items-center gap-[6px] text-xl">
+            <Image src="/logo.svg" alt="Work Root" width={52} height={40} className="w-14 hover:opacity-90" />
+            <div className="hidden items-center text-3xl font-semibold text-lime-600 md:flex">WorkRoot</div>
           </Link>
 
           <div className={menuStyle}>
             <Link href="/alba-list" className={getLinkClassName("/alba-list")}>
-              알바 목록
+              워크 채널
             </Link>
             <Link href="/alba-talk" className={getLinkClassName("/alba-talk")}>
-              알바 토크
+              워크톡
             </Link>
             {user && (
               <Link href="/my-albaform" className={getLinkClassName("/my-albaform")}>
-                내 알바폼
+                내 워크폼
               </Link>
             )}
           </div>
@@ -124,6 +114,7 @@ export default function Header() {
                     tablet: "sm",
                     desktop: "sm",
                   }}
+                  height="sm"
                   fontSize={{
                     mobile: "sm",
                     tablet: "base",
@@ -144,6 +135,7 @@ export default function Header() {
                     tablet: "sm",
                     desktop: "sm",
                   }}
+                  height="sm"
                   fontSize={{
                     mobile: "sm",
                     tablet: "base",

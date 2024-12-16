@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import apiClient from "@/lib/apiClient";
 
-// 알바폼 스크랩
+// 워크폼 스크랩
 export async function POST(req: NextRequest, { params }: { params: { formId: string } }) {
   try {
     const accessToken = cookies().get("accessToken")?.value;
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest, { params }: { params: { formId: str
   }
 }
 
-// 알바폼 스크랩 취소
+// 워크폼 스크랩 취소
 export async function DELETE(req: NextRequest, { params }: { params: { formId: string } }) {
   try {
     const accessToken = cookies().get("accessToken")?.value;

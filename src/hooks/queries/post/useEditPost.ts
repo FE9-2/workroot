@@ -25,6 +25,7 @@ export const useEditPost = (postId: string) => {
       // 캐시 무효화
       queryClient.invalidateQueries({ queryKey: ["post", postId] });
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["myPosts"] });
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {

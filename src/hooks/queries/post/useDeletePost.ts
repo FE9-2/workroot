@@ -20,6 +20,7 @@ export const useDeletePost = (postId: string) => {
       // 게시글 목록과 상세 캐시 무효화
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       queryClient.invalidateQueries({ queryKey: ["post", postId] });
+      queryClient.invalidateQueries({ queryKey: ["myPosts"] });
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {

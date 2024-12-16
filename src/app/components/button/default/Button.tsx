@@ -5,6 +5,7 @@ import { cn } from "@/lib/tailwindUtil";
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "solid" | "outlined";
   width?: "xs" | "sm" | "md" | "lg";
+  height?: "sm" | "md" | "lg";
   radius?: "lg" | "full";
   color?: "orange" | "gray" | "lime";
   icon?: ReactNode;
@@ -13,6 +14,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
  * 버튼 컴포넌트
  * @param variant - 버튼 스타일 solid | outlined
  * @param width - 버튼 너비 xs | sm | md | lg
+ * @param height - 버튼 높이 sm | md | lg
  * @param radius - 버튼 모서리 둥글기 lg | full
  * @param color - 버튼 색상 orange | gray
  * @param disabled - 비활성화 여부
@@ -25,6 +27,7 @@ const Button = ({
   className = "",
   variant = "solid",
   width = "md",
+  height = "md",
   radius = "lg",
   color = "orange",
   icon,
@@ -57,7 +60,7 @@ const Button = ({
 
   const widths = {
     xs: "w-[60px] md:w-[80px]",
-    sm: "w-[120px] md:w-[180px]",
+    sm: "w-[120px] md:w-[140px]",
     md: "w-[240px] lg:w-[327px]",
     lg: "w-[480px] xl:w-[640px]",
   };
@@ -67,9 +70,22 @@ const Button = ({
     full: "rounded-full",
   };
 
+  const heights = {
+    sm: "h-8 md:h-10",
+    md: "h-10 md:h-12",
+    lg: "h-12 md:h-14",
+  };
+
   return (
     <button
-      className={cn(baseStyles, colorStyles[color][variant], widths[width], radiuses[radius], className)}
+      className={cn(
+        baseStyles,
+        colorStyles[color][variant],
+        widths[width],
+        heights[height],
+        radiuses[radius],
+        className
+      )}
       disabled={disabled}
       {...props}
     >
