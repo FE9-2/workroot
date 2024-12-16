@@ -14,8 +14,8 @@ import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinne
 import { isValidS3Url } from "@/utils/checkS3Url";
 
 /**
- * 알바폼 리스트 아이템 컴포넌트
- * 알바폼 정보를 카드 형태로 표시하며, 이미지 인디케이터와 지원하기/스크랩 기능을 포함
+ * 워크폼 리스트 아이템 컴포넌트
+ * 워크폼 정보를 카드 형태로 표시하며, 이미지 인디케이터와 지원하기/스크랩 기능을 포함
  */
 const AlbaListItem = ({
   id,

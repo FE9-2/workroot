@@ -15,13 +15,13 @@ export interface UserResponse {
   id: number;
 }
 
-// 내가 생성한 또는 스크랩한 알바폼 목록 응답
+// 내가 생성한 또는 스크랩한 워크폼 목록 응답
 export interface MyFormListResponse {
   data: Array<FormListType>;
   nextCursor: number | null;
 }
 
-// 내가 지원한 알바폼 타입
+// 내가 지원한 워크폼 타입
 export interface MyApplicationType {
   updatedAt: Date;
   createdAt: Date;
@@ -43,7 +43,7 @@ export interface MyApplicationType {
   id: number;
 }
 
-// 내가 지원한 알바폼 목록 응답
+// 내가 지원한 워크폼 목록 응답
 export interface MyApplicationListResponse {
   data: Array<MyApplicationType>;
   nextCursor: number | null;

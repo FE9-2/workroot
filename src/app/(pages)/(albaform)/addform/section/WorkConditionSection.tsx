@@ -13,7 +13,7 @@ import Label from "../../component/Label";
 import Script from "next/script";
 import LocationInput from "@/app/components/input/text/LocationInput";
 
-// 알바폼 만들기 - 사장님 - 3-근무조건
+// 워크폼 만들기 - 사장님 - 3-근무조건
 export default function WorkConditionSection() {
   const {
     register,

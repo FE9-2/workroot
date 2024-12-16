@@ -21,15 +21,15 @@ const DeleteFormModal = ({ id, isOpen, onClose, onConfirm, className }: ConfirmF
     try {
       setIsDeleting(true);
       await axios.delete(`/api/forms/${id}`);
-      toast.success("알바폼이 삭제되었습니다.");
+      toast.success("워크폼이 삭제되었습니다.");
       onConfirm?.();
       onClose?.();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const errormessage = error.response?.data?.message || "알바폼 삭제에 실패했습니다.";
+        const errormessage = error.response?.data?.message || "워크폼 삭제에 실패했습니다.";
         toast.error(errormessage);
       } else {
-        toast.error("알바폼 삭제 중 오류가 발생했습니다.");
+        toast.error("워크폼 삭제 중 오류가 발생했습니다.");
       }
     } finally {
       setIsDeleting(false);
@@ -61,7 +61,7 @@ const DeleteFormModal = ({ id, isOpen, onClose, onConfirm, className }: ConfirmF
               className="hidden sm:block"
             />
           </div>
-          <h2 className="mb-2 text-lg font-bold lg:text-xl">알바폼을 삭제할까요?</h2>
+          <h2 className="mb-2 text-lg font-bold lg:text-xl">워크폼을 삭제할까요?</h2>
           <p className="text-grayscale-600 mb-6 text-sm lg:text-base">삭제 후 정보를 복구할 수 없어요.</p>
 
           <div className="mt-auto flex w-full flex-col items-center gap-3">

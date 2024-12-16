@@ -1,5 +1,5 @@
 "use client";
-// 알바폼 상세 페이지
+// 워크폼 상세 페이지
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useUser } from "@/hooks/queries/user/me/useUser";

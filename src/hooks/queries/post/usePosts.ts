@@ -26,7 +26,7 @@ export const usePosts = ({ limit = 10, orderBy, keyword }: UsePostsParams = {}) 
         return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          const errorMessage = error.response?.data?.message || "알바 토크를 불러오는데 실패했습니다.";
+          const errorMessage = error.response?.data?.message || "워크톡 페이지를 불러오는데 실패했습니다.";
           toast.error(errorMessage);
         }
         throw error;

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { urlSchema } from "./commonSchema";
 
-// 알바폼 생성/수정
+// 워크폼 생성/수정
 export const formSchema = z.object({
   isPublic: z.boolean(),
   hourlyWage: z.number().min(1, "시급을 입력해주세요."),
