@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import Label from "../../component/Label";
 import { ImageInputType } from "@/types/addform";
 import useUploadImages from "@/hooks/queries/user/me/useImageUpload";
-import { formatDate } from "@/utils/formatters";
 
 // 알바폼 만들기 - 사장님 - 1-모집내용
 
@@ -89,7 +88,6 @@ export default function RecruitContentSection() {
   };
 
   // 훅폼에서 recruitment Start/End Data 가져와서 recruitmentDateRange에 반영하기
-  // iso -> locale로 수정하기
   const recruitStartDate: string = watch("recruitmentStartDate");
   const recruitEndDate: string = watch("recruitmentEndDate");
   const StartDate = new Date(recruitStartDate);
