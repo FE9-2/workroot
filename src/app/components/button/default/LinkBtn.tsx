@@ -8,6 +8,7 @@ interface LinkBtnProps {
   className?: string;
   variant?: "solid" | "outlined";
   width?: "xs" | "sm" | "md" | "lg" | ResponsiveWidth;
+  height?: "sm" | "md" | "lg" | ResponsiveHeight;
   radius?: "lg" | "full";
   color?: "orange" | "gray" | "lime";
   icon?: React.ReactNode;
@@ -31,11 +32,19 @@ type ResponsiveFontSize = {
   desktop?: "xs" | "sm" | "base" | "lg";
 };
 
+// 반응형 height 타입 추가
+type ResponsiveHeight = {
+  mobile?: "sm" | "md" | "lg";
+  tablet?: "sm" | "md" | "lg";
+  desktop?: "sm" | "md" | "lg";
+};
+
 /**
  * 링크 버튼 컴포넌트
  * @param href - 이동할 경로
  * @param variant - 버튼 스타일 solid | outlined
  * @param width - 버튼 너비 xs | sm | md | lg
+ * @param height - 버튼 높이 sm | md | lg
  * @param radius - 버튼 모서리 둥글기 lg | full
  * @param color - 버튼 색상 orange | gray | lime
  * @param disabled - 비활성화 여부
@@ -48,6 +57,7 @@ const LinkBtn = ({
   className = "",
   variant = "solid",
   width = "md",
+  height = "md",
   radius = "lg",
   color = "orange",
   icon,
@@ -81,9 +91,9 @@ const LinkBtn = ({
 
   const widths = {
     xs: "w-[60px] md:w-[80px]",
-    sm: "w-[120px] md:w-[160px]",
-    md: "w-[160px] lg:w-[200px]",
-    lg: "w-[200px] xl:w-[240px]",
+    sm: "w-[80px] md:w-[100px]",
+    md: "w-[100px] md:w-[120px]",
+    lg: "w-[120px] md:w-[140px]",
   };
 
   const radiuses = {
@@ -96,6 +106,12 @@ const LinkBtn = ({
     sm: "text-sm",
     base: "text-base",
     lg: "text-lg",
+  };
+
+  const heights = {
+    sm: "h-8 md:h-10",
+    md: "h-10 md:h-12",
+    lg: "h-12 md:h-14",
   };
 
   const getWidthClass = (width: LinkBtnProps["width"]) => {
@@ -122,6 +138,18 @@ const LinkBtn = ({
     );
   };
 
+  const getHeightClass = (height: LinkBtnProps["height"]) => {
+    if (typeof height === "string") {
+      return heights[height];
+    }
+
+    return cn(
+      height?.mobile && heights[height.mobile],
+      height?.tablet && `md:${heights[height.tablet]}`,
+      height?.desktop && `lg:${heights[height.desktop]}`
+    );
+  };
+
   if (disabled) {
     return (
       <span
@@ -129,6 +157,7 @@ const LinkBtn = ({
           baseStyles,
           colorStyles[color][variant],
           getWidthClass(width),
+          getHeightClass(height),
           getFontSizeClass(fontSize),
           radiuses[radius],
           className
@@ -148,6 +177,7 @@ const LinkBtn = ({
         baseStyles,
         colorStyles[color][variant],
         getWidthClass(width),
+        getHeightClass(height),
         getFontSizeClass(fontSize),
         radiuses[radius],
         className
