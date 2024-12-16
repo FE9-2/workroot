@@ -114,6 +114,7 @@ export default function Header() {
                     tablet: "sm",
                     desktop: "sm",
                   }}
+                  height="sm"
                   fontSize={{
                     mobile: "sm",
                     tablet: "base",
@@ -134,6 +135,7 @@ export default function Header() {
                     tablet: "sm",
                     desktop: "sm",
                   }}
+                  height="sm"
                   fontSize={{
                     mobile: "sm",
                     tablet: "base",

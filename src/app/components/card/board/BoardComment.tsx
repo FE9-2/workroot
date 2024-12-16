@@ -18,7 +18,7 @@ export interface BoardCommentProps {
 }
 
 const BoardComment = ({ id, postId, postTitle, comment, updatedAt, isAuthor = false }: BoardCommentProps) => {
-  const { openModal } = useModalStore();
+  const { openModal, closeModal } = useModalStore();
   const queryClient = useQueryClient();
   const deleteComment = useDeleteComment(id);
   const router = useRouter();
@@ -34,24 +34,12 @@ const BoardComment = ({ id, postId, postTitle, comment, updatedAt, isAuthor = fa
         deleteComment.mutate(undefined, {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["comments"] });
-            openModal("customForm", {
-              isOpen: false,
-              title: "",
-              content: "",
-              onConfirm: () => {},
-              onCancel: () => {},
-            });
+            closeModal();
           },
         });
       },
       onCancel: () => {
-        openModal("customForm", {
-          isOpen: false,
-          title: "",
-          content: "",
-          onConfirm: () => {},
-          onCancel: () => {},
-        });
+        closeModal();
       },
     });
   };
