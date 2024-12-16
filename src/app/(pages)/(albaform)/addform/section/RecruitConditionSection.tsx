@@ -30,14 +30,14 @@ export default function RecruitConditionSection() {
         <Label>학력</Label>
         <InputDropdown
           {...register("education", { required: "학력을 선택해주세요" })}
-          options={["고등학교 졸업", "대학교 졸업", "대학교 졸업 예정", "대학원 졸업", "학력 무관", "직접 입력"]}
+          options={["학력 무관", "고등학교 졸업", "대학교 졸업", "대학교 졸업 예정", "대학원 졸업", "직접 입력"]}
           errormessage={errors.education?.message as string}
         />
 
         <Label>연령</Label>
         <InputDropdown
           {...register("age", { required: "연령을 선택해주세요" })}
-          options={["10대", "20대", "30대", "40대", "50대", "60대", "연령 무관", "직접 입력"]}
+          options={["연령 무관", "10대", "20대", "30대", "40대", "50대", "60대", "직접 입력"]}
           errormessage={errors.age?.message as string}
         />
 

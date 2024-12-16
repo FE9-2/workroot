@@ -59,7 +59,7 @@ export default function WorkConditionSection() {
   };
 
   //근무 시간 지정
-  const workStartTime = watch("workStartTime");
+  const workStartTime = watch("workStartTime") || "06:00";
   const workEndTime = watch("workEndTime");
 
   //근무 요일 지정
