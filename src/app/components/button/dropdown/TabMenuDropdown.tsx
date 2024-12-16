@@ -19,9 +19,9 @@ const EditingChip = ({ className = "", selected }: { className?: string; selecte
 };
 
 const TabMenuDropdown = ({ options, className = "", onChange, currentParam = "" }: TopMenuDropdownProps) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedLabel, setSelectedLabel] = useState<string>(options[0].label); // 선택된 값 (label을 저장)
   const { isDesktop } = useWidth();
+  const [isOpen, setIsOpen] = useState<boolean>(isDesktop);
+  const [selectedLabel, setSelectedLabel] = useState<string>(options[0].label); // 선택된 값 (label을 저장)
 
   useEffect(() => {
     switch (currentParam) {
@@ -38,6 +38,10 @@ const TabMenuDropdown = ({ options, className = "", onChange, currentParam = "" 
         setSelectedLabel("모집 내용");
     }
   }, []);
+
+  useEffect(() => {
+    setIsOpen(isDesktop);
+  }, [isDesktop]);
 
   const handleOptionClick = (label: string) => {
     setSelectedLabel(label); // 선택된 레이블을 저장
