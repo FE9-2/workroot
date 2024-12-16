@@ -1,9 +1,28 @@
+"use client";
 import CardChipIcon from "@/app/components/card/cardList/CardChipIcon";
 import Chip from "@/app/components/chip/Chip";
-import React from "react";
+import axios from "axios";
+import { useParams } from "next/navigation";
+import React, { useEffect } from "react";
 
 // 알바폼 지원내역 상세 페이지 (수정해야하는 페이지)
-export default function MyApplyPage({ formId }: { formId: number }) {
+export default function MyApplyPage() {
+  const { formId } = useParams();
+  useEffect(() => {
+    const fetchMyApplication = async () => {
+      console.log(formId);
+
+      try {
+        const response = await axios.get(`/api/forms/${formId}/applications/myApplication`);
+        console.log(response.data); // 결과 처리
+      } catch (error) {
+        console.error("Error fetching application:", error);
+      }
+    };
+
+    fetchMyApplication();
+  }, [formId]);
+
   return (
     <div className="container flex min-h-screen flex-col">
       <div className="h-[562px] bg-black-100">지도영역</div>
