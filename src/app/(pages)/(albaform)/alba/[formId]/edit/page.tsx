@@ -8,8 +8,7 @@ import axios from "axios";
 import TabMenuDropdown from "@/app/components/button/dropdown/TabMenuDropdown";
 import Button from "@/app/components/button/default/Button";
 import { toast } from "react-hot-toast";
-import { useMutation } from "@tanstack/react-query";
-import { useUpdateProfile } from "@/hooks/queries/user/me/useUpdateProfile";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import RecruitContentSection from "../../../addform/section/RecruitContentSection";
 import RecruitConditionSection from "../../../addform/section/RecruitConditionSection";
 import WorkConditionSection from "../../../addform/section/WorkConditionSection";
@@ -19,6 +18,7 @@ import useFormDetail from "@/hooks/queries/form/detail/useFormDetail";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import formatMoney from "@/utils/formatMoney";
 import tempSave from "@/utils/tempSave";
+import { useUser } from "@/hooks/queries/user/me/useUser";
 
 export default function EditFormPage() {
   const router = useRouter();
@@ -40,18 +40,16 @@ export default function EditFormPage() {
 
   const {
     reset,
-    setValue,
     handleSubmit,
-    formState: { isDirty, isValid },
+    formState: { isDirty },
   } = methods;
+
+  const queryClient = useQueryClient();
 
   // 훅폼에서 관리하는 전체 데이터를 가져오는 함수
   const currentValues: SubmitFormDataType = methods.watch();
-  const imageFiles = currentValues.imageFiles;
   // 탭 선택 옵션 관리
   const [selectedOption, setSelectedOption] = useState("모집 내용");
-  // 이미지 업로드 훅
-  const { uploadImageMutation } = useUpdateProfile();
   // 각각의 탭 작성중 여부
   const { isEditingRecruitContent, isEditingRecruitCondition, isEditingWorkCondition } = useEditing(currentValues);
 
@@ -60,20 +58,20 @@ export default function EditFormPage() {
     if (albaFormDetailData) {
       reset({
         isPublic: albaFormDetailData.isPublic,
-        hourlyWage: formatMoney(String(albaFormDetailData.hourlyWage)), // 쉼표 추가하기
+        hourlyWage: formatMoney(String(albaFormDetailData.hourlyWage)),
         isNegotiableWorkDays: albaFormDetailData.isNegotiableWorkDays,
         workDays: albaFormDetailData.workDays,
         workEndTime: albaFormDetailData.workEndTime,
         workStartTime: albaFormDetailData.workStartTime,
-        workEndDate: albaFormDetailData.workEndDate, // display값에 반영하기
+        workEndDate: albaFormDetailData.workEndDate, // display & value 값에 반영하기
         workStartDate: albaFormDetailData.workStartDate,
         location: albaFormDetailData.location,
-        preferred: albaFormDetailData.preferred, //value 반영하기
-        age: albaFormDetailData.age, //value 반영하기
-        education: albaFormDetailData.education, //value 반영하기
-        gender: albaFormDetailData.gender, //value 반영하기
-        numberOfPositions: albaFormDetailData.numberOfPositions, //value 반영하기
-        recruitmentEndDate: albaFormDetailData.recruitmentEndDate, // display값에 반영하기
+        preferred: albaFormDetailData.preferred,
+        age: albaFormDetailData.age,
+        education: albaFormDetailData.education,
+        gender: albaFormDetailData.gender,
+        numberOfPositions: albaFormDetailData.numberOfPositions,
+        recruitmentEndDate: albaFormDetailData.recruitmentEndDate, // display & value 값에 반영하기
         recruitmentStartDate: albaFormDetailData.recruitmentStartDate,
         description: albaFormDetailData.description,
         title: albaFormDetailData.title,
@@ -82,59 +80,15 @@ export default function EditFormPage() {
     }
   }, [albaFormDetailData, reset]);
 
-  // 이미지 업로드 api
-  const uploadImages = async (files: File[]) => {
-    if (currentValues.imageUrls.length !== currentValues.imageFiles.length) {
-      const uploadedUrls: string[] = [];
-
-      // 전체 파일 배열을 순회하면서 업로드 로직 진행
-      for (const file of files) {
-        // 파일 크기 체크
-        const maxSize = 5 * 1024 * 1024; // 5MB
-        if (file.size > maxSize) {
-          toast.error(`5MB 이상의 파일은 업로드할 수 없습니다.`);
-          continue;
-        }
-        const formData = new FormData();
-        formData.append("image", file);
-        try {
-          const uploadResponse = await uploadImageMutation.mutateAsync(file);
-          if (uploadResponse?.url) {
-            uploadedUrls.push(uploadResponse.url);
-          }
-        } catch (uploadError) {
-          console.error(`파일 ${file.name} 업로드 실패:`, uploadError);
-        }
-      }
-      return uploadedUrls;
-    } else {
-      return currentValues.imageUrls;
-    }
-  };
-
   // 폼데이터 임시 저장 함수
   const onTempSave = async () => {
-    // 이미지 처리 로직
-    if (imageFiles && imageFiles.length > 0) {
-      try {
-        const uploadedUrls = await uploadImages(Array.from(imageFiles));
-        if (uploadedUrls && uploadedUrls.length > 0) {
-          setValue("imageUrls", [...uploadedUrls]);
-        } else {
-          setValue("imageUrls", [...currentValues.imageUrls]);
-        }
-      } catch (error) {
-        console.error("임시저장 - 이미지 업로드 중 오류 발생:", error);
-        setValue("imageUrls", []);
-      }
-    }
     tempSave("addformData", currentValues);
   };
 
   // 수정된 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
-      const excludedKeys = ["displayDate", "workDateRange", "recruitDateRange", "imageFiles"];
+      const excludedKeys = ["displayDate", "workDateRange", "recruitDateRange"];
 
       // 원하는 필드만 포함된 새로운 객체 만들기
       const filteredData = Object.entries(currentValues)
@@ -152,6 +106,7 @@ export default function EditFormPage() {
           return acc;
         }, {});
       await axios.patch(`/api/forms/${formId}`, filteredData);
+      console.log("filteredData", filteredData);
     },
     onSuccess: () => {
       if (typeof window !== "undefined") {
@@ -159,9 +114,14 @@ export default function EditFormPage() {
       }
       toast.success("알바폼을 수정했습니다.");
       router.push(`/alba/${formId}`);
+      // 쿼리 무효화
+      queryClient.invalidateQueries({
+        queryKey: ["formDetail", formId],
+      });
     },
     onError: (error) => {
       console.error("에러가 발생했습니다.", error);
+      console.log("currentValues", currentValues);
       toast.error("에러가 발생했습니다.");
     },
   });
@@ -183,7 +143,7 @@ export default function EditFormPage() {
       "모집 조건": "recruit-condition",
       "근무 조건": "work-condition",
     }[option];
-    router.push(`/alba/${formId}/edit?tab=${params}`);
+    router.replace(`/alba/${formId}/edit?tab=${params}`);
   };
 
   const renderChildren = () => {
@@ -199,12 +159,19 @@ export default function EditFormPage() {
     }
   };
 
-  if (isLoading)
-    return (
-      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    );
+  // 유저 권한 확인
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (user?.role !== "OWNER") {
+      toast.error("사장님만 알바폼을 작성할 수 있습니다.");
+      router.push("/alba-list");
+    }
+  }, [user, router]);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   if (error) {
     return <div>Error: 데이터를 불러오는데 문제가 발생했습니다.</div>;
@@ -226,14 +193,14 @@ export default function EditFormPage() {
             onChange={handleOptionChange}
             currentParam={currentParam || ""}
           />
-          <div className="absolute -bottom-[120px] mb-10 flex w-[320px] lg:relative lg:bottom-0 lg:w-full">
+          <div className="absolute -bottom-[120px] flex w-[320px] lg:relative lg:bottom-0 lg:w-full">
             <Button
               type="submit"
               variant="solid"
               width="md"
               color="orange"
-              className="h-[58px] w-full lg:h-[72px] lg:text-xl lg:leading-8"
-              disabled={!isValid}
+              className="h-[58px] w-[372px] lg:h-[72px] lg:text-xl lg:leading-8"
+              disabled={!isDirty}
               onClick={handleSubmit(() => mutation.mutate())}
             >
               수정하기

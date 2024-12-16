@@ -15,7 +15,8 @@ import { SubmitFormDataType } from "@/types/addform";
 import CustomFormModal from "@/app/components/modal/modals/confirm/CustomFormModal";
 import tempSave from "@/utils/tempSave";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
-import useUploadImages from "@/hooks/queries/user/me/useImageUpload";
+import { useUser } from "@/hooks/queries/user/me/useUser";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 export default function AddFormPage() {
   const router = useRouter();
@@ -43,7 +44,6 @@ export default function AddFormPage() {
       description: "",
       title: "",
       imageUrls: [],
-      imageFiles: [],
     },
   });
 
@@ -57,11 +57,8 @@ export default function AddFormPage() {
   const currentValues: SubmitFormDataType = methods.watch();
 
   // 이미지 업로드 api 처리를 위해 별도 변수에 할당
-  const imageFiles = currentValues.imageFiles;
   const [, setSelectedOption] = useState<string>("");
   const [showTempDataModal, setShowTempDataModal] = useState(false);
-
-  const { uploadImages } = useUploadImages();
 
   // 각각의 탭 작성중 여부
   const { isEditingRecruitContent, isEditingRecruitCondition, isEditingWorkCondition } = useEditing(currentValues);
@@ -77,32 +74,8 @@ export default function AddFormPage() {
   const mutation = useMutation({
     mutationFn: async () => {
       setLoading(true);
-      // 이미지 필수 체크
-      if (!imageFiles || imageFiles.length === 0) {
-        toast.error("이미지를 첨부해주세요.");
-        throw new Error("이미지는 필수입니다.");
-      }
 
-      // 이미지 업로드 처리
-      let uploadedUrls: string[] = [];
-      try {
-        if (currentValues.imageUrls.length !== currentValues.imageFiles.length) {
-          uploadedUrls = await uploadImages(Array.from(imageFiles));
-        } else {
-          uploadedUrls = currentValues.imageUrls;
-        }
-        if (!uploadedUrls.length) {
-          toast.error("이미지 업로드에 실패했습니다.");
-          throw new Error("이미지 업로드 실패");
-        }
-        setValue("imageUrls", uploadedUrls);
-      } catch (error) {
-        console.error("이미지 업로드 중 오류 발생:", error);
-        toast.error("이미지 업로드 중 오류가 발생했습니다.");
-        throw error;
-      }
-
-      const excludedKeys = ["displayDate", "workDateRange", "recruitDateRange", "imageFiles"];
+      const excludedKeys = ["displayDate", "workDateRange", "recruitDateRange"];
 
       // 원하는 필드만 포함된 새로운 객체 만들기
       const filteredData = Object.entries(currentValues)
@@ -113,9 +86,6 @@ export default function AddFormPage() {
           } else if (key === "hourlyWage") {
             // 문자열이면 콤마 제거 후 숫자로 변환
             acc[key] = typeof value === "string" ? String(Number(value.replace(/,/g, ""))) : String(Number(value));
-          } else if (key === "imageUrls") {
-            // 업로드된 이미지 URL 사용
-            acc[key] = uploadedUrls;
           } else {
             acc[key as keyof SubmitFormDataType] = value;
           }
@@ -149,20 +119,6 @@ export default function AddFormPage() {
 
   // 폼데이터 임시 저장 함수
   const onTempSave = async () => {
-    // 이미지 처리 로직
-    if (currentValues.imageUrls.length !== currentValues.imageFiles.length) {
-      try {
-        const uploadedUrls = await uploadImages(Array.from(imageFiles));
-        if (uploadedUrls && uploadedUrls.length > 0) {
-          setValue("imageUrls", [...uploadedUrls]);
-        } else {
-          setValue("imageUrls", [...currentValues.imageUrls]);
-        }
-      } catch (error) {
-        console.error("임시저장 - 이미지 업로드 중 오류 발생:", error);
-        setValue("imageUrls", []);
-      }
-    }
     tempSave("addformData", currentValues);
   };
 
@@ -177,7 +133,7 @@ export default function AddFormPage() {
       "모집 조건": "recruit-condition",
       "근무 조건": "work-condition",
     }[option];
-    router.push(`/addform?tab=${params}`);
+    router.replace(`/addform?tab=${params}`);
   };
 
   useEffect(() => {
@@ -264,6 +220,20 @@ export default function AddFormPage() {
     clearTempData();
     setShowTempDataModal(false);
   };
+
+  // 유저 권한 확인
+  const { user, isLoading } = useUser();
+
+  useEffect(() => {
+    if (user?.role !== "OWNER") {
+      toast.error("사장님만 알바폼을 작성할 수 있습니다.");
+      router.push("/alba-list");
+    }
+  }, [user, router]);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <FormProvider {...methods}>

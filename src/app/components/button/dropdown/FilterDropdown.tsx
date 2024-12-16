@@ -76,7 +76,7 @@ const FilterDropdown = ({ options, className = "", onChange, initialValue, readO
             ? "border border-grayscale-100 bg-white"
             : "border-primary-orange-300 bg-primary-orange-50"
         )}
-        onClick={(e) => {
+        onMouseDown={(e) => {
           e.preventDefault();
           toggleDropdown();
         }}
