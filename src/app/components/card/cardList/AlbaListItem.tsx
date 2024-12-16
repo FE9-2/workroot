@@ -12,6 +12,7 @@ import { useFormScrap } from "@/hooks/queries/form/useFormScap";
 import { MdOutlineImage } from "react-icons/md";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import { isValidS3Url } from "@/utils/checkS3Url";
+import { useUser } from "@/hooks/queries/user/me/useUser";
 
 /**
  * 알바폼 리스트 아이템 컴포넌트
@@ -35,6 +36,9 @@ const AlbaListItem = ({
   const [currentImageIndex, setCurrentImageIndex] = useState(0); // 현재 이미지 인덱스
   const dropdownRef = useRef<HTMLDivElement>(null); // 드롭다운 메뉴 참조
   const [imageError, setImageError] = useState(false);
+
+  const { user } = useUser();
+  const isOwner = user?.role === "OWNER";
 
   // 모집 상태 및 D-day 계산
   const recruitmentStatus = getRecruitmentStatus(recruitmentEndDate);
@@ -194,13 +198,15 @@ const AlbaListItem = ({
                   >
                     지원하기
                   </button>
-                  <button
-                    className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100 disabled:opacity-50"
-                    onClick={handleFormScrap}
-                    disabled={isScrapLoading}
-                  >
-                    {isScrapLoading ? <DotLoadingSpinner /> : "스크랩"}
-                  </button>
+                  {user && !isOwner && (
+                    <button
+                      className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100 disabled:opacity-50"
+                      onClick={handleFormScrap}
+                      disabled={isScrapLoading}
+                    >
+                      {isScrapLoading ? <DotLoadingSpinner /> : "스크랩"}
+                    </button>
+                  )}
                 </div>
               )}
             </div>
