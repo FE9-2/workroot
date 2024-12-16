@@ -12,6 +12,7 @@ import formatMoney from "@/utils/formatMoney";
 import Label from "../../component/Label";
 import Script from "next/script";
 import LocationInput from "@/app/components/input/text/LocationInput";
+import { formatToLocaleDate } from "@/utils/formatters";
 
 // 워크폼 만들기 - 사장님 - 3-근무조건
 export default function WorkConditionSection() {
@@ -40,6 +41,14 @@ export default function WorkConditionSection() {
 
   useEffect(() => {
     if (workStartDate !== "" && workEndDate !== "") setWorkDateRange([StartDate, EndDate]);
+  }, [workStartDate, workEndDate]);
+
+  // displayRange를 상위에서 관리
+  const displayDate = `${formatToLocaleDate(workStartDate)} ~ ${formatToLocaleDate(workEndDate)}`;
+  const [displayRange, setDisplayRange] = useState<string>(displayDate || "");
+
+  useEffect(() => {
+    setDisplayRange(displayDate);
   }, [workStartDate, workEndDate]);
 
   //근무 시간 지정
@@ -124,7 +133,7 @@ export default function WorkConditionSection() {
             onChange={handleWorkDateChange}
             required={true}
             errormessage={!workDateRange[0] || !workDateRange[1]}
-            displayValue="workDateRange"
+            displayValue={displayRange}
           />
           {!workDateRange[0] ||
             (!workDateRange[1] && <p className={cn(errorTextStyle, "")}> 근무 기간은 필수입니다.</p>)}

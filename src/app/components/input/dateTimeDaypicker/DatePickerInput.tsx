@@ -29,39 +29,18 @@ const DatePickerInput = ({
   errormessage,
   displayValue,
 }: DatePickerInputProps) => {
-  const { setValue, watch } = useFormContext();
+  const { setValue } = useFormContext();
   const { isOpen, handleOpenDropdown } = useDropdownOpen();
-  const dateValue = watch(displayValue);
-
-  useEffect(() => {
-    const currentValue = watch(displayValue);
-    if (currentValue) {
-      setValue(displayValue, currentValue);
-    }
-  }, [displayValue, watch, setValue]);
 
   const iconStyle = "text-black-400 size-9 transition-transform duration-200";
-
-  const formatDisplayDate = (start: Date, end?: Date) => {
-    const formatToDisplay = (date: Date) => {
-      return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getDate().toString().padStart(2, "0")}`;
-    };
-
-    if (start && end) {
-      return `${formatToDisplay(start)} ~ ${formatToDisplay(end)}`;
-    }
-    return formatToDisplay(start);
-  };
 
   const handleChange = (update: [Date | null, Date | null]) => {
     const [start, end] = update;
 
     if (start) {
-      setValue(displayValue, formatDisplayDate(start, end || undefined));
       setValue(startDateName, start.toISOString());
     }
     if (start && end && end > start) {
-      setValue(displayValue, formatDisplayDate(start, end));
       setValue(endDateName, end.toISOString());
       handleOpenDropdown();
     }
@@ -92,7 +71,7 @@ const DatePickerInput = ({
           variant="white"
           beforeIcon={<BsCalendar4 className="size-4 text-grayscale-200 lg:size-8" />}
           afterIcon={<IoMdArrowDropup className={`${iconStyle} ${isOpen ? "rotate-180" : ""}`} />}
-          value={dateValue || ""}
+          value={displayValue || ""}
           readOnly
           required={required}
           wrapperClassName="cursor-pointer"

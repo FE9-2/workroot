@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import Label from "../../component/Label";
 import { ImageInputType } from "@/types/addform";
 import useUploadImages from "@/hooks/queries/user/me/useImageUpload";
+import { formatToLocaleDate } from "@/utils/formatters";
 
 // 워크폼 만들기 - 사장님 - 1-모집내용
 
@@ -92,10 +93,17 @@ export default function RecruitContentSection() {
   const recruitEndDate: string = watch("recruitmentEndDate");
   const StartDate = new Date(recruitStartDate);
   const EndDate = new Date(recruitEndDate);
-  // const displayDate = `${StartDate} ~ ${EndDate}`;
 
   useEffect(() => {
     if (recruitStartDate !== "" && recruitEndDate !== "") setRecruitmentDateRange([StartDate, EndDate]);
+  }, [recruitStartDate, recruitEndDate]);
+
+  // displayRange를 상위에서 관리
+  const displayDate = `${formatToLocaleDate(recruitStartDate)} ~ ${formatToLocaleDate(recruitEndDate)}`;
+  const [displayRange, setDisplayRange] = useState<string>(displayDate || "");
+
+  useEffect(() => {
+    setDisplayRange(displayDate);
   }, [recruitStartDate, recruitEndDate]);
 
   const errorTextStyle =
@@ -134,7 +142,7 @@ export default function RecruitContentSection() {
             onChange={handleRecruitmentDateChange}
             required={true}
             errormessage={!recruitmentDateRange[0] || !recruitmentDateRange[1]}
-            displayValue="recruitDateRange"
+            displayValue={displayRange}
           />
           {!recruitmentDateRange[0] ||
             (!recruitmentDateRange[1] && <p className={cn(errorTextStyle, "")}> 모집 기간은 필수입니다.</p>)}
