@@ -45,7 +45,7 @@ const FormContinueModal = ({ isOpen, onClose, className }: FormContinueModalProp
               className="hidden sm:block"
             />
           </div>
-          <h2 className="mb-2 text-lg font-bold lg:text-xl">작성 중인 알바폼이 있어요!</h2>
+          <h2 className="mb-2 text-lg font-bold lg:text-xl">작성 중인 워크폼이 있어요!</h2>
           <p className="text-grayscale-600 mb-6 text-sm lg:text-base">이어서 작성하시겠어요?</p>
 
           <div className="mt-auto">

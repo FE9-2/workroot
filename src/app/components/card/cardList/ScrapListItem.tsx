@@ -14,8 +14,8 @@ import { S3_URL } from "@/constants/config";
 import DotLoadingSpinner from "../../loading-spinner/DotLoadingSpinner";
 
 /**
- * 알바폼 스크랩 리스트 아이템 컴포넌트
- * 알바폼 스크랩 정보를 카드 형태로 표시하며, 이미지 인디케이터와 지원하기/스크랩 취소 기능을 포함
+ * 워크폼 스크랩 리스트 아이템 컴포넌트
+ * 워크폼 스크랩 정보를 카드 형태로 표시하며, 이미지 인디케이터와 지원하기/스크랩 취소 기능을 포함
  */
 const ScrapListItem = ({
   id,

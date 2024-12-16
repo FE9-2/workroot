@@ -22,7 +22,7 @@ interface ApplyFormData {
   resumeId: number;
   resumeName: string;
 }
-// 알바폼 만들기 - 지원자 (지원하기)
+// 워크폼 만들기 - 지원자 (지원하기)
 export default function Apply() {
   const {
     register,

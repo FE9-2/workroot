@@ -30,7 +30,7 @@ export const useMyForms = ({ limit = 10, orderBy, keyword, isPublic, isRecruitin
         return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          const errorMessage = error.response?.data?.message || "내 알바폼 목록을 불러오는데 실패했습니다.";
+          const errorMessage = error.response?.data?.message || "내 워크폼 목록을 불러오는데 실패했습니다.";
           toast.error(errorMessage);
         }
         throw error;

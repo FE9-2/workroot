@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "알바폼",
+  title: "워크폼",
   description: "알바 구인구직 서비스",
   icons: {
     // 기본 favicon

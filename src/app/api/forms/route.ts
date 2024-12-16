@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import apiClient from "@/lib/apiClient";
 import { cleanedParameters } from "@/utils/cleanedParameters";
 
-// 알바폼 생성
+// 워크폼 생성
 export async function POST(req: NextRequest) {
   try {
     const accessToken = cookies().get("accessToken")?.value;
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// 알바폼 목록 조회
+// 워크폼 목록 조회
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);

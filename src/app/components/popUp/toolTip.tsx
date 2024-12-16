@@ -26,7 +26,7 @@ export default function Tooltip({ onClose }: TooltipProps) {
           height={20}
           className="mr-2 block md:hidden"
         />
-        <p className="text-[12px] md:text-[18px]">알바폼 현재 진행상태를 변경할 수 있어요!</p>
+        <p className="text-[12px] md:text-[18px]">워크폼 현재 진행상태를 변경할 수 있어요!</p>
       </div>
       <CloseButton onClose={onClose} />
     </div>

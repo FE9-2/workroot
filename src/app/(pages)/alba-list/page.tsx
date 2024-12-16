@@ -47,7 +47,7 @@ export default function AlbaList() {
     rootMargin: "100px",
   });
 
-  // 알바폼 목록 조회
+  // 워크폼 목록 조회
   const { data, isLoading, error, hasNextPage, fetchNextPage, isFetchingNextPage } = useForms({
     limit: FORMS_PER_PAGE,
     isRecruiting: isRecruiting === "true" ? true : isRecruiting === "false" ? false : undefined,
@@ -87,7 +87,7 @@ export default function AlbaList() {
   if (error) {
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <p className="text-red-500">알바 목록을 불러오는데 실패했습니다.</p>
+        <p className="text-red-500">워크 채널을 불러오는데 실패했습니다.</p>
       </div>
     );
   }

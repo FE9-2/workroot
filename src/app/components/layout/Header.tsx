@@ -89,14 +89,14 @@ export default function Header() {
 
           <div className={menuStyle}>
             <Link href="/alba-list" className={getLinkClassName("/alba-list")}>
-              알바 목록
+              워크 채널
             </Link>
             <Link href="/alba-talk" className={getLinkClassName("/alba-talk")}>
-              알바 토크
+              워크톡
             </Link>
             {user && (
               <Link href="/my-albaform" className={getLinkClassName("/my-albaform")}>
-                내 알바폼
+                내 워크폼
               </Link>
             )}
           </div>

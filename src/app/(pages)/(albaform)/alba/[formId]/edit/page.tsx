@@ -1,5 +1,5 @@
 "use client";
-// 알바폼 수정 페이지 (사장님)
+// 워크폼 수정 페이지 (사장님)
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -112,7 +112,7 @@ export default function EditFormPage() {
       if (typeof window !== "undefined") {
         window.localStorage.removeItem("tempAddFormData");
       }
-      toast.success("알바폼을 수정했습니다.");
+      toast.success("워크폼을 수정했습니다.");
       router.push(`/alba/${formId}`);
       // 쿼리 무효화
       queryClient.invalidateQueries({
@@ -164,7 +164,7 @@ export default function EditFormPage() {
 
   useEffect(() => {
     if (user?.role !== "OWNER") {
-      toast.error("사장님만 알바폼을 작성할 수 있습니다.");
+      toast.error("사장님만 워크폼을 작성할 수 있습니다.");
       router.push("/alba-list");
     }
   }, [user, router]);
