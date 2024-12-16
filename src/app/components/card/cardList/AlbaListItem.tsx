@@ -12,6 +12,8 @@ import { useFormScrap } from "@/hooks/queries/form/useFormScap";
 import { MdOutlineImage } from "react-icons/md";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import { isValidS3Url } from "@/utils/checkS3Url";
+import { useUser } from "@/hooks/queries/user/me/useUser";
+import { userRoles } from "@/constants/userRoles";
 
 /**
  * 워크폼 리스트 아이템 컴포넌트
@@ -27,9 +29,12 @@ const AlbaListItem = ({
   applyCount,
   scrapCount,
 }: FormListType) => {
+  const { user } = useUser();
+  const isApplicant = user?.role === userRoles.APPLICANT;
+
   // 라우터 및 상태 관리
   const router = useRouter();
-  const { openModal } = useModalStore();
+  const { openModal, closeModal } = useModalStore();
   const { scrap, isLoading: isScrapLoading } = useFormScrap(id);
   const [showDropdown, setShowDropdown] = useState(false); // 드롭다운 메뉴 표시 상태
   const [currentImageIndex, setCurrentImageIndex] = useState(0); // 현재 이미지 인덱스
@@ -74,23 +79,11 @@ const AlbaListItem = ({
       title: "지원하기",
       content: "지원하시겠습니까?",
       onConfirm: () => {
-        openModal("customForm", {
-          isOpen: false,
-          title: "",
-          content: "",
-          onConfirm: () => {},
-          onCancel: () => {},
-        });
+        closeModal();
         router.push(`/apply/${id}`);
       },
       onCancel: () => {
-        openModal("customForm", {
-          isOpen: false,
-          title: "",
-          content: "",
-          onConfirm: () => {},
-          onCancel: () => {},
-        });
+        closeModal();
       },
     });
   };
@@ -104,23 +97,11 @@ const AlbaListItem = ({
       title: "스크랩 확인",
       content: "스크랩하시겠습니까?",
       onConfirm: () => {
-        openModal("customForm", {
-          isOpen: false,
-          title: "",
-          content: "",
-          onConfirm: () => {},
-          onCancel: () => {},
-        });
+        closeModal();
         scrap();
       },
       onCancel: () => {
-        openModal("customForm", {
-          isOpen: false,
-          title: "",
-          content: "",
-          onConfirm: () => {},
-          onCancel: () => {},
-        });
+        closeModal();
       },
     });
   };
@@ -177,33 +158,35 @@ const AlbaListItem = ({
               </div>
             </div>
             {/* 케밥 메뉴 */}
-            <div ref={dropdownRef} className="relative">
-              <button
-                type="button"
-                className="hover:text-grayscale-700 text-grayscale-500"
-                onClick={handleDropdownToggle}
-              >
-                <BsThreeDotsVertical className="h-6 w-6" />
-              </button>
-              {/* 드롭다운 메뉴 */}
-              {showDropdown && (
-                <div className="absolute right-0 top-8 z-10 w-32 rounded-lg border border-grayscale-200 bg-white py-2 shadow-lg">
-                  <button
-                    className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100"
-                    onClick={handleFormApplication}
-                  >
-                    지원하기
-                  </button>
-                  <button
-                    className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100 disabled:opacity-50"
-                    onClick={handleFormScrap}
-                    disabled={isScrapLoading}
-                  >
-                    {isScrapLoading ? <DotLoadingSpinner /> : "스크랩"}
-                  </button>
-                </div>
-              )}
-            </div>
+            {isApplicant && (
+              <div ref={dropdownRef} className="relative">
+                <button
+                  type="button"
+                  className="hover:text-grayscale-700 text-grayscale-500"
+                  onClick={handleDropdownToggle}
+                >
+                  <BsThreeDotsVertical className="h-6 w-6" />
+                </button>
+                {/* 드롭다운 메뉴 */}
+                {showDropdown && (
+                  <div className="absolute right-0 top-8 z-10 w-32 rounded-lg border border-grayscale-200 bg-white py-2 shadow-lg">
+                    <button
+                      className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100"
+                      onClick={handleFormApplication}
+                    >
+                      지원하기
+                    </button>
+                    <button
+                      className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100 disabled:opacity-50"
+                      onClick={handleFormScrap}
+                      disabled={isScrapLoading}
+                    >
+                      {isScrapLoading ? <DotLoadingSpinner /> : "스크랩"}
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* 제목 */}

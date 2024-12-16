@@ -126,7 +126,7 @@ export default function LoginPage() {
               onClick={() => handleTestLogin(userRoles.APPLICANT)}
               disabled={isPending}
             >
-              지원자로 로그인
+              지원자
             </Button>
             <Button
               type="button"
@@ -136,7 +136,7 @@ export default function LoginPage() {
               onClick={() => handleTestLogin(userRoles.OWNER)}
               disabled={isPending}
             >
-              사장님으로 로그인
+              사장님
             </Button>
           </div>
         </form>

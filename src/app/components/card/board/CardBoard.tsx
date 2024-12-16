@@ -36,7 +36,7 @@ const CardBoard = ({
   const router = useRouter();
   const [isLiked, setIsLiked] = useState(false);
   const [likeDisplayCount, setLikeDisplayCount] = useState(likeCount);
-  const { openModal } = useModalStore();
+  const { openModal, closeModal } = useModalStore();
 
   const deletePost = useDeletePost(id);
 
@@ -50,24 +50,12 @@ const CardBoard = ({
       onConfirm: () => {
         deletePost.mutate(undefined, {
           onSuccess: () => {
-            openModal("customForm", {
-              isOpen: false,
-              title: "",
-              content: "",
-              onConfirm: () => undefined,
-              onCancel: () => undefined,
-            });
+            closeModal();
           },
         });
       },
       onCancel: () => {
-        openModal("customForm", {
-          isOpen: false,
-          title: "",
-          content: "",
-          onConfirm: () => undefined,
-          onCancel: () => undefined,
-        });
+        closeModal();
       },
     });
   };
@@ -86,6 +74,7 @@ const CardBoard = ({
   ];
 
   const handleLikeClick = (e: React.MouseEvent<HTMLImageElement>) => {
+    e.preventDefault();
     e.stopPropagation();
     if (isLiked) {
       setLikeDisplayCount((prev) => prev - 1);
@@ -100,12 +89,11 @@ const CardBoard = ({
       className={`h-[220px] w-[320px] rounded-[16px] border p-4 lg:h-[240px] lg:w-[360px] ${
         variant === "primary" ? "border-primary-orange-100 bg-primary-orange-50" : "border-line-100 bg-grayscale-50"
       } cursor-pointer`}
-      onClick={() => router.push(`/alba-talk/${id}`)}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
-          router.push(`/alba-talk/${id}`);
+          e.preventDefault();
         }
       }}
     >
