@@ -15,6 +15,8 @@ import { SubmitFormDataType } from "@/types/addform";
 import CustomFormModal from "@/app/components/modal/modals/confirm/CustomFormModal";
 import tempSave from "@/utils/tempSave";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
+import { useUser } from "@/hooks/queries/user/me/useUser";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 export default function AddFormPage() {
   const router = useRouter();
@@ -218,6 +220,20 @@ export default function AddFormPage() {
     clearTempData();
     setShowTempDataModal(false);
   };
+
+  // 유저 권한 확인
+  const { user, isLoading } = useUser();
+
+  useEffect(() => {
+    if (user?.role !== "OWNER") {
+      toast.error("사장님만 알바폼을 작성할 수 있습니다.");
+      router.push("/alba-list");
+    }
+  }, [user, router]);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <FormProvider {...methods}>

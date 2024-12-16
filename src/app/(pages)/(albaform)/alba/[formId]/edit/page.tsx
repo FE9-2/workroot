@@ -18,6 +18,7 @@ import useFormDetail from "@/hooks/queries/form/detail/useFormDetail";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import formatMoney from "@/utils/formatMoney";
 import tempSave from "@/utils/tempSave";
+import { useUser } from "@/hooks/queries/user/me/useUser";
 
 export default function EditFormPage() {
   const router = useRouter();
@@ -158,12 +159,19 @@ export default function EditFormPage() {
     }
   };
 
-  if (isLoading)
-    return (
-      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    );
+  // 유저 권한 확인
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (user?.role !== "OWNER") {
+      toast.error("사장님만 알바폼을 작성할 수 있습니다.");
+      router.push("/alba-list");
+    }
+  }, [user, router]);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   if (error) {
     return <div>Error: 데이터를 불러오는데 문제가 발생했습니다.</div>;
