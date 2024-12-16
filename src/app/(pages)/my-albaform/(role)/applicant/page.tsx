@@ -12,6 +12,7 @@ import { useMyApplications } from "@/hooks/queries/user/me/useMyApplications";
 import ApplicantSortSection from "./components/ApplicantSortSection";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import ContentSection from "@/app/components/layout/ContentSection";
+import Link from "next/link";
 
 const APPLICATIONS_PER_PAGE = 10;
 
@@ -112,15 +113,17 @@ export default function ApplicantPage() {
                 <React.Fragment key={page.nextCursor}>
                   {page.data.map((application) => (
                     <div key={application.id}>
-                      <MyApplicationListItem
-                        id={application.id}
-                        createdAt={application.createdAt}
-                        updatedAt={application.updatedAt}
-                        status={application.status}
-                        resumeId={application.resumeId}
-                        resumeName={application.resumeName}
-                        form={application.form}
-                      />
+                      <Link href={`/alba/${application.form.id}`}>
+                        <MyApplicationListItem
+                          id={application.id}
+                          createdAt={application.createdAt}
+                          updatedAt={application.updatedAt}
+                          status={application.status}
+                          resumeId={application.resumeId}
+                          resumeName={application.resumeName}
+                          form={application.form}
+                        />
+                      </Link>
                     </div>
                   ))}
                 </React.Fragment>
