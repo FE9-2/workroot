@@ -99,14 +99,14 @@ export default function EditFormPage() {
             acc[key] = Number(value);
           } else if (key === "hourlyWage") {
             // hourlyWage는 쉼표를 제거하고 숫자형으로 변환
-            if (value.includes(",")) acc[key] = String(Number(value.replaceAll(/,/g, ""))); // 쉼표 제거 후 숫자형 변환
+            if (typeof value === "string" && value.includes(",")) acc[key] = String(Number(value.replaceAll(/,/g, ""))); // 쉼표 제거 후 숫자형 변환
           } else {
             acc[key as keyof SubmitFormDataType] = value; // 나머지 값은 그대로 추가
           }
           return acc;
         }, {});
-      await axios.patch(`/api/forms/${formId}`, filteredData);
       console.log("filteredData", filteredData);
+      await axios.patch(`/api/forms/${formId}`, filteredData);
     },
     onSuccess: () => {
       if (typeof window !== "undefined") {
