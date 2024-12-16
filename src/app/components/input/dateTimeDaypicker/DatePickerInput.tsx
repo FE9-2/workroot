@@ -26,6 +26,12 @@ const DatePickerInput = ({
 }: DatePickerInputProps) => {
   const { isOpen, handleOpenDropdown } = useDropdownOpen();
 
+  const handleClick = () => {
+    if (endDate) {
+      onChange([null, null]);
+    }
+    handleOpenDropdown();
+  };
   const handleChange = (update: [Date | null, Date | null]) => {
     // 날짜를 선택하면 onChange 호출 -> 상위로 전달
     const [start, end] = update;
@@ -63,7 +69,7 @@ const DatePickerInput = ({
 
   return (
     <div className="relative">
-      <div onClick={handleOpenDropdown}>
+      <div onClick={handleClick}>
         <BaseInput
           type="text"
           placeholder="시작일 ~ 종료일"
