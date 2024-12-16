@@ -10,13 +10,17 @@ export default function MyApplyPage() {
   const { formId } = useParams();
   useEffect(() => {
     const fetchMyApplication = async () => {
-      console.log(formId);
-
       try {
-        const response = await axios.get(`/api/forms/${formId}/applications/myApplication`);
-        console.log(response.data); // 결과 처리
-      } catch (error) {
-        console.error("Error fetching application:", error);
+        const response = await axios.get(`/api/forms/${formId}/applications/my-apply`, {
+          withCredentials: true,
+        });
+        console.log("Response:", response.data);
+      } catch (error: any) {
+        console.error("Error details:", {
+          message: error.message,
+          status: error.response?.status,
+          data: error.response?.data,
+        });
       }
     };
 
