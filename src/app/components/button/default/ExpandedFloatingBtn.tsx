@@ -1,8 +1,7 @@
 "use client";
-import React, { useState, ButtonHTMLAttributes, ReactNode } from "react";
+import React, { useState, ButtonHTMLAttributes, ReactNode, useEffect, useRef } from "react";
 import { cn } from "@/lib/tailwindUtil";
 import { IoShareSocialSharp } from "react-icons/io5"; // 기본 공유 아이콘
-import { FaLink } from "react-icons/fa"; // 링크 및 카카오톡 아이콘
 import { FcShare } from "react-icons/fc";
 import shareToKakao from "@/utils/shareToKakao";
 import toast from "react-hot-toast";
@@ -15,6 +14,7 @@ interface ExpandedFloatingBtnProps extends ButtonHTMLAttributes<HTMLButtonElemen
 
 const ExpandedFloatingBtn = ({ variant = "orange", className, ...props }: ExpandedFloatingBtnProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   const baseStyles = "inline-flex items-center justify-center transition-colors font-medium rounded-full";
   const expandedStyles = "h-32 px-1 bg-primary-orange-200  hover:bg-primary-orange-100";
@@ -34,8 +34,23 @@ const ExpandedFloatingBtn = ({ variant = "orange", className, ...props }: Expand
     toast.success("링크가 복사되었습니다.");
   };
 
+  // 외부 클릭 감지 로직
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (buttonRef.current && !buttonRef.current.contains(event.target as Node)) {
+        setIsExpanded(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <button
+      ref={buttonRef} // 버튼 참조
       className={cn(baseStyles, variants[variant], isExpanded ? expandedStyles : collapsedStyles, className)}
       onClick={handleToggle}
       {...props}

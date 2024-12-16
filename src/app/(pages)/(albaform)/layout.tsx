@@ -25,7 +25,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   );
 
   // 상세 페이지 레이아웃
-  const DetailStyle = "mx-auto max-w-screen-xl  px-4 py-4 sm:px-6 md:py-8";
+  const DetailStyle = "mx-auto max-w-screen-xl  px-4 py-4 sm:px-6 md:py-8 justify-center flex";
 
   return (
     <div className={cn(isForm ? FormStyle : DetailStyle)}>

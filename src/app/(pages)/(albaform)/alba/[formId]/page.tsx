@@ -41,13 +41,6 @@ export default function AlbaFormDetailPage() {
     libraries: ["services"],
   });
 
-  // 카카오 SDK 초기화
-  useEffect(() => {
-    if (window.Kakao && !window.Kakao.isInitialized()) {
-      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APP_KEY);
-    }
-  }, []);
-
   useEffect(() => {
     if (formId) {
       setFormIdState(Number(formId));
@@ -73,11 +66,6 @@ export default function AlbaFormDetailPage() {
     });
   }, [albaFormDetailData?.location]);
 
-  // 사용자 데이터가 로딩 중인지 확인
-  if (!user) {
-    return <LoadingSpinner />;
-  }
-
   if (isLoading)
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
@@ -88,7 +76,17 @@ export default function AlbaFormDetailPage() {
   return (
     <div className="container flex min-h-screen flex-col px-4 lg:px-0">
       {/* 카카오 공유 스트립트 */}
-      <Script src="https://developers.kakao.com/sdk/js/kakao.min.js" strategy="beforeInteractive" />
+      <Script
+        src={`https://developers.kakao.com/sdk/js/kakao.min.js?v=${new Date().getTime()}`}
+        strategy="afterInteractive"
+        onLoad={() => {
+          const kakaoKey = process.env.NEXT_PUBLIC_KAKAO_APP_KEY;
+          if (window.Kakao && !window.Kakao.isInitialized()) {
+            window.Kakao.init(kakaoKey);
+          }
+        }}
+      />
+
       {/* 사진영역 */}
       {albaFormDetailData && (
         <FormImage
@@ -113,7 +111,7 @@ export default function AlbaFormDetailPage() {
           <div className="h-[280px] lg:h-[320px]">
             {error && <div className="text-red-500">Map load error: {String(error)}</div>}
             {!loading && !error && albaFormDetailData && (
-              <Map center={coords} style={{ width: "100%", height: "100%" }} level={3}>
+              <Map center={coords} style={{ width: "100%", height: "100%", zIndex: 0 }} level={3}>
                 <MapMarker position={coords}>
                   <div className="whitespace-nowrap p-2 text-center">
                     <p className="">{albaFormDetailData.storeName}</p>
@@ -132,8 +130,8 @@ export default function AlbaFormDetailPage() {
       {/* 지원 현황 */}
       {isOwner && isAuthor && <ApplyStatus formId={formIdState} />}
 
-      <div className="fixed right-10 top-1/2 flex flex-col items-end gap-5">
-        <ScrapBtn formId={formIdState} />
+      <div className="fixed right-10 top-1/2 flex w-12 flex-col items-end gap-5">
+        {user && !isOwner && <ScrapBtn formId={formIdState} />}
         <ExpandedFloatingBtn icon={<IoShareSocialSharp />} variant="orange" />
       </div>
     </div>
