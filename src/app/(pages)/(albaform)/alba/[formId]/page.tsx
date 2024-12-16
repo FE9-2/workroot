@@ -66,11 +66,6 @@ export default function AlbaFormDetailPage() {
     });
   }, [albaFormDetailData?.location]);
 
-  // 사용자 데이터가 로딩 중인지 확인
-  if (!user) {
-    return <LoadingSpinner />;
-  }
-
   if (isLoading)
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">

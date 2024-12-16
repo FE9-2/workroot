@@ -20,7 +20,7 @@ interface FormActionsProps {
 
 export default function FormActions({ formId, albaFormDetailData }: FormActionsProps) {
   const { user } = useUser();
-  const { data: applicantData, isLoading: applicantLoading } = useMyApplications();
+  const { data: applicantData } = useMyApplications();
   const router = useRouter();
   const isMyAlbaForm = user?.id === albaFormDetailData.ownerId;
   const isOwnerRole = user?.role === "OWNER";
