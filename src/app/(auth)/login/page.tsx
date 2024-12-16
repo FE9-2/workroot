@@ -87,7 +87,7 @@ export default function LoginPage() {
           </div>
 
           <div className="flex justify-center">
-            <Button variant="solid" color="lime" width="md" disabled={isPending}>
+            <Button type="submit" variant="solid" color="lime" width="md" disabled={isPending}>
               {isPending ? <DotLoadingSpinner /> : "로그인"}
             </Button>
           </div>
@@ -119,6 +119,7 @@ export default function LoginPage() {
           </div>
           <div className="flex justify-center space-x-6">
             <Button
+              type="button"
               variant="outlined"
               width="sm"
               color="lime"
@@ -128,6 +129,7 @@ export default function LoginPage() {
               지원자로 로그인
             </Button>
             <Button
+              type="button"
               variant="solid"
               width="sm"
               color="lime"

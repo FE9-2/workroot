@@ -122,7 +122,7 @@ export default function OwnerSignupPage() {
             </div>
           </div>
           <div className="flex justify-center">
-            <Button variant="solid" color="lime" width="md" disabled={isPending}>
+            <Button type="submit" variant="solid" color="lime" width="md" disabled={isPending}>
               {isPending ? <DotLoadingSpinner /> : "회원가입"}
             </Button>
           </div>
