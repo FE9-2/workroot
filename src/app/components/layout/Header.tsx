@@ -45,7 +45,7 @@ export default function Header() {
   };
   const headerStyle =
     "fixed left-0 right-0 top-0 z-40 border-b border-b-line-100 bg-lime-100 -tracking-widest md:tracking-normal";
-  const navStyle = "mx-auto max-h-[60px] flex h-16 min-w-[327px] items-center justify-between px-6 max-w-screen-xl ";
+  const navStyle = "mx-auto flex h-16 min-w-[327px] items-center justify-between px-6 max-w-screen-xl ";
   const menuStyle = "ml-4 flex h-16 items-center gap-4 md:ml-8 md:gap-6 lg:ml-[46px]";
   const skeletonStyle = "w-16 animate-pulse bg-lime-200";
   // 로딩 시간이 1초 이상일 때만 스켈레톤 UI 표시
