@@ -34,7 +34,7 @@ const AlbaListItem = ({
 
   // 라우터 및 상태 관리
   const router = useRouter();
-  const { openModal } = useModalStore();
+  const { openModal, closeModal } = useModalStore();
   const { scrap, isLoading: isScrapLoading } = useFormScrap(id);
   const [showDropdown, setShowDropdown] = useState(false); // 드롭다운 메뉴 표시 상태
   const [currentImageIndex, setCurrentImageIndex] = useState(0); // 현재 이미지 인덱스
@@ -79,23 +79,11 @@ const AlbaListItem = ({
       title: "지원하기",
       content: "지원하시겠습니까?",
       onConfirm: () => {
-        openModal("customForm", {
-          isOpen: false,
-          title: "",
-          content: "",
-          onConfirm: () => {},
-          onCancel: () => {},
-        });
+        closeModal();
         router.push(`/apply/${id}`);
       },
       onCancel: () => {
-        openModal("customForm", {
-          isOpen: false,
-          title: "",
-          content: "",
-          onConfirm: () => {},
-          onCancel: () => {},
-        });
+        closeModal();
       },
     });
   };
@@ -109,23 +97,11 @@ const AlbaListItem = ({
       title: "스크랩 확인",
       content: "스크랩하시겠습니까?",
       onConfirm: () => {
-        openModal("customForm", {
-          isOpen: false,
-          title: "",
-          content: "",
-          onConfirm: () => {},
-          onCancel: () => {},
-        });
+        closeModal();
         scrap();
       },
       onCancel: () => {
-        openModal("customForm", {
-          isOpen: false,
-          title: "",
-          content: "",
-          onConfirm: () => {},
-          onCancel: () => {},
-        });
+        closeModal();
       },
     });
   };

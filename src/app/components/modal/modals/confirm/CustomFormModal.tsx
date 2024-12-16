@@ -65,7 +65,7 @@ const CustomFormModal = ({
               </div>
             </div>
             <h2 className="mb-2 text-lg font-bold lg:text-xl">{title}</h2>
-            <p className="text-grayscale-600 mb-6 text-sm lg:text-base">{content}</p>
+            <p className="text-grayscale-600 mb-6 whitespace-pre-line text-sm lg:text-base">{content}</p>
 
             <div className="mt-auto flex w-full flex-col items-center gap-3">
               <Button

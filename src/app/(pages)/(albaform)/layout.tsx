@@ -7,7 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 export default function Layout({ children }: { children: ReactNode }) {
-  const { openModal } = useModalStore();
+  const { openModal, closeModal } = useModalStore();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -38,23 +38,11 @@ export default function Layout({ children }: { children: ReactNode }) {
               title: "폼 작성 취소",
               content: "작성을 취소하시겠습니까?",
               onConfirm: () => {
-                openModal("customForm", {
-                  isOpen: false,
-                  title: "",
-                  content: "",
-                  onConfirm: () => {},
-                  onCancel: () => {},
-                });
+                closeModal();
                 router.back();
               },
               onCancel: () => {
-                openModal("customForm", {
-                  isOpen: false,
-                  title: "",
-                  content: "",
-                  onConfirm: () => {},
-                  onCancel: () => {},
-                });
+                closeModal();
               },
             })
           }

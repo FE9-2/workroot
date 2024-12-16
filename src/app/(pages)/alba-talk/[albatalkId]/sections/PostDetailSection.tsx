@@ -18,7 +18,7 @@ export function PostDetailSection({ postId }: { postId: string }) {
   const { data: post } = usePostDetail(postId);
   const { likePost, unlikePost } = useLikePost(postId);
   const deletePost = useDeletePost(postId);
-  const { openModal } = useModalStore();
+  const { openModal, closeModal } = useModalStore();
 
   const handleLikeClick = () => {
     if (post?.isLiked) {
@@ -38,25 +38,14 @@ export function PostDetailSection({ postId }: { postId: string }) {
       onConfirm: () => {
         deletePost.mutate(undefined, {
           onSuccess: () => {
-            openModal("customForm", {
-              isOpen: false,
-              title: "",
-              content: "",
-              onConfirm: () => {},
-              onCancel: () => {},
-            });
+            closeModal();
             router.push("/alba-talk");
           },
         });
       },
-      onCancel: () =>
-        openModal("customForm", {
-          isOpen: false,
-          title: "",
-          content: "",
-          onConfirm: () => {},
-          onCancel: () => {},
-        }),
+      onCancel: () => {
+        closeModal();
+      },
     });
   };
 
