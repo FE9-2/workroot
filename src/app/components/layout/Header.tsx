@@ -2,26 +2,36 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/tailwindUtil";
 import { useLogout } from "@/hooks/queries/auth/useLogout";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useUser } from "@/hooks/queries/user/me/useUser";
+import LinkBtn from "../button/default/LinkBtn";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const { logout } = useLogout();
   const { user, isLoading } = useUser();
   const pathname = usePathname();
-  const router = useRouter();
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+  const router = useRouter();
 
   // 인증이 필요없는 공개 경로들
-  const handleLogout = async () => {
-    logout();
-    toast.success("로그아웃되었습니다!");
-    setIsSideMenuOpen(false);
-    router.push("/login");
+  const handleLogout = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    try {
+      logout();
+      toast.success("로그아웃되었습니다!");
+      setIsSideMenuOpen(false);
+      setTimeout(() => {
+        router.push("/login");
+      }, 100);
+    } catch (error) {
+      console.error("로그아웃 실패:", error);
+      toast.error("로그아웃에 실패했습니다.");
+    }
   };
 
   const getLinkClassName = (path: string) => {
@@ -37,7 +47,6 @@ export default function Header() {
     "fixed left-0 right-0 top-0 z-40 border-b border-b-line-100 bg-lime-100 -tracking-widest md:tracking-normal";
   const navStyle = "mx-auto flex h-16 min-w-[327px] items-center justify-between px-6 max-w-screen-xl ";
   const menuStyle = "ml-4 flex h-16 items-center gap-4 md:ml-8 md:gap-6 lg:ml-[46px]";
-  const buttonStyle = "rounded-lg border-2 px-2 py-1 text-sm md:px-3 md:py-1.5 md:text-base lg:px-4 lg:py-2";
   const skeletonStyle = "w-16 animate-pulse bg-lime-200";
   // 로딩 시간이 1초 이상일 때만 스켈레톤 UI 표시
   if (isLoading) {
@@ -107,26 +116,44 @@ export default function Header() {
           {!user ? (
             <>
               <li className="flex items-center">
-                <Link
+                <LinkBtn
                   href="/login"
-                  className={cn(
-                    buttonStyle,
-                    "border-lime-700 px-2 py-1 text-sm text-lime-700 transition-colors hover:bg-lime-700 hover:text-white"
-                  )}
+                  variant="outlined"
+                  width={{
+                    mobile: "xs",
+                    tablet: "sm",
+                    desktop: "sm",
+                  }}
+                  fontSize={{
+                    mobile: "sm",
+                    tablet: "base",
+                    desktop: "base",
+                  }}
+                  color="lime"
+                  disabled={false}
                 >
                   로그인
-                </Link>
+                </LinkBtn>
               </li>
               <li className="flex items-center">
-                <Link
+                <LinkBtn
                   href="/signup"
-                  className={cn(
-                    buttonStyle,
-                    "border-lime-700 bg-lime-700 text-white transition-colors hover:bg-lime-800"
-                  )}
+                  variant="solid"
+                  width={{
+                    mobile: "xs",
+                    tablet: "sm",
+                    desktop: "sm",
+                  }}
+                  fontSize={{
+                    mobile: "sm",
+                    tablet: "base",
+                    desktop: "base",
+                  }}
+                  color="lime"
+                  disabled={false}
                 >
                   회원가입
-                </Link>
+                </LinkBtn>
               </li>
             </>
           ) : (
@@ -146,7 +173,7 @@ export default function Header() {
       {/* 사이드바 */}
       <div
         className={cn(
-          "fixed right-0 top-0 z-40 h-full w-40 transform bg-white shadow-lg transition-transform duration-300 ease-in-out md:w-64",
+          "fixed right-0 top-0 z-40 h-full w-40 transform bg-white shadow-md transition-transform duration-300 ease-in-out md:w-72",
           isSideMenuOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
@@ -163,22 +190,36 @@ export default function Header() {
           </div>
 
           {user && (
-            <>
-              <Link
+            <div className="flex flex-col gap-2 md:gap-4">
+              <LinkBtn
                 href="/mypage"
-                className="mb-4 flex items-center justify-center rounded-lg bg-lime-50 px-4 py-3 text-lime-700 hover:bg-lime-100"
+                variant="outlined"
+                width={{
+                  mobile: "sm",
+                  tablet: "sm",
+                  desktop: "md",
+                }}
+                color="lime"
+                disabled={false}
                 onClick={() => setIsSideMenuOpen(false)}
               >
                 마이페이지
-              </Link>
-              <button
-                type="button"
+              </LinkBtn>
+              <LinkBtn
+                href="/login"
+                variant="solid"
+                width={{
+                  mobile: "sm",
+                  tablet: "sm",
+                  desktop: "md",
+                }}
+                color="lime"
+                disabled={false}
                 onClick={handleLogout}
-                className="rounded-lg border-2 border-lime-700 px-4 py-3 text-lime-700 hover:bg-lime-700 hover:text-white"
               >
                 로그아웃
-              </button>
-            </>
+              </LinkBtn>
+            </div>
           )}
         </div>
       </div>

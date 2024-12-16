@@ -4,15 +4,12 @@ import { forwardRef, useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import PreviewItem from "./PreviewItem";
 import { cn } from "@/lib/tailwindUtil";
-interface ImageInputType {
-  file: File | null;
-  url: string;
-  id: string;
-}
+import { ImageInputType } from "@/types/addform";
 
 interface ImageInputProps {
   name: string;
   onChange?: (files: File[]) => void;
+  onDelete?: (id: string) => void;
   initialImageList: ImageInputType[];
 }
 
@@ -23,7 +20,7 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
     if (props.initialImageList?.length > 0) {
       setImageList(props.initialImageList);
     }
-  }, [props.initialImageList]);
+  }, [props.initialImageList, imageList]);
 
   const handleFileChange = (selectedFile: File | null) => {
     if (selectedFile) {
@@ -34,19 +31,16 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
         toast.error("이미지는 최대 3개까지 업로드할 수 있습니다.");
         return;
       }
-
-      const newImageList = [
-        ...imageList,
-        {
-          file: selectedFile,
-          url: URL.createObjectURL(selectedFile),
-          id: crypto.randomUUID(),
-        },
-      ];
-
-      setImageList(newImageList);
-      props.onChange?.(newImageList.map((img) => img.file).filter((file) => file !== null) as File[]);
+      props.onChange?.([selectedFile]); // 파일을 상위로 전달하면 url이 prop으로 내려옴
     }
+  };
+
+  const handleDeleteImage = (targetUrl: string) => {
+    // 삭제 했을때 다른 이미지 미리보기도 엑박뜨는 현상 있음 !
+    const newImageList = imageList.filter((image) => image.url !== targetUrl);
+    setImageList(newImageList);
+    // 제거한 리스트를 상위에서 setValue
+    props.onDelete?.(targetUrl);
   };
 
   const handleOpenFileSelector = () => {
@@ -59,16 +53,6 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
     } else if (ref && "current" in ref) {
       ref.current?.click();
     }
-  };
-
-  const handleDeleteImage = (targetId: string) => {
-    const targetImage = imageList.find((image) => image.id === targetId);
-    if (targetImage) {
-      URL.revokeObjectURL(targetImage.url); // URL 객체 해제
-    }
-    const newImageList = imageList.filter((image) => image.id !== targetId);
-    setImageList(newImageList);
-    props.onChange?.(newImageList.map((img) => img.file).filter((file) => file !== null));
   };
 
   const colorStyle = {

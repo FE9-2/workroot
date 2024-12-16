@@ -2,7 +2,7 @@ import CardChipIcon from "@/app/components/card/cardList/CardChipIcon";
 import Chip from "@/app/components/chip/Chip";
 import React from "react";
 
-// 알바폼 지원내역 상세 페이지
+// 알바폼 지원내역 상세 페이지 (수정해야하는 페이지)
 export default function MyApplyPage({ formId }: { formId: number }) {
   return (
     <div className="container flex min-h-screen flex-col">

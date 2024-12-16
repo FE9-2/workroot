@@ -22,7 +22,7 @@ export default function RecruitInformation({ albaFormDetailData, formId }: Recru
   };
 
   return (
-    <div className="flex flex-col gap-10 lg:pl-6">
+    <div className="mt-10 flex flex-col gap-10 lg:mt-0 lg:pl-6">
       <RecruitIcon {...recruitmentDetails} />
       <RecruitDetail recruitData={albaFormDetailData} />
       <div className="flex flex-col gap-6">
