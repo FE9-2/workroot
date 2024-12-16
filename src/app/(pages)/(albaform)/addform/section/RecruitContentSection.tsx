@@ -101,6 +101,7 @@ export default function RecruitContentSection() {
 
   useEffect(() => {
     if (recruitStartDate !== "" && recruitEndDate !== "") setRecruitmentDateRange([StartDate, EndDate]);
+    console.log("section에서 날짜 출력", recruitmentDateRange);
   }, [recruitStartDate, recruitEndDate]);
 
   useEffect(() => {

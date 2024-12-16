@@ -29,16 +29,16 @@ const DatePickerInput = ({
   const handleChange = (update: [Date | null, Date | null]) => {
     // 날짜를 선택하면 onChange 호출 -> 상위로 전달
     const [start, end] = update;
-    let newDateRange: [Date | null, Date | null] = [startDate || null, endDate || null];
+    let newDateRange: [Date | null, Date | null] = [start || null, end || null];
     // 시작 날짜가 설정되지 않았거나, 종료 날짜가 선택되지 않은 경우 처리
-    if (start && (!end || end <= start)) {
-      newDateRange = [start, null]; // 시작 날짜만 설정
+    if (start && end && end < start) {
+      newDateRange = [start, null];
     }
 
     // 시작 날짜와 종료 날짜가 올바르게 선택된 경우
     if (start && end && end > start) {
       newDateRange = [start, end]; // 시작 및 종료 날짜 설정
-      handleOpenDropdown(); // 드롭다운 닫기
+      handleOpenDropdown();
     }
     onChange(newDateRange);
     console.log("인풋 컴포넌트에서 - ", start, end);
