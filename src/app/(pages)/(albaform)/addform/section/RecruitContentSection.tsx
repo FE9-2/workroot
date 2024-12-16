@@ -79,15 +79,30 @@ export default function RecruitContentSection() {
     }
   }, [imageUrlsData]);
 
-  // 훅폼에서 recruitment Start/End Data 가져와서 recruitmentDateRange에 반영하기
+  // 모집 기간 데이터 반영하기
   const recruitStartDate: string = watch("recruitmentStartDate");
   const recruitEndDate: string = watch("recruitmentEndDate");
-  const StartDate = new Date(recruitStartDate) || null;
-  const EndDate = new Date(recruitEndDate) || null;
+  const StartDate =
+    recruitStartDate === "" || recruitStartDate === undefined || recruitStartDate === null
+      ? null
+      : new Date(recruitStartDate);
+  const EndDate =
+    recruitEndDate === "" || recruitEndDate === undefined || recruitEndDate === null ? null : new Date(recruitEndDate);
+
+  useEffect(() => {
+    if (StartDate && EndDate) setRecruitmentDateRange([StartDate, EndDate]);
+  }, [recruitStartDate, recruitEndDate]);
 
   // displayRange를 상위에서 관리
-  const displayDate = `${formatToLocaleDate(recruitStartDate)} ~ ${formatToLocaleDate(recruitEndDate)}`;
+  const displayDate =
+    recruitStartDate === "" || recruitStartDate === undefined || recruitStartDate === null
+      ? ""
+      : `${formatToLocaleDate(recruitStartDate)} ~ ${formatToLocaleDate(recruitEndDate)}`;
   const [displayRange, setDisplayRange] = useState<string>(displayDate || "");
+
+  useEffect(() => {
+    setDisplayRange(displayDate);
+  }, [recruitStartDate, recruitEndDate, displayDate]);
 
   // 날짜 선택
   const [recruitmentDateRange, setRecruitmentDateRange] = useState<[Date | null, Date | null]>([null, null]);
@@ -98,15 +113,6 @@ export default function RecruitContentSection() {
     if (start) setValue("recruitmentStartDate", start.toISOString());
     if (end) setValue("recruitmentEndDate", end.toISOString(), { shouldDirty: true });
   };
-
-  useEffect(() => {
-    if (recruitStartDate !== "" && recruitEndDate !== "") setRecruitmentDateRange([StartDate, EndDate]);
-    console.log("section에서 날짜 출력", recruitmentDateRange);
-  }, [recruitStartDate, recruitEndDate]);
-
-  useEffect(() => {
-    setDisplayRange(displayDate);
-  }, [recruitStartDate, recruitEndDate]);
 
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";

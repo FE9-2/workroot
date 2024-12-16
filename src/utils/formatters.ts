@@ -14,12 +14,15 @@ export const formatDateTime = (date: string): string => {
 };
 
 export const formatToLocaleDate = (date: string): string => {
-  const d = new Date(date);
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1);
-  const day = String(d.getDate());
-
-  return `${year}/${month}/${day}`;
+  if (date !== undefined) {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1);
+    const day = String(d.getDate());
+    return `${year}/${month}/${day}`;
+  } else {
+    return "";
+  }
 };
 
 export const formatCurrency = (amount: number): string => {

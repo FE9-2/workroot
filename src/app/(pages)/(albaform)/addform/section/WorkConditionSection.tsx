@@ -24,20 +24,13 @@ export default function WorkConditionSection() {
     formState: { errors },
   } = useFormContext();
 
-  // 근무 날짜 지정
-  const [workDateRange, setWorkDateRange] = useState<[Date | null, Date | null]>([null, null]);
-  const handleWorkDateChange = (dates: [Date | null, Date | null]) => {
-    setWorkDateRange(dates);
-    const [start, end] = dates;
-    if (start) setValue("workStartDate", start.toISOString());
-    if (end) setValue("workEndDate", end.toISOString());
-  };
-
   // 근무 기간 데이터 반영하기
   const workStartDate: string = watch("workStartDate");
   const workEndDate: string = watch("workEndDate");
-  const StartDate = new Date(workStartDate);
-  const EndDate = new Date(workEndDate);
+  const StartDate =
+    workStartDate === "" || workStartDate === undefined || workStartDate === null ? null : new Date(workStartDate);
+  const EndDate =
+    workEndDate === "" || workEndDate === undefined || workEndDate === null ? null : new Date(workEndDate);
 
   useEffect(() => {
     if (workStartDate !== "" && workEndDate !== "") setWorkDateRange([StartDate, EndDate]);
@@ -45,11 +38,25 @@ export default function WorkConditionSection() {
 
   // displayRange를 상위에서 관리
   const displayDate = `${formatToLocaleDate(workStartDate)} ~ ${formatToLocaleDate(workEndDate)}`;
-  const [displayRange, setDisplayRange] = useState<string>(displayDate || "");
+  const [displayRange, setDisplayRange] = useState<string>("");
 
   useEffect(() => {
-    setDisplayRange(displayDate);
-  }, [workStartDate, workEndDate]);
+    if (formatToLocaleDate(workStartDate)?.includes("NaN")) {
+      setDisplayRange("");
+    } else {
+      setDisplayRange(displayDate);
+    }
+  }, [workStartDate, workEndDate, displayDate]);
+
+  // 날짜 선택
+  const [workDateRange, setWorkDateRange] = useState<[Date | null, Date | null]>([null, null]);
+
+  const handleWorkDateChange = (dates: [Date | null, Date | null]) => {
+    setWorkDateRange(dates);
+    const [start, end] = dates;
+    if (start) setValue("workStartDate", start.toISOString());
+    if (end) setValue("workEndDate", end.toISOString(), { shouldDirty: true });
+  };
 
   //근무 시간 지정
   const workStartTime = watch("workStartTime");
