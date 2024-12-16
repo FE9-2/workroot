@@ -61,13 +61,13 @@ const ModalTester = () => {
         }),
     },
     {
-      label: "알바폼 삭제",
+      label: "워크폼 삭제",
       type: "confirm",
       onClick: () =>
         openModal("deleteForm", {
           id: "123",
           isOpen: true,
-          title: "알바폼 삭제할까요?",
+          title: "워크폼 삭제할까요?",
           message: "삭제 후 정보를 복구할 수 없어요.",
           onConfirm: () => console.log("삭제 확인"),
           onCancel: () => console.log("삭제 취소"),

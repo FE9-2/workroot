@@ -31,13 +31,13 @@ export default function Header() {
 
             <div className="ml-4 flex h-16 space-x-2 sm:ml-6 sm:space-x-4 md:ml-10 md:space-x-6">
               <Link href="/alba-list" className={getLinkClassName("/alba-list")}>
-                알바 목록
+                워크 채널
               </Link>
               <Link href="/alba-talk" className={getLinkClassName("/alba-talk")}>
-                알바 토크
+                워크톡
               </Link>
               <Link href="/my-albaform" className={getLinkClassName("/my-albaform")}>
-                내 알바폼
+                내 워크폼
               </Link>
             </div>
           </div>

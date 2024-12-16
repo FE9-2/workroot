@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import apiClient from "@/lib/apiClient";
 
-// 알바폼 상세 조회(로그인 여부에 따라 다른 응답)
+// 워크폼 상세 조회(로그인 여부에 따라 다른 응답)
 export async function GET(req: NextRequest, { params }: { params: { formId: string } }) {
   try {
     const accessToken = cookies().get("accessToken")?.value;
@@ -32,7 +32,7 @@ export async function GET(req: NextRequest, { params }: { params: { formId: stri
   }
 }
 
-// 알바폼 수정
+// 워크폼 수정
 export async function PATCH(req: NextRequest, { params }: { params: { formId: string } }) {
   try {
     const accessToken = cookies().get("accessToken")?.value;
@@ -61,7 +61,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { formId: st
   }
 }
 
-// 알바폼 삭제
+// 워크폼 삭제
 export async function DELETE(req: NextRequest, { params }: { params: { formId: string } }) {
   try {
     const accessToken = cookies().get("accessToken")?.value;

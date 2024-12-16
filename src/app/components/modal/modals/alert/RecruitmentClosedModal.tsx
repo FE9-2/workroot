@@ -47,7 +47,7 @@ const RecruitmentClosedModal = ({ formId, isOpen, onClose, className }: Recruitm
             />
           </div>
           <h2 className="mb-2 text-lg font-bold lg:text-xl">모집 마감</h2>
-          <p className="text-grayscale-600 mb-6 text-sm lg:text-base">모집이 종료된 알바폼입니다.</p>
+          <p className="text-grayscale-600 mb-6 text-sm lg:text-base">모집이 종료된 워크폼입니다.</p>
 
           <div className="mt-auto">
             <Link href={`/forms/${formId}`} className="block">

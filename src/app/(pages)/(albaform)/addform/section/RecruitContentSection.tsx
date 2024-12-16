@@ -10,7 +10,7 @@ import Label from "../../component/Label";
 import { ImageInputType } from "@/types/addform";
 import useUploadImages from "@/hooks/queries/user/me/useImageUpload";
 
-// 알바폼 만들기 - 사장님 - 1-모집내용
+// 워크폼 만들기 - 사장님 - 1-모집내용
 
 export default function RecruitContentSection() {
   // 이미지 파일을 로컬 상태에 저장
@@ -92,7 +92,7 @@ export default function RecruitContentSection() {
   return (
     <div className="relative">
       <form className="my-8 flex flex-col gap-4">
-        <Label>알바폼 제목</Label>
+        <Label>워크폼 제목</Label>
         <BaseInput
           {...register("title", { required: "제목을 입력해주세요" })}
           type="text"

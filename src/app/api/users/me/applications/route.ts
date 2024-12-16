@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import apiClient from "@/lib/apiClient";
 import { cleanedParameters } from "@/utils/cleanedParameters";
 
-// 내가 지원한 알바폼 목록 조회 API
+// 내가 지원한 워크폼 목록 조회 API
 export async function GET(request: Request) {
   try {
     // 쿠키에서 액세스 토큰 가져오기

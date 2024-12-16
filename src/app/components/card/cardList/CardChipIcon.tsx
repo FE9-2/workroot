@@ -25,7 +25,7 @@ const CardChipIcon = ({ formData }: CardChipIconProps) => {
       <div className={cn(propsStyle)}>
         <MdPeopleAlt className={cn(iconStyle)} />
         <span className={cn(titleStyle)}>지원현황</span>
-        <strong>현재까지 {formData.applyCount}명이 알바폼에 지원했어요!</strong>
+        <strong>현재까지 {formData.applyCount}명이 워크폼에 지원했어요!</strong>
       </div>
     </div>
   );
