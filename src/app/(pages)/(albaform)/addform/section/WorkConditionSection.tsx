@@ -126,8 +126,6 @@ export default function WorkConditionSection() {
         <div className="relative flex flex-col gap-2">
           <Label>근무 기간</Label>
           <DatePickerInput
-            startDateName="workStartDate"
-            endDateName="workEndDate"
             startDate={workDateRange[0] || undefined}
             endDate={workDateRange[1] || undefined}
             onChange={handleWorkDateChange}

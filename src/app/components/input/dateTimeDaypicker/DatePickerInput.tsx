@@ -6,12 +6,9 @@ import { ko } from "date-fns/locale";
 import { IoIosClose, IoMdArrowDropup } from "react-icons/io";
 import { BsCalendar4 } from "react-icons/bs";
 import { useDropdownOpen } from "@/hooks/useDropdownOpen";
-import { useFormContext } from "react-hook-form";
 import DatePickerHeader from "./DatePickerHeader";
 import { useEffect, useRef } from "react";
 interface DatePickerInputProps {
-  startDateName: string;
-  endDateName: string;
   startDate?: Date;
   endDate?: Date;
   onChange: (dates: [Date | null, Date | null]) => void;
@@ -20,8 +17,6 @@ interface DatePickerInputProps {
   displayValue: string;
 }
 const DatePickerInput = ({
-  startDateName,
-  endDateName,
   startDate,
   endDate,
   onChange,
@@ -29,22 +24,24 @@ const DatePickerInput = ({
   errormessage,
   displayValue,
 }: DatePickerInputProps) => {
-  const { setValue } = useFormContext();
   const { isOpen, handleOpenDropdown } = useDropdownOpen();
 
-  const iconStyle = "text-black-400 size-9 transition-transform duration-200";
-
   const handleChange = (update: [Date | null, Date | null]) => {
+    // 날짜를 선택하면 onChange 호출 -> 상위로 전달
     const [start, end] = update;
+    let newDateRange: [Date | null, Date | null] = [startDate || null, endDate || null];
+    // 시작 날짜가 설정되지 않았거나, 종료 날짜가 선택되지 않은 경우 처리
+    if (start && (!end || end <= start)) {
+      newDateRange = [start, null]; // 시작 날짜만 설정
+    }
 
-    if (start) {
-      setValue(startDateName, start.toISOString());
-    }
+    // 시작 날짜와 종료 날짜가 올바르게 선택된 경우
     if (start && end && end > start) {
-      setValue(endDateName, end.toISOString());
-      handleOpenDropdown();
+      newDateRange = [start, end]; // 시작 및 종료 날짜 설정
+      handleOpenDropdown(); // 드롭다운 닫기
     }
-    onChange(update);
+    onChange(newDateRange);
+    console.log("인풋 컴포넌트에서 - ", start, end);
   };
 
   //피커 바깥쪽 클릭 시 창 닫힘
@@ -61,6 +58,8 @@ const DatePickerInput = ({
       window.removeEventListener("mousedown", handleClickOutside);
     };
   }, [handleOpenDropdown]);
+
+  const iconStyle = "text-black-400 size-9 transition-transform duration-200";
 
   return (
     <div className="relative">

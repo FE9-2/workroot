@@ -79,28 +79,29 @@ export default function RecruitContentSection() {
     }
   }, [imageUrlsData]);
 
-  // 날짜 선택
-  const [recruitmentDateRange, setRecruitmentDateRange] = useState<[Date | null, Date | null]>([null, null]);
-  const handleRecruitmentDateChange = (dates: [Date | null, Date | null]) => {
-    setRecruitmentDateRange(dates);
-    const [start, end] = dates;
-    if (start) setValue("recruitmentStartDate", start.toISOString());
-    if (end) setValue("recruitmentEndDate", end.toISOString());
-  };
-
   // 훅폼에서 recruitment Start/End Data 가져와서 recruitmentDateRange에 반영하기
   const recruitStartDate: string = watch("recruitmentStartDate");
   const recruitEndDate: string = watch("recruitmentEndDate");
-  const StartDate = new Date(recruitStartDate);
-  const EndDate = new Date(recruitEndDate);
-
-  useEffect(() => {
-    if (recruitStartDate !== "" && recruitEndDate !== "") setRecruitmentDateRange([StartDate, EndDate]);
-  }, [recruitStartDate, recruitEndDate]);
+  const StartDate = new Date(recruitStartDate) || null;
+  const EndDate = new Date(recruitEndDate) || null;
 
   // displayRange를 상위에서 관리
   const displayDate = `${formatToLocaleDate(recruitStartDate)} ~ ${formatToLocaleDate(recruitEndDate)}`;
   const [displayRange, setDisplayRange] = useState<string>(displayDate || "");
+
+  // 날짜 선택
+  const [recruitmentDateRange, setRecruitmentDateRange] = useState<[Date | null, Date | null]>([null, null]);
+
+  const handleRecruitmentDateChange = (dates: [Date | null, Date | null]) => {
+    setRecruitmentDateRange(dates); // -> prop으로 내려줌
+    const [start, end] = dates;
+    if (start) setValue("recruitmentStartDate", start.toISOString());
+    if (end) setValue("recruitmentEndDate", end.toISOString(), { shouldDirty: true });
+  };
+
+  useEffect(() => {
+    if (recruitStartDate !== "" && recruitEndDate !== "") setRecruitmentDateRange([StartDate, EndDate]);
+  }, [recruitStartDate, recruitEndDate]);
 
   useEffect(() => {
     setDisplayRange(displayDate);
@@ -135,8 +136,6 @@ export default function RecruitContentSection() {
         <div className="relative flex flex-col gap-2">
           <Label>모집 기간</Label>
           <DatePickerInput
-            startDateName="recruitmentStartDate"
-            endDateName="recruitmentEndDate"
             startDate={recruitmentDateRange[0] || undefined}
             endDate={recruitmentDateRange[1] || undefined}
             onChange={handleRecruitmentDateChange}
