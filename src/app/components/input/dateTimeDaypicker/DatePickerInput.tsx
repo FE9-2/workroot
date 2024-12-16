@@ -47,7 +47,6 @@ const DatePickerInput = ({
       handleOpenDropdown();
     }
     onChange(newDateRange);
-    console.log("인풋 컴포넌트에서 - ", start, end);
   };
 
   //피커 바깥쪽 클릭 시 창 닫힘

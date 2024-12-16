@@ -28,47 +28,48 @@ export default function Layout({ children }: { children: ReactNode }) {
   const DetailStyle = "mx-auto max-w-screen-xl  px-4 py-4 sm:px-6 md:py-8 justify-center flex";
 
   return (
-    <div className={cn(isForm ? FormStyle : DetailStyle)}>
-      {isForm && (
-        <ApplyHeader
-          title={title}
-          onCancel={() =>
-            openModal("customForm", {
-              isOpen: true,
-              title: "폼 작성 취소",
-              content: "작성을 취소하시겠습니까?",
-              onConfirm: () => {
-                openModal("customForm", {
-                  isOpen: false,
-                  title: "",
-                  content: "",
-                  onConfirm: () => {},
-                  onCancel: () => {},
-                });
-                router.back();
-              },
-              onCancel: () => {
-                openModal("customForm", {
-                  isOpen: false,
-                  title: "",
-                  content: "",
-                  onConfirm: () => {},
-                  onCancel: () => {},
-                });
-              },
-            })
-          }
-        />
-      )}
-      <Suspense
-        fallback={
-          <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-            <LoadingSpinner />
-          </div>
-        }
-      >
+    <Suspense
+      fallback={
+        <div className="flex h-[calc(100vh-200px)] items-center justify-center">
+          <LoadingSpinner />
+        </div>
+      }
+    >
+      <div className={cn(isForm ? FormStyle : DetailStyle)}>
+        {isForm && (
+          <ApplyHeader
+            title={title}
+            onCancel={() =>
+              openModal("customForm", {
+                isOpen: true,
+                title: "폼 작성 취소",
+                content: "작성을 취소하시겠습니까?",
+                onConfirm: () => {
+                  openModal("customForm", {
+                    isOpen: false,
+                    title: "",
+                    content: "",
+                    onConfirm: () => {},
+                    onCancel: () => {},
+                  });
+                  router.back();
+                },
+                onCancel: () => {
+                  openModal("customForm", {
+                    isOpen: false,
+                    title: "",
+                    content: "",
+                    onConfirm: () => {},
+                    onCancel: () => {},
+                  });
+                },
+              })
+            }
+          />
+        )}
+
         {children}
-      </Suspense>
-    </div>
+      </div>
+    </Suspense>
   );
 }

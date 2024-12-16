@@ -224,12 +224,12 @@ export default function AddFormPage() {
   // 유저 권한 확인
   const { user, isLoading } = useUser();
 
-  // useEffect(() => {
-  //   if (user?.role !== "OWNER") {
-  //     toast.error("사장님만 워크폼을 작성할 수 있습니다.");
-  //     router.push("/alba-list");
-  //   }
-  // }, [user, router]);
+  useEffect(() => {
+    if (user?.role !== "OWNER") {
+      toast.error("사장님만 워크폼을 작성할 수 있습니다.");
+      router.push("/alba-list");
+    }
+  }, [user, router]);
 
   if (isLoading) {
     return <LoadingSpinner />;
