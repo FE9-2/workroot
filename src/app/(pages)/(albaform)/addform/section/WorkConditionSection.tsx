@@ -77,6 +77,14 @@ export default function WorkConditionSection() {
     }
   };
 
+  const workdaysData = watch("workDays");
+  const isNegotiable = watch("isNegotiableWorkDays");
+  useEffect(() => {
+    if (!isNegotiable && workdaysData.length > 0) {
+      setSelectedWorkDays(workdaysData);
+    }
+  }, [workdaysData]);
+
   // 최저시급 상수 수정 (2025년 기준)
   const MINIMUM_WAGE = 10030;
 
