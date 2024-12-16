@@ -207,14 +207,21 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
           <div className="flex h-[58px] justify-between gap-3 lg:h-[72px]">
             <Button
               type="button"
-              color="gray"
+              color="lime"
+              variant="outlined"
               onClick={onClose}
               disabled={isUpdating}
-              className="h-full text-sm font-semibold text-white lg:text-base"
+              className="h-full text-sm font-semibold lg:text-base"
             >
               취소
             </Button>
-            <Button type="submit" disabled={isUpdating} className="h-full text-sm font-semibold lg:text-base">
+            <Button
+              type="submit"
+              color="lime"
+              variant="solid"
+              disabled={isUpdating}
+              className="h-full text-sm font-semibold lg:text-base"
+            >
               {isUpdating ? <DotLoadingSpinner /> : "수정하기"}
             </Button>
           </div>

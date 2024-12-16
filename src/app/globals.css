@@ -1,43 +1,12 @@
+/* globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* 학교안심 둥근미소 R */
-@font-face {
-  font-family: "HakgyoansimDunggeunmisoTTF-R";
-  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-R.woff2") format("woff2");
-  font-weight: 400;
-}
-
-/* 학교안심 둥근미소 B */
-@font-face {
-  font-family: "HakgyoansimDunggeunmisoTTF-B";
-  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-B.woff2") format("woff2");
-  font-weight: 700;
-}
-
-/* 넥슨 폰트 */
-@font-face {
-  font-family: "NEXON Lv1 Gothic OTF";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff") format("woff");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "NEXON Lv1 Gothic OTF";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Bold.woff")
-    format("woff");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
 /* 기본적인 스타일을 정의 */
 @layer base {
   body {
-    @apply font-nexon;
+    font-family: var(--font-nexon);
   }
 }
 * {
@@ -59,23 +28,23 @@ li {
 /* 재사용 가능한 컴포넌트 스타일을 정의 */
 @layer components {
   .font-school-regular {
-    font-family: "HakgyoansimDunggeunmisoTTF-R", sans-serif;
+    font-family: var(--font-hakgyo);
     font-weight: 400;
   }
   .font-school-bold {
-    font-family: "HakgyoansimDunggeunmisoTTF-B", sans-serif;
+    font-family: var(--font-hakgyo);
     font-weight: 700;
   }
   .font-nexon-light {
-    font-family: "NEXON Lv1 Gothic OTF Light", sans-serif;
+    font-family: var(--font-nexon);
     font-weight: 300;
   }
   .font-nexon-regular {
-    font-family: "NEXON Lv1 Gothic OTF Regular", sans-serif;
+    font-family: var(--font-nexon);
     font-weight: 400;
   }
   .font-nexon-bold {
-    font-family: "NEXON Lv1 Gothic OTF Bold", sans-serif;
+    font-family: var(--font-nexon);
     font-weight: 700;
   }
 }
