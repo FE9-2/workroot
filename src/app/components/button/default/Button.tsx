@@ -6,7 +6,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "solid" | "outlined";
   width?: "xs" | "sm" | "md" | "lg";
   radius?: "lg" | "full";
-  color?: "orange" | "gray";
+  color?: "orange" | "gray" | "lime";
   icon?: ReactNode;
 }
 /**
@@ -46,6 +46,12 @@ const Button = ({
         "bg-grayscale-100 text-grayscale-900 hover:bg-grayscale-200 focus:ring-1 focus:ring-grayscale-200 focus:outline-none disabled:bg-grayscale-50 disabled:cursor-not-allowed",
       outlined:
         "border-2 border-grayscale-200 text-grayscale-900 hover:border-grayscale-300 hover:bg-grayscale-50 focus:ring-1 focus:ring-grayscale-200 focus:outline-none disabled:border-grayscale-100 disabled:text-grayscale-100 disabled:cursor-not-allowed disabled:hover:bg-transparent",
+    },
+    lime: {
+      solid:
+        "bg-lime-600 text-white hover:bg-lime-700 focus:ring-1 focus:ring-lime-500 focus:outline-none disabled:bg-lime-300 disabled:cursor-not-allowed",
+      outlined:
+        "border-2 border-lime-600 text-lime-600 hover:border-lime-700 hover:text-lime-700 focus:ring-1 focus:ring-lime-500 focus:outline-none disabled:border-lime-300 disabled:text-lime-300 disabled:cursor-not-allowed disabled:hover:bg-transparent",
     },
   };
 
