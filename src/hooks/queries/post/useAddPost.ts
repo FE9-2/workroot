@@ -25,6 +25,7 @@ export const useAddPost = () => {
       });
       // 게시글 목록 캐시 무효화
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["myPosts"] });
       return data; // 응답 데이터 반환
     },
     onError: (error) => {

@@ -29,9 +29,9 @@ export default function SearchSection({ pathname }: { pathname: string }) {
         <SearchInput
           value={keyword}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setKeyword(e.target.value)}
-          className="text:lg lg:text:xl h-[52px] w-full border-none bg-background-200 hover:bg-background-300"
+          className="text:lg lg:text:xl h-[36px] w-full border-none bg-background-200 hover:bg-background-300 md:h-[48px]"
         />
-        <Button type="submit" variant="solid" color="lime" width="sm">
+        <Button type="submit" variant="solid" color="lime" width="xs" height="sm">
           검색
         </Button>
       </div>

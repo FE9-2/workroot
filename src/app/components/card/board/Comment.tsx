@@ -22,7 +22,7 @@ export interface CommentProps {
 const Comment = ({ id, nickname, updatedAt, content, isAuthor = false }: CommentProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(content);
-  const { openModal } = useModalStore();
+  const { openModal, closeModal } = useModalStore();
   const queryClient = useQueryClient();
 
   const editComment = useEditComment(id);
@@ -53,24 +53,12 @@ const Comment = ({ id, nickname, updatedAt, content, isAuthor = false }: Comment
         deleteComment.mutate(undefined, {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["comments"] });
-            openModal("customForm", {
-              isOpen: false,
-              title: "",
-              content: "",
-              onConfirm: () => {},
-              onCancel: () => {},
-            });
+            closeModal();
           },
         });
       },
       onCancel: () => {
-        openModal("customForm", {
-          isOpen: false,
-          title: "",
-          content: "",
-          onConfirm: () => {},
-          onCancel: () => {},
-        });
+        closeModal();
       },
     });
   };

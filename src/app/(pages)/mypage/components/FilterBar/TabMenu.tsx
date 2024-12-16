@@ -4,11 +4,15 @@ import React from "react";
 import { cn } from "@/lib/tailwindUtil";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { TABS } from "./constants";
+import { APPLICANT_TABS, OWNER_TABS } from "./constants";
+import { useUser } from "@/hooks/queries/user/me/useUser";
+import { userRoles } from "@/constants/userRoles";
 
 export default function TabMenu() {
   const searchParams = useSearchParams();
   const currentTab = searchParams.get("tab") || "posts";
+  const { user } = useUser();
+  const isOwner = user?.role === userRoles.OWNER;
 
   const createQueryString = (tab: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -32,11 +36,25 @@ export default function TabMenu() {
 
   return (
     <div className="flex gap-4 lg:gap-8">
-      {TABS.map((tab) => (
-        <Link key={tab.value} href={`/mypage?${createQueryString(tab.value)}`} className={getLinkClassName(tab.value)}>
-          {tab.name}
-        </Link>
-      ))}
+      {isOwner
+        ? OWNER_TABS.map((tab) => (
+            <Link
+              key={tab.value}
+              href={`/mypage?${createQueryString(tab.value)}`}
+              className={getLinkClassName(tab.value)}
+            >
+              {tab.name}
+            </Link>
+          ))
+        : APPLICANT_TABS.map((tab) => (
+            <Link
+              key={tab.value}
+              href={`/mypage?${createQueryString(tab.value)}`}
+              className={getLinkClassName(tab.value)}
+            >
+              {tab.name}
+            </Link>
+          ))}
     </div>
   );
 }
