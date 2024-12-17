@@ -5,7 +5,7 @@ import React from "react";
 
 export default function LoadingSpinner() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center px-4">
+    <div className="absolute left-1/2 top-1/2 flex min-h-screen w-screen -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center bg-white px-4">
       <Player
         autoplay
         loop
