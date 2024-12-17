@@ -53,7 +53,7 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
     if (!isMyAlbaForm) return null;
     return (
       <div className="space-y-4 text-2xl">
-        <Link href={`/work/${formId}/edit`}>
+        <Link href={`/work/${formId}/edit`}>
           <FloatingBtn className={buttonStyle} icon={<FaEdit />} disabled={isLoading}>
             {isLoading ? <DotLoadingSpinner /> : "수정하기"}
           </FloatingBtn>

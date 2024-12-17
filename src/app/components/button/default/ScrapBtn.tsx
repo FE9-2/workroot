@@ -6,7 +6,6 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import useFormDetail from "@/hooks/queries/form/detail/useFormDetail";
-import { useUser } from "@/hooks/queries/user/me/useUser";
 
 interface ScrapBtnProps {
   className?: string;
