@@ -19,20 +19,13 @@ import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import formatMoney from "@/utils/formatMoney";
 import tempSave from "@/utils/tempSave";
 import { useUser } from "@/hooks/queries/user/me/useUser";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 
 export default function EditFormPage() {
   const router = useRouter();
-  const [formIdState, setFormIdState] = useState<number>(0);
   const formId = useParams().formId;
 
-  useEffect(() => {
-    // formId가 문자열로 전달되므로 숫자로 변환하여 상태에 저장
-    if (formId) {
-      setFormIdState(Number(formId)); // formId를 숫자로 변환하여 상태에 저장
-    }
-  }, [formId]);
-
-  const { albaFormDetailData, isLoading, error } = useFormDetail({ formId: formIdState });
+  const { albaFormDetailData, isLoading, error } = useFormDetail(formId);
 
   const methods = useForm<SubmitFormDataType>({
     mode: "onChange",
@@ -63,7 +56,7 @@ export default function EditFormPage() {
         workDays: albaFormDetailData.workDays,
         workEndTime: albaFormDetailData.workEndTime,
         workStartTime: albaFormDetailData.workStartTime,
-        workEndDate: albaFormDetailData.workEndDate, // display & value 값에 반영하기
+        workEndDate: albaFormDetailData.workEndDate,
         workStartDate: albaFormDetailData.workStartDate,
         location: albaFormDetailData.location,
         preferred: albaFormDetailData.preferred,
@@ -71,44 +64,27 @@ export default function EditFormPage() {
         education: albaFormDetailData.education,
         gender: albaFormDetailData.gender,
         numberOfPositions: albaFormDetailData.numberOfPositions,
-        recruitmentEndDate: albaFormDetailData.recruitmentEndDate, // display & value 값에 반영하기
+        recruitmentEndDate: albaFormDetailData.recruitmentEndDate,
         recruitmentStartDate: albaFormDetailData.recruitmentStartDate,
         description: albaFormDetailData.description,
         title: albaFormDetailData.title,
-        imageUrls: albaFormDetailData.imageUrls, // 프리뷰 반영하기
+        imageUrls: albaFormDetailData.imageUrls,
       });
     }
   }, [albaFormDetailData, reset]);
 
   // 폼데이터 임시 저장 함수
-  const onTempSave = async () => {
+  const onTempSave = () => {
     tempSave("addformData", currentValues);
   };
 
   // 수정된 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
-      const excludedKeys = ["displayDate", "workDateRange", "recruitDateRange"];
-
-      // 원하는 필드만 포함된 새로운 객체 만들기
-      const filteredData = Object.entries(currentValues)
-        .filter(([key]) => !excludedKeys.includes(key)) // 제외할 키를 필터링
-        .reduce((acc: Partial<SubmitFormDataType>, [key, value]) => {
-          if (key === "numberOfPositions") {
-            // numberOfPositions는 숫자형으로 변환
-            acc[key] = Number(value);
-          } else if (key === "hourlyWage") {
-            // hourlyWage는 쉼표를 제거하고 숫자형으로 변환
-            if (typeof value === "string" && value.includes(",")) acc[key] = String(Number(value.replaceAll(/,/g, ""))); // 쉼표 제거 후 숫자형 변환
-          } else {
-            acc[key as keyof SubmitFormDataType] = value; // 나머지 값은 그대로 추가
-          }
-          return acc;
-        }, {});
-      console.log("filteredData", filteredData);
-      await axios.patch(`/api/forms/${formId}`, filteredData);
+      const response = await axios.post("/api/forms", currentValues);
+      return response.data.id;
     },
-    onSuccess: async () => {
+    onSuccess: async (formId) => {
       if (typeof window !== "undefined") {
         window.localStorage.removeItem("tempAddFormData");
       }
@@ -117,7 +93,7 @@ export default function EditFormPage() {
       await queryClient.invalidateQueries({
         queryKey: ["formDetail", formId],
       });
-      queryClient.invalidateQueries({
+      await queryClient.invalidateQueries({
         queryKey: ["forms", { limit: 10 }],
       });
       toast.success("워크폼을 수정했습니다.");
@@ -166,15 +142,13 @@ export default function EditFormPage() {
   // 유저 권한 확인
   const { user } = useUser();
 
-  useEffect(() => {
-    if (user?.role !== "OWNER") {
-      toast.error("사장님만 워크폼을 작성할 수 있습니다.");
-      router.push("/work-list");
-    }
-  }, [user, router]);
+  if (user?.role !== "OWNER") {
+    toast.error("사장님만 워크폼을 작성할 수 있습니다.");
+    router.push("/work-list");
+  }
 
   if (isLoading) {
-    return <LoadingSpinner />;
+    return <DotLoadingSpinner />;
   }
 
   if (error) {
