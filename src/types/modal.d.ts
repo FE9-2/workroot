@@ -11,7 +11,7 @@ export type ModalType =
   | "myApplication";
 
 type BaseModalProps = {
-  onClose?: () => void;
+  onClose: () => void;
 };
 
 type FormModalProps = BaseModalProps & {
@@ -58,6 +58,13 @@ type ApplicationDetailProps = BaseModalProps & {
   password: string;
 };
 
+// 내 지원내역 모달
+type MyApplicationModalProps = BaseModalProps & {
+  isOpen: boolean;
+  formId: number | string;
+  className?: string;
+};
+
 export type ModalPropsMap = {
   applicationDetail: ApplicationDetailProps;
   formContinue: AlertModalProps;
@@ -68,7 +75,5 @@ export type ModalPropsMap = {
   changePassword: FormModalProps;
   editMyProfile: FormModalProps;
   editOwnerProfile: FormModalProps;
-  myApplication: {
-    formId: number | string;
-  };
+  myApplication: MyApplicationModalProps;
 };

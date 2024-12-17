@@ -5,9 +5,11 @@ import Button from "@/app/components/button/default/Button";
 import { useMyApplication } from "@/hooks/queries/user/me/useMyApplication";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import { formatDateTime } from "@/utils/formatters";
-import { InfoRowProps, MyApplicationModalProps } from "@/types/response/application";
+import { InfoRowProps, ResumeDownloadProps, ApplicationResponse } from "@/types/response/application";
+import { MyApplicationModalProps } from "@/types/modal";
 import { getStatusMap } from "@/utils/translateStatus";
 import { useResumeDownLoad } from "@/hooks/useResumeDownLoad";
+import { FiDownload } from "react-icons/fi";
 
 const InfoRow = ({ label, value, isIntroduction }: InfoRowProps) => {
   if (isIntroduction) {
@@ -38,31 +40,52 @@ const ModalHeader = () => {
   );
 };
 
-const ApplicationContent = ({ myApplicationData }: { myApplicationData: any }) => {
+const ResumeDownloadButton = ({ resumeId, resumeName }: ResumeDownloadProps) => {
+  const { downloadResume } = useResumeDownLoad();
+
+  const handleResumeDownload = () => {
+    downloadResume({ resumeId, resumeName });
+  };
+
   return (
-    <div className="space-y-4">
-      <InfoRow label="지원 상태" value={getStatusMap(myApplicationData.status)} />
-      <InfoRow label="이름" value={myApplicationData.name} />
-      <InfoRow label="연락처" value={myApplicationData.phoneNumber} />
-      <InfoRow label="경력" value={`${myApplicationData.experienceMonths}개월`} />
-      <InfoRow label="자기소개" value={myApplicationData.introduction} isIntroduction />
-      <InfoRow label="지원일" value={formatDateTime(myApplicationData.createdAt)} />
+    <div className="flex w-full items-center justify-between border-b pb-2">
+      <span className="text-grayscale-400">이력서 다운로드</span>
+      <button onClick={handleResumeDownload} className="hover:text-primary-orange-500 transition-colors">
+        <FiDownload className="text-2xl" />
+      </button>
     </div>
   );
 };
 
+const ApplicationContent = ({
+  status,
+  name,
+  phoneNumber,
+  experienceMonths,
+  resumeId,
+  resumeName,
+  introduction,
+  createdAt,
+}: ApplicationResponse) => {
+  return (
+    <div className="space-y-4">
+      <InfoRow label="지원 상태" value={getStatusMap(status)} />
+      <InfoRow label="이름" value={name} />
+      <InfoRow label="연락처" value={phoneNumber} />
+      <InfoRow label="경력" value={`${experienceMonths}개월`} />
+      {resumeName && (
+        <>
+          <InfoRow label="이력서" value="제출됨" />
+          <ResumeDownloadButton resumeId={resumeId} resumeName={resumeName} />
+        </>
+      )}
+      <InfoRow label="자기소개" value={introduction} isIntroduction />
+      <InfoRow label="지원일" value={formatDateTime(createdAt)} />
+    </div>
+  );
+};
 export default function MyApplicationModal({ isOpen, onClose, formId, className }: MyApplicationModalProps) {
   const { data: myApplicationData, isLoading } = useMyApplication(formId);
-  const { downloadResume } = useResumeDownLoad();
-
-  const handleResumeDownload = () => {
-    if (myApplicationData?.resumeId && myApplicationData?.resumeName) {
-      downloadResume({
-        resumeId: myApplicationData.resumeId,
-        resumeName: myApplicationData.resumeName,
-      });
-    }
-  };
 
   if (!isOpen) return null;
 
@@ -92,7 +115,7 @@ export default function MyApplicationModal({ isOpen, onClose, formId, className 
               ) : (
                 <div className="space-y-4">
                   {myApplicationData ? (
-                    <ApplicationContent myApplicationData={myApplicationData} />
+                    <ApplicationContent {...myApplicationData} />
                   ) : (
                     <div className="text-center">지원 내역이 없습니다.</div>
                   )}
