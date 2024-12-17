@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import Image from "next/image";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import Button from "@/app/components/button/default/Button";
+import AuthInput from "@/app/components/input/text/AuthInput";
 
 export default function ApplicantSignupPage() {
   const { signup, isPending } = useSignup();
@@ -45,58 +46,58 @@ export default function ApplicantSignupPage() {
           <div className="space-y-4 rounded-md">
             <input type="hidden" {...register("role")} value={userRoles.APPLICANT} />
             <div>
-              <input
+              <AuthInput
                 {...register("email")}
                 type="email"
-                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm"
+                name="email"
                 placeholder="이메일"
+                errormessage={errors.email?.message}
               />
-              {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
             </div>
             <div>
-              <input
+              <AuthInput
                 {...register("name")}
                 type="text"
-                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm"
+                name="name"
                 placeholder="이름"
+                errormessage={errors.name?.message}
               />
-              {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>}
             </div>
             <div>
-              <input
+              <AuthInput
                 {...register("nickname")}
                 type="text"
-                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm"
+                name="nickname"
                 placeholder="닉네임"
+                errormessage={errors.nickname?.message}
               />
-              {errors.nickname && <p className="mt-1 text-sm text-red-600">{errors.nickname.message}</p>}
             </div>
             <div>
-              <input
+              <AuthInput
                 {...register("password")}
                 type="password"
-                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm"
+                name="password"
                 placeholder="비밀번호"
+                errormessage={errors.password?.message}
               />
-              {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>}
             </div>
             <div>
-              <input
+              <AuthInput
                 {...register("confirmPassword")}
                 type="password"
-                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm"
+                name="confirmPassword"
                 placeholder="비밀번호 확인"
+                errormessage={errors.confirmPassword?.message}
               />
-              {errors.confirmPassword && <p className="mt-1 text-sm text-red-600">{errors.confirmPassword.message}</p>}
             </div>
             <div>
-              <input
+              <AuthInput
                 {...register("phoneNumber")}
                 type="tel"
-                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm"
+                name="phoneNumber"
                 placeholder="전화번호 (예: 010-1234-5678)"
+                errormessage={errors.phoneNumber?.message}
               />
-              {errors.phoneNumber && <p className="mt-1 text-sm text-red-600">{errors.phoneNumber.message}</p>}
             </div>
           </div>
           <div className="flex justify-center">
