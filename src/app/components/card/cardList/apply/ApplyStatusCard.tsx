@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import { useApplyStatus } from "@/hooks/queries/form/detail/useApplyStatus";
 import translateStatus from "@/utils/translateStatus";
 import { SkeletonRow } from "./SkeletonRow";
-import { ApplicationStatusType } from "@/types/application";
 import { Player } from "@lottiefiles/react-lottie-player";
 import TableHeader from "./TableHeader";
+import { ApplicationStatusType } from "@/types/applicationStatus";
 
 interface ApplyStatusCardProps {
   formId: number;
