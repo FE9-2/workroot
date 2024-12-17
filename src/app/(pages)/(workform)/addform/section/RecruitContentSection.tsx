@@ -91,11 +91,6 @@ export default function RecruitContentSection() {
   const displayDate = recruitStartDate
     ? `${formatToLocaleDate(recruitStartDate)} ~ ${formatToLocaleDate(recruitEndDate)}`
     : "";
-  const [displayRange, setDisplayRange] = useState<string>(displayDate || "");
-
-  useEffect(() => {
-    setDisplayRange(displayDate);
-  }, [recruitStartDate, recruitEndDate, displayDate]);
 
   // 날짜 선택
   const handleRecruitmentDateChange = (dates: [Date | null, Date | null]) => {
@@ -138,7 +133,7 @@ export default function RecruitContentSection() {
             onChange={handleRecruitmentDateChange}
             required={true}
             errormessage={!startDate || !endDate}
-            displayValue={displayRange}
+            displayValue={displayDate}
           />
           {(!startDate || !endDate) && <p className={cn(errorTextStyle, "")}> 모집 기간은 필수입니다.</p>}
         </div>
