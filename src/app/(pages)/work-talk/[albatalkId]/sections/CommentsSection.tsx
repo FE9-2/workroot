@@ -81,7 +81,7 @@ export function CommentsSection({ postId }: CommentsSectionProps): JSX.Element {
         <Button
           onClick={handleAddComment}
           disabled={addComment.isPending || !newComment.trim()}
-          className="h-[50px] w-[108px] rounded-lg text-[14px] font-medium lg:h-[64px] lg:w-[214px]"
+          className="h-[50px] w-[108px] rounded-lg text-[14px] font-medium lg:h-[64px] lg:w-[214px] lg:text-lg"
         >
           {addComment.isPending ? <DotLoadingSpinner /> : "등록하기"}
         </Button>

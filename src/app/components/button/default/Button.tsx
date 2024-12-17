@@ -9,6 +9,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   radius?: "lg" | "full";
   color?: "orange" | "gray" | "lime";
   icon?: ReactNode;
+  className?: string;
 }
 /**
  * 버튼 컴포넌트
