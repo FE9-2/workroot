@@ -33,7 +33,7 @@ export default function OwnerSignupPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-lime-200 to-lime-300 px-4 py-12 sm:px-6 lg:px-8">
+    <div className="flex items-center justify-center bg-gradient-to-r from-lime-200 to-lime-300 px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-lg">
         <div>
           <div className="text-grayscale-900 text-center text-3xl font-bold tracking-tight">사장님 회원가입</div>
