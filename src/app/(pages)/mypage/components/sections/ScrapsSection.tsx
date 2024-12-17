@@ -12,6 +12,7 @@ import AlbaListItem from "@/app/components/card/cardList/AlbaListItem";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import Link from "next/link";
 import ContentSection from "@/app/components/layout/ContentSection";
+import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
 
 const SCRAPS_PER_PAGE = 10;
 
@@ -154,6 +155,9 @@ export default function ScrapsSection() {
         </div>
       ) : (
         <div className="mx-auto mt-4 w-full max-w-screen-xl px-3">
+          {/* ScrollTopButton 추가 */}
+          <ScrollTopButton showHeight={300} />
+
           <ContentSection>
             {data?.pages.map((page) => (
               <React.Fragment key={page.nextCursor}>

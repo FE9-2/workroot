@@ -13,6 +13,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { formatLocalDate } from "@/utils/workDayFormatter";
 import useWidth from "@/hooks/useWidth";
+import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
 
 export default function PostsSection() {
   const { orderBy } = useMySortStore();
@@ -74,6 +75,9 @@ export default function PostsSection() {
           </div>
         ) : (
           <div className="mx-auto mt-4 w-full max-w-screen-xl px-3">
+            {/* ScrollTopButton 추가 */}
+            <ScrollTopButton showHeight={300} />
+
             <ContentSection>
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {data.pages.map((page) => (

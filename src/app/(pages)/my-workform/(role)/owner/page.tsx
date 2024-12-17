@@ -16,6 +16,7 @@ import { userRoles } from "@/constants/userRoles";
 import FloatingBtn from "@/app/components/button/default/FloatingBtn";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import ContentSection from "@/app/components/layout/ContentSection";
+import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
 
 const FORMS_PER_PAGE = 10;
 
@@ -195,6 +196,9 @@ export default function AlbaList() {
             </FloatingBtn>
           </Link>
         )}
+
+        {/* ScrollTopButton 추가 */}
+        <ScrollTopButton showHeight={300} />
 
         {!data?.pages?.[0]?.data?.length ? (
           <div className="flex h-[calc(100vh-200px)] flex-col items-center justify-center">
