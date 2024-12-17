@@ -18,9 +18,10 @@ import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinne
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
+// 불필요한 상태
+
 export default function AddFormPage() {
   const router = useRouter();
-  const [formId, setFormId] = useState<number | undefined>(undefined);
   // 리액트 훅폼에서 관리할 데이터 타입 지정 및 메서드 호출 (상위 컴포넌트 = useForm 사용)
   const methods = useForm<SubmitFormDataType>({
     mode: "onChange",
@@ -57,65 +58,36 @@ export default function AddFormPage() {
   const currentValues: SubmitFormDataType = methods.watch();
 
   // 이미지 업로드 api 처리를 위해 별도 변수에 할당
-  const [, setSelectedOption] = useState<string>("");
   const [showTempDataModal, setShowTempDataModal] = useState(false);
+  // 유저 권한 확인
 
+  const { user, isLoading } = useUser();
   // 각각의 탭 작성중 여부
   const { isEditingRecruitContent, isEditingRecruitCondition, isEditingWorkCondition } = useEditing(currentValues);
 
   // tab 선택 시 Url params 수정 & 하위 폼 데이터 임시저장
   const searchParams = useSearchParams();
   const currentParam = searchParams.get("tab");
-  const [prevOption, setPrevOption] = useState<string | null>(null);
-  const initialLoad = currentParam === null; // 초기 로딩 여부 확인
-  const [loading, setLoading] = useState(false);
-
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
-      setLoading(true);
-
-      const excludedKeys = ["displayDate", "workDateRange", "recruitDateRange"];
-
-      // 원하는 필드만 포함된 새로운 객체 만들기
-      const filteredData = Object.entries(currentValues)
-        .filter(([key]) => !excludedKeys.includes(key))
-        .reduce((acc: Partial<SubmitFormDataType>, [key, value]) => {
-          if (key === "numberOfPositions") {
-            acc[key] = Number(value);
-          } else if (key === "hourlyWage") {
-            // 문자열이면 콤마 제거 후 숫자로 변환
-            acc[key] = typeof value === "string" ? String(Number(value.replace(/,/g, ""))) : String(Number(value));
-          } else {
-            acc[key as keyof SubmitFormDataType] = value;
-          }
-          return acc;
-        }, {});
-
-      const response = await axios.post("/api/forms", filteredData);
-      const id = response.data.id;
-      setFormId(id);
+      const response = await axios.post("/api/forms", currentValues);
+      return response.data.id;
     },
-    onSuccess: () => {
+    onSuccess: (formId) => {
       if (typeof window !== "undefined") {
         window.localStorage.removeItem("tempAddFormData");
       }
-      setLoading(false);
+
       toast.success("워크폼을 등록했습니다.");
+      router.push(`/work/${formId}`);
     },
     onError: (error) => {
-      setLoading(false);
       toast.error("에러가 발생했습니다.");
       console.error(error);
       onTempSave();
     },
   });
-
-  useEffect(() => {
-    if (formId) {
-      router.push(`/work/${formId}`);
-    }
-  }, [formId]);
 
   // 폼데이터 임시 저장 함수
   const onTempSave = async () => {
@@ -123,10 +95,8 @@ export default function AddFormPage() {
   };
 
   const handleOptionChange = async (option: string) => {
-    setSelectedOption(option);
-    if (!initialLoad && option !== currentParam && option !== prevOption && isDirty) {
+    if (option !== currentParam && option && isDirty) {
       await onTempSave();
-      setPrevOption(option);
     }
     const params = {
       "모집 내용": "recruit-content",
@@ -136,63 +106,17 @@ export default function AddFormPage() {
     router.replace(`/addform?tab=${params}`);
   };
 
-  useEffect(() => {
-    switch (currentParam) {
-      case "recruit-content":
-        setSelectedOption("모집 내용");
-        break;
-      case "recruit-condition":
-        setSelectedOption("모집 조건");
-        break;
-      case "work-condition":
-        setSelectedOption("근무 조건");
-        break;
-      default:
-        setSelectedOption("모집 내용");
-    }
-  }, [currentParam]);
-
-  const renderChildren = () => {
-    switch (currentParam) {
-      case "recruit-content":
-        return <RecruitContentSection key="recruitContent" />;
-      case "recruit-condition":
-        return <RecruitConditionSection key="recruitCondition" />;
-      case "work-condition":
-        return <WorkConditionSection key="workCondition" />;
-      default:
-        return <RecruitContentSection key="recruitContent" />;
-    }
-  };
-
   // 임시저장 데이터 로드 함수
   const loadTempData = () => {
     const tempData = localStorage.getItem("tempAddFormData");
     if (tempData) {
       const parsedData: SubmitFormDataType = JSON.parse(tempData);
-
       // 기본 필드들 설정
       Object.entries(parsedData).forEach(([key, value]) => {
         if (value !== undefined && value !== null) {
           setValue(key as keyof SubmitFormDataType, value);
         }
       });
-
-      // 날짜 관련 필드들은 Date 객체로 변환
-      if (parsedData.recruitmentStartDate && parsedData.recruitmentEndDate) {
-        setValue("recruitmentStartDate", parsedData.recruitmentStartDate);
-        setValue("recruitmentEndDate", parsedData.recruitmentEndDate);
-      }
-
-      if (parsedData.workStartDate && parsedData.workEndDate) {
-        setValue("workStartDate", parsedData.workStartDate);
-        setValue("workEndDate", parsedData.workEndDate);
-      }
-
-      // 이미지 URL 설정
-      if (parsedData.imageUrls?.length > 0) {
-        setValue("imageUrls", parsedData.imageUrls);
-      }
     }
   };
 
@@ -221,19 +145,27 @@ export default function AddFormPage() {
     setShowTempDataModal(false);
   };
 
-  // 유저 권한 확인
-  const { user, isLoading } = useUser();
-
-  useEffect(() => {
-    if (user?.role !== "OWNER") {
-      toast.error("사장님만 워크폼을 작성할 수 있습니다.");
-      router.push("/work-list");
-    }
-  }, [user, router]);
-
   if (isLoading) {
     return <LoadingSpinner />;
   }
+
+  if (user?.role !== "OWNER") {
+    toast.error("사장님만 워크폼을 작성할 수 있습니다.");
+    router.replace("/work-list");
+  }
+
+  const renderChildren = () => {
+    switch (currentParam) {
+      case "recruit-content":
+        return <RecruitContentSection key="recruitContent" />;
+      case "recruit-condition":
+        return <RecruitConditionSection key="recruitCondition" />;
+      case "work-condition":
+        return <WorkConditionSection key="workCondition" />;
+      default:
+        return <RecruitContentSection key="recruitContent" />;
+    }
+  };
 
   return (
     <FormProvider {...methods}>
@@ -271,7 +203,7 @@ export default function AddFormPage() {
               disabled={!isValid}
               onClick={handleSubmit(() => mutation.mutate())}
             >
-              {loading ? <DotLoadingSpinner /> : "작성 완료"}
+              {mutation.isPending ? <DotLoadingSpinner /> : "작성 완료"}
             </Button>
           </div>
         </aside>

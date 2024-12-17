@@ -88,23 +88,18 @@ export default function EditFormPage() {
   // 수정된 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
-      const excludedKeys = ["displayDate", "workDateRange", "recruitDateRange"];
-
-      // 원하는 필드만 포함된 새로운 객체 만들기
-      const filteredData = Object.entries(currentValues)
-        .filter(([key]) => !excludedKeys.includes(key)) // 제외할 키를 필터링
-        .reduce((acc: Partial<SubmitFormDataType>, [key, value]) => {
-          if (key === "numberOfPositions") {
-            // numberOfPositions는 숫자형으로 변환
-            acc[key] = Number(value);
-          } else if (key === "hourlyWage") {
-            // hourlyWage는 쉼표를 제거하고 숫자형으로 변환
-            if (typeof value === "string" && value.includes(",")) acc[key] = String(Number(value.replaceAll(/,/g, ""))); // 쉼표 제거 후 숫자형 변환
-          } else {
-            acc[key as keyof SubmitFormDataType] = value; // 나머지 값은 그대로 추가
-          }
-          return acc;
-        }, {});
+      const filteredData = Object.entries(currentValues).reduce((acc: Partial<SubmitFormDataType>, [key, value]) => {
+        if (key === "numberOfPositions") {
+          // numberOfPositions는 숫자형으로 변환
+          acc[key] = Number(value);
+        } else if (key === "hourlyWage") {
+          // hourlyWage는 쉼표를 제거하고 숫자형으로 변환
+          if (typeof value === "string" && value.includes(",")) acc[key] = String(Number(value.replaceAll(/,/g, ""))); // 쉼표 제거 후 숫자형 변환
+        } else {
+          acc[key as keyof SubmitFormDataType] = value; // 나머지 값은 그대로 추가
+        }
+        return acc;
+      }, {});
       console.log("filteredData", filteredData);
       await axios.patch(`/api/forms/${formId}`, filteredData);
     },

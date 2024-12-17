@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormContext } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
 import { useState, ChangeEvent, MouseEvent, useCallback, useEffect } from "react";
 import { cn } from "@/lib/tailwindUtil";
 import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePickerInput";
@@ -8,11 +8,12 @@ import TimePickerInput from "@/app/components/input/dateTimeDaypicker/TimePicker
 import DayPickerList from "@/app/components/input/dateTimeDaypicker/DayPickerList";
 import BaseInput from "@/app/components/input/text/BaseInput";
 import CheckBtn from "@/app/components/button/default/CheckBtn";
-import formatMoney from "@/utils/formatMoney";
 import Label from "../../component/Label";
 import Script from "next/script";
 import LocationInput from "@/app/components/input/text/LocationInput";
 import { formatToLocaleDate } from "@/utils/formatters";
+
+const MINIMUM_WAGE = 10030;
 
 // 워크폼 만들기 - 사장님 - 3-근무조건
 export default function WorkConditionSection() {
@@ -21,38 +22,21 @@ export default function WorkConditionSection() {
     setValue,
     trigger,
     watch,
+    control,
     formState: { errors },
   } = useFormContext();
 
   // 근무 기간 데이터 반영하기
   const workStartDate: string = watch("workStartDate");
   const workEndDate: string = watch("workEndDate");
-  const StartDate =
-    workStartDate === "" || workStartDate === undefined || workStartDate === null ? null : new Date(workStartDate);
-  const EndDate =
-    workEndDate === "" || workEndDate === undefined || workEndDate === null ? null : new Date(workEndDate);
 
-  useEffect(() => {
-    if (workStartDate !== "" && workEndDate !== "") setWorkDateRange([StartDate, EndDate]);
-  }, [workStartDate, workEndDate]);
+  const startDate = workStartDate ? new Date(workStartDate) : null;
+  const endDate = workEndDate ? new Date(workEndDate) : null;
 
   // displayRange를 상위에서 관리
   const displayDate = `${formatToLocaleDate(workStartDate)} ~ ${formatToLocaleDate(workEndDate)}`;
-  const [displayRange, setDisplayRange] = useState<string>("");
-
-  useEffect(() => {
-    if (formatToLocaleDate(workStartDate)?.includes("NaN")) {
-      setDisplayRange("");
-    } else {
-      setDisplayRange(displayDate);
-    }
-  }, [workStartDate, workEndDate, displayDate]);
-
-  // 날짜 선택
-  const [workDateRange, setWorkDateRange] = useState<[Date | null, Date | null]>([null, null]);
 
   const handleWorkDateChange = (dates: [Date | null, Date | null]) => {
-    setWorkDateRange(dates);
     const [start, end] = dates;
     if (start) setValue("workStartDate", start.toISOString());
     if (end) setValue("workEndDate", end.toISOString(), { shouldDirty: true });
@@ -90,26 +74,9 @@ export default function WorkConditionSection() {
     if (!isNegotiable && workdaysData.length > 0) {
       setSelectedWorkDays(workdaysData);
     }
-  }, [workdaysData]);
+  }, [workdaysData, isNegotiable]);
 
   // 최저시급 상수 수정 (2025년 기준)
-  const MINIMUM_WAGE = 10030;
-
-  // 시급 상태 추가
-  const [displayWage, setDisplayWage] = useState<string>(formatMoney(MINIMUM_WAGE.toString()));
-
-  // 컴포넌트 마운트 시 최저시급으로 초기화
-  useEffect(() => {
-    setValue("hourlyWage", MINIMUM_WAGE);
-  }, [setValue]);
-
-  // 시급 변경 핸들러 수정
-  const handleWageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/,/g, "");
-    const numericValue = Number(value);
-    setValue("hourlyWage", numericValue);
-    setDisplayWage(formatMoney(value));
-  };
 
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
@@ -141,15 +108,14 @@ export default function WorkConditionSection() {
         <div className="relative flex flex-col gap-2">
           <Label>근무 기간</Label>
           <DatePickerInput
-            startDate={workDateRange[0] || undefined}
-            endDate={workDateRange[1] || undefined}
+            startDate={startDate}
+            endDate={endDate}
             onChange={handleWorkDateChange}
             required={true}
-            errormessage={!workDateRange[0] || !workDateRange[1]}
-            displayValue={displayRange}
+            errormessage={!startDate || !endDate}
+            displayValue={displayDate}
           />
-          {!workDateRange[0] ||
-            (!workDateRange[1] && <p className={cn(errorTextStyle, "")}> 근무 기간은 필수입니다.</p>)}
+          {(!startDate || !endDate) && <p className={cn(errorTextStyle, "")}> 근무 기간은 필수입니다.</p>}
         </div>
 
         <Label>근무 시간</Label>
@@ -194,19 +160,26 @@ export default function WorkConditionSection() {
         </div>
         <div className="flex flex-col gap-4">
           <Label>시급</Label>
-          <BaseInput
-            {...register("hourlyWage", {
+          <Controller
+            name="hourlyWage"
+            control={control}
+            rules={{
               required: "시급을 작성해주세요.",
               min: {
                 value: MINIMUM_WAGE,
-                message: `최저시급(${formatMoney(MINIMUM_WAGE.toString())}원) 이상을 입력해주세요.`,
+                message: `최저시급(${MINIMUM_WAGE.toLocaleString()}원) 이상을 입력해주세요.`,
               },
-            })}
-            value={displayWage}
-            onChange={handleWageChange}
-            variant="white"
-            afterString="원"
-            errormessage={errors.hourlyWage?.message as string}
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <BaseInput
+                value={value.toLocaleString()}
+                onChange={(e) => onChange(Number(e.target.value.replaceAll(",", "")))}
+                onBlur={onBlur}
+                variant="white"
+                afterString="원"
+                errormessage={errors.hourlyWage?.message as string}
+              />
+            )}
           />
         </div>
 
