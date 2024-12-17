@@ -13,6 +13,7 @@ import { MdOutlineImage } from "react-icons/md";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import { isValidS3Url } from "@/utils/checkS3Url";
 import { useUser } from "@/hooks/queries/user/me/useUser";
+import { userRoles } from "@/constants/userRoles";
 
 /**
  * 워크폼 리스트 아이템 컴포넌트
@@ -28,9 +29,6 @@ const AlbaListItem = ({
   applyCount,
   scrapCount,
 }: FormListType) => {
-  const { user } = useUser();
-  const isApplicant = user?.role === userRoles.APPLICANT;
-
   // 라우터 및 상태 관리
   const router = useRouter();
   const { openModal, closeModal } = useModalStore();
@@ -41,7 +39,7 @@ const AlbaListItem = ({
   const [imageError, setImageError] = useState(false);
 
   const { user } = useUser();
-  const isOwner = user?.role === "OWNER";
+  const isApplicant = user?.role === userRoles.APPLICANT;
 
   // 모집 상태 및 D-day 계산
   const recruitmentStatus = getRecruitmentStatus(recruitmentEndDate);
@@ -160,24 +158,24 @@ const AlbaListItem = ({
               </div>
             </div>
             {/* 케밥 메뉴 */}
-            <div ref={dropdownRef} className="relative">
-              <button
-                type="button"
-                className="hover:text-grayscale-700 text-grayscale-500"
-                onClick={handleDropdownToggle}
-              >
-                <BsThreeDotsVertical className="h-6 w-6" />
-              </button>
-              {/* 드롭다운 메뉴 */}
-              {showDropdown && (
-                <div className="absolute right-0 top-8 z-10 w-32 rounded-lg border border-grayscale-200 bg-white py-2 shadow-lg">
-                  <button
-                    className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100"
-                    onClick={handleFormApplication}
-                  >
-                    지원하기
-                  </button>
-                  {user && !isOwner && (
+            {isApplicant && (
+              <div ref={dropdownRef} className="relative">
+                <button
+                  type="button"
+                  className="hover:text-grayscale-700 text-grayscale-500"
+                  onClick={handleDropdownToggle}
+                >
+                  <BsThreeDotsVertical className="h-6 w-6" />
+                </button>
+                {/* 드롭다운 메뉴 */}
+                {showDropdown && (
+                  <div className="absolute right-0 top-8 z-10 w-32 rounded-lg border border-grayscale-200 bg-white py-2 shadow-lg">
+                    <button
+                      className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100"
+                      onClick={handleFormApplication}
+                    >
+                      지원하기
+                    </button>
                     <button
                       className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100 disabled:opacity-50"
                       onClick={handleFormScrap}
@@ -185,10 +183,10 @@ const AlbaListItem = ({
                     >
                       {isScrapLoading ? <DotLoadingSpinner /> : "스크랩"}
                     </button>
-                  )}
-                </div>
-              )}
-            </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* 제목 */}
