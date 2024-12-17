@@ -98,11 +98,6 @@ export default function WorkConditionSection() {
   // 시급 상태 추가
   const [displayWage, setDisplayWage] = useState<string>(formatMoney(MINIMUM_WAGE.toString()));
 
-  // 컴포넌트 마운트 시 최저시급으로 초기화
-  useEffect(() => {
-    setValue("hourlyWage", MINIMUM_WAGE);
-  }, [setValue]);
-
   // 시급 변경 핸들러 수정
   const handleWageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/,/g, "");

@@ -61,6 +61,8 @@ export default function AddFormPage() {
   // 각각의 탭 작성중 여부
   const { isEditingRecruitContent, isEditingRecruitCondition, isEditingWorkCondition } = useEditing(currentValues);
 
+  // 유저 권한 확인
+  const { user, isLoading } = useUser();
   // tab 선택 시 Url params 수정 & 하위 폼 데이터 임시저장
   const searchParams = useSearchParams();
   const currentParam = searchParams.get("tab");
@@ -149,22 +151,6 @@ export default function AddFormPage() {
           setValue(key as keyof SubmitFormDataType, value);
         }
       });
-
-      // 날짜 관련 필드들은 Date 객체로 변환
-      if (parsedData.recruitmentStartDate && parsedData.recruitmentEndDate) {
-        setValue("recruitmentStartDate", parsedData.recruitmentStartDate);
-        setValue("recruitmentEndDate", parsedData.recruitmentEndDate);
-      }
-
-      if (parsedData.workStartDate && parsedData.workEndDate) {
-        setValue("workStartDate", parsedData.workStartDate);
-        setValue("workEndDate", parsedData.workEndDate);
-      }
-
-      // 이미지 URL 설정
-      if (parsedData.imageUrls?.length > 0) {
-        setValue("imageUrls", parsedData.imageUrls);
-      }
     }
   };
 
@@ -193,15 +179,10 @@ export default function AddFormPage() {
     setShowTempDataModal(false);
   };
 
-  // 유저 권한 확인
-  const { user, isLoading } = useUser();
-
-  // useEffect(() => {
   //   if (user?.role !== "OWNER") {
   //     toast.error("사장님만 워크폼을 작성할 수 있습니다.");
   //     router.push("/work-list");
   //   }
-  // }, [user, router]);
 
   if (isLoading) {
     return <LoadingSpinner />;
