@@ -7,6 +7,7 @@ import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinne
 import { formatDateTime } from "@/utils/formatters";
 import { InfoRowProps, MyApplicationModalProps } from "@/types/response/application";
 import { getStatusMap } from "@/utils/translateStatus";
+import { useResumeDownLoad } from "@/hooks/useResumeDownLoad";
 
 const InfoRow = ({ label, value, isIntroduction }: InfoRowProps) => {
   if (isIntroduction) {
@@ -52,6 +53,16 @@ const ApplicationContent = ({ myApplicationData }: { myApplicationData: any }) =
 
 export default function MyApplicationModal({ isOpen, onClose, formId, className }: MyApplicationModalProps) {
   const { data: myApplicationData, isLoading } = useMyApplication(formId);
+  const { downloadResume } = useResumeDownLoad();
+
+  const handleResumeDownload = () => {
+    if (myApplicationData?.resumeId && myApplicationData?.resumeName) {
+      downloadResume({
+        resumeId: myApplicationData.resumeId,
+        resumeName: myApplicationData.resumeName,
+      });
+    }
+  };
 
   if (!isOpen) return null;
 
