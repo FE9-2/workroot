@@ -35,7 +35,7 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
     try {
       await axios.delete(`/api/forms/${formId}`);
       toast.success("성공적으로 삭제되었습니다.");
-      router.push(`/alba-list`);
+      router.push(`/work-list`);
     } catch (error) {
       console.error(error);
       toast.error("삭제 중 오류가 발생했습니다.");
@@ -49,7 +49,7 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
     if (!isMyAlbaForm) return null;
     return (
       <div className="space-y-4 text-2xl">
-        <Link href={`/alba/${formId}/edit`}>
+        <Link href={`/work/${formId}/edit`}>
           <FloatingBtn className={`${buttonStyle}`} icon={<FaEdit />} disabled={isLoading}>
             {isLoading ? <DotLoadingSpinner /> : "수정하기"}
           </FloatingBtn>

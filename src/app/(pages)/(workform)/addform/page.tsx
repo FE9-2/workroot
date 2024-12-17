@@ -113,7 +113,7 @@ export default function AddFormPage() {
 
   useEffect(() => {
     if (formId) {
-      router.push(`/alba/${formId}`);
+      router.push(`/work/${formId}`);
     }
   }, [formId]);
 
@@ -227,7 +227,7 @@ export default function AddFormPage() {
   useEffect(() => {
     if (user?.role !== "OWNER") {
       toast.error("사장님만 워크폼을 작성할 수 있습니다.");
-      router.push("/alba-list");
+      router.push("/work-list");
     }
   }, [user, router]);
 

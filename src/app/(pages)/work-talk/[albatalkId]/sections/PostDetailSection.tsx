@@ -39,7 +39,7 @@ export function PostDetailSection({ postId }: { postId: string }) {
         deletePost.mutate(undefined, {
           onSuccess: () => {
             closeModal();
-            router.push("/alba-talk");
+            router.push("/work-talk");
           },
         });
       },
@@ -50,7 +50,7 @@ export function PostDetailSection({ postId }: { postId: string }) {
   };
 
   const handleEdit = () => {
-    router.push(`/alba-talk/${postId}/edit`);
+    router.push(`/work-talk/${postId}/edit`);
   };
 
   const dropdownOptions = [

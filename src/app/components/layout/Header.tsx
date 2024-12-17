@@ -87,14 +87,14 @@ export default function Header() {
           </Link>
 
           <div className={menuStyle}>
-            <Link href="/alba-list" className={getLinkClassName("/alba-list")}>
+            <Link href="/work-list" className={getLinkClassName("/work-list")}>
               워크 채널
             </Link>
-            <Link href="/alba-talk" className={getLinkClassName("/alba-talk")}>
+            <Link href="/work-talk" className={getLinkClassName("/work-talk")}>
               워크톡
             </Link>
             {user && (
-              <Link href="/my-albaform" className={getLinkClassName("/my-albaform")}>
+              <Link href="/my-workform" className={getLinkClassName("/my-workform")}>
                 내 워크폼
               </Link>
             )}

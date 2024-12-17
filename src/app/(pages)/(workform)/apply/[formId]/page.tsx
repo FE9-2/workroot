@@ -85,7 +85,7 @@ export default function Apply() {
       queryClient.invalidateQueries({ queryKey: ["myApplications"] });
 
       toast.success("지원이 완료되었습니다.");
-      router.push("/my-albaform");
+      router.push("/my-workform");
     },
 
     onError: (error) => {

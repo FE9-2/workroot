@@ -113,7 +113,7 @@ export default function EditFormPage() {
         window.localStorage.removeItem("tempAddFormData");
       }
       toast.success("워크폼을 수정했습니다.");
-      router.push(`/alba/${formId}`);
+      router.push(`/work/${formId}`);
       // 쿼리 무효화
       queryClient.invalidateQueries({
         queryKey: ["formDetail", formId],
@@ -143,7 +143,7 @@ export default function EditFormPage() {
       "모집 조건": "recruit-condition",
       "근무 조건": "work-condition",
     }[option];
-    router.replace(`/alba/${formId}/edit?tab=${params}`);
+    router.replace(`/work/${formId}/edit?tab=${params}`);
   };
 
   const renderChildren = () => {
@@ -165,7 +165,7 @@ export default function EditFormPage() {
   useEffect(() => {
     if (user?.role !== "OWNER") {
       toast.error("사장님만 워크폼을 작성할 수 있습니다.");
-      router.push("/alba-list");
+      router.push("/work-list");
     }
   }, [user, router]);
 

@@ -121,7 +121,7 @@ export default function AlbaList() {
       });
       return;
     }
-    router.push(`/alba/${formId}`);
+    router.push(`/work/${formId}`);
   };
 
   return (

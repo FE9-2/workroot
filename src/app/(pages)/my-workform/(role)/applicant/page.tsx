@@ -51,7 +51,7 @@ export default function ApplicantPage() {
       if (!user) {
         router.push("/login");
       } else if (user.role === userRoles.OWNER) {
-        router.push("/my-albaform/owner");
+        router.push("/my-workform/owner");
       }
     }
   }, [user, isUserLoading, router]);
@@ -113,7 +113,7 @@ export default function ApplicantPage() {
                 <React.Fragment key={page.nextCursor}>
                   {page.data.map((application) => (
                     <div key={application.id}>
-                      <Link href={`/alba/${application.form.id}`}>
+                      <Link href={`/work/${application.form.id}`}>
                         <MyApplicationListItem
                           id={application.id}
                           createdAt={application.createdAt}

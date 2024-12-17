@@ -31,7 +31,7 @@ export default function AlbaList() {
       if (!user) {
         router.push("/login");
       } else if (user.role !== userRoles.OWNER) {
-        router.push("/my-albaform/applicant");
+        router.push("/my-workform/applicant");
       }
     }
   }, [user, isLoading, router]);
@@ -207,7 +207,7 @@ export default function AlbaList() {
                 <React.Fragment key={page.nextCursor}>
                   {page.data.map((form) => (
                     <div key={form.id}>
-                      <Link href={`/alba/${form.id}`}>
+                      <Link href={`/work/${form.id}`}>
                         <AlbaListItem {...form} />
                       </Link>
                     </div>

@@ -69,7 +69,7 @@ export default function AlbaTalk() {
       });
       return;
     }
-    router.push(`/alba-talk/${postId}`);
+    router.push(`/work-talk/${postId}`);
   };
 
   // 에러 상태 처리
@@ -117,7 +117,7 @@ export default function AlbaTalk() {
       <div className="w-full pt-[132px]">
         {/* 글쓰기 버튼 - 고정 위치 수정 */}
         {user && (
-          <Link href="/alba-talk/add" className="fixed bottom-[50%] right-[8%] z-30 translate-y-1/2">
+          <Link href="/work-talk/add" className="fixed bottom-[50%] right-[8%] z-30 translate-y-1/2">
             <FloatingBtn icon={<RiEdit2Fill className="size-6" />} variant="orange" />
           </Link>
         )}

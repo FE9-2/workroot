@@ -16,9 +16,9 @@ export default function MyAlbaForm() {
         router.push("/login");
       } else {
         if (user.role === userRoles.OWNER) {
-          router.push("/my-albaform/owner");
+          router.push("/my-workform/owner");
         } else {
-          router.push("/my-albaform/applicant");
+          router.push("/my-workform/applicant");
         }
       }
     }

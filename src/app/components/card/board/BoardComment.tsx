@@ -47,7 +47,7 @@ const BoardComment = ({ id, postId, postTitle, comment, updatedAt, isAuthor = fa
   const dropdownOptions = [
     {
       label: "게시글 보기",
-      onClick: () => router.push(`/alba-talk/${postId}`),
+      onClick: () => router.push(`/work-talk/${postId}`),
     },
     {
       label: "삭제하기",
