@@ -1,11 +1,11 @@
-import { MyApplicationResponse } from "@/types/response/myApplicant";
+import { ApplicationResponse } from "@/types/response/application";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 // 회원의 내 지원 내역 조회
 export const useMyApplication = (formId: string | number) => {
-  return useQuery<MyApplicationResponse>({
+  return useQuery<ApplicationResponse>({
     queryKey: ["myApplication", formId],
     queryFn: async () => {
       try {

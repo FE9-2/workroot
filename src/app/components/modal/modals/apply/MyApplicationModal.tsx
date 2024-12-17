@@ -5,14 +5,8 @@ import Button from "@/app/components/button/default/Button";
 import { useMyApplication } from "@/hooks/queries/user/me/useMyApplication";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import { formatDateTime } from "@/utils/formatters";
-import { InfoRowProps, MyApplicationModalProps } from "@/types/application";
-
-const STATUS_MAP = {
-  INTERVIEW_PENDING: "면접 대기중",
-  INTERVIEW_CONFIRMED: "면접 확정",
-  INTERVIEW_REJECTED: "불합격",
-  INTERVIEW_ACCEPTED: "합격",
-} as const;
+import { InfoRowProps, MyApplicationModalProps } from "@/types/response/application";
+import { getStatusMap } from "@/utils/translateStatus";
 
 const InfoRow = ({ label, value, isIntroduction }: InfoRowProps) => {
   if (isIntroduction) {
@@ -46,7 +40,7 @@ const ModalHeader = () => {
 const ApplicationContent = ({ myApplicationData }: { myApplicationData: any }) => {
   return (
     <div className="space-y-4">
-      <InfoRow label="지원 상태" value={STATUS_MAP[myApplicationData.status as keyof typeof STATUS_MAP]} />
+      <InfoRow label="지원 상태" value={getStatusMap(myApplicationData.status)} />
       <InfoRow label="이름" value={myApplicationData.name} />
       <InfoRow label="연락처" value={myApplicationData.phoneNumber} />
       <InfoRow label="경력" value={`${myApplicationData.experienceMonths}개월`} />
