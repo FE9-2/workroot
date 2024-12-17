@@ -61,7 +61,7 @@ const CardBoard = ({
   };
 
   const handleEditTalk = () => {
-    router.push(`/alba-talk/${id}/edit`);
+    router.push(`/work-talk/${id}/edit`);
   };
 
   const dropdownOptions = [

@@ -65,7 +65,7 @@ export default function PostsSection() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center">
+    <div className="flex flex-col items-center">
       {/* 메인 콘텐츠 영역 */}
       <div className="w-full">
         {!data?.pages?.[0]?.data?.length ? (
@@ -81,7 +81,7 @@ export default function PostsSection() {
                     {page.data.map((post) => (
                       <div key={post.id} className="flex justify-center">
                         <Link
-                          href={`/alba-talk/${post.id}`}
+                          href={`/work-talk/${post.id}`}
                           className="block cursor-pointer transition-transform duration-300 hover:scale-[1.02]"
                         >
                           <div className="rounded-lg border border-grayscale-100 bg-white p-6">

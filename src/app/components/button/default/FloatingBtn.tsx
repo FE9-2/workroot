@@ -38,7 +38,7 @@ const FloatingBtn = ({ variant = "orange", icon, children, className, disabled, 
       {...props}
     >
       {icon && <span className="text-2xl">{icon}</span>}
-      <span className={cn(children ? "ml-2" : "", "hidden text-lg sm:inline lg:text-2xl")}>{children}</span>
+      <span className={cn(children ? "ml-2" : "", "hidden text-lg sm:inline lg:text-xl")}>{children}</span>
     </button>
   );
 };
