@@ -88,7 +88,6 @@ export default function EditFormPage() {
       if (typeof window !== "undefined") {
         window.localStorage.removeItem("tempAddFormData");
       }
-
       // 쿼리 무효화가 완료될 때까지 대기
       await queryClient.invalidateQueries({
         queryKey: ["formDetail", formId],
@@ -181,7 +180,7 @@ export default function EditFormPage() {
               disabled={!isDirty}
               onClick={handleSubmit(() => mutation.mutate())}
             >
-              수정하기
+              {mutation.isPending ? <DotLoadingSpinner /> : "수정하기"}
             </Button>
           </div>
         </aside>

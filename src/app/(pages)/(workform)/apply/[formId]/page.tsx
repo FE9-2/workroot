@@ -11,6 +11,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Label from "../../component/Label";
 import uploadResume from "@/utils/uploadResume";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 interface ApplyFormData {
   name: string;
   phoneNumber: string;
@@ -221,7 +222,7 @@ export default function Apply() {
           className="h-[58px] w-full lg:h-[72px] lg:text-xl lg:leading-8"
           disabled={!isValid || !isDirty}
         >
-          작성 완료
+          {mutation.isPending ? <DotLoadingSpinner /> : "작성 완료"}
         </Button>
       </div>
     </form>
