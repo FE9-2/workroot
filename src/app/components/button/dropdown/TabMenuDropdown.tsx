@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { cn } from "@/lib/tailwindUtil";
-import useWidth from "@/hooks/useWidth";
 
 interface TopMenuDropdownProps {
   options: { label: string; isEditing: boolean }[];
@@ -19,8 +18,7 @@ const EditingChip = ({ className = "", selected }: { className?: string; selecte
 };
 
 const TabMenuDropdown = ({ options, className = "", onChange, currentParam = "" }: TopMenuDropdownProps) => {
-  const { isDesktop } = useWidth();
-  const [isOpen, setIsOpen] = useState<boolean>(isDesktop);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
   const [selectedLabel, setSelectedLabel] = useState<string>(options[0].label); // 선택된 값 (label을 저장)
 
   useEffect(() => {
@@ -38,10 +36,6 @@ const TabMenuDropdown = ({ options, className = "", onChange, currentParam = "" 
         setSelectedLabel("모집 내용");
     }
   }, []);
-
-  useEffect(() => {
-    setIsOpen(isDesktop);
-  }, [isDesktop]);
 
   const handleOptionClick = (label: string) => {
     setSelectedLabel(label); // 선택된 레이블을 저장
@@ -68,7 +62,7 @@ const TabMenuDropdown = ({ options, className = "", onChange, currentParam = "" 
         return (
           <li
             role="button"
-            className={cn(listStyle, selected && selectedStyle, !selected && !isOpen && !isDesktop && "hidden")}
+            className={cn(listStyle, selected && selectedStyle, !selected && !isOpen && "hidden")}
             key={option.label}
             onClick={() => handleOptionClick(option.label)}
           >

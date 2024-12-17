@@ -8,16 +8,12 @@ import { useProfileStringValue } from "@/hooks/queries/user/me/useProfileStringV
 import Link from "next/link";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import ContentSection from "@/app/components/layout/ContentSection";
-import SortSection from "@/app/components/layout/posts/SortSection";
-import { usePathname, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { formatLocalDate } from "@/utils/workDayFormatter";
 import useWidth from "@/hooks/useWidth";
 
 export default function PostsSection() {
   const { orderBy } = useMySortStore();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
   const { isMobile, isTablet, isDesktop } = useWidth();
   useProfileStringValue();
 
