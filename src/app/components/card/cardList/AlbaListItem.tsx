@@ -6,14 +6,14 @@ import Chip from "@/app/components/chip/Chip";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import useModalStore from "@/store/modalStore";
-import Indicator from "@/app/components/pagination/Indicator";
 import { FormListType } from "@/types/response/form";
 import { useFormScrap } from "@/hooks/queries/form/useFormScap";
-import { MdOutlineImage } from "react-icons/md";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import { isValidS3Url } from "@/utils/checkS3Url";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import { userRoles } from "@/constants/userRoles";
+import EmptyImage from "./EmptyImage";
+import InfoItem from "./InfoItem";
 
 /**
  * 워크폼 리스트 아이템 컴포넌트
@@ -34,7 +34,6 @@ const AlbaListItem = ({
   const { openModal, closeModal } = useModalStore();
   const { scrap, isLoading: isScrapLoading } = useFormScrap(id);
   const [showDropdown, setShowDropdown] = useState(false); // 드롭다운 메뉴 표시 상태
-  const [currentImageIndex, setCurrentImageIndex] = useState(0); // 현재 이미지 인덱스
   const dropdownRef = useRef<HTMLDivElement>(null); // 드롭다운 메뉴 참조
   const [imageError, setImageError] = useState(false);
 
@@ -107,27 +106,23 @@ const AlbaListItem = ({
   };
 
   return (
-    <div className="relative h-auto w-[327px] overflow-hidden rounded-xl border border-line-200 bg-white shadow-md transition-transform duration-300 hover:scale-[1.02] lg:w-[372px]">
-      {/* 이미지 슬라이더 영역 */}
+    <div className="relative h-auto w-[327px] cursor-pointer overflow-hidden rounded-xl border border-line-200 bg-white shadow-md transition-transform duration-300 hover:scale-[1.02] lg:w-[372px]">
+      {/* 이미지 영역 */}
       <div className="relative h-[200px] overflow-hidden rounded-t-xl lg:h-[240px]">
-        {imageUrls[currentImageIndex] && !imageError ? (
-          isValidS3Url(imageUrls[currentImageIndex]) ? (
+        {imageUrls[0] && !imageError ? (
+          isValidS3Url(imageUrls[0]) ? (
             <Image
-              src={imageUrls[currentImageIndex]}
-              alt={`Recruit Image ${currentImageIndex + 1}`}
+              src={imageUrls[0]}
+              alt="Recruit Image"
               fill
               className="object-cover transition-opacity duration-300"
               onError={() => setImageError(true)}
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center bg-grayscale-100">
-              <MdOutlineImage className="size-20 text-grayscale-400" />
-            </div>
+            <EmptyImage />
           )
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-grayscale-100">
-            <MdOutlineImage className="size-20 text-grayscale-400" />
-          </div>
+          <EmptyImage />
         )}
       </div>
 
@@ -183,19 +178,7 @@ const AlbaListItem = ({
         </div>
 
         {/* 통계 정보 영역 - mt-auto 제거하고 부모 컨테이너에 justify-between 추가 */}
-        <div className="text-grayscale-700 mt-4 flex h-[50px] items-center justify-between rounded-2xl border border-grayscale-100 text-sm lg:text-base">
-          <div className="flex flex-1 items-center justify-center">
-            <span className="font-medium">지원자 {applyCount}명</span>
-          </div>
-          <div className="h-5 w-[1px] bg-grayscale-200/50" />
-          <div className="flex flex-1 items-center justify-center">
-            <span className="font-medium">스크랩 {scrapCount}명</span>
-          </div>
-          <div className="h-5 w-[1px] bg-grayscale-200/50" />
-          <div className="flex flex-1 items-center justify-center">
-            <span className="font-medium">{dDay}</span>
-          </div>
-        </div>
+        <InfoItem applyCount={applyCount} scrapCount={scrapCount} dDay={dDay} />
       </div>
     </div>
   );

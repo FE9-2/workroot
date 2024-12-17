@@ -19,9 +19,9 @@ const EditingChip = ({ className = "", selected }: { className?: string; selecte
 };
 
 const TabMenuDropdown = ({ options, className = "", onChange, currentParam = "" }: TopMenuDropdownProps) => {
-  const { isDesktop } = useWidth();
-  const [isOpen, setIsOpen] = useState<boolean>(isDesktop);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
   const [selectedLabel, setSelectedLabel] = useState<string>(options[0].label); // 선택된 값 (label을 저장)
+  const { isDesktop, isDesktopLarge } = useWidth();
 
   useEffect(() => {
     switch (currentParam) {
@@ -39,16 +39,15 @@ const TabMenuDropdown = ({ options, className = "", onChange, currentParam = "" 
     }
   }, []);
 
-  useEffect(() => {
-    setIsOpen(isDesktop);
-  }, [isDesktop]);
-
   const handleOptionClick = (label: string) => {
+    if (!isDesktop && !isDesktopLarge) setIsOpen((prev) => !prev);
     setSelectedLabel(label); // 선택된 레이블을 저장
-    setIsOpen((prev) => !prev);
     onChange?.(label);
   };
 
+  useEffect(() => {
+    setIsOpen(isDesktop || isDesktopLarge);
+  }, [isDesktop, isDesktopLarge]);
   const baseStyle = "mr-4 inline-flex size-5 lg:size-7 items-center justify-center rounded-2xl text-center text-sm";
 
   const listStyle =
@@ -68,7 +67,7 @@ const TabMenuDropdown = ({ options, className = "", onChange, currentParam = "" 
         return (
           <li
             role="button"
-            className={cn(listStyle, selected && selectedStyle, !selected && !isOpen && !isDesktop && "hidden")}
+            className={cn(listStyle, selected && selectedStyle, !selected && !isOpen && "hidden")}
             key={option.label}
             onClick={() => handleOptionClick(option.label)}
           >

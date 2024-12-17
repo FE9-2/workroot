@@ -26,5 +26,12 @@ export default meta;
 type Story = StoryObj<typeof DatePickerInput>;
 
 export const DatePicker: Story = {
-  render: () => <DatePickerInput displayValue="2024.01.02 ~ 2024.03.03" onChange={() => {}} />,
+  render: () => (
+    <DatePickerInput
+      startDate={undefined}
+      endDate={undefined}
+      displayValue="2024.01.02 ~ 2024.03.03"
+      onChange={() => {}}
+    />
+  ),
 };

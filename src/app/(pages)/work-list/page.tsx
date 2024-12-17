@@ -172,14 +172,14 @@ export default function AlbaList() {
             <p className="text-grayscale-500">등록된 알바 공고가 없습니다.</p>
           </div>
         ) : (
-          <div className="mx-auto mt-4 w-full max-w-screen-xl px-3">
+          <ul className="mx-auto mt-4 w-full max-w-screen-xl px-3">
             <ContentSection>
               {data?.pages.map((page) => (
                 <React.Fragment key={page.nextCursor}>
                   {page.data.map((form) => (
-                    <div key={form.id} onClick={() => handleFormClick(form.id)} className="cursor-pointer">
+                    <li key={form.id} onClick={() => handleFormClick(form.id)}>
                       <AlbaListItem {...form} />
-                    </div>
+                    </li>
                   ))}
                 </React.Fragment>
               ))}
@@ -193,7 +193,7 @@ export default function AlbaList() {
                 </div>
               )}
             </div>
-          </div>
+          </ul>
         )}
       </div>
     </div>

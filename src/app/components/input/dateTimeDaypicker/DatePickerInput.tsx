@@ -9,8 +9,8 @@ import { useDropdownOpen } from "@/hooks/useDropdownOpen";
 import DatePickerHeader from "./DatePickerHeader";
 import { useEffect, useRef } from "react";
 interface DatePickerInputProps {
-  startDate?: Date;
-  endDate?: Date;
+  startDate: Date | undefined;
+  endDate: Date | undefined;
   onChange: (dates: [Date | null, Date | null]) => void;
   required?: boolean;
   errormessage?: boolean;

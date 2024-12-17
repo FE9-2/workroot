@@ -6,7 +6,7 @@ import { MdStorefront } from "react-icons/md";
 
 export default function SignupPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+    <div className="flex min-h-[calc(100vh-64px)] items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-4xl space-y-8 rounded-lg bg-white p-8">
         <div>
           <h2 className="text-grayscale-900 text-center text-3xl font-bold tracking-tight">회원 유형 선택</h2>
