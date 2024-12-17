@@ -10,6 +10,7 @@ import { MyApplicationModalProps } from "@/types/modal";
 import { getStatusMap } from "@/utils/translateStatus";
 import { useResumeDownLoad } from "@/hooks/useResumeDownLoad";
 import { FiDownload } from "react-icons/fi";
+import Image from "next/image";
 
 const ModalOverlay = ({ onClick }: { onClick: (e: React.MouseEvent) => void }) => (
   <button
@@ -43,7 +44,13 @@ const InfoRow = ({ label, value, isIntroduction }: InfoRowProps) => {
 const ModalHeader = () => {
   return (
     <header className="mb-6 text-center">
-      <figure className="mb-4 inline-block h-20 w-20 rounded-full bg-gray-200" />
+      <Image
+        src="/images/applicant.png"
+        width={50}
+        height={50}
+        className="mb-4 inline-block h-20 w-20 rounded-full bg-gray-200"
+        alt="지원자"
+      />
       <h2 className="text-lg font-bold lg:text-xl">내 지원내역</h2>
     </header>
   );
