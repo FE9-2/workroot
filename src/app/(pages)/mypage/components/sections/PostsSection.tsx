@@ -103,12 +103,12 @@ export default function PostsSection() {
                                     {formatLocalDate(post.updatedAt)}
                                   </span>
                                 </div>
-                                <div className="flex items-center gap-4">
-                                  <div className="flex items-center gap-1">
+                                <div className="ml-3 flex items-center gap-2">
+                                  <div className="flex items-center">
                                     <Image src="/icons/comment/comment-sm.svg" alt="댓글" width={20} height={20} />
                                     <span className="text-sm text-grayscale-400">{post.commentCount}</span>
                                   </div>
-                                  <div className="flex items-center gap-1">
+                                  <div className="flex items-center">
                                     <Image src="/icons/like/like-sm.svg" alt="좋아요" width={20} height={20} />
                                     <span className="text-sm text-grayscale-400">{post.likeCount}</span>
                                   </div>
