@@ -24,7 +24,7 @@ export default function StorySortSection() {
   return (
     <FilterDropdown
       options={SORT_OPTIONS.map((option) => option.label)}
-      className="!w-28 md:!w-40"
+      className="!w-28 lg:!w-40"
       initialValue={currentLabel}
       onChange={handleSortChange}
     />

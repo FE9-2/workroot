@@ -5,7 +5,7 @@ import { useState } from "react";
 import SearchInput from "@/app/components/input/text/SearchInput";
 import Button from "../../button/default/Button";
 
-export default function SearchSection({ pathname }: { pathname: string }) {
+export default function SearchSection({ pathname, placeholder }: { pathname: string; placeholder?: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [keyword, setKeyword] = useState(searchParams.get("keyword") || "");
@@ -29,6 +29,7 @@ export default function SearchSection({ pathname }: { pathname: string }) {
         <SearchInput
           value={keyword}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setKeyword(e.target.value)}
+          placeholder={placeholder}
           className="text:lg lg:text:xl h-[36px] w-full border-none bg-background-200 hover:bg-background-300 md:h-[48px]"
         />
         <Button type="submit" variant="solid" color="lime" width="xs" height="sm">

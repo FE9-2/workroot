@@ -34,7 +34,7 @@ export default function SortSection({ pathname, searchParams }: SortSectionProps
   return (
     <FilterDropdown
       options={SORT_OPTIONS.map((option) => option.label)}
-      className="w-26 text-left text-xs md:w-36 md:text-lg"
+      className="w-26 text-left text-xs lg:w-36 lg:text-lg"
       initialValue={currentLabel}
       onChange={handleSortChange}
     />
