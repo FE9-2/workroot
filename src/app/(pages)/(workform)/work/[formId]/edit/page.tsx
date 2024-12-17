@@ -73,11 +73,6 @@ export default function EditFormPage() {
     }
   }, [albaFormDetailData, reset]);
 
-  // 폼데이터 임시 저장 함수
-  const onTempSave = () => {
-    tempSave("addformData", currentValues);
-  };
-
   // 수정된 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
@@ -108,15 +103,11 @@ export default function EditFormPage() {
   // tab 선택 시 Url params 수정 & 하위 폼 데이터 임시저장
   const searchParams = useSearchParams();
   const currentParam = searchParams.get("tab");
-  const [prevOption, setPrevOption] = useState<string | null>(null);
-  const initialLoad = currentParam === null; // 초기 로딩 여부 확인
 
   const handleOptionChange = async (option: string) => {
-    onTempSave();
+    tempSave("addformData", currentValues);
     setSelectedOption(option);
-    if (!initialLoad && option !== currentParam && option !== prevOption && isDirty) {
-      setPrevOption(option);
-    }
+
     const params = {
       "모집 내용": "recruit-content",
       "모집 조건": "recruit-condition",
@@ -162,7 +153,7 @@ export default function EditFormPage() {
             options={[
               {
                 label: "모집 내용",
-                isEditing: isEditingRecruitContent || initialLoad || currentParam === "recruit-content",
+                isEditing: isEditingRecruitContent || currentParam === "recruit-content",
               },
               { label: "모집 조건", isEditing: isEditingRecruitCondition || currentParam === "recruit-condition" },
               { label: "근무 조건", isEditing: isEditingWorkCondition || currentParam === "work-condition" },
