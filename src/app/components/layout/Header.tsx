@@ -39,8 +39,8 @@ export default function Header() {
 
     return cn(
       "font-medium transition-colors h-16 flex items-center",
-      "hover:text-lime-900",
-      isActive ? "text-lime-900 text-sm md:text-base lg:text-lg lg:font-bold" : "text-lime-700 text-sm md:text-base"
+      "hover:text-lime-900 hover:font-bold hover:opacity-70",
+      isActive ? "text-lime-900 text-sm md:text-base lg:text-lg font-bold" : "text-lime-700 text-sm md:text-base"
     );
   };
   const headerStyle = "fixed left-0 right-0 top-0 z-40 shadow-sm bg-lime-100 -tracking-widest md:tracking-normal";
