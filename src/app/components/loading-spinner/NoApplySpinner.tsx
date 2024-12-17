@@ -5,7 +5,7 @@ import React from "react";
 
 export default function NoApplySpinner() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-white px-4">
+    <div className="flex flex-col items-center justify-center bg-white px-4">
       <Player
         autoplay
         loop

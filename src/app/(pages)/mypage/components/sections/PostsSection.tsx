@@ -65,7 +65,7 @@ export default function PostsSection() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center">
+    <div className="flex flex-col items-center">
       {/* 메인 콘텐츠 영역 */}
       <div className="w-full">
         {!data?.pages?.[0]?.data?.length ? (

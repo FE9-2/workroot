@@ -151,14 +151,14 @@ export default function AlbaList() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center">
+    <div className="flex flex-col items-center">
       {/* 검색 섹션과 필터 드롭다운을 고정 위치로 설정 */}
       <div className="fixed left-0 right-0 top-16 z-30 bg-white shadow-sm">
         {/* 검색 섹션 */}
         <div className="w-full border-b border-line-100">
           <div className="mx-auto flex max-w-screen-xl flex-col gap-4 px-4 py-4 md:px-6 lg:px-8">
             <div className="flex items-center justify-between">
-              <SearchSection pathname={pathname} />
+              <SearchSection pathname={pathname} placeholder="검색어로 조회해보세요" />
             </div>
           </div>
         </div>
