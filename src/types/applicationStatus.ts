@@ -1,3 +1,4 @@
+// 지원 상태
 export const applicationStatus = {
   ALL: "",
   REJECTED: "REJECTED",
@@ -6,4 +7,4 @@ export const applicationStatus = {
   HIRED: "HIRED",
 } as const;
 
-export type ApplyStatus = (typeof applicationStatus)[keyof typeof applicationStatus];
+export type ApplicationStatusType = (typeof applicationStatus)[keyof typeof applicationStatus];

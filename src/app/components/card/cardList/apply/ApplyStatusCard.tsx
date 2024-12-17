@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import { useApplyStatus } from "@/hooks/queries/form/detail/useApplyStatus";
 import translateStatus from "@/utils/translateStatus";
 import { SkeletonRow } from "./SkeletonRow";
-import { ApplyStatus } from "@/types/application";
 import { Player } from "@lottiefiles/react-lottie-player";
 import TableHeader from "./TableHeader";
+import { ApplicationStatusType } from "@/types/applicationStatus";
 
 interface ApplyStatusCardProps {
   formId: number;
@@ -72,7 +72,7 @@ const ApplyStatusCard = ({ formId }: ApplyStatusCardProps) => {
               <span className="w-1/4">{application.phoneNumber}</span>
               <span className="w-2/5">{application.experienceMonths}개월</span>
               <span className="w-1/4" style={{ whiteSpace: "nowrap" }}>
-                {translateStatus(application.status as ApplyStatus)}
+                {translateStatus(application.status as ApplicationStatusType)}
               </span>
             </div>
           ))}

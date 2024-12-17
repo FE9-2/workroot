@@ -11,6 +11,7 @@ import EditOwnerProfileModal from "./modals/form/EditOwnerProfileModal";
 import CustomFormModal from "./modals/confirm/CustomFormModal";
 import { ModalType } from "@/types/modal";
 import { useEffect } from "react";
+import MyApplicationModal from "./modals/apply/MyApplicationModal";
 
 // 모달 컴포넌트 매핑
 const ModalComponents = {
@@ -23,6 +24,7 @@ const ModalComponents = {
   editMyProfile: EditMyProfileModal,
   editOwnerProfile: EditOwnerProfileModal,
   customForm: CustomFormModal,
+  myApplication: MyApplicationModal,
 } as const;
 
 const ModalLayout = () => {

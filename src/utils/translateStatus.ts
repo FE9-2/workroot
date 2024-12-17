@@ -1,7 +1,7 @@
-import { applicationStatus, ApplyStatus } from "@/types/application";
+import { applicationStatus, ApplicationStatusType } from "@/types/applicationStatus";
 
 // 지원 상태에 따른 Chip 컴포넌트의 variant를 반환하는 함수
-export const getStatusVariant = (status: ApplyStatus) => {
+export const getStatusVariant = (status: ApplicationStatusType) => {
   switch (status) {
     case applicationStatus.HIRED:
       return "positive";
@@ -22,12 +22,12 @@ const statusMap: { [key: string]: string } = {
 };
 
 // 상태를 변환하는 함수
-export const getStatusMap = (status: ApplyStatus) => {
+export const getStatusMap = (status: ApplicationStatusType) => {
   return statusMap[status] || status;
 };
 
 // 기본 내보내기
-const translateStatus = (status: ApplyStatus) => {
+const translateStatus = (status: ApplicationStatusType) => {
   return getStatusMap(status);
 };
 

@@ -29,9 +29,6 @@ const AlbaListItem = ({
   applyCount,
   scrapCount,
 }: FormListType) => {
-  const { user } = useUser();
-  const isApplicant = user?.role === userRoles.APPLICANT;
-
   // 라우터 및 상태 관리
   const router = useRouter();
   const { openModal, closeModal } = useModalStore();
@@ -40,6 +37,9 @@ const AlbaListItem = ({
   const [currentImageIndex, setCurrentImageIndex] = useState(0); // 현재 이미지 인덱스
   const dropdownRef = useRef<HTMLDivElement>(null); // 드롭다운 메뉴 참조
   const [imageError, setImageError] = useState(false);
+
+  const { user } = useUser();
+  const isApplicant = user?.role === userRoles.APPLICANT;
 
   // 모집 상태 및 D-day 계산
   const recruitmentStatus = getRecruitmentStatus(recruitmentEndDate);
@@ -127,17 +127,6 @@ const AlbaListItem = ({
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-grayscale-100">
             <MdOutlineImage className="size-20 text-grayscale-400" />
-          </div>
-        )}
-
-        {/* 이미지 인디케이터 - 유효한 이미지가 2개 이상이고 에러가 없을 때만 표시 */}
-        {imageUrls.filter((url) => isValidS3Url(url)).length > 1 && !imageError && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
-            <Indicator
-              imageCount={imageUrls.length}
-              currentPage={currentImageIndex}
-              onPageChange={setCurrentImageIndex}
-            />
           </div>
         )}
       </div>
