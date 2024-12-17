@@ -34,7 +34,7 @@ export default function WorkConditionSection() {
   const endDate = workEndDate ? new Date(workEndDate) : undefined;
 
   // displayRange를 상위에서 관리
-  const displayDate = `${formatToLocaleDate(workStartDate)} ~ ${formatToLocaleDate(workEndDate)}`;
+  const displayDate = workStartDate ? `${formatToLocaleDate(workStartDate)} ~ ${formatToLocaleDate(workEndDate)}` : "";
 
   const handleWorkDateChange = (dates: [Date | null, Date | null]) => {
     const [start, end] = dates;
@@ -75,8 +75,6 @@ export default function WorkConditionSection() {
       setSelectedWorkDays(workdaysData);
     }
   }, [workdaysData, isNegotiable]);
-
-  // 최저시급 상수 수정 (2025년 기준)
 
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";

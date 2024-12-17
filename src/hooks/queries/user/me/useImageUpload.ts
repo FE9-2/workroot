@@ -3,7 +3,7 @@ import renameFile from "@/utils/renameFile";
 import toast from "react-hot-toast";
 
 const useUploadImages = () => {
-  const { uploadImageMutation } = useUpdateProfile();
+  const { uploadImageMutation, isUploading } = useUpdateProfile();
 
   const uploadImages = async (files: File[]) => {
     const uploadedUrls: string[] = [];
@@ -28,7 +28,7 @@ const useUploadImages = () => {
     return uploadedUrls;
   };
 
-  return { uploadImages };
+  return { uploadImages, isUploading };
 };
 
 export default useUploadImages;
