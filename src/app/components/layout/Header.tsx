@@ -117,8 +117,8 @@ export default function Header() {
                   height="sm"
                   fontSize={{
                     mobile: "sm",
-                    tablet: "base",
-                    desktop: "base",
+                    tablet: "md",
+                    desktop: "md",
                   }}
                   color="lime"
                   disabled={false}
@@ -138,8 +138,8 @@ export default function Header() {
                   height="sm"
                   fontSize={{
                     mobile: "sm",
-                    tablet: "base",
-                    desktop: "base",
+                    tablet: "md",
+                    desktop: "md",
                   }}
                   color="lime"
                   disabled={false}
