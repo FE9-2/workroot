@@ -129,17 +129,6 @@ const AlbaListItem = ({
             <MdOutlineImage className="size-20 text-grayscale-400" />
           </div>
         )}
-
-        {/* 이미지 인디케이터 - 유효한 이미지가 2개 이상이고 에러가 없을 때만 표시 */}
-        {imageUrls.filter((url) => isValidS3Url(url)).length > 1 && !imageError && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
-            <Indicator
-              imageCount={imageUrls.length}
-              currentPage={currentImageIndex}
-              onPageChange={setCurrentImageIndex}
-            />
-          </div>
-        )}
       </div>
 
       {/* 콘텐츠 영역 */}
