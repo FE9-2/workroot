@@ -108,19 +108,20 @@ export default function EditFormPage() {
       console.log("filteredData", filteredData);
       await axios.patch(`/api/forms/${formId}`, filteredData);
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       if (typeof window !== "undefined") {
         window.localStorage.removeItem("tempAddFormData");
       }
-      toast.success("워크폼을 수정했습니다.");
-      router.push(`/work/${formId}`);
-      // 쿼리 무효화
-      queryClient.invalidateQueries({
+
+      // 쿼리 무효화가 완료될 때까지 대기
+      await queryClient.invalidateQueries({
         queryKey: ["formDetail", formId],
       });
       queryClient.invalidateQueries({
         queryKey: ["forms", { limit: 10 }],
       });
+      toast.success("워크폼을 수정했습니다.");
+      router.push(`/work/${formId}`);
     },
     onError: (error) => {
       console.error("에러가 발생했습니다.", error);

@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { UserRole, userRoles } from "@/constants/userRoles";
+import AuthInput from "@/app/components/input/text/AuthInput";
 
 export default function LoginPage() {
   // 로그인 훅과 로딩 상태 관리
@@ -65,24 +66,24 @@ export default function LoginPage() {
           </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-4 rounded-md">
+          <div className="space-y-6 rounded-md">
             <div>
-              <input
+              <AuthInput
                 {...register("email")}
                 type="email"
-                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm"
+                name="email"
                 placeholder="이메일"
+                errormessage={errors.email?.message}
               />
-              {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
             </div>
             <div>
-              <input
+              <AuthInput
                 {...register("password")}
                 type="password"
-                className="text-grayscale-900 relative block w-full rounded-lg border border-grayscale-300 px-3 py-2 placeholder-grayscale-500 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm"
+                name="password"
                 placeholder="비밀번호"
+                errormessage={errors.password?.message}
               />
-              {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>}
             </div>
           </div>
 
