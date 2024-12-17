@@ -13,6 +13,7 @@ import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinne
 import { HiMail } from "react-icons/hi";
 import { HiDocumentText } from "react-icons/hi";
 import { useMyApplications } from "@/hooks/queries/user/me/useMyApplications";
+import { useQueryClient } from "@tanstack/react-query";
 interface FormActionsProps {
   formId: string | number;
   albaFormDetailData: FormDetailResponse;
@@ -27,7 +28,7 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
 
   const buttonStyle = "h-10 lg:h-16 w-full rounded-lg font-bold ";
   const [isLoading, setIsLoading] = useState(false);
-
+  const queryClient = useQueryClient();
   if (!user) return null;
 
   const handleDelete = async () => {
@@ -36,6 +37,7 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
       await axios.delete(`/api/forms/${formId}`);
       toast.success("성공적으로 삭제되었습니다.");
       router.push(`/work-list`);
+      queryClient.invalidateQueries({ queryKey: ["forms", { limit: 10 }] });
     } catch (error) {
       console.error(error);
       toast.error("삭제 중 오류가 발생했습니다.");
