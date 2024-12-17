@@ -159,7 +159,7 @@ export default function ScrapsSection() {
               <React.Fragment key={page.nextCursor}>
                 {page.data.map((scrap: FormListType) => (
                   <div key={scrap.id}>
-                    <Link href={`/alba/${scrap.id}/`}>
+                    <Link href={`/work/${scrap.id}/`}>
                       <AlbaListItem {...scrap} />
                     </Link>
                   </div>
