@@ -111,17 +111,16 @@ export default function AddFormPage() {
   const onTempSave = () => {
     tempSave("addformData", currentValues);
   };
-  const params = {
-    "모집 내용": "recruit-content",
-    "모집 조건": "recruit-condition",
-    "근무 조건": "work-condition",
-  }[option];
 
   const handleOptionChange = (option: string) => {
     if (option !== currentParam && isDirty) {
       onTempSave();
     }
-
+    const params = {
+      "모집 내용": "recruit-content",
+      "모집 조건": "recruit-condition",
+      "근무 조건": "work-condition",
+    }[option];
     router.replace(`/addform?tab=${params}`);
   };
 
