@@ -31,10 +31,11 @@ export default function MyApplicationModal({ isOpen, onClose, formId, className 
     }
   };
 
+  const titleStyle = "flex justify-between border-b pb-2";
+  const textStyle = "text-grayscale-400";
   return (
     <>
       <div className="bg-black fixed inset-0 z-50 bg-opacity-50" onClick={handleOverlayClick} />
-
       <div
         className={cn(
           "fixed left-1/2 top-1/2 z-50 w-[375px] -translate-x-1/2 -translate-y-1/2 rounded-3xl bg-white p-6 shadow-lg lg:w-[520px] lg:p-10",
@@ -57,35 +58,37 @@ export default function MyApplicationModal({ isOpen, onClose, formId, className 
                 <div className="space-y-4">
                   {myApplicationData ? (
                     <div className="space-y-4">
-                      <div className="flex justify-between border-b pb-2">
+                      <div className={titleStyle}>
                         <span className="text-grayscale-400">지원 상태</span>
                         <span className="text-primary-orange-500 font-medium">
                           {STATUS_MAP[myApplicationData.status as keyof typeof STATUS_MAP]}
                         </span>
                       </div>
 
-                      <div className="flex justify-between border-b pb-2">
-                        <span className="text-grayscale-400">이름</span>
+                      <div className={titleStyle}>
+                        <span className={textStyle}>이름</span>
                         <span>{myApplicationData.name}</span>
                       </div>
 
-                      <div className="flex justify-between border-b pb-2">
-                        <span className="text-grayscale-400">연락처</span>
+                      <div className={titleStyle}>
+                        <span className={textStyle}>연락처</span>
                         <span>{myApplicationData.phoneNumber}</span>
                       </div>
 
-                      <div className="flex justify-between border-b pb-2">
-                        <span className="text-grayscale-400">경력</span>
+                      <div className={titleStyle}>
+                        <span className={textStyle}>경력</span>
                         <span>{myApplicationData.experienceMonths}개월</span>
                       </div>
 
                       <div className="space-y-2 border-b pb-2">
-                        <p className="text-grayscale-400">자기소개</p>
-                        <p className="whitespace-pre-wrap text-sm">{myApplicationData.introduction}</p>
+                        <p className={textStyle}>자기소개</p>
+                        <div className="h-[100px] overflow-y-auto whitespace-pre-wrap rounded-md border border-orange-400 p-2 text-sm">
+                          {myApplicationData.introduction}
+                        </div>
                       </div>
 
-                      <div className="flex justify-between border-b pb-2">
-                        <span className="text-grayscale-400">지원일</span>
+                      <div className={titleStyle}>
+                        <span className={textStyle}>지원일</span>
                         <span>{formatDateTime(myApplicationData.createdAt)}</span>
                       </div>
                     </div>
