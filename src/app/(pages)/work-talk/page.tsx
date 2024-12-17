@@ -15,6 +15,7 @@ import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import { useRouter } from "next/navigation";
 import ContentSection from "@/app/components/layout/ContentSection";
 import useModalStore from "@/store/modalStore";
+import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
 
 const POSTS_PER_PAGE = 10;
 
@@ -122,9 +123,12 @@ export default function AlbaTalk() {
           </Link>
         )}
 
+        {/* ScrollTopButton 추가 */}
+        <ScrollTopButton showHeight={300} />
+
         {!data?.pages?.[0]?.data?.length ? (
           <div className="flex h-[calc(100vh-200px)] flex-col items-center justify-center">
-            <p className="text-grayscale-500">등록된 게시��이 없습니다.</p>
+            <p className="text-grayscale-500">등록된 게시글이 없습니다.</p>
           </div>
         ) : (
           <div className="mx-auto mt-4 w-full max-w-screen-xl px-3">

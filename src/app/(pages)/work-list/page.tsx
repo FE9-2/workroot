@@ -17,6 +17,7 @@ import FloatingBtn from "@/app/components/button/default/FloatingBtn";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import ContentSection from "@/app/components/layout/ContentSection";
 import useModalStore from "@/store/modalStore";
+import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
 
 const FORMS_PER_PAGE = 10;
 
@@ -94,7 +95,7 @@ export default function AlbaList() {
     );
   }
 
-  // 로딩 상태 처리
+  // 로딩 중 처리
   if (isLoading)
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
@@ -162,6 +163,9 @@ export default function AlbaList() {
             </FloatingBtn>
           </Link>
         )}
+
+        {/* ScrollTopButton 추가 */}
+        <ScrollTopButton showHeight={300} />
 
         {!data?.pages?.[0]?.data?.length ? (
           <div className="flex h-[calc(100vh-200px)] flex-col items-center justify-center">
