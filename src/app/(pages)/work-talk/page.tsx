@@ -91,7 +91,7 @@ export default function AlbaTalk() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center">
+    <div className="flex flex-col items-center">
       {/* 검색 섹션과 정렬 옵션을 고정 위치로 설정 */}
       <div className="fixed left-0 right-0 top-16 z-30 bg-white shadow-sm">
         {/* 검색 섹션 */}

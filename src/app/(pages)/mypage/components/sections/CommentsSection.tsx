@@ -68,7 +68,7 @@ export default function CommentsSection() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center">
+    <div className="flex flex-col items-center">
       <div className="mx-auto mt-4 w-full max-w-screen-xl px-3">
         <ContentSection>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
