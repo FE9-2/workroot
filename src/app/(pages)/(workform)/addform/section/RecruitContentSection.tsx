@@ -82,16 +82,8 @@ export default function RecruitContentSection() {
   // 모집 기간 데이터 반영하기
   const recruitStartDate: string = watch("recruitmentStartDate");
   const recruitEndDate: string = watch("recruitmentEndDate");
-  const StartDate =
-    recruitStartDate === "" || recruitStartDate === undefined || recruitStartDate === null
-      ? null
-      : new Date(recruitStartDate);
-  const EndDate =
-    recruitEndDate === "" || recruitEndDate === undefined || recruitEndDate === null ? null : new Date(recruitEndDate);
-
-  useEffect(() => {
-    if (StartDate && EndDate) setRecruitmentDateRange([StartDate, EndDate]);
-  }, [recruitStartDate, recruitEndDate]);
+  const startDate = recruitStartDate ? new Date(recruitStartDate) : null;
+  const endDate = recruitEndDate ? new Date(recruitEndDate) : null;
 
   // displayRange를 상위에서 관리
   const displayDate =
@@ -143,15 +135,14 @@ export default function RecruitContentSection() {
         <div className="relative flex flex-col gap-2">
           <Label>모집 기간</Label>
           <DatePickerInput
-            startDate={recruitmentDateRange[0] || undefined}
-            endDate={recruitmentDateRange[1] || undefined}
+            startDate={startDate}
+            endDate={endDate}
             onChange={handleRecruitmentDateChange}
             required={true}
-            errormessage={!recruitmentDateRange[0] || !recruitmentDateRange[1]}
+            errormessage={!startDate || !endDate}
             displayValue={displayRange}
           />
-          {!recruitmentDateRange[0] ||
-            (!recruitmentDateRange[1] && <p className={cn(errorTextStyle, "")}> 모집 기간은 필수입니다.</p>)}
+          {!startDate || (!endDate && <p className={cn(errorTextStyle, "")}> 모집 기간은 필수입니다.</p>)}
         </div>
 
         <Label>이미지 첨부</Label>
