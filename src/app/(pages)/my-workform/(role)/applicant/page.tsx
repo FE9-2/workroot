@@ -11,9 +11,9 @@ import ApplicantSortSection from "./components/ApplicantSortSection";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import ContentSection from "@/app/components/layout/ContentSection";
 import Link from "next/link";
-import { UseApplicationsList } from "@/hooks/queries/user/me/UseApplicationsList";
 import MyApplicationListItem from "@/app/components/card/cardList/apply/MyApplicationListItem";
 import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
+import { useApplicationsList } from "@/hooks/queries/user/me/useApplicationsList";
 
 const APPLICATIONS_PER_PAGE = 10;
 
@@ -41,7 +41,7 @@ export default function ApplicantPage() {
     isFetchingNextPage,
     isLoading: isLoadingData,
     error,
-  } = UseApplicationsList({
+  } = useApplicationsList({
     limit: APPLICATIONS_PER_PAGE,
     status,
     keyword,

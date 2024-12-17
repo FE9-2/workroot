@@ -15,9 +15,9 @@ type Story = StoryObj<typeof SubmitContCard>;
 
 const mockData: ApplicationResponse = {
   applicantId: 1,
-  updatedAt: new Date(),
-  createdAt: new Date(),
-  status: "submitted",
+  updatedAt: new Date().toString(),
+  createdAt: new Date().toString(),
+  status: "INTERVIEW_PENDING",
   introduction: "안녕하세요, 저는 지원자입니다.",
   resumeName: "이력서.pdf",
   resumeId: 123,
