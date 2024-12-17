@@ -90,7 +90,7 @@ export default function MyApplicationModal({ isOpen, onClose, formId, className 
   if (!isOpen) return null;
 
   const handleOverlayClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
+    if (e.target === e.currentTarget && onClose) {
       onClose();
     }
   };
