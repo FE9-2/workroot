@@ -71,7 +71,7 @@ export default function Home() {
             한 곳에서 관리하는 알바 구인 플랫폼
           </p>
           {user ? (
-            <LinkBtn href="/alba-list" variant="solid" width="lg" fontSize="lg" color="lime" disabled={false}>
+            <LinkBtn href="/work-list" variant="solid" width="lg" fontSize="lg" color="lime" disabled={false}>
               알바 둘러보기
             </LinkBtn>
           ) : (
