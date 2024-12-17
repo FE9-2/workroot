@@ -11,7 +11,6 @@ import { useParams, useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Label from "../../component/Label";
 import uploadResume from "@/utils/uploadResume";
-import tempSave from "@/utils/tempSave";
 interface ApplyFormData {
   name: string;
   phoneNumber: string;

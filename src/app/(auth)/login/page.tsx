@@ -143,9 +143,3 @@ export default function LoginPage() {
     </>
   );
 }
-
-
-// 비슷한 코드끼리 -
-// 추상화가 - 읽기
-// 중복은 - reac hook
-// 

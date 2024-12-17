@@ -5,13 +5,11 @@ import Link from "next/link";
 import { cn } from "@/lib/tailwindUtil";
 
 export default function Header() {
-  const getLinkClassName = (path: string) => {
-    return cn(
-      "font-medium transition-colors h-16 flex items-center",
-      "hover:text-lime-900",
-      "text-lime-700 text-sm sm:text-base"
-    );
-  };
+  const style = cn(
+    "font-medium transition-colors h-16 flex items-center",
+    "hover:text-lime-900",
+    "text-lime-700 text-sm sm:text-base"
+  );
 
   return (
     <header className="fixed left-0 right-0 top-0 z-50 bg-lime-100 -tracking-widest md:tracking-normal">
@@ -30,13 +28,13 @@ export default function Header() {
             </Link>
 
             <div className="ml-4 flex h-16 space-x-2 sm:ml-6 sm:space-x-4 md:ml-10 md:space-x-6">
-              <Link href="/work-list" className={getLinkClassName("/work-list")}>
+              <Link href="/work-list" className={style}>
                 워크 채널
               </Link>
-              <Link href="/work-talk" className={getLinkClassName("/work-talk")}>
+              <Link href="/work-talk" className={style}>
                 워크톡
               </Link>
-              <Link href="/my-workform" className={getLinkClassName("/my-workform")}>
+              <Link href="/my-workform" className={style}>
                 내 워크폼
               </Link>
             </div>
