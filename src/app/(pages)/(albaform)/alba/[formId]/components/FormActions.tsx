@@ -28,7 +28,7 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
 
   const isMyAlbaForm = user?.id === albaFormDetailData.ownerId;
   const isOwnerRole = user?.role === "OWNER";
-  const buttonStyle = "h-10 lg:h-16 w-full rounded-lg font-bold";
+  const buttonStyle = "h-10 lg:h-16 w-full rounded-lg font-bold mb-4";
 
   if (!user) return null;
 
@@ -73,29 +73,38 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
   return (
     <div className="space-y-4 text-2xl">
       {isApplicationLoading ? (
-        <FloatingBtn className={`${buttonStyle} mb-4`} icon={<HiMail />} disabled>
-          <DotLoadingSpinner />
-        </FloatingBtn>
-      ) : myApplication ? (
-        <FloatingBtn className={`${buttonStyle} mb-4`} icon={<HiMail />} disabled>
-          이미 지원한 공고
-        </FloatingBtn>
-      ) : (
-        <Link href={`/apply/${formId}`}>
-          <FloatingBtn className={`${buttonStyle} mb-4`} icon={<HiMail />}>
-            지원하기
+        <>
+          <FloatingBtn className={`${buttonStyle}`} variant="white">
+            <DotLoadingSpinner />
           </FloatingBtn>
-        </Link>
+          <FloatingBtn className={`${buttonStyle} `} variant="white">
+            <DotLoadingSpinner />
+          </FloatingBtn>
+        </>
+      ) : (
+        <>
+          {myApplication ? (
+            <FloatingBtn className={`${buttonStyle}`} icon={<HiMail />} disabled>
+              이미 지원한 공고
+            </FloatingBtn>
+          ) : (
+            <Link href={`/apply/${formId}`}>
+              <FloatingBtn className={`${buttonStyle}`} icon={<HiMail />}>
+                지원하기
+              </FloatingBtn>
+            </Link>
+          )}
+          <FloatingBtn
+            variant="white"
+            className={buttonStyle}
+            icon={<HiDocumentText />}
+            onClick={() => openModal("myApplication", { formId })}
+            disabled={!myApplication}
+          >
+            {myApplication ? "내 지원내역 보기" : "지원 내역 없음"}
+          </FloatingBtn>
+        </>
       )}
-      <FloatingBtn
-        variant="white"
-        className={buttonStyle}
-        icon={<HiDocumentText />}
-        onClick={() => openModal("myApplication", { formId })}
-        disabled={!myApplication}
-      >
-        {myApplication ? "내 지원내역 보기" : "지원 내역 없음"}
-      </FloatingBtn>
     </div>
   );
 }
