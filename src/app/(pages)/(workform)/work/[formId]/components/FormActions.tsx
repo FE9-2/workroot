@@ -100,7 +100,12 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
             variant="white"
             className={buttonStyle}
             icon={<HiDocumentText />}
-            onClick={() => openModal("myApplication", { formId })}
+            onClick={() =>
+              openModal("myApplication", {
+                formId,
+                isOpen: false,
+              })
+            }
             disabled={!myApplication}
           >
             {myApplication ? "내 지원내역 보기" : "지원 내역 없음"}
