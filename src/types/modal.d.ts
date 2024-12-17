@@ -11,7 +11,7 @@ export type ModalType =
   | "myApplication";
 
 type BaseModalProps = {
-  onClose: () => void;
+  onClose?: () => void;
 };
 
 type FormModalProps = BaseModalProps & {
