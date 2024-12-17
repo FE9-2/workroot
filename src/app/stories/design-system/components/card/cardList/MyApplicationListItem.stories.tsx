@@ -1,4 +1,4 @@
-import MyApplicationListItem from "@/app/components/card/cardList/MyApplicationListItem";
+import MyApplicationListItem from "@/app/components/card/cardList/apply/MyApplicationListItem";
 import { applicationStatus } from "@/types/applicationStatus";
 import type { Meta, StoryObj } from "@storybook/react";
 
