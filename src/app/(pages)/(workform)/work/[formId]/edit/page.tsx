@@ -15,7 +15,6 @@ import WorkConditionSection from "../../../addform/section/WorkConditionSection"
 import { SubmitFormDataType } from "@/types/addform";
 import useEditing from "@/hooks/useEditing";
 import useFormDetail from "@/hooks/queries/form/detail/useFormDetail";
-import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import formatMoney from "@/utils/formatMoney";
 import tempSave from "@/utils/tempSave";
 import { useUser } from "@/hooks/queries/user/me/useUser";
@@ -23,9 +22,9 @@ import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinne
 
 export default function EditFormPage() {
   const router = useRouter();
-  const formId = useParams().formId;
+  const formId = Number(useParams().formId);
 
-  const { albaFormDetailData, isLoading, error } = useFormDetail(formId);
+  const { albaFormDetailData, isLoading, error } = useFormDetail({ formId });
 
   const methods = useForm<SubmitFormDataType>({
     mode: "onChange",

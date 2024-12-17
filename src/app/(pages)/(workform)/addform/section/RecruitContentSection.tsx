@@ -82,8 +82,8 @@ export default function RecruitContentSection() {
   // 모집 기간 데이터 반영하기
   const recruitStartDate: string = watch("recruitmentStartDate");
   const recruitEndDate: string = watch("recruitmentEndDate");
-  const startDate = recruitStartDate ? new Date(recruitStartDate) : null;
-  const endDate = recruitEndDate ? new Date(recruitEndDate) : null;
+  const startDate = recruitStartDate ? new Date(recruitStartDate) : undefined;
+  const endDate = recruitEndDate ? new Date(recruitEndDate) : undefined;
 
   // displayRange를 상위에서 관리
   const displayDate =

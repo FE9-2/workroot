@@ -30,8 +30,8 @@ export default function WorkConditionSection() {
   const workStartDate: string = watch("workStartDate");
   const workEndDate: string = watch("workEndDate");
 
-  const startDate = workStartDate ? new Date(workStartDate) : null;
-  const endDate = workEndDate ? new Date(workEndDate) : null;
+  const startDate = workStartDate ? new Date(workStartDate) : undefined;
+  const endDate = workEndDate ? new Date(workEndDate) : undefined;
 
   // displayRange를 상위에서 관리
   const displayDate = `${formatToLocaleDate(workStartDate)} ~ ${formatToLocaleDate(workEndDate)}`;
