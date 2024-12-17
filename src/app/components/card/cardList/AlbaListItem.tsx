@@ -29,9 +29,6 @@ const AlbaListItem = ({
   applyCount,
   scrapCount,
 }: FormListType) => {
-  const { user } = useUser();
-  const isApplicant = user?.role === userRoles.APPLICANT;
-
   // 라우터 및 상태 관리
   const router = useRouter();
   const { openModal, closeModal } = useModalStore();
@@ -39,6 +36,9 @@ const AlbaListItem = ({
   const [showDropdown, setShowDropdown] = useState(false); // 드롭다운 메뉴 표시 상태
   const dropdownRef = useRef<HTMLDivElement>(null); // 드롭다운 메뉴 참조
   const [imageError, setImageError] = useState(false);
+
+  const { user } = useUser();
+  const isApplicant = user?.role === userRoles.APPLICANT;
 
   // 모집 상태 및 D-day 계산
   const recruitmentStatus = getRecruitmentStatus(recruitmentEndDate);

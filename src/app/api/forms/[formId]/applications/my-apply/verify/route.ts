@@ -12,7 +12,7 @@ export async function POST(req: NextRequest, { params }: { params: { formId: str
       return NextResponse.json({ message: "이름, 전화번호, 비밀번호가 필요합니다." }, { status: 400 });
     }
 
-    const response = await apiClient.post(`/forms/${params.formId}/applications/my-application/verify`, {
+    const response = await apiClient.post(`/forms/${params.formId}/my-application/verify`, {
       name,
       phone,
       password,

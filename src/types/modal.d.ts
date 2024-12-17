@@ -7,7 +7,8 @@ export type ModalType =
   | "selectProgress"
   | "changePassword"
   | "editMyProfile"
-  | "editOwnerProfile";
+  | "editOwnerProfile"
+  | "myApplication";
 
 type BaseModalProps = {
   onClose?: () => void;
@@ -67,4 +68,7 @@ export type ModalPropsMap = {
   changePassword: FormModalProps;
   editMyProfile: FormModalProps;
   editOwnerProfile: FormModalProps;
+  myApplication: {
+    formId: number | string;
+  };
 };
