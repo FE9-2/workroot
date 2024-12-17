@@ -3,13 +3,14 @@ import axios from "axios";
 import { MyApplicationListResponse } from "@/types/response/user";
 import toast from "react-hot-toast";
 
-interface UseMyApplicationsParams {
+interface UseApplicationsListParams {
   limit?: number;
   status?: string;
   keyword?: string;
 }
 
-export const useMyApplications = ({ limit = 10, status, keyword }: UseMyApplicationsParams = {}) => {
+// 지원 목록 조회
+export const UseApplicationsList = ({ limit = 10, status, keyword }: UseApplicationsListParams = {}) => {
   const query = useInfiniteQuery<MyApplicationListResponse>({
     queryKey: ["myApplications", { limit, status, keyword }],
     queryFn: async ({ pageParam }) => {
