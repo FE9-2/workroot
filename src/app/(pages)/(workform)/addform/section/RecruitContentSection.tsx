@@ -88,10 +88,9 @@ export default function RecruitContentSection() {
   const endDate = recruitEndDate ? new Date(recruitEndDate) : undefined;
 
   // displayRange를 상위에서 관리
-  const displayDate =
-    recruitStartDate === "" || recruitStartDate === undefined || recruitStartDate === null
-      ? ""
-      : `${formatToLocaleDate(recruitStartDate)} ~ ${formatToLocaleDate(recruitEndDate)}`;
+  const displayDate = recruitStartDate
+    ? `${formatToLocaleDate(recruitStartDate)} ~ ${formatToLocaleDate(recruitEndDate)}`
+    : "";
   const [displayRange, setDisplayRange] = useState<string>(displayDate || "");
 
   useEffect(() => {
@@ -141,7 +140,7 @@ export default function RecruitContentSection() {
             errormessage={!startDate || !endDate}
             displayValue={displayRange}
           />
-          {!startDate || (!endDate && <p className={cn(errorTextStyle, "")}> 모집 기간은 필수입니다.</p>)}
+          {(!startDate || !endDate) && <p className={cn(errorTextStyle, "")}> 모집 기간은 필수입니다.</p>}
         </div>
 
         <Label>이미지 첨부</Label>
