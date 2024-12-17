@@ -101,7 +101,7 @@ export default function AddFormPage() {
         window.localStorage.removeItem("tempAddFormData");
       }
       setLoading(false);
-      toast.success("알바폼을 등록했습니다.");
+      toast.success("워크폼을 등록했습니다.");
     },
     onError: (error) => {
       setLoading(false);
@@ -226,7 +226,7 @@ export default function AddFormPage() {
 
   useEffect(() => {
     if (user?.role !== "OWNER") {
-      toast.error("사장님만 알바폼을 작성할 수 있습니다.");
+      toast.error("사장님만 워크폼을 작성할 수 있습니다.");
       router.push("/alba-list");
     }
   }, [user, router]);

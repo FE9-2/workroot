@@ -12,9 +12,9 @@ import formatMoney from "@/utils/formatMoney";
 import Label from "../../component/Label";
 import Script from "next/script";
 import LocationInput from "@/app/components/input/text/LocationInput";
-import { toast } from "react-hot-toast";
+import { formatToLocaleDate } from "@/utils/formatters";
 
-// 알바폼 만들기 - 사장님 - 3-근무조건
+// 워크폼 만들기 - 사장님 - 3-근무조건
 export default function WorkConditionSection() {
   const {
     register,
@@ -24,17 +24,42 @@ export default function WorkConditionSection() {
     formState: { errors },
   } = useFormContext();
 
-  // 근무 날짜 지정
+  // 근무 기간 데이터 반영하기
+  const workStartDate: string = watch("workStartDate");
+  const workEndDate: string = watch("workEndDate");
+  const StartDate =
+    workStartDate === "" || workStartDate === undefined || workStartDate === null ? null : new Date(workStartDate);
+  const EndDate =
+    workEndDate === "" || workEndDate === undefined || workEndDate === null ? null : new Date(workEndDate);
+
+  useEffect(() => {
+    if (workStartDate !== "" && workEndDate !== "") setWorkDateRange([StartDate, EndDate]);
+  }, [workStartDate, workEndDate]);
+
+  // displayRange를 상위에서 관리
+  const displayDate = `${formatToLocaleDate(workStartDate)} ~ ${formatToLocaleDate(workEndDate)}`;
+  const [displayRange, setDisplayRange] = useState<string>("");
+
+  useEffect(() => {
+    if (formatToLocaleDate(workStartDate)?.includes("NaN")) {
+      setDisplayRange("");
+    } else {
+      setDisplayRange(displayDate);
+    }
+  }, [workStartDate, workEndDate, displayDate]);
+
+  // 날짜 선택
   const [workDateRange, setWorkDateRange] = useState<[Date | null, Date | null]>([null, null]);
+
   const handleWorkDateChange = (dates: [Date | null, Date | null]) => {
     setWorkDateRange(dates);
     const [start, end] = dates;
     if (start) setValue("workStartDate", start.toISOString());
-    if (end) setValue("workEndDate", end.toISOString());
+    if (end) setValue("workEndDate", end.toISOString(), { shouldDirty: true });
   };
 
   //근무 시간 지정
-  const workStartTime = watch("workStartTime");
+  const workStartTime = watch("workStartTime") || "06:00";
   const workEndTime = watch("workEndTime");
 
   //근무 요일 지정
@@ -58,6 +83,14 @@ export default function WorkConditionSection() {
       setSelectedWorkDays([]);
     }
   };
+
+  const workdaysData = watch("workDays");
+  const isNegotiable = watch("isNegotiableWorkDays");
+  useEffect(() => {
+    if (!isNegotiable && workdaysData.length > 0) {
+      setSelectedWorkDays(workdaysData);
+    }
+  }, [workdaysData]);
 
   // 최저시급 상수 수정 (2025년 기준)
   const MINIMUM_WAGE = 10030;
@@ -108,14 +141,12 @@ export default function WorkConditionSection() {
         <div className="relative flex flex-col gap-2">
           <Label>근무 기간</Label>
           <DatePickerInput
-            startDateName="workStartDate"
-            endDateName="workEndDate"
             startDate={workDateRange[0] || undefined}
             endDate={workDateRange[1] || undefined}
             onChange={handleWorkDateChange}
             required={true}
             errormessage={!workDateRange[0] || !workDateRange[1]}
-            displayValue="workDateRange"
+            displayValue={displayRange}
           />
           {!workDateRange[0] ||
             (!workDateRange[1] && <p className={cn(errorTextStyle, "")}> 근무 기간은 필수입니다.</p>)}

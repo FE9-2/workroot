@@ -1,10 +1,15 @@
 import { postSortOptions } from "@/constants/postOptions";
 import { formSortOptions } from "@/constants/formOptions";
 
-export const TABS = [
+export const APPLICANT_TABS = [
   { name: "내가 쓴 글", value: "posts" },
   { name: "내가 쓴 댓글", value: "comments" },
   { name: "스크랩", value: "scrap" },
+] as const;
+
+export const OWNER_TABS = [
+  { name: "내가 쓴 글", value: "posts" },
+  { name: "내가 쓴 댓글", value: "comments" },
 ] as const;
 
 export const SORT_OPTIONS = {

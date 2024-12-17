@@ -9,8 +9,9 @@ import { useEffect, useState } from "react";
 import Label from "../../component/Label";
 import { ImageInputType } from "@/types/addform";
 import useUploadImages from "@/hooks/queries/user/me/useImageUpload";
+import { formatToLocaleDate } from "@/utils/formatters";
 
-// 알바폼 만들기 - 사장님 - 1-모집내용
+// 워크폼 만들기 - 사장님 - 1-모집내용
 
 export default function RecruitContentSection() {
   // 이미지 파일을 로컬 상태에 저장
@@ -78,21 +79,48 @@ export default function RecruitContentSection() {
     }
   }, [imageUrlsData]);
 
+  // 모집 기간 데이터 반영하기
+  const recruitStartDate: string = watch("recruitmentStartDate");
+  const recruitEndDate: string = watch("recruitmentEndDate");
+  const StartDate =
+    recruitStartDate === "" || recruitStartDate === undefined || recruitStartDate === null
+      ? null
+      : new Date(recruitStartDate);
+  const EndDate =
+    recruitEndDate === "" || recruitEndDate === undefined || recruitEndDate === null ? null : new Date(recruitEndDate);
+
+  useEffect(() => {
+    if (StartDate && EndDate) setRecruitmentDateRange([StartDate, EndDate]);
+  }, [recruitStartDate, recruitEndDate]);
+
+  // displayRange를 상위에서 관리
+  const displayDate =
+    recruitStartDate === "" || recruitStartDate === undefined || recruitStartDate === null
+      ? ""
+      : `${formatToLocaleDate(recruitStartDate)} ~ ${formatToLocaleDate(recruitEndDate)}`;
+  const [displayRange, setDisplayRange] = useState<string>(displayDate || "");
+
+  useEffect(() => {
+    setDisplayRange(displayDate);
+  }, [recruitStartDate, recruitEndDate, displayDate]);
+
   // 날짜 선택
   const [recruitmentDateRange, setRecruitmentDateRange] = useState<[Date | null, Date | null]>([null, null]);
+
   const handleRecruitmentDateChange = (dates: [Date | null, Date | null]) => {
-    setRecruitmentDateRange(dates);
+    setRecruitmentDateRange(dates); // -> prop으로 내려줌
     const [start, end] = dates;
     if (start) setValue("recruitmentStartDate", start.toISOString());
-    if (end) setValue("recruitmentEndDate", end.toISOString());
+    if (end) setValue("recruitmentEndDate", end.toISOString(), { shouldDirty: true });
   };
+
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
 
   return (
     <div className="relative">
       <form className="my-8 flex flex-col gap-4">
-        <Label>알바폼 제목</Label>
+        <Label>워크폼 제목</Label>
         <BaseInput
           {...register("title", { required: "제목을 입력해주세요" })}
           type="text"
@@ -115,14 +143,12 @@ export default function RecruitContentSection() {
         <div className="relative flex flex-col gap-2">
           <Label>모집 기간</Label>
           <DatePickerInput
-            startDateName="recruitmentStartDate"
-            endDateName="recruitmentEndDate"
             startDate={recruitmentDateRange[0] || undefined}
             endDate={recruitmentDateRange[1] || undefined}
             onChange={handleRecruitmentDateChange}
             required={true}
             errormessage={!recruitmentDateRange[0] || !recruitmentDateRange[1]}
-            displayValue="recruitDateRange"
+            displayValue={displayRange}
           />
           {!recruitmentDateRange[0] ||
             (!recruitmentDateRange[1] && <p className={cn(errorTextStyle, "")}> 모집 기간은 필수입니다.</p>)}

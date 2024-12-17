@@ -1,4 +1,4 @@
-// 알바폼 생성/수정 응답
+// 워크폼 생성/수정 응답
 export interface FormResponse {
   updatedAt: Date;
   createdAt: Date;
@@ -24,7 +24,7 @@ export interface FormResponse {
   id: number;
 }
 
-// 알바폼 목록 타입
+// 워크폼 목록 타입
 export interface FormListType {
   updatedAt: Date;
   createdAt: Date;
@@ -38,13 +38,13 @@ export interface FormListType {
   id: number;
 }
 
-// 알바폼 목록 응답
+// 워크폼 목록 응답
 export interface FormListResponse {
   data: Array<FormListType>;
   nextCursor: number | null;
 }
 
-// 알바폼 상세 조회/스크랩 응답
+// 워크폼 상세 조회/스크랩 응답
 export interface FormDetailResponse {
   updatedAt: string;
   createdAt: string;

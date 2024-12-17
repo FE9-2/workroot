@@ -15,8 +15,8 @@ import { isValidS3Url } from "@/utils/checkS3Url";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 
 /**
- * 알바폼 리스트 아이템 컴포넌트
- * 알바폼 정보를 카드 형태로 표시하며, 이미지 인디케이터와 지원하기/스크랩 기능을 포함
+ * 워크폼 리스트 아이템 컴포넌트
+ * 워크폼 정보를 카드 형태로 표시하며, 이미지 인디케이터와 지원하기/스크랩 기능을 포함
  */
 const AlbaListItem = ({
   id,
@@ -28,9 +28,12 @@ const AlbaListItem = ({
   applyCount,
   scrapCount,
 }: FormListType) => {
+  const { user } = useUser();
+  const isApplicant = user?.role === userRoles.APPLICANT;
+
   // 라우터 및 상태 관리
   const router = useRouter();
-  const { openModal } = useModalStore();
+  const { openModal, closeModal } = useModalStore();
   const { scrap, isLoading: isScrapLoading } = useFormScrap(id);
   const [showDropdown, setShowDropdown] = useState(false); // 드롭다운 메뉴 표시 상태
   const [currentImageIndex, setCurrentImageIndex] = useState(0); // 현재 이미지 인덱스
@@ -78,23 +81,11 @@ const AlbaListItem = ({
       title: "지원하기",
       content: "지원하시겠습니까?",
       onConfirm: () => {
-        openModal("customForm", {
-          isOpen: false,
-          title: "",
-          content: "",
-          onConfirm: () => {},
-          onCancel: () => {},
-        });
+        closeModal();
         router.push(`/apply/${id}`);
       },
       onCancel: () => {
-        openModal("customForm", {
-          isOpen: false,
-          title: "",
-          content: "",
-          onConfirm: () => {},
-          onCancel: () => {},
-        });
+        closeModal();
       },
     });
   };
@@ -108,23 +99,11 @@ const AlbaListItem = ({
       title: "스크랩 확인",
       content: "스크랩하시겠습니까?",
       onConfirm: () => {
-        openModal("customForm", {
-          isOpen: false,
-          title: "",
-          content: "",
-          onConfirm: () => {},
-          onCancel: () => {},
-        });
+        closeModal();
         scrap();
       },
       onCancel: () => {
-        openModal("customForm", {
-          isOpen: false,
-          title: "",
-          content: "",
-          onConfirm: () => {},
-          onCancel: () => {},
-        });
+        closeModal();
       },
     });
   };
