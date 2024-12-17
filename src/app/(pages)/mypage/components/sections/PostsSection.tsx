@@ -75,7 +75,7 @@ export default function PostsSection() {
             <ScrollTopButton showHeight={300} />
 
             <ContentSection>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {data.pages.map((page) => (
                   <React.Fragment key={page.nextCursor}>
                     {page.data.map((post) => (
