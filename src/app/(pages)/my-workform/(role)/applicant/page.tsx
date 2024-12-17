@@ -13,6 +13,7 @@ import ContentSection from "@/app/components/layout/ContentSection";
 import Link from "next/link";
 import MyApplicationListItem from "@/app/components/card/cardList/apply/MyApplicationListItem";
 import { useApplicationsList } from "@/hooks/queries/user/me/useApplicationsList";
+import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
 
 const APPLICATIONS_PER_PAGE = 10;
 
@@ -102,6 +103,9 @@ export default function ApplicantPage() {
 
       {/* 메인 콘텐츠 영역 */}
       <div className="w-full pt-[132px]">
+        {/* ScrollTopButton 추가 */}
+        <ScrollTopButton showHeight={300} />
+
         {!data?.pages?.[0]?.data?.length ? (
           <div className="flex h-[calc(100vh-200px)] flex-col items-center justify-center">
             <p className="text-grayscale-500">지원 내역이 없습니다.</p>
