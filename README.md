@@ -1,21 +1,3 @@
-- hook-form
-- 코드구조 & 클린코드
-- react-query
-  - key, typed option 
-
-- 새로운 기술
-  - server component
-
-
-- 추가
-  - SEO 개선
-   - 공통 로직? 컴포넌트? 
-   - SSR 
-   - 뭐가 많아요
-
-
-
-
 # 워크루트(WorkRoot) 프로젝트
 
 ## 소개
