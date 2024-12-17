@@ -20,7 +20,6 @@ import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 export default function AddFormPage() {
   const router = useRouter();
-  const [formId, setFormId] = useState<number | undefined>(undefined);
   // 리액트 훅폼에서 관리할 데이터 타입 지정 및 메서드 호출 (상위 컴포넌트 = useForm 사용)
   const methods = useForm<SubmitFormDataType>({
     mode: "onChange",
@@ -57,7 +56,6 @@ export default function AddFormPage() {
   const currentValues: SubmitFormDataType = methods.watch();
 
   // 이미지 업로드 api 처리를 위해 별도 변수에 할당
-  const [, setSelectedOption] = useState<string>("");
   const [showTempDataModal, setShowTempDataModal] = useState(false);
 
   // 각각의 탭 작성중 여부
@@ -66,10 +64,8 @@ export default function AddFormPage() {
   // tab 선택 시 Url params 수정 & 하위 폼 데이터 임시저장
   const searchParams = useSearchParams();
   const currentParam = searchParams.get("tab");
-  const [prevOption, setPrevOption] = useState<string | null>(null);
-  const initialLoad = currentParam === null; // 초기 로딩 여부 확인
   const [loading, setLoading] = useState(false);
-
+  let formId: string;
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
@@ -93,8 +89,7 @@ export default function AddFormPage() {
         }, {});
 
       const response = await axios.post("/api/forms", filteredData);
-      const id = response.data.id;
-      setFormId(id);
+      formId = response.data.id;
     },
     onSuccess: () => {
       if (typeof window !== "undefined") {
@@ -102,6 +97,7 @@ export default function AddFormPage() {
       }
       setLoading(false);
       toast.success("워크폼을 등록했습니다.");
+      router.push(`/work/${formId}`);
     },
     onError: (error) => {
       setLoading(false);
@@ -111,46 +107,23 @@ export default function AddFormPage() {
     },
   });
 
-  useEffect(() => {
-    if (formId) {
-      router.push(`/work/${formId}`);
-    }
-  }, [formId]);
-
   // 폼데이터 임시 저장 함수
-  const onTempSave = async () => {
+  const onTempSave = () => {
     tempSave("addformData", currentValues);
   };
+  const params = {
+    "모집 내용": "recruit-content",
+    "모집 조건": "recruit-condition",
+    "근무 조건": "work-condition",
+  }[option];
 
-  const handleOptionChange = async (option: string) => {
-    setSelectedOption(option);
-    if (!initialLoad && option !== currentParam && option !== prevOption && isDirty) {
-      await onTempSave();
-      setPrevOption(option);
+  const handleOptionChange = (option: string) => {
+    if (option !== currentParam && isDirty) {
+      onTempSave();
     }
-    const params = {
-      "모집 내용": "recruit-content",
-      "모집 조건": "recruit-condition",
-      "근무 조건": "work-condition",
-    }[option];
+
     router.replace(`/addform?tab=${params}`);
   };
-
-  useEffect(() => {
-    switch (currentParam) {
-      case "recruit-content":
-        setSelectedOption("모집 내용");
-        break;
-      case "recruit-condition":
-        setSelectedOption("모집 조건");
-        break;
-      case "work-condition":
-        setSelectedOption("근무 조건");
-        break;
-      default:
-        setSelectedOption("모집 내용");
-    }
-  }, [currentParam]);
 
   const renderChildren = () => {
     switch (currentParam) {
@@ -258,7 +231,7 @@ export default function AddFormPage() {
               width="md"
               color="orange"
               className="lg: h-[58px] w-[320px] border bg-background-100 lg:h-[72px] lg:w-full lg:text-xl lg:leading-8"
-              onClick={() => onTempSave()}
+              onClick={() => tempSave("addformData", currentValues)}
             >
               임시 저장
             </Button>

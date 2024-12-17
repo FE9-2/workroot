@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 
 // 폼데이터 임시 저장 함수
-const tempSave = async (name: string, data: any) => {
+const tempSave = (name: string, data: any) => {
   if (typeof window !== "undefined") {
     window.localStorage.setItem(name, JSON.stringify(data));
   }
