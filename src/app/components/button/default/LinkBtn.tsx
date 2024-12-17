@@ -90,10 +90,10 @@ const LinkBtn = ({
   };
 
   const widths = {
-    xs: "w-[60px] md:w-[80px]",
-    sm: "w-[80px] md:w-[100px]",
-    md: "w-[100px] md:w-[120px]",
-    lg: "w-[120px] md:w-[140px]",
+    xs: "w-[60px] lg:w-[80px]",
+    sm: "w-[80px] lg:w-[100px]",
+    md: "w-[100px] lg:w-[120px]",
+    lg: "w-[120px] lg:w-[140px]",
   };
 
   const radiuses = {
@@ -109,9 +109,9 @@ const LinkBtn = ({
   };
 
   const heights = {
-    sm: "h-8 md:h-10",
-    md: "h-10 md:h-12",
-    lg: "h-12 md:h-14",
+    sm: "h-8 lg:h-10",
+    md: "h-10 lg:h-12",
+    lg: "h-12 lg:h-14",
   };
 
   const getWidthClass = (width: LinkBtnProps["width"]) => {
