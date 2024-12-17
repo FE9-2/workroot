@@ -118,6 +118,9 @@ export default function EditFormPage() {
       queryClient.invalidateQueries({
         queryKey: ["formDetail", formId],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["forms", { limit: 10 }],
+      });
     },
     onError: (error) => {
       console.error("에러가 발생했습니다.", error);
