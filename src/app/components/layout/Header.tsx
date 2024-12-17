@@ -117,8 +117,8 @@ export default function Header() {
                   height="sm"
                   fontSize={{
                     mobile: "sm",
-                    tablet: "base",
-                    desktop: "base",
+                    tablet: "md",
+                    desktop: "md",
                   }}
                   color="lime"
                   disabled={false}
@@ -138,8 +138,8 @@ export default function Header() {
                   height="sm"
                   fontSize={{
                     mobile: "sm",
-                    tablet: "base",
-                    desktop: "base",
+                    tablet: "md",
+                    desktop: "md",
                   }}
                   color="lime"
                   disabled={false}
@@ -165,7 +165,7 @@ export default function Header() {
       {/* 사이드바 */}
       <div
         className={cn(
-          "fixed right-0 top-0 z-40 h-full w-32 transform bg-white shadow-md transition-transform duration-300 ease-in-out md:w-40 lg:w-48",
+          "w-30 fixed right-0 top-0 z-40 h-full transform bg-white shadow-md transition-transform duration-300 ease-in-out md:w-44 lg:w-48",
           isSideMenuOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
@@ -191,6 +191,11 @@ export default function Header() {
                   tablet: "md",
                   desktop: "lg",
                 }}
+                fontSize={{
+                  mobile: "sm",
+                  tablet: "md",
+                  desktop: "lg",
+                }}
                 color="lime"
                 disabled={false}
                 onClick={() => setIsSideMenuOpen(false)}
@@ -201,6 +206,11 @@ export default function Header() {
                 href="/login"
                 variant="solid"
                 width={{
+                  mobile: "sm",
+                  tablet: "md",
+                  desktop: "lg",
+                }}
+                fontSize={{
                   mobile: "sm",
                   tablet: "md",
                   desktop: "lg",

@@ -14,7 +14,7 @@ interface LinkBtnProps {
   icon?: React.ReactNode;
   disabled?: boolean;
   children: React.ReactNode;
-  fontSize?: "xs" | "sm" | "base" | "lg" | ResponsiveFontSize;
+  fontSize?: "xs" | "sm" | "md" | "lg" | ResponsiveFontSize;
   onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
@@ -27,9 +27,9 @@ type ResponsiveWidth = {
 
 // 반응형 폰트 사이즈 타입 추가
 type ResponsiveFontSize = {
-  mobile?: "xs" | "sm" | "base" | "lg";
-  tablet?: "xs" | "sm" | "base" | "lg";
-  desktop?: "xs" | "sm" | "base" | "lg";
+  mobile?: "xs" | "sm" | "md" | "lg";
+  tablet?: "xs" | "sm" | "md" | "lg";
+  desktop?: "xs" | "sm" | "md" | "lg";
 };
 
 // 반응형 height 타입 추가
@@ -63,7 +63,7 @@ const LinkBtn = ({
   icon,
   disabled = false,
   children,
-  fontSize = "base",
+  fontSize = "md",
   onClick,
 }: LinkBtnProps) => {
   const baseStyles = "inline-flex items-center justify-center transition-colors font-medium h-12";
@@ -90,10 +90,10 @@ const LinkBtn = ({
   };
 
   const widths = {
-    xs: "w-[60px] lg:w-[80px]",
-    sm: "w-[80px] lg:w-[100px]",
-    md: "w-[100px] lg:w-[120px]",
-    lg: "w-[120px] lg:w-[140px]",
+    xs: "w-[60px] md:w-[70px] lg:w-[80px]",
+    sm: "w-[80px] md:w-[90px] lg:w-[100px]",
+    md: "w-[100px] md:w-[110px] lg:w-[120px]",
+    lg: "w-[120px] md:w-[130px] lg:w-[140px]",
   };
 
   const radiuses = {
@@ -104,7 +104,7 @@ const LinkBtn = ({
   const fontSizes = {
     xs: "text-xs",
     sm: "text-sm",
-    base: "text-base",
+    md: "text-base",
     lg: "text-lg",
   };
 
