@@ -19,6 +19,7 @@ import formatMoney from "@/utils/formatMoney";
 import tempSave from "@/utils/tempSave";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 export default function EditFormPage() {
   const router = useRouter();
@@ -147,7 +148,7 @@ export default function EditFormPage() {
   }
 
   if (isLoading) {
-    return <DotLoadingSpinner />;
+    return <LoadingSpinner />;
   }
 
   if (error) {

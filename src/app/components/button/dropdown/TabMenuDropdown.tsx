@@ -40,8 +40,8 @@ const TabMenuDropdown = ({ options, className = "", onChange, currentParam = "" 
   }, []);
 
   const handleOptionClick = (label: string) => {
+    if (!isDesktop && !isDesktopLarge) setIsOpen((prev) => !prev);
     setSelectedLabel(label); // 선택된 레이블을 저장
-    setIsOpen((prev) => !prev);
     onChange?.(label);
   };
 
