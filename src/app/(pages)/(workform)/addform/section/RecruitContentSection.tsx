@@ -10,6 +10,7 @@ import Label from "../../component/Label";
 import { ImageInputType } from "@/types/addform";
 import useUploadImages from "@/hooks/queries/user/me/useImageUpload";
 import { formatToLocaleDate } from "@/utils/formatters";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 
 // 워크폼 만들기 - 사장님 - 1-모집내용
 
@@ -24,7 +25,8 @@ export default function RecruitContentSection() {
     setValue,
     formState: { errors },
   } = useFormContext();
-  const { uploadImages } = useUploadImages();
+
+  const { uploadImages, isUploading } = useUploadImages();
 
   const imageUrlsData: string[] = watch("imageUrls");
 
@@ -143,7 +145,7 @@ export default function RecruitContentSection() {
         </div>
 
         <Label>이미지 첨부</Label>
-        <div>
+        <div className="relative">
           <ImageInput
             {...register("imageUrls")}
             onChange={(files: File[]) => {
@@ -152,6 +154,11 @@ export default function RecruitContentSection() {
             onDelete={(id) => handleDeleteImage(id)}
             initialImageList={initialImageList}
           />
+          {isUploading && (
+            <div className="absolute left-0 top-0 z-40 flex size-[80px] items-center justify-center rounded-lg bg-background-300 lg:left-[124px] lg:size-[116px]">
+              <DotLoadingSpinner />
+            </div>
+          )}
           {errors.imageUrls && <p className={cn(errorTextStyle, "")}>{errors.imageUrls.message as string}</p>}
         </div>
       </form>
