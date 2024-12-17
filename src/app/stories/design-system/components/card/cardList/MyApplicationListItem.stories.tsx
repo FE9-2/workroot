@@ -1,5 +1,5 @@
 import MyApplicationListItem from "@/app/components/card/cardList/MyApplicationListItem";
-import { applicationStatus } from "@/types/application";
+import { applicationStatus } from "@/types/applicationStatus";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof MyApplicationListItem> = {
