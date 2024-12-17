@@ -165,7 +165,7 @@ export default function Header() {
       {/* 사이드바 */}
       <div
         className={cn(
-          "fixed right-0 top-0 z-40 h-full w-40 transform bg-white shadow-md transition-transform duration-300 ease-in-out md:w-72",
+          "fixed right-0 top-0 z-40 h-full w-32 transform bg-white shadow-md transition-transform duration-300 ease-in-out md:w-40 lg:w-48",
           isSideMenuOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
@@ -188,8 +188,8 @@ export default function Header() {
                 variant="outlined"
                 width={{
                   mobile: "sm",
-                  tablet: "sm",
-                  desktop: "md",
+                  tablet: "md",
+                  desktop: "lg",
                 }}
                 color="lime"
                 disabled={false}
@@ -202,8 +202,8 @@ export default function Header() {
                 variant="solid"
                 width={{
                   mobile: "sm",
-                  tablet: "sm",
-                  desktop: "md",
+                  tablet: "md",
+                  desktop: "lg",
                 }}
                 color="lime"
                 disabled={false}
