@@ -1,0 +1,304 @@
+/* globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 기본적인 스타일을 정의 */
+@layer base {
+  body {
+    font-family: var(--font-nexon);
+  }
+}
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: gray;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+}
+
+li {
+  list-style: none;
+}
+/* 재사용 가능한 컴포넌트 스타일을 정의 */
+@layer components {
+  .font-school-regular {
+    font-family: var(--font-hakgyo);
+    font-weight: 400;
+  }
+  .font-school-bold {
+    font-family: var(--font-hakgyo);
+    font-weight: 700;
+  }
+  .font-nexon-light {
+    font-family: var(--font-nexon);
+    font-weight: 300;
+  }
+  .font-nexon-regular {
+    font-family: var(--font-nexon);
+    font-weight: 400;
+  }
+  .font-nexon-bold {
+    font-family: var(--font-nexon);
+    font-weight: 700;
+  }
+}
+
+/* 유틸리티 클래스를 정의 */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+/* 라디오 버튼 커스텀 스타일 */
+input[type="radio"].radio-custom {
+  -webkit-appearance: none; /* 웹킷 브라우저에서 기본 스타일 제거 */
+  -moz-appearance: none; /* 모질라 브라우저에서 기본 스타일 제거 */
+  appearance: none; /* 기본 브라우저에서 기본 스타일 제거 */
+  width: 18px;
+  height: 18px;
+  border: 2px solid #fbaf37; /* 체크되지 않았을 때의 테두리 색상 */
+  border-radius: 50%;
+  outline: none; /* focus 시에 나타나는 기본 스타일 제거 */
+  cursor: pointer;
+}
+
+/* 비활성화 상태에서의 라디오 버튼 스타일 */
+input[type="radio"].radio-custom:disabled {
+  border-color: #d1d5db;
+  cursor: not-allowed;
+}
+
+input[type="radio"].radio-custom:checked {
+  background-color: #fbaf37;
+  border: 3px solid white;
+  box-shadow: 0 0 0 1.6px #fbaf37;
+}
+
+/* 체크박스 본 스타일 */
+input[type="checkbox"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #fbaf37;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* 체크박스 비활성화 상태 스타일 */
+input[type="checkbox"]:disabled {
+  border-color: #d1d5db;
+  background-color: #f3f4f6;
+  cursor: not-allowed;
+}
+
+/* 체크박스 선택 상태 */
+input[type="checkbox"]:checked {
+  background-color: #fbaf37;
+}
+
+/* 체크 표시 추가 */
+input[type="checkbox"]:checked::before {
+  content: "✔";
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  font-size: 10px;
+}
+
+/* 비활성화된 체크박스 */
+input[type="checkbox"]:disabled {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+  cursor: not-allowed;
+}
+/* 스크롤바 커스텀 "scrollbar-custom" 를 className에 추가해서 적용 */
+.scrollbar-custom {
+  overflow-y: auto; /* 기본 overflow-y-auto 추가 */
+}
+.scrollbar-custom::-webkit-scrollbar {
+  width: 4px;
+}
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background: #fcc369;
+  border-radius: 9999px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background: #fbaf37;
+}
+
+/*------------------- date picker 커스텀 --------------------*/
+/* 너비 채우기 */
+.react-datepicker-wrapper {
+  @apply border-[0.5px] border-grayscale-100;
+}
+
+.react-datepicker,
+.react-datepicker__month-container {
+  @apply mb-4 w-full lg:mb-6 !important;
+}
+
+.react-datepicker__month {
+  @apply m-0 !important;
+}
+/* week 스타일 */
+.react-datepicker__week,
+.react-datepicker__day-names {
+  @apply flex px-2 lg:px-4;
+}
+/* 모든 날짜 셀에 대한 기본 크기 설정 */
+.react-datepicker__day {
+  @apply my-[7px] flex h-7 w-full items-center justify-center text-[13px] font-medium leading-[22px] text-black-400 lg:my-[14px] lg:h-10 lg:text-[20px] lg:leading-8 !important;
+}
+/* 요일 헤더 스타일 */
+.react-datepicker__day-name {
+  @apply flex h-[42px] w-full items-center justify-center text-[13px] font-medium leading-[22px] text-grayscale-500 lg:h-16 lg:text-[20px] lg:leading-8 !important;
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+  @apply mx-0 !important;
+}
+
+/* 헤더 스타일 */
+.react-datepicker .react-datepicker__header {
+  @apply bg-white;
+}
+.react-datepicker__header,
+.react-datepicker__header--custom {
+  @apply border-transparent !important;
+}
+
+/* 현재 달이 아닌 날짜 스타일 */
+.react-datepicker__day--outside-month {
+  @apply text-grayscale-300 !important;
+}
+
+/* date range */
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range,
+.react-datepicker__month-text--in-selecting-range,
+.react-datepicker__month-text--in-range,
+.react-datepicker__quarter-text--in-selecting-range,
+.react-datepicker__quarter-text--in-range,
+.react-datepicker__year-text--in-selecting-range,
+.react-datepicker__year-text--in-range,
+.react-datepicker__day--in-selecting-range:not(.react-datepicker__day--outside-month) {
+  @apply bg-primary-orange-50 text-black-400 opacity-80 !important;
+}
+/* 범위의 첫 날짜에 대한 스타일 */
+.react-datepicker__day--range-start.react-datepicker__day--in-range {
+  @apply bg-primary-orange-50 !important;
+  background: linear-gradient(to left, #fff7eb 50%, transparent 50%) !important;
+}
+
+/* 범위의 마지막 날짜에 대한 스타일 */
+.react-datepicker__day--range-end.react-datepicker__day--in-range {
+  @apply bg-primary-orange-50 !important;
+  background: linear-gradient(to right, #fff7eb 50%, transparent 50%) !important;
+}
+
+/* Start, End 날짜 스타일 - 선택 순서와 관계없이 항상 적용 */
+.react-datepicker__day--range-start,
+.react-datepicker__day--selecting-range-start,
+.react-datepicker__day--range-end,
+.react-datepicker__day--selecting-range-end,
+.react-datepicker__day--selected {
+  @apply relative text-grayscale-50 !important;
+  z-index: 1;
+}
+
+/* Start, End 날짜의 원형 배경 스타일 */
+.react-datepicker__day--range-start::before,
+.react-datepicker__day--selecting-range-start::before,
+.react-datepicker__day--range-end::before,
+.react-datepicker__day--selecting-range-end::before,
+.react-datepicker__day--selected::before {
+  @apply absolute left-1/2 top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-orange-300 content-[''] lg:h-10 lg:w-10 !important;
+  z-index: -1;
+}
+
+/* 날짜 호버 스타일 */
+.react-datepicker__day:hover,
+.react-datepicker__day--selecting-range-start:hover,
+.react-datepicker__day--selecting-range-end:hover {
+  @apply bg-primary-orange-50 !important;
+}
+/* 오늘 날짜 기본 스타일 */
+.react-datepicker__day--today {
+  @apply border-transparent bg-transparent font-bold !important;
+  color: theme("colors.black.400") !important;
+}
+/* 오늘 날짜가 범위 안에 있을 때의 스타일 */
+.react-datepicker__day--today.react-datepicker__day--in-range {
+  @apply bg-primary-orange-50 !important;
+}
+
+/* 오늘 날짜가 시작일이나 종료일일 때의 스타일 */
+.react-datepicker__day--today.react-datepicker__day--range-start::before,
+.react-datepicker__day--today.react-datepicker__day--range-end::before {
+  @apply bg-primary-orange-300 !important;
+}
+
+/* 종료일 스타일 */
+.react-datepicker__day--selecting-range-end,
+.react-datepicker__day--selected {
+  @apply relative text-grayscale-50 !important;
+  background: linear-gradient(to right, #fff7eb 50%, transparent 50%) !important;
+}
+
+/* 범위 선택 중 종료일 스타일 유지 */
+.react-datepicker__day--in-selecting-range.react-datepicker__day--selecting-range-end,
+.react-datepicker__day--in-range.react-datepicker__day--range-end {
+  @apply text-grayscale-50 !important;
+  background: linear-gradient(to right, #fff7eb 50%, transparent 50%) !important;
+}
+
+/* 시작일 스타일 */
+.react-datepicker__day--selecting-range-start,
+.react-datepicker__day--selected {
+  @apply relative text-grayscale-50 !important;
+  background: linear-gradient(to right, #fff7eb 50%, transparent 50%) !important;
+}
+
+/* 범위 선택 중 시작일 스타일 유지 */
+.react-datepicker__day--in-selecting-range.react-datepicker__day--selecting-range-start,
+.react-datepicker__day--in-range.react-datepicker__day--range-start {
+  @apply text-grayscale-50 !important;
+  background: linear-gradient(to left, #fff7eb 50%, transparent 50%) !important;
+}
+
+/* 첫번째 날짜 선택 후 이전 날짜에 호버했을때 첫번째 날짜 스타일 */
+.react-datepicker__day--keyboard-selected,
+.react-datepicker__month-text--keyboard-selected,
+.react-datepicker__quarter-text--keyboard-seleted,
+.react-datepicker__year-text--keyboard-selected {
+  @apply bg-grayscale-50 !important;
+}
+
+/* --------------------- date picker커스텀 끝--------------------- */
+
+.bg-black50 {
+  @apply !bg-[#141414] !bg-opacity-50;
+}
+
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+/* 또는 */
+
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap");
