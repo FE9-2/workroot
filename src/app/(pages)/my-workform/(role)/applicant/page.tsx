@@ -12,8 +12,8 @@ import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import ContentSection from "@/app/components/layout/ContentSection";
 import Link from "next/link";
 import MyApplicationListItem from "@/app/components/card/cardList/apply/MyApplicationListItem";
-import { useApplicationsList } from "@/hooks/queries/user/me/useApplicationsList";
 import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
+import { useApplicationsList } from "@/hooks/queries/user/me/useApplicationsList";
 
 const APPLICATIONS_PER_PAGE = 10;
 
