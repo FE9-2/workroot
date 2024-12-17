@@ -8,11 +8,11 @@ import { useUser } from "@/hooks/queries/user/me/useUser";
 import { userRoles } from "@/constants/userRoles";
 import SearchSection from "@/app/components/layout/forms/SearchSection";
 import MyApplicationListItem from "@/app/components/card/cardList/MyApplicationListItem";
-import { useMyApplications } from "@/hooks/queries/user/me/useMyApplications";
 import ApplicantSortSection from "./components/ApplicantSortSection";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import ContentSection from "@/app/components/layout/ContentSection";
 import Link from "next/link";
+import { UseApplicationsList } from "@/hooks/queries/user/me/UseApplicationsList";
 
 const APPLICATIONS_PER_PAGE = 10;
 
@@ -40,7 +40,7 @@ export default function ApplicantPage() {
     isFetchingNextPage,
     isLoading: isLoadingData,
     error,
-  } = useMyApplications({
+  } = UseApplicationsList({
     limit: APPLICATIONS_PER_PAGE,
     status,
     keyword,
