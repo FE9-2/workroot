@@ -10,7 +10,7 @@ interface UseApplicationsListParams {
 }
 
 // 지원 목록 조회
-export const useApplicationsList = ({ limit = 10, status, keyword }: UseApplicationsListParams = {}) => {
+export const useApplicationsList = ({ limit = 10, status, keyword }: UseApplicationsListParams) => {
   const query = useInfiniteQuery<MyApplicationListResponse>({
     queryKey: ["myApplications", { limit, status, keyword }],
     queryFn: async ({ pageParam }) => {
