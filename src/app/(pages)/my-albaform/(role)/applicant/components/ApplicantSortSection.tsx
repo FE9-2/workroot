@@ -37,7 +37,7 @@ export default function ApplicantSortSection({ pathname, searchParams }: Applica
   return (
     <FilterDropdown
       options={APPLICANT_SORT_OPTIONS.map((option) => option.label)}
-      className="!w-28 md:!w-40"
+      className="!w-28 lg:!w-40"
       initialValue={currentLabel}
       onChange={handleSortChange}
     />
