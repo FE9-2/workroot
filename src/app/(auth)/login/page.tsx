@@ -54,94 +54,92 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center bg-gradient-to-r from-lime-200 to-lime-300 px-4 py-12 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-lg">
-        <div>
-          <div className="text-grayscale-900 text-center text-3xl font-bold tracking-tight">로그인</div>
-          <p className="text-grayscale-600 mt-2 text-center text-sm">
-            아직 계정이 없으신가요?{" "}
-            <Link href="/signup" className="font-medium text-lime-600 hover:text-lime-500">
-              회원가입하기
-            </Link>
-          </p>
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-6 rounded-md">
-            <div>
-              <AuthInput
-                {...register("email")}
-                type="email"
-                name="email"
-                placeholder="이메일"
-                errormessage={errors.email?.message}
-              />
-            </div>
-            <div>
-              <AuthInput
-                {...register("password")}
-                type="password"
-                name="password"
-                placeholder="비밀번호"
-                errormessage={errors.password?.message}
-              />
-            </div>
-          </div>
-
-          <div className="flex justify-center">
-            <Button type="submit" variant="solid" color="lime" width="md" disabled={isPending}>
-              {isPending ? <DotLoadingSpinner /> : "로그인"}
-            </Button>
-          </div>
-          <div className="flex items-center justify-center">
-            <hr className="flex-grow border-t border-grayscale-200" />
-            <span className="mx-4 text-sm text-grayscale-400">SNS 계정으로 로그인하기</span>
-            <hr className="flex-grow border-t border-grayscale-200" />
-          </div>
-          <div className="flex justify-center space-x-6">
-            <Link
-              href={`https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile&response_type=code&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&state=${encodeURIComponent(
-                JSON.stringify({ provider: "google", action: "login" })
-              )}`}
-            >
-              <Image src="/icons/social/social_google.svg" width={72} height={72} alt="구글 로그인" />
-            </Link>
-            <Link
-              href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code&state=${encodeURIComponent(
-                JSON.stringify({ provider: "kakao", action: "login" })
-              )}`}
-            >
-              <Image src="/icons/social/social_kakao.svg" width={72} height={72} alt="카카오 로그인" />
-            </Link>
-          </div>
-          <div className="flex items-center justify-center">
-            <hr className="flex-grow border-t border-grayscale-200" />
-            <span className="mx-4 text-sm text-grayscale-400">테스트 계정으로 로그인하기</span>
-            <hr className="flex-grow border-t border-grayscale-200" />
-          </div>
-          <div className="flex justify-center space-x-6">
-            <Button
-              type="button"
-              variant="outlined"
-              width="sm"
-              color="lime"
-              onClick={() => handleTestLogin(userRoles.APPLICANT)}
-              disabled={isPending}
-            >
-              지원자
-            </Button>
-            <Button
-              type="button"
-              variant="solid"
-              width="sm"
-              color="lime"
-              onClick={() => handleTestLogin(userRoles.OWNER)}
-              disabled={isPending}
-            >
-              사장님
-            </Button>
-          </div>
-        </form>
+    <>
+      <div>
+        <div className="text-grayscale-900 text-center text-3xl font-bold tracking-tight">로그인</div>
+        <p className="text-grayscale-600 mt-2 text-center text-sm">
+          아직 계정이 없으신가요?{" "}
+          <Link href="/signup" className="font-medium text-lime-600 hover:text-lime-500">
+            회원가입하기
+          </Link>
+        </p>
       </div>
-    </div>
+      <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
+        <div className="space-y-6 rounded-md">
+          <div>
+            <AuthInput
+              {...register("email")}
+              type="email"
+              name="email"
+              placeholder="이메일"
+              errormessage={errors.email?.message}
+            />
+          </div>
+          <div>
+            <AuthInput
+              {...register("password")}
+              type="password"
+              name="password"
+              placeholder="비밀번호"
+              errormessage={errors.password?.message}
+            />
+          </div>
+        </div>
+
+        <div className="flex justify-center">
+          <Button type="submit" variant="solid" color="lime" width="md" disabled={isPending}>
+            {isPending ? <DotLoadingSpinner /> : "로그인"}
+          </Button>
+        </div>
+        <div className="flex items-center justify-center">
+          <hr className="flex-grow border-t border-grayscale-200" />
+          <span className="mx-4 text-sm text-grayscale-400">SNS 계정으로 로그인하기</span>
+          <hr className="flex-grow border-t border-grayscale-200" />
+        </div>
+        <div className="flex justify-center space-x-6">
+          <Link
+            href={`https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile&response_type=code&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&state=${encodeURIComponent(
+              JSON.stringify({ provider: "google", action: "login" })
+            )}`}
+          >
+            <Image src="/icons/social/social_google.svg" width={72} height={72} alt="구글 로그인" />
+          </Link>
+          <Link
+            href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code&state=${encodeURIComponent(
+              JSON.stringify({ provider: "kakao", action: "login" })
+            )}`}
+          >
+            <Image src="/icons/social/social_kakao.svg" width={72} height={72} alt="카카오 로그인" />
+          </Link>
+        </div>
+        <div className="flex items-center justify-center">
+          <hr className="flex-grow border-t border-grayscale-200" />
+          <span className="mx-4 text-sm text-grayscale-400">테스트 계정으로 로그인하기</span>
+          <hr className="flex-grow border-t border-grayscale-200" />
+        </div>
+        <div className="flex justify-center space-x-6">
+          <Button
+            type="button"
+            variant="outlined"
+            width="sm"
+            color="lime"
+            onClick={() => handleTestLogin(userRoles.APPLICANT)}
+            disabled={isPending}
+          >
+            지원자
+          </Button>
+          <Button
+            type="button"
+            variant="solid"
+            width="sm"
+            color="lime"
+            onClick={() => handleTestLogin(userRoles.OWNER)}
+            disabled={isPending}
+          >
+            사장님
+          </Button>
+        </div>
+      </form>
+    </>
   );
 }
