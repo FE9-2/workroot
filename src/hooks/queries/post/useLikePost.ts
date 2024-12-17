@@ -15,7 +15,7 @@ export const useLikePost = (postId: string) => {
       return response.data;
     },
     onSuccess: () => {
-      toast.success("게시글을 좋아요 했습니다!", {
+      toast.success("게시글을 좋아요 했습니다", {
         style: {
           textAlign: "center",
         },
