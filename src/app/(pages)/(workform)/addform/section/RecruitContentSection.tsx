@@ -97,10 +97,7 @@ export default function RecruitContentSection() {
   }, [recruitStartDate, recruitEndDate, displayDate]);
 
   // 날짜 선택
-  const [recruitmentDateRange, setRecruitmentDateRange] = useState<[Date | null, Date | null]>([null, null]);
-
   const handleRecruitmentDateChange = (dates: [Date | null, Date | null]) => {
-    setRecruitmentDateRange(dates); // -> prop으로 내려줌
     const [start, end] = dates;
     if (start) setValue("recruitmentStartDate", start.toISOString());
     if (end) setValue("recruitmentEndDate", end.toISOString(), { shouldDirty: true });
