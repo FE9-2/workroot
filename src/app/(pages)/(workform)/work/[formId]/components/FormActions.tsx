@@ -103,7 +103,7 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
             onClick={() =>
               openModal("myApplication", {
                 formId,
-                isOpen: false,
+                isOpen: true,
               })
             }
             disabled={!myApplication}
