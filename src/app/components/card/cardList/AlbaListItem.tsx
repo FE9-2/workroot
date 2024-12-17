@@ -13,6 +13,7 @@ import { isValidS3Url } from "@/utils/checkS3Url";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import { userRoles } from "@/constants/userRoles";
 import EmptyImage from "./EmptyImage";
+import InfoItem from "./InfoItem";
 
 /**
  * 워크폼 리스트 아이템 컴포넌트
@@ -177,19 +178,7 @@ const AlbaListItem = ({
         </div>
 
         {/* 통계 정보 영역 - mt-auto 제거하고 부모 컨테이너에 justify-between 추가 */}
-        <div className="text-grayscale-700 mt-4 flex h-[50px] items-center justify-between rounded-2xl border border-grayscale-100 text-sm lg:text-base">
-          <div className="flex flex-1 items-center justify-center">
-            <span className="font-medium">지원자 {applyCount}명</span>
-          </div>
-          <div className="h-5 w-[1px] bg-grayscale-200/50" />
-          <div className="flex flex-1 items-center justify-center">
-            <span className="font-medium">스크랩 {scrapCount}명</span>
-          </div>
-          <div className="h-5 w-[1px] bg-grayscale-200/50" />
-          <div className="flex flex-1 items-center justify-center">
-            <span className="font-medium">{dDay}</span>
-          </div>
-        </div>
+        <InfoItem applyCount={applyCount} scrapCount={scrapCount} dDay={dDay} />
       </div>
     </div>
   );
