@@ -100,7 +100,7 @@ const Comment = ({ id, nickname, updatedAt, content, isAuthor = false }: Comment
   }
 
   return (
-    <div className="w-full rounded-lg border border-line-200 bg-white p-4">
+    <div className="mb-2 w-full rounded-lg border border-line-200 bg-white p-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Image
