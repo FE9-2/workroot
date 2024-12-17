@@ -20,8 +20,7 @@ const FloatingBtn = ({ variant = "orange", icon, children, className, disabled, 
     orange: "hover:bg-primary-orange-200",
     white: "hover:text-primary-orange-200",
   };
-
-  const disabledStyles = "bg-grayscale-100 text-white cursor-not-allowed";
+  const disabledStyles = "bg-grayscale-100 text-white cursor-not-allowed border-none";
 
   const widthStyles = children ? "w-auto px-3" : "w-12";
 

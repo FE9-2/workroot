@@ -9,6 +9,7 @@ interface UseMyApplicationsParams {
   keyword?: string;
 }
 
+// 지원 목록 조회
 export const useMyApplications = ({ limit = 10, status, keyword }: UseMyApplicationsParams = {}) => {
   const query = useInfiniteQuery<MyApplicationListResponse>({
     queryKey: ["myApplications", { limit, status, keyword }],
