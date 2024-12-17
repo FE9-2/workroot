@@ -56,7 +56,7 @@ export default function Header() {
           <div className="flex items-center">
             {/* 로고 스켈레톤 - 이미지로 대체*/}
             <div className="flex gap-[6px]">
-              <Image src="/logo.svg" alt="Work Root" width={52} height={40} className="w-14" />
+              <Image src="/logo.png" alt="Work Root" width={52} height={40} className="w-14" />
               <div className="hidden items-center text-3xl font-semibold text-lime-600 md:flex">WorkRoot</div>
             </div>
             {/* 메뉴 스켈레톤 - 실제 메뉴와 동일한 위치에 배치 */}
@@ -82,7 +82,7 @@ export default function Header() {
         {/* 로고와 메인 네비게이션 */}
         <div className="flex items-center">
           <Link href="/" className="flex items-center gap-[6px] text-xl">
-            <Image src="/logo.svg" alt="Work Root" width={52} height={40} className="w-14 hover:opacity-90" />
+            <Image src="/logo.png" alt="Work Root" width={52} height={40} className="w-14 hover:opacity-90" />
             <div className="hidden items-center text-3xl font-semibold text-lime-600 md:flex">WorkRoot</div>
           </Link>
 
