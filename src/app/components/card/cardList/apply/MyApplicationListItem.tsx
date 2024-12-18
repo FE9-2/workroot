@@ -2,42 +2,20 @@ import { getRecruitmentStatus } from "@/utils/recruitDateFormatter";
 import { formatLocalDate } from "@/utils/workDayFormatter";
 import Chip from "@/app/components/chip/Chip";
 import Image from "next/image";
-import { ApplyStatus } from "@/types/application";
-import axios from "axios";
-import toast from "react-hot-toast";
 import { MyApplicationType } from "@/types/response/user";
 import { MdOutlineImage } from "react-icons/md";
 import translateStatus, { getStatusVariant } from "@/utils/translateStatus";
+import { ApplicationStatusType } from "@/types/applicationStatus";
+import { useResumeDownLoad } from "@/hooks/useResumeDownLoad";
 
 const MyApplicationListItem = ({ createdAt, status, resumeId, resumeName, form }: MyApplicationType) => {
+  const { downloadResume } = useResumeDownLoad();
+
   // 이력서 다운로드 핸들러
-  const handleResumeDownload = async () => {
-    try {
-      // API를 통해 이력서 파일을 다운로드
-      const response = await axios.get(`/api/resume/${resumeId}/download`, {
-        responseType: "blob",
-      });
-
-      // Blob 객체 생성 및 다운로드 링크 생성
-      const blob = new Blob([response.data], { type: "application/pdf" });
-      const url = window.URL.createObjectURL(blob);
-
-      // 가상의 링크를 생성하여 다운로드 실행
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = resumeName || `이력서_${resumeId}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-
-      // 메모리 정리
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(link);
-
-      toast.success("이력서가 다운로드되었습니다.");
-    } catch (error) {
-      console.error("Resume download error:", error);
-      toast.error("이력서 다운로드에 실패했습니다.");
-    }
+  const handleResumeDownload = (e: React.MouseEvent) => {
+    e.stopPropagation(); // 부모의 Link 이벤트 전파 방지
+    e.preventDefault(); // 기본 이벤트 방지
+    downloadResume({ resumeId, resumeName });
   };
 
   return (
@@ -54,7 +32,7 @@ const MyApplicationListItem = ({ createdAt, status, resumeId, resumeName, form }
             onClick={handleResumeDownload}
             className="decoration-grayscale-600/50 hover:text-grayscale-600 hover:decoration-grayscale-600 text-sm font-medium text-grayscale-500 underline decoration-1 underline-offset-4 hover:cursor-pointer md:text-base"
           >
-            이력서 보기
+            이력서 다운로드
           </button>
         </div>
 
@@ -85,8 +63,8 @@ const MyApplicationListItem = ({ createdAt, status, resumeId, resumeName, form }
         <div className="text-grayscale-700 mt-4 flex h-[50px] items-center justify-start gap-2 rounded-2xl text-sm lg:text-base">
           <div className="rounded-[4px] border border-primary-orange-300 bg-primary-orange-50">
             <Chip
-              label={translateStatus(status as ApplyStatus)}
-              variant={getStatusVariant(status as ApplyStatus)}
+              label={translateStatus(status as ApplicationStatusType)}
+              variant={getStatusVariant(status as ApplicationStatusType)}
               textStyle="font-bold"
             />
           </div>

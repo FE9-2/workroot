@@ -8,6 +8,7 @@ import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import BoardComment from "@/app/components/card/board/BoardComment";
 import ContentSection from "@/app/components/layout/ContentSection";
 import useWidth from "@/hooks/useWidth";
+import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
 
 export default function CommentsSection() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -70,6 +71,9 @@ export default function CommentsSection() {
   return (
     <div className="flex flex-col items-center">
       <div className="mx-auto mt-4 w-full max-w-screen-xl px-3">
+        {/* ScrollTopButton 추가 */}
+        <ScrollTopButton showHeight={300} />
+
         <ContentSection>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {data.data.map((comment) => (

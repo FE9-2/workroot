@@ -8,16 +8,13 @@ import { useProfileStringValue } from "@/hooks/queries/user/me/useProfileStringV
 import Link from "next/link";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import ContentSection from "@/app/components/layout/ContentSection";
-import SortSection from "@/app/components/layout/posts/SortSection";
-import { usePathname, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { formatLocalDate } from "@/utils/workDayFormatter";
 import useWidth from "@/hooks/useWidth";
+import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
 
 export default function PostsSection() {
   const { orderBy } = useMySortStore();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
   const { isMobile, isTablet, isDesktop } = useWidth();
   useProfileStringValue();
 
@@ -74,8 +71,11 @@ export default function PostsSection() {
           </div>
         ) : (
           <div className="mx-auto mt-4 w-full max-w-screen-xl px-3">
+            {/* ScrollTopButton 추가 */}
+            <ScrollTopButton showHeight={300} />
+
             <ContentSection>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {data.pages.map((page) => (
                   <React.Fragment key={page.nextCursor}>
                     {page.data.map((post) => (
@@ -103,12 +103,12 @@ export default function PostsSection() {
                                     {formatLocalDate(post.updatedAt)}
                                   </span>
                                 </div>
-                                <div className="flex items-center gap-4">
-                                  <div className="flex items-center gap-1">
+                                <div className="ml-3 flex items-center gap-2">
+                                  <div className="flex items-center">
                                     <Image src="/icons/comment/comment-sm.svg" alt="댓글" width={20} height={20} />
                                     <span className="text-sm text-grayscale-400">{post.commentCount}</span>
                                   </div>
-                                  <div className="flex items-center gap-1">
+                                  <div className="flex items-center">
                                     <Image src="/icons/like/like-sm.svg" alt="좋아요" width={20} height={20} />
                                     <span className="text-sm text-grayscale-400">{post.likeCount}</span>
                                   </div>

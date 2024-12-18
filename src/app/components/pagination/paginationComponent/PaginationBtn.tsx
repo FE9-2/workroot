@@ -1,5 +1,3 @@
-import { cn } from "@/lib/tailwindUtil";
-
 interface PaginationBtnProps {
   children: React.ReactNode;
   onClick?: () => void;
