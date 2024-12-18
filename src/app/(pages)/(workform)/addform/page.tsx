@@ -16,6 +16,7 @@ import CustomFormModal from "@/app/components/modal/modals/confirm/CustomFormMod
 import tempSave from "@/utils/tempSave";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import { useUser } from "@/hooks/queries/user/me/useUser";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 // 불필요한 상태
 
@@ -26,7 +27,7 @@ export default function AddFormPage() {
     mode: "onChange",
     defaultValues: {
       isPublic: true,
-      hourlyWage: 0,
+      hourlyWage: 10030,
       isNegotiableWorkDays: false,
       workDays: [],
       workEndTime: "",
@@ -148,7 +149,7 @@ export default function AddFormPage() {
   };
 
   if (isLoading) {
-    return <DotLoadingSpinner />;
+    return <LoadingSpinner />;
   }
 
   if (user?.role !== "OWNER") {

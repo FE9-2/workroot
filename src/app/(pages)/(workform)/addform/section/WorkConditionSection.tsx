@@ -13,7 +13,7 @@ import Script from "next/script";
 import LocationInput from "@/app/components/input/text/LocationInput";
 import { formatToLocaleDate } from "@/utils/formatters";
 
-const MINIMUM_WAGE = 10030;
+const MINIMUM_WAGE = 10_030;
 
 // 워크폼 만들기 - 사장님 - 3-근무조건
 export default function WorkConditionSection() {
@@ -132,7 +132,7 @@ export default function WorkConditionSection() {
             value={workEndTime}
             {...register("workEndTime", { required: "근무 시작 시간을 선택해주세요." })}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              setValue("workEndTime", e.target.value);
+              setValue("workEndTime", e.target.value, { shouldDirty: true });
             }}
           />
           {!errors.workStartDate ||
