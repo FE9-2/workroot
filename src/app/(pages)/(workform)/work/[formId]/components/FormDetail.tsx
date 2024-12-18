@@ -21,8 +21,8 @@ export default function FormDetails({ albaFormDetailData }: FormDetailsProps) {
         <span className="text-md text-grayscale-500 lg:text-lg">{albaFormDetailData.location || "위치"}</span>
       </div>
       <p className="text-2xl font-bold">{albaFormDetailData.title}</p>
-      <div className="space-y-32">
-        <div className="whitespace-pre-wrap text-xl">{albaFormDetailData.description}</div>
+      <div className="space-y-10">
+        <div className="whitespace-pre-wrap text-lg lg:text-xl">{albaFormDetailData.description}</div>
         <p className="text-2xl font-bold">근무 지역</p>
       </div>
       <div className="flex space-x-5 text-xl">
