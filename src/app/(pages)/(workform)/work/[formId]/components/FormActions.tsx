@@ -31,7 +31,6 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
 
   const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
-  if (!user) return null;
 
   const handleDelete = async () => {
     setIsLoading(true);
