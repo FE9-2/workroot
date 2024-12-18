@@ -41,9 +41,9 @@ const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
     const baseStyles = {
       wrapper: "relative flex items-center",
       input: `
-        w-full rounded-lg border border-grayscale-200 bg-transparent px-3 py-2
-        text-sm text-grayscale-900 placeholder:text-grayscale-400
-        focus:border-lime-500 focus:outline-none focus:ring-1 focus:ring-lime-500
+        w-full rounded-lg border border-grayscale-200 bg-transparent px-3 py-3
+        text-base text-grayscale-900 placeholder:text-grayscale-400 placeholder:text-base
+        focus:border-primary-orange-200 focus:outline-none focus:ring-1 focus:ring-primary-orange-200
         disabled:cursor-not-allowed disabled:opacity-50
       `,
       errorInput: "border-state-error focus:border-state-error focus:ring-state-error",

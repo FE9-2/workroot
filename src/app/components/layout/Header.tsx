@@ -40,13 +40,16 @@ export default function Header() {
     return cn(
       "font-medium transition-colors h-16 flex items-center",
       "hover:text-lime-900 hover:font-bold hover:opacity-70",
-      isActive ? "text-lime-900 text-sm md:text-base lg:text-lg font-bold" : "text-lime-700 text-sm md:text-base"
+      isActive
+        ? "text-lime-900 text-sm md:text-base lg:text-lg font-bold"
+        : "text-primary-orange-400 text-sm md:text-base"
     );
   };
-  const headerStyle = "fixed left-0 right-0 top-0 z-40 shadow-sm bg-lime-100 -tracking-widest md:tracking-normal";
+  const headerStyle =
+    "fixed left-0 right-0 top-0 z-40 shadow-sm bg-primary-orange-50 -tracking-widest md:tracking-normal";
   const navStyle = "mx-auto flex h-16 min-w-[327px] items-center justify-between px-6 max-w-screen-xl ";
   const menuStyle = "ml-4 flex h-16 items-center gap-4 md:ml-8 md:gap-6 lg:ml-[46px]";
-  const skeletonStyle = "w-16 animate-pulse bg-lime-200";
+  const skeletonStyle = "w-16 animate-pulse bg-primary-orange-100";
 
   return (
     <header className={headerStyle}>
@@ -55,7 +58,7 @@ export default function Header() {
         <div className="flex items-center">
           <Link href="/" className="flex items-center gap-[6px] text-xl">
             <Image src="/logo.png" alt="WorkRoot" width={52} height={40} className="w-14 hover:opacity-90" />
-            <div className="hidden items-center text-3xl font-semibold text-lime-600 md:flex">WorkRoot</div>
+            <div className="hidden items-center text-3xl font-semibold text-primary-orange-300 md:flex">WorkRoot</div>
           </Link>
 
           <div className={menuStyle}>
@@ -75,6 +78,8 @@ export default function Header() {
 
         {/* 로그인/회원가입 또는 메뉴 버튼 */}
         <ul className="relative flex items-center gap-2 lg:gap-4">
+          {isLoading ? <div className={skeletonStyle}></div> : <div className={skeletonStyle}></div>}
+
           {!user ? (
             <>
               <li className="flex items-center">
@@ -92,7 +97,6 @@ export default function Header() {
                     tablet: "md",
                     desktop: "md",
                   }}
-                  color="lime"
                   disabled={false}
                 >
                   로그인
@@ -113,7 +117,6 @@ export default function Header() {
                     tablet: "md",
                     desktop: "md",
                   }}
-                  color="lime"
                   disabled={false}
                 >
                   회원가입
@@ -126,8 +129,6 @@ export default function Header() {
               <Image src="/icons/menu/menu-md.svg" width={36} height={36} alt="메뉴" className="hidden sm:block" />
             </button>
           )}
-          {/* 로딩 스피너 추가 */}
-          {/* {isLoading ? "로그인" : "회원가입"} */}
         </ul>
       </nav>
 
@@ -145,7 +146,7 @@ export default function Header() {
       >
         <div className="flex w-full flex-col p-6">
           <div className="mb-6 flex items-center justify-between">
-            <span className="px-3 text-lg font-bold text-lime-700">메뉴</span>
+            <span className="px-3 text-lg font-bold text-primary-orange-400">메뉴</span>
             <button
               type="button"
               onClick={() => setIsSideMenuOpen(false)}
@@ -170,7 +171,6 @@ export default function Header() {
                   tablet: "md",
                   desktop: "lg",
                 }}
-                color="lime"
                 disabled={false}
                 onClick={() => setIsSideMenuOpen(false)}
               >
@@ -189,7 +189,6 @@ export default function Header() {
                   tablet: "md",
                   desktop: "lg",
                 }}
-                color="lime"
                 disabled={false}
                 onClick={handleLogout}
               >
