@@ -20,6 +20,7 @@ import tempSave from "@/utils/tempSave";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
+import { isValid } from "react-datepicker/dist/date_utils";
 
 export default function EditFormPage() {
   const router = useRouter();
@@ -168,7 +169,7 @@ export default function EditFormPage() {
               width="md"
               color="orange"
               className="h-[58px] w-[372px] lg:h-[72px] lg:text-xl lg:leading-8"
-              disabled={!isDirty}
+              disabled={!isDirty && !isValid}
               onClick={handleSubmit(() => mutation.mutate())}
             >
               {mutation.isPending ? <DotLoadingSpinner /> : "수정하기"}
