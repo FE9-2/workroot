@@ -171,7 +171,7 @@ export default function EditFormPage() {
               width="md"
               color="orange"
               className="h-[58px] w-full lg:h-[72px] lg:text-xl lg:leading-8"
-              disabled={!isDirty && !isValid}
+              disabled={!isDirty || !isValid}
               onClick={handleSubmit(() => mutation.mutate())}
             >
               {mutation.isPending ? <DotLoadingSpinner /> : "수정하기"}

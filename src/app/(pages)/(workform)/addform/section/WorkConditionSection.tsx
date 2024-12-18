@@ -29,6 +29,7 @@ export default function WorkConditionSection() {
   // 근무 기간 데이터 반영하기
   const workStartDate: string = watch("workStartDate");
   const workEndDate: string = watch("workEndDate");
+  const wageDate: number = Number(watch("houlyWage")) || MINIMUM_WAGE;
 
   const startDate = workStartDate ? new Date(workStartDate) : undefined;
   const endDate = workEndDate ? new Date(workEndDate) : undefined;
@@ -170,7 +171,7 @@ export default function WorkConditionSection() {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <BaseInput
-                value={value.toLocaleString()}
+                value={value ? Number(value).toLocaleString() : ""}
                 onChange={(e) => onChange(Number(e.target.value.replaceAll(",", "")))}
                 onBlur={onBlur}
                 variant="white"
