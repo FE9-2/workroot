@@ -26,6 +26,11 @@ interface ApplyFormData {
 }
 // 워크폼 만들기 - 지원자 (지원하기)
 export default function Apply() {
+  const formId = useParams().formId;
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const { user } = useUser();
+
   const {
     register,
     handleSubmit,
@@ -37,18 +42,13 @@ export default function Apply() {
     defaultValues: {
       name: "",
       phoneNumber: "",
-      experienceMonths: 0,
       resumeId: 0,
       resumeName: "",
       introduction: "",
-      password: "00000000",
+      password: user ? "00000000" : "",
     },
   });
   const currentValues = watch();
-  const formId = useParams().formId;
-  const router = useRouter();
-  const queryClient = useQueryClient();
-  const { user } = useUser();
 
   const onTempSave = () => {
     tempSave("applyTempData", currentValues);
@@ -176,6 +176,7 @@ export default function Apply() {
         placeholder="최대 200자까지 입력 가능합니다."
         errormessage={errors.introduction?.message}
       />
+      {/* 비회원일때만 비밀번호 입력 */}
       {!user && (
         <>
           <div className="relative">
