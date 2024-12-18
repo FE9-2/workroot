@@ -146,7 +146,7 @@ export default function Home() {
               둘러보기
             </LinkBtn>
             <LinkBtn
-              href="/signup"
+              href="/register"
               variant="outlined"
               width="lg"
               height="lg"
@@ -163,7 +163,7 @@ export default function Home() {
 
       {/* 특징 섹션 */}
       <section className="bg-[#44813c]/20 py-12 md:py-16">
-        <div className="container mx-auto max-w-full px-4">
+        <div className="container mx-auto max-w-[1600px] px-4">
           <div className="opacity-0 transition-opacity duration-1000 ease-in-out" data-id="features-intro"></div>
           <div className="space-y-12 md:space-y-16">
             {features.map((feature, index) => (
@@ -180,8 +180,10 @@ export default function Home() {
 
       {/* UI 섹션 */}
       <section className="bg-white py-16">
-        <div className="container mx-auto max-w-full px-4">
-          <h2 className="mb-12 text-center text-2xl font-bold text-[#44813c] md:text-3xl">WorkRoot 사용 방법</h2>
+        <div className="container mx-auto max-w-[1600px] px-4">
+          <h2 className="mb-12 text-center text-3xl font-medium leading-snug text-[#44813c] lg:leading-relaxed">
+            WorkRoot 사용 방법
+          </h2>
           <div className="flex flex-col gap-10 md:gap-14 lg:gap-16">
             {[
               { step: 1, text: "워크루트에 가입해 꿈을 위한 뿌리를 내리세요" },
@@ -202,14 +204,18 @@ export default function Home() {
                     alt={`Step ${step}`}
                     width={400}
                     height={240}
-                    className="h-[240px] w-full rounded-lg object-contain shadow-xl"
+                    className="h-[400px] w-full rounded-lg object-contain shadow-xl"
                   />
                 </div>
                 <div
-                  className={`mt-4 md:mt-0 md:w-1/2 ${step % 2 === 0 ? "md:order-1 md:pr-8" : "md:order-2 md:pl-8"}`}
+                  className={`mt-4 md:mt-0 md:flex md:w-1/2 md:items-start ${
+                    step % 2 === 0 ? "md:order-1 md:pr-8" : "md:order-2 md:pl-8"
+                  }`}
                 >
-                  <h3 className="mb-2 text-xl font-bold text-[#44813c] md:text-2xl">Step {step}</h3>
-                  <p className="text-lg font-semibold text-gray-600">{text}</p>
+                  <div>
+                    <h3 className="mb-2 text-2xl font-bold text-[#44813c] md:text-2xl">Step {step}</h3>
+                    <p className="text-2xl font-medium text-gray-600">{text}</p>
+                  </div>
                 </div>
               </div>
             ))}
@@ -218,7 +224,7 @@ export default function Home() {
       </section>
 
       {/* Footer CTA 섹션 */}
-      <section className="relative flex min-h-screen items-end justify-center overflow-hidden" data-id="footer-cta">
+      <section className="relative flex min-h-screen items-center justify-center overflow-hidden" data-id="footer-cta">
         {/* Background image */}
         <div className="absolute inset-0">
           <Image
@@ -232,14 +238,14 @@ export default function Home() {
 
         {/* Content */}
         <div
-          className="relative z-10 w-full max-w-[300px] max-w-full px-4 pb-20 text-center sm:max-w-[70%] lg:max-w-[860px]"
+          className="relative z-10 w-full max-w-[300px] text-center sm:max-w-[70%] lg:max-w-[860px]"
           style={{
             opacity: footerOpacity,
             transition: "opacity 1s ease-in-out",
           }}
         >
-          <h2 className="mb-4 text-2xl font-bold text-gray-600 md:text-3xl">지금 바로 시작하세요</h2>
-          <p className="mb-6 inline-block rounded bg-[#44813c] p-2 text-lg font-semibold text-white">
+          <h2 className="mb-4 text-2xl font-semibold text-gray-600 md:text-3xl">지금 바로 시작하세요</h2>
+          <p className="mb-6 inline-block rounded bg-[#44813c] p-2 text-2xl font-semibold text-white">
             WorkRoot가 여러분의 성장의 길을 열어드립니다
           </p>
           <div className="flex flex-row justify-center space-x-4">
@@ -256,7 +262,7 @@ export default function Home() {
               둘러보기
             </LinkBtn>
             <LinkBtn
-              href="/signup"
+              href="/register"
               variant="outlined"
               width="lg"
               height="lg"
@@ -308,11 +314,11 @@ function FeatureCard({ id, number, title, description, imageSrc, direction, isVi
       <div
         className={`mt-6 md:mt-0 md:w-2/3 ${direction === "left" ? "md:order-2 md:pl-6" : "md:order-1 md:pr-6"} px-6 md:px-8`}
       >
-        <span className="mb-2 block text-xl font-bold text-[#44813c] md:text-2xl">{number}</span>
-        <h3 className="mb-3 text-xl font-bold">
+        <span className="mb-2 block text-2xl font-bold text-[#44813c] md:text-2xl">{number}</span>
+        <h3 className="mb-3 text-2xl font-bold">
           <span className="inline-block rounded bg-[#44813c] p-2 text-white">{title}</span>
         </h3>
-        <p className="text-lg font-semibold text-gray-600">{description}</p>
+        <p className="text-2xl font-medium text-gray-600">{description}</p>
       </div>
     </div>
   );
