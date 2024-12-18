@@ -75,14 +75,15 @@ export default function Apply() {
       return response.data;
     },
 
-    onSuccess: () => {
+    onSuccess: async () => {
       // 로컬 스토리지 데이터 삭제
       if (typeof window !== "undefined") {
         window.localStorage.removeItem("tempAddFormData");
       }
 
       // 내 지원서 목록 캐시 무효화
-      queryClient.invalidateQueries({ queryKey: ["myApplications"] });
+      await queryClient.invalidateQueries({ queryKey: ["myApplications"] });
+      await queryClient.invalidateQueries({ queryKey: ["formDetail", formId] });
 
       toast.success("지원이 완료되었습니다.");
       router.push("/my-workform");

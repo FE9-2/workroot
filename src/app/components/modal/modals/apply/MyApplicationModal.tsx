@@ -26,9 +26,9 @@ const InfoRow = ({ label, value, isIntroduction }: InfoRowProps) => {
     return (
       <div className="space-y-2 border-b pb-2">
         <p className="text-grayscale-400">{label}</p>
-        <div className="h-[100px] overflow-y-auto whitespace-pre-wrap rounded-md border border-orange-400 p-2 text-sm">
+        <textarea className="scrollbar-custom h-[100px] w-full resize-none overflow-y-auto whitespace-pre-wrap rounded-md border border-grayscale-400 p-2 text-sm">
           {value}
-        </div>
+        </textarea>
       </div>
     );
   }
