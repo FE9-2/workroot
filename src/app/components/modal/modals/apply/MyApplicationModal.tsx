@@ -26,9 +26,12 @@ const InfoRow = ({ label, value, isIntroduction }: InfoRowProps) => {
     return (
       <div className="space-y-2 border-b pb-2">
         <p className="text-grayscale-400">{label}</p>
-        <div className="h-[100px] overflow-y-auto whitespace-pre-wrap rounded-md border border-orange-400 p-2 text-sm">
+        <textarea
+          readOnly
+          className="scrollbar-custom h-[100px] w-full resize-none overflow-y-auto whitespace-pre-wrap rounded-md border border-grayscale-400 p-2 text-sm focus:outline-none"
+        >
           {value}
-        </div>
+        </textarea>
       </div>
     );
   }
@@ -96,7 +99,7 @@ const ApplicationContent = ({
         </>
       )}
       <InfoRow label="자기소개" value={introduction} isIntroduction />
-      <InfoRow label="지원일" value={formatDateTime(createdAt)} />
+      <InfoRow label="지원 일자" value={formatDateTime(createdAt)} />
     </div>
   );
 };
@@ -120,8 +123,8 @@ export default function MyApplicationModal({ isOpen, onClose, formId, className 
           className
         )}
       >
-        <section className="relative h-full">
-          <main className="flex h-full flex-col items-center text-center lg:pt-8">
+        <section className="scrollbar-custom relative">
+          <main className="flex h-full flex-col items-center text-center">
             <ModalHeader />
             <div className="w-full text-left">
               {isLoading ? (

@@ -47,34 +47,6 @@ export default function Header() {
   const navStyle = "mx-auto flex h-16 min-w-[327px] items-center justify-between px-6 max-w-screen-xl ";
   const menuStyle = "ml-4 flex h-16 items-center gap-4 md:ml-8 md:gap-6 lg:ml-[46px]";
   const skeletonStyle = "w-16 animate-pulse bg-lime-200";
-  // 로딩 시간이 1초 이상일 때만 스켈레톤 UI 표시
-  if (isLoading) {
-    return (
-      <header className={headerStyle}>
-        <nav className={navStyle}>
-          {/* 로고와 메인 네비게이션 */}
-          <div className="flex items-center">
-            {/* 로고 스켈레톤 - 이미지로 대체*/}
-            <div className="flex gap-[6px]">
-              <Image src="/logo.png" alt="Work Root" width={52} height={40} className="w-14" />
-              <div className="hidden items-center text-3xl font-semibold text-lime-600 md:flex">WorkRoot</div>
-            </div>
-            {/* 메뉴 스켈레톤 - 실제 메뉴와 동일한 위치에 배치 */}
-            <div className={menuStyle}>
-              <div className={cn("h-6", skeletonStyle)} />
-              <div className={cn("h-6", skeletonStyle)} />
-            </div>
-          </div>
-
-          {/* 로그인/회원가입 버튼 스켈레톤 */}
-          <div className="flex items-center gap-2 lg:gap-4">
-            <div className={cn("h-8", skeletonStyle)} />
-            <div className={cn("h-8", skeletonStyle)} />
-          </div>
-        </nav>
-      </header>
-    );
-  }
 
   return (
     <header className={headerStyle}>
@@ -82,7 +54,7 @@ export default function Header() {
         {/* 로고와 메인 네비게이션 */}
         <div className="flex items-center">
           <Link href="/" className="flex items-center gap-[6px] text-xl">
-            <Image src="/logo.png" alt="Work Root" width={52} height={40} className="w-14 hover:opacity-90" />
+            <Image src="/logo.png" alt="WorkRoot" width={52} height={40} className="w-14 hover:opacity-90" />
             <div className="hidden items-center text-3xl font-semibold text-lime-600 md:flex">WorkRoot</div>
           </Link>
 
@@ -102,7 +74,7 @@ export default function Header() {
         </div>
 
         {/* 로그인/회원가입 또는 메뉴 버튼 */}
-        <ul className="flex items-center gap-2 lg:gap-4">
+        <ul className="relative flex items-center gap-2 lg:gap-4">
           {!user ? (
             <>
               <li className="flex items-center">
@@ -154,6 +126,8 @@ export default function Header() {
               <Image src="/icons/menu/menu-md.svg" width={36} height={36} alt="메뉴" className="hidden sm:block" />
             </button>
           )}
+          {/* 로딩 스피너 추가 */}
+          {/* {isLoading ? "로그인" : "회원가입"} */}
         </ul>
       </nav>
 
