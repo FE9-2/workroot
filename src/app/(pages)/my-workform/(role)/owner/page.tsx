@@ -212,7 +212,7 @@ export default function AlbaList() {
                   {page.data.map((form) => (
                     <div key={form.id}>
                       <Link href={`/work/${form.id}`}>
-                        <AlbaListItem {...form} />
+                        <AlbaListItem {...form} isMyForm={true} />
                       </Link>
                     </div>
                   ))}
