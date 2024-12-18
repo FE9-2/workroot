@@ -76,7 +76,7 @@ export default function EditFormPage() {
   // 수정된 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
-      const response = await axios.post("/api/forms", currentValues);
+      const response = await axios.patch(`/api/forms/${formId}`, currentValues);
       return response.data.id;
     },
     onSuccess: async (formId) => {
