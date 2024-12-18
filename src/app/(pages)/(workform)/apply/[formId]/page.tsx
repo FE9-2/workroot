@@ -68,7 +68,11 @@ export default function Apply() {
     mutationFn: async () => {
       // 최신 값을 가져오기
       const { resume, ...submitData } = currentValues;
-      await axios.post(`/api/forms/${formId}/applications`, submitData);
+      if (submitData.resumeId !== 0) {
+        await axios.post(`/api/forms/${formId}/applications`, submitData);
+      } else {
+        toast.error("이력서 파일을 다시 업로드해주세요.");
+      }
     },
     onSuccess: async () => {
       // 로컬 스토리지 데이터 삭제
