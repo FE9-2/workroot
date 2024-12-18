@@ -146,7 +146,7 @@ export default function Home() {
               둘러보기
             </LinkBtn>
             <LinkBtn
-              href="/register"
+              href="/signup"
               variant="outlined"
               width="lg"
               height="lg"
@@ -262,7 +262,7 @@ export default function Home() {
               둘러보기
             </LinkBtn>
             <LinkBtn
-              href="/register"
+              href="/signup"
               variant="outlined"
               width="lg"
               height="lg"
