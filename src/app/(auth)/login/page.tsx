@@ -59,7 +59,7 @@ export default function LoginPage() {
         <div className="text-grayscale-900 text-center text-3xl font-bold tracking-tight">로그인</div>
         <p className="text-grayscale-600 mt-2 text-center text-sm">
           아직 계정이 없으신가요?{" "}
-          <Link href="/signup" className="font-medium text-lime-600 hover:text-lime-500">
+          <Link href="/signup" className="font-medium text-primary-orange-300 hover:text-primary-orange-200">
             회원가입하기
           </Link>
         </p>
@@ -87,7 +87,7 @@ export default function LoginPage() {
         </div>
 
         <div className="flex justify-center">
-          <Button type="submit" variant="solid" color="lime" width="md" disabled={isPending}>
+          <Button type="submit" variant="solid" width="md" disabled={isPending}>
             {isPending ? <DotLoadingSpinner /> : "로그인"}
           </Button>
         </div>
@@ -122,7 +122,6 @@ export default function LoginPage() {
             type="button"
             variant="outlined"
             width="sm"
-            color="lime"
             onClick={() => handleTestLogin(userRoles.APPLICANT)}
             disabled={isPending}
           >
@@ -132,7 +131,6 @@ export default function LoginPage() {
             type="button"
             variant="solid"
             width="sm"
-            color="lime"
             onClick={() => handleTestLogin(userRoles.OWNER)}
             disabled={isPending}
           >

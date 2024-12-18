@@ -2,13 +2,13 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 // 이력서 업로드 api -> id, name 반환
-const uploadResume = async (file: FileList) => {
+const uploadResume = async (file: File) => {
   const uploadedFile: { resumeName: string; resumeId: number } = {
     resumeName: "",
     resumeId: 0,
   };
   const formData = new FormData();
-  formData.append("file", file[0]);
+  formData.append("file", file);
   try {
     const response = await axios.post(`/api/resume/upload`, formData, {
       headers: {
@@ -16,7 +16,6 @@ const uploadResume = async (file: FileList) => {
       },
       timeout: 5000, // 5초 타임아웃 설정
     });
-    console.log("이력서 업로드", response.data);
     return {
       resumeName: response.data.resumeName,
       resumeId: response.data.resumeId,

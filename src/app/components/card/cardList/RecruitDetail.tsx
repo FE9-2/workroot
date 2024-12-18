@@ -11,10 +11,10 @@ interface RecruitDetailProps {
 
 const RecruitDetail = ({ recruitData }: RecruitDetailProps) => {
   const titleStyle = "text-black-100";
-  const propsStyle = "flex items-center justify-between md:py-4";
+  const propsStyle = "flex items-center justify-between py-8";
 
   return (
-    <div className="flex h-[156px] w-full flex-col justify-center gap-3 rounded-lg border border-line-100 bg-white px-6 py-3 text-sm md:h-[336px] md:gap-6 md:text-lg">
+    <div className="flex w-full flex-col justify-center rounded-lg border border-line-100 bg-background-100 px-6 text-sm lg:text-lg">
       <div className={cn(propsStyle)}>
         <div>
           <span className={cn(titleStyle)}>모집 기간</span>

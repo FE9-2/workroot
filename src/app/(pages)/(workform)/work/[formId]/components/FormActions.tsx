@@ -28,7 +28,7 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
 
   const isMyAlbaForm = user?.id === albaFormDetailData.ownerId;
   const isOwnerRole = user?.role === "OWNER";
-  const buttonStyle = "h-10 lg:h-16 w-full rounded-lg font-bold mb-4";
+  const buttonStyle = "h-10 lg:h-16 w-full rounded-lg font-bold lg:mb-4";
 
   const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
@@ -39,7 +39,10 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
       await axios.delete(`/api/forms/${formId}`);
       toast.success("성공적으로 삭제되었습니다.");
       router.push(`/work-list`);
-      queryClient.invalidateQueries({ queryKey: ["forms", { limit: 10 }] });
+      await queryClient.invalidateQueries({ queryKey: ["forms", { limit: 10 }] });
+      await queryClient.invalidateQueries({
+        queryKey: ["myForms", { isPublic: true, isRecruiting: true, limit: 10 }],
+      });
     } catch (error) {
       console.error(error);
       toast.error("삭제 중 오류가 발생했습니다.");
@@ -103,7 +106,7 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
   if (isOwnerRole) {
     if (!isMyAlbaForm) return null;
     return (
-      <div className="space-y-4 text-2xl">
+      <div className="flex flex-col gap-2 text-2xl lg:gap-0">
         <Link href={`/work/${formId}/edit`}>
           <FloatingBtn className={buttonStyle} icon={<FaEdit />} disabled={isLoading}>
             {isLoading ? <DotLoadingSpinner /> : "수정하기"}
@@ -124,7 +127,7 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
 
   // 사장님이 아니면 지원하기/내 지원내역 보기 버튼
   return (
-    <div className="space-y-4 text-2xl">
+    <div className="flex flex-col gap-2 text-2xl lg:gap-0">
       {isApplicationLoading ? (
         <>
           <FloatingBtn className={`${buttonStyle}`} variant="white">

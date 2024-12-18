@@ -1,15 +1,32 @@
 import { workDayOptions } from "@/constants/workDayOptions";
 
-export const formatLocalDate = (date: Date, isMd: boolean = false) => {
-  // 유효한 Date 객체인지 확인
-  if (!(date instanceof Date) || isNaN(date.getTime())) {
-    return new Date().toLocaleDateString("ko-KR", { year: "numeric", month: "2-digit", day: "2-digit" });
-  }
+export const formatLocalDate = (date: Date | string, isMd: boolean = false) => {
+  try {
+    // date가 문자열인 경우 Date 객체로 변환
+    const dateObject = date instanceof Date ? date : new Date(date);
 
-  const year = isMd ? date.getFullYear().toString() : date.getFullYear().toString().slice(2);
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}.${month}.${day}`;
+    // 유효한 Date 객체인지 확인
+    if (isNaN(dateObject.getTime())) {
+      console.error("Invalid date:", date);
+      return new Date().toLocaleDateString("ko-KR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      });
+    }
+
+    const year = isMd ? dateObject.getFullYear().toString() : dateObject.getFullYear().toString().slice(2);
+    const month = String(dateObject.getMonth() + 1).padStart(2, "0");
+    const day = String(dateObject.getDate()).padStart(2, "0");
+    return `${year}.${month}.${day}`;
+  } catch (error) {
+    console.error("Date formatting error:", error);
+    return new Date().toLocaleDateString("ko-KR", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+  }
 };
 
 export const getWorkDaysDisplay = (isNegotiableWorkDays: boolean, workDays: string[] = []) => {

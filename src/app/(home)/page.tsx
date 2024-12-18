@@ -94,7 +94,7 @@ export default function Home() {
     {
       id: "feature-04",
       number: "04",
-      title: "쉽고 빠르게 지원",
+      title: "쉽고 빠르게 지원하세요",
       description: "간단한 정보 입력만으로 지원이 가능합니다",
       imageSrc: "/images/land/5.webp",
     },
@@ -111,11 +111,10 @@ export default function Home() {
           <Image
             src="/images/land/1.jpg"
             alt="Hero Background"
-            layout="fill"
-            objectFit="cover"
+            fill
             quality={100}
             priority
-            className="brightness-50"
+            className="object-cover brightness-50"
           />
         </div>
         {/* Content */}
@@ -139,7 +138,6 @@ export default function Home() {
               width="lg"
               height="lg"
               fontSize="lg"
-              color="lime"
               disabled={false}
               className="rounded-md border-2 border-white bg-transparent px-6 py-3 text-base font-bold text-white shadow-lg transition duration-300 hover:bg-white hover:text-[#44813c]"
             >
@@ -151,7 +149,6 @@ export default function Home() {
               width="lg"
               height="lg"
               fontSize="lg"
-              color="lime"
               disabled={false}
               className="rounded-md border-2 border-white bg-transparent px-6 py-3 text-base font-bold text-white shadow-lg transition duration-300 hover:bg-white hover:text-[#44813c]"
             >
@@ -180,15 +177,15 @@ export default function Home() {
 
       {/* UI 섹션 */}
       <section className="bg-white py-16">
-        <div className="container mx-auto max-w-[1600px] px-4">
+        <div className="container mx-auto max-w-screen-xl px-4">
           <h2 className="mb-12 text-center text-3xl font-medium leading-snug text-[#44813c] lg:leading-relaxed">
             WorkRoot 사용 방법
           </h2>
           <div className="flex flex-col gap-10 md:gap-14 lg:gap-16">
             {[
-              { step: 1, text: "워크루트에 가입해 꿈을 위한 뿌리를 내리세요" },
+              { step: 1, text: "워크루트에 가입해 꿈을 이루기 위한 뿌리를 내리세요" },
               { step: 2, text: "간단한 워크폼 등록으로 성장의 기회를 만드세요" },
-              { step: 3, text: "지원자 분들의 싹을 틔울 일자리를 찾아보세요" },
+              { step: 3, text: "당신의 싹을 틔울 일자리를 찾아보세요" },
               { step: 4, text: "간편하게 지원서를 작성하고 여러분들의 시작을 꽃피우세요 " },
             ].map(({ step, text }) => (
               <div
@@ -227,13 +224,7 @@ export default function Home() {
       <section className="relative flex min-h-screen items-center justify-center overflow-hidden" data-id="footer-cta">
         {/* Background image */}
         <div className="absolute inset-0">
-          <Image
-            src="/images/land/foot.jpg"
-            alt="Footer CTA Background"
-            layout="fill"
-            objectFit="cover"
-            quality={100}
-          />
+          <Image src="/images/land/foot.jpg" alt="Footer CTA Background" fill quality={100} className="object-cover" />
         </div>
 
         {/* Content */}
@@ -255,7 +246,6 @@ export default function Home() {
               width="lg"
               height="lg"
               fontSize="lg"
-              color="lime"
               disabled={false}
               className="rounded-md border-2 border-[#44813c] bg-transparent px-6 py-3 text-base font-bold text-[#44813c] shadow-lg transition duration-300 hover:bg-[#44813c] hover:text-white"
             >
@@ -267,7 +257,6 @@ export default function Home() {
               width="lg"
               height="lg"
               fontSize="lg"
-              color="lime"
               disabled={false}
               className="rounded-md border-2 border-[#44813c] bg-transparent px-6 py-3 text-base font-bold text-[#44813c] shadow-lg transition duration-300 hover:bg-[#44813c] hover:text-white"
             >

@@ -1,7 +1,33 @@
 {
-  "name": "MyWebSite",
-  "short_name": "MySite",
-  "theme_color": "#ffffff",
+  "name": "워크루트",
+  "short_name": "워크루트",
+  "description": "간편한 알바 구인구직 서비스",
+  "icons": [
+    {
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-icon-180x180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
   "background_color": "#ffffff",
-  "display": "standalone"
+  "theme_color": "#F89A05",
+  "orientation": "portrait"
 }

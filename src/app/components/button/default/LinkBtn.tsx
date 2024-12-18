@@ -83,9 +83,9 @@ const LinkBtn = ({
     },
     lime: {
       solid:
-        "bg-lime-600 text-white hover:bg-lime-700 focus:ring-1 focus:ring-lime-500 focus:outline-none disabled:bg-lime-300 disabled:pointer-events-none",
+        "bg-primary-orange-300 text-white hover:bg-primary-orange-400 focus:ring-1 focus:ring-primary-orange-200 focus:outline-none disabled:bg-primary-orange-200 disabled:pointer-events-none",
       outlined:
-        "border-2 border-lime-600 text-lime-600 hover:border-lime-700 hover:text-lime-700 focus:ring-1 focus:ring-lime-500 focus:outline-none disabled:border-lime-300 disabled:text-lime-300 disabled:pointer-events-none disabled:hover:bg-transparent",
+        "border-2 border-primary-orange-300 text-primary-orange-300 hover:border-primary-orange-400 hover:text-primary-orange-400 focus:ring-1 focus:ring-primary-orange-200 focus:outline-none disabled:border-primary-orange-200 disabled:text-primary-orange-200 disabled:pointer-events-none disabled:hover:bg-transparent",
     },
   };
 
