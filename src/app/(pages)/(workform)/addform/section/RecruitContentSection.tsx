@@ -148,7 +148,7 @@ export default function RecruitContentSection() {
             initialImageList={initialImageList}
           />
           {isUploading && (
-            <div className="absolute left-0 top-0 z-40 flex size-[80px] items-center justify-center rounded-lg bg-background-300 lg:left-[124px] lg:size-[116px]">
+            <div className="absolute left-0 top-0 z-40 flex size-[80px] items-center justify-center rounded-lg bg-background-300 lg:size-[116px]">
               <DotLoadingSpinner />
             </div>
           )}
