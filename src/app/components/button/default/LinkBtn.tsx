@@ -14,7 +14,7 @@ interface LinkBtnProps {
   icon?: React.ReactNode;
   disabled?: boolean;
   children: React.ReactNode;
-  fontSize?: "xs" | "sm" | "base" | "lg" | ResponsiveFontSize;
+  fontSize?: "xs" | "sm" | "md" | "lg" | ResponsiveFontSize;
   onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
@@ -27,9 +27,9 @@ type ResponsiveWidth = {
 
 // 반응형 폰트 사이즈 타입 추가
 type ResponsiveFontSize = {
-  mobile?: "xs" | "sm" | "base" | "lg";
-  tablet?: "xs" | "sm" | "base" | "lg";
-  desktop?: "xs" | "sm" | "base" | "lg";
+  mobile?: "xs" | "sm" | "md" | "lg";
+  tablet?: "xs" | "sm" | "md" | "lg";
+  desktop?: "xs" | "sm" | "md" | "lg";
 };
 
 // 반응형 height 타입 추가
@@ -63,7 +63,7 @@ const LinkBtn = ({
   icon,
   disabled = false,
   children,
-  fontSize = "base",
+  fontSize = "md",
   onClick,
 }: LinkBtnProps) => {
   const baseStyles = "inline-flex items-center justify-center transition-colors font-medium h-12";
@@ -83,17 +83,17 @@ const LinkBtn = ({
     },
     lime: {
       solid:
-        "bg-lime-600 text-white hover:bg-lime-700 focus:ring-1 focus:ring-lime-500 focus:outline-none disabled:bg-lime-300 disabled:pointer-events-none",
+        "bg-primary-orange-300 text-white hover:bg-primary-orange-400 focus:ring-1 focus:ring-primary-orange-200 focus:outline-none disabled:bg-primary-orange-200 disabled:pointer-events-none",
       outlined:
-        "border-2 border-lime-600 text-lime-600 hover:border-lime-700 hover:text-lime-700 focus:ring-1 focus:ring-lime-500 focus:outline-none disabled:border-lime-300 disabled:text-lime-300 disabled:pointer-events-none disabled:hover:bg-transparent",
+        "border-2 border-primary-orange-300 text-primary-orange-300 hover:border-primary-orange-400 hover:text-primary-orange-400 focus:ring-1 focus:ring-primary-orange-200 focus:outline-none disabled:border-primary-orange-200 disabled:text-primary-orange-200 disabled:pointer-events-none disabled:hover:bg-transparent",
     },
   };
 
   const widths = {
-    xs: "w-[60px] md:w-[80px]",
-    sm: "w-[80px] md:w-[100px]",
-    md: "w-[100px] md:w-[120px]",
-    lg: "w-[120px] md:w-[140px]",
+    xs: "w-[60px] md:w-[70px] lg:w-[80px]",
+    sm: "w-[80px] md:w-[90px] lg:w-[100px]",
+    md: "w-[100px] md:w-[110px] lg:w-[120px]",
+    lg: "w-[120px] md:w-[130px] lg:w-[140px]",
   };
 
   const radiuses = {
@@ -104,14 +104,14 @@ const LinkBtn = ({
   const fontSizes = {
     xs: "text-xs",
     sm: "text-sm",
-    base: "text-base",
+    md: "text-base",
     lg: "text-lg",
   };
 
   const heights = {
-    sm: "h-8 md:h-10",
-    md: "h-10 md:h-12",
-    lg: "h-12 md:h-14",
+    sm: "h-8 lg:h-10",
+    md: "h-10 lg:h-12",
+    lg: "h-12 lg:h-14",
   };
 
   const getWidthClass = (width: LinkBtnProps["width"]) => {

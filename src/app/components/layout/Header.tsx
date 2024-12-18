@@ -23,7 +23,7 @@ export default function Header() {
     e.preventDefault();
     try {
       logout();
-      toast.success("로그아웃되었습니다!");
+      toast.success("로그아웃되었습니다.");
       setIsSideMenuOpen(false);
       setTimeout(() => {
         router.push("/login");
@@ -39,42 +39,17 @@ export default function Header() {
 
     return cn(
       "font-medium transition-colors h-16 flex items-center",
-      "hover:text-lime-900",
-      isActive ? "text-lime-900 text-sm md:text-base lg:text-lg lg:font-bold" : "text-lime-700 text-sm md:text-base"
+      "hover:text-lime-900 hover:font-bold hover:opacity-70",
+      isActive
+        ? "text-lime-900 text-sm md:text-base lg:text-lg font-bold"
+        : "text-primary-orange-400 text-sm md:text-base"
     );
   };
-  const headerStyle = "fixed left-0 right-0 top-0 z-40 shadow-sm bg-lime-100 -tracking-widest md:tracking-normal";
+  const headerStyle =
+    "fixed left-0 right-0 top-0 z-40 shadow-sm bg-primary-orange-50 -tracking-widest md:tracking-normal";
   const navStyle = "mx-auto flex h-16 min-w-[327px] items-center justify-between px-6 max-w-screen-xl ";
   const menuStyle = "ml-4 flex h-16 items-center gap-4 md:ml-8 md:gap-6 lg:ml-[46px]";
-  const skeletonStyle = "w-16 animate-pulse bg-lime-200";
-  // 로딩 시간이 1초 이상일 때만 스켈레톤 UI 표시
-  if (isLoading) {
-    return (
-      <header className={headerStyle}>
-        <nav className={navStyle}>
-          {/* 로고와 메인 네비게이션 */}
-          <div className="flex items-center">
-            {/* 로고 스켈레톤 - 이미지로 대체*/}
-            <div className="flex gap-[6px]">
-              <Image src="/logo.svg" alt="Work Root" width={52} height={40} className="w-14" />
-              <div className="hidden items-center text-3xl font-semibold text-lime-600 md:flex">WorkRoot</div>
-            </div>
-            {/* 메뉴 스켈레톤 - 실제 메뉴와 동일한 위치에 배치 */}
-            <div className={menuStyle}>
-              <div className={cn("h-6", skeletonStyle)} />
-              <div className={cn("h-6", skeletonStyle)} />
-            </div>
-          </div>
-
-          {/* 로그인/회원가입 버튼 스켈레톤 */}
-          <div className="flex items-center gap-2 lg:gap-4">
-            <div className={cn("h-8", skeletonStyle)} />
-            <div className={cn("h-8", skeletonStyle)} />
-          </div>
-        </nav>
-      </header>
-    );
-  }
+  const skeletonStyle = "w-16 animate-pulse bg-primary-orange-100";
 
   return (
     <header className={headerStyle}>
@@ -82,19 +57,19 @@ export default function Header() {
         {/* 로고와 메인 네비게이션 */}
         <div className="flex items-center">
           <Link href="/" className="flex items-center gap-[6px] text-xl">
-            <Image src="/logo.svg" alt="Work Root" width={52} height={40} className="w-14 hover:opacity-90" />
-            <div className="hidden items-center text-3xl font-semibold text-lime-600 md:flex">WorkRoot</div>
+            <Image src="/logo.png" alt="WorkRoot" width={52} height={40} className="w-14 hover:opacity-90" />
+            <div className="hidden items-center text-3xl font-semibold text-primary-orange-300 md:flex">WorkRoot</div>
           </Link>
 
           <div className={menuStyle}>
-            <Link href="/alba-list" className={getLinkClassName("/alba-list")}>
+            <Link href="/work-list" className={getLinkClassName("/work-list")}>
               워크 채널
             </Link>
-            <Link href="/alba-talk" className={getLinkClassName("/alba-talk")}>
+            <Link href="/work-talk" className={getLinkClassName("/work-talk")}>
               워크톡
             </Link>
             {user && (
-              <Link href="/my-albaform" className={getLinkClassName("/my-albaform")}>
+              <Link href="/my-workform" className={getLinkClassName("/my-workform")}>
                 내 워크폼
               </Link>
             )}
@@ -102,7 +77,9 @@ export default function Header() {
         </div>
 
         {/* 로그인/회원가입 또는 메뉴 버튼 */}
-        <ul className="flex items-center gap-2 lg:gap-4">
+        <ul className="relative flex items-center gap-2 lg:gap-4">
+          {isLoading ? <div className={skeletonStyle}></div> : <div className={skeletonStyle}></div>}
+
           {!user ? (
             <>
               <li className="flex items-center">
@@ -117,10 +94,9 @@ export default function Header() {
                   height="sm"
                   fontSize={{
                     mobile: "sm",
-                    tablet: "base",
-                    desktop: "base",
+                    tablet: "md",
+                    desktop: "md",
                   }}
-                  color="lime"
                   disabled={false}
                 >
                   로그인
@@ -138,10 +114,9 @@ export default function Header() {
                   height="sm"
                   fontSize={{
                     mobile: "sm",
-                    tablet: "base",
-                    desktop: "base",
+                    tablet: "md",
+                    desktop: "md",
                   }}
-                  color="lime"
                   disabled={false}
                 >
                   회원가입
@@ -165,13 +140,13 @@ export default function Header() {
       {/* 사이드바 */}
       <div
         className={cn(
-          "fixed right-0 top-0 z-40 h-full w-40 transform bg-white shadow-md transition-transform duration-300 ease-in-out md:w-72",
+          "w-30 fixed right-0 top-0 z-40 h-full transform bg-white shadow-md transition-transform duration-300 ease-in-out md:w-44 lg:w-48",
           isSideMenuOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
         <div className="flex w-full flex-col p-6">
           <div className="mb-6 flex items-center justify-between">
-            <span className="px-3 text-lg font-bold text-lime-700">메뉴</span>
+            <span className="px-3 text-lg font-bold text-primary-orange-400">메뉴</span>
             <button
               type="button"
               onClick={() => setIsSideMenuOpen(false)}
@@ -188,10 +163,14 @@ export default function Header() {
                 variant="outlined"
                 width={{
                   mobile: "sm",
-                  tablet: "sm",
-                  desktop: "md",
+                  tablet: "md",
+                  desktop: "lg",
                 }}
-                color="lime"
+                fontSize={{
+                  mobile: "sm",
+                  tablet: "md",
+                  desktop: "lg",
+                }}
                 disabled={false}
                 onClick={() => setIsSideMenuOpen(false)}
               >
@@ -202,10 +181,14 @@ export default function Header() {
                 variant="solid"
                 width={{
                   mobile: "sm",
-                  tablet: "sm",
-                  desktop: "md",
+                  tablet: "md",
+                  desktop: "lg",
                 }}
-                color="lime"
+                fontSize={{
+                  mobile: "sm",
+                  tablet: "md",
+                  desktop: "lg",
+                }}
                 disabled={false}
                 onClick={handleLogout}
               >

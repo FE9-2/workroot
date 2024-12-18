@@ -17,22 +17,19 @@ const RecruitIconItem = ({ icon, label, value }: RecruitIconItemProps) => {
   return (
     <div
       className={cn(
-        "flex h-[54px] items-start gap-2 overflow-hidden rounded-lg border border-grayscale-200 p-2 lg:h-[150px] lg:gap-6 lg:p-[30px]",
+        "flex h-[60px] items-start gap-2 overflow-hidden rounded-lg border border-line-100 bg-background-100 p-2 lg:h-[140px] lg:gap-6 lg:px-6 lg:py-4",
         { "lg:items-center": !isPeriodLabel }
       )}
     >
-      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-grayscale-100 bg-opacity-30 lg:h-14 lg:w-14">
-        <div className="block lg:hidden">
-          <Image src={icon.sm} alt={label} width={24} height={24} />
-        </div>
-        <div className="hidden lg:block">
-          <Image src={icon.md} alt={label} width={36} height={36} />
+      <div className="flex h-full items-center">
+        <div className="flex size-9 items-center justify-center rounded-full bg-grayscale-100 bg-opacity-30 lg:size-14">
+          <Image src={icon.md} alt={label} width={36} height={36} className="size-6 lg:size-9" />
         </div>
       </div>
-      <div className="flex-1">
-        <div className="text-grayscale-600 text-sm font-medium lg:text-xl">{label}</div>
+      <div className="flex flex-col">
+        <div className="text-grayscale-600 text-sm font-medium lg:mt-4 lg:text-xl">{label}</div>
         <div
-          className={cn("text-sm font-semibold text-primary-orange-300 lg:text-2xl", {
+          className={cn("text-sm font-semibold text-primary-orange-300 lg:h-[58px] lg:text-xl", {
             "lg:h-0": isPeriodLabel,
           })}
         >

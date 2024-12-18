@@ -20,8 +20,7 @@ const FloatingBtn = ({ variant = "orange", icon, children, className, disabled, 
     orange: "hover:bg-primary-orange-200",
     white: "hover:text-primary-orange-200",
   };
-
-  const disabledStyles = "bg-grayscale-100 text-white cursor-not-allowed";
+  const disabledStyles = "bg-grayscale-100 text-white cursor-not-allowed border-none";
 
   const widthStyles = children ? "w-auto px-3" : "w-12";
 
@@ -39,7 +38,7 @@ const FloatingBtn = ({ variant = "orange", icon, children, className, disabled, 
       {...props}
     >
       {icon && <span className="text-2xl">{icon}</span>}
-      <span className={cn(children ? "ml-2" : "", "hidden text-lg sm:inline lg:text-2xl")}>{children}</span>
+      <span className={cn(children ? "ml-2" : "", "hidden text-lg sm:inline lg:text-xl")}>{children}</span>
     </button>
   );
 };

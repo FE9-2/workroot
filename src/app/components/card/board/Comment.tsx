@@ -10,6 +10,7 @@ import useModalStore from "@/store/modalStore";
 import { useEditComment } from "@/hooks/queries/post/comment/useEditComment";
 import { useDeleteComment } from "@/hooks/queries/post/comment/useDeleteComment";
 import { useQueryClient } from "@tanstack/react-query";
+import DotLoadingSpinner from "../../loading-spinner/DotLoadingSpinner";
 
 export interface CommentProps {
   id: string;
@@ -76,8 +77,8 @@ const Comment = ({ id, nickname, updatedAt, content, isAuthor = false }: Comment
           value={editedContent}
           onChange={(e) => setEditedContent(e.target.value)}
           placeholder="댓글을 입력해주세요."
-          className="h-[90px] w-[344px] resize-none rounded-lg bg-background-200 p-4 md:w-[742px] lg:h-[100px] lg:w-[994px] xl:w-[1410px]"
-          size="h-[120px] w-[375px] md:w-[768px] lg:w-[1024px] xl:w-[1440px] lg:h-[144px]"
+          className="h-[90px] w-[344px] resize-none rounded-lg bg-background-200 p-4 md:w-[742px] lg:h-[100px] lg:w-[994px]"
+          size="h-[120px] w-[375px] md:w-[768px] lg:w-[1024px] lg:h-[144px]"
           variant="white"
         />
         <div className="flex justify-end gap-2">
@@ -92,7 +93,7 @@ const Comment = ({ id, nickname, updatedAt, content, isAuthor = false }: Comment
             disabled={editComment.isPending || editedContent.trim() === ""}
             className="h-[40px] w-[80px] text-sm lg:h-[48px] lg:w-[100px]"
           >
-            {editComment.isPending ? "수정 중..." : "수정하기"}
+            {editComment.isPending ? <DotLoadingSpinner /> : "수정하기"}
           </Button>
         </div>
       </div>
@@ -100,7 +101,7 @@ const Comment = ({ id, nickname, updatedAt, content, isAuthor = false }: Comment
   }
 
   return (
-    <div className="w-full rounded-lg border border-line-200 bg-white p-4">
+    <div className="mb-2 w-full rounded-lg border border-line-200 bg-white p-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Image

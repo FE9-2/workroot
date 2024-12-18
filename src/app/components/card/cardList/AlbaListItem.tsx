@@ -6,14 +6,19 @@ import Chip from "@/app/components/chip/Chip";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import useModalStore from "@/store/modalStore";
-import Indicator from "@/app/components/pagination/Indicator";
 import { FormListType } from "@/types/response/form";
 import { useFormScrap } from "@/hooks/queries/form/useFormScap";
-import { MdOutlineImage } from "react-icons/md";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import { isValidS3Url } from "@/utils/checkS3Url";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import { userRoles } from "@/constants/userRoles";
+import EmptyImage from "./EmptyImage";
+import InfoItem from "./InfoItem";
+import { useDeleteForm } from "@/hooks/queries/form/useDeleteForm";
+
+interface AlbaListItemProps extends FormListType {
+  isMyForm?: boolean;
+}
 
 /**
  * 워크폼 리스트 아이템 컴포넌트
@@ -28,18 +33,20 @@ const AlbaListItem = ({
   title,
   applyCount,
   scrapCount,
-}: FormListType) => {
-  const { user } = useUser();
-  const isApplicant = user?.role === userRoles.APPLICANT;
-
+  isMyForm = false,
+}: AlbaListItemProps) => {
   // 라우터 및 상태 관리
   const router = useRouter();
   const { openModal, closeModal } = useModalStore();
   const { scrap, isLoading: isScrapLoading } = useFormScrap(id);
   const [showDropdown, setShowDropdown] = useState(false); // 드롭다운 메뉴 표시 상태
-  const [currentImageIndex, setCurrentImageIndex] = useState(0); // 현재 이미지 인덱스
   const dropdownRef = useRef<HTMLDivElement>(null); // 드롭다운 메뉴 참조
   const [imageError, setImageError] = useState(false);
+
+  const { user } = useUser();
+  const isApplicant = user?.role === userRoles.APPLICANT;
+  const isOwner = user?.role === userRoles.OWNER;
+  const { deleteForm, isDeleting } = useDeleteForm(id);
 
   // 모집 상태 및 D-day 계산
   const recruitmentStatus = getRecruitmentStatus(recruitmentEndDate);
@@ -106,39 +113,56 @@ const AlbaListItem = ({
     });
   };
 
+  // 수정 페이지로 이동
+  const handleEdit = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowDropdown(false);
+    router.push(`/work/${id}/edit`);
+  };
+
+  // 삭제 확인 모달
+  const handleDelete = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowDropdown(false);
+    openModal("customForm", {
+      isOpen: true,
+      title: "워크폼 삭제",
+      content: "정말 삭제하시겠습니까?",
+      confirmText: "삭제",
+      cancelText: "취소",
+      onConfirm: () => {
+        deleteForm();
+        closeModal();
+      },
+      onCancel: () => {
+        closeModal();
+      },
+    });
+  };
+
+  // 케밥 메뉴 표시 조건 수정
+  const showKebabMenu = isApplicant || (isOwner && isMyForm);
+
   return (
-    <div className="relative h-auto w-[327px] overflow-hidden rounded-xl border border-line-200 bg-white shadow-md transition-transform duration-300 hover:scale-[1.02] lg:w-[372px]">
-      {/* 이미지 슬라이더 영역 */}
+    <div className="relative h-auto w-[327px] cursor-pointer overflow-hidden rounded-xl border border-line-200 bg-white shadow-md transition-transform duration-300 hover:scale-[1.02] lg:w-[372px]">
+      {/* 이미지 영역 */}
       <div className="relative h-[200px] overflow-hidden rounded-t-xl lg:h-[240px]">
-        {imageUrls[currentImageIndex] && !imageError ? (
-          isValidS3Url(imageUrls[currentImageIndex]) ? (
+        {imageUrls[0] && !imageError ? (
+          isValidS3Url(imageUrls[0]) ? (
             <Image
-              src={imageUrls[currentImageIndex]}
-              alt={`Recruit Image ${currentImageIndex + 1}`}
+              src={imageUrls[0]}
+              alt="Recruit Image"
               fill
               className="object-cover transition-opacity duration-300"
               onError={() => setImageError(true)}
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center bg-grayscale-100">
-              <MdOutlineImage className="size-20 text-grayscale-400" />
-            </div>
+            <EmptyImage />
           )
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-grayscale-100">
-            <MdOutlineImage className="size-20 text-grayscale-400" />
-          </div>
-        )}
-
-        {/* 이미지 인디케이터 - 유효한 이미지가 2개 이상이고 에러가 없을 때만 표시 */}
-        {imageUrls.filter((url) => isValidS3Url(url)).length > 1 && !imageError && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
-            <Indicator
-              imageCount={imageUrls.length}
-              currentPage={currentImageIndex}
-              onPageChange={setCurrentImageIndex}
-            />
-          </div>
+          <EmptyImage />
         )}
       </div>
 
@@ -158,7 +182,7 @@ const AlbaListItem = ({
               </div>
             </div>
             {/* 케밥 메뉴 */}
-            {isApplicant && (
+            {showKebabMenu && (
               <div ref={dropdownRef} className="relative">
                 <button
                   type="button"
@@ -167,22 +191,41 @@ const AlbaListItem = ({
                 >
                   <BsThreeDotsVertical className="h-6 w-6" />
                 </button>
-                {/* 드롭다운 메뉴 */}
                 {showDropdown && (
                   <div className="absolute right-0 top-8 z-10 w-32 rounded-lg border border-grayscale-200 bg-white py-2 shadow-lg">
-                    <button
-                      className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100"
-                      onClick={handleFormApplication}
-                    >
-                      지원하기
-                    </button>
-                    <button
-                      className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100 disabled:opacity-50"
-                      onClick={handleFormScrap}
-                      disabled={isScrapLoading}
-                    >
-                      {isScrapLoading ? <DotLoadingSpinner /> : "스크랩"}
-                    </button>
+                    {isApplicant ? (
+                      <>
+                        <button
+                          className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100"
+                          onClick={handleFormApplication}
+                        >
+                          지원하기
+                        </button>
+                        <button
+                          className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100 disabled:opacity-50"
+                          onClick={handleFormScrap}
+                          disabled={isScrapLoading}
+                        >
+                          {isScrapLoading ? <DotLoadingSpinner /> : "스크랩"}
+                        </button>
+                      </>
+                    ) : isMyForm ? (
+                      <>
+                        <button
+                          className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100"
+                          onClick={handleEdit}
+                        >
+                          수정하기
+                        </button>
+                        <button
+                          className="w-full px-4 py-2 text-left text-sm text-state-error hover:bg-primary-orange-100 disabled:opacity-50"
+                          onClick={handleDelete}
+                          disabled={isDeleting}
+                        >
+                          {isDeleting ? <DotLoadingSpinner /> : "삭제하기"}
+                        </button>
+                      </>
+                    ) : null}
                   </div>
                 )}
               </div>
@@ -194,19 +237,7 @@ const AlbaListItem = ({
         </div>
 
         {/* 통계 정보 영역 - mt-auto 제거하고 부모 컨테이너에 justify-between 추가 */}
-        <div className="text-grayscale-700 mt-4 flex h-[50px] items-center justify-between rounded-2xl border border-grayscale-100 text-sm lg:text-base">
-          <div className="flex flex-1 items-center justify-center">
-            <span className="font-medium">지원자 {applyCount}명</span>
-          </div>
-          <div className="h-5 w-[1px] bg-grayscale-200/50" />
-          <div className="flex flex-1 items-center justify-center">
-            <span className="font-medium">스크랩 {scrapCount}명</span>
-          </div>
-          <div className="h-5 w-[1px] bg-grayscale-200/50" />
-          <div className="flex flex-1 items-center justify-center">
-            <span className="font-medium">{dDay}</span>
-          </div>
-        </div>
+        <InfoItem applyCount={applyCount} scrapCount={scrapCount} dDay={dDay} />
       </div>
     </div>
   );

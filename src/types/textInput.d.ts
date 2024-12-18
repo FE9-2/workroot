@@ -32,3 +32,20 @@ export interface BaseFileInputProps {
   accept?: string;
   isImage?: boolean;
 }
+
+export interface AuthInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  /** input variant - default: "transparent" */
+  variant?: "transparent" | "white";
+
+  /** input size - default: "w-full h-full" */
+  size?: string;
+
+  /** 에러 메시지 */
+  errormessage?: string;
+
+  /** input type - default: "text" */
+  type?: "text" | "email" | "password" | "tel";
+
+  /** input name - required */
+  name: string;
+}
