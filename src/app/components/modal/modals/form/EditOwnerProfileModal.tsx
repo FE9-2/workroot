@@ -207,7 +207,6 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
           <div className="flex h-[58px] justify-between gap-3">
             <Button
               type="button"
-              color="lime"
               variant="outlined"
               onClick={onClose}
               disabled={isUpdating}
@@ -217,7 +216,6 @@ const EditOwnerProfileModal = ({ isOpen, onClose, className }: EditOwnerProfileM
             </Button>
             <Button
               type="submit"
-              color="lime"
               variant="solid"
               disabled={isUpdating}
               className="h-full text-sm font-semibold lg:text-base"

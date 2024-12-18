@@ -8,11 +8,11 @@ export default function Header() {
   const style = cn(
     "font-medium transition-colors h-16 flex items-center",
     "hover:text-lime-900",
-    "text-lime-700 text-sm sm:text-base"
+    "text-primary-orange-400 text-sm sm:text-base"
   );
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 bg-lime-100 -tracking-widest md:tracking-normal">
+    <header className="fixed left-0 right-0 top-0 z-50 bg-primary-orange-50 -tracking-widest md:tracking-normal">
       <div className="container mx-auto px-4">
         <nav className="flex h-16 items-center justify-between">
           {/* 로고와 메인 네비게이션 */}
@@ -45,7 +45,7 @@ export default function Header() {
             <li className="flex items-center">
               <Link
                 href="/login"
-                className="rounded-lg border-2 border-lime-700 px-2 py-1 text-sm text-lime-700 transition-colors hover:bg-lime-700 hover:text-white sm:px-3 sm:py-1.5 sm:text-base md:px-4 md:py-2"
+                className="rounded-lg border-2 border-primary-orange-400 px-2 py-1 text-sm text-primary-orange-400 transition-colors hover:bg-primary-orange-400 hover:text-white sm:px-3 sm:py-1.5 sm:text-base md:px-4 md:py-2"
               >
                 로그인
               </Link>
@@ -53,7 +53,7 @@ export default function Header() {
             <li className="flex items-center">
               <Link
                 href="/signup"
-                className="rounded-lg bg-lime-700 px-2 py-1 text-sm font-semibold text-white transition-colors hover:bg-lime-800 sm:px-3 sm:py-1.5 sm:text-base md:px-4 md:py-2"
+                className="rounded-lg bg-primary-orange-400 px-2 py-1 text-sm font-semibold text-white transition-colors hover:bg-lime-800 sm:px-3 sm:py-1.5 sm:text-base md:px-4 md:py-2"
               >
                 회원가입
               </Link>
