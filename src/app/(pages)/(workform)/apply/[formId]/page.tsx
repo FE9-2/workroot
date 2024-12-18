@@ -12,6 +12,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Label from "../../component/Label";
 import uploadResume from "@/utils/uploadResume";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
+import tempSave from "@/utils/tempSave";
 interface ApplyFormData {
   name: string;
   phoneNumber: string;
@@ -28,10 +29,8 @@ export default function Apply() {
     register,
     handleSubmit,
     formState: { errors, isValid, isDirty },
-    trigger,
-    clearErrors,
-    getValues,
     setValue,
+    watch,
   } = useForm<ApplyFormData>({
     mode: "onChange",
     defaultValues: {
@@ -44,17 +43,20 @@ export default function Apply() {
       password: "",
     },
   });
-
+  const currentValues = watch();
   const formId = useParams().formId;
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const onTempSave = async () => {
+  const onTempSave = () => {
+    tempSave("applyTempData", currentValues);
+  };
+
+  const handleUploadResume = async (file: File) => {
     try {
-      const values = getValues();
-      const uploadedResume = await uploadResume(values.resume);
-      setValue("resumeId", uploadedResume.resumeId);
-      setValue("resumeName", uploadedResume.resumeName);
+      const response = await uploadResume(file);
+      setValue("resumeId", response.resumeId);
+      setValue("resumeName", response.resumeName);
     } catch (error) {
       console.error("Error uploading resume:", error);
       toast.error("이력서 업로드에 실패했습니다.");
@@ -64,17 +66,10 @@ export default function Apply() {
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
-      // 이력서 업로드 및 임시저장 먼저 수행
-      await onTempSave();
-
       // 최신 값을 가져오기
-      const values = getValues();
-      const { resume, ...submitData } = values;
-
-      const response = await axios.post(`/api/forms/${formId}/applications`, submitData);
-      return response.data;
+      const { resume, ...submitData } = currentValues;
+      await axios.post(`/api/forms/${formId}/applications`, submitData);
     },
-
     onSuccess: async () => {
       // 로컬 스토리지 데이터 삭제
       if (typeof window !== "undefined") {
@@ -156,12 +151,7 @@ export default function Apply() {
               }
               return true;
             },
-            onChange: (e) => {
-              if (e.target.files) {
-                clearErrors("resume");
-              }
-              trigger("resume");
-            },
+            onChange: (e) => handleUploadResume(e.target.files[0]),
           })}
           accept=".pdf,.doc,.docx"
           variant="upload"
