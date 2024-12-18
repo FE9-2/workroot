@@ -109,8 +109,9 @@ export function PostDetailSection({ postId }: { postId: string }) {
                     : "like-sm.svg"
               }`}
               alt="Like Icon"
-              width={24}
-              height={24}
+              width={32}
+              height={32}
+              className="transition-transform hover:scale-125"
             />
             <span className="text-sm text-grayscale-500">{post?.likeCount}</span>
           </div>

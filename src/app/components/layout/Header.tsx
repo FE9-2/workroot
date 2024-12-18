@@ -23,7 +23,7 @@ export default function Header() {
     e.preventDefault();
     try {
       logout();
-      toast.success("로그아웃되었습니다!");
+      toast.success("로그아웃되었습니다.");
       setIsSideMenuOpen(false);
       setTimeout(() => {
         router.push("/login");

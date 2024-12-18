@@ -10,6 +10,16 @@ import { MyApplicationModalProps } from "@/types/modal";
 import { getStatusMap } from "@/utils/translateStatus";
 import { useResumeDownLoad } from "@/hooks/useResumeDownLoad";
 import { FiDownload } from "react-icons/fi";
+import Image from "next/image";
+
+const ModalOverlay = ({ onClick }: { onClick: (e: React.MouseEvent) => void }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className="bg-black fixed inset-0 z-50 bg-opacity-50"
+    aria-label="Close modal"
+  />
+);
 
 const InfoRow = ({ label, value, isIntroduction }: InfoRowProps) => {
   if (isIntroduction) {
@@ -34,7 +44,13 @@ const InfoRow = ({ label, value, isIntroduction }: InfoRowProps) => {
 const ModalHeader = () => {
   return (
     <header className="mb-6 text-center">
-      <figure className="mb-4 inline-block h-20 w-20 rounded-full bg-gray-200" />
+      <Image
+        src="/images/applicant.png"
+        width={50}
+        height={50}
+        className="mb-4 inline-block h-20 w-20 rounded-full bg-gray-200"
+        alt="지원자"
+      />
       <h2 className="text-lg font-bold lg:text-xl">내 지원내역</h2>
     </header>
   );
@@ -97,7 +113,7 @@ export default function MyApplicationModal({ isOpen, onClose, formId, className 
 
   return (
     <>
-      <div className="bg-black fixed inset-0 z-50 bg-opacity-50" onClick={handleOverlayClick} />
+      <ModalOverlay onClick={handleOverlayClick} />
       <article
         className={cn(
           "fixed left-1/2 top-1/2 z-50 w-[375px] -translate-x-1/2 -translate-y-1/2 rounded-3xl bg-white p-6 shadow-lg lg:w-[520px] lg:p-10",
