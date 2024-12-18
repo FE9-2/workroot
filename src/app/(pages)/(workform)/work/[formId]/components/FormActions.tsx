@@ -21,6 +21,7 @@ interface FormActionsProps {
 
 export default function FormActions({ formId, albaFormDetailData }: FormActionsProps) {
   const { user } = useUser();
+  // user가 있을 때만 useMyApplication 실행
   const { data: myApplication, isLoading: isApplicationLoading } = useMyApplication(formId);
   const { openModal } = useModalStore();
   const router = useRouter();
@@ -46,6 +47,57 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
       setIsLoading(false);
     }
   };
+
+  // 비회원 지원내역 조회 제출 핸들러
+  const handleVerifySuccess = async (data: { password: string; phoneNumber: string; name: string }) => {
+    try {
+      const { closeModal, openModal } = useModalStore.getState();
+
+      setTimeout(() => {
+        openModal("myApplication", {
+          formId,
+          isOpen: true,
+          verifyData: data,
+        });
+      }, 100);
+
+      // 이전 모달이 완전히 닫힌 후 새 모달 열기
+      openModal("myApplication", {
+        formId,
+        isOpen: true,
+        verifyData: data,
+      });
+    } catch (error) {
+      toast.error("지원 내역을 찾을 수 없습니다.");
+    }
+  };
+
+  // 비회원일 때
+  if (!user) {
+    return (
+      <div>
+        <Link href={`/apply/${formId}`}>
+          <FloatingBtn className={`${buttonStyle}`} icon={<HiMail />}>
+            지원하기
+          </FloatingBtn>
+        </Link>
+        <FloatingBtn
+          variant="white"
+          className={buttonStyle}
+          icon={<HiDocumentText />}
+          onClick={() =>
+            openModal("verifyMyApplication", {
+              formId,
+              isOpen: true,
+              onVerify: handleVerifySuccess,
+            })
+          }
+        >
+          내 지원내역 조회
+        </FloatingBtn>
+      </div>
+    );
+  }
 
   // 사장님이면 수정하기/삭제하기 버튼
   if (isOwnerRole) {

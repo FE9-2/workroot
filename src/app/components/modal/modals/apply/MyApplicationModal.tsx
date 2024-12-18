@@ -11,6 +11,8 @@ import { getStatusMap } from "@/utils/translateStatus";
 import { useResumeDownLoad } from "@/hooks/useResumeDownLoad";
 import { FiDownload } from "react-icons/fi";
 import Image from "next/image";
+import { useUser } from "@/hooks/queries/user/me/useUser";
+import { useGuestApplication } from "@/hooks/queries/user/me/useGuestApplication";
 
 const ModalOverlay = ({ onClick }: { onClick: (e: React.MouseEvent) => void }) => (
   <button
@@ -100,8 +102,28 @@ const ApplicationContent = ({
     </div>
   );
 };
-export default function MyApplicationModal({ isOpen, onClose, formId, className }: MyApplicationModalProps) {
-  const { data: myApplicationData, isLoading } = useMyApplication(formId);
+
+export default function MyApplicationModal({
+  isOpen,
+  onClose,
+  formId,
+  className,
+  verifyData,
+}: MyApplicationModalProps) {
+  console.log("MyApplicationModal 열림");
+
+  const { user } = useUser();
+
+  // 회원/비회원에 따라 다른 훅 사용
+  const { data: memberApplicationData, isLoading: isMemberLoading } = useMyApplication(formId);
+
+  const { data: guestApplicationData, isLoading: isGuestLoading } = useGuestApplication(
+    formId,
+    !user ? verifyData : undefined // user가 없을 때만 실행
+  );
+
+  const myApplicationData = user ? memberApplicationData : guestApplicationData;
+  const isLoading = user ? isMemberLoading : isGuestLoading;
 
   if (!isOpen) return null;
 
