@@ -163,7 +163,7 @@ export default function Home() {
 
       {/* 특징 섹션 */}
       <section className="bg-[#44813c]/20 py-12 md:py-16">
-        <div className="container mx-auto max-w-[1600px] px-4">
+        <div className="container mx-auto max-w-screen-xl px-4">
           <div className="opacity-0 transition-opacity duration-1000 ease-in-out" data-id="features-intro"></div>
           <div className="space-y-12 md:space-y-16">
             {features.map((feature, index) => (
