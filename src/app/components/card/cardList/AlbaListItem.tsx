@@ -14,7 +14,7 @@ import { useUser } from "@/hooks/queries/user/me/useUser";
 import { userRoles } from "@/constants/userRoles";
 import EmptyImage from "./EmptyImage";
 import InfoItem from "./InfoItem";
-import { useDeleteForm } from "@/hooks/queries/form/detail/useDeleteForm";
+import { useDeleteForm } from "@/hooks/queries/form/useDeleteForm";
 
 interface AlbaListItemProps extends FormListType {
   isMyForm?: boolean;
