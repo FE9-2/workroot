@@ -96,12 +96,7 @@ export default function AlbaList() {
   }
 
   // 로딩 중 처리
-  if (isLoading)
-    return (
-      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    );
+  if (isLoading) return <LoadingSpinner />;
 
   // 리스트 아이템 클릭 시 로그인 여부 확인 후 이동
   const handleFormClick = (formId: number) => {

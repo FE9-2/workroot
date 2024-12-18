@@ -28,13 +28,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   const DetailStyle = "mx-auto max-w-screen-xl  px-4 py-4 sm:px-6 md:py-8 justify-center flex";
 
   return (
-    <Suspense
-      fallback={
-        <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-          <LoadingSpinner />
-        </div>
-      }
-    >
+    <Suspense fallback={<LoadingSpinner />}>
       <div className={cn(isForm ? FormStyle : DetailStyle)}>
         {isForm && (
           <ApplyHeader
