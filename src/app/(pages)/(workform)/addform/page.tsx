@@ -38,7 +38,7 @@ export default function AddFormPage() {
       age: "",
       education: "",
       gender: "",
-      numberOfPositions: undefined,
+      numberOfPositions: 0,
       recruitmentEndDate: undefined,
       recruitmentStartDate: undefined,
       description: "",
