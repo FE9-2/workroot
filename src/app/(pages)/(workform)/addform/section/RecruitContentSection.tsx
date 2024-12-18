@@ -36,7 +36,6 @@ export default function RecruitContentSection() {
     //파일 선택 시 업로드 api 요청
     try {
       uploadedUrls = await uploadImages(files);
-      console.log("이미지 파일 change 핸들러 - 이미지 업로드 성공");
     } catch (err) {
       console.log("이미지 파일 체인지 핸들러 - 이미지 업로드 실패");
       console.error(err);
