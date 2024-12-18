@@ -14,6 +14,11 @@ import { useUser } from "@/hooks/queries/user/me/useUser";
 import { userRoles } from "@/constants/userRoles";
 import EmptyImage from "./EmptyImage";
 import InfoItem from "./InfoItem";
+import { useDeleteForm } from "@/hooks/queries/form/useDeleteForm";
+
+interface AlbaListItemProps extends FormListType {
+  isMyForm?: boolean;
+}
 
 /**
  * 워크폼 리스트 아이템 컴포넌트
@@ -28,7 +33,8 @@ const AlbaListItem = ({
   title,
   applyCount,
   scrapCount,
-}: FormListType) => {
+  isMyForm = false,
+}: AlbaListItemProps) => {
   // 라우터 및 상태 관리
   const router = useRouter();
   const { openModal, closeModal } = useModalStore();
@@ -39,6 +45,8 @@ const AlbaListItem = ({
 
   const { user } = useUser();
   const isApplicant = user?.role === userRoles.APPLICANT;
+  const isOwner = user?.role === userRoles.OWNER;
+  const { deleteForm, isDeleting } = useDeleteForm(id);
 
   // 모집 상태 및 D-day 계산
   const recruitmentStatus = getRecruitmentStatus(recruitmentEndDate);
@@ -105,6 +113,38 @@ const AlbaListItem = ({
     });
   };
 
+  // 수정 페이지로 이동
+  const handleEdit = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowDropdown(false);
+    router.push(`/work/${id}/edit`);
+  };
+
+  // 삭제 확인 모달
+  const handleDelete = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowDropdown(false);
+    openModal("customForm", {
+      isOpen: true,
+      title: "워크폼 삭제",
+      content: "정말 삭제하시겠습니까?",
+      confirmText: "삭제",
+      cancelText: "취소",
+      onConfirm: () => {
+        deleteForm();
+        closeModal();
+      },
+      onCancel: () => {
+        closeModal();
+      },
+    });
+  };
+
+  // 케밥 메뉴 표시 조건 수정
+  const showKebabMenu = isApplicant || (isOwner && isMyForm);
+
   return (
     <div className="relative h-auto w-[327px] cursor-pointer overflow-hidden rounded-xl border border-line-200 bg-white shadow-md transition-transform duration-300 hover:scale-[1.02] lg:w-[372px]">
       {/* 이미지 영역 */}
@@ -142,7 +182,7 @@ const AlbaListItem = ({
               </div>
             </div>
             {/* 케밥 메뉴 */}
-            {isApplicant && (
+            {showKebabMenu && (
               <div ref={dropdownRef} className="relative">
                 <button
                   type="button"
@@ -151,22 +191,41 @@ const AlbaListItem = ({
                 >
                   <BsThreeDotsVertical className="h-6 w-6" />
                 </button>
-                {/* 드롭다운 메뉴 */}
                 {showDropdown && (
                   <div className="absolute right-0 top-8 z-10 w-32 rounded-lg border border-grayscale-200 bg-white py-2 shadow-lg">
-                    <button
-                      className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100"
-                      onClick={handleFormApplication}
-                    >
-                      지원하기
-                    </button>
-                    <button
-                      className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100 disabled:opacity-50"
-                      onClick={handleFormScrap}
-                      disabled={isScrapLoading}
-                    >
-                      {isScrapLoading ? <DotLoadingSpinner /> : "스크랩"}
-                    </button>
+                    {isApplicant ? (
+                      <>
+                        <button
+                          className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100"
+                          onClick={handleFormApplication}
+                        >
+                          지원하기
+                        </button>
+                        <button
+                          className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100 disabled:opacity-50"
+                          onClick={handleFormScrap}
+                          disabled={isScrapLoading}
+                        >
+                          {isScrapLoading ? <DotLoadingSpinner /> : "스크랩"}
+                        </button>
+                      </>
+                    ) : isMyForm ? (
+                      <>
+                        <button
+                          className="w-full px-4 py-2 text-left text-sm hover:bg-primary-orange-100"
+                          onClick={handleEdit}
+                        >
+                          수정하기
+                        </button>
+                        <button
+                          className="w-full px-4 py-2 text-left text-sm text-state-error hover:bg-primary-orange-100 disabled:opacity-50"
+                          onClick={handleDelete}
+                          disabled={isDeleting}
+                        >
+                          {isDeleting ? <DotLoadingSpinner /> : "삭제하기"}
+                        </button>
+                      </>
+                    ) : null}
                   </div>
                 )}
               </div>

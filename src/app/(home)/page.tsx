@@ -111,11 +111,10 @@ export default function Home() {
           <Image
             src="/images/land/1.jpg"
             alt="Hero Background"
-            layout="fill"
-            objectFit="cover"
+            fill
             quality={100}
             priority
-            className="brightness-50"
+            className="object-cover brightness-50"
           />
         </div>
         {/* Content */}
@@ -227,13 +226,7 @@ export default function Home() {
       <section className="relative flex min-h-screen items-center justify-center overflow-hidden" data-id="footer-cta">
         {/* Background image */}
         <div className="absolute inset-0">
-          <Image
-            src="/images/land/foot.jpg"
-            alt="Footer CTA Background"
-            layout="fill"
-            objectFit="cover"
-            quality={100}
-          />
+          <Image src="/images/land/foot.jpg" alt="Footer CTA Background" fill quality={100} className="object-cover" />
         </div>
 
         {/* Content */}
