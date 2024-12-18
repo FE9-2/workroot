@@ -15,7 +15,6 @@ import WorkConditionSection from "../../../addform/section/WorkConditionSection"
 import { SubmitFormDataType } from "@/types/addform";
 import useEditing from "@/hooks/useEditing";
 import useFormDetail from "@/hooks/queries/form/detail/useFormDetail";
-import formatMoney from "@/utils/formatMoney";
 import tempSave from "@/utils/tempSave";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
@@ -51,7 +50,7 @@ export default function EditFormPage() {
     if (albaFormDetailData) {
       reset({
         isPublic: albaFormDetailData.isPublic,
-        hourlyWage: formatMoney(String(albaFormDetailData.hourlyWage)),
+        hourlyWage: albaFormDetailData.hourlyWage,
         isNegotiableWorkDays: albaFormDetailData.isNegotiableWorkDays,
         workDays: albaFormDetailData.workDays,
         workEndTime: albaFormDetailData.workEndTime,

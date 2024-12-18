@@ -29,7 +29,6 @@ export default function WorkConditionSection() {
   // 근무 기간 데이터 반영하기
   const workStartDate: string = watch("workStartDate");
   const workEndDate: string = watch("workEndDate");
-  const wageDate: number = Number(watch("houlyWage")) || MINIMUM_WAGE;
 
   const startDate = workStartDate ? new Date(workStartDate) : undefined;
   const endDate = workEndDate ? new Date(workEndDate) : undefined;
@@ -89,6 +88,7 @@ export default function WorkConditionSection() {
     [setValue, trigger]
   );
 
+  const wageData: number = watch("hourlyWage");
   return (
     <div className="relative">
       <Script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" strategy="afterInteractive" />
@@ -171,7 +171,7 @@ export default function WorkConditionSection() {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <BaseInput
-                value={value ? Number(value).toLocaleString() : ""}
+                value={value.toLocaleString()}
                 onChange={(e) => onChange(Number(e.target.value.replaceAll(",", "")))}
                 onBlur={onBlur}
                 variant="white"
