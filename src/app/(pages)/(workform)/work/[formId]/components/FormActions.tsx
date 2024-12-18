@@ -39,7 +39,10 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
       await axios.delete(`/api/forms/${formId}`);
       toast.success("성공적으로 삭제되었습니다.");
       router.push(`/work-list`);
-      queryClient.invalidateQueries({ queryKey: ["forms", { limit: 10 }] });
+      await queryClient.invalidateQueries({ queryKey: ["forms", { limit: 10 }] });
+      await queryClient.invalidateQueries({
+        queryKey: ["myForms", { isPublic: true, isRecruiting: true, limit: 10 }],
+      });
     } catch (error) {
       console.error(error);
       toast.error("삭제 중 오류가 발생했습니다.");

@@ -20,7 +20,6 @@ import tempSave from "@/utils/tempSave";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
-import { isValid } from "react-datepicker/dist/date_utils";
 
 export default function EditFormPage() {
   const router = useRouter();
@@ -35,7 +34,7 @@ export default function EditFormPage() {
   const {
     reset,
     handleSubmit,
-    formState: { isDirty },
+    formState: { isDirty, isValid },
   } = methods;
 
   const queryClient = useQueryClient();
@@ -90,6 +89,9 @@ export default function EditFormPage() {
       });
       await queryClient.invalidateQueries({
         queryKey: ["forms", { limit: 10 }],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ["myForms", { isPublic: true, isRecruiting: true, limit: 10 }],
       });
       toast.success("워크폼을 수정했습니다.");
       router.push(`/work/${formId}`);
