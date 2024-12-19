@@ -27,9 +27,13 @@ export async function GET(req: NextRequest, { params }: { params: { formId: stri
           const response = await apiClient.get(`/forms/${params.formId}`);
           return NextResponse.json(response.data);
         }
-        throw error; // 다른 에러는 상위 catch 블록으로 전달
+        throw error;
       }
     }
+
+    // 토큰이 없는 경우 일반 요청
+    const response = await apiClient.get(`/forms/${params.formId}`);
+    return NextResponse.json(response.data);
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
       console.error(`GET /api/forms/${params.formId} error:`, error);
