@@ -65,9 +65,9 @@ const BoardComment = ({
   ];
 
   return (
-    <div className="relative flex h-[202px] w-[327px] flex-col gap-2 rounded-[16px] border border-line-200 bg-grayscale-50 p-6 shadow-md md:w-[280px] lg:w-[320px]">
+    <div className="relative flex h-[202px] w-[327px] flex-col gap-2 rounded-[16px] border border-line-200 bg-grayscale-50 p-6 shadow-md md:h-[184px] md:w-[600px] lg:h-[264px] lg:w-[477px]">
       {/* Post Section */}
-      <div className="flex w-full flex-col gap-4 border-b border-line-100 pb-2">
+      <div className="flex w-full flex-col gap-4 border-b border-line-100 pb-2 lg:pb-4">
         <div className="flex items-center gap-[6px] lg:gap-2">
           <Image
             src="/icons/document/document.svg"
@@ -82,9 +82,11 @@ const BoardComment = ({
       </div>
 
       {/* Comment Section */}
-      <div className="flex flex-col gap-3 py-1">
-        <div className="text-[14px] font-semibold">{comment}</div>
-        <div className="line-clamp-2 text-[12px] font-medium text-grayscale-500">{formatLocalDate(updatedAt)}</div>
+      <div className="flex flex-col gap-3 py-1 lg:py-4">
+        <div className="text-[14px] font-semibold lg:text-[18px]">{comment}</div>
+        <div className="line-clamp-2 text-[12px] font-medium text-grayscale-500 lg:text-[16px]">
+          {formatLocalDate(updatedAt)}
+        </div>
       </div>
       <div className="absolute right-6 flex items-center justify-center">
         {isAuthor && <KebabDropdown options={dropdownOptions} />}
