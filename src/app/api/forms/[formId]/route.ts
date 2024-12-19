@@ -10,17 +10,26 @@ export async function GET(req: NextRequest, { params }: { params: { formId: stri
 
     // 로그인한 유저의 경우 토큰과 함께 요청
     if (accessToken) {
-      const response = await apiClient.get(`/forms/${params.formId}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      return NextResponse.json(response.data);
+      try {
+        const response = await apiClient.get(`/forms/${params.formId}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        return NextResponse.json(response.data);
+      } catch (error) {
+        // 토큰 만료 에러인 경우 Authorization 없이 재시도
+        if (
+          error instanceof AxiosError &&
+          error.response?.status === 401 &&
+          error.response.data.message === "Access token has expired"
+        ) {
+          const response = await apiClient.get(`/forms/${params.formId}`);
+          return NextResponse.json(response.data);
+        }
+        throw error; // 다른 에러는 상위 catch 블록으로 전달
+      }
     }
-
-    // 로그인하지 않은 유저의 경우 토큰 없이 요청
-    const response = await apiClient.get(`/forms/${params.formId}`);
-    return NextResponse.json(response.data);
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
       console.error(`GET /api/forms/${params.formId} error:`, error);
