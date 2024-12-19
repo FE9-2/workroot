@@ -11,6 +11,9 @@ export { metadata, viewport };
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko" className={`${hakgyoFont.variable} ${nexonFont.variable}`}>
+      <head>
+        <meta property="fb:app_id" content={process.env.NEXT_PUBLIC_FB_APP_ID} />
+      </head>
       <body className="scrollbar-custom">
         <ClientLayout>
           <Header />

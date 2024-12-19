@@ -34,11 +34,6 @@ export const metadata: Metadata = {
     locale: "ko_KR",
   },
 
-  // Facebook 추가 설정
-  other: {
-    "property:fb:app_id": process.env.NEXT_PUBLIC_FB_APP_ID || "",
-  },
-
   // 기본 메타 설정
   manifest: "/site.webmanifest",
   formatDetection: {
