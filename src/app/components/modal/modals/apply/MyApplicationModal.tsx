@@ -11,6 +11,8 @@ import { getStatusMap } from "@/utils/translateStatus";
 import { useResumeDownLoad } from "@/hooks/useResumeDownLoad";
 import { FiDownload } from "react-icons/fi";
 import Image from "next/image";
+import { useUser } from "@/hooks/queries/user/me/useUser";
+import { useGuestApplication } from "@/hooks/queries/user/me/useGuestApplication";
 
 const ModalOverlay = ({ onClick }: { onClick: (e: React.MouseEvent) => void }) => (
   <button
@@ -28,7 +30,7 @@ const InfoRow = ({ label, value, isIntroduction }: InfoRowProps) => {
         <p className="text-grayscale-400">{label}</p>
         <textarea
           readOnly
-          className="scrollbar-custom h-[100px] w-full resize-none overflow-y-auto whitespace-pre-wrap rounded-md border border-grayscale-400 p-2 text-sm focus:outline-none"
+          className="scrollbar-custom h-[100px] overflow-y-auto whitespace-pre-wrap rounded-md border border-grayscale-400 p-2 text-sm"
         >
           {value}
         </textarea>
@@ -99,12 +101,32 @@ const ApplicationContent = ({
         </>
       )}
       <InfoRow label="자기소개" value={introduction} isIntroduction />
-      <InfoRow label="지원 일자" value={formatDateTime(createdAt)} />
+      <InfoRow label="지원일" value={formatDateTime(createdAt)} />
     </div>
   );
 };
-export default function MyApplicationModal({ isOpen, onClose, formId, className }: MyApplicationModalProps) {
-  const { data: myApplicationData, isLoading } = useMyApplication(formId);
+
+export default function MyApplicationModal({
+  isOpen,
+  onClose,
+  formId,
+  className,
+  verifyData,
+}: MyApplicationModalProps) {
+  console.log("MyApplicationModal 열림");
+
+  const { user } = useUser();
+
+  // 회원/비회원에 따라 다른 훅 사용
+  const { data: memberApplicationData, isLoading: isMemberLoading } = useMyApplication(formId);
+
+  const { data: guestApplicationData, isLoading: isGuestLoading } = useGuestApplication(
+    formId,
+    !user ? verifyData : undefined // user가 없을 때만 실행
+  );
+
+  const myApplicationData = user ? memberApplicationData : guestApplicationData;
+  const isLoading = user ? isMemberLoading : isGuestLoading;
 
   if (!isOpen) return null;
 
@@ -123,8 +145,8 @@ export default function MyApplicationModal({ isOpen, onClose, formId, className 
           className
         )}
       >
-        <section className="scrollbar-custom relative">
-          <main className="flex h-full flex-col items-center text-center">
+        <section className="scrollbar-custom relative h-full">
+          <main className="flex h-full flex-col items-center text-center lg:pt-8">
             <ModalHeader />
             <div className="w-full text-left">
               {isLoading ? (

@@ -8,7 +8,8 @@ export type ModalType =
   | "changePassword"
   | "editMyProfile"
   | "editOwnerProfile"
-  | "myApplication";
+  | "myApplication" // 회원 지원내역 조회
+  | "verifyMyApplication"; // 지원내역 조회 확인
 
 type BaseModalProps = {
   onClose?: () => void;
@@ -58,11 +59,25 @@ type ApplicationDetailProps = BaseModalProps & {
   password: string;
 };
 
-// 내 지원내역 모달
+// 회원의 내 지원내역 모달
 type MyApplicationModalProps = BaseModalProps & {
   isOpen: boolean;
   formId: number | string;
   className?: string;
+  verifyData?: {
+    // 추가: 비회원 인증 데이터
+    name: string;
+    phoneNumber: string;
+    password: string;
+  };
+};
+
+// 지원내역 조회 확인 모달
+type VerifyApplicationModalProps = BaseModalProps & {
+  isOpen: boolean;
+  formId: number | string;
+  className?: string;
+  onVerify: (data: { password: string; phoneNumber: string; name: string }) => void;
 };
 
 export type ModalPropsMap = {
@@ -76,4 +91,5 @@ export type ModalPropsMap = {
   editMyProfile: FormModalProps;
   editOwnerProfile: FormModalProps;
   myApplication: MyApplicationModalProps;
+  verifyMyApplication: VerifyApplicationModalProps;
 };

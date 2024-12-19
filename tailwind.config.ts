@@ -30,7 +30,7 @@ const config: Config = {
         },
         primary: {
           orange: {
-            50: "#e2ebe2",
+            50: "#fbfffd",
             100: "#8ab08c",
             200: "#64a466",
             300: "#388e3c",
