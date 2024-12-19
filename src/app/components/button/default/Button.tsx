@@ -41,7 +41,7 @@ const Button = ({
   const colorStyles = {
     orange: {
       solid:
-        "bg-primary-orange-300 text-white hover:bg-primary-orange-200 focus:ring-1 focus:ring-primary-orange-200 focus:outline-none disabled:bg-grayscale-100 disabled:cursor-not-allowed",
+        "bg-primary-orange-300 text-white hover:bg-primary-orange-200 focus:ring-1 focus:ring-primary-orange-200 focus:outline-none disabled:bg-primary-orange-100 disabled:cursor-not-allowed",
       outlined:
         "border-2 border-primary-orange-300 text-primary-orange-300 hover:border-primary-orange-200 hover:text-primary-orange-200 focus:ring-1 focus:ring-primary-orange-200 focus:outline-none disabled:border-grayscale-100 disabled:text-grayscale-100 disabled:cursor-not-allowed disabled:hover:bg-transparent",
     },
@@ -53,9 +53,9 @@ const Button = ({
     },
     lime: {
       solid:
-        "bg-lime-600 text-white hover:bg-lime-700 focus:ring-1 focus:ring-lime-500 focus:outline-none disabled:bg-lime-300 disabled:cursor-not-allowed",
+        "bg-primary-orange-300 text-white hover:bg-primary-orange-400 focus:ring-1 focus:ring-primary-orange-200 focus:outline-none disabled:bg-primary-orange-200 disabled:cursor-not-allowed",
       outlined:
-        "border-2 border-lime-600 text-lime-600 hover:border-lime-700 hover:text-lime-700 focus:ring-1 focus:ring-lime-500 focus:outline-none disabled:border-lime-300 disabled:text-lime-300 disabled:cursor-not-allowed disabled:hover:bg-transparent",
+        "border-2 border-primary-orange-300 text-primary-orange-300 hover:border-primary-orange-400 hover:text-primary-orange-400 focus:ring-1 focus:ring-primary-orange-200 focus:outline-none disabled:border-primary-orange-200 disabled:text-primary-orange-200 disabled:cursor-not-allowed disabled:hover:bg-transparent",
     },
   };
 

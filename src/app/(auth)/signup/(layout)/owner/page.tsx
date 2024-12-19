@@ -38,7 +38,7 @@ export default function OwnerSignupPage() {
         <div className="text-grayscale-900 text-center text-3xl font-bold tracking-tight">사장님 회원가입</div>
         <p className="text-grayscale-600 mt-2 text-center text-sm">
           이미 계정이 있으신가요?{" "}
-          <Link href="/login" className="font-medium text-lime-600 hover:text-lime-500">
+          <Link href="/login" className="font-medium text-primary-orange-300 hover:text-primary-orange-200">
             로그인하기
           </Link>
         </p>

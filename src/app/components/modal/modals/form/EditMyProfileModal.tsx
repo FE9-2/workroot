@@ -170,7 +170,6 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
         <div className="mt-4 flex h-[58px] w-full justify-between gap-3 lg:mt-6 lg:h-[72px]">
           <Button
             type="button"
-            color="lime"
             variant="outlined"
             onClick={() => {
               onClose();
@@ -183,7 +182,6 @@ const EditMyProfileModal = ({ isOpen, onClose, className }: EditMyProfileModalPr
           </Button>
           <Button
             type="submit"
-            color="lime"
             variant="solid"
             disabled={isUpdating}
             className="h-[58px] w-[158px] text-base font-medium lg:h-[72px] lg:w-[314px] lg:text-lg"

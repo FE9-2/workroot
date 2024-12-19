@@ -122,7 +122,6 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
         <div className="mt-4 flex h-[58px] gap-3 lg:mt-6 lg:h-[72px]">
           <Button
             type="button"
-            color="lime"
             variant="outlined"
             onClick={() => {
               onClose();
@@ -135,7 +134,6 @@ const ChangePasswordModal = ({ isOpen, onClose, className }: ChangePasswordModal
           </Button>
           <Button
             type="submit"
-            color="lime"
             variant="solid"
             disabled={isPending}
             className="h-full text-base font-medium lg:text-lg"
