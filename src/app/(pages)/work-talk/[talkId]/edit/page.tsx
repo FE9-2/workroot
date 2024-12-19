@@ -134,11 +134,7 @@ export default function EditTalk({ params }: { params: { albatalkId: string } })
   };
 
   if (isLoading) {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   if (!post) return null;

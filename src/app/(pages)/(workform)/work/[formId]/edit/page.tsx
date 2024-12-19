@@ -135,7 +135,7 @@ export default function EditFormPage() {
   const { user } = useUser();
 
   if (user?.role !== "OWNER") {
-    toast.error("사장님만 워크폼을 작성할 수 있습니다.");
+    toast.error("사장님만 워크폼 수정이 가능합니다.");
     router.push("/work-list");
   }
 

@@ -66,12 +66,7 @@ export default function AlbaFormDetailPage() {
     });
   }, [albaFormDetailData?.location]);
 
-  if (isLoading)
-    return (
-      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    );
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <div className="container flex min-h-screen flex-col px-4 lg:px-0">
