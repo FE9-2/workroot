@@ -41,7 +41,6 @@ export const metadata: Metadata = {
 
   // 기본 메타 설정
   manifest: "/site.webmanifest",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
   formatDetection: {
     telephone: false,
     email: false,
