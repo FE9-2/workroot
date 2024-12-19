@@ -15,7 +15,6 @@ import WorkConditionSection from "../../../addform/section/WorkConditionSection"
 import { SubmitFormDataType } from "@/types/addform";
 import useEditing from "@/hooks/useEditing";
 import useFormDetail from "@/hooks/queries/form/detail/useFormDetail";
-import formatMoney from "@/utils/formatMoney";
 import tempSave from "@/utils/tempSave";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
@@ -34,7 +33,7 @@ export default function EditFormPage() {
   const {
     reset,
     handleSubmit,
-    formState: { isDirty },
+    formState: { isDirty, isValid },
   } = methods;
 
   const queryClient = useQueryClient();
@@ -51,7 +50,7 @@ export default function EditFormPage() {
     if (albaFormDetailData) {
       reset({
         isPublic: albaFormDetailData.isPublic,
-        hourlyWage: formatMoney(String(albaFormDetailData.hourlyWage)),
+        hourlyWage: albaFormDetailData.hourlyWage,
         isNegotiableWorkDays: albaFormDetailData.isNegotiableWorkDays,
         workDays: albaFormDetailData.workDays,
         workEndTime: albaFormDetailData.workEndTime,
@@ -89,6 +88,9 @@ export default function EditFormPage() {
       });
       await queryClient.invalidateQueries({
         queryKey: ["forms", { limit: 10 }],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ["myForms", { isPublic: true, isRecruiting: true, limit: 10 }],
       });
       toast.success("워크폼을 수정했습니다.");
       router.push(`/work/${formId}`);
@@ -133,7 +135,7 @@ export default function EditFormPage() {
   const { user } = useUser();
 
   if (user?.role !== "OWNER") {
-    toast.error("사장님만 워크폼을 작성할 수 있습니다.");
+    toast.error("사장님만 워크폼 수정이 가능합니다.");
     router.push("/work-list");
   }
 
@@ -161,14 +163,14 @@ export default function EditFormPage() {
             onChange={handleOptionChange}
             currentParam={currentParam || ""}
           />
-          <div className="absolute -bottom-[120px] flex w-[320px] lg:relative lg:bottom-0 lg:w-full">
+          <div className="absolute -bottom-[120px] flex w-[320px] justify-center lg:relative lg:bottom-0 lg:w-full">
             <Button
               type="submit"
               variant="solid"
               width="md"
               color="orange"
-              className="h-[58px] w-[372px] lg:h-[72px] lg:text-xl lg:leading-8"
-              disabled={!isDirty}
+              className="h-[58px] w-full lg:h-[72px] lg:text-xl lg:leading-8"
+              disabled={!isDirty || !isValid}
               onClick={handleSubmit(() => mutation.mutate())}
             >
               {mutation.isPending ? <DotLoadingSpinner /> : "수정하기"}

@@ -25,11 +25,7 @@ export default function MyAlbaForm() {
   }, [user, isLoading, router]);
 
   if (isLoading) {
-    return (
-      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return null;

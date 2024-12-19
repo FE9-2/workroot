@@ -76,12 +76,7 @@ export default function AlbaFormDetailPage() {
       }
     : undefined;
 
-  if (isLoading)
-    return (
-      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    );
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <div className="container flex min-h-screen flex-col px-4 lg:px-0">
@@ -132,7 +127,7 @@ export default function AlbaFormDetailPage() {
           </div>
         </div>
 
-        {/* 오른쪽 영역 */}
+        {/* 모집공고 내용 */}
         <div className="flex w-full flex-col space-y-12 lg:w-[640px]">
           {albaFormDetailData && <RecruitInformation albaFormDetailData={albaFormDetailData} formId={formIdState} />}
         </div>

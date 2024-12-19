@@ -5,7 +5,7 @@ import apiClient from "@/lib/apiClient";
 
 // 회원의 내 지원 내역 조회
 export async function GET(req: NextRequest, { params }: { params: { formId: string } }) {
-  console.log("API Route hit - formId:", params.formId);
+  console.log("API Route hit - 내 지원내역 조회:", params.formId);
 
   try {
     const accessToken = cookies().get("accessToken")?.value;

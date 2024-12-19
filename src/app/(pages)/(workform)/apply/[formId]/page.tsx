@@ -12,6 +12,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Label from "../../component/Label";
 import uploadResume from "@/utils/uploadResume";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
+import tempSave from "@/utils/tempSave";
+import { useUser } from "@/hooks/queries/user/me/useUser";
 interface ApplyFormData {
   name: string;
   phoneNumber: string;
@@ -24,37 +26,39 @@ interface ApplyFormData {
 }
 // 워크폼 만들기 - 지원자 (지원하기)
 export default function Apply() {
+  const formId = useParams().formId;
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const { user } = useUser();
+
   const {
     register,
     handleSubmit,
     formState: { errors, isValid, isDirty },
-    trigger,
-    clearErrors,
-    getValues,
     setValue,
+    watch,
   } = useForm<ApplyFormData>({
     mode: "onChange",
     defaultValues: {
       name: "",
       phoneNumber: "",
-      experienceMonths: 0,
       resumeId: 0,
       resumeName: "",
       introduction: "",
-      password: "",
+      password: user ? "00000000" : "",
     },
   });
+  const currentValues = watch();
 
-  const formId = useParams().formId;
-  const router = useRouter();
-  const queryClient = useQueryClient();
+  const onTempSave = () => {
+    tempSave("applyTempData", currentValues);
+  };
 
-  const onTempSave = async () => {
+  const handleUploadResume = async (file: File) => {
     try {
-      const values = getValues();
-      const uploadedResume = await uploadResume(values.resume);
-      setValue("resumeId", uploadedResume.resumeId);
-      setValue("resumeName", uploadedResume.resumeName);
+      const response = await uploadResume(file);
+      setValue("resumeId", response.resumeId);
+      setValue("resumeName", response.resumeName);
     } catch (error) {
       console.error("Error uploading resume:", error);
       toast.error("이력서 업로드에 실패했습니다.");
@@ -64,25 +68,23 @@ export default function Apply() {
   // 폼 제출 리액트쿼리
   const mutation = useMutation({
     mutationFn: async () => {
-      // 이력서 업로드 및 임시저장 먼저 수행
-      await onTempSave();
-
       // 최신 값을 가져오기
-      const values = getValues();
-      const { resume, ...submitData } = values;
-
-      const response = await axios.post(`/api/forms/${formId}/applications`, submitData);
-      return response.data;
+      const { resume, ...submitData } = currentValues;
+      if (submitData.resumeId !== 0) {
+        await axios.post(`/api/forms/${formId}/applications`, submitData);
+      } else {
+        toast.error("이력서 파일을 다시 업로드해주세요.");
+      }
     },
-
-    onSuccess: () => {
+    onSuccess: async () => {
       // 로컬 스토리지 데이터 삭제
       if (typeof window !== "undefined") {
         window.localStorage.removeItem("tempAddFormData");
       }
 
       // 내 지원서 목록 캐시 무효화
-      queryClient.invalidateQueries({ queryKey: ["myApplications"] });
+      await queryClient.invalidateQueries({ queryKey: ["myApplications"] });
+      await queryClient.invalidateQueries({ queryKey: ["formDetail", formId] });
 
       toast.success("지원이 완료되었습니다.");
       router.push("/my-workform");
@@ -155,12 +157,7 @@ export default function Apply() {
               }
               return true;
             },
-            onChange: (e) => {
-              if (e.target.files) {
-                clearErrors("resume");
-              }
-              trigger("resume");
-            },
+            onChange: (e) => handleUploadResume(e.target.files[0]),
           })}
           accept=".pdf,.doc,.docx"
           variant="upload"
@@ -179,29 +176,34 @@ export default function Apply() {
         placeholder="최대 200자까지 입력 가능합니다."
         errormessage={errors.introduction?.message}
       />
+      {/* 비회원일때만 비밀번호 입력 */}
+      {!user && (
+        <>
+          <div className="relative">
+            <Label>비밀번호</Label>
+            <div className="absolute right-0 top-0 mt-[6px] text-xs font-normal leading-[18px] text-grayscale-400">
+              지원내역 확인에 사용됩니다.
+            </div>
+          </div>
+          <div>
+            <BaseInput
+              {...register("password", {
+                required: "비밀번호는 필수입니다.",
+                minLength: { value: 8, message: "8자리 이상 입력해주세요." },
+                pattern: {
+                  value: /^([a-z]|[A-Z]|[0-9]|[!@#$%^&*])+$/,
+                  message: "영문, 숫자, 특수문자 조합으로 입력해주세요.",
+                },
+              })}
+              type="password"
+              variant="white"
+              placeholder="비밀번호를 입력해주세요."
+              errormessage={errors.password?.message}
+            />
+          </div>
+        </>
+      )}
 
-      <div className="relative">
-        <Label>비밀번호</Label>
-        <div className="absolute right-0 top-0 mt-[6px] text-xs font-normal leading-[18px] text-grayscale-400">
-          지원내역 확인에 사용됩니다.
-        </div>
-      </div>
-      <div>
-        <BaseInput
-          {...register("password", {
-            required: "비밀번호는 필수입니다.",
-            minLength: { value: 8, message: "8자리 이상 입력해주세요." },
-            pattern: {
-              value: /^([a-z]|[A-Z]|[0-9]|[!@#$%^&*])+$/,
-              message: "영문, 숫자, 특수문자 조합으로 입력해주세요.",
-            },
-          })}
-          type="password"
-          variant="white"
-          placeholder="비밀번호를 입력해주세요."
-          errormessage={errors.password?.message}
-        />
-      </div>
       <div className="lg:flex-2 mt-4 flex w-full flex-col gap-[10px] lg:mt-8 lg:flex-row">
         <Button
           type="button"

@@ -10,22 +10,21 @@ interface FormImageProps {
 
 export default function FormImage({ imageUrls, currentPage, onPageChange }: FormImageProps) {
   return (
-    <div className="relative flex h-[300px] justify-center lg:h-[562px]">
+    <div className="relative flex h-[300px] justify-center lg:h-[460px]">
       {/* 이미지 표시 */}
       {imageUrls?.map((imageUrl, index) => (
         <div
           key={imageUrl}
-          className={`absolute h-full w-auto transition-opacity duration-300 ${
+          className={`absolute h-full w-full transition-opacity duration-300 ${
             index === currentPage ? "opacity-100" : "opacity-0"
           }`}
         >
           <Image
             src={imageUrl}
             alt={`알바 이미지 ${index + 1}`}
-            width={1200}
-            height={800}
-            className="h-full w-full object-cover"
+            className="h-full w-full rounded-lg object-cover"
             priority={index === 0}
+            layout="fill"
           />
         </div>
       ))}

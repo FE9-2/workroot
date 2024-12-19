@@ -11,7 +11,7 @@ interface RecruitConditionProps {
 const RecruitCondition = ({ recruitData }: RecruitConditionProps) => {
   const titleStyle = "text-black-200 min-w-28 lg:min-w-[120px]";
   return (
-    <div className="flex w-full flex-col gap-5 rounded-lg border border-line-100 bg-white p-4 text-sm lg:w-[640px] lg:p-6 lg:text-lg">
+    <div className="flex w-full flex-col gap-5 rounded-lg border border-line-100 bg-background-100 p-6 text-sm lg:w-[640px] lg:p-6 lg:text-lg">
       <div className="flex">
         <span className={cn(titleStyle)}>모집 인원</span>
         <div>

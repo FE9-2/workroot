@@ -29,7 +29,7 @@ export default function RecruitInformation({ albaFormDetailData, formId }: Recru
       <RecruitIcon {...recruitmentDetails} />
       <RecruitDetail recruitData={albaFormDetailData} />
       <div className="flex flex-col gap-6">
-        <span className="text-3xl font-bold">모집 조건</span>
+        <span className="text-2xl font-bold">모집 조건</span>
         <RecruitCondition recruitData={albaFormDetailData} />
       </div>
       {user && (
