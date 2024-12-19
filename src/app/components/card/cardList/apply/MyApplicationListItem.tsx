@@ -19,7 +19,7 @@ const MyApplicationListItem = ({ createdAt, status, resumeId, resumeName, form }
   };
 
   return (
-    <div className="relative h-auto w-[327px] overflow-hidden rounded-xl border border-grayscale-200 bg-white p-4 shadow-md transition-transform duration-300 hover:scale-[1.02] lg:w-[372px]">
+    <div className="relative h-auto w-[327px] overflow-hidden rounded-xl border border-line-200 bg-white p-4 shadow-md transition-transform duration-300 hover:scale-[1.02] lg:w-[372px]">
       <div className="flex h-full flex-col">
         {/* 상단 영역: 지원일시와 이력서 링크 */}
         <div className="flex items-center justify-between">

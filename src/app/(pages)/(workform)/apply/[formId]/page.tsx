@@ -13,6 +13,7 @@ import Label from "../../component/Label";
 import uploadResume from "@/utils/uploadResume";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import tempSave from "@/utils/tempSave";
+import { useUser } from "@/hooks/queries/user/me/useUser";
 interface ApplyFormData {
   name: string;
   phoneNumber: string;
@@ -25,6 +26,11 @@ interface ApplyFormData {
 }
 // 워크폼 만들기 - 지원자 (지원하기)
 export default function Apply() {
+  const formId = useParams().formId;
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const { user } = useUser();
+
   const {
     register,
     handleSubmit,
@@ -36,17 +42,13 @@ export default function Apply() {
     defaultValues: {
       name: "",
       phoneNumber: "",
-      experienceMonths: 0,
       resumeId: 0,
       resumeName: "",
       introduction: "",
-      password: "",
+      password: user ? "00000000" : "",
     },
   });
   const currentValues = watch();
-  const formId = useParams().formId;
-  const router = useRouter();
-  const queryClient = useQueryClient();
 
   const onTempSave = () => {
     tempSave("applyTempData", currentValues);
@@ -174,29 +176,34 @@ export default function Apply() {
         placeholder="최대 200자까지 입력 가능합니다."
         errormessage={errors.introduction?.message}
       />
+      {/* 비회원일때만 비밀번호 입력 */}
+      {!user && (
+        <>
+          <div className="relative">
+            <Label>비밀번호</Label>
+            <div className="absolute right-0 top-0 mt-[6px] text-xs font-normal leading-[18px] text-grayscale-400">
+              지원내역 확인에 사용됩니다.
+            </div>
+          </div>
+          <div>
+            <BaseInput
+              {...register("password", {
+                required: "비밀번호는 필수입니다.",
+                minLength: { value: 8, message: "8자리 이상 입력해주세요." },
+                pattern: {
+                  value: /^([a-z]|[A-Z]|[0-9]|[!@#$%^&*])+$/,
+                  message: "영문, 숫자, 특수문자 조합으로 입력해주세요.",
+                },
+              })}
+              type="password"
+              variant="white"
+              placeholder="비밀번호를 입력해주세요."
+              errormessage={errors.password?.message}
+            />
+          </div>
+        </>
+      )}
 
-      <div className="relative">
-        <Label>비밀번호</Label>
-        <div className="absolute right-0 top-0 mt-[6px] text-xs font-normal leading-[18px] text-grayscale-400">
-          지원내역 확인에 사용됩니다.
-        </div>
-      </div>
-      <div>
-        <BaseInput
-          {...register("password", {
-            required: "비밀번호는 필수입니다.",
-            minLength: { value: 8, message: "8자리 이상 입력해주세요." },
-            pattern: {
-              value: /^([a-z]|[A-Z]|[0-9]|[!@#$%^&*])+$/,
-              message: "영문, 숫자, 특수문자 조합으로 입력해주세요.",
-            },
-          })}
-          type="password"
-          variant="white"
-          placeholder="비밀번호를 입력해주세요."
-          errormessage={errors.password?.message}
-        />
-      </div>
       <div className="lg:flex-2 mt-4 flex w-full flex-col gap-[10px] lg:mt-8 lg:flex-row">
         <Button
           type="button"

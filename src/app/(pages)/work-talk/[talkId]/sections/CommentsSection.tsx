@@ -9,7 +9,6 @@ import { useAddComment } from "@/hooks/queries/post/comment/useAddComment";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import { useComments } from "@/hooks/queries/post/comment/useComments";
 import Pagination from "@/app/components/pagination/Pagination";
-import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 
 interface CommentsSectionProps {
@@ -54,7 +53,7 @@ export function CommentsSection({ postId }: CommentsSectionProps): JSX.Element {
   if (isCommentsLoading) {
     return (
       <div className="flex h-[200px] items-center justify-center">
-        <LoadingSpinner />
+        <DotLoadingSpinner />
       </div>
     );
   }
