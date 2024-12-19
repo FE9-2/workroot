@@ -142,7 +142,7 @@ export default function WorkConditionSection() {
               checked={watch("isNegotiableWorkDays")}
               {...register("isNegotiableWorkDays")}
             />
-            {selectedWorkDays.length === 0 && !isNegotiable && (
+            {workdaysData.length === 0 && !isNegotiable && (
               <p className={cn(errorTextStyle, "")}>근무 요일을 선택해주세요.</p>
             )}
           </div>
