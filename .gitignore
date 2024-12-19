@@ -50,4 +50,5 @@ build-storybook.log
 *storybook.log
 
 # sitemap
-/public/sitemap.xml
+public/sitemap*.xml
+public/robots.txt
