@@ -17,7 +17,7 @@ export default function CommentsSection() {
   // 화면 크기에 따른 페이지당 댓글 수 계산
   const getCommentsPerPage = () => {
     if (isMobile) return 2; // 1열 x 2줄 = 2개
-    if (isTablet) return 4; // 2열 x 2줄 = 4개
+    if (isTablet) return 2; // 1열 x 2줄 = 4개
     if (isDesktop) return 6; // 3열 x 2줄 = 6개
     return 8; // xl 사이즈: 4열 x 2줄 = 8개
   };
@@ -71,7 +71,7 @@ export default function CommentsSection() {
         <ScrollTopButton showHeight={300} />
 
         <ContentSection>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
             {data.data.map((comment) => (
               <div key={comment.id} className="flex justify-center">
                 <BoardComment

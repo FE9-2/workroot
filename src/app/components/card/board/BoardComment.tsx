@@ -83,7 +83,9 @@ const BoardComment = ({
 
       {/* Comment Section */}
       <div className="flex flex-col gap-3 py-1 lg:py-4">
-        <div className="text-[14px] font-semibold lg:text-[18px]">{comment}</div>
+        <div className="scrollbar-custom max-h-[50px] overflow-hidden text-[14px] font-semibold lg:text-[18px]">
+          {comment}
+        </div>
         <div className="line-clamp-2 text-[12px] font-medium text-grayscale-500 lg:text-[16px]">
           {formatLocalDate(updatedAt)}
         </div>
