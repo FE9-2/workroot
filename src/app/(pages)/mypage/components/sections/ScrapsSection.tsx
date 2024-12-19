@@ -114,7 +114,7 @@ export default function ScrapsSection() {
   if (error) {
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <p className="text-red-500">스크랩을 불러오는데 실패했습니다.</p>
+        <p className="text-primary-orange-300">스크랩을 불러오는데 실패했습니다.</p>
       </div>
     );
   }
@@ -127,7 +127,7 @@ export default function ScrapsSection() {
   return (
     <div className="space-y-4">
       {/* 필터 드롭다운 섹션 */}
-      <div className="w-full border-b border-line-100">
+      <div className="w-full border-b border-line-200 shadow-md">
         <div className="mx-auto flex max-w-screen-xl items-center justify-between gap-2 py-4">
           <div className="flex items-center gap-2">
             <FilterDropdown
@@ -158,11 +158,9 @@ export default function ScrapsSection() {
             {data?.pages.map((page) => (
               <React.Fragment key={page.nextCursor}>
                 {page.data.map((scrap: FormListType) => (
-                  <div key={scrap.id}>
-                    <Link href={`/work/${scrap.id}/`}>
-                      <AlbaListItem {...scrap} />
-                    </Link>
-                  </div>
+                  <Link href={`/work/${scrap.id}/`} key={scrap.id}>
+                    <AlbaListItem {...scrap} />
+                  </Link>
                 ))}
               </React.Fragment>
             ))}

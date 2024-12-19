@@ -49,7 +49,7 @@ export default function FilterBar() {
   return (
     <div className="w-full bg-white">
       {/* 마이페이지 섹션 */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between px-6">
         <div className="text-grayscale-900 py-4 text-xl font-bold sm:py-6 sm:text-2xl">마이페이지</div>
         {/* sm, md에서는 케밥 메뉴, lg 이상에서는 버튼 */}
         <div>
@@ -69,7 +69,7 @@ export default function FilterBar() {
 
       {/* 탭 메뉴 섹션 */}
       <nav className="border-b border-line-100">
-        <div className="mx-auto flex max-w-screen-xl items-center justify-between py-4">
+        <div className="mx-auto flex max-w-screen-xl items-center justify-between px-6 py-4">
           <TabMenu />
           <SortSection />
         </div>

@@ -114,7 +114,7 @@ export default function AlbaFormDetailPage() {
 
           {/* 지도 영역 */}
           <div className="h-[280px] lg:h-[320px]">
-            {error && <div className="text-red-500">Map load error: {String(error)}</div>}
+            {error && <div className="text-primary-orange-300">Map load error: {String(error)}</div>}
             {!loading && !error && albaFormDetailData && (
               <Map center={coords} style={{ width: "100%", height: "100%", zIndex: 0 }} level={3}>
                 <MapMarker position={coords}>
