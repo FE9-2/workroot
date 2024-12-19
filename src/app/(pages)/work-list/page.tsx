@@ -96,32 +96,10 @@ export default function AlbaList() {
   }
 
   // 로딩 중 처리
-  if (isLoading)
-    return (
-      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    );
+  if (isLoading) return <LoadingSpinner />;
 
   // 리스트 아이템 클릭 시 로그인 여부 확인 후 이동
   const handleFormClick = (formId: number) => {
-    // if (!user) {
-    //   openModal("customForm", {
-    //     isOpen: true,
-    //     title: "로그인이 필요합니다",
-    //     content: "채용공고를 확인하려면 로그인이 필요합니다.\n로그인 페이지로 이동하시겠습니까?",
-    //     confirmText: "로그인하기",
-    //     cancelText: "취소",
-    //     onConfirm: () => {
-    //       closeModal();
-    //       router.push("/login");
-    //     },
-    //     onCancel: () => {
-    //       closeModal();
-    //     },
-    //   });
-    //   return;
-    // }
     router.push(`/work/${formId}`);
   };
 

@@ -65,11 +65,7 @@ const AlbaList: React.FC<AlbaListProps> = () => {
 
   // 로딩 상태 처리
   if (isLoading && items.length === 0) {
-    return (
-      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return (
