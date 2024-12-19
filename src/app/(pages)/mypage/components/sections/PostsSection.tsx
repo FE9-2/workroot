@@ -5,25 +5,22 @@ import { useInView } from "react-intersection-observer";
 import { useMyPosts } from "@/hooks/queries/user/me/useMyPosts";
 import { useMySortStore } from "@/store/mySortStore";
 import { useProfileStringValue } from "@/hooks/queries/user/me/useProfileStringValue";
-import Link from "next/link";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import ContentSection from "@/app/components/layout/ContentSection";
-import Image from "next/image";
-import { formatLocalDate } from "@/utils/workDayFormatter";
 import useWidth from "@/hooks/useWidth";
 import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
+import BoardPostItem from "@/app/components/card/board/BoardPostItem";
 
 export default function PostsSection() {
   const { orderBy } = useMySortStore();
-  const { isMobile, isTablet, isDesktop } = useWidth();
+  const { isMobile, isTablet } = useWidth();
   useProfileStringValue();
 
   // 화면 크기에 따른 페이지당 게시글 수 계산
   const getPostsPerPage = () => {
     if (isMobile) return 2; // 1열 x 2줄 = 2개
-    if (isTablet) return 4; // 2열 x 2줄 = 4개
-    if (isDesktop) return 6; // 3열 x 2줄 = 6개
-    return 8; // xl 사이즈: 4열 x 2줄 = 8개
+    if (isTablet) return 2; // 1열 x 2줄 = 4개
+    return 6; // 3열 x 2줄 = 6개
   };
 
   const postsPerPage = getPostsPerPage();
@@ -71,49 +68,11 @@ export default function PostsSection() {
             <ScrollTopButton showHeight={300} />
 
             <ContentSection>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-3">
                 {data.pages.map((page) => (
                   <React.Fragment key={page.nextCursor}>
                     {page.data.map((post) => (
-                      <div key={post.id} className="flex justify-center">
-                        <Link
-                          href={`/work-talk/${post.id}`}
-                          className="block cursor-pointer transition-transform duration-300 hover:scale-[1.02]"
-                        >
-                          <div className="rounded-lg border border-line-200 bg-white p-6 shadow-md">
-                            <div className="flex flex-col gap-4">
-                              {/* 제목 */}
-                              <h3 className="text-lg font-semibold text-black-400 md:text-xl">{post.title}</h3>
-
-                              {/* 내용 */}
-                              <p className="line-clamp-2 text-sm text-grayscale-400 md:text-base">{post.content}</p>
-
-                              {/* 하단 정보 */}
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                  <span className="text-sm font-medium text-black-400 md:text-base">
-                                    {post.writer.nickname}
-                                  </span>
-                                  <span className="text-grayscale-400">|</span>
-                                  <span className="text-sm text-grayscale-400 md:text-base">
-                                    {formatLocalDate(post.updatedAt)}
-                                  </span>
-                                </div>
-                                <div className="ml-3 flex items-center gap-2">
-                                  <div className="flex items-center">
-                                    <Image src="/icons/comment/comment-sm.svg" alt="댓글" width={20} height={20} />
-                                    <span className="text-sm text-grayscale-400">{post.commentCount}</span>
-                                  </div>
-                                  <div className="flex items-center">
-                                    <Image src="/icons/like/like-sm.svg" alt="좋아요" width={20} height={20} />
-                                    <span className="text-sm text-grayscale-400">{post.likeCount}</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </Link>
-                      </div>
+                      <BoardPostItem post={post} key={post.id} />
                     ))}
                   </React.Fragment>
                 ))}

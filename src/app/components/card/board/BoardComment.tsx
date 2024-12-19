@@ -7,6 +7,7 @@ import useModalStore from "@/store/modalStore";
 import { useDeleteComment } from "@/hooks/queries/post/comment/useDeleteComment";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export interface BoardCommentProps {
   id: string;
@@ -65,35 +66,37 @@ const BoardComment = ({
   ];
 
   return (
-    <div className="relative flex h-[202px] w-[327px] flex-col gap-2 rounded-[16px] border border-line-200 bg-grayscale-50 p-6 shadow-md md:w-[600px] lg:h-[264px] lg:w-[477px]">
-      {/* Post Section */}
-      <div className="flex w-full flex-col gap-4 border-b border-line-100 pb-2 lg:pb-4">
-        <div className="flex items-center gap-[6px] lg:gap-2">
-          <Image
-            src="/icons/document/document.svg"
-            alt="Icon"
-            className="size-6 rounded-full lg:size-9"
-            width={24}
-            height={24}
-          />
-          <span className="text-[12px] text-black-100 lg:text-[16px]">{postTitle}</span>
+    <Link href={`work-talk/${postId}`}>
+      <div className="relative flex h-[202px] w-[327px] flex-col gap-2 rounded-[16px] border border-line-200 bg-grayscale-50 p-6 shadow-md md:w-[600px] lg:h-[264px] lg:w-full">
+        {/* Post Section */}
+        <div className="flex w-full flex-col gap-4 border-b border-line-100 pb-2 lg:pb-4">
+          <div className="flex items-center gap-[6px] lg:gap-2">
+            <Image
+              src="/icons/document/document.svg"
+              alt="Icon"
+              className="size-6 rounded-full lg:size-9"
+              width={24}
+              height={24}
+            />
+            <span className="text-[12px] text-black-100 lg:text-[16px]">{postTitle}</span>
+          </div>
+          <p className="text-[12px] text-grayscale-500 lg:text-[16px]">{postContent}</p>
         </div>
-        <div className="text-[12px] text-grayscale-500 lg:text-[16px]">{postContent}</div>
-      </div>
 
-      {/* Comment Section */}
-      <div className="flex flex-col gap-3 py-1 lg:py-4">
-        <div className="scrollbar-custom line-clamp-2 overflow-hidden text-[14px] font-semibold md:h-[50px] lg:text-[18px]">
-          {comment}
+        {/* Comment Section */}
+        <div className="flex flex-col gap-3 py-1 lg:py-4">
+          <div className="line-clamp-2 overflow-hidden text-[14px] font-semibold md:h-[50px] lg:text-[18px]">
+            {comment}
+          </div>
+          <div className="line-clamp-2 text-[12px] font-medium text-grayscale-500 lg:text-[16px]">
+            {formatLocalDate(updatedAt)}
+          </div>
         </div>
-        <div className="line-clamp-2 text-[12px] font-medium text-grayscale-500 lg:text-[16px]">
-          {formatLocalDate(updatedAt)}
+        <div className="absolute right-6 flex items-center justify-center">
+          {isAuthor && <KebabDropdown options={dropdownOptions} />}
         </div>
       </div>
-      <div className="absolute right-6 flex items-center justify-center">
-        {isAuthor && <KebabDropdown options={dropdownOptions} />}
-      </div>
-    </div>
+    </Link>
   );
 };
 

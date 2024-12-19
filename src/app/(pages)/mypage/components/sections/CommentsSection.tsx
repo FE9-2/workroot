@@ -12,14 +12,13 @@ import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
 
 export default function CommentsSection() {
   const [currentPage, setCurrentPage] = useState(1);
-  const { isMobile, isTablet, isDesktop } = useWidth();
+  const { isMobile, isTablet } = useWidth();
 
   // 화면 크기에 따른 페이지당 댓글 수 계산
   const getCommentsPerPage = () => {
     if (isMobile) return 2; // 1열 x 2줄 = 2개
     if (isTablet) return 2; // 1열 x 2줄 = 4개
-    if (isDesktop) return 6; // 3열 x 2줄 = 6개
-    return 8; // xl 사이즈: 4열 x 2줄 = 8개
+    return 6; // 3열 x 2줄 = 6개
   };
 
   const commentsPerPage = getCommentsPerPage();
@@ -73,17 +72,16 @@ export default function CommentsSection() {
         <ContentSection>
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
             {data.data.map((comment) => (
-              <div key={comment.id} className="flex justify-center">
-                <BoardComment
-                  id={comment.id.toString()}
-                  postId={comment.post.id.toString()}
-                  postTitle={comment.post.title}
-                  postContent={comment.post.content}
-                  comment={comment.content}
-                  updatedAt={comment.updatedAt}
-                  isAuthor={true}
-                />
-              </div>
+              <BoardComment
+                key={comment.id}
+                id={comment.id.toString()}
+                postId={comment.post.id.toString()}
+                postTitle={comment.post.title}
+                postContent={comment.post.content}
+                comment={comment.content}
+                updatedAt={comment.updatedAt}
+                isAuthor={true}
+              />
             ))}
           </div>
         </ContentSection>
