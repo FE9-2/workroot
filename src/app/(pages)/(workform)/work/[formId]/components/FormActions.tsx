@@ -21,6 +21,7 @@ interface FormActionsProps {
 
 export default function FormActions({ formId, albaFormDetailData }: FormActionsProps) {
   const { user } = useUser();
+
   const { data: myApplication, isLoading: isApplicationLoading } = useMyApplication(formId);
   const { openModal } = useModalStore();
   const router = useRouter();
