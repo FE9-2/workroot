@@ -8,6 +8,7 @@ import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinne
 import Button from "@/app/components/button/default/Button";
 import { VerifyApplicationModalProps } from "@/types/modal";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const verifyApplicationSchema = z.object({
   name: z.string().min(1, "이름을 입력해주세요"),
@@ -73,6 +74,7 @@ const VerifyApplicationModal = ({ isOpen, onClose, onVerify, className }: Verify
       reset();
       onClose?.(); // optional chaining 사용
     } catch (error) {
+      toast.error("지원내역 조회에 실패했습니다.");
       console.error(error);
     } finally {
       setIsSubmitting(false);

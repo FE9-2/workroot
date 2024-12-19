@@ -4,7 +4,6 @@ import RecruitIcon from "@/app/components/card/cardList/RecruitIcon";
 import RecruitCondition from "@/app/components/card/cardList/RecruitCondition";
 import { FormDetailResponse } from "@/types/response/form";
 import FormActions from "./FormActions";
-import { useUser } from "@/hooks/queries/user/me/useUser";
 
 interface RecruitInformationProps {
   albaFormDetailData: FormDetailResponse;
@@ -12,8 +11,6 @@ interface RecruitInformationProps {
 }
 
 export default function RecruitInformation({ albaFormDetailData, formId }: RecruitInformationProps) {
-  const { user } = useUser();
-
   const recruitmentDetails = {
     hourlyWage: albaFormDetailData.hourlyWage,
     recruitmentStartDate: new Date(albaFormDetailData.recruitmentStartDate),
@@ -32,16 +29,14 @@ export default function RecruitInformation({ albaFormDetailData, formId }: Recru
         <span className="text-2xl font-bold">모집 조건</span>
         <RecruitCondition recruitData={albaFormDetailData} />
       </div>
-      {user && (
-        <div>
-          <div className="hidden lg:block">
-            <FormActions formId={formId} albaFormDetailData={albaFormDetailData} />
-          </div>
-          <div className="block lg:hidden">
-            <FormActions formId={formId} albaFormDetailData={albaFormDetailData} />
-          </div>
+      <div>
+        <div className="hidden lg:block">
+          <FormActions formId={formId} albaFormDetailData={albaFormDetailData} />
         </div>
-      )}
+        <div className="block lg:hidden">
+          <FormActions formId={formId} albaFormDetailData={albaFormDetailData} />
+        </div>
+      </div>
     </div>
   );
 }
