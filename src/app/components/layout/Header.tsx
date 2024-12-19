@@ -57,8 +57,13 @@ export default function Header() {
         {/* 로고와 메인 네비게이션 */}
         <div className="flex items-center">
           <Link href="/" className="flex items-center gap-[6px] text-xl">
-            <Image src="/testlogo.png" alt="WorkRoot" width={52} height={40} className="w-14 hover:opacity-90" />
-            <div className="hidden items-center text-3xl font-semibold text-primary-orange-300 md:flex">WorkRoot</div>
+            <Image
+              src="/black_main_logo.png"
+              alt="WorkRoot"
+              width={200}
+              height={40}
+              className="w-24 hover:opacity-90"
+            />
           </Link>
 
           <div className={menuStyle}>
