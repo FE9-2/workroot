@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import ContentSection from "@/app/components/layout/ContentSection";
 import useModalStore from "@/store/modalStore";
 import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 
 const POSTS_PER_PAGE = 10;
 
@@ -84,11 +85,7 @@ export default function AlbaTalk() {
 
   // 로딩 상태 처리
   if (isLoading) {
-    return (
-      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return (
@@ -157,7 +154,7 @@ export default function AlbaTalk() {
             <div ref={ref} className="h-4 w-full">
               {isFetchingNextPage && (
                 <div className="flex justify-center py-4">
-                  <LoadingSpinner />
+                  <DotLoadingSpinner />
                 </div>
               )}
             </div>

@@ -66,12 +66,17 @@ export default function AlbaFormDetailPage() {
     });
   }, [albaFormDetailData?.location]);
 
-  if (isLoading)
-    return (
-      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    );
+  // 공유 컨텐츠 설정
+  const shareContent = albaFormDetailData
+    ? {
+        title: `${albaFormDetailData.title} | 워크루트`,
+        description: `💼 ${albaFormDetailData.storeName}\n📍 ${albaFormDetailData.location}\n💰 시급 ${albaFormDetailData.hourlyWage.toLocaleString()}원`,
+        imageUrl: albaFormDetailData.imageUrls[0] || "/logo.png",
+        buttonText: "채용공고 보기",
+      }
+    : undefined;
+
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <div className="container flex min-h-screen flex-col px-4 lg:px-0">
@@ -122,7 +127,7 @@ export default function AlbaFormDetailPage() {
           </div>
         </div>
 
-        {/* 오른쪽 영역 */}
+        {/* 모집공고 내용 */}
         <div className="flex w-full flex-col space-y-12 lg:w-[640px]">
           {albaFormDetailData && <RecruitInformation albaFormDetailData={albaFormDetailData} formId={formIdState} />}
         </div>
@@ -132,7 +137,7 @@ export default function AlbaFormDetailPage() {
 
       <div className="fixed right-10 top-1/2 flex w-12 flex-col items-end gap-5">
         {user && !isOwner && <ScrapBtn formId={formIdState} />}
-        <ExpandedFloatingBtn icon={<IoShareSocialSharp />} variant="orange" />
+        <ExpandedFloatingBtn icon={<IoShareSocialSharp />} variant="orange" shareContent={shareContent} />
       </div>
     </div>
   );

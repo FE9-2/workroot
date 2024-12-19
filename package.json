@@ -10,7 +10,8 @@
     "test": "echo \"No tests specified\" && exit 0",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "chromatic": "dotenv -e .env npx chromatic"
+    "chromatic": "dotenv -e .env npx chromatic",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -21,6 +22,7 @@
     "form-data": "^4.0.1",
     "next": "14.2.15",
     "next-auth": "^4.24.10",
+    "next-sitemap": "^4.2.3",
     "prettier": "^3.3.3",
     "react": "^18",
     "react-datepicker": "^7.5.0",
@@ -31,7 +33,6 @@
     "react-intersection-observer": "^9.13.1",
     "react-kakao-maps-sdk": "^1.1.27",
     "react-modal": "^3.16.1",
-    "react-spinners": "^0.14.1",
     "tailwind-merge": "^2.5.4",
     "zod": "^3.23.8",
     "zustand": "^5.0.1"

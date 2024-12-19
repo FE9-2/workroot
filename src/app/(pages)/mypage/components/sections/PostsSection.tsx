@@ -10,6 +10,7 @@ import ContentSection from "@/app/components/layout/ContentSection";
 import useWidth from "@/hooks/useWidth";
 import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
 import BoardPostItem from "@/app/components/card/board/BoardPostItem";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 
 export default function PostsSection() {
   const { orderBy } = useMySortStore();
@@ -83,7 +84,7 @@ export default function PostsSection() {
             <div ref={ref} className="h-4 w-full">
               {isFetchingNextPage && (
                 <div className="flex justify-center py-4">
-                  <LoadingSpinner />
+                  <DotLoadingSpinner />
                 </div>
               )}
             </div>

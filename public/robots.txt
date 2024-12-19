@@ -1,0 +1,17 @@
+# *
+User-agent: *
+Allow: /
+
+# Googlebot
+User-agent: Googlebot
+Allow: /
+
+# Naverbot
+User-agent: Naverbot
+Disallow: /private
+
+# Host
+Host: https://www.workroot.life
+
+# Sitemaps
+Sitemap: https://www.workroot.life/sitemap.xml

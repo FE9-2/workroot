@@ -3,13 +3,6 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const accessToken = cookies().get("accessToken")?.value;
-
-  if (!accessToken) {
-    console.log("No access token found");
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  }
-
   try {
     const formData = await req.formData();
     const file = formData.get("file");
@@ -24,7 +17,6 @@ export async function POST(req: NextRequest) {
 
     const response = await apiClient.post("/resume/upload", uploadFormData, {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
         "Content-Type": "multipart/form-data",
       },
     });

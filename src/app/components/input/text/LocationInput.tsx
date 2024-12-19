@@ -6,6 +6,26 @@ import { BaseInputProps } from "@/types/textInput";
 import { forwardRef, useCallback, useState, useEffect } from "react";
 import Script from "next/script";
 
+// DaumPostcode 타입 정의
+interface DaumPostcodeData {
+  address: string;
+  addressType: string;
+  bname: string;
+  buildingName: string;
+  zonecode: string;
+  [key: string]: string;
+}
+
+declare global {
+  interface Window {
+    daum: {
+      Postcode: new (config: { oncomplete: (data: DaumPostcodeData) => void }) => {
+        open: () => void;
+      };
+    };
+  }
+}
+
 interface LocationInputProps extends BaseInputProps {
   onAddressChange?: (fullAddress: string) => void;
   readOnly?: boolean;
@@ -29,7 +49,7 @@ const LocationInput = forwardRef<HTMLInputElement, LocationInputProps>(
       if (typeof window === "undefined" || !window.daum) return;
 
       new window.daum.Postcode({
-        oncomplete: (data) => {
+        oncomplete: (data: DaumPostcodeData) => {
           const newAddress = data.address;
           setAddress(newAddress);
           onAddressChange?.(newAddress);
