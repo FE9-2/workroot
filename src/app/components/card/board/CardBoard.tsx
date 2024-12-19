@@ -86,8 +86,8 @@ const CardBoard = ({
 
   return (
     <div
-      className={`h-[220px] w-[320px] rounded-[16px] border p-4 lg:h-[240px] lg:w-[360px] ${
-        variant === "primary" ? "border-primary-orange-100 bg-primary-orange-50" : "border-line-100 bg-grayscale-50"
+      className={`h-[220px] w-[320px] rounded-[16px] border p-4 shadow-md lg:h-[240px] lg:w-[360px] ${
+        variant === "primary" ? "border-primary-orange-100 bg-primary-orange-50" : "border-line-200 bg-grayscale-50"
       } cursor-pointer`}
       role="button"
       tabIndex={0}

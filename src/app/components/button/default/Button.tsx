@@ -43,7 +43,7 @@ const Button = ({
       solid:
         "bg-primary-orange-300 text-white hover:bg-primary-orange-200 focus:ring-1 focus:ring-primary-orange-200 focus:outline-none disabled:bg-primary-orange-100 disabled:cursor-not-allowed",
       outlined:
-        "border-2 border-primary-orange-300 text-primary-orange-300 hover:border-primary-orange-200 hover:text-primary-orange-200 focus:ring-1 focus:ring-primary-orange-200 focus:outline-none disabled:border-grayscale-100 disabled:text-grayscale-100 disabled:cursor-not-allowed disabled:hover:bg-transparent",
+        "border-2 border-primary-orange-300 text-primary-orange-300 hover:border-primary-orange-200 hover:text-primary-orange-200 focus:ring-1 focus:ring-primary-orange-200 focus:outline-none disabled:border-primary-orange-100 disabled:text-grayscale-100 disabled:cursor-not-allowed disabled:hover:bg-transparent",
     },
     gray: {
       solid:
