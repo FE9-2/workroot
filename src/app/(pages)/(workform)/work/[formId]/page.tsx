@@ -66,6 +66,16 @@ export default function AlbaFormDetailPage() {
     });
   }, [albaFormDetailData?.location]);
 
+  // 공유 컨텐츠 설정
+  const shareContent = albaFormDetailData
+    ? {
+        title: `${albaFormDetailData.title} | 워크루트`,
+        description: `💼 ${albaFormDetailData.storeName}\n📍 ${albaFormDetailData.location}\n💰 시급 ${albaFormDetailData.hourlyWage.toLocaleString()}원`,
+        imageUrl: albaFormDetailData.imageUrls[0] || "/logo.png",
+        buttonText: "채용공고 보기",
+      }
+    : undefined;
+
   if (isLoading)
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
@@ -132,7 +142,7 @@ export default function AlbaFormDetailPage() {
 
       <div className="fixed right-10 top-1/2 flex w-12 flex-col items-end gap-5">
         {user && !isOwner && <ScrapBtn formId={formIdState} />}
-        <ExpandedFloatingBtn icon={<IoShareSocialSharp />} variant="orange" />
+        <ExpandedFloatingBtn icon={<IoShareSocialSharp />} variant="orange" shareContent={shareContent} />
       </div>
     </div>
   );
