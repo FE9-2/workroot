@@ -10,9 +10,15 @@ import Image from "next/image";
 interface ExpandedFloatingBtnProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "orange" | "white";
   icon?: ReactNode;
+  shareContent?: {
+    title?: string;
+    description?: string;
+    imageUrl?: string;
+    buttonText?: string;
+  };
 }
 
-const ExpandedFloatingBtn = ({ variant = "orange", className, ...props }: ExpandedFloatingBtnProps) => {
+const ExpandedFloatingBtn = ({ variant = "orange", className, shareContent, ...props }: ExpandedFloatingBtnProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
@@ -32,6 +38,10 @@ const ExpandedFloatingBtn = ({ variant = "orange", className, ...props }: Expand
   const handleLinkCopy = () => {
     navigator.clipboard.writeText(window.location.href);
     toast.success("링크가 복사되었습니다.");
+  };
+
+  const handleKakaoShare = () => {
+    shareToKakao(shareContent);
   };
 
   // 외부 클릭 감지 로직
@@ -58,7 +68,7 @@ const ExpandedFloatingBtn = ({ variant = "orange", className, ...props }: Expand
       {isExpanded ? (
         // 확장된 상태일 때 카카오톡 및 링크 아이콘 표시
         <div className="flex flex-col">
-          <button onClick={() => shareToKakao()} className="flex items-center">
+          <button onClick={handleKakaoShare} className="flex items-center">
             <div>
               <Image
                 src="/icons/social/social_kakao.png"
