@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 
   // Facebook 추가 설정
   other: {
-    "fb:app_id": process.env.NEXT_PUBLIC_FB_APP_ID || "",
+    "property:fb:app_id": process.env.NEXT_PUBLIC_FB_APP_ID || "",
   },
 
   // 기본 메타 설정
