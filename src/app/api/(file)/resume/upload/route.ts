@@ -1,5 +1,4 @@
 import apiClient from "@/lib/apiClient";
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
