@@ -48,3 +48,6 @@ storybook-static/*
 build-storybook.log
 
 *storybook.log
+
+# sitemap
+/public/sitemap.xml
