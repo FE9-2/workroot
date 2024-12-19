@@ -48,17 +48,13 @@ export default function PostsSection() {
   if (error) {
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <p className="text-red-500">게시글을 불러오는데 실패했습니다.</p>
+        <p className="text-primary-orange-300">게시글을 불러오는데 실패했습니다.</p>
       </div>
     );
   }
 
   if (isLoading) {
-    return (
-      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return (

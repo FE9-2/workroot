@@ -47,17 +47,13 @@ export default function CommentsSection() {
   if (error) {
     return (
       <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <p className="text-red-500">댓글을 불러오는데 실패했습니다.</p>
+        <p className="text-primary-orange-300">댓글을 불러오는데 실패했습니다.</p>
       </div>
     );
   }
 
   if (isLoading) {
-    return (
-      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   if (!data?.data?.length) {
@@ -82,6 +78,7 @@ export default function CommentsSection() {
                   id={comment.id.toString()}
                   postId={comment.post.id.toString()}
                   postTitle={comment.post.title}
+                  postContent={comment.post.content}
                   comment={comment.content}
                   updatedAt={comment.updatedAt}
                   isAuthor={true}

@@ -30,32 +30,30 @@ const KebabDropdown = ({ options, className = "" }: KebabDropdownProps) => {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="rounded-full p-2 hover:bg-grayscale-50"
+        className="rounded-full hover:bg-grayscale-50"
         aria-label="메뉴 더보기"
       >
-        <BsThreeDotsVertical className="text-xl text-grayscale-400" />
+        <BsThreeDotsVertical className="lg:text-md text-sm text-grayscale-200" />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 z-50 mt-2 w-40 rounded-lg border border-grayscale-100 bg-white shadow-lg">
-          <div className="py-1">
-            {options.map((option, index) => (
-              <button
-                type="button"
-                key={`${index}-${option.label}`}
-                onClick={() => {
-                  option.onClick();
-                  setIsOpen(false);
-                }}
-                className={cn(
-                  "w-full px-6 py-2 text-left text-sm hover:bg-primary-orange-50",
-                  "text-grayscale-700 hover:text-primary-orange-300"
-                )}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
+        <div className="absolute right-0 z-50 mt-2 w-40 overflow-hidden rounded-lg border border-grayscale-100 bg-white shadow-lg">
+          {options.map((option, index) => (
+            <button
+              type="button"
+              key={`${index}-${option.label}`}
+              onClick={() => {
+                option.onClick();
+                setIsOpen(false);
+              }}
+              className={cn(
+                "w-full px-6 py-2 text-left text-sm hover:bg-primary-orange-50",
+                "text-grayscale-700 hover:text-primary-orange-300"
+              )}
+            >
+              {option.label}
+            </button>
+          ))}
         </div>
       )}
     </div>

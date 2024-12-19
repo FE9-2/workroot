@@ -91,7 +91,7 @@ const KakaoMapPage = () => {
       </div>
 
       <div className="h-96 w-full border">
-        {error && <div className="text-red-500">Map load error: {String(error)}</div>}
+        {error && <div className="text-primary-orange-300">Map load error: {String(error)}</div>}
         {/* {loading && !error && (
           <div className="flex h-full items-center justify-center text-gray-500">Kakao Maps 로딩 중...</div>
         )} */}
