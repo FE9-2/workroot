@@ -84,7 +84,7 @@ export default function PostsSection() {
                           href={`/work-talk/${post.id}`}
                           className="block cursor-pointer transition-transform duration-300 hover:scale-[1.02]"
                         >
-                          <div className="rounded-lg border border-grayscale-100 bg-white p-6">
+                          <div className="rounded-lg border border-line-200 bg-white p-6 shadow-md">
                             <div className="flex flex-col gap-4">
                               {/* 제목 */}
                               <h3 className="text-lg font-semibold text-black-400 md:text-xl">{post.title}</h3>

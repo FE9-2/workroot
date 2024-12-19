@@ -57,7 +57,7 @@ const BoardComment = ({ id, postId, postTitle, comment, updatedAt, isAuthor = fa
 
   return (
     <div
-      className={`flex w-[327px] flex-col rounded-[16px] border border-line-100 bg-grayscale-50 p-3 md:w-[280px] lg:w-[320px] lg:p-4 xl:w-[380px]`}
+      className={`flex w-[327px] flex-col rounded-[16px] border border-line-200 bg-grayscale-50 p-3 shadow-md md:w-[280px] lg:w-[320px] lg:p-4 xl:w-[380px]`}
       style={{ minHeight: "202px" }}
     >
       {/* Comment Section */}

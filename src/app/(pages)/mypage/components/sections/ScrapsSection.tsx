@@ -131,7 +131,7 @@ export default function ScrapsSection() {
   return (
     <div className="space-y-4">
       {/* 필터 드롭다운 섹션 */}
-      <div className="w-full border-b border-line-100">
+      <div className="w-full border-b border-line-200 shadow-md">
         <div className="mx-auto flex max-w-screen-xl items-center justify-between gap-2 py-4">
           <div className="flex items-center gap-2">
             <FilterDropdown
