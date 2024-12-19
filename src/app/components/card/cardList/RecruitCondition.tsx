@@ -16,7 +16,7 @@ const RecruitCondition = ({ recruitData }: RecruitConditionProps) => {
         <span className={cn(titleStyle)}>모집 인원</span>
         <div>
           <strong>{recruitData.numberOfPositions}명</strong>
-          <span className="text-grayscale-500 lg:text-base">(인원미정)</span>
+          {recruitData.numberOfPositions === 0 && <span className="text-grayscale-500 lg:text-base">(인원미정)</span>}
         </div>
       </div>
 
