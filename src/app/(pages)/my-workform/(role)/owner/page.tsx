@@ -144,11 +144,7 @@ export default function AlbaList() {
 
   // 로딩 상태 처리
   if (isLoadingData) {
-    return (
-      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return (
@@ -212,7 +208,7 @@ export default function AlbaList() {
                   {page.data.map((form) => (
                     <div key={form.id}>
                       <Link href={`/work/${form.id}`}>
-                        <AlbaListItem {...form} />
+                        <AlbaListItem {...form} isMyForm={true} />
                       </Link>
                     </div>
                   ))}

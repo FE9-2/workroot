@@ -32,7 +32,7 @@ export default function SearchSection({ pathname, placeholder }: { pathname: str
           placeholder={placeholder}
           className="text:lg lg:text:xl h-[36px] w-full border-none bg-background-200 hover:bg-background-300 md:h-[48px]"
         />
-        <Button type="submit" variant="solid" color="lime" width="xs" height="sm">
+        <Button type="submit" variant="solid" width="xs" height="sm">
           검색
         </Button>
       </div>
