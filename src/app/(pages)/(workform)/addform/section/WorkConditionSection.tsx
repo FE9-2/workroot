@@ -1,7 +1,7 @@
 "use client";
 
 import { useFormContext, Controller } from "react-hook-form";
-import { useState, ChangeEvent, MouseEvent, useCallback, useEffect } from "react";
+import { useState, ChangeEvent, MouseEvent, useCallback } from "react";
 import { cn } from "@/lib/tailwindUtil";
 import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePickerInput";
 import TimePickerInput from "@/app/components/input/dateTimeDaypicker/TimePickerInput";
@@ -22,7 +22,8 @@ export default function WorkConditionSection() {
     setValue,
     watch,
     control,
-    formState: { errors, isDirty },
+    trigger,
+    formState: { errors },
   } = useFormContext();
 
   // 근무 기간 데이터 반영하기
@@ -33,23 +34,25 @@ export default function WorkConditionSection() {
   const endDate = workEndDate ? new Date(workEndDate) : undefined;
 
   // displayRange를 상위에서 관리
-  const displayDate = workStartDate ? `${formatToLocaleDate(workStartDate)} ~ ${formatToLocaleDate(workEndDate)}` : "";
+  const displayDate =
+    workStartDate && !formatToLocaleDate(workEndDate).includes("NaN")
+      ? `${formatToLocaleDate(workStartDate)} ~ ${formatToLocaleDate(workEndDate)}`
+      : "";
 
   const handleWorkDateChange = (dates: [Date | null, Date | null]) => {
     const [start, end] = dates;
-    if (start) setValue("workStartDate", start.toISOString());
-    if (end) setValue("workEndDate", end.toISOString(), { shouldDirty: true });
+    setValue("workStartDate", start ? start.toISOString() : null);
+    setValue("workEndDate", end ? end.toISOString() : null, { shouldDirty: true });
   };
 
   //근무 시간 지정
-  const workStartTime = watch("workStartTime") || "06:00";
+  const workStartTime = watch("workStartTime");
   const workEndTime = watch("workEndTime");
 
   //근무 요일 지정
 
   const workdaysData = watch("workDays") || [];
   const isNegotiable = watch("isNegotiableWorkDays") || false;
-  const [selectedWorkDays, setSelectedWorkDays] = useState<string[]>([]);
 
   const handleClickDay = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -75,6 +78,7 @@ export default function WorkConditionSection() {
   const handleAddressChange = useCallback(
     (fullAddress: string) => {
       setValue("location", fullAddress);
+      trigger("location");
     },
     [setValue]
   );
@@ -153,7 +157,6 @@ export default function WorkConditionSection() {
             name="hourlyWage"
             control={control}
             rules={{
-              required: "시급을 작성해주세요.",
               min: {
                 value: MINIMUM_WAGE,
                 message: `최저시급(${MINIMUM_WAGE.toLocaleString()}원) 이상을 입력해주세요.`,

@@ -15,7 +15,7 @@ export default function RecruitConditionSection() {
       <form className="my-8 flex flex-col gap-4">
         <Label>모집인원</Label>
         <InputDropdown
-          {...register("numberOfPositions", { required: "모집 인원을 선택해주세요", valueAsNumber: true })}
+          {...register("numberOfPositions", { required: "모집 인원을 선택해주세요", valueAsNumber: true, min: 1 })}
           options={["1", "2", "3", "4", "5", "직접 입력"]}
           errormessage={errors.numberOfPositions?.message as string}
         />
