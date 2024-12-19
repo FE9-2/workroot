@@ -28,8 +28,13 @@ const DatePickerInput = ({
 
   const handleClick = () => {
     if (endDate) {
+      console.log("endDate", endDate);
+
       onChange([null, null]);
+      console.log("nullnull 핸들클릭 이벤트 발생");
+      console.log("endDate", endDate);
     }
+    console.log("핸들클릭 이벤트 발생");
     handleOpenDropdown();
   };
   const handleChange = (update: [Date | null, Date | null]) => {
@@ -82,40 +87,41 @@ const DatePickerInput = ({
           innerClassName="cursor-pointer"
           errormessage={errormessage}
         />
-        {isOpen && (
-          <>
-            <div
-              className="absolute z-20 mt-1 h-[388px] w-[327px] rounded-lg bg-white lg:h-[584px] lg:w-[640px]"
-              ref={pickerRef}
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-              }}
-            >
-              <DatePicker
-                inline
-                selectsRange
-                locale={ko}
-                startDate={startDate}
-                endDate={endDate}
-                onChange={handleChange}
-                renderCustomHeader={(props) => <DatePickerHeader {...props} />}
-              />
-            </div>
-            <button
-              type="button"
-              onClick={() => handleOpenDropdown()}
-              onMouseDown={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-              }}
-              className="absolute left-[14px] top-[78px] z-30 cursor-pointer lg:top-[84px]"
-            >
-              <IoIosClose className="size-6 text-black-100 lg:size-9" />
-            </button>
-          </>
-        )}
       </div>
+
+      {isOpen && (
+        <>
+          <div
+            className="absolute z-20 mt-1 h-[388px] w-[327px] rounded-lg bg-white lg:h-[584px] lg:w-[640px]"
+            ref={pickerRef}
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+            }}
+          >
+            <DatePicker
+              inline
+              selectsRange
+              locale={ko}
+              startDate={startDate}
+              endDate={endDate}
+              onChange={handleChange}
+              renderCustomHeader={(props) => <DatePickerHeader {...props} />}
+            />
+          </div>
+          <button
+            type="button"
+            onMouseDown={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              handleOpenDropdown();
+            }}
+            className="absolute left-[14px] top-[78px] z-30 cursor-pointer lg:top-[84px]"
+          >
+            <IoIosClose className="size-6 text-black-100 lg:size-9" />
+          </button>
+        </>
+      )}
     </div>
   );
 };

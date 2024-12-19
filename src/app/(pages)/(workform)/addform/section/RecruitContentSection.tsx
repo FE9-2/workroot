@@ -87,15 +87,16 @@ export default function RecruitContentSection() {
   const endDate = recruitEndDate ? new Date(recruitEndDate) : undefined;
 
   // displayRange를 상위에서 관리
-  const displayDate = recruitStartDate
-    ? `${formatToLocaleDate(recruitStartDate)} ~ ${formatToLocaleDate(recruitEndDate)}`
-    : "";
+  const displayDate =
+    recruitStartDate && !formatToLocaleDate(recruitEndDate).includes("NaN")
+      ? `${formatToLocaleDate(recruitStartDate)} ~ ${formatToLocaleDate(recruitEndDate)}`
+      : "";
 
   // 날짜 선택
   const handleRecruitmentDateChange = (dates: [Date | null, Date | null]) => {
     const [start, end] = dates;
-    if (start) setValue("recruitmentStartDate", start.toISOString());
-    if (end) setValue("recruitmentEndDate", end.toISOString(), { shouldDirty: true });
+    setValue("recruitmentStartDate", start ? start.toISOString() : null);
+    setValue("recruitmentEndDate", end ? end.toISOString() : null, { shouldDirty: true });
   };
 
   const errorTextStyle =
