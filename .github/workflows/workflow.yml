@@ -36,8 +36,11 @@ jobs:
       - name: Run linter
         run: npm run lint
 
-      - name: Build project
+      - name: Print environment variables
+        run: echo "Supabase URL: $NEXT_PUBLIC_SUPABASE_URL, Supabase Key: $NEXT_PUBLIC_SUPABASE_ANON_KEY"
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+
+      - name: Build
         run: npm run build
