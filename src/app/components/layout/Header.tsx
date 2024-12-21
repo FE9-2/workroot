@@ -19,15 +19,13 @@ export default function Header() {
   const router = useRouter();
 
   // 인증이 필요없는 공개 경로들
-  const handleLogout = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleLogout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     try {
-      logout();
+      await logout();
       toast.success("로그아웃되었습니다.");
       setIsSideMenuOpen(false);
-      setTimeout(() => {
-        router.push("/login");
-      }, 100);
+      router.push("/login");
     } catch (error) {
       console.error("로그아웃 실패:", error);
       toast.error("로그아웃에 실패했습니다.");
@@ -60,8 +58,9 @@ export default function Header() {
             <Image
               src="/black_main_logo.png"
               alt="WorkRoot"
-              width={200}
-              height={54}
+              width={150}
+              height={50}
+              priority
               className="w-24 hover:opacity-90"
             />
           </Link>

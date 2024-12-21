@@ -1,7 +1,7 @@
 import React from "react";
 
 export const SkeletonRow: React.FC = () => (
-  <div className="grid animate-pulse grid-cols-[1fr_2fr_1fr_1fr] border-b border-line-100 px-6 py-4">
+  <div className="grid animate-pulse grid-cols-[1fr_2fr_1.4fr_0.8fr] border-b border-line-100 px-6 py-4">
     {[1, 2, 3, 4].map((index) => (
       <div
         key={index}

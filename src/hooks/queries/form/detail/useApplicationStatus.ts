@@ -24,6 +24,15 @@ export const useApplicationStatus = (props: UseApplicationStatusProps) => {
           orderByStatus: props.orderByStatus,
         },
       });
+
+      // 응답 데이터의 각 항목에 고유한 키 추가
+      if (response.data.data) {
+        response.data.data = response.data.data.map((item: { id: string }, index: string) => ({
+          ...item,
+          uniqueKey: `${item.id}_${index}`,
+        }));
+      }
+
       return response.data;
     },
     enabled: !!props.formId,

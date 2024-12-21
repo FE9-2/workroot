@@ -1,7 +1,7 @@
 "use client";
 
 import { useFormContext, Controller } from "react-hook-form";
-import { useState, ChangeEvent, MouseEvent, useCallback } from "react";
+import { ChangeEvent, MouseEvent, useCallback } from "react";
 import { cn } from "@/lib/tailwindUtil";
 import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePickerInput";
 import TimePickerInput from "@/app/components/input/dateTimeDaypicker/TimePickerInput";
@@ -80,6 +80,7 @@ export default function WorkConditionSection() {
       setValue("location", fullAddress);
       trigger("location");
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [setValue]
   );
 
