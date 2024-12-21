@@ -9,6 +9,8 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { UserRole, userRoles } from "@/constants/userRoles";
 import AuthInput from "@/app/components/input/text/AuthInput";
+import { signInWithProvider } from "@/lib/supabaseUtils";
+import { toast } from "react-hot-toast";
 
 export default function LoginPage() {
   // 로그인 훅과 로딩 상태 관리
@@ -51,6 +53,16 @@ export default function LoginPage() {
 
     // 설정된 값으로 폼 제출
     handleSubmit((data) => login(data))();
+  };
+
+  // 소셜 로그인 핸들러 추가
+  const handleSocialLogin = async (provider: "google" | "kakao") => {
+    try {
+      await signInWithProvider(provider);
+    } catch (error) {
+      console.error(`${provider} login failed:`, error);
+      toast.error(`${provider} 로그인에 실패했습니다.`);
+    }
   };
 
   return (
@@ -97,20 +109,12 @@ export default function LoginPage() {
           <hr className="flex-grow border-t border-grayscale-200" />
         </div>
         <div className="flex justify-center space-x-6">
-          <Link
-            href={`https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile&response_type=code&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&state=${encodeURIComponent(
-              JSON.stringify({ provider: "google", action: "login" })
-            )}`}
-          >
+          <button onClick={() => handleSocialLogin("google")} className="transition-transform hover:scale-105">
             <Image src="/icons/social/social_google.svg" width={72} height={72} alt="구글 로그인" />
-          </Link>
-          <Link
-            href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code&state=${encodeURIComponent(
-              JSON.stringify({ provider: "kakao", action: "login" })
-            )}`}
-          >
+          </button>
+          <button onClick={() => handleSocialLogin("kakao")} className="transition-transform hover:scale-105">
             <Image src="/icons/social/social_kakao.svg" width={72} height={72} alt="카카오 로그인" />
-          </Link>
+          </button>
         </div>
         <div className="flex items-center justify-center">
           <hr className="flex-grow border-t border-grayscale-200" />
