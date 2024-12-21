@@ -61,7 +61,7 @@ export default function Header() {
               src="/black_main_logo.png"
               alt="WorkRoot"
               width={200}
-              height={40}
+              height={54}
               className="w-24 hover:opacity-90"
             />
           </Link>
