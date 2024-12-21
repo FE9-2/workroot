@@ -107,11 +107,6 @@ export default function ApplicantSignupPage() {
             {isPending ? <DotLoadingSpinner /> : "회원가입"}
           </Button>
         </div>
-        <div className="flex items-center justify-center">
-          <hr className="flex-grow border-t border-grayscale-200" />
-          <span className="mx-4 text-sm text-grayscale-400">SNS 계정으로 회원가입하기</span>
-          <hr className="flex-grow border-t border-grayscale-200" />
-        </div>
       </form>
     </>
   );

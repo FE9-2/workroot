@@ -14,21 +14,23 @@ import { signInWithProvider, getSocialUser } from "@/lib/supabaseUtils";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
 import useModalStore from "@/store/modalStore";
-import { useOAuthLogin } from "@/hooks/queries/auth/useOAuthLogin";
-import { useOAuthSignup } from "@/hooks/queries/auth/useOAuthSignup";
-import { OAuthProvider } from "@/constants/oauthProviders";
+import { useOAuthLogin } from "@/hooks/queries/oauth/useOAuthLogin";
+import { useOAuthSignup } from "@/hooks/queries/oauth/useOAuthSignup";
+import { OAuthProvider, oauthProviders } from "@/constants/oauthProviders";
 import { OAuthResponse } from "@supabase/supabase-js";
 import { OAuthSignupSchema } from "@/schemas/oauthSchema";
+import { useOAuthApps } from "@/hooks/queries/oauth/useOAuthApps";
 
 export default function LoginPage() {
   // 로그인 훅과 로딩 상태 관리
   const { login, isPending } = useLogin();
   const [isSocialLogin, setIsSocialLogin] = useState(false);
-  const [currentProvider, setCurrentProvider] = useState<OAuthProvider>("google");
+  const [currentProvider, setCurrentProvider] = useState<OAuthProvider>(oauthProviders.GOOGLE);
   const { openModal, closeModal } = useModalStore();
   const { oauthLogin } = useOAuthLogin(currentProvider);
   const { oauthSignup: applicantSignup } = useOAuthSignup(currentProvider);
   const { oauthSignup: ownerSignup } = useOAuthSignup(currentProvider);
+  const { registerOAuthApp } = useOAuthApps();
 
   // 폼 유효성 검사 및 상태 관리
   const {
@@ -77,7 +79,7 @@ export default function LoginPage() {
     if (user) {
       // 기존 유저면 로그인
       oauthLogin({
-        redirectUri: "",
+        redirectUri: `${process.env.NEXT_PUBLIC_API_URL}`,
         token: data.data.url?.split("=")[0] || "",
       });
     } else {
@@ -100,7 +102,7 @@ export default function LoginPage() {
             role: userRoles.APPLICANT,
             nickname: name,
             name: email,
-            redirectUri: "",
+            redirectUri: `${process.env.NEXT_PUBLIC_API_URL}/mypage`,
             token: data.data.url?.split("=")[0] || "",
           };
 
@@ -116,7 +118,7 @@ export default function LoginPage() {
             role: userRoles.OWNER,
             nickname: name,
             name: email,
-            redirectUri: "",
+            redirectUri: `${process.env.NEXT_PUBLIC_API_URL}/mypage`,
             token: data.data.url?.split("=")[0] || "",
           };
 
@@ -135,6 +137,19 @@ export default function LoginPage() {
         email: "",
         password: "",
       });
+
+      // 소셜 로그인 App 등록/수정
+      if (provider === oauthProviders.GOOGLE) {
+        registerOAuthApp({
+          appKey: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string,
+          provider: provider,
+        });
+      } else if (provider === oauthProviders.KAKAO) {
+        registerOAuthApp({
+          appKey: process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID as string,
+          provider: provider,
+        });
+      }
 
       const response = await signInWithProvider(provider);
       if (response?.url) {

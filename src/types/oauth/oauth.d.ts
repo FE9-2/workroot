@@ -16,7 +16,16 @@ export interface OauthLoginUser {
 }
 
 export interface OauthResponse {
-  use: KakaoSignupUser;
+  user: OauthSignupUser;
   refreshToken: string;
   accessToken: string;
+}
+
+export interface OauthAppResponse {
+  createdAt: string;
+  updatedAt: string;
+  appKey: string;
+  provider: string;
+  teamId: string;
+  id: string;
 }
