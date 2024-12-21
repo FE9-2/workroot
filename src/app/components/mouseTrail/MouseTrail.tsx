@@ -28,8 +28,8 @@ export default function MouseTrail() {
           Math.pow(newPosition.x - lastPosition.x, 2) + Math.pow(newPosition.y - lastPosition.y, 2)
         );
 
-        if (distance > 50) {
-          setTrail((prevTrail) => [newPosition, ...prevTrail.slice(0, 9)]);
+        if (distance > 20) {
+          setTrail((prevTrail) => [newPosition, ...prevTrail.slice(0, 8)]);
           setLastPosition(newPosition);
         }
       } else {
@@ -42,25 +42,32 @@ export default function MouseTrail() {
 
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [handleMouseMove]);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[999] overflow-hidden">
+    <div className="pointer-events-none fixed inset-0 z-[998] overflow-hidden">
       <AnimatePresence>
         {trail.map((position, index) => (
           <motion.div
             key={position.id}
-            initial={{ opacity: 0.8, scale: 1 }}
-            animate={{ opacity: 0, scale: 0.5 }}
-            exit={{ opacity: 0, scale: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
+            initial={{
+              opacity: 0.7,
+              x: position.x,
+              y: position.y,
+            }}
+            animate={{
+              opacity: 0,
+              x: position.x,
+              y: position.y,
+            }}
+            exit={{ opacity: 0 }}
+            transition={{
+              duration: 0.5,
+              ease: "linear",
+            }}
             style={{
               position: "absolute",
-              left: position.x,
-              top: position.y,
               transform: "translate(-50%, -50%)",
             }}
           >
