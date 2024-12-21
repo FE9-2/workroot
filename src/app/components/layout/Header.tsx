@@ -5,11 +5,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/tailwindUtil";
 import { useLogout } from "@/hooks/queries/auth/useLogout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import LinkBtn from "../button/default/LinkBtn";
 import { useRouter } from "next/navigation";
+import Spinner from "../loading-spinner/HamburgerSpinner";
+import { HiMiniBars3 } from "react-icons/hi2";
 
 export default function Header() {
   const { logout } = useLogout();
@@ -49,8 +51,7 @@ export default function Header() {
     "fixed left-0 right-0 top-0 z-40 shadow-sm bg-primary-orange-50 -tracking-widest md:tracking-normal";
   const navStyle = "mx-auto flex h-16 min-w-[327px] items-center justify-between px-6 max-w-screen-xl ";
   const menuStyle = "ml-4 flex h-16 items-center gap-4 md:ml-8 md:gap-6 lg:ml-[46px]";
-  const skeletonStyle = "w-16 animate-pulse bg-primary-orange-100";
-
+  const fakeloading = true;
   return (
     <header className={headerStyle}>
       <nav className={navStyle}>
@@ -62,7 +63,7 @@ export default function Header() {
               alt="WorkRoot"
               width={200}
               height={54}
-              className="w-24 hover:opacity-90"
+              className="h-auto w-24 hover:opacity-90"
             />
           </Link>
 
@@ -83,16 +84,11 @@ export default function Header() {
 
         {/* 로그인/회원가입 또는 메뉴 버튼 */}
         <ul className="relative flex items-center gap-2 lg:gap-4">
-          {isLoading ? (
+          {fakeloading ? (
             <>
-              <div className={skeletonStyle}></div>
-              <div className={skeletonStyle}></div>
+              <Spinner />
             </>
-          ) : (
-            <></>
-          )}
-
-          {!user ? (
+          ) : !user && !fakeloading ? (
             <>
               <li className="flex items-center">
                 <LinkBtn
@@ -137,8 +133,7 @@ export default function Header() {
             </>
           ) : (
             <button type="button" onClick={() => setIsSideMenuOpen(true)} className="block" aria-label="메뉴 열기">
-              <Image src="/icons/menu/menu-sm.svg" width={24} height={24} alt="메뉴" className="block sm:hidden" />
-              <Image src="/icons/menu/menu-md.svg" width={36} height={36} alt="메뉴" className="hidden sm:block" />
+              <HiMiniBars3 width={36} height={36} className="size-5 lg:size-8" />
             </button>
           )}
         </ul>
@@ -157,13 +152,9 @@ export default function Header() {
         )}
       >
         <div className="flex w-full flex-col p-6">
-          <div className="mb-6 flex items-center justify-between">
+          <div className="mb-6 flex items-center justify-between" onClick={() => setIsSideMenuOpen(false)}>
             <span className="px-3 text-lg font-bold text-primary-orange-400">메뉴</span>
-            <button
-              type="button"
-              onClick={() => setIsSideMenuOpen(false)}
-              className="hover:text-grayscale-700 text-grayscale-500"
-            >
+            <button type="button" className="hover:text-grayscale-700 size-6 text-grayscale-500 lg:size-9">
               ✕
             </button>
           </div>
