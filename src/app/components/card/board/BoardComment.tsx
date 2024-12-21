@@ -7,17 +7,27 @@ import useModalStore from "@/store/modalStore";
 import { useDeleteComment } from "@/hooks/queries/post/comment/useDeleteComment";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export interface BoardCommentProps {
   id: string;
   postId: string;
   postTitle: string;
+  postContent: string;
   comment: string;
   updatedAt: Date;
   isAuthor?: boolean;
 }
 
-const BoardComment = ({ id, postId, postTitle, comment, updatedAt, isAuthor = false }: BoardCommentProps) => {
+const BoardComment = ({
+  id,
+  postId,
+  postTitle,
+  comment,
+  postContent,
+  updatedAt,
+  isAuthor = false,
+}: BoardCommentProps) => {
   const { openModal, closeModal } = useModalStore();
   const queryClient = useQueryClient();
   const deleteComment = useDeleteComment(id);
@@ -56,46 +66,37 @@ const BoardComment = ({ id, postId, postTitle, comment, updatedAt, isAuthor = fa
   ];
 
   return (
-    <div
-      className={`flex w-[327px] flex-col rounded-[16px] border border-line-100 bg-grayscale-50 p-3 md:w-[280px] lg:w-[320px] lg:p-4 xl:w-[380px]`}
-      style={{ minHeight: "202px" }}
-    >
-      {/* Comment Section */}
-      <div className="mb-4">
-        <div className="w-full rounded-lg bg-white p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Image
-                src="/icons/user/user-profile-sm.svg"
-                alt="User Icon"
-                className="rounded-full"
-                width={24}
-                height={24}
-                sizes="(max-width: 600px) 24px, (max-width: 1480px) 28px, 30px"
-              />
-              <div className="flex items-center gap-1">
-                <span className="text-grayscale-400">|</span>
-                <span className="font-nexon text-[12px] text-grayscale-400 md:text-[14px] lg:text-[16px]">
-                  {formatLocalDate(updatedAt)}
-                </span>
-              </div>
-            </div>
-
-            {isAuthor && <KebabDropdown options={dropdownOptions} />}
+    <Link href={`work-talk/${postId}`}>
+      <div className="relative flex h-[202px] w-[327px] flex-col gap-2 rounded-[16px] border border-line-200 bg-grayscale-50 p-6 shadow-md md:w-[600px] lg:h-[264px] lg:w-full">
+        {/* Post Section */}
+        <div className="flex w-full flex-col gap-4 border-b border-line-100 pb-2 lg:pb-4">
+          <div className="flex items-center gap-[6px] lg:gap-2">
+            <Image
+              src="/icons/document/document.svg"
+              alt="Icon"
+              className="size-6 rounded-full lg:size-9"
+              width={24}
+              height={24}
+            />
+            <span className="text-[12px] text-black-100 lg:text-[16px]">{postTitle}</span>
           </div>
+          <p className="text-[12px] text-grayscale-500 lg:text-[16px]">{postContent}</p>
+        </div>
 
-          <div className="mt-3">{comment}</div>
+        {/* Comment Section */}
+        <div className="flex flex-col gap-3 py-1 lg:py-4">
+          <div className="line-clamp-2 overflow-hidden text-[14px] font-semibold md:h-[50px] lg:text-[18px]">
+            {comment}
+          </div>
+          <div className="line-clamp-2 text-[12px] font-medium text-grayscale-500 lg:text-[16px]">
+            {formatLocalDate(updatedAt)}
+          </div>
+        </div>
+        <div className="absolute right-6 flex items-center justify-center">
+          {isAuthor && <KebabDropdown options={dropdownOptions} />}
         </div>
       </div>
-
-      {/* Divider Line */}
-      <div className="my-[9px] flex items-center justify-center lg:my-[16px]">
-        <div className="w-full bg-line-100" style={{ height: "1px" }}></div>
-      </div>
-
-      {/* Post Section */}
-      <div className="line-clamp-2 font-nexon text-[12px] font-medium text-black-100 lg:text-[16px]">{postTitle}</div>
-    </div>
+    </Link>
   );
 };
 

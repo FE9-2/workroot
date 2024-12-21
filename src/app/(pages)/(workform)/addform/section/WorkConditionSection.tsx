@@ -1,7 +1,7 @@
 "use client";
 
 import { useFormContext, Controller } from "react-hook-form";
-import { useState, ChangeEvent, MouseEvent, useCallback, useEffect } from "react";
+import { useState, ChangeEvent, MouseEvent, useCallback } from "react";
 import { cn } from "@/lib/tailwindUtil";
 import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePickerInput";
 import TimePickerInput from "@/app/components/input/dateTimeDaypicker/TimePickerInput";
@@ -20,9 +20,9 @@ export default function WorkConditionSection() {
   const {
     register,
     setValue,
-    trigger,
     watch,
     control,
+    trigger,
     formState: { errors },
   } = useFormContext();
 
@@ -34,47 +34,42 @@ export default function WorkConditionSection() {
   const endDate = workEndDate ? new Date(workEndDate) : undefined;
 
   // displayRange를 상위에서 관리
-  const displayDate = workStartDate ? `${formatToLocaleDate(workStartDate)} ~ ${formatToLocaleDate(workEndDate)}` : "";
+  const displayDate =
+    workStartDate && !formatToLocaleDate(workEndDate).includes("NaN")
+      ? `${formatToLocaleDate(workStartDate)} ~ ${formatToLocaleDate(workEndDate)}`
+      : "";
 
   const handleWorkDateChange = (dates: [Date | null, Date | null]) => {
     const [start, end] = dates;
-    if (start) setValue("workStartDate", start.toISOString());
-    if (end) setValue("workEndDate", end.toISOString(), { shouldDirty: true });
+    setValue("workStartDate", start ? start.toISOString() : null);
+    setValue("workEndDate", end ? end.toISOString() : null, { shouldDirty: true });
   };
 
   //근무 시간 지정
-  const workStartTime = watch("workStartTime") || "06:00";
+  const workStartTime = watch("workStartTime");
   const workEndTime = watch("workEndTime");
 
   //근무 요일 지정
-  const [selectedWorkDays, setSelectedWorkDays] = useState<string[]>([]);
-  const negotiable = watch("isNegotiableWorkDays");
+
+  const workdaysData = watch("workDays") || [];
+  const isNegotiable = watch("isNegotiableWorkDays") || false;
 
   const handleClickDay = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const day = e.currentTarget.textContent;
+
     if (day) {
-      if (selectedWorkDays.includes(day)) {
+      if (workdaysData.includes(day)) {
         // 이미 선택한 요일을 클릭했을때
-        setSelectedWorkDays((prev) => prev.filter((d: string) => d !== day));
+        setValue("workDays", [...workdaysData.filter((d: string) => d !== day)]);
       } else {
-        setSelectedWorkDays([...selectedWorkDays, day]);
+        setValue("workDays", [...workdaysData, day]);
       }
-      setValue("workDays", [...selectedWorkDays, day]);
-      trigger("workDays");
     }
-    if (negotiable) {
-      setSelectedWorkDays([]);
+    if (isNegotiable) {
+      setValue("workDays", []);
     }
   };
-
-  const workdaysData = watch("workDays");
-  const isNegotiable = watch("isNegotiableWorkDays");
-  useEffect(() => {
-    if (!isNegotiable && workdaysData.length > 0) {
-      setSelectedWorkDays(workdaysData);
-    }
-  }, [workdaysData, isNegotiable]);
 
   const errorTextStyle =
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
@@ -85,10 +80,9 @@ export default function WorkConditionSection() {
       setValue("location", fullAddress);
       trigger("location");
     },
-    [setValue, trigger]
+    [setValue]
   );
 
-  const wageData: number = watch("hourlyWage");
   return (
     <div className="relative">
       <Script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" strategy="afterInteractive" />
@@ -144,7 +138,7 @@ export default function WorkConditionSection() {
         {/* 요일 협의 가능하다면 근무요일은 선택하지 않아도 됨 */}
         <div className="flex flex-col gap-4">
           <Label>근무 요일</Label>
-          <DayPickerList workDays={selectedWorkDays} onClick={handleClickDay} disabled={negotiable} />
+          <DayPickerList workDays={workdaysData} onClick={handleClickDay} disabled={isNegotiable} />
 
           <div className="relative flex flex-col pl-[14px]">
             <CheckBtn
@@ -152,7 +146,7 @@ export default function WorkConditionSection() {
               checked={watch("isNegotiableWorkDays")}
               {...register("isNegotiableWorkDays")}
             />
-            {selectedWorkDays.length === 0 && !negotiable && (
+            {workdaysData.length === 0 && !isNegotiable && (
               <p className={cn(errorTextStyle, "")}>근무 요일을 선택해주세요.</p>
             )}
           </div>
@@ -163,7 +157,6 @@ export default function WorkConditionSection() {
             name="hourlyWage"
             control={control}
             rules={{
-              required: "시급을 작성해주세요.",
               min: {
                 value: MINIMUM_WAGE,
                 message: `최저시급(${MINIMUM_WAGE.toLocaleString()}원) 이상을 입력해주세요.`,

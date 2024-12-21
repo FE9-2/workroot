@@ -8,7 +8,7 @@ interface MypageLayoutProps {
 
 export default function MypageLayout({ children }: MypageLayoutProps) {
   return (
-    <div className="mx-auto flex w-full min-w-[327px] max-w-screen-xl flex-col px-6">
+    <div className="mx-auto flex w-full min-w-[327px] max-w-screen-xl flex-col">
       <Suspense fallback={<LoadingSpinner />}>
         <FilterBar />
         {children}

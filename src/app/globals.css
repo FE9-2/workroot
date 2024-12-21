@@ -303,3 +303,22 @@ input[type="checkbox"]:disabled {
 /* 또는 */
 
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap");
+
+/* 마우스 커스텀 */
+* {
+  cursor: none !important;
+}
+
+html,
+body {
+  cursor: none;
+}
+
+a,
+button,
+[role="button"],
+input,
+select,
+textarea {
+  cursor: none;
+}
