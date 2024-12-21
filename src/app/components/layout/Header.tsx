@@ -51,7 +51,6 @@ export default function Header() {
     "fixed left-0 right-0 top-0 z-40 shadow-sm bg-primary-orange-50 -tracking-widest md:tracking-normal";
   const navStyle = "mx-auto flex h-16 min-w-[327px] items-center justify-between px-6 max-w-screen-xl ";
   const menuStyle = "ml-4 flex h-16 items-center gap-4 md:ml-8 md:gap-6 lg:ml-[46px]";
-  const fakeloading = true;
   return (
     <header className={headerStyle}>
       <nav className={navStyle}>
@@ -84,11 +83,11 @@ export default function Header() {
 
         {/* 로그인/회원가입 또는 메뉴 버튼 */}
         <ul className="relative flex items-center gap-2 lg:gap-4">
-          {fakeloading ? (
+          {isLoading ? (
             <>
               <Spinner />
             </>
-          ) : !user && !fakeloading ? (
+          ) : !user && !isLoading ? (
             <>
               <li className="flex items-center">
                 <LinkBtn
