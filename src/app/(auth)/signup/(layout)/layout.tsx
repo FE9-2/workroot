@@ -1,6 +1,6 @@
 "use client";
 
-import Background from "../(layout)/component/Background";
+import Background from "@/app/components/layout/auth/Background";
 
 export default function SignupLayout({ children }: { children: React.ReactNode }) {
   return (
