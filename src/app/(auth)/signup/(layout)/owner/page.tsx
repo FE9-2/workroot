@@ -6,13 +6,13 @@ import { userRoles } from "@/constants/userRoles";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import Image from "next/image";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import Button from "@/app/components/button/default/Button";
 import AuthInput from "@/app/components/input/text/AuthInput";
 
 export default function OwnerSignupPage() {
   const { signup, isPending } = useSignup();
+
   const {
     register,
     handleSubmit,
@@ -29,6 +29,7 @@ export default function OwnerSignupPage() {
   });
 
   const onSubmit = (data: SignupSchema) => {
+    // 사장님 회원가입
     signup(data);
   };
 

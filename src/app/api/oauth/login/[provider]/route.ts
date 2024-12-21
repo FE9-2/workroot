@@ -1,11 +1,11 @@
 import { AxiosError } from "axios";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import apiClient from "@/lib/apiClient";
 
 // OAuth 로그인 API
 export async function POST(request: Request, { params }: { params: { provider: string } }) {
   try {
-    console.log("/api/oauth/login");
     const provider = params.provider;
 
     // provider 유효성 검사
@@ -15,9 +15,29 @@ export async function POST(request: Request, { params }: { params: { provider: s
 
     // 요청 본문 파싱
     const body = await request.json();
-    console.log("Received body:", body); // 요청 본문 로그 출력
+
     // OAuth 로그인 요청
     const response = await apiClient.post(`/oauth/sign-in/${provider}`, body);
+
+    // 응답에서 토큰 추출
+    const { accessToken, refreshToken } = response.data;
+
+    // 쿠키에 토큰 저장
+    cookies().set("accessToken", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 60 * 60 * 60 * 24, // 1일
+      path: "/",
+    });
+
+    cookies().set("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 60 * 60 * 24 * 14, // 14일
+      path: "/",
+    });
 
     return NextResponse.json(response.data);
   } catch (error: unknown) {

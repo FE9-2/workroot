@@ -6,15 +6,12 @@ import { userRoles } from "@/constants/userRoles";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import Image from "next/image";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import Button from "@/app/components/button/default/Button";
 import AuthInput from "@/app/components/input/text/AuthInput";
-import { useSocialLoginStore } from "@/store/socialLoginStore";
 
 export default function ApplicantSignupPage() {
   const { signup, isPending } = useSignup();
-  const { email, nickname } = useSocialLoginStore();
 
   const {
     register,
@@ -25,13 +22,14 @@ export default function ApplicantSignupPage() {
     defaultValues: {
       role: userRoles.APPLICANT,
       phoneNumber: "",
-      email: email || "",
-      nickname: nickname || "",
+      email: "",
+      nickname: "",
     },
     mode: "all",
   });
 
   const onSubmit = (data: SignupSchema) => {
+    // 지원자 회원가입
     signup(data);
   };
 

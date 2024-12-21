@@ -10,14 +10,25 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { UserRole, userRoles } from "@/constants/userRoles";
 import AuthInput from "@/app/components/input/text/AuthInput";
-import { signInWithProvider } from "@/lib/supabaseUtils";
+import { signInWithProvider, getSocialUser } from "@/lib/supabaseUtils";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
+import useModalStore from "@/store/modalStore";
+import { useOAuthLogin } from "@/hooks/queries/auth/useOAuthLogin";
+import { useOAuthSignup } from "@/hooks/queries/auth/useOAuthSignup";
+import { OAuthProvider } from "@/constants/oauthProviders";
+import { OAuthResponse } from "@supabase/supabase-js";
+import { OAuthSignupSchema } from "@/schemas/oauthSchema";
 
 export default function LoginPage() {
   // 로그인 훅과 로딩 상태 관리
   const { login, isPending } = useLogin();
   const [isSocialLogin, setIsSocialLogin] = useState(false);
+  const [currentProvider, setCurrentProvider] = useState<OAuthProvider>("google");
+  const { openModal, closeModal } = useModalStore();
+  const { oauthLogin } = useOAuthLogin(currentProvider);
+  const { oauthSignup: applicantSignup } = useOAuthSignup(currentProvider);
+  const { oauthSignup: ownerSignup } = useOAuthSignup(currentProvider);
 
   // 폼 유효성 검사 및 상태 관리
   const {
@@ -60,16 +71,78 @@ export default function LoginPage() {
     handleSubmit((data) => login(data))();
   };
 
+  // 소셜 인증 완료 후 처리 함수
+  const handleOAuthComplete = async (data: OAuthResponse) => {
+    const user = await getSocialUser();
+    if (user) {
+      // 기존 유저면 로그인
+      oauthLogin({
+        redirectUri: "",
+        token: data.data.url?.split("=")[0] || "",
+      });
+    } else {
+      const payload = JSON.parse(atob(data.data.url?.split(".")[1] || ""));
+      const { email, name } = payload;
+      // 신규 유저면 역할 선택 모달 표시
+      openModal("customForm", {
+        isOpen: true,
+        title: "회원 유형 선택",
+        content: "회원 유형을 선택해주세요.",
+        confirmText: "지원자로 가입",
+        cancelText: "사장님으로 가입",
+        onConfirm: async () => {
+          closeModal();
+          const requestData: OAuthSignupSchema = {
+            location: "",
+            phoneNumber: "",
+            storePhoneNumber: "",
+            storeName: "",
+            role: userRoles.APPLICANT,
+            nickname: name,
+            name: email,
+            redirectUri: "",
+            token: data.data.url?.split("=")[0] || "",
+          };
+
+          applicantSignup(requestData);
+        },
+        onCancel: async () => {
+          closeModal();
+          const requestData: OAuthSignupSchema = {
+            location: "",
+            phoneNumber: "",
+            storePhoneNumber: "",
+            storeName: "",
+            role: userRoles.OWNER,
+            nickname: name,
+            name: email,
+            redirectUri: "",
+            token: data.data.url?.split("=")[0] || "",
+          };
+
+          ownerSignup(requestData);
+        },
+      });
+    }
+  };
+
   // 소셜 로그인 핸들러
-  const handleSocialLogin = async (provider: "google" | "kakao") => {
+  const handleSocialLogin = async (provider: OAuthProvider) => {
     try {
       setIsSocialLogin(true);
+      setCurrentProvider(provider);
       reset({
         email: "",
         password: "",
       });
 
-      await signInWithProvider(provider);
+      const response = await signInWithProvider(provider);
+      if (response?.url) {
+        handleOAuthComplete({
+          data: { provider, url: response.url },
+          error: null,
+        });
+      }
     } catch (error) {
       console.error(`${provider} login failed:`, error);
       toast.error(`${provider} 로그인에 실패했습니다.`);
