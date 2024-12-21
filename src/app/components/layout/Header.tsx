@@ -131,8 +131,8 @@ export default function Header() {
               </li>
             </>
           ) : (
-            <button type="button" onClick={() => setIsSideMenuOpen(true)} className="block" aria-label="메뉴 열기">
-              <HiMiniBars3 width={36} height={36} className="size-5 lg:size-8" />
+            <button type="button" onClick={() => setIsSideMenuOpen(true)} className="block p-4" aria-label="메뉴 열기">
+              <HiMiniBars3 width={36} height={36} className="size-5 md:size-8" />
             </button>
           )}
         </ul>

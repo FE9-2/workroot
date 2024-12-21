@@ -185,7 +185,7 @@ export default function AlbaList() {
 
       {/* 메인 콘텐츠 영역 */}
       <div className="relative w-full pt-[132px]">
-        {keyword && isLoading && <SearchSpinner />}
+        {keyword && isLoadingData && <SearchSpinner />}
 
         {/* 폼 만들기 버튼 - 고정 위치 */}
         {isOwner && (

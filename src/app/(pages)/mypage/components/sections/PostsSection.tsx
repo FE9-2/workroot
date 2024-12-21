@@ -5,12 +5,12 @@ import { useInView } from "react-intersection-observer";
 import { useMyPosts } from "@/hooks/queries/user/me/useMyPosts";
 import { useMySortStore } from "@/store/mySortStore";
 import { useProfileStringValue } from "@/hooks/queries/user/me/useProfileStringValue";
-import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import ContentSection from "@/app/components/layout/ContentSection";
 import useWidth from "@/hooks/useWidth";
 import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
 import BoardPostItem from "@/app/components/card/board/BoardPostItem";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
+import SamllLoadingSpinner from "@/app/components/loading-spinner/SmallLoadingSpinner";
 
 export default function PostsSection() {
   const { orderBy } = useMySortStore();
@@ -51,10 +51,6 @@ export default function PostsSection() {
     );
   }
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-
   return (
     <div className="flex flex-col items-center">
       {/* 메인 콘텐츠 영역 */}
@@ -65,6 +61,7 @@ export default function PostsSection() {
           </div>
         ) : (
           <div className="mx-auto mt-4 w-full max-w-screen-xl px-3">
+            {isLoading && SamllLoadingSpinner}
             {/* ScrollTopButton 추가 */}
             <ScrollTopButton showHeight={300} />
 
