@@ -59,7 +59,7 @@ export default function LandingPage() {
         if (newSlideIndex !== currentSlide) {
           setCurrentSlide(newSlideIndex);
           isScrollingRef.current = true;
-          const targetScroll = (newSlideIndex / totalSlides) * containerRef.current!.scrollHeight;
+          const targetScroll = (newSlideIndex / totalSlides) * containerRef.current!.scrollHeight || 0;
           lenisRef.current?.scrollTo(targetScroll, {
             immediate: false,
             duration: 800,
