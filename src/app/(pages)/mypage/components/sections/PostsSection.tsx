@@ -45,7 +45,7 @@ export default function PostsSection() {
 
   if (error) {
     return (
-      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
+      <div className="flex h-[calc(100vh-300px)] items-center justify-center">
         <p className="text-primary-orange-300">게시글을 불러오는데 실패했습니다.</p>
       </div>
     );
@@ -60,7 +60,7 @@ export default function PostsSection() {
       {/* 메인 콘텐츠 영역 */}
       <div className="w-full">
         {!data?.pages?.[0]?.data?.length ? (
-          <div className="flex h-[calc(100vh-200px)] flex-col items-center justify-center">
+          <div className="flex h-[calc(100vh-300px)] flex-col items-center justify-center">
             <p className="text-grayscale-500">작성한 게시글이 없습니다.</p>
           </div>
         ) : (

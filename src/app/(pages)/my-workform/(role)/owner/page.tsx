@@ -136,7 +136,7 @@ export default function AlbaList() {
   // 에러 상태 처리
   if (error) {
     return (
-      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
+      <div className="flex h-[calc(100vh-300px)] items-center justify-center">
         <p className="text-primary-orange-300">워크 채널을 불러오는데 실패했습니다.</p>
       </div>
     );
@@ -197,7 +197,7 @@ export default function AlbaList() {
         <ScrollTopButton showHeight={300} />
 
         {!data?.pages?.[0]?.data?.length ? (
-          <div className="flex h-[calc(100vh-200px)] flex-col items-center justify-center">
+          <div className="flex h-[calc(100vh-300px)] flex-col items-center justify-center">
             <p className="text-grayscale-500">등록된 알바 공고가 없습니다.</p>
           </div>
         ) : (

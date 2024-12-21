@@ -17,6 +17,7 @@ import FloatingBtn from "@/app/components/button/default/FloatingBtn";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import ContentSection from "@/app/components/layout/ContentSection";
 import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
+import SearchSpinner from "@/app/components/loading-spinner/SearchSpinner";
 
 const FORMS_PER_PAGE = 10;
 
@@ -87,14 +88,15 @@ export default function AlbaList() {
   // 에러 상태 처리
   if (error) {
     return (
-      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
+      <div className="flex h-[calc(100vh-300px)] items-center justify-center">
         <p className="text-primary-orange-300">워크 채널을 불러오는데 실패했습니다.</p>
       </div>
     );
   }
 
-  // 로딩 중 처리
-  if (isLoading) return <LoadingSpinner />;
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   // 리스트 아이템 클릭 시 로그인 여부 확인 후 이동
   const handleFormClick = (formId: number) => {
@@ -130,7 +132,8 @@ export default function AlbaList() {
       </div>
 
       {/* 메인 콘텐츠 영역 */}
-      <div className="w-full pt-[132px]">
+      <div className="relative w-full pt-[132px]">
+        {keyword && isLoading && <SearchSpinner />}
         {/* 폼 만들기 버튼 - 고정 위치 */}
         {isOwner && (
           <Link href="/addform" className="fixed bottom-[50%] right-[5%] z-30 translate-y-1/2">
@@ -144,7 +147,7 @@ export default function AlbaList() {
         <ScrollTopButton showHeight={300} />
 
         {!data?.pages?.[0]?.data?.length ? (
-          <div className="flex h-[calc(100vh-200px)] flex-col items-center justify-center">
+          <div className="flex h-[calc(100vh-300px)] flex-col items-center justify-center">
             <p className="text-grayscale-500">등록된 알바 공고가 없습니다.</p>
           </div>
         ) : (
