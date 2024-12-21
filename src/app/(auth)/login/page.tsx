@@ -11,10 +11,12 @@ import { UserRole, userRoles } from "@/constants/userRoles";
 import AuthInput from "@/app/components/input/text/AuthInput";
 import { signInWithProvider } from "@/lib/supabaseUtils";
 import { toast } from "react-hot-toast";
+import { useState } from "react";
 
 export default function LoginPage() {
   // 로그인 훅과 로딩 상태 관리
   const { login, isPending } = useLogin();
+  const [isSocialLogin, setIsSocialLogin] = useState(false);
 
   // 폼 유효성 검사 및 상태 관리
   const {
@@ -22,12 +24,14 @@ export default function LoginPage() {
     handleSubmit,
     formState: { errors },
     setValue,
+    reset,
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
   });
 
   // 일반 로그인 제출 핸들러
   const onSubmit = (data: LoginSchema) => {
+    setIsSocialLogin(false);
     login(data);
   };
 
@@ -55,9 +59,15 @@ export default function LoginPage() {
     handleSubmit((data) => login(data))();
   };
 
-  // 소셜 로그인 핸들러 추가
+  // 소셜 로그인 핸들러
   const handleSocialLogin = async (provider: "google" | "kakao") => {
     try {
+      setIsSocialLogin(true);
+      reset({
+        email: "",
+        password: "",
+      });
+
       await signInWithProvider(provider);
     } catch (error) {
       console.error(`${provider} login failed:`, error);
@@ -84,7 +94,7 @@ export default function LoginPage() {
               type="email"
               name="email"
               placeholder="이메일"
-              errormessage={errors.email?.message}
+              errormessage={!isSocialLogin ? errors.email?.message : undefined}
             />
           </div>
           <div>
@@ -93,7 +103,7 @@ export default function LoginPage() {
               type="password"
               name="password"
               placeholder="비밀번호"
-              errormessage={errors.password?.message}
+              errormessage={!isSocialLogin ? errors.password?.message : undefined}
             />
           </div>
         </div>

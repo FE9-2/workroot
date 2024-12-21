@@ -1,9 +1,13 @@
 import { supabaseClient } from "@/lib/supabaseClient";
+import { useSocialLoginStore } from "@/store/socialLoginStore";
 
 // 소셜 로그인
 export const signInWithProvider = async (provider: "google" | "kakao") => {
-  const { error } = await supabaseClient.auth.signInWithOAuth({
+  const { error, data } = await supabaseClient.auth.signInWithOAuth({
     provider,
+    options: {
+      redirectTo: `${window.location.origin}/signup`,
+    },
   });
 
   if (error) {
@@ -11,7 +15,21 @@ export const signInWithProvider = async (provider: "google" | "kakao") => {
     return null;
   }
 
-  return null;
+  // 로그인 성공 시 JWT 디코딩
+  if (data?.session?.access_token) {
+    try {
+      const payload = JSON.parse(atob(data.session.access_token.split(".")[1]));
+      const { email, user_metadata } = payload;
+      const nickname = user_metadata.name || user_metadata.full_name || user_metadata.preferred_username;
+
+      // store에 정보 저장
+      useSocialLoginStore.getState().setLoginInfo(email, nickname, provider);
+    } catch (e) {
+      console.error("Failed to parse token:", e);
+    }
+  }
+
+  return data;
 };
 
 // 소셜 유저 정보 가져오기

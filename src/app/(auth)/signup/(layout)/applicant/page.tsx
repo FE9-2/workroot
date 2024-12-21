@@ -10,9 +10,12 @@ import Image from "next/image";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import Button from "@/app/components/button/default/Button";
 import AuthInput from "@/app/components/input/text/AuthInput";
+import { useSocialLoginStore } from "@/store/socialLoginStore";
 
 export default function ApplicantSignupPage() {
   const { signup, isPending } = useSignup();
+  const { email, nickname } = useSocialLoginStore();
+
   const {
     register,
     handleSubmit,
@@ -22,6 +25,8 @@ export default function ApplicantSignupPage() {
     defaultValues: {
       role: userRoles.APPLICANT,
       phoneNumber: "",
+      email: email || "",
+      nickname: nickname || "",
     },
     mode: "all",
   });
