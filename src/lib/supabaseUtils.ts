@@ -16,9 +16,9 @@ export const signInWithProvider = async (provider: "google" | "kakao") => {
   }
 
   // 로그인 성공 시 JWT 디코딩
-  if (data?.session?.access_token) {
+  if (data?.url) {
     try {
-      const payload = JSON.parse(atob(data.session.access_token.split(".")[1]));
+      const payload = JSON.parse(atob(data.url.split(".")[1]));
       const { email, user_metadata } = payload;
       const nickname = user_metadata.name || user_metadata.full_name || user_metadata.preferred_username;
 
