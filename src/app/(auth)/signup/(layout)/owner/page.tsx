@@ -129,22 +129,6 @@ export default function OwnerSignupPage() {
           <span className="mx-4 text-sm text-grayscale-400">SNS 계정으로 회원가입하기</span>
           <hr className="flex-grow border-t border-grayscale-200" />
         </div>
-        <div className="flex justify-center space-x-4">
-          <Link
-            href={`https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile&response_type=code&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&state=${encodeURIComponent(
-              JSON.stringify({ provider: "google", action: "signup", role: "OWNER" })
-            )}`}
-          >
-            <Image src="/icons/social/social_google.svg" width={72} height={72} alt="구글 회원가입" />
-          </Link>
-          <Link
-            href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code&state=${encodeURIComponent(
-              JSON.stringify({ provider: "kakao", action: "signup", role: "OWNER" })
-            )}`}
-          >
-            <Image src="/icons/social/social_kakao.svg" width={72} height={72} alt="카카오 회원가입" />
-          </Link>
-        </div>
       </form>
     </>
   );
