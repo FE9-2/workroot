@@ -83,7 +83,14 @@ export default function Header() {
 
         {/* 로그인/회원가입 또는 메뉴 버튼 */}
         <ul className="relative flex items-center gap-2 lg:gap-4">
-          {isLoading ? <div className={skeletonStyle}></div> : <div className={skeletonStyle}></div>}
+          {isLoading ? (
+            <>
+              <div className={skeletonStyle}></div>
+              <div className={skeletonStyle}></div>
+            </>
+          ) : (
+            <></>
+          )}
 
           {!user ? (
             <>
