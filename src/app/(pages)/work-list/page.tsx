@@ -94,7 +94,7 @@ export default function AlbaList() {
     );
   }
 
-  if (isLoading) {
+  if (isLoading && !keyword) {
     return <LoadingSpinner />;
   }
 

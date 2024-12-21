@@ -14,6 +14,7 @@ import Link from "next/link";
 import MyApplicationListItem from "@/app/components/card/cardList/apply/MyApplicationListItem";
 import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
 import { useApplicationsList } from "@/hooks/queries/user/me/useApplicationsList";
+import SearchSpinner from "@/app/components/loading-spinner/SearchSpinner";
 
 const APPLICATIONS_PER_PAGE = 10;
 
@@ -74,7 +75,7 @@ export default function ApplicantPage() {
   }
 
   // 로딩 상태 처리
-  if (isUserLoading || isLoadingData) {
+  if ((isUserLoading || isLoadingData) && !keyword) {
     return <LoadingSpinner />;
   }
 
@@ -98,7 +99,9 @@ export default function ApplicantPage() {
       </div>
 
       {/* 메인 콘텐츠 영역 */}
-      <div className="w-full pt-[132px]">
+      <div className="relative w-full pt-[132px]">
+        {keyword && isLoadingData && <SearchSpinner />}
+
         {/* ScrollTopButton 추가 */}
         <ScrollTopButton showHeight={300} />
 

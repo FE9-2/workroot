@@ -17,6 +17,7 @@ import FloatingBtn from "@/app/components/button/default/FloatingBtn";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import ContentSection from "@/app/components/layout/ContentSection";
 import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
+import SearchSpinner from "@/app/components/loading-spinner/SearchSpinner";
 
 const FORMS_PER_PAGE = 10;
 
@@ -143,7 +144,7 @@ export default function AlbaList() {
   }
 
   // 로딩 상태 처리
-  if (isLoadingData) {
+  if (isLoadingData && !keyword) {
     return <LoadingSpinner />;
   }
 
@@ -183,7 +184,9 @@ export default function AlbaList() {
       </div>
 
       {/* 메인 콘텐츠 영역 */}
-      <div className="w-full pt-[132px]">
+      <div className="relative w-full pt-[132px]">
+        {keyword && isLoading && <SearchSpinner />}
+
         {/* 폼 만들기 버튼 - 고정 위치 */}
         {isOwner && (
           <Link href="/addform" className="fixed bottom-[50%] right-4 z-[9999] translate-y-1/2">

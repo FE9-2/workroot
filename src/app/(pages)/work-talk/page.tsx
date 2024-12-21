@@ -17,6 +17,7 @@ import ContentSection from "@/app/components/layout/ContentSection";
 import useModalStore from "@/store/modalStore";
 import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
+import SearchSpinner from "@/app/components/loading-spinner/SearchSpinner";
 
 const POSTS_PER_PAGE = 10;
 
@@ -84,7 +85,7 @@ export default function AlbaTalk() {
   }
 
   // 로딩 상태 처리
-  if (isLoading) {
+  if (isLoading && !keyword) {
     return <LoadingSpinner />;
   }
 
@@ -112,7 +113,9 @@ export default function AlbaTalk() {
       </div>
 
       {/* 메인 콘텐츠 영역 */}
-      <div className="w-full pt-[132px]">
+      <div className="relative w-full pt-[132px]">
+        {keyword && isLoading && <SearchSpinner />}
+
         {/* 글쓰기 버튼 - 고정 위치 수정 */}
         {user && (
           <Link href="/work-talk/add" className="fixed bottom-[50%] right-[8%] z-30 translate-y-1/2">
