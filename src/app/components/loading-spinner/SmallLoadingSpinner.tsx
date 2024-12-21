@@ -3,7 +3,7 @@
 import { Player } from "@lottiefiles/react-lottie-player";
 import React from "react";
 
-export default function LoadingSpinner() {
+export default function SamllLoadingSpinner() {
   return (
     <div className="absolute left-1/2 top-1/2 flex h-[50vh] w-screen -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center bg-white px-4">
       <Player
