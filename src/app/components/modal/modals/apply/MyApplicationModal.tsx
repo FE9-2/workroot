@@ -13,6 +13,7 @@ import { FiDownload } from "react-icons/fi";
 import Image from "next/image";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import { useGuestApplication } from "@/hooks/queries/user/me/useGuestApplication";
+import Chip from "@/app/components/chip/Chip";
 
 const ModalOverlay = ({ onClick }: { onClick: (e: React.MouseEvent) => void }) => (
   <div className="bg-black fixed inset-0 z-50 bg-opacity-50" role="presentation">
@@ -83,6 +84,7 @@ const ApplicationContent = ({
 }: ApplicationResponse) => {
   return (
     <div className="space-y-4">
+      <Chip label={getStatusMap(status)} variant="positive" />
       <InfoRow label="지원 상태" value={getStatusMap(status)} />
       <InfoRow label="이름" value={name} />
       <InfoRow label="연락처" value={phoneNumber} />

@@ -11,7 +11,3 @@ export const formStatusOptions = {
   INTERVIEW_COMPLETED: "INTERVIEW_COMPLETED",
   HIRED: "HIRED",
 } as const;
-
-// 타입 추출
-export type FormSortOptionsType = (typeof formSortOptions)[keyof typeof formSortOptions];
-export type FormStatusOptionsType = (typeof formStatusOptions)[keyof typeof formStatusOptions];
