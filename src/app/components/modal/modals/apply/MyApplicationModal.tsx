@@ -105,6 +105,7 @@ export default function MyApplicationModal({
   formId,
   className,
   verifyData,
+  initialData,
 }: MyApplicationModalProps) {
   const { user } = useUser();
 
@@ -116,8 +117,9 @@ export default function MyApplicationModal({
     !user ? verifyData : undefined // user가 없을 때만 실행
   );
 
-  const myApplicationData = user ? memberApplicationData : guestApplicationData;
-  const isLoading = user ? isMemberLoading : isGuestLoading;
+  // initialData가 있으면 API 호출 없이 바로 사용
+  const myApplicationData = initialData || (user ? memberApplicationData : guestApplicationData);
+  const isLoading = !initialData && (user ? isMemberLoading : isGuestLoading);
 
   if (!isOpen) return null;
 

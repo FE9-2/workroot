@@ -5,7 +5,9 @@ import translateStatus from "@/utils/translateStatus";
 import { SkeletonRow } from "./SkeletonRow";
 import { Player } from "@lottiefiles/react-lottie-player";
 import TableHeader from "./TableHeader";
-import { ApplicationStatusType } from "@/types/applicationStatus";
+import { FormStatusOptionsType } from "@/constants/formOptions";
+import useModalStore from "@/store/modalStore";
+import { ApplicationResponse } from "@/types/response/application";
 
 interface ApplyStatusCardProps {
   formId: number;
@@ -13,6 +15,7 @@ interface ApplyStatusCardProps {
 
 // 지원현황 카드 컴포넌트
 const ApplyStatusCard = ({ formId }: ApplyStatusCardProps) => {
+  const { openModal } = useModalStore();
   const [experienceSort, setExperienceSort] = useState<"asc" | "desc">("asc");
   const [statusSort, setStatusSort] = useState<"asc" | "desc">("desc");
 
@@ -26,6 +29,15 @@ const ApplyStatusCard = ({ formId }: ApplyStatusCardProps) => {
 
   const toggleExperienceSort = () => setExperienceSort((prev) => (prev === "asc" ? "desc" : "asc"));
   const toggleStatusSort = () => setStatusSort((prev) => (prev === "asc" ? "desc" : "asc"));
+
+  // 지원자 행 클릭 핸들러 추가
+  const handleApplicationClick = (application: ApplicationResponse) => {
+    openModal("myApplication", {
+      formId,
+      isOpen: true,
+      initialData: application, // 선택된 지원자 데이터 전달
+    });
+  };
 
   // 지원 현황 로딩 중
   if (isLoading) {
@@ -67,14 +79,22 @@ const ApplyStatusCard = ({ formId }: ApplyStatusCardProps) => {
         {/* Tbody */}
         <div className="scrollbar-custom h-[360px] overflow-y-auto md:h-[400px]">
           {applyStatusData.data.map((application) => (
-            <div key={application.id} className="grid grid-cols-[1fr_2fr_1fr_1fr] border-b border-line-100 px-6 py-4">
-              <span className="w-2/5">{application.name}</span>
-              <span className="w-1/4">{application.phoneNumber}</span>
-              <span className="w-2/5">{application.experienceMonths}개월</span>
-              <span className="w-1/4" style={{ whiteSpace: "nowrap" }}>
-                {translateStatus(application.status as ApplicationStatusType)}
-              </span>
-            </div>
+            <button
+              key={application.id}
+              type="button"
+              onClick={() => handleApplicationClick(application)}
+              className="w-full text-left transition-colors hover:bg-gray-50"
+              aria-label={`${application.name}님의 지원 정보 보기`}
+            >
+              <div className="grid grid-cols-[1fr_2fr_1fr_1fr] border-b border-line-100 px-6 py-4">
+                <span className="w-2/5">{application.name}</span>
+                <span className="w-1/4">{application.phoneNumber}</span>
+                <span className="w-2/5">{application.experienceMonths}개월</span>
+                <span className="w-1/4" style={{ whiteSpace: "nowrap" }}>
+                  {translateStatus(application.status as FormStatusOptionsType)}
+                </span>
+              </div>
+            </button>
           ))}
         </div>
       </div>
