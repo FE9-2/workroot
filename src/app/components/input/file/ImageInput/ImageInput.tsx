@@ -20,32 +20,36 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
     if (props.initialImageList?.length > 0) {
       setImageList(props.initialImageList);
     }
-  }, [props.initialImageList, imageList]);
+  }, [props.initialImageList]);
 
-  const handleFileChange = (selectedFile: File | null) => {
-    if (selectedFile) {
-      if (!selectedFile.type.startsWith("image/")) {
-        toast.error("이미지 파일만 업로드할 수 있습니다.");
-        return;
-      } else if (selectedFile && imageList.length >= 3) {
+  const handleFileChange = (selectedFiles: FileList | null) => {
+    if (selectedFiles) {
+      const filesArray = Array.from(selectedFiles); // FileList를 배열로 변환
+      const validFiles = filesArray.filter((file) => file.type.startsWith("image/"));
+
+      if (validFiles.length + imageList.length > 3) {
         toast.error("이미지는 최대 3개까지 업로드할 수 있습니다.");
         return;
       }
-      props.onChange?.([selectedFile]); // 파일을 상위로 전달하면 url이 prop으로 내려옴
+
+      if (validFiles.length === 0) {
+        toast.error("이미지 파일만 업로드할 수 있습니다.");
+        return;
+      }
+
+      // 선택된 파일을 상위 컴포넌트로 전달
+      props.onChange?.(validFiles);
     }
   };
 
   const handleDeleteImage = (targetUrl: string) => {
-    // 삭제 했을때 다른 이미지 미리보기도 엑박뜨는 현상 있음 !
     const newImageList = imageList.filter((image) => image.url !== targetUrl);
     setImageList(newImageList);
-    // 제거한 리스트를 상위에서 setValue
     props.onDelete?.(targetUrl);
   };
 
   const handleOpenFileSelector = () => {
     if (typeof ref === "function") {
-      // input 요소를 찾아서 클릭
       const fileInput = document.querySelector(`input[name="${props.name}"]`);
       if (fileInput) {
         (fileInput as HTMLInputElement).click();
@@ -63,7 +67,6 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
   };
 
   return (
-    // 인풋 + 프리뷰 wrapper
     <div className="flex gap-5 lg:gap-6">
       <div
         onClick={handleOpenFileSelector}
@@ -79,8 +82,9 @@ const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>((props, ref) =>
           type="file"
           name={props.name}
           accept="image/*"
-          onChange={(e) => handleFileChange(e.target.files?.[0] || null)}
+          onChange={(e) => handleFileChange(e.target.files)}
           className="hidden"
+          multiple
         />
         <div className="pointer-events-none absolute top-0 z-10 p-7 lg:p-10">
           <HiUpload className="text-[24px] text-grayscale-400 lg:text-[36px]" />
