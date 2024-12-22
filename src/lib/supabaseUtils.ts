@@ -8,7 +8,7 @@ export const signInWithProvider = async (provider: OAuthProvider) => {
     const { data, error } = await supabaseClient.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_API_URL}`,
+        redirectTo: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/auth/callback`,
       },
     });
 

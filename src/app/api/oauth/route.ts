@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import apiClient from "@/lib/apiClient";
 
-// OAuth 로그인 API
+// OAuth 회원가입 API
 export async function POST(request: Request, { params }: { params: { provider: string } }) {
   try {
     const provider = params.provider;
@@ -16,8 +16,8 @@ export async function POST(request: Request, { params }: { params: { provider: s
     // 요청 본문 파싱
     const body = await request.json();
 
-    // OAuth 로그인 요청
-    const response = await apiClient.post(`/oauth/sign-in/${provider}`, body);
+    // OAuth 회원가입 요청
+    const response = await apiClient.post(`/auth/sign-up/${provider}`, body);
 
     // 응답에서 토큰 추출
     const { accessToken, refreshToken } = response.data;
@@ -42,7 +42,7 @@ export async function POST(request: Request, { params }: { params: { provider: s
     return NextResponse.json(response.data);
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
-      console.error(`POST /api/oauth/sign-in/${params.provider} error:`, error);
+      console.error(`POST /api/oauth/sign-up/${params.provider} error:`, error);
       if (error.response) {
         return NextResponse.json({ message: error.response.data.message }, { status: error.response.status });
       }

@@ -10,27 +10,16 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { UserRole, userRoles } from "@/constants/userRoles";
 import AuthInput from "@/app/components/input/text/AuthInput";
-import { signInWithProvider, getSocialUser } from "@/lib/supabaseUtils";
+import { signInWithProvider } from "@/lib/supabaseUtils";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
-import useModalStore from "@/store/modalStore";
-import { useOAuthLogin } from "@/hooks/queries/oauth/useOAuthLogin";
-import { useOAuthSignup } from "@/hooks/queries/oauth/useOAuthSignup";
 import { OAuthProvider, oauthProviders } from "@/constants/oauthProviders";
-import { OAuthResponse } from "@supabase/supabase-js";
-import { OAuthSignupSchema } from "@/schemas/oauthSchema";
-import { useOAuthApps } from "@/hooks/queries/oauth/useOAuthApps";
 
 export default function LoginPage() {
   // 로그인 훅과 로딩 상태 관리
   const { login, isPending } = useLogin();
   const [isSocialLogin, setIsSocialLogin] = useState(false);
   const [currentProvider, setCurrentProvider] = useState<OAuthProvider>(oauthProviders.GOOGLE);
-  const { openModal, closeModal } = useModalStore();
-  const { oauthLogin } = useOAuthLogin(currentProvider);
-  const { oauthSignup: applicantSignup } = useOAuthSignup(currentProvider);
-  const { oauthSignup: ownerSignup } = useOAuthSignup(currentProvider);
-  const { registerOAuthApp } = useOAuthApps();
 
   // 폼 유효성 검사 및 상태 관리
   const {
@@ -73,61 +62,6 @@ export default function LoginPage() {
     handleSubmit((data) => login(data))();
   };
 
-  // 소셜 인증 완료 후 처리 함수
-  const handleOAuthComplete = async (data: OAuthResponse) => {
-    const user = await getSocialUser();
-    if (user) {
-      // 기존 유저면 로그인
-      oauthLogin({
-        redirectUri: `${process.env.NEXT_PUBLIC_API_URL}`,
-        token: data.data.url?.split("=")[0] || "",
-      });
-    } else {
-      const payload = JSON.parse(atob(data.data.url?.split(".")[1] || ""));
-      const { email, name } = payload;
-      // 신규 유저면 역할 선택 모달 표시
-      openModal("customForm", {
-        isOpen: true,
-        title: "회원 유형 선택",
-        content: "회원 유형을 선택해주세요.",
-        confirmText: "지원자로 가입",
-        cancelText: "사장님으로 가입",
-        onConfirm: async () => {
-          closeModal();
-          const requestData: OAuthSignupSchema = {
-            location: "",
-            phoneNumber: "",
-            storePhoneNumber: "",
-            storeName: "",
-            role: userRoles.APPLICANT,
-            nickname: name,
-            name: email,
-            redirectUri: `${process.env.NEXT_PUBLIC_API_URL}/mypage`,
-            token: data.data.url?.split("=")[0] || "",
-          };
-
-          applicantSignup(requestData);
-        },
-        onCancel: async () => {
-          closeModal();
-          const requestData: OAuthSignupSchema = {
-            location: "",
-            phoneNumber: "",
-            storePhoneNumber: "",
-            storeName: "",
-            role: userRoles.OWNER,
-            nickname: name,
-            name: email,
-            redirectUri: `${process.env.NEXT_PUBLIC_API_URL}/mypage`,
-            token: data.data.url?.split("=")[0] || "",
-          };
-
-          ownerSignup(requestData);
-        },
-      });
-    }
-  };
-
   // 소셜 로그인 핸들러
   const handleSocialLogin = async (provider: OAuthProvider) => {
     try {
@@ -138,26 +72,8 @@ export default function LoginPage() {
         password: "",
       });
 
-      // 소셜 로그인 App 등록/수정
-      if (provider === oauthProviders.GOOGLE) {
-        registerOAuthApp({
-          appKey: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string,
-          provider: provider,
-        });
-      } else if (provider === oauthProviders.KAKAO) {
-        registerOAuthApp({
-          appKey: process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID as string,
-          provider: provider,
-        });
-      }
-
-      const response = await signInWithProvider(provider);
-      if (response?.url) {
-        handleOAuthComplete({
-          data: { provider, url: response.url },
-          error: null,
-        });
-      }
+      // 소셜 로그인
+      await signInWithProvider(provider);
     } catch (error) {
       console.error(`${provider} login failed:`, error);
       toast.error(`${provider} 로그인에 실패했습니다.`);
@@ -175,6 +91,8 @@ export default function LoginPage() {
           </Link>
         </p>
       </div>
+
+      {/* 일반 로그인 폼 */}
       <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-6 rounded-md">
           <div>
@@ -202,19 +120,51 @@ export default function LoginPage() {
             {isPending ? <DotLoadingSpinner /> : "로그인"}
           </Button>
         </div>
+      </form>
+
+      {/* 소셜 로그인 섹션을 폼 밖으로 이동 */}
+      <div className="mt-6 space-y-6">
         <div className="flex items-center justify-center">
           <hr className="flex-grow border-t border-grayscale-200" />
           <span className="mx-4 text-sm text-grayscale-400">SNS 계정으로 로그인하기</span>
           <hr className="flex-grow border-t border-grayscale-200" />
         </div>
         <div className="flex justify-center space-x-6">
-          <button onClick={() => handleSocialLogin("google")} className="transition-transform hover:scale-105">
-            <Image src="/icons/social/social_google.svg" width={72} height={72} alt="구글 로그인" />
+          <button
+            type="button"
+            onClick={() => {
+              setIsSocialLogin(true);
+              handleSocialLogin(oauthProviders.GOOGLE);
+            }}
+            className="flex items-center justify-center p-2 transition-transform hover:scale-105 focus:outline-none active:scale-95"
+          >
+            <div className="relative size-[72px]">
+              <Image src="/icons/social/social_google.svg" fill alt="구글 로그인" className="object-contain" priority />
+            </div>
           </button>
-          <button onClick={() => handleSocialLogin("kakao")} className="transition-transform hover:scale-105">
-            <Image src="/icons/social/social_kakao.svg" width={72} height={72} alt="카카오 로그인" />
+          <button
+            type="button"
+            onClick={() => {
+              setIsSocialLogin(true);
+              handleSocialLogin(oauthProviders.KAKAO);
+            }}
+            className="flex items-center justify-center p-2 transition-transform hover:scale-105 focus:outline-none active:scale-95"
+          >
+            <div className="relative size-[72px]">
+              <Image
+                src="/icons/social/social_kakao.svg"
+                fill
+                alt="카카오 로그인"
+                className="object-contain"
+                priority
+              />
+            </div>
           </button>
         </div>
+      </div>
+
+      {/* 테스트 계정 섹션도 폼 밖으로 이동 */}
+      <div className="mt-6 space-y-6">
         <div className="flex items-center justify-center">
           <hr className="flex-grow border-t border-grayscale-200" />
           <span className="mx-4 text-sm text-grayscale-400">테스트 계정으로 로그인하기</span>
@@ -240,7 +190,7 @@ export default function LoginPage() {
             사장님
           </Button>
         </div>
-      </form>
+      </div>
     </>
   );
 }
