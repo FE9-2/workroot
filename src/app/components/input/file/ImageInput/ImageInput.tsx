@@ -6,6 +6,7 @@ import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautif
 import PreviewItem from "./PreviewItem";
 import { cn } from "@/lib/tailwindUtil";
 import { ImageInputType } from "@/types/addform";
+import React from "react";
 
 interface ImageInputProps {
   name: string;
