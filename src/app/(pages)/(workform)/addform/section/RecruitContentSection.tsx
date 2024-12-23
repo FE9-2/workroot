@@ -11,6 +11,7 @@ import { ImageInputType } from "@/types/addform";
 import useUploadImages from "@/hooks/queries/user/me/useImageUpload";
 import { formatToLocaleDate } from "@/utils/formatters";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
+import { isDirty } from "zod";
 
 // 워크폼 만들기 - 사장님 - 1-모집내용
 
@@ -23,7 +24,7 @@ export default function RecruitContentSection() {
     watch,
     register,
     setValue,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useFormContext();
 
   const { uploadImages, isUploading } = useUploadImages();
@@ -100,7 +101,7 @@ export default function RecruitContentSection() {
 
   // displayRange를 상위에서 관리
   const displayDate =
-    recruitStartDate && !formatToLocaleDate(recruitEndDate).includes("NaN")
+    recruitEndDate && !formatToLocaleDate(recruitEndDate).includes("NaN")
       ? `${formatToLocaleDate(recruitStartDate)} ~ ${formatToLocaleDate(recruitEndDate)}`
       : "";
 
@@ -144,10 +145,10 @@ export default function RecruitContentSection() {
             endDate={endDate}
             onChange={handleRecruitmentDateChange}
             required={true}
-            errormessage={!startDate || !endDate}
+            errormessage={isDirty && !endDate}
             displayValue={displayDate}
           />
-          {(!startDate || !endDate) && <p className={cn(errorTextStyle, "")}> 모집 기간은 필수입니다.</p>}
+          {isDirty && !endDate && <p className={cn(errorTextStyle, "")}> 모집 기간은 필수입니다.</p>}
         </div>
 
         <Label>이미지 첨부</Label>

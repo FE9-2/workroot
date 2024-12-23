@@ -292,6 +292,14 @@ input[type="checkbox"]:disabled {
   @apply bg-grayscale-50 !important;
 }
 
+.react-datepicker__day--disabled {
+  @apply bg-grayscale-200 bg-opacity-50;
+}
+
+.react-datepicker__day--disabled {
+  @apply rounded-sm bg-grayscale-100 bg-opacity-50;
+}
+
 /* --------------------- date picker커스텀 끝--------------------- */
 
 .bg-black50 {
