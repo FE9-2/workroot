@@ -118,7 +118,7 @@ export default function AddFormPage() {
 
   // 폼데이터 임시 저장 함수
   const onTempSave = () => {
-    tempSave("addformData", currentValues);
+    tempSave("tempAddFormData", currentValues);
   };
 
   const handleOptionChange = (option: string) => {
@@ -217,7 +217,7 @@ export default function AddFormPage() {
               width="md"
               color="orange"
               className="lg: h-[58px] w-[320px] border bg-background-100 lg:h-[72px] lg:w-full lg:text-xl lg:leading-8"
-              onClick={() => tempSave("addformData", currentValues)}
+              onClick={() => tempSave("tempAddFormData", currentValues)}
             >
               임시 저장
             </Button>
@@ -235,6 +235,7 @@ export default function AddFormPage() {
           </div>
         </aside>
         {renderChildren()}
+
         {/* 임시저장 데이터 확인 모달 */}
         <CustomFormModal
           isOpen={showTempDataModal}
