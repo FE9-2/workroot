@@ -154,7 +154,9 @@ export default function RecruitContentSection() {
         <Label>이미지 첨부</Label>
         <div className="relative">
           <ImageInput
-            {...register("imageUrls")}
+            {...register("imageUrls", {
+              required: "이미지를 첨부해주세요.",
+            })}
             onChange={(files: File[] | string[]) => {
               handleChangeImages(files);
             }}
