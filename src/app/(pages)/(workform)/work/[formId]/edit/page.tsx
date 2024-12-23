@@ -1,7 +1,7 @@
 "use client";
 // 워크폼 수정 페이지 (사장님)
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import axios from "axios";
@@ -33,7 +33,7 @@ export default function EditFormPage() {
   const {
     reset,
     handleSubmit,
-    formState: { isDirty, isValid },
+    formState: { isDirty },
   } = methods;
 
   const queryClient = useQueryClient();
@@ -71,6 +71,29 @@ export default function EditFormPage() {
       });
     }
   }, [albaFormDetailData, reset]);
+
+  const isComplete = useMemo(() => {
+    // 작성이 완료된 필드들: 기본값에서 변경된 경우를 확인
+    return (
+      currentValues.title &&
+      currentValues.description &&
+      currentValues.location &&
+      currentValues.workStartDate &&
+      currentValues.workEndDate &&
+      currentValues.recruitmentStartDate &&
+      currentValues.recruitmentEndDate &&
+      currentValues.workStartTime &&
+      currentValues.workEndTime &&
+      currentValues.age &&
+      currentValues.preferred &&
+      currentValues.education &&
+      currentValues.gender &&
+      currentValues.numberOfPositions >= 0 &&
+      currentValues.imageUrls.length > 0 &&
+      currentValues.hourlyWage >= 10_030 &&
+      (currentValues.workDays.length > 0 || currentValues.isNegotiableWorkDays)
+    );
+  }, [currentValues]);
 
   // 수정된 폼 제출 리액트쿼리
   const mutation = useMutation({
@@ -170,7 +193,7 @@ export default function EditFormPage() {
               width="md"
               color="orange"
               className="h-[58px] w-full lg:h-[72px] lg:text-xl lg:leading-8"
-              disabled={!isDirty || !isValid}
+              disabled={!isDirty || !isComplete}
               onClick={handleSubmit(() => mutation.mutate())}
             >
               {mutation.isPending ? <DotLoadingSpinner /> : "수정하기"}

@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 interface TrailPosition {
   x: number;
   y: number;
-  id: number;
+  id: string;
 }
 
 export default function MouseTrail() {
@@ -15,7 +15,8 @@ export default function MouseTrail() {
 
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
-      const newPosition = { x: e.clientX, y: e.clientY, id: Date.now() };
+      const uniqueId = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      const newPosition = { x: e.clientX, y: e.clientY, id: uniqueId };
 
       if (lastPosition) {
         const distance = Math.sqrt(
@@ -23,7 +24,6 @@ export default function MouseTrail() {
         );
 
         if (distance > 50) {
-          // Adjust this value to increase/decrease spacing
           setTrail((prevTrail) => [newPosition, ...prevTrail.slice(0, 9)]);
           setLastPosition(newPosition);
         }
@@ -36,14 +36,15 @@ export default function MouseTrail() {
   );
 
   useEffect(() => {
-    window.addEventListener("mousemove", handleMouseMove);
+    const options = { passive: true };
+    window.addEventListener("mousemove", handleMouseMove, options.passive);
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousemove", handleMouseMove, options.passive);
     };
   }, [handleMouseMove]);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[999] overflow-hidden">
+    <div className="pointer-events-none fixed inset-0 z-[100000] overflow-hidden">
       <AnimatePresence>
         {trail.map((position, index) => (
           <motion.div
@@ -56,7 +57,8 @@ export default function MouseTrail() {
               position: "absolute",
               left: position.x,
               top: position.y,
-              transform: "translate(-50%, -50%)",
+              // transform: "translate(-50%, -50%)",
+              pointerEvents: "none",
             }}
           >
             <TrailDot opacity={1 - index * 0.1} />
@@ -67,6 +69,7 @@ export default function MouseTrail() {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function TrailDot({ opacity = 1 }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16px" height="16px">

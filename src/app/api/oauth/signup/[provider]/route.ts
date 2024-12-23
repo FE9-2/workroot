@@ -26,14 +26,16 @@ export async function POST(request: Request, { params }: { params: { provider: s
     cookies().set("accessToken", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      sameSite: "strict",
+      maxAge: 60 * 60 * 60 * 24, // 1일
       path: "/",
     });
 
     cookies().set("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      sameSite: "strict",
+      maxAge: 60 * 60 * 24 * 14, // 14일
       path: "/",
     });
 

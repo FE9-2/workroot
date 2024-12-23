@@ -4,7 +4,7 @@ import { ApplicationListResponse } from "@/types/response/application";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-interface UseApplyStatusProps {
+interface UseApplicationStatusProps {
   formId: number;
   limit: number;
   cursor?: number;
@@ -12,7 +12,7 @@ interface UseApplyStatusProps {
   orderByStatus?: string;
 }
 
-export const useApplyStatus = (props: UseApplyStatusProps) => {
+export const useApplicationStatus = (props: UseApplicationStatusProps) => {
   const query = useQuery<ApplicationListResponse>({
     queryKey: ["applyStatus", props.formId, props.limit, props.cursor, props.orderByExperience, props.orderByStatus],
     queryFn: async () => {
@@ -24,6 +24,15 @@ export const useApplyStatus = (props: UseApplyStatusProps) => {
           orderByStatus: props.orderByStatus,
         },
       });
+
+      // 응답 데이터의 각 항목에 고유한 키 추가
+      if (response.data.data) {
+        response.data.data = response.data.data.map((item: { id: string }, index: string) => ({
+          ...item,
+          uniqueKey: `${item.id}_${index}`,
+        }));
+      }
+
       return response.data;
     },
     enabled: !!props.formId,

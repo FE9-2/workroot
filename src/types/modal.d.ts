@@ -65,11 +65,13 @@ type MyApplicationModalProps = BaseModalProps & {
   formId: number | string;
   className?: string;
   verifyData?: {
-    // 추가: 비회원 인증 데이터
+    // 비회원 인증 데이터
     name: string;
     phoneNumber: string;
     password: string;
   };
+  // 지원자 상세 데이터
+  initialData?: ApplicationResponse;
 };
 
 // 지원내역 조회 확인 모달

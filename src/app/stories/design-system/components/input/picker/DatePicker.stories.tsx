@@ -1,7 +1,7 @@
-import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePickerInput";
 import "react-datepicker/dist/react-datepicker.css";
 import { Meta, StoryObj } from "@storybook/react";
 import { FormProvider, useForm } from "react-hook-form";
+import DatePickerInput from "@/app/components/input/dateTimeDaypicker/DatePickerInput";
 
 const meta = {
   title: "Design System/Components/Date-Time-Day Picker/DatePicker",
@@ -28,8 +28,8 @@ type Story = StoryObj<typeof DatePickerInput>;
 export const DatePicker: Story = {
   render: () => (
     <DatePickerInput
-      startDate={undefined}
-      endDate={undefined}
+      startDate={new Date()}
+      endDate={new Date()}
       displayValue="2024.01.02 ~ 2024.03.03"
       onChange={() => {}}
     />

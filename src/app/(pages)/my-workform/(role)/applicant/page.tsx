@@ -14,6 +14,7 @@ import Link from "next/link";
 import MyApplicationListItem from "@/app/components/card/cardList/apply/MyApplicationListItem";
 import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
 import { useApplicationsList } from "@/hooks/queries/user/me/useApplicationsList";
+import SearchSpinner from "@/app/components/loading-spinner/SearchSpinner";
 
 const APPLICATIONS_PER_PAGE = 10;
 
@@ -67,14 +68,14 @@ export default function ApplicantPage() {
   // 에러 상태 처리
   if (error) {
     return (
-      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
+      <div className="flex h-[calc(100vh-300px)] items-center justify-center">
         <p className="text-primary-orange-300">지원 내역을 불러오는데 실패했습니다.</p>
       </div>
     );
   }
 
   // 로딩 상태 처리
-  if (isUserLoading || isLoadingData) {
+  if ((isUserLoading || isLoadingData) && !keyword) {
     return <LoadingSpinner />;
   }
 
@@ -98,12 +99,14 @@ export default function ApplicantPage() {
       </div>
 
       {/* 메인 콘텐츠 영역 */}
-      <div className="w-full pt-[132px]">
+      <div className="relative w-full pt-[132px]">
+        {keyword && isLoadingData && <SearchSpinner />}
+
         {/* ScrollTopButton 추가 */}
         <ScrollTopButton showHeight={300} />
 
         {!data?.pages?.[0]?.data?.length ? (
-          <div className="flex h-[calc(100vh-200px)] flex-col items-center justify-center">
+          <div className="flex h-[calc(100vh-300px)] flex-col items-center justify-center">
             <p className="text-grayscale-500">지원 내역이 없습니다.</p>
           </div>
         ) : (

@@ -4,11 +4,11 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useMyComments } from "@/hooks/queries/user/me/useMyComments";
 import Pagination from "@/app/components/pagination/Pagination";
-import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import BoardComment from "@/app/components/card/board/BoardComment";
 import ContentSection from "@/app/components/layout/ContentSection";
 import useWidth from "@/hooks/useWidth";
 import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
+import SamllLoadingSpinner from "@/app/components/loading-spinner/SmallLoadingSpinner";
 
 export default function CommentsSection() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -45,19 +45,15 @@ export default function CommentsSection() {
 
   if (error) {
     return (
-      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
+      <div className="flex h-[calc(100vh-300px)] items-center justify-center">
         <p className="text-primary-orange-300">댓글을 불러오는데 실패했습니다.</p>
       </div>
     );
   }
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-
   if (!data?.data?.length) {
     return (
-      <div className="flex h-[calc(100vh-200px)] flex-col items-center justify-center">
+      <div className="flex h-[calc(100vh-300px)] flex-col items-center justify-center">
         <p className="text-grayscale-500">작성한 댓글이 없습니다.</p>
       </div>
     );
@@ -66,6 +62,7 @@ export default function CommentsSection() {
   return (
     <div className="flex flex-col items-center">
       <div className="mx-auto mt-4 w-full max-w-screen-xl px-3">
+        {isLoading && SamllLoadingSpinner}
         {/* ScrollTopButton 추가 */}
         <ScrollTopButton showHeight={300} />
 

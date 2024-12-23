@@ -30,7 +30,6 @@ export default function CustomCursor() {
         top: position.y,
         zIndex: 9999,
         pointerEvents: "none",
-        transform: "translate(-50%, -50%)",
       }}
     >
       <TreeSVG />
@@ -41,30 +40,26 @@ export default function CustomCursor() {
 function TreeSVG() {
   return (
     <svg
+      version="1.0"
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0,0,255.98959,255.98959"
-      width="32px"
-      height="32px"
-      fillRule="nonzero"
+      width="20.000000pt"
+      height="20.000000pt"
+      viewBox="0 0 96.000000 96.000000"
+      preserveAspectRatio="xMidYMid meet"
     >
-      <g
-        fill="rgba(34, 197, 94, 1)"
-        fillRule="nonzero"
-        stroke="none"
-        strokeWidth="1"
-        strokeLinecap="butt"
-        strokeLinejoin="miter"
-        strokeMiterlimit="10"
-        strokeDasharray=""
-        strokeDashoffset="0"
-        fontFamily="none"
-        fontWeight="none"
-        fontSize="none"
-        textAnchor="none"
-      >
-        <g transform="translate(-48.38052,89.01673) rotate(-34) scale(16,16)">
-          <path d="M7.5,0.62891l-4.46094,6.37109h1.80469l-2.82812,5h4.98438v2h1v-2h5l-0.44141,-0.75391l-2.49609,-4.24609h1.89844zM7.5,2.375l2.53906,3.625h-1.72656l2.9375,5h-7.51562l2.82031,-5h-1.59375z"></path>
-        </g>
+      <g transform="translate(0.000000,96.000000) scale(0.100000,-0.100000)" fill="rgba(34, 197, 94, 1)" stroke="none">
+        <path
+          d="M24 925 c-7 -18 0 -542 8 -550 3 -4 25 7 49 24 23 17 45 31 49 31 4
+0 11 -37 14 -82 12 -134 34 -320 40 -325 3 -3 66 38 140 91 75 53 142 99 150
+102 9 4 27 -14 53 -50 21 -30 41 -55 44 -56 4 0 18 9 33 21 l26 20 -42 60
+c-25 36 -38 62 -32 68 5 4 71 52 147 105 125 90 154 116 127 116 -10 0 -293
+125 -346 153 l-28 14 53 38 c29 21 49 41 44 45 -4 4 -89 36 -188 70 -99 34
+-215 75 -258 90 -57 20 -80 24 -83 15z m226 -145 c78 -27 144 -51 147 -54 2
+-2 -16 -19 -41 -36 -25 -18 -43 -36 -41 -40 2 -4 88 -44 190 -90 102 -46 185
+-86 185 -89 -1 -3 -101 -77 -223 -164 l-222 -157 -6 37 c-4 21 -9 63 -12 93
+-25 236 -31 280 -42 280 -6 0 -26 -11 -45 -25 -19 -14 -35 -25 -37 -25 -2 0
+-3 72 -3 160 0 88 2 160 4 160 1 0 67 -22 146 -50z"
+        />
       </g>
     </svg>
   );

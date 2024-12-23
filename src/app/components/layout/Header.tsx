@@ -10,6 +10,8 @@ import { toast } from "react-hot-toast";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import LinkBtn from "../button/default/LinkBtn";
 import { useRouter } from "next/navigation";
+import Spinner from "../loading-spinner/HamburgerSpinner";
+import { HiMiniBars3 } from "react-icons/hi2";
 
 export default function Header() {
   const { logout } = useLogout();
@@ -19,15 +21,13 @@ export default function Header() {
   const router = useRouter();
 
   // 인증이 필요없는 공개 경로들
-  const handleLogout = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleLogout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     try {
-      logout();
+      await logout();
       toast.success("로그아웃되었습니다.");
       setIsSideMenuOpen(false);
-      setTimeout(() => {
-        router.push("/login");
-      }, 100);
+      router.push("/login");
     } catch (error) {
       console.error("로그아웃 실패:", error);
       toast.error("로그아웃에 실패했습니다.");
@@ -49,8 +49,6 @@ export default function Header() {
     "fixed left-0 right-0 top-0 z-40 shadow-sm bg-primary-orange-50 -tracking-widest md:tracking-normal";
   const navStyle = "mx-auto flex h-16 min-w-[327px] items-center justify-between px-6 max-w-screen-xl ";
   const menuStyle = "ml-4 flex h-16 items-center gap-4 md:ml-8 md:gap-6 lg:ml-[46px]";
-  const skeletonStyle = "w-16 animate-pulse bg-primary-orange-100";
-
   return (
     <header className={headerStyle}>
       <nav className={navStyle}>
@@ -60,9 +58,9 @@ export default function Header() {
             <Image
               src="/black_main_logo.png"
               alt="WorkRoot"
-              width={200}
+              width={96}
               height={54}
-              className="w-24 hover:opacity-90"
+              className="h-auto w-24 hover:opacity-90"
             />
           </Link>
 
@@ -83,9 +81,11 @@ export default function Header() {
 
         {/* 로그인/회원가입 또는 메뉴 버튼 */}
         <ul className="relative flex items-center gap-2 lg:gap-4">
-          {isLoading ? <div className={skeletonStyle}></div> : <div className={skeletonStyle}></div>}
-
-          {!user ? (
+          {isLoading ? (
+            <>
+              <Spinner />
+            </>
+          ) : !user && !isLoading ? (
             <>
               <li className="flex items-center">
                 <LinkBtn
@@ -129,9 +129,8 @@ export default function Header() {
               </li>
             </>
           ) : (
-            <button type="button" onClick={() => setIsSideMenuOpen(true)} className="block" aria-label="메뉴 열기">
-              <Image src="/icons/menu/menu-sm.svg" width={24} height={24} alt="메뉴" className="block sm:hidden" />
-              <Image src="/icons/menu/menu-md.svg" width={36} height={36} alt="메뉴" className="hidden sm:block" />
+            <button type="button" onClick={() => setIsSideMenuOpen(true)} className="block p-4" aria-label="메뉴 열기">
+              <HiMiniBars3 width={36} height={36} className="size-5 md:size-8" />
             </button>
           )}
         </ul>
@@ -150,13 +149,9 @@ export default function Header() {
         )}
       >
         <div className="flex w-full flex-col p-6">
-          <div className="mb-6 flex items-center justify-between">
+          <div className="mb-6 flex items-center justify-between" onClick={() => setIsSideMenuOpen(false)}>
             <span className="px-3 text-lg font-bold text-primary-orange-400">메뉴</span>
-            <button
-              type="button"
-              onClick={() => setIsSideMenuOpen(false)}
-              className="hover:text-grayscale-700 text-grayscale-500"
-            >
+            <button type="button" className="hover:text-grayscale-700 size-6 text-grayscale-500 lg:size-9">
               ✕
             </button>
           </div>

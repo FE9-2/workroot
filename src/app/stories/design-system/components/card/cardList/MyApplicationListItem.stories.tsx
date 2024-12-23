@@ -1,5 +1,5 @@
 import MyApplicationListItem from "@/app/components/card/cardList/apply/MyApplicationListItem";
-import { applicationStatus } from "@/types/applicationStatus";
+import { APPLICATION_STATUS } from "@/types/applicationStatus";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof MyApplicationListItem> = {
@@ -17,7 +17,7 @@ const mockProps = {
   id: 1,
   createdAt: new Date("2024-03-21T14:30:00"),
   updatedAt: new Date("2024-03-21T14:30:00"),
-  status: applicationStatus.INTERVIEW_PENDING,
+  status: APPLICATION_STATUS.INTERVIEW_PENDING,
   resumeName: "이력서.pdf",
   resumeId: 123,
   form: {
@@ -46,7 +46,7 @@ export const Default: Story = {
 export const InterviewPending: Story = {
   args: {
     ...mockProps,
-    status: applicationStatus.INTERVIEW_PENDING,
+    status: APPLICATION_STATUS.INTERVIEW_PENDING,
   },
 };
 
@@ -54,7 +54,7 @@ export const InterviewPending: Story = {
 export const InterviewCompleted: Story = {
   args: {
     ...mockProps,
-    status: applicationStatus.INTERVIEW_COMPLETED,
+    status: APPLICATION_STATUS.INTERVIEW_COMPLETED,
   },
 };
 
@@ -62,7 +62,7 @@ export const InterviewCompleted: Story = {
 export const Hired: Story = {
   args: {
     ...mockProps,
-    status: applicationStatus.HIRED,
+    status: APPLICATION_STATUS.HIRED,
   },
 };
 
@@ -70,7 +70,7 @@ export const Hired: Story = {
 export const Rejected: Story = {
   args: {
     ...mockProps,
-    status: applicationStatus.REJECTED,
+    status: APPLICATION_STATUS.REJECTED,
   },
 };
 
