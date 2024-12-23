@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
 import { Toaster } from "react-hot-toast";
 import ModalLayout from "@/app/components/modal/ModalLayout";
+import MouseTrail from "./components/mouseTrail/MouseTrail";
 
 const ReactQueryDevtools = dynamic(
   () => import("@tanstack/react-query-devtools").then((mod) => mod.ReactQueryDevtools),
@@ -31,20 +32,24 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
-      <Toaster
-        position="top-center"
-        reverseOrder={false}
-        toastOptions={{
-          duration: 3000,
-          style: {
-            background: "#363636",
-            color: "#fff",
-          },
-        }}
-      />
-      {process.env.NODE_ENV === "development" && <ReactQueryDevtools initialIsOpen={false} />}
-      <ModalLayout />
+      <div className="relative">
+        {children}
+        <MouseTrail />
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+          toastOptions={{
+            duration: 3000,
+            style: {
+              background: "#363636",
+              color: "#fff",
+              zIndex: 10000,
+            },
+          }}
+        />
+        {process.env.NODE_ENV === "development" && <ReactQueryDevtools initialIsOpen={false} />}
+        <ModalLayout />
+      </div>
     </QueryClientProvider>
   );
 }

@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useApplyStatus } from "@/hooks/queries/form/detail/useApplyStatus";
+import { useApplicationStatus } from "./queries/form/detail/useApplicationStatus";
 
 export const useApplyStatusCard = (formId: number) => {
   const [experienceSort, setExperienceSort] = useState<"asc" | "desc">("asc");
   const [statusSort, setStatusSort] = useState<"asc" | "desc">("desc");
 
-  const { applyStatusData, isLoading } = useApplyStatus({
+  const { applyStatusData, isLoading } = useApplicationStatus({
     formId,
     limit: 30,
     cursor: 0,

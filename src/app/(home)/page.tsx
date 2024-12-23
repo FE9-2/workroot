@@ -125,7 +125,7 @@ export default function LandingPage() {
                   height: { duration: 0.8, ease: "easeInOut" },
                 }}
               >
-                <Image src="/brand.png" alt="Brand Logo" layout="fill" objectFit="contain" />
+                <Image src="/brand.png" alt="Brand Logo" fill className="object-contain" priority />
               </motion.div>
             </motion.div>
             <AnimatePresence mode="wait">
@@ -158,6 +158,7 @@ export default function LandingPage() {
                       width={400}
                       height={300}
                       className="mb-6 object-cover"
+                      priority
                     />
                   </motion.div>
                   <motion.p

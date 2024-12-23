@@ -8,19 +8,19 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import type { ConfirmFormModalProps } from "@/types/modal";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
-import { applicationStatus, ApplicationStatusType } from "@/types/applicationStatus";
+import { APPLICATION_STATUS, ApplicationStatusType } from "@/types/applicationStatus";
 
 const SelectProgressModal = ({ id, isOpen, onClose, className }: ConfirmFormModalProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedValue, setSelectedValue] = useState<ApplicationStatusType>(applicationStatus.INTERVIEW_PENDING);
+  const [selectedValue, setSelectedValue] = useState<ApplicationStatusType>(APPLICATION_STATUS.INTERVIEW_PENDING);
 
   if (!isOpen) return null;
 
   const radioOptions = [
-    { id: "rejected", value: applicationStatus.REJECTED, label: "거절" },
-    { id: "interviewPending", value: applicationStatus.INTERVIEW_PENDING, label: "면접대기" },
-    { id: "interviewCompleted", value: applicationStatus.INTERVIEW_COMPLETED, label: "면접 완료" },
-    { id: "hired", value: applicationStatus.HIRED, label: "채용 완료" },
+    { id: "rejected", value: APPLICATION_STATUS.REJECTED, label: "거절" },
+    { id: "interviewPending", value: APPLICATION_STATUS.INTERVIEW_PENDING, label: "면접대기" },
+    { id: "interviewCompleted", value: APPLICATION_STATUS.INTERVIEW_COMPLETED, label: "면접 완료" },
+    { id: "hired", value: APPLICATION_STATUS.HIRED, label: "채용 완료" },
   ] as const;
 
   const handleValueChange = (value: ApplicationStatusType) => {
