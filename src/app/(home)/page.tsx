@@ -7,48 +7,47 @@ import Lenis from "@studio-freight/lenis";
 import { useMediaQuery } from "react-responsive";
 
 const slides = [
-  { id: 1, image: "/brand.png", title: "Brand Image" },
   {
-    id: 2,
-    title: "어디서든 지원받으세요",
-    content: "다양한 사이트, SNS, 문자까지\n언제 어디서든 직원을 구해보세요.",
-    image: "/images/land/s1.jpg",
-  },
-  {
-    id: 3,
+    id: 1,
     title: "쉽고 빨라요",
-    content: "1분만에 워크폼을 만들어 보세요!\n링크를 복사하여 어디서든지 사용하세요.",
+    content: "1분만에 알바폼을 만들어 보세요!\n링크를 복사하여 어디서든지 사용하세요.",
     image: "/images/land/s2.jpg",
   },
   {
-    id: 4,
+    id: 2,
     title: "한 곳에서 쉽게 관리하세요",
-    content: "워크크폼 관리 페이지에서 지원 현황을 확인하고\n지원자별 상태를 관리할 수 있습니다.",
+    content: "워크폼 관리 페이지에서 지원 현황을 확인하고\n지원자별 상태를 관리할 수 있습니다.",
     image: "/images/land/s3.jpg",
   },
   {
-    id: 5,
+    id: 3,
     title: "쉽고 빠르게 지원하세요",
     content: "간단한 정보만 입력해도\n알바 지원이 가능합니다.",
     image: "/images/land/s4.jpg",
   },
   {
-    id: 6,
-    title: "실시간 알림 기능",
-    content: "새로운 지원자가 있을 때마다 실시간으로 알림을 받아보세요",
-    image: "/images/land/5.webp",
-    blackAreaTitle: "실시간 알림 기능",
-    blackAreaContent: "새로운 지원자가 있을 때마다 실시간으로 알림을 받아보세요",
-    blackAreaImage: "/images/land/black-area-5.webp", // 검은 영역용 이미지 추가
+    id: 4,
+    title: "workroot에 가입하세요",
+    content: "오늘의 선택이 내일의 열매가 됩니다.",
+    image: "/images/land/step1.jpg",
   },
   {
-    id: 7,
-    title: "데이터 분석 및 리포트",
-    content: "지원자 통계와 채용 프로세스 분석을 통해 더 나은 의사결정을 내리세요",
-    image: "/images/land/6.webp",
-    blackAreaTitle: "데이터 분석 및 리포트",
-    blackAreaContent: "지원자 통계와 채용 프로세스 분석을 통해 더 나은 의사결정을 내리세요",
-    blackAreaImage: "/images/land/black-area-6.webp", // 검은 영역용 이미지 추가
+    id: 5,
+    title: "지원자 이용 방법",
+    content: "언제든 다시 볼 수 있게\n공고를 스크랩하세요",
+    image: "/images/land/step2-2.jpg",
+    blackAreaTitle: "사장님 이용 방법",
+    blackAreaContent: "워크채널 우측의 [폼 만들기] 버튼을 클릭하고\n인재 채용을 시작하세요",
+    blackAreaImage: "/images/land/step2-1.jpg",
+  },
+  {
+    id: 6,
+    title: "",
+    content: "마이페이지에서 스크랩한 공고를 분석하고\n지원 계획을 세우세요",
+    image: "/images/land/step3-2.jpg",
+    blackAreaTitle: "",
+    blackAreaContent: "내 워크폼에서 작성한 공고를\n손쉽게 수정하고 삭제할 수 있어요",
+    blackAreaImage: "/images/land/step3-1.jpg",
   },
 ];
 
@@ -169,30 +168,39 @@ export default function LandingPage() {
                   opacity: 1,
                 }}
                 transition={{
-                  opacity: { duration: 1, ease: "easeInOut" },
+                  duration: 0.8, // Updated transition duration
+                  ease: "easeInOut",
                 }}
               >
-                {currentSlide === 5 || currentSlide === 6 ? (
+                {currentSlide === 0 ? (
+                  <Image
+                    src="/brand.png"
+                    alt="Brand Logo"
+                    width={800}
+                    height={800}
+                    className="h-full max-h-[800px] w-full max-w-[800px] object-contain"
+                  />
+                ) : currentSlide === 4 || currentSlide === 5 ? (
                   <motion.div
                     key={currentSlide}
                     className="relative z-40 flex h-full w-full flex-col items-center justify-center p-4 pb-6 pt-4 max-[640px]:px-12 max-[640px]:py-3 md:p-6 md:pb-8 md:pt-6"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                    transition={{ duration: 1.2, ease: "easeInOut" }} // Update 1
                   >
                     <motion.h2
                       className="mb-2 mt-0 text-center text-xl font-semibold text-gray-100 max-[640px]:mb-1 max-[640px]:px-4 md:mb-4 md:mt-0 md:text-3xl"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.2, duration: 0.5 }}
+                      transition={{ delay: 0.3, duration: 0.6 }} // Update 2
                     >
                       {slides[currentSlide].blackAreaTitle}
                     </motion.h2>
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3, duration: 0.5 }}
+                      transition={{ delay: 0.4, duration: 0.6 }} // Update 2
                       className="mb-2 w-full max-w-[600px] max-[640px]:max-w-[75%] max-[640px]:px-4 md:mb-4"
                       style={{ maxHeight: "calc(100% - 12rem)" }}
                     >
@@ -213,19 +221,29 @@ export default function LandingPage() {
                       className="mb-0 max-w-[600px] whitespace-pre-wrap text-center text-sm text-gray-200 max-[640px]:mt-1 max-[640px]:px-4 md:text-xl"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.4, duration: 0.5 }}
+                      transition={{ delay: 0.5, duration: 0.6 }} // Update 2
                     >
                       {slides[currentSlide].blackAreaContent}
                     </motion.p>
                   </motion.div>
                 ) : (
-                  <Image
-                    src="/brand.png"
-                    alt="Brand Logo"
-                    width={800}
-                    height={800}
-                    className="h-full max-h-[800px] w-full max-w-[800px] object-contain"
-                  />
+                  <motion.div
+                    className="absolute inset-0 flex items-center justify-center"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.8 }} // Update 3
+                  >
+                    <div className="relative h-full max-h-[600px] w-full max-w-[600px]">
+                      <Image
+                        src="/brand.png"
+                        alt="Brand Logo"
+                        fill
+                        className="object-contain"
+                        sizes="(max-width: 600px) 100vw, 600px"
+                      />
+                    </div>
+                  </motion.div>
                 )}
               </motion.div>
               {currentSlide === 0 && (
@@ -264,20 +282,20 @@ export default function LandingPage() {
                   initial={{ opacity: 0, [isLargeScreen ? "y" : "x"]: isLargeScreen ? "100%" : "100%" }}
                   animate={{ opacity: 1, [isLargeScreen ? "y" : "x"]: 0 }}
                   exit={{ opacity: 0, [isLargeScreen ? "y" : "x"]: isLargeScreen ? "-100%" : "-100%" }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  transition={{ duration: 0.4, ease: "easeInOut" }} // Updated transition duration
                 >
                   <motion.h2
-                    className="mb-2 mt-0 text-center text-xl font-semibold text-gray-100 max-[640px]:mb-1 max-[640px]:px-4 md:mb-4 md:mt-0 md:text-3xl"
+                    className="mb-2 mt-0 text-center text-xl font-semibold text-[#1a1a1a] max-[640px]:mb-1 max-[640px]:px-4 md:mb-4 md:mt-0 md:text-3xl"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2, duration: 0.5 }}
+                    transition={{ delay: 0.05, duration: 0.3 }} // Updated transition
                   >
                     {slides[currentSlide].title}
                   </motion.h2>
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
+                    transition={{ delay: 0.1, duration: 0.3 }} // Updated transition
                     className="mb-2 w-full max-w-[600px] max-[640px]:max-w-[75%] max-[640px]:px-4 md:mb-4"
                     style={{ maxHeight: "calc(100% - 12rem)" }}
                   >
@@ -295,10 +313,10 @@ export default function LandingPage() {
                     </div>
                   </motion.div>
                   <motion.p
-                    className="mb-0 max-w-[600px] whitespace-pre-wrap text-center text-sm text-gray-200 max-[640px]:mt-1 max-[640px]:px-4 md:text-xl"
+                    className="mb-0 max-w-[600px] whitespace-pre-wrap text-center text-sm text-[#1a1a1a] max-[640px]:mt-1 max-[640px]:px-4 md:text-xl"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4, duration: 0.5 }}
+                    transition={{ delay: 0.15, duration: 0.3 }} // Updated transition
                   >
                     {slides[currentSlide].content}
                   </motion.p>
