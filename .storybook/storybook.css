@@ -1,0 +1,17 @@
+* {
+  cursor: auto !important;
+}
+
+html,
+body {
+  cursor: auto !important;
+}
+
+a,
+button,
+[role="button"],
+input,
+select,
+textarea {
+  cursor: auto !important;
+}
