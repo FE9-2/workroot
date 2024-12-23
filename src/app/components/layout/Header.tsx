@@ -58,10 +58,9 @@ export default function Header() {
             <Image
               src="/black_main_logo.png"
               alt="WorkRoot"
-              width={150}
-              height={50}
-              priority
-              className="w-24 hover:opacity-90"
+              width={96}
+              height={54}
+              className="h-auto w-24 hover:opacity-90"
             />
           </Link>
 
@@ -130,8 +129,8 @@ export default function Header() {
               </li>
             </>
           ) : (
-            <button type="button" onClick={() => setIsSideMenuOpen(true)} className="block" aria-label="메뉴 열기">
-              <HiMiniBars3 width={36} height={36} className="size-5 lg:size-8" />
+            <button type="button" onClick={() => setIsSideMenuOpen(true)} className="block p-4" aria-label="메뉴 열기">
+              <HiMiniBars3 width={36} height={36} className="size-5 md:size-8" />
             </button>
           )}
         </ul>

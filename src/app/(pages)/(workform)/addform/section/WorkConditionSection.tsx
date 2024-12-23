@@ -23,7 +23,7 @@ export default function WorkConditionSection() {
     watch,
     control,
     trigger,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useFormContext();
 
   // 근무 기간 데이터 반영하기
@@ -35,7 +35,7 @@ export default function WorkConditionSection() {
 
   // displayRange를 상위에서 관리
   const displayDate =
-    workStartDate && !formatToLocaleDate(workEndDate).includes("NaN")
+    workEndDate && !formatToLocaleDate(workEndDate).includes("NaN")
       ? `${formatToLocaleDate(workStartDate)} ~ ${formatToLocaleDate(workEndDate)}`
       : "";
 
@@ -106,10 +106,10 @@ export default function WorkConditionSection() {
             endDate={endDate}
             onChange={handleWorkDateChange}
             required={true}
-            errormessage={!startDate || !endDate}
+            errormessage={isDirty && !endDate}
             displayValue={displayDate}
           />
-          {(!startDate || !endDate) && <p className={cn(errorTextStyle, "")}> 근무 기간은 필수입니다.</p>}
+          {isDirty && !endDate && <p className={cn(errorTextStyle, "")}> 근무 기간은 필수입니다.</p>}
         </div>
 
         <Label>근무 시간</Label>
@@ -147,7 +147,7 @@ export default function WorkConditionSection() {
               checked={watch("isNegotiableWorkDays")}
               {...register("isNegotiableWorkDays")}
             />
-            {workdaysData.length === 0 && !isNegotiable && (
+            {workdaysData.length === 0 && !isNegotiable && isDirty && (
               <p className={cn(errorTextStyle, "")}>근무 요일을 선택해주세요.</p>
             )}
           </div>
@@ -158,6 +158,7 @@ export default function WorkConditionSection() {
             name="hourlyWage"
             control={control}
             rules={{
+              required: "시급을 입력해주세요.",
               min: {
                 value: MINIMUM_WAGE,
                 message: `최저시급(${MINIMUM_WAGE.toLocaleString()}원) 이상을 입력해주세요.`,
