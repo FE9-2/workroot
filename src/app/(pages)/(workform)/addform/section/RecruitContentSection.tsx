@@ -31,36 +31,48 @@ export default function RecruitContentSection() {
   const imageUrlsData: string[] = watch("imageUrls");
 
   // 이미지 파일 change핸들러
-  const handleChangeImages = async (files: File[]) => {
-    let uploadedUrls: string[] = [];
-    //파일 선택 시 업로드 api 요청
-    try {
-      uploadedUrls = await uploadImages(files);
-    } catch (err) {
-      console.log("이미지 파일 체인지 핸들러 - 이미지 업로드 실패");
-      console.error(err);
+  const handleChangeImages = async (files: File[] | string[]) => {
+    // files가 File[] 타입인 경우 (새로운 이미지 업로드)
+    if (files.length > 0 && files[0] instanceof File) {
+      let uploadedUrls: string[] = [];
+      try {
+        uploadedUrls = await uploadImages(files as File[]);
+      } catch (err) {
+        console.log("이미지 파일 체인지 핸들러 - 이미지 업로드 실패");
+        console.error(err);
+      }
+
+      // 선택한 이미지 업데이트
+      const updatedImageList = uploadedUrls.map((url) => ({
+        url,
+        id: crypto.randomUUID(),
+      }));
+
+      // 기존 이미지 포함하기
+      const originalImageList = imageUrlsData.map((url) => ({
+        url,
+        id: crypto.randomUUID(),
+      }));
+
+      const allImageList = [...originalImageList, ...updatedImageList];
+      const submitImageList = [...imageUrlsData, ...uploadedUrls];
+
+      // prop으로 전달
+      setInitialImageList(allImageList);
+      // 훅폼 데이터에 세팅
+      setValue("imageUrls", submitImageList, { shouldDirty: true });
     }
-    // 선택한 이미지 업데이트
-    const updatedImageList =
-      uploadedUrls.map((url) => ({
+    // files가 string[] 타입인 경우 (드래그 앤 드롭으로 순서 변경)
+    else {
+      const urls = files as string[];
+      const newImageList = urls.map((url) => ({
         url,
         id: crypto.randomUUID(),
-      })) || [];
+      }));
 
-    // 기존 이미지 포함하기
-    const originalImageList =
-      imageUrlsData.map((url) => ({
-        url,
-        id: crypto.randomUUID(),
-      })) || [];
-
-    const allImageList = [...originalImageList, ...updatedImageList];
-    const submitImageList = [...imageUrlsData, ...uploadedUrls];
-
-    // prop으로 전달
-    setInitialImageList(allImageList);
-    // 훅폼 데이터에 세팅
-    setValue("imageUrls", submitImageList, { shouldDirty: true });
+      setInitialImageList(newImageList);
+      setValue("imageUrls", urls, { shouldDirty: true });
+    }
   };
 
   const handleDeleteImage = (url: string) => {
@@ -142,7 +154,7 @@ export default function RecruitContentSection() {
         <div className="relative">
           <ImageInput
             {...register("imageUrls")}
-            onChange={(files: File[]) => {
+            onChange={(files: File[] | string[]) => {
               handleChangeImages(files);
             }}
             onDelete={(id) => handleDeleteImage(id)}

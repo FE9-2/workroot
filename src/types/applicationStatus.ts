@@ -1,10 +1,15 @@
-// 지원 상태
-export const applicationStatus = {
-  ALL: "",
+export const APPLICATION_STATUS = {
+  HIRED: "HIRED",
   REJECTED: "REJECTED",
   INTERVIEW_PENDING: "INTERVIEW_PENDING",
   INTERVIEW_COMPLETED: "INTERVIEW_COMPLETED",
-  HIRED: "HIRED",
 } as const;
 
-export type ApplicationStatusType = (typeof applicationStatus)[keyof typeof applicationStatus];
+export const APPLICATION_STATUS_MAP = {
+  [APPLICATION_STATUS.HIRED]: "채용 완료",
+  [APPLICATION_STATUS.REJECTED]: "거절",
+  [APPLICATION_STATUS.INTERVIEW_PENDING]: "면접 대기",
+  [APPLICATION_STATUS.INTERVIEW_COMPLETED]: "면접 완료",
+} as const;
+
+export type ApplicationStatusType = keyof typeof APPLICATION_STATUS;

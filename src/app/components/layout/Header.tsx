@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/tailwindUtil";
 import { useLogout } from "@/hooks/queries/auth/useLogout";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import LinkBtn from "../button/default/LinkBtn";
@@ -21,15 +21,13 @@ export default function Header() {
   const router = useRouter();
 
   // 인증이 필요없는 공개 경로들
-  const handleLogout = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleLogout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     try {
-      logout();
+      await logout();
       toast.success("로그아웃되었습니다.");
       setIsSideMenuOpen(false);
-      setTimeout(() => {
-        router.push("/login");
-      }, 100);
+      router.push("/login");
     } catch (error) {
       console.error("로그아웃 실패:", error);
       toast.error("로그아웃에 실패했습니다.");
