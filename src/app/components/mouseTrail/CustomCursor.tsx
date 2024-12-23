@@ -12,7 +12,7 @@ export default function CustomCursor() {
 
   useEffect(() => {
     const updatePosition = (e: MouseEvent) => {
-      setPosition({ x: e.clientX + window.scrollX, y: e.clientY + window.scrollY });
+      setPosition({ x: e.clientX, y: e.clientY });
     };
 
     window.addEventListener("mousemove", updatePosition);
