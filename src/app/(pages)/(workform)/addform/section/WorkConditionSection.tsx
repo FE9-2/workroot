@@ -158,6 +158,7 @@ export default function WorkConditionSection() {
             name="hourlyWage"
             control={control}
             rules={{
+              required: "시급을 입력해주세요.",
               min: {
                 value: MINIMUM_WAGE,
                 message: `최저시급(${MINIMUM_WAGE.toLocaleString()}원) 이상을 입력해주세요.`,

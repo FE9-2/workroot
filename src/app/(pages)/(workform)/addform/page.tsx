@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import axios from "axios";
@@ -25,6 +25,7 @@ export default function AddFormPage() {
   // 리액트 훅폼에서 관리할 데이터 타입 지정 및 메서드 호출 (상위 컴포넌트 = useForm 사용)
   const methods = useForm<SubmitFormDataType>({
     mode: "onChange",
+    shouldUnregister: false,
     defaultValues: {
       isPublic: true,
       hourlyWage: 0,
@@ -51,12 +52,35 @@ export default function AddFormPage() {
   const {
     setValue,
     handleSubmit,
+    watch,
     formState: { isDirty, isValid },
   } = methods;
   const queryClient = useQueryClient();
 
   // 훅폼에서 관리하는 전체 데이터를 가져오는 함수
-  const currentValues: SubmitFormDataType = methods.watch();
+  const currentValues: SubmitFormDataType = watch();
+  const isComplete = useMemo(() => {
+    // 작성이 완료된 필드들: 기본값에서 변경된 경우를 확인
+    return (
+      currentValues.title &&
+      currentValues.description &&
+      currentValues.location &&
+      currentValues.workStartDate &&
+      currentValues.workEndDate &&
+      currentValues.recruitmentStartDate &&
+      currentValues.recruitmentEndDate &&
+      currentValues.workStartTime &&
+      currentValues.workEndTime &&
+      currentValues.age &&
+      currentValues.preferred &&
+      currentValues.education &&
+      currentValues.gender &&
+      currentValues.numberOfPositions >= 0 &&
+      currentValues.imageUrls.length > 0 &&
+      currentValues.hourlyWage >= 10_030 &&
+      (currentValues.workDays.length > 0 || currentValues.isNegotiableWorkDays)
+    );
+  }, [currentValues]);
 
   // 이미지 업로드 api 처리를 위해 별도 변수에 할당
   const [showTempDataModal, setShowTempDataModal] = useState(false);
@@ -203,7 +227,7 @@ export default function AddFormPage() {
               width="md"
               color="orange"
               className="lg: h-[58px] w-[320px] lg:h-[72px] lg:w-full lg:text-xl lg:leading-8"
-              disabled={!isValid}
+              disabled={!isComplete}
               onClick={handleSubmit(() => mutation.mutate())}
             >
               {mutation.isPending ? <DotLoadingSpinner /> : "작성 완료"}

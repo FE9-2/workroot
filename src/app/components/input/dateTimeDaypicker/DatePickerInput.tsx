@@ -28,13 +28,8 @@ const DatePickerInput = ({
 
   const handleClick = () => {
     if (endDate) {
-      console.log("endDate", endDate);
-
       onChange([null, null]);
-      console.log("nullnull 핸들클릭 이벤트 발생");
-      console.log("endDate", endDate);
     }
-    console.log("핸들클릭 이벤트 발생");
     handleOpenDropdown();
   };
   const handleChange = (update: [Date | null, Date | null]) => {
