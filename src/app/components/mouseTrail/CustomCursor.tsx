@@ -1,40 +1,37 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-
-interface CursorPosition {
-  x: number;
-  y: number;
-}
+import React, { useState, useEffect, useCallback } from "react";
+import { motion, useSpring } from "framer-motion";
 
 export default function CustomCursor() {
-  const [position, setPosition] = useState<CursorPosition>({ x: 0, y: 0 });
+  const springConfig = { damping: 20, stiffness: 300, mass: 0.5 };
+  const x = useSpring(0, springConfig);
+  const y = useSpring(0, springConfig);
+
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      x.set(e.clientX);
+      y.set(e.clientY);
+    },
+    [x, y]
+  );
 
   useEffect(() => {
-    const updatePosition = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
-    };
-
-    window.addEventListener("mousemove", updatePosition);
-
-    return () => {
-      window.removeEventListener("mousemove", updatePosition);
-    };
-  }, []);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [handleMouseMove]);
 
   return (
-    <div
+    <motion.div
+      className="pointer-events-none fixed z-[9999]"
       style={{
-        position: "fixed",
-        left: position.x,
-        top: position.y,
-        zIndex: 9999,
-        pointerEvents: "none",
+        x,
+        y,
         transform: "translate(-50%, -50%)",
       }}
     >
       <TreeSVG />
-    </div>
+    </motion.div>
   );
 }
 
