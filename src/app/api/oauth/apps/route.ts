@@ -25,7 +25,6 @@ export async function POST(request: NextRequest) {
 
     // 응답 데이터 처리
     const responseData = response.data;
-    console.log("OAuth 앱 등록/수정 성공:", responseData);
 
     return NextResponse.json(responseData);
   } catch (error: unknown) {

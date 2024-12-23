@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/tailwindUtil";
 import { useLogout } from "@/hooks/queries/auth/useLogout";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import LinkBtn from "../button/default/LinkBtn";

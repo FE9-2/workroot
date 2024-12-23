@@ -17,7 +17,7 @@ export async function POST(request: Request, { params }: { params: { provider: s
     const body = await request.json();
 
     // OAuth 회원가입 요청
-    const response = await apiClient.post(`/oauth/sign-up/${provider}`, body);
+    const response = await apiClient.post(`/auth/sign-up/${provider}`, body);
 
     // 응답에서 토큰 추출
     const { accessToken, refreshToken } = response.data;
