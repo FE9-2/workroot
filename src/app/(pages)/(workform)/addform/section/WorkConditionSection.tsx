@@ -35,7 +35,7 @@ export default function WorkConditionSection() {
 
   // displayRange를 상위에서 관리
   const displayDate =
-    workStartDate && !formatToLocaleDate(workEndDate).includes("NaN")
+    workEndDate && !formatToLocaleDate(workEndDate).includes("NaN")
       ? `${formatToLocaleDate(workStartDate)} ~ ${formatToLocaleDate(workEndDate)}`
       : "";
 

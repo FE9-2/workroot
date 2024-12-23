@@ -106,6 +106,7 @@ const DatePickerInput = ({
               startDate={startDate}
               endDate={endDate}
               onChange={handleChange}
+              minDate={startDate}
               renderCustomHeader={(props) => <DatePickerHeader {...props} />}
             />
           </div>

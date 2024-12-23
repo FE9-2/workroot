@@ -88,7 +88,7 @@ export default function RecruitContentSection() {
 
   // displayRange를 상위에서 관리
   const displayDate =
-    recruitStartDate && !formatToLocaleDate(recruitEndDate).includes("NaN")
+    recruitEndDate && !formatToLocaleDate(recruitEndDate).includes("NaN")
       ? `${formatToLocaleDate(recruitStartDate)} ~ ${formatToLocaleDate(recruitEndDate)}`
       : "";
 
