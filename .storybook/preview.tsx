@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { Decorator } from "@storybook/react";
 import { useRouter } from "next/navigation";
+import "./storybook.css";
 
 const queryClient = new QueryClient();
 
