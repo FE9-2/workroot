@@ -33,7 +33,7 @@ export default function EditFormPage() {
   const {
     reset,
     handleSubmit,
-    formState: { isDirty, isValid },
+    formState: { isDirty },
   } = methods;
 
   const queryClient = useQueryClient();
