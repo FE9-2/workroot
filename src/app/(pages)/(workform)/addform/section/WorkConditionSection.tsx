@@ -23,7 +23,7 @@ export default function WorkConditionSection() {
     watch,
     control,
     trigger,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useFormContext();
 
   // 근무 기간 데이터 반영하기
@@ -106,10 +106,10 @@ export default function WorkConditionSection() {
             endDate={endDate}
             onChange={handleWorkDateChange}
             required={true}
-            errormessage={!startDate || !endDate}
+            errormessage={isDirty && !endDate}
             displayValue={displayDate}
           />
-          {(!startDate || !endDate) && <p className={cn(errorTextStyle, "")}> 근무 기간은 필수입니다.</p>}
+          {isDirty && !endDate && <p className={cn(errorTextStyle, "")}> 근무 기간은 필수입니다.</p>}
         </div>
 
         <Label>근무 시간</Label>
@@ -147,7 +147,7 @@ export default function WorkConditionSection() {
               checked={watch("isNegotiableWorkDays")}
               {...register("isNegotiableWorkDays")}
             />
-            {workdaysData.length === 0 && !isNegotiable && (
+            {workdaysData.length === 0 && !isNegotiable && isDirty && (
               <p className={cn(errorTextStyle, "")}>근무 요일을 선택해주세요.</p>
             )}
           </div>
