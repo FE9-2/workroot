@@ -195,7 +195,7 @@ const AlbaListItem = ({
                   <BsThreeDotsVertical className="h-6 w-6" />
                 </button>
                 {showDropdown && (
-                  <div className="absolute right-0 top-8 z-10 w-32 rounded-lg border border-grayscale-200 bg-white py-2 shadow-lg">
+                  <div className="absolute right-0 top-8 z-10 w-32 overflow-hidden rounded-lg border border-grayscale-200 bg-white shadow-lg">
                     {isApplicant ? (
                       <>
                         <button

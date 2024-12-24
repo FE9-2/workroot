@@ -67,7 +67,7 @@ const BoardComment = ({
 
   return (
     <Link href={`work-talk/${postId}`}>
-      <div className="relative flex h-[202px] w-[327px] flex-col gap-2 rounded-[16px] border border-line-200 bg-grayscale-50 p-6 shadow-md md:w-[600px] lg:h-[264px] lg:w-full">
+      <div className="relative flex h-[202px] w-[327px] flex-col gap-2 rounded-[16px] border border-line-200 bg-grayscale-50 p-6 shadow-md transition-transform hover:scale-105 md:w-[600px] lg:h-[264px] lg:w-full">
         {/* Post Section */}
         <div className="flex w-full flex-col gap-4 border-b border-line-100 pb-2 lg:pb-4">
           <div className="flex items-center gap-[6px] lg:gap-2">

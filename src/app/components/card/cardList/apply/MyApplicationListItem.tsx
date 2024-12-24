@@ -53,7 +53,7 @@ const MyApplicationListItem = ({ createdAt, status, resumeId, resumeName, form }
           </div>
 
           {/* 공고 제목 */}
-          <div className="text-grayscale-900 text-lg font-bold md:text-xl">{form.title}</div>
+          <div className="text-grayscale-900 line-clamp-1 text-lg font-bold md:text-xl">{form.title}</div>
 
           {/* 공고 설명 (2줄 제한) */}
           <p className="text-grayscale-600 line-clamp-2 h-[48px] text-sm md:line-clamp-2 md:text-base">

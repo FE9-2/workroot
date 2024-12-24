@@ -11,6 +11,8 @@ import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
 import BoardPostItem from "@/app/components/card/board/BoardPostItem";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import SamllLoadingSpinner from "@/app/components/loading-spinner/SmallLoadingSpinner";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
+import { useUser } from "@/hooks/queries/user/me/useUser";
 
 export default function PostsSection() {
   const { orderBy } = useMySortStore();
@@ -36,7 +38,7 @@ export default function PostsSection() {
     limit: postsPerPage,
     orderBy: orderBy.posts,
   });
-
+  const { user } = useUser();
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
@@ -49,6 +51,10 @@ export default function PostsSection() {
         <p className="text-primary-orange-300">게시글을 불러오는데 실패했습니다.</p>
       </div>
     );
+  }
+
+  if (isLoading) {
+    return <LoadingSpinner />;
   }
 
   return (
@@ -70,7 +76,13 @@ export default function PostsSection() {
                 {data.pages.map((page) => (
                   <React.Fragment key={page.nextCursor}>
                     {page.data.map((post) => (
-                      <BoardPostItem post={post} key={post.id} />
+                      <BoardPostItem
+                        post={post}
+                        key={post.id}
+                        isAuthor={!!(post.writer.id === user?.id)}
+                        limit={postsPerPage}
+                        orderBy={orderBy.posts}
+                      />
                     ))}
                   </React.Fragment>
                 ))}

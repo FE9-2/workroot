@@ -29,11 +29,14 @@ const KebabDropdown = ({ options, className = "" }: KebabDropdownProps) => {
     <div ref={dropdownRef} className={cn("relative inline-block text-left", className)}>
       <button
         type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        className="rounded-full hover:bg-grayscale-50"
+        onClick={(e) => {
+          setIsOpen(!isOpen);
+          e.stopPropagation();
+        }}
+        className="rounded-full transition-transform hover:scale-125 hover:bg-grayscale-50"
         aria-label="메뉴 더보기"
       >
-        <BsThreeDotsVertical className="text-sm text-grayscale-200 lg:text-xl" />
+        <BsThreeDotsVertical className="text-md text-grayscale-200 lg:text-xl" />
       </button>
 
       {isOpen && (
@@ -42,7 +45,8 @@ const KebabDropdown = ({ options, className = "" }: KebabDropdownProps) => {
             <button
               type="button"
               key={`${index}-${option.label}`}
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 option.onClick();
                 setIsOpen(false);
               }}

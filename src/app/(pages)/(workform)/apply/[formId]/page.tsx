@@ -87,7 +87,7 @@ export default function Apply() {
       await queryClient.invalidateQueries({ queryKey: ["formDetail", formId] });
 
       toast.success("지원이 완료되었습니다.");
-      router.push("/my-workform");
+      router.push(`/work/${formId}`);
     },
 
     onError: (error) => {
