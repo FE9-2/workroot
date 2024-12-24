@@ -46,9 +46,9 @@ const KebabDropdown = ({ options, className = "" }: KebabDropdownProps) => {
               type="button"
               key={`${index}-${option.label}`}
               onClick={(e) => {
+                e.stopPropagation();
                 option.onClick();
                 setIsOpen(false);
-                e.stopPropagation();
               }}
               className={cn(
                 "w-full px-6 py-2 text-left text-sm hover:bg-primary-orange-50",

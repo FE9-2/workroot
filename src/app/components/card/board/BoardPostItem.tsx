@@ -1,9 +1,63 @@
+"use client";
 import { PostListType } from "@/types/response/post";
 import { formatLocalDate } from "@/utils/workDayFormatter";
 import Image from "next/image";
 import Link from "next/link";
+import KebabDropdown from "../../button/dropdown/KebabDropdown";
+import { useRouter } from "next/navigation";
+import useModalStore from "@/store/modalStore";
+import { useDeleteComment } from "@/hooks/queries/post/comment/useDeleteComment";
+import { useQueryClient } from "@tanstack/react-query";
 
-const BoardPostItem = ({ post }: { post: PostListType }) => {
+const BoardPostItem = ({
+  post,
+  isAuthor,
+  limit,
+  orderBy,
+}: {
+  post: PostListType;
+  isAuthor: boolean;
+  limit: number;
+  orderBy: string;
+}) => {
+  const router = useRouter();
+  const deleteComment = useDeleteComment(String(post.id));
+  const queryClient = useQueryClient();
+  const { openModal, closeModal } = useModalStore();
+
+  const handleDelete = () => {
+    openModal("customForm", {
+      isOpen: true,
+      title: "게시글을 삭제할까요?",
+      content: "삭제된 게시글은 복구할 수 없습니다.",
+      confirmText: "삭제하기",
+      cancelText: "취소",
+      onConfirm: () => {
+        deleteComment.mutate(undefined, {
+          onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["post"] });
+            await queryClient.invalidateQueries({ queryKey: ["myPosts", { limit, orderBy }] });
+            closeModal();
+          },
+        });
+      },
+      onCancel: () => {
+        closeModal();
+      },
+    });
+  };
+
+  const dropdownOptions = [
+    {
+      label: "수정하기",
+      onClick: () => router.push(`/work-talk/${post.id}/edit`),
+    },
+    {
+      label: "삭제하기",
+      onClick: handleDelete,
+    },
+  ];
+
   return (
     <Link
       href={`/work-talk/${post.id}`}
@@ -47,6 +101,9 @@ const BoardPostItem = ({ post }: { post: PostListType }) => {
               <span className="text-xs text-grayscale-400 lg:text-[16px]">{post.likeCount}</span>
             </div>
           </div>
+        </div>
+        <div className="absolute right-6 top-6 size-9 text-center" onClick={(e) => e.stopPropagation()}>
+          {isAuthor && <KebabDropdown options={dropdownOptions} />}
         </div>
       </div>
     </Link>
