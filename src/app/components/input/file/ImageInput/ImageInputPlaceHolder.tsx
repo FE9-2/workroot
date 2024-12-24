@@ -79,7 +79,14 @@ const ImageInputPlaceHolder: React.FC<ImageInputPlaceHolderProps> = ({
           <HiUpload className="text-[36px] text-grayscale-200" />
           <p className="mt-2 text-grayscale-500">이미지 넣기</p>
         </button>
-        <input ref={fileInputRef} type="file" className="hidden" onChange={handleFileChange} accept="image/*" />
+        <input
+          ref={fileInputRef}
+          type="file"
+          multiple
+          className="hidden"
+          onChange={handleFileChange}
+          accept="image/*"
+        />
       </div>
       {imageList.map((image) => (
         <PreviewItem key={image.id} image={image} handleDeleteImage={handleDeleteImage} placeholder={true} />

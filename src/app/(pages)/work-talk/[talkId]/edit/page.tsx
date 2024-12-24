@@ -13,6 +13,7 @@ import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinne
 import { PostSchema } from "@/schemas/postSchema";
 import toast from "react-hot-toast";
 import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface ImageInputType {
   file: File | null;
@@ -20,13 +21,14 @@ interface ImageInputType {
   id: string;
 }
 
-export default function EditTalk({ params }: { params: { albatalkId: string } }) {
+export default function EditTalk({ params }: { params: { talkId: string } }) {
   const [imageList, setImageList] = useState<ImageInputType[]>([]);
   const router = useRouter();
-  const postId = params.albatalkId;
+  const postId = params.talkId;
 
   const { data: post, isLoading, error } = usePostDetail(postId);
   const { mutate: editPost, isPending } = useEditPost(postId);
+  const queryClient = useQueryClient();
 
   const {
     control,
@@ -124,7 +126,19 @@ export default function EditTalk({ params }: { params: { albatalkId: string } })
       };
 
       editPost(postData, {
-        onSuccess: () => {
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({
+            queryKey: [
+              "posts",
+              {
+                limit: 10,
+                orderBy: null,
+              },
+            ],
+          });
+          await queryClient.invalidateQueries({
+            queryKey: ["post", postId],
+          });
           router.push(`/work-talk/${postId}`);
         },
       });
@@ -235,7 +249,7 @@ export default function EditTalk({ params }: { params: { albatalkId: string } })
           취소
         </Button>
         <Button
-          className="h-[58px] w-full rounded-[8px] bg-primary-orange-300 text-white hover:bg-orange-400"
+          className="h-[58px] w-full rounded-[8px] bg-primary-orange-300 text-white hover:bg-primary-orange-400"
           onClick={handleSubmit(onSubmit)}
           disabled={isPending}
         >
