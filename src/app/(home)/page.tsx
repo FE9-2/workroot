@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Lenis from "@studio-freight/lenis";
 import { useMediaQuery } from "react-responsive";
+import TypewriterText from "../components/animation/TypewriterText";
 
 const slides = [
   {
@@ -37,7 +38,7 @@ const slides = [
     content: "언제든 다시 볼 수 있게\n공고를 스크랩하세요",
     image: "/images/land/step2-2.jpg",
     blackAreaTitle: "사장님 이용 방법",
-    blackAreaContent: "워크채널 우측의 [폼 만들기] 버튼을 클릭하고\n인재 채용을 시작하세요",
+    blackAreaContent: "워크채널 우의 [폼 만들기] 버튼을 클릭하고\n인재 채용을 시작하세요",
     blackAreaImage: "/images/land/step2-1.jpg",
   },
   {
@@ -60,12 +61,13 @@ const bounceAnimation = {
   },
 };
 
+// 배경 그라데이션 애니메이션 추가
 const backgroundVariants = {
   initial: {
-    backgroundColor: "#1a1a1a",
+    background: "linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)",
   },
   animate: {
-    backgroundColor: "#2a2a2a",
+    background: "linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)",
     transition: {
       duration: 20,
       repeat: Infinity,
@@ -219,7 +221,7 @@ export default function LandingPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3, duration: 0.6 }}
                     >
-                      {slides[currentSlide].blackAreaTitle}
+                      <TypewriterText text={slides[currentSlide].blackAreaTitle || ""} />
                     </motion.h2>
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
@@ -247,7 +249,7 @@ export default function LandingPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.5, duration: 0.6 }}
                     >
-                      {slides[currentSlide].blackAreaContent}
+                      <TypewriterText text={slides[currentSlide].blackAreaContent || ""} />
                     </motion.p>
                   </motion.div>
                 ) : (
@@ -319,7 +321,7 @@ export default function LandingPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.05, duration: 0.3 }}
                       >
-                        {slides[currentSlide].title}
+                        <TypewriterText text={slides[currentSlide].title} />
                       </motion.h2>
                       <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -348,7 +350,7 @@ export default function LandingPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.15, duration: 0.3 }}
                       >
-                        {slides[currentSlide].content}
+                        <TypewriterText text={slides[currentSlide].content} />
                       </motion.p>
                     </motion.div>
                   </AnimatePresence>
