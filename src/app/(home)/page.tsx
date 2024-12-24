@@ -37,19 +37,19 @@ const slides = [
     id: 5,
     title: "지원자 이용 방법",
     content: "언제든 다시 볼 수 있게\n공고를 스크랩하세요",
-    image: "/images/land/step2-2.jpg",
+    image: "/images/land/step2-2.png",
     blackAreaTitle: "사장님 이용 방법",
     blackAreaContent: "워크채널 우측의 [폼 만들기] 버튼을 클릭하고\n인재 채용을 시작하세요",
-    blackAreaImage: "/images/land/step2-1.jpg",
+    blackAreaImage: "/images/land/step2-1.png",
   },
   {
     id: 6,
     title: "",
     content: "마이페이지에서 스크랩한 공고를 분석하고\n지원 계획을 세우세요",
-    image: "/images/land/step2-2.jpg",
+    image: "/images/land/step3-2.png",
     blackAreaTitle: "",
     blackAreaContent: "내 워크폼에서 작성한 공고를\n손쉽게 수정하고 삭제할 수 있어요",
-    blackAreaImage: "/images/land/step2-1.jpg",
+    blackAreaImage: "/images/land/step3-1.png",
   },
 ];
 
@@ -238,7 +238,7 @@ export default function LandingPage() {
                           src={slides[currentSlide].blackAreaImage || ""}
                           alt={slides[currentSlide].blackAreaTitle || ""}
                           fill
-                          style={{ objectFit: "cover" }}
+                          style={{ objectFit: "contain" }}
                           sizes="(max-width: 768px) 100vw, 600px"
                           className="transition-transform duration-300 hover:scale-105"
                         />
@@ -332,9 +332,9 @@ export default function LandingPage() {
                             src={slides[currentSlide].image || ""}
                             alt={slides[currentSlide].title || ""}
                             fill
-                            style={{ objectFit: "cover" }}
+                            style={{ objectFit: "contain" }}
                             sizes="(max-width: 768px) 100vw, 600px"
-                            className="bg-primary-orange-50 transition-transform duration-300 hover:scale-105"
+                            className="bg-primary-blue-70 transition-transform duration-300 hover:scale-105"
                           />
                         </div>
                       </motion.div>
@@ -372,7 +372,16 @@ export default function LandingPage() {
                       scale: index + 1 === currentSlide ? 1.2 : 1,
                     }}
                     onClick={() => {
-                      /* ... (기존 클릭 핸들러) */
+                      const targetSlide = index + 1;
+                      const totalSlides = slides.length;
+                      const scrollProgress = targetSlide / (totalSlides - 1);
+
+                      lenisRef.current?.scrollTo(containerRef.current!.scrollHeight * scrollProgress, {
+                        duration: 1.2,
+                        easing: (t) => t * (2 - t),
+                      });
+
+                      setCurrentSlide(targetSlide);
                     }}
                   />
                 </motion.div>
