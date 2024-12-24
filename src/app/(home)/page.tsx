@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import Image from "next/image";
 import Lenis from "@studio-freight/lenis";
 import { useMediaQuery } from "react-responsive";
@@ -62,14 +62,36 @@ const bounceAnimation = {
   },
 };
 
-const backgroundVariants = {
+const backgroundVariants: Variants = {
   initial: {
-    background: "linear-gradient(135deg, #2B3A67 0%, #1E2B4D 100%)",
+    backgroundColor: "#1a1f2c",
+    backgroundImage: "linear-gradient(135deg, #1a1f2c 0%, #111827 100%)",
   },
   animate: {
-    background: "linear-gradient(135deg, #2B3A67 0%, #1E2B4D 100%)",
+    backgroundImage: [
+      "linear-gradient(135deg, #1a1f2c 0%, #111827 100%)",
+      "linear-gradient(135deg, #1a1f2c 20%, #4b5563 80%)",
+      "linear-gradient(135deg, #111827 0%, #374151 100%)",
+      "linear-gradient(135deg, #1a1f2c 0%, #111827 100%)",
+    ],
+    backgroundPosition: ["0% 0%", "50% 50%", "100% 100%", "0% 0%"], // 움직임 추가
     transition: {
-      duration: 20,
+      duration: 10,
+      ease: "easeInOut",
+      repeat: Infinity,
+      repeatType: "reverse" as const,
+    },
+  },
+  wave: {
+    backgroundImage: [
+      "linear-gradient(135deg, #1a1f2c 0%, #111827 100%)",
+      "linear-gradient(135deg, #1a1f2c 50%, #374151 50%)",
+      "linear-gradient(135deg, #1a1f2c 0%, #111827 100%)",
+    ],
+    backgroundSize: ["200% 200%", "100% 100%", "200% 200%"], // 크기 변화를 통한 파동 효과
+    transition: {
+      duration: 5,
+      ease: "easeInOut",
       repeat: Infinity,
       repeatType: "reverse" as const,
     },
