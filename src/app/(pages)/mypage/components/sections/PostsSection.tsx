@@ -11,6 +11,7 @@ import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
 import BoardPostItem from "@/app/components/card/board/BoardPostItem";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import SamllLoadingSpinner from "@/app/components/loading-spinner/SmallLoadingSpinner";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 export default function PostsSection() {
   const { orderBy } = useMySortStore();
@@ -49,6 +50,10 @@ export default function PostsSection() {
         <p className="text-primary-orange-300">게시글을 불러오는데 실패했습니다.</p>
       </div>
     );
+  }
+
+  if (isLoading) {
+    return <LoadingSpinner />;
   }
 
   return (

@@ -9,6 +9,7 @@ import ContentSection from "@/app/components/layout/ContentSection";
 import useWidth from "@/hooks/useWidth";
 import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
 import SamllLoadingSpinner from "@/app/components/loading-spinner/SmallLoadingSpinner";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 export default function CommentsSection() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,6 +43,10 @@ export default function CommentsSection() {
     setCurrentPage(page);
     window.scrollTo(0, 0);
   };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   if (error) {
     return (

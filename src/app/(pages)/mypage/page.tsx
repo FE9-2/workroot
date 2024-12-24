@@ -7,7 +7,7 @@ import ScrapsSection from "./components/sections/ScrapsSection";
 import { userRoles } from "@/constants/userRoles";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import toast from "react-hot-toast";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function MyPage() {
   const searchParams = useSearchParams();
@@ -24,7 +24,7 @@ export default function MyPage() {
 
   if (!user) {
     toast.error("로그인이 필요한 페이지입니다.");
-    router.push("/login");
+    // router.push("/login");
   }
 
   return TabContent;

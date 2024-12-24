@@ -33,7 +33,7 @@ const KebabDropdown = ({ options, className = "" }: KebabDropdownProps) => {
           setIsOpen(!isOpen);
           e.stopPropagation();
         }}
-        className="rounded-full hover:bg-grayscale-50"
+        className="rounded-full transition-transform hover:scale-125 hover:bg-grayscale-50"
         aria-label="메뉴 더보기"
       >
         <BsThreeDotsVertical className="text-md text-grayscale-200 lg:text-xl" />
