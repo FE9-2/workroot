@@ -20,6 +20,29 @@ export default function Header() {
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const router = useRouter();
 
+  if (pathname === "/") {
+    return (
+      <header className="fixed left-0 right-0 top-0 z-40" data-slide-header>
+        <nav className="mx-auto flex h-16 min-w-[327px] max-w-screen-xl items-center justify-end px-6">
+          <div className="flex items-center gap-4 md:gap-6">
+            <Link
+              href="/work-list"
+              className="text-sm text-white transition-colors hover:text-lime-400 md:text-base lg:text-lg"
+            >
+              워크 채널
+            </Link>
+            <Link
+              href="/work-talk"
+              className="text-sm text-white transition-colors hover:text-lime-400 md:text-base lg:text-lg"
+            >
+              워크톡
+            </Link>
+          </div>
+        </nav>
+      </header>
+    );
+  }
+
   // 인증이 필요없는 공개 경로들
   const handleLogout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -52,7 +75,7 @@ export default function Header() {
   return (
     <header className={headerStyle}>
       <nav className={navStyle}>
-        {/* 로고와 메인 네비게이션 */}
+        {/* 로고의 메인 네비게이션 */}
         <div className="flex items-center">
           <Link href="/" className="flex items-center gap-[6px] text-xl">
             <Image

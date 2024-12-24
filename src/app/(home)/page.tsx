@@ -6,6 +6,7 @@ import Image from "next/image";
 import Lenis from "@studio-freight/lenis";
 import { useMediaQuery } from "react-responsive";
 import TypewriterText from "../components/animation/TypewriterText";
+import { IoIosArrowDown } from "react-icons/io";
 
 const slides = [
   {
@@ -192,9 +193,6 @@ export default function LandingPage() {
             >
               <motion.div
                 className="relative flex h-full w-full items-center justify-center"
-                animate={{
-                  scale: currentSlide === 0 ? 1 : 0.8,
-                }}
                 transition={{ duration: 0.8, ease: "easeInOut" }}
               >
                 {currentSlide === 0 ? (
@@ -221,7 +219,7 @@ export default function LandingPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3, duration: 0.6 }}
                     >
-                      <TypewriterText text={slides[currentSlide].blackAreaTitle || ""} />
+                      {slides[currentSlide].blackAreaTitle}
                     </motion.h2>
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
@@ -240,6 +238,7 @@ export default function LandingPage() {
                           fill
                           style={{ objectFit: "cover" }}
                           sizes="(max-width: 768px) 100vw, 600px"
+                          className="transition-transform duration-300 hover:scale-105"
                         />
                       </div>
                     </motion.div>
@@ -273,19 +272,11 @@ export default function LandingPage() {
               </motion.div>
               {currentSlide === 0 && (
                 <motion.div
-                  className="absolute bottom-8 left-0 right-0 flex flex-col items-center"
+                  className="absolute bottom-8 left-0 right-0 flex flex-col items-center text-2xl text-[#71db77]"
                   animate={bounceAnimation}
                 >
-                  <svg width="60" height="30" viewBox="0 0 60 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M2 2L30 28L58 2"
-                      stroke="#71db77"
-                      strokeWidth="4"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  <span className="mt-1 text-2xl font-semibold text-[#71db77]">scroll</span>
+                  <IoIosArrowDown />
+                  <span className="mt-1 text-xs font-semibold">scroll</span>
                 </motion.div>
               )}
             </motion.div>
@@ -321,7 +312,7 @@ export default function LandingPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.05, duration: 0.3 }}
                       >
-                        <TypewriterText text={slides[currentSlide].title} />
+                        {slides[currentSlide].title}
                       </motion.h2>
                       <motion.div
                         initial={{ opacity: 0, y: 20 }}
