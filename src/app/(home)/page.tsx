@@ -176,21 +176,79 @@ export default function LandingPage() {
                 }}
                 transition={{ duration: 0.8, ease: "easeInOut" }}
               >
-                <Image
-                  src="/brand.png"
-                  alt="Brand Logo"
-                  width={800}
-                  height={800}
-                  className={`duration-800 transition-all ${
-                    currentSlide === 0
-                      ? "h-full max-h-[800px] w-full max-w-[800px]"
-                      : "h-full max-h-[600px] w-full max-w-[600px]"
-                  }`}
-                  style={{
-                    objectFit: "contain",
-                  }}
-                  priority
-                />
+                {currentSlide === 0 ? (
+                  <Image
+                    src="/brand.png"
+                    alt="Brand Logo"
+                    width={800}
+                    height={800}
+                    className="h-full max-h-[800px] w-full max-w-[800px] object-contain"
+                    priority
+                  />
+                ) : currentSlide === 4 || currentSlide === 5 ? (
+                  <motion.div
+                    key={currentSlide}
+                    className="relative z-40 flex h-full w-full flex-col items-center justify-center p-4 pb-6 pt-4 max-[640px]:px-12 max-[640px]:py-3 md:p-6 md:pb-8 md:pt-6"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 1.2, ease: "easeInOut" }}
+                  >
+                    <motion.h2
+                      className="mb-2 mt-0 text-center text-xl font-semibold text-gray-100 max-[640px]:mb-1 max-[640px]:px-4 md:mb-4 md:mt-0 md:text-3xl"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3, duration: 0.6 }}
+                    >
+                      {slides[currentSlide].blackAreaTitle}
+                    </motion.h2>
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4, duration: 0.6 }}
+                      className="mb-2 w-full max-w-[600px] max-[640px]:max-w-[75%] max-[640px]:px-4 md:mb-4"
+                      style={{ maxHeight: "calc(100% - 12rem)" }}
+                    >
+                      <div
+                        className="relative w-full overflow-hidden rounded-lg shadow-lg"
+                        style={{ paddingBottom: "56.25%" }}
+                      >
+                        <Image
+                          src={slides[currentSlide].blackAreaImage || ""}
+                          alt={slides[currentSlide].blackAreaTitle || ""}
+                          fill
+                          style={{ objectFit: "cover" }}
+                          sizes="(max-width: 768px) 100vw, 600px"
+                        />
+                      </div>
+                    </motion.div>
+                    <motion.p
+                      className="mb-0 max-w-[600px] whitespace-pre-wrap text-center text-sm text-gray-200 max-[640px]:mt-1 max-[640px]:px-4 md:text-xl"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.5, duration: 0.6 }}
+                    >
+                      {slides[currentSlide].blackAreaContent}
+                    </motion.p>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    className="relative h-full max-h-[600px] w-full max-w-[600px]"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.8 }}
+                  >
+                    <Image
+                      src="/brand.png"
+                      alt="Brand Logo"
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 600px) 100vw, 600px"
+                      priority
+                    />
+                  </motion.div>
+                )}
               </motion.div>
               {currentSlide === 0 && (
                 <motion.div
