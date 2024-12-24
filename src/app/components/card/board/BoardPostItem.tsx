@@ -102,7 +102,7 @@ const BoardPostItem = ({
             </div>
           </div>
         </div>
-        <div className="absolute right-3 top-6 size-9 text-center" onClick={(e) => e.stopPropagation()}>
+        <div className="absolute right-3 top-6 size-9 bg-white text-center" onClick={(e) => e.stopPropagation()}>
           {isAuthor && <KebabDropdown options={dropdownOptions} />}
         </div>
       </div>
