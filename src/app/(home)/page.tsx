@@ -62,13 +62,12 @@ const bounceAnimation = {
   },
 };
 
-// 배경 그라데이션 애니메이션 추가
 const backgroundVariants = {
   initial: {
-    background: "linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)",
+    background: "linear-gradient(135deg, #2B3A67 0%, #1E2B4D 100%)",
   },
   animate: {
-    background: "linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)",
+    background: "linear-gradient(135deg, #2B3A67 0%, #1E2B4D 100%)",
     transition: {
       duration: 20,
       repeat: Infinity,
@@ -167,7 +166,7 @@ export default function LandingPage() {
           animate="animate"
           exit={{ opacity: 0 }}
           ref={containerRef}
-          className="relative h-[400vh] min-h-[768px] overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950"
+          className="relative h-[400vh] min-h-[768px] overflow-hidden"
         >
           <motion.div
             className={`fixed inset-0 ${isLargeScreen ? "flex" : "flex flex-col"}`}
@@ -176,7 +175,6 @@ export default function LandingPage() {
               WebkitBackdropFilter: "blur(16px)",
             }}
           >
-            {/* Hero Section */}
             <motion.div
               className={`relative ${isLargeScreen ? "w-1/2" : "h-1/2 w-full"}`}
               animate={{
@@ -197,9 +195,16 @@ export default function LandingPage() {
                       initial={{ y: 30, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.4, duration: 0.8 }}
-                      className="md:h-400 md:w-400 h-200 w-200 relative"
+                      className="relative h-[300px] w-[300px] md:h-[400px] md:w-[400px]"
                     >
-                      <Image src="/brand.png" alt="Brand Logo" className="" priority width={800} height={800} />
+                      <Image
+                        src="/brand.png"
+                        alt="Brand Logo"
+                        className="drop-shadow-2xl"
+                        priority
+                        fill
+                        style={{ objectFit: "contain" }}
+                      />
                     </motion.div>
                   </div>
                 ) : (
@@ -210,12 +215,13 @@ export default function LandingPage() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                   >
-                    <div className="relative h-full w-full overflow-hidden rounded-3xl bg-gradient-to-br from-[#1e3c72] to-[#2a5298] p-8 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                    <div className="group relative h-full w-full overflow-hidden rounded-3xl bg-gradient-to-br from-blue-900 to-blue-700 p-8 shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-500">
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/30 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                       <Image
                         src={slides[currentSlide].image}
                         alt={slides[currentSlide].title}
                         fill
-                        className="object-contain p-6 transition-all duration-700 ease-out hover:scale-105 hover:brightness-110"
+                        className="object-contain p-6 transition-all duration-700 ease-out group-hover:scale-105 group-hover:brightness-110"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     </div>
@@ -223,27 +229,28 @@ export default function LandingPage() {
                 )}
               </motion.div>
 
-              {/* 스크롤 인디케이터 개선 */}
               {currentSlide === 0 && (
                 <motion.div
                   className="absolute bottom-5 left-0 right-0 flex flex-col items-center"
                   animate={bounceAnimation}
                 >
-                  <div className="flex flex-col items-center space-y-1 rounded-full p-5 backdrop-blur-lg transition-all duration-300 hover:bg-white/10">
-                    <IoIosArrowDown className="text-4xl text-primary-orange-300" />
-                    <span className="text-sm font-medium tracking-wide text-primary-orange-300">scroll</span>
-                  </div>
+                  <motion.div
+                    className="flex flex-col items-center space-y-1 rounded-full bg-white/5 p-5 backdrop-blur-lg transition-all duration-300 hover:bg-white/15"
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    <IoIosArrowDown className="text-4xl text-orange-400" />
+                    <span className="text-sm font-medium tracking-wide text-orange-400">scroll</span>
+                  </motion.div>
                 </motion.div>
               )}
             </motion.div>
 
-            {/* Content Section */}
             <AnimatePresence mode="wait">
               {currentSlide > 0 && (
                 <motion.div
                   className={`relative z-40 flex ${isLargeScreen ? "w-1/2" : "h-1/2 w-full"}`}
                   style={{
-                    background: "linear-gradient(135deg, #66d06b 0%, #56c45d 100%)",
+                    background: "linear-gradient(135deg, #4CAF50 0%, #45A049 100%)",
                   }}
                   initial={{ width: 0 }}
                   animate={{ width: isLargeScreen ? "50%" : "100%" }}
@@ -257,10 +264,10 @@ export default function LandingPage() {
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.6 }}
                   >
-                    <h2 className="text-center font-sans text-4xl font-bold tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] md:text-5xl">
+                    <h2 className="text-center font-sans text-4xl font-bold tracking-tight text-white drop-shadow-lg md:text-5xl">
                       {slides[currentSlide].title}
                     </h2>
-                    <p className="max-w-2xl text-center font-sans text-xl leading-relaxed text-white/95 drop-shadow-[0_1px_2px_rgba(0,0,0,0.1)] md:text-2xl">
+                    <p className="max-w-2xl text-center font-sans text-xl leading-relaxed text-white/95 drop-shadow-md md:text-2xl">
                       <TypewriterText text={slides[currentSlide].content} />
                     </p>
                   </motion.div>
@@ -269,7 +276,6 @@ export default function LandingPage() {
             </AnimatePresence>
           </motion.div>
 
-          {/* Navigation Dots 개선 */}
           <motion.div
             className={`fixed ${
               isLargeScreen
@@ -279,12 +285,15 @@ export default function LandingPage() {
           >
             {slides.slice(1).map((_, index) => (
               <motion.div key={index + 1} className="group relative h-3 w-3" whileHover={{ scale: 1.2 }}>
-                <motion.div className="absolute -inset-2 rounded-full bg-white/10 opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100" />
+                <motion.div className="absolute -inset-2 rounded-full bg-white/10 opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100" />
                 <motion.div
-                  className="h-full w-full cursor-pointer rounded-full border-2 border-white/50"
+                  className="h-full w-full cursor-pointer rounded-full border-2 border-white/50 transition-colors duration-300"
                   animate={{
-                    backgroundColor: index + 1 === currentSlide ? "#108b2d" : "transparent",
+                    backgroundColor: index + 1 === currentSlide ? "#4CAF50" : "transparent",
                     scale: index + 1 === currentSlide ? 1.2 : 1,
+                  }}
+                  whileHover={{
+                    borderColor: "rgba(255, 255, 255, 0.8)",
                   }}
                   onClick={() => {
                     const targetSlide = index + 1;
