@@ -294,7 +294,7 @@ export default function LandingPage() {
                   className={`relative z-40 flex ${isLargeScreen ? "w-1/2" : "h-1/2 w-full"}`}
                   style={{
                     background: "linear-gradient(135deg, #71db77 0%, #56c45d 100%)",
-                    boxShadow: "0 0 30px rgba(113, 219, 119, 0.3)",
+                    boxShadow: "0 4px 60px rgba(113, 219, 119, 0.4)",
                   }}
                   initial={{ width: 0 }}
                   animate={{ width: isLargeScreen ? "50%" : "100%" }}
@@ -358,8 +358,8 @@ export default function LandingPage() {
             <motion.div
               className={`fixed ${
                 isLargeScreen
-                  ? "right-8 top-1/2 -translate-y-1/2 space-y-3"
-                  : "bottom-8 left-1/2 flex -translate-x-1/2 space-x-3"
+                  ? "right-12 top-1/2 -translate-y-1/2 space-y-4"
+                  : "bottom-12 left-1/2 flex -translate-x-1/2 space-x-4"
               }`}
             >
               {slides.slice(1).map((_, index) => (
