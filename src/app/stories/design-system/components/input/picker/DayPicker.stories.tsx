@@ -15,8 +15,10 @@ export default meta;
 type Story = StoryObj<typeof DayPickerList>;
 
 export const DayPicker: Story = {
-  args: {},
-  render: () => {
+  args: {
+    disabled: false, // 초기값을 false로 설정
+  },
+  render: ({ disabled }) => {
     const StoryComponent = () => {
       const [selectedDays, setSelectedDays] = useState<string[]>(["월", "화"]);
 
@@ -28,7 +30,7 @@ export const DayPicker: Story = {
       return (
         <>
           <div className="text-grayscale-600 my-4">요일 선택 (토글)</div>
-          <DayPickerList workDays={selectedDays} onClick={handleClick} disabled={true} />
+          <DayPickerList workDays={selectedDays} onClick={handleClick} disabled={disabled} />
           <div className="mt-4">
             <strong>Selected Days:</strong> {selectedDays.join(", ") || "None"}
           </div>

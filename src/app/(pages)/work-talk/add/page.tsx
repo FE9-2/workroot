@@ -11,6 +11,7 @@ import axios from "axios";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import { PostSchema } from "@/schemas/postSchema";
 import toast from "react-hot-toast";
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
 
 interface ImageInputType {
   file: File | null;
@@ -29,7 +30,7 @@ export default function AddTalk() {
   const [imageList, setImageList] = useState<ImageInputType[]>([]);
   const router = useRouter();
   const { mutate: createPost, isPending } = useAddPost();
-
+  const queryClient = useQueryClient();
   const uploadImage = useCallback(async (file: File): Promise<string> => {
     const formData = new FormData();
     formData.append("image", file);
@@ -76,7 +77,16 @@ export default function AddTalk() {
       };
 
       createPost(postData, {
-        onSuccess: (response) => {
+        onSuccess: async (response) => {
+          await queryClient.invalidateQueries({
+            queryKey: [
+              "posts",
+              {
+                limit: 10,
+                orderBy: null,
+              },
+            ],
+          });
           router.push(`/work-talk/${response.id}`);
         },
       });
@@ -175,7 +185,7 @@ export default function AddTalk() {
           취소
         </Button>
         <Button
-          className="h-[58px] w-full rounded-[8px] bg-primary-orange-300 text-white hover:bg-orange-400"
+          className="h-[58px] w-full rounded-[8px] bg-primary-orange-300 text-white hover:bg-primary-orange-400"
           onClick={handleSubmit(onSubmit)}
           disabled={isPending}
         >
