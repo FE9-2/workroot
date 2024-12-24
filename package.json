@@ -14,6 +14,7 @@
     "postbuild": "next-sitemap"
   },
   "dependencies": {
+    "@channel.io/channel-web-sdk-loader": "^2.0.0",
     "@hookform/resolvers": "^3.9.0",
     "@lottiefiles/react-lottie-player": "^3.5.4",
     "@studio-freight/lenis": "^1.0.42",
@@ -38,6 +39,7 @@
     "react-intersection-observer": "^9.14.0",
     "react-kakao-maps-sdk": "^1.1.27",
     "react-modal": "^3.16.1",
+    "react-responsive": "^10.0.0",
     "tailwind-merge": "^2.5.4",
     "zod": "^3.23.8",
     "zustand": "^5.0.1"
