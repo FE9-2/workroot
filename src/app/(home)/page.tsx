@@ -60,6 +60,20 @@ const bounceAnimation = {
   },
 };
 
+const backgroundVariants = {
+  initial: {
+    backgroundColor: "#1a1a1a",
+  },
+  animate: {
+    backgroundColor: "#2a2a2a",
+    transition: {
+      duration: 20,
+      repeat: Infinity,
+      repeatType: "reverse" as const,
+    },
+  },
+};
+
 export default function LandingPage() {
   const isLargeScreen = useMediaQuery({ minWidth: 641 });
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -145,20 +159,25 @@ export default function LandingPage() {
     <AnimatePresence>
       {isLoaded && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          variants={backgroundVariants}
+          initial="initial"
+          animate="animate"
           exit={{ opacity: 0 }}
           transition={{ duration: 1 }}
           ref={containerRef}
-          className={`h-[400vh] min-h-[768px] overflow-hidden bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] ${
-            isLargeScreen ? "" : "flex flex-col"
-          }`}
-          style={{
-            scrollbarWidth: "thin",
-            scrollbarColor: "#108b2d transparent",
-          }}
+          className={`relative h-[400vh] min-h-[768px] overflow-hidden ${isLargeScreen ? "" : "flex flex-col"}`}
         >
-          <div className={`fixed inset-0 ${isLargeScreen ? "flex" : "flex flex-col"}`}>
+          <div className="absolute inset-0 opacity-20">
+            <div className="particles-container" />
+          </div>
+
+          <motion.div
+            className={`fixed inset-0 ${isLargeScreen ? "flex" : "flex flex-col"}`}
+            style={{
+              backdropFilter: "blur(8px)",
+              WebkitBackdropFilter: "blur(8px)",
+            }}
+          >
             <motion.div
               className={`relative ${
                 isLargeScreen ? "w-1/2" : "flex h-1/2 w-full items-center justify-center overflow-hidden"
@@ -195,7 +214,7 @@ export default function LandingPage() {
                     transition={{ duration: 1.2, ease: "easeInOut" }}
                   >
                     <motion.h2
-                      className="mb-2 mt-0 text-center text-xl font-semibold text-gray-100 max-[640px]:mb-1 max-[640px]:px-4 md:mb-4 md:mt-0 md:text-3xl"
+                      className="mb-2 mt-0 text-center text-xl font-semibold text-gray-100 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)] max-[640px]:mb-1 max-[640px]:px-4 md:mb-4 md:mt-0 md:text-3xl"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3, duration: 0.6 }}
@@ -310,7 +329,7 @@ export default function LandingPage() {
                         style={{ maxHeight: "calc(100% - 12rem)" }}
                       >
                         <div
-                          className="relative w-full overflow-hidden rounded-lg shadow-lg"
+                          className="relative w-full overflow-hidden rounded-lg shadow-lg transition-shadow duration-300 hover:shadow-2xl"
                           style={{ paddingBottom: "56.25%" }}
                         >
                           <Image
@@ -319,6 +338,7 @@ export default function LandingPage() {
                             fill
                             style={{ objectFit: "cover" }}
                             sizes="(max-width: 768px) 100vw, 600px"
+                            className="transition-transform duration-300 hover:scale-105"
                           />
                         </div>
                       </motion.div>
@@ -335,27 +355,24 @@ export default function LandingPage() {
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
+          </motion.div>
 
           {currentSlide > 0 && (
             <motion.div
               className={`fixed ${
                 isLargeScreen
-                  ? "right-4 top-1/2 -translate-y-1/2 space-y-2"
-                  : "bottom-4 left-1/2 flex -translate-x-1/2 space-x-2"
+                  ? "right-8 top-1/2 -translate-y-1/2 space-y-3"
+                  : "bottom-8 left-1/2 flex -translate-x-1/2 space-x-3"
               }`}
             >
               {slides.slice(1).map((_, index) => (
                 <motion.div
                   key={index + 1}
-                  className="h-4 w-4 cursor-pointer rounded-full"
+                  className="h-3 w-3 cursor-pointer rounded-full border-2 border-white/50"
+                  whileHover={{ scale: 1.2 }}
                   animate={{
-                    backgroundColor: index + 1 === currentSlide ? "#108b2d" : "#f8fff8",
+                    backgroundColor: index + 1 === currentSlide ? "#108b2d" : "transparent",
                     scale: index + 1 === currentSlide ? 1.2 : 1,
-                  }}
-                  transition={{
-                    duration: 0.3,
-                    ease: "easeInOut",
                   }}
                   onClick={() => {
                     if (!isScrollingRef.current) {
