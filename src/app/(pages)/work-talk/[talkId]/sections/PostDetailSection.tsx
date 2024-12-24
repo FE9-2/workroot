@@ -10,12 +10,13 @@ import useModalStore from "@/store/modalStore";
 import useWidth from "@/hooks/useWidth";
 import { usePostDetail } from "@/hooks/queries/post/usePostDetail";
 import { useRouter } from "next/navigation";
+import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 
 export function PostDetailSection({ postId }: { postId: string }) {
   const { isDesktop } = useWidth();
   const { user } = useUser();
   const router = useRouter();
-  const { data: post } = usePostDetail(postId);
+  const { data: post, isLoading } = usePostDetail(postId);
   const { likePost, unlikePost } = useLikePost(postId);
   const deletePost = useDeletePost(postId);
   const { openModal, closeModal } = useModalStore();
@@ -57,6 +58,7 @@ export function PostDetailSection({ postId }: { postId: string }) {
     { label: "수정하기", onClick: handleEdit },
     { label: "삭제하기", onClick: handleDelete, disabled: deletePost.isPending },
   ];
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <section className="mb-12 w-full rounded-lg bg-white">
