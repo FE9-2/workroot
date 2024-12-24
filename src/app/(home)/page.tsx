@@ -210,49 +210,65 @@ export default function LandingPage() {
                 ) : currentSlide === 4 || currentSlide === 5 ? (
                   <motion.div
                     key={currentSlide}
-                    className="relative z-40 flex h-full w-full flex-col items-center justify-center p-4 pb-6 pt-4 max-[640px]:px-12 max-[640px]:py-3 md:p-6 md:pb-8 md:pt-6"
+                    className="flex h-full w-full flex-col items-center justify-center space-y-8 p-8"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 1.2, ease: "easeInOut" }}
+                    transition={{ duration: 0.8 }}
                   >
-                    <motion.h2
-                      className="mb-2 mt-0 text-center text-xl font-semibold text-gray-100 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)] max-[640px]:mb-1 max-[640px]:px-4 md:mb-4 md:mt-0 md:text-3xl"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3, duration: 0.6 }}
-                    >
-                      {slides[currentSlide].blackAreaTitle}
-                    </motion.h2>
+                    {/* 이미지 섹션 */}
                     <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.4, duration: 0.6 }}
-                      className="mb-2 w-full max-w-[600px] max-[640px]:max-w-[75%] max-[640px]:px-4 md:mb-4"
-                      style={{ maxHeight: "calc(100% - 12rem)" }}
+                      className="relative mb-8 w-full max-w-[600px]"
+                      initial={{ scale: 0.95 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 0.5 }}
                     >
-                      <div
-                        className="relative w-full overflow-hidden rounded-lg shadow-lg"
-                        style={{ paddingBottom: "56.25%" }}
-                      >
-                        <Image
-                          src={slides[currentSlide].blackAreaImage || ""}
-                          alt={slides[currentSlide].blackAreaTitle || ""}
-                          fill
-                          style={{ objectFit: "contain" }}
-                          sizes="(max-width: 768px) 100vw, 600px"
-                          className="transition-transform duration-300 hover:scale-105"
-                        />
+                      <div className="relative w-full overflow-hidden rounded-2xl">
+                        <div style={{ paddingBottom: "56.25%" }}>
+                          <Image
+                            src={slides[currentSlide].blackAreaImage || ""}
+                            alt={slides[currentSlide].blackAreaTitle || ""}
+                            fill
+                            className="object-contain transition-transform duration-500 hover:scale-105"
+                            sizes="(max-width: 768px) 100vw, 600px"
+                          />
+                        </div>
                       </div>
                     </motion.div>
-                    <motion.p
-                      className="mb-0 max-w-[600px] whitespace-pre-wrap text-center text-sm text-gray-200 max-[640px]:mt-1 max-[640px]:px-4 md:text-xl"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.5, duration: 0.6 }}
-                    >
-                      <TypewriterText text={slides[currentSlide].blackAreaContent || ""} />
-                    </motion.p>
+
+                    {/* 텍스트 섹션 - 장식 요소 제거 */}
+                    <motion.div className="relative">
+                      <motion.h2
+                        className="text-center font-sans text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
+                        style={{
+                          background: "linear-gradient(to right, #71db77, #56c45d)",
+                          WebkitBackgroundClip: "text",
+                          WebkitTextFillColor: "transparent",
+                        }}
+                      >
+                        <motion.span
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, delay: 0.2 }}
+                        >
+                          {slides[currentSlide].blackAreaTitle}
+                        </motion.span>
+                      </motion.h2>
+
+                      <motion.div
+                        className="mt-4 max-w-2xl"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.3 }}
+                      >
+                        <p className="whitespace-pre-wrap text-balance text-center font-sans text-xl leading-relaxed text-white/90 md:text-2xl lg:text-3xl">
+                          <TypewriterText
+                            text={slides[currentSlide].blackAreaContent || ""}
+                            className="relative z-10"
+                          />
+                        </p>
+                      </motion.div>
+                    </motion.div>
                   </motion.div>
                 ) : (
                   <motion.div
@@ -303,49 +319,115 @@ export default function LandingPage() {
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={currentSlide}
-                      className="flex h-full w-full flex-col items-center justify-center p-4 pb-6 pt-4 max-[640px]:px-12 max-[640px]:py-3 md:p-6 md:pb-8 md:pt-6"
-                      initial={{ y: "100%" }}
-                      animate={{ y: 0 }}
-                      exit={{ y: "-100%" }}
-                      transition={{ duration: 0.4, ease: "easeInOut" }}
+                      className="flex h-full w-full flex-col items-center justify-center space-y-8 p-8"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.8 }}
                     >
-                      <motion.h2
-                        className="mb-2 mt-0 text-center text-xl font-semibold text-[#1a1a1a] max-[640px]:mb-1 max-[640px]:px-4 md:mb-4 md:mt-0 md:text-3xl"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.05, duration: 0.3 }}
-                      >
-                        {slides[currentSlide].title}
-                      </motion.h2>
+                      {/* 이미지 섹션 */}
                       <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1, duration: 0.3 }}
-                        className="mb-2 w-full max-w-[600px] max-[640px]:max-w-[75%] max-[640px]:px-4 md:mb-4"
-                        style={{ maxHeight: "calc(100% - 12rem)" }}
+                        className="relative mb-8 w-full max-w-[600px]"
+                        initial={{ scale: 0.95 }}
+                        animate={{ scale: 1 }}
+                        transition={{ duration: 0.5 }}
                       >
-                        <div
-                          className="relative w-full overflow-hidden rounded-lg shadow-lg transition-shadow duration-300 hover:shadow-2xl"
-                          style={{ paddingBottom: "56.25%" }}
-                        >
-                          <Image
-                            src={slides[currentSlide].image || ""}
-                            alt={slides[currentSlide].title || ""}
-                            fill
-                            style={{ objectFit: "contain" }}
-                            sizes="(max-width: 768px) 100vw, 600px"
-                            className="bg-primary-blue-70 transition-transform duration-300 hover:scale-105"
-                          />
+                        <div className="relative w-full overflow-hidden rounded-2xl">
+                          <div style={{ paddingBottom: "56.25%" }}>
+                            <Image
+                              src={slides[currentSlide].image}
+                              alt={slides[currentSlide].title}
+                              fill
+                              className="object-contain transition-transform duration-500 hover:scale-105"
+                              sizes="(max-width: 768px) 100vw, 600px"
+                            />
+                          </div>
                         </div>
                       </motion.div>
-                      <motion.p
-                        className="mb-0 max-w-[600px] whitespace-pre-wrap text-center text-sm text-[#1a1a1a] max-[640px]:mt-1 max-[640px]:px-4 md:text-xl"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.15, duration: 0.3 }}
-                      >
-                        <TypewriterText text={slides[currentSlide].content} />
-                      </motion.p>
+
+                      {/* 텍스트 섹션 */}
+                      <motion.div className="relative">
+                        <motion.h2
+                          className="text-center font-sans text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
+                          style={{
+                            background: "linear-gradient(to right, #71db77, #56c45d)",
+                            WebkitBackgroundClip: "text",
+                            WebkitTextFillColor: "transparent",
+                            textShadow: "0 2px 30px rgba(113,219,119,0.2)",
+                          }}
+                        >
+                          <motion.span
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.2 }}
+                          >
+                            {slides[currentSlide].title}
+                          </motion.span>
+                        </motion.h2>
+
+                        <motion.div
+                          className="mt-4 max-w-2xl"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, delay: 0.3 }}
+                        >
+                          <p
+                            className="whitespace-pre-wrap text-balance text-center font-sans text-xl leading-relaxed text-white/90 md:text-2xl lg:text-3xl"
+                            style={{
+                              textShadow: "0 2px 20px rgba(0,0,0,0.2)",
+                            }}
+                          >
+                            <TypewriterText text={slides[currentSlide].content} className="relative z-10" />
+                          </p>
+                        </motion.div>
+
+                        {/* 텍스트 배경 효과 */}
+                        <motion.div
+                          className="absolute -inset-4 -z-10 rounded-xl opacity-50"
+                          style={{
+                            background:
+                              "radial-gradient(circle at center, rgba(113,219,119,0.05) 0%, transparent 100%)",
+                          }}
+                          initial={{ scale: 0.9, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 0.5 }}
+                          transition={{ duration: 1 }}
+                        />
+                      </motion.div>
+
+                      {/* 장식적 요소 유지 */}
+                      <motion.div
+                        className="absolute left-0 top-0 h-32 w-32 opacity-20"
+                        style={{
+                          background: "radial-gradient(circle, rgba(113,219,119,0.3) 0%, transparent 70%)",
+                          filter: "blur(40px)",
+                        }}
+                        animate={{
+                          scale: [1, 1.2, 1],
+                          opacity: [0.2, 0.3, 0.2],
+                        }}
+                        transition={{
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        }}
+                      />
+                      <motion.div
+                        className="absolute bottom-0 right-0 h-40 w-40 opacity-20"
+                        style={{
+                          background: "radial-gradient(circle, rgba(113,219,119,0.3) 0%, transparent 70%)",
+                          filter: "blur(40px)",
+                        }}
+                        animate={{
+                          scale: [1.2, 1, 1.2],
+                          opacity: [0.3, 0.2, 0.3],
+                        }}
+                        transition={{
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: 2,
+                        }}
+                      />
                     </motion.div>
                   </AnimatePresence>
                 </motion.div>
