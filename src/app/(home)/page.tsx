@@ -197,24 +197,10 @@ export default function LandingPage() {
                       initial={{ y: 30, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.4, duration: 0.8 }}
-                      className="relative h-36 w-72 md:h-44 md:w-96"
+                      className="md:h-400 md:w-400 h-200 w-200 relative"
                     >
-                      <Image
-                        src="/brand.png"
-                        alt="Brand Logo"
-                        fill
-                        className="object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]"
-                        priority
-                      />
+                      <Image src="/brand.png" alt="Brand Logo" className="" priority width={800} height={800} />
                     </motion.div>
-                    <motion.h1
-                      initial={{ y: 30, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: 0.6, duration: 0.8 }}
-                      className="text-center font-sans text-5xl font-bold tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] md:text-7xl"
-                    >
-                      간편한 알바 지원의 시작
-                    </motion.h1>
                   </div>
                 ) : (
                   <motion.div
@@ -224,7 +210,7 @@ export default function LandingPage() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                   >
-                    <div className="relative h-full w-full overflow-hidden rounded-3xl bg-gradient-to-br from-slate-800 to-slate-900 p-8 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                    <div className="relative h-full w-full overflow-hidden rounded-3xl bg-gradient-to-br from-[#1e3c72] to-[#2a5298] p-8 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                       <Image
                         src={slides[currentSlide].image}
                         alt={slides[currentSlide].title}
@@ -240,12 +226,12 @@ export default function LandingPage() {
               {/* 스크롤 인디케이터 개선 */}
               {currentSlide === 0 && (
                 <motion.div
-                  className="absolute bottom-16 left-0 right-0 flex flex-col items-center"
+                  className="absolute bottom-5 left-0 right-0 flex flex-col items-center"
                   animate={bounceAnimation}
                 >
-                  <div className="flex flex-col items-center space-y-3 rounded-full p-5 backdrop-blur-lg transition-all duration-300 hover:bg-white/10">
-                    <IoIosArrowDown className="text-4xl text-emerald-400" />
-                    <span className="text-sm font-medium tracking-wide text-emerald-400">scroll</span>
+                  <div className="flex flex-col items-center space-y-1 rounded-full p-5 backdrop-blur-lg transition-all duration-300 hover:bg-white/10">
+                    <IoIosArrowDown className="text-4xl text-primary-orange-300" />
+                    <span className="text-sm font-medium tracking-wide text-primary-orange-300">scroll</span>
                   </div>
                 </motion.div>
               )}
@@ -257,8 +243,7 @@ export default function LandingPage() {
                 <motion.div
                   className={`relative z-40 flex ${isLargeScreen ? "w-1/2" : "h-1/2 w-full"}`}
                   style={{
-                    background: "linear-gradient(135deg, #71db77 0%, #56c45d 100%)",
-                    boxShadow: "0 4px 60px rgba(113, 219, 119, 0.4)",
+                    background: "linear-gradient(135deg, #66d06b 0%, #56c45d 100%)",
                   }}
                   initial={{ width: 0 }}
                   animate={{ width: isLargeScreen ? "50%" : "100%" }}
