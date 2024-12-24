@@ -65,7 +65,7 @@ const BoardPostItem = ({
     >
       <div className="relative flex h-[202px] min-w-[327px] flex-col justify-between rounded-[16px] border border-line-200 bg-grayscale-50 p-6 shadow-md md:w-[600px] lg:h-[264px] lg:w-full">
         <div className="flex flex-col gap-2">
-          <h3 className="text-[16px] font-semibold text-black-400 lg:text-[20px]">{post.title}</h3>
+          <h3 className="line-clamp-1 text-[16px] font-semibold text-black-400 lg:text-[20px]">{post.title}</h3>
           <p className="line-clamp-3 overflow-hidden text-[14px] text-grayscale-500 lg:text-[18px]">{post.content}</p>
         </div>
 
