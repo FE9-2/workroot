@@ -39,7 +39,7 @@ const slides = [
     content: "언제든 다시 볼 수 있게\n공고를 스크랩하세요",
     image: "/images/land/step2-2.jpg",
     blackAreaTitle: "사장님 이용 방법",
-    blackAreaContent: "워크채널 우의 [폼 만들기] 버튼을 클릭하고\n인재 채용을 시작하세요",
+    blackAreaContent: "워크채널 우측의 [폼 만들기] 버튼을 클릭하고\n인재 채용을 시작하세요",
     blackAreaImage: "/images/land/step2-1.jpg",
   },
   {
