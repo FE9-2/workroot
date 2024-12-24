@@ -7,6 +7,7 @@ import Lenis from "@studio-freight/lenis";
 import { useMediaQuery } from "react-responsive";
 import TypewriterText from "../components/animation/TypewriterText";
 import { IoIosArrowDown } from "react-icons/io";
+import LeafAnimation from "../components/animation/LeafAnimation";
 
 const slides = [
   {
@@ -203,7 +204,7 @@ export default function LandingPage() {
                     alt="Brand Logo"
                     width={800}
                     height={800}
-                    className="h-full max-h-[800px] w-full max-w-[800px] object-contain"
+                    className="h-full max-h-[600px] w-full max-w-[600px] object-contain"
                     priority
                   />
                 ) : currentSlide === 4 || currentSlide === 5 ? (
@@ -294,7 +295,6 @@ export default function LandingPage() {
                   className={`relative z-40 flex ${isLargeScreen ? "w-1/2" : "h-1/2 w-full"}`}
                   style={{
                     background: "linear-gradient(135deg, #71db77 0%, #56c45d 100%)",
-                    boxShadow: "0 4px 60px rgba(113, 219, 119, 0.4)",
                   }}
                   initial={{ width: 0 }}
                   animate={{ width: isLargeScreen ? "50%" : "100%" }}
@@ -388,6 +388,7 @@ export default function LandingPage() {
               ))}
             </motion.div>
           )}
+          <LeafAnimation />
         </motion.div>
       )}
     </AnimatePresence>
