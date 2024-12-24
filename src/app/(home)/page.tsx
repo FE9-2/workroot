@@ -46,10 +46,10 @@ const slides = [
     id: 6,
     title: "",
     content: "마이페이지에서 스크랩한 공고를 분석하고\n지원 계획을 세우세요",
-    image: "/images/land/step3-2.jpg",
+    image: "/images/land/step2-2.jpg",
     blackAreaTitle: "",
     blackAreaContent: "내 워크폼에서 작성한 공고를\n손쉽게 수정하고 삭제할 수 있어요",
-    blackAreaImage: "/images/land/step3-1.jpg",
+    blackAreaImage: "/images/land/step2-1.jpg",
   },
 ];
 
@@ -334,7 +334,7 @@ export default function LandingPage() {
                             fill
                             style={{ objectFit: "cover" }}
                             sizes="(max-width: 768px) 100vw, 600px"
-                            className="transition-transform duration-300 hover:scale-105"
+                            className="bg-primary-orange-50 transition-transform duration-300 hover:scale-105"
                           />
                         </div>
                       </motion.div>
