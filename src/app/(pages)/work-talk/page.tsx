@@ -136,7 +136,7 @@ export default function AlbaTalk() {
               {data?.pages.map((page) => (
                 <React.Fragment key={page.nextCursor}>
                   {page.data.map((post) => (
-                    <div className="cursor-pointer" key={post.id} onClick={() => handlePostClick(post.id)}>
+                    <div key={post.id} onClick={() => handlePostClick(post.id)}>
                       <CardBoard
                         id={post.id.toString()}
                         title={post.title}
