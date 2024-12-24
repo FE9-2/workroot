@@ -77,8 +77,8 @@ const Comment = ({ id, nickname, updatedAt, content, isAuthor = false }: Comment
           value={editedContent}
           onChange={(e) => setEditedContent(e.target.value)}
           placeholder="댓글을 입력해주세요."
-          className="h-[90px] w-[344px] resize-none rounded-lg bg-background-200 p-4 md:w-[742px] lg:h-[100px] lg:w-[994px]"
-          size="h-[120px] w-[375px] md:w-[768px] lg:w-[1024px] lg:h-[144px]"
+          size="h-[120px] w-full lg:h-[144px]"
+          innerClassName="bg-transparent"
           variant="white"
         />
         <div className="flex justify-end gap-2">
