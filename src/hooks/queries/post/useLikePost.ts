@@ -15,11 +15,6 @@ export const useLikePost = (postId: string) => {
       return response.data;
     },
     onSuccess: () => {
-      toast.success("게시글을 좋아요 했습니다", {
-        style: {
-          textAlign: "center",
-        },
-      });
       // 게시글 상세 및 목록 캐시 무효화
       queryClient.invalidateQueries({ queryKey: ["post", postId] });
       queryClient.invalidateQueries({ queryKey: ["posts"] });
@@ -48,11 +43,6 @@ export const useLikePost = (postId: string) => {
       return response.data;
     },
     onSuccess: () => {
-      toast.success("게시글 좋아요를 취소했습니다!", {
-        style: {
-          textAlign: "center",
-        },
-      });
       // 게시글 상세 및 목록 캐시 무효화
       queryClient.invalidateQueries({ queryKey: ["post", postId] });
       queryClient.invalidateQueries({ queryKey: ["posts"] });
