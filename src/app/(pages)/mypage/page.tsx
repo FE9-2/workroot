@@ -24,7 +24,7 @@ export default function MyPage() {
 
   if (!user) {
     toast.error("로그인이 필요한 페이지입니다.");
-    // router.push("/login");
+    router.push("/login");
   }
 
   return TabContent;
