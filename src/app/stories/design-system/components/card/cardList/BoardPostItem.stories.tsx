@@ -29,5 +29,5 @@ const post = {
   createdAt: new Date(),
 };
 export const Default: Story = {
-  args: { post },
+  args: { post, isAuthor: true, limit: 10, orderBy: "최신순" },
 };
