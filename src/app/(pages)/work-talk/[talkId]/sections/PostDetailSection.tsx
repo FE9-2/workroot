@@ -58,6 +58,7 @@ export function PostDetailSection({ postId }: { postId: string }) {
     { label: "수정하기", onClick: handleEdit },
     { label: "삭제하기", onClick: handleDelete, disabled: deletePost.isPending },
   ];
+
   if (isLoading) return <LoadingSpinner />;
 
   return (
