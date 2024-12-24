@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Lenis from "@studio-freight/lenis";
 import { useMediaQuery } from "react-responsive";
-import TypewriterText from "../components/animation/typewriterText";
+import TypewriterText from "../components/animation/TypewriterText";
 
 const slides = [
   {
