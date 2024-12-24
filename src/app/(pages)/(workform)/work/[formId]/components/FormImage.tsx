@@ -24,7 +24,7 @@ export default function FormImage({ imageUrls, currentPage, onPageChange }: Form
             alt={`알바 이미지 ${index + 1}`}
             className="h-full w-full rounded-lg object-cover"
             priority={index === 0}
-            layout="fill"
+            fill
           />
         </div>
       ))}

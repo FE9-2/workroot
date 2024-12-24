@@ -14,7 +14,7 @@ const TableHeader = ({ experienceSort, statusSort, toggleExperienceSort, toggleS
   const sortIconStyle = "text-primary-orange-300 transition-transform hover:scale-110";
 
   return (
-    <div className="sticky grid grid-cols-[1fr_2fr_1fr_1fr] border-b border-line-100 px-6 py-4">
+    <div className="sticky grid grid-cols-[1fr_2fr_1.4fr_0.8fr] border-b border-line-100 px-6 py-4">
       <span className={`${theadStyle} w-2/5`}>이름</span>
       <span className={`${theadStyle} w-1/4`}>전화번호</span>
       <div className="flex w-2/5 items-center gap-2">

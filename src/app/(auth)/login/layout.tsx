@@ -1,4 +1,4 @@
-import Background from "../signup/(layout)/component/Background";
+import Background from "@/app/components/layout/auth/Background";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (

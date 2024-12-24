@@ -12,9 +12,9 @@ import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinne
 import { isValidS3Url } from "@/utils/checkS3Url";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import { userRoles } from "@/constants/userRoles";
-import EmptyImage from "./EmptyImage";
 import InfoItem from "./InfoItem";
 import { useDeleteForm } from "@/hooks/queries/form/useDeleteForm";
+import EmptyImage from "./EmptyImage";
 
 interface AlbaListItemProps extends FormListType {
   isMyForm?: boolean;
@@ -153,10 +153,13 @@ const AlbaListItem = ({
           isValidS3Url(imageUrls[0]) ? (
             <Image
               src={imageUrls[0]}
-              alt="Recruit Image"
+              alt={`${title} 이미지`}
               fill
+              sizes="(max-width: 768px) 327px, 372px"
               className="object-cover transition-opacity duration-300"
               onError={() => setImageError(true)}
+              priority
+              quality={75}
             />
           ) : (
             <EmptyImage />

@@ -1,4 +1,5 @@
 "use client";
+
 import Button from "@/app/components/button/default/Button";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 import { useLogin } from "@/hooks/queries/auth/useLogin";
@@ -9,10 +10,16 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { UserRole, userRoles } from "@/constants/userRoles";
 import AuthInput from "@/app/components/input/text/AuthInput";
+import { signInWithProvider } from "@/lib/supabaseUtils";
+import { toast } from "react-hot-toast";
+import { useState } from "react";
+import { OAuthProvider, oauthProviders } from "@/constants/oauthProviders";
 
 export default function LoginPage() {
   // 로그인 훅과 로딩 상태 관리
   const { login, isPending } = useLogin();
+  const [isSocialLogin, setIsSocialLogin] = useState(false);
+  const [currentProvider, setCurrentProvider] = useState<OAuthProvider>(oauthProviders.GOOGLE);
 
   // 폼 유효성 검사 및 상태 관리
   const {
@@ -20,12 +27,14 @@ export default function LoginPage() {
     handleSubmit,
     formState: { errors },
     setValue,
+    reset,
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
   });
 
   // 일반 로그인 제출 핸들러
   const onSubmit = (data: LoginSchema) => {
+    setIsSocialLogin(false);
     login(data);
   };
 
@@ -53,6 +62,24 @@ export default function LoginPage() {
     handleSubmit((data) => login(data))();
   };
 
+  // 소셜 로그인 핸들러
+  const handleSocialLogin = async (provider: OAuthProvider) => {
+    try {
+      setIsSocialLogin(true);
+      setCurrentProvider(provider);
+      reset({
+        email: "",
+        password: "",
+      });
+
+      // 소셜 로그인
+      await signInWithProvider(provider);
+    } catch (error) {
+      console.error(`${provider} login failed:`, error);
+      toast.error(`${provider} 로그인에 실패했습니다.`);
+    }
+  };
+
   return (
     <>
       <div>
@@ -64,6 +91,8 @@ export default function LoginPage() {
           </Link>
         </p>
       </div>
+
+      {/* 일반 로그인 폼 */}
       <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-6 rounded-md">
           <div>
@@ -72,7 +101,7 @@ export default function LoginPage() {
               type="email"
               name="email"
               placeholder="이메일"
-              errormessage={errors.email?.message}
+              errormessage={!isSocialLogin ? errors.email?.message : undefined}
             />
           </div>
           <div>
@@ -81,7 +110,7 @@ export default function LoginPage() {
               type="password"
               name="password"
               placeholder="비밀번호"
-              errormessage={errors.password?.message}
+              errormessage={!isSocialLogin ? errors.password?.message : undefined}
             />
           </div>
         </div>
@@ -91,27 +120,51 @@ export default function LoginPage() {
             {isPending ? <DotLoadingSpinner /> : "로그인"}
           </Button>
         </div>
+      </form>
+
+      {/* 소셜 로그인 섹션을 폼 밖으로 이동 */}
+      <div className="mt-6 space-y-6">
         <div className="flex items-center justify-center">
           <hr className="flex-grow border-t border-grayscale-200" />
           <span className="mx-4 text-sm text-grayscale-400">SNS 계정으로 로그인하기</span>
           <hr className="flex-grow border-t border-grayscale-200" />
         </div>
         <div className="flex justify-center space-x-6">
-          <Link
-            href={`https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile&response_type=code&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&state=${encodeURIComponent(
-              JSON.stringify({ provider: "google", action: "login" })
-            )}`}
+          <button
+            type="button"
+            onClick={() => {
+              setIsSocialLogin(true);
+              handleSocialLogin(oauthProviders.GOOGLE);
+            }}
+            className="flex items-center justify-center p-2 transition-transform hover:scale-105 focus:outline-none active:scale-95"
           >
-            <Image src="/icons/social/social_google.svg" width={72} height={72} alt="구글 로그인" />
-          </Link>
-          <Link
-            href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code&state=${encodeURIComponent(
-              JSON.stringify({ provider: "kakao", action: "login" })
-            )}`}
+            <div className="relative size-[72px]">
+              <Image src="/icons/social/social_google.svg" fill alt="구글 로그인" className="object-contain" priority />
+            </div>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setIsSocialLogin(true);
+              handleSocialLogin(oauthProviders.KAKAO);
+            }}
+            className="flex items-center justify-center p-2 transition-transform hover:scale-105 focus:outline-none active:scale-95"
           >
-            <Image src="/icons/social/social_kakao.svg" width={72} height={72} alt="카카오 로그인" />
-          </Link>
+            <div className="relative size-[72px]">
+              <Image
+                src="/icons/social/social_kakao.svg"
+                fill
+                alt="카카오 로그인"
+                className="object-contain"
+                priority
+              />
+            </div>
+          </button>
         </div>
+      </div>
+
+      {/* 테스트 계정 섹션도 폼 밖으로 이동 */}
+      <div className="mt-6 space-y-6">
         <div className="flex items-center justify-center">
           <hr className="flex-grow border-t border-grayscale-200" />
           <span className="mx-4 text-sm text-grayscale-400">테스트 계정으로 로그인하기</span>
@@ -137,7 +190,7 @@ export default function LoginPage() {
             사장님
           </Button>
         </div>
-      </form>
+      </div>
     </>
   );
 }

@@ -17,6 +17,7 @@ import ContentSection from "@/app/components/layout/ContentSection";
 import useModalStore from "@/store/modalStore";
 import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
+import SearchSpinner from "@/app/components/loading-spinner/SearchSpinner";
 
 const POSTS_PER_PAGE = 10;
 
@@ -77,14 +78,14 @@ export default function AlbaTalk() {
   // 에러 상태 처리
   if (error) {
     return (
-      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
+      <div className="flex h-[calc(100vh-300px)] items-center justify-center">
         <p className="text-primary-orange-300">게시글 목록을 불러오는데 실패했습니다.</p>
       </div>
     );
   }
 
   // 로딩 상태 처리
-  if (isLoading) {
+  if (isLoading && !keyword) {
     return <LoadingSpinner />;
   }
 
@@ -112,7 +113,9 @@ export default function AlbaTalk() {
       </div>
 
       {/* 메인 콘텐츠 영역 */}
-      <div className="w-full pt-[132px]">
+      <div className="relative w-full pt-[132px]">
+        {keyword && isLoading && <SearchSpinner />}
+
         {/* 글쓰기 버튼 - 고정 위치 수정 */}
         {user && (
           <Link href="/work-talk/add" className="fixed bottom-[50%] right-[8%] z-30 translate-y-1/2">
@@ -124,7 +127,7 @@ export default function AlbaTalk() {
         <ScrollTopButton showHeight={300} />
 
         {!data?.pages?.[0]?.data?.length ? (
-          <div className="flex h-[calc(100vh-200px)] flex-col items-center justify-center">
+          <div className="flex h-[calc(100vh-300px)] flex-col items-center justify-center">
             <p className="text-grayscale-500">등록된 게시글이 없습니다.</p>
           </div>
         ) : (

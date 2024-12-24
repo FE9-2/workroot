@@ -13,27 +13,21 @@ import { FiDownload } from "react-icons/fi";
 import Image from "next/image";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import { useGuestApplication } from "@/hooks/queries/user/me/useGuestApplication";
+import Chip from "@/app/components/chip/Chip";
 
 const ModalOverlay = ({ onClick }: { onClick: (e: React.MouseEvent) => void }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    className="bg-black fixed inset-0 z-50 bg-opacity-50"
-    aria-label="Close modal"
-  />
+  <div className="bg-black fixed inset-0 z-50 bg-opacity-50" role="presentation">
+    <button type="button" onClick={onClick} className="h-full w-full" aria-label="Close modal" />
+  </div>
 );
-
 const InfoRow = ({ label, value, isIntroduction }: InfoRowProps) => {
   if (isIntroduction) {
     return (
       <div className="space-y-2 border-b pb-2">
         <p className="text-grayscale-400">{label}</p>
-        <textarea
-          readOnly
-          className="scrollbar-custom h-[100px] overflow-y-auto whitespace-pre-wrap rounded-md border border-grayscale-400 p-2 text-sm"
-        >
+        <div className="scrollbar-custom h-[100px] overflow-y-auto whitespace-pre-wrap rounded-md border border-grayscale-400 p-2 text-sm">
           {value}
-        </textarea>
+        </div>
       </div>
     );
   }
@@ -90,6 +84,7 @@ const ApplicationContent = ({
 }: ApplicationResponse) => {
   return (
     <div className="space-y-4">
+      <Chip label={getStatusMap(status)} variant="positive" />
       <InfoRow label="지원 상태" value={getStatusMap(status)} />
       <InfoRow label="이름" value={name} />
       <InfoRow label="연락처" value={phoneNumber} />
@@ -112,9 +107,8 @@ export default function MyApplicationModal({
   formId,
   className,
   verifyData,
+  initialData,
 }: MyApplicationModalProps) {
-  console.log("MyApplicationModal 열림");
-
   const { user } = useUser();
 
   // 회원/비회원에 따라 다른 훅 사용
@@ -125,8 +119,9 @@ export default function MyApplicationModal({
     !user ? verifyData : undefined // user가 없을 때만 실행
   );
 
-  const myApplicationData = user ? memberApplicationData : guestApplicationData;
-  const isLoading = user ? isMemberLoading : isGuestLoading;
+  // initialData가 있으면 API 호출 없이 바로 사용
+  const myApplicationData = initialData || (user ? memberApplicationData : guestApplicationData);
+  const isLoading = !initialData && (user ? isMemberLoading : isGuestLoading);
 
   if (!isOpen) return null;
 

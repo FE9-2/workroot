@@ -5,12 +5,12 @@ import { useInView } from "react-intersection-observer";
 import { useMyPosts } from "@/hooks/queries/user/me/useMyPosts";
 import { useMySortStore } from "@/store/mySortStore";
 import { useProfileStringValue } from "@/hooks/queries/user/me/useProfileStringValue";
-import LoadingSpinner from "@/app/components/loading-spinner/LoadingSpinner";
 import ContentSection from "@/app/components/layout/ContentSection";
 import useWidth from "@/hooks/useWidth";
 import ScrollTopButton from "@/app/components/button/default/ScrollTopButton";
 import BoardPostItem from "@/app/components/card/board/BoardPostItem";
 import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
+import SamllLoadingSpinner from "@/app/components/loading-spinner/SmallLoadingSpinner";
 
 export default function PostsSection() {
   const { orderBy } = useMySortStore();
@@ -45,14 +45,10 @@ export default function PostsSection() {
 
   if (error) {
     return (
-      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
+      <div className="flex h-[calc(100vh-300px)] items-center justify-center">
         <p className="text-primary-orange-300">게시글을 불러오는데 실패했습니다.</p>
       </div>
     );
-  }
-
-  if (isLoading) {
-    return <LoadingSpinner />;
   }
 
   return (
@@ -60,11 +56,12 @@ export default function PostsSection() {
       {/* 메인 콘텐츠 영역 */}
       <div className="w-full">
         {!data?.pages?.[0]?.data?.length ? (
-          <div className="flex h-[calc(100vh-200px)] flex-col items-center justify-center">
+          <div className="flex h-[calc(100vh-300px)] flex-col items-center justify-center">
             <p className="text-grayscale-500">작성한 게시글이 없습니다.</p>
           </div>
         ) : (
           <div className="mx-auto mt-4 w-full max-w-screen-xl px-3">
+            {isLoading && SamllLoadingSpinner}
             {/* ScrollTopButton 추가 */}
             <ScrollTopButton showHeight={300} />
 

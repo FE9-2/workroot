@@ -1,314 +1,344 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import LinkBtn from "../components/button/default/LinkBtn";
-import { hakgyoFont } from "../fonts";
+import Lenis from "@studio-freight/lenis";
+import { useMediaQuery } from "react-responsive";
 
-export default function Home() {
-  const [visibleSections, setVisibleSections] = useState(new Set<string>());
-  const [contentOpacity, setContentOpacity] = useState(0);
-  const [footerOpacity, setFooterOpacity] = useState(0);
-  const observer = useRef<IntersectionObserver | null>(null);
+const slides = [
+  {
+    id: 1,
+    title: "쉽고 빨라요",
+    content: "1분만에 알바폼을 만들어 보세요!\n링크를 복사하여 어디서든지 사용하세요.",
+    image: "/images/land/s2.jpg",
+  },
+  {
+    id: 2,
+    title: "한 곳에서 쉽게 관리하세요",
+    content: "워크폼 관리 페이지에서 지원 현황을 확인하고\n지원자별 상태를 관리할 수 있습니다.",
+    image: "/images/land/s3.jpg",
+  },
+  {
+    id: 3,
+    title: "쉽고 빠르게 지원하세요",
+    content: "간단한 정보만 입력해도\n알바 지원이 가능합니다.",
+    image: "/images/land/s4.jpg",
+  },
+  {
+    id: 4,
+    title: "workroot에 가입하세요",
+    content: "오늘의 선택이 내일의 열매가 됩니다.",
+    image: "/images/land/step1.jpg",
+  },
+  {
+    id: 5,
+    title: "지원자 이용 방법",
+    content: "언제든 다시 볼 수 있게\n공고를 스크랩하세요",
+    image: "/images/land/step2-2.jpg",
+    blackAreaTitle: "사장님 이용 방법",
+    blackAreaContent: "워크채널 우측의 [폼 만들기] 버튼을 클릭하고\n인재 채용을 시작하세요",
+    blackAreaImage: "/images/land/step2-1.jpg",
+  },
+  {
+    id: 6,
+    title: "",
+    content: "마이페이지에서 스크랩한 공고를 분석하고\n지원 계획을 세우세요",
+    image: "/images/land/step3-2.jpg",
+    blackAreaTitle: "",
+    blackAreaContent: "내 워크폼에서 작성한 공고를\n손쉽게 수정하고 삭제할 수 있어요",
+    blackAreaImage: "/images/land/step3-1.jpg",
+  },
+];
+
+const bounceAnimation = {
+  y: [0, -10, 0],
+  transition: {
+    repeat: Infinity,
+    duration: 1.5,
+    ease: "easeInOut",
+  },
+};
+
+export default function LandingPage() {
+  const isLargeScreen = useMediaQuery({ minWidth: 641 });
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const lenisRef = useRef<Lenis | null>(null);
+  const isScrollingRef = useRef(false);
 
   useEffect(() => {
-    setContentOpacity(1);
-    if (typeof window !== "undefined" && typeof IntersectionObserver !== "undefined") {
-      observer.current = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            const element = entry.target as HTMLElement;
-            const id = element.dataset.id ?? "";
-            if (id) {
-              if (entry.isIntersecting) {
-                setVisibleSections((prev) => new Set(prev).add(id));
-              } else {
-                setVisibleSections((prev) => {
-                  const newSet = new Set(prev);
-                  newSet.delete(id);
-                  return newSet;
-                });
-              }
-            }
+    setIsLoaded(true);
+    lenisRef.current = new Lenis({
+      duration: 0.8, // 1.2에서 0.8로 변경
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      wheelMultiplier: 2,
+      touchMultiplier: 1.2,
+      infinite: false,
+    });
+
+    function raf(time: number) {
+      lenisRef.current?.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    let lastScrollTime = 0;
+    const scrollThreshold = 500; // ms
+
+    lenisRef.current.on("scroll", ({ progress }: { progress: number }) => {
+      const currentTime = Date.now();
+      if (currentTime - lastScrollTime < scrollThreshold) return;
+
+      if (!isScrollingRef.current) {
+        const totalSlides = slides.length;
+        const newSlideIndex = Math.min(slides.length - 1, Math.max(0, Math.round(progress * (totalSlides - 1))));
+
+        if (newSlideIndex !== currentSlide) {
+          setCurrentSlide(newSlideIndex);
+          isScrollingRef.current = true;
+          const targetScroll =
+            (newSlideIndex / (totalSlides - 1)) *
+            (isLargeScreen ? containerRef.current!.scrollHeight : containerRef.current!.scrollWidth);
+
+          lenisRef.current?.scrollTo(targetScroll, {
+            immediate: false,
+            duration: 600, // 800에서 600으로 변경
+            easing: (t: number) => t * (2 - t),
           });
-        },
-        {
-          threshold: 0.5,
-          rootMargin: "0px 0px -100px 0px",
+
+          lastScrollTime = currentTime;
+
+          setTimeout(() => {
+            isScrollingRef.current = false;
+          }, 600); // 800에서 600으로 변경
         }
-      );
+      }
+    });
 
-      const targets = document.querySelectorAll("[data-id]");
-      targets.forEach((target) => observer.current?.observe(target));
-
-      return () => {
-        targets.forEach((target) => observer.current?.unobserve(target));
-      };
-    }
-  }, []);
-
-  useEffect(() => {
-    const footerObserver = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setFooterOpacity(1);
-        }
-      },
-      { threshold: 0.8 }
-    );
-
-    const footerElement = document.querySelector("[data-id='footer-cta']");
-    if (footerElement) {
-      footerObserver.observe(footerElement);
-    }
+    document.documentElement.style.scrollbarWidth = "none";
+    document.documentElement.style.overflow = "auto";
+    const style = document.createElement("style");
+    style.textContent = `
+      ::-webkit-scrollbar {
+        display: none;
+      }
+      body {
+        -ms-overflow-style: none;
+      }
+    `;
+    document.head.append(style);
 
     return () => {
-      if (footerElement) {
-        footerObserver.unobserve(footerElement);
-      }
+      lenisRef.current?.destroy();
+      document.documentElement.style.overflow = "";
+      style.remove();
     };
-  }, []);
-
-  const features = [
-    {
-      id: "feature-01",
-      number: "01",
-      title: "어디서든 지원받으세요",
-      description: "다양한 사이트, SNS, 문자까지 언제 어디서든 직원을 구해보세요",
-      imageSrc: "/images/land/2.webp",
-    },
-    {
-      id: "feature-02",
-      number: "02",
-      title: "한 곳에서 쉽게 관리하세요",
-      description: "워크폼 관리 페이지에서 지원현황을 확인하고, 지원자별 상태를 관리할 수 있습니다",
-      imageSrc: "/images/land/3.webp",
-    },
-    {
-      id: "feature-03",
-      number: "03",
-      title: "쉽고 빨라요",
-      description: "1분만에 워크폼을 만들어보세요! 링크를 복사하여 어디서든지 사용하세요",
-      imageSrc: "/images/land/4.webp",
-    },
-    {
-      id: "feature-04",
-      number: "04",
-      title: "쉽고 빠르게 지원하세요",
-      description: "간단한 정보 입력만으로 지원이 가능합니다",
-      imageSrc: "/images/land/5.webp",
-    },
-  ];
+  }, [currentSlide, isLargeScreen]);
 
   return (
-    <div
-      className={`flex min-w-[320px] flex-grow flex-col ${hakgyoFont.variable} overflow-x-hidden bg-white font-sans text-sm`}
-    >
-      {/* 히어로 섹션 */}
-      <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
-        {/* Background image */}
-        <div className="absolute inset-0">
-          <Image
-            src="/images/land/1.jpg"
-            alt="Hero Background"
-            fill
-            quality={100}
-            priority
-            className="object-cover brightness-50"
-          />
-        </div>
-        {/* Content */}
-        <div
-          className="relative z-10 w-full max-w-[300px] text-center sm:max-w-[70%] lg:max-w-[860px]"
-          style={{
-            opacity: contentOpacity,
-            transition: "opacity 1s ease-in-out",
-          }}
+    <AnimatePresence>
+      {isLoaded && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1 }}
+          ref={containerRef}
+          className={`h-[400vh] min-h-[768px] overflow-hidden bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] ${
+            isLargeScreen ? "" : "flex flex-col"
+          }`}
         >
-          <h1 className="mb-2 mt-3 text-2xl font-bold leading-tight text-white sm:text-3xl md:text-4xl lg:text-5xl lg:leading-relaxed">
-            WorkRoot
-          </h1>
-          <p className="mb-5 text-base font-normal leading-snug text-white sm:text-lg md:text-xl lg:text-2xl lg:leading-relaxed">
-            뿌리를 내리며 성장하는 구인구직 플랫폼
-          </p>
-          <div className="flex flex-row justify-center space-x-4">
-            <LinkBtn
-              href="/work-list"
-              variant="outlined"
-              width="lg"
-              height="lg"
-              fontSize="lg"
-              disabled={false}
-              className="rounded-md border-2 border-white bg-transparent px-6 py-3 text-base font-bold text-white shadow-lg transition duration-300 hover:bg-white hover:text-[#44813c]"
+          <div className={`fixed inset-0 ${isLargeScreen ? "flex" : "flex flex-col"}`}>
+            <motion.div
+              className={`relative ${isLargeScreen ? "w-1/2" : "flex h-1/2 w-full items-center justify-center overflow-hidden"}`}
+              animate={{
+                width: currentSlide === 0 ? "100%" : isLargeScreen ? "50%" : "100%",
+                height: currentSlide === 0 ? "100%" : isLargeScreen ? "100%" : "50%",
+              }}
+              transition={{ duration: 0.8, ease: "easeInOut" }}
             >
-              둘러보기
-            </LinkBtn>
-            <LinkBtn
-              href="/signup"
-              variant="outlined"
-              width="lg"
-              height="lg"
-              fontSize="lg"
-              disabled={false}
-              className="rounded-md border-2 border-white bg-transparent px-6 py-3 text-base font-bold text-white shadow-lg transition duration-300 hover:bg-white hover:text-[#44813c]"
-            >
-              회원가입
-            </LinkBtn>
-          </div>
-        </div>
-      </section>
-
-      {/* 특징 섹션 */}
-      <section className="bg-[#44813c]/20 py-12 md:py-16">
-        <div className="container mx-auto max-w-screen-xl px-4">
-          <div className="opacity-0 transition-opacity duration-1000 ease-in-out" data-id="features-intro"></div>
-          <div className="space-y-12 md:space-y-16">
-            {features.map((feature, index) => (
-              <FeatureCard
-                key={feature.id}
-                {...feature}
-                direction={index % 2 === 0 ? "left" : "right"}
-                isVisible={visibleSections.has(feature.id)}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* UI 섹션 */}
-      <section className="bg-white py-16">
-        <div className="container mx-auto max-w-screen-xl px-4">
-          <h2 className="mb-12 text-center text-3xl font-medium leading-snug text-[#44813c] lg:leading-relaxed">
-            WorkRoot 사용 방법
-          </h2>
-          <div className="flex flex-col gap-10 md:gap-14 lg:gap-16">
-            {[
-              { step: 1, text: "워크루트에 가입해 꿈을 이루기 위한 뿌리를 내리세요" },
-              { step: 2, text: "간단한 워크폼 등록으로 성장의 기회를 만드세요" },
-              { step: 3, text: "당신의 싹을 틔울 일자리를 찾아보세요" },
-              { step: 4, text: "간편하게 지원서를 작성하고 여러분들의 시작을 꽃피우세요 " },
-            ].map(({ step, text }) => (
-              <div
-                key={step}
-                data-id={`step-${step}`}
-                className={`relative flex flex-col items-center justify-between opacity-0 transition-all duration-700 ease-in-out md:flex-row ${
-                  visibleSections.has(`step-${step}`) ? "translate-y-0 opacity-100" : "translate-y-10"
-                }`}
+              <motion.div
+                className="absolute inset-0 flex items-center justify-center"
+                initial={{ opacity: 0 }}
+                animate={{
+                  opacity: 1,
+                }}
+                transition={{
+                  duration: 0.8, // Updated transition duration
+                  ease: "easeInOut",
+                }}
               >
-                <div className={`md:w-1/2 ${step % 2 === 0 ? "md:order-2" : "md:order-1"}`}>
+                {currentSlide === 0 ? (
                   <Image
-                    src={`/images/land/step${step}.jpg`}
-                    alt={`Step ${step}`}
-                    width={400}
-                    height={240}
-                    className="h-[400px] w-full rounded-lg object-contain shadow-xl"
+                    src="/brand.png"
+                    alt="Brand Logo"
+                    width={800}
+                    height={800}
+                    className="h-full max-h-[800px] w-full max-w-[800px] object-contain"
                   />
-                </div>
-                <div
-                  className={`mt-4 md:mt-0 md:flex md:w-1/2 md:items-start ${
-                    step % 2 === 0 ? "md:order-1 md:pr-8" : "md:order-2 md:pl-8"
-                  }`}
+                ) : currentSlide === 4 || currentSlide === 5 ? (
+                  <motion.div
+                    key={currentSlide}
+                    className="relative z-40 flex h-full w-full flex-col items-center justify-center p-4 pb-6 pt-4 max-[640px]:px-12 max-[640px]:py-3 md:p-6 md:pb-8 md:pt-6"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 1.2, ease: "easeInOut" }} // Update 1
+                  >
+                    <motion.h2
+                      className="mb-2 mt-0 text-center text-xl font-semibold text-gray-100 max-[640px]:mb-1 max-[640px]:px-4 md:mb-4 md:mt-0 md:text-3xl"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3, duration: 0.6 }} // Update 2
+                    >
+                      {slides[currentSlide].blackAreaTitle}
+                    </motion.h2>
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4, duration: 0.6 }} // Update 2
+                      className="mb-2 w-full max-w-[600px] max-[640px]:max-w-[75%] max-[640px]:px-4 md:mb-4"
+                      style={{ maxHeight: "calc(100% - 12rem)" }}
+                    >
+                      <div
+                        className="relative w-full overflow-hidden rounded-lg shadow-lg"
+                        style={{ paddingBottom: "56.25%" }}
+                      >
+                        <Image
+                          src={slides[currentSlide].blackAreaImage || ""}
+                          alt={slides[currentSlide].blackAreaTitle || ""}
+                          fill
+                          style={{ objectFit: "cover" }}
+                          sizes="(max-width: 768px) 100vw, 600px"
+                        />
+                      </div>
+                    </motion.div>
+                    <motion.p
+                      className="mb-0 max-w-[600px] whitespace-pre-wrap text-center text-sm text-gray-200 max-[640px]:mt-1 max-[640px]:px-4 md:text-xl"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.5, duration: 0.6 }} // Update 2
+                    >
+                      {slides[currentSlide].blackAreaContent}
+                    </motion.p>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    className="absolute inset-0 flex items-center justify-center"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.8 }} // Update 3
+                  >
+                    <div className="relative h-full max-h-[600px] w-full max-w-[600px]">
+                      <Image
+                        src="/brand.png"
+                        alt="Brand Logo"
+                        fill
+                        className="object-contain"
+                        sizes="(max-width: 600px) 100vw, 600px"
+                      />
+                    </div>
+                  </motion.div>
+                )}
+              </motion.div>
+              {currentSlide === 0 && (
+                <motion.div
+                  className="absolute bottom-8 left-0 right-0 flex flex-col items-center"
+                  animate={bounceAnimation}
                 >
-                  <div>
-                    <h3 className="mb-2 text-2xl font-bold text-[#44813c] md:text-2xl">Step {step}</h3>
-                    <p className="text-2xl font-medium text-gray-600">{text}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
+                  <svg width="60" height="30" viewBox="0 0 60 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M2 2L30 28L58 2"
+                      stroke="#71db77"
+                      strokeWidth="4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <span className="mt-1 text-2xl font-semibold text-[#71db77]">scroll</span>
+                </motion.div>
+              )}
+            </motion.div>
+            <AnimatePresence mode="wait">
+              {currentSlide > 0 && (
+                <motion.div
+                  key={currentSlide}
+                  className={`relative z-40 flex ${
+                    isLargeScreen ? "w-1/2" : "h-1/2 w-full"
+                  } flex-col items-center justify-center p-4 pb-6 pt-4 max-[640px]:px-12 max-[640px]:py-3 md:p-6 md:pb-8 md:pt-6`}
+                  style={{
+                    background: "linear-gradient(135deg, #71db77 0%, #56c45d 100%)",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: isLargeScreen ? "100%" : "50%",
+                  }}
+                  initial={{ opacity: 0, [isLargeScreen ? "y" : "x"]: isLargeScreen ? "100%" : "100%" }}
+                  animate={{ opacity: 1, [isLargeScreen ? "y" : "x"]: 0 }}
+                  exit={{ opacity: 0, [isLargeScreen ? "y" : "x"]: isLargeScreen ? "-100%" : "-100%" }}
+                  transition={{ duration: 0.4, ease: "easeInOut" }} // Updated transition duration
+                >
+                  <motion.h2
+                    className="mb-2 mt-0 text-center text-xl font-semibold text-[#1a1a1a] max-[640px]:mb-1 max-[640px]:px-4 md:mb-4 md:mt-0 md:text-3xl"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.05, duration: 0.3 }} // Updated transition
+                  >
+                    {slides[currentSlide].title}
+                  </motion.h2>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1, duration: 0.3 }} // Updated transition
+                    className="mb-2 w-full max-w-[600px] max-[640px]:max-w-[75%] max-[640px]:px-4 md:mb-4"
+                    style={{ maxHeight: "calc(100% - 12rem)" }}
+                  >
+                    <div
+                      className="relative w-full overflow-hidden rounded-lg shadow-lg"
+                      style={{ paddingBottom: "56.25%" }}
+                    >
+                      <Image
+                        src={slides[currentSlide].image || ""}
+                        alt={slides[currentSlide].title || ""}
+                        fill
+                        style={{ objectFit: "cover" }}
+                        sizes="(max-width: 768px) 100vw, 600px"
+                      />
+                    </div>
+                  </motion.div>
+                  <motion.p
+                    className="mb-0 max-w-[600px] whitespace-pre-wrap text-center text-sm text-[#1a1a1a] max-[640px]:mt-1 max-[640px]:px-4 md:text-xl"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15, duration: 0.3 }} // Updated transition
+                  >
+                    {slides[currentSlide].content}
+                  </motion.p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-        </div>
-      </section>
 
-      {/* Footer CTA 섹션 */}
-      <section className="relative flex min-h-screen items-center justify-center overflow-hidden" data-id="footer-cta">
-        {/* Background image */}
-        <div className="absolute inset-0">
-          <Image src="/images/land/foot.jpg" alt="Footer CTA Background" fill quality={100} className="object-cover" />
-        </div>
-
-        {/* Content */}
-        <div
-          className="relative z-10 w-full max-w-[300px] text-center sm:max-w-[70%] lg:max-w-[860px]"
-          style={{
-            opacity: footerOpacity,
-            transition: "opacity 1s ease-in-out",
-          }}
-        >
-          <h2 className="mb-4 text-2xl font-semibold text-gray-600 md:text-3xl">지금 바로 시작하세요</h2>
-          <p className="mb-6 inline-block rounded bg-[#44813c] p-2 text-2xl font-semibold text-white">
-            WorkRoot가 여러분의 성장의 길을 열어드립니다
-          </p>
-          <div className="flex flex-row justify-center space-x-4">
-            <LinkBtn
-              href="/work-list"
-              variant="outlined"
-              width="lg"
-              height="lg"
-              fontSize="lg"
-              disabled={false}
-              className="rounded-md border-2 border-[#44813c] bg-transparent px-6 py-3 text-base font-bold text-[#44813c] shadow-lg transition duration-300 hover:bg-[#44813c] hover:text-white"
+          {currentSlide > 0 && (
+            <div
+              className={`fixed ${isLargeScreen ? "right-4 top-1/2 -translate-y-1/2 space-y-2" : "bottom-4 left-1/2 flex -translate-x-1/2 space-x-2"}`}
             >
-              둘러보기
-            </LinkBtn>
-            <LinkBtn
-              href="/signup"
-              variant="outlined"
-              width="lg"
-              height="lg"
-              fontSize="lg"
-              disabled={false}
-              className="rounded-md border-2 border-[#44813c] bg-transparent px-6 py-3 text-base font-bold text-[#44813c] shadow-lg transition duration-300 hover:bg-[#44813c] hover:text-white"
-            >
-              회원가입
-            </LinkBtn>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
-
-interface FeatureCardProps {
-  id: string;
-  number: string;
-  title: string;
-  description: string;
-  imageSrc: string;
-  direction: "left" | "right";
-  isVisible: boolean;
-}
-
-function FeatureCard({ id, number, title, description, imageSrc, direction, isVisible }: FeatureCardProps) {
-  return (
-    <div
-      data-id={id}
-      className={`flex transform flex-col items-center justify-between rounded-lg bg-white py-8 shadow-lg transition-all duration-1000 ease-in-out md:flex-row md:py-10 ${
-        isVisible
-          ? "translate-x-0 opacity-100"
-          : direction === "left"
-            ? "-translate-x-20 opacity-0"
-            : "translate-x-20 opacity-0"
-      }`}
-    >
-      <div className={`md:w-1/3 ${direction === "left" ? "md:order-1" : "md:order-2"} px-6 md:px-8`}>
-        <Image
-          src={imageSrc}
-          alt={title}
-          width={400}
-          height={300}
-          className="h-[280px] w-full rounded-lg object-contain shadow-xl"
-        />
-      </div>
-      <div
-        className={`mt-6 md:mt-0 md:w-2/3 ${direction === "left" ? "md:order-2 md:pl-6" : "md:order-1 md:pr-6"} px-6 md:px-8`}
-      >
-        <span className="mb-2 block text-2xl font-bold text-[#44813c] md:text-2xl">{number}</span>
-        <h3 className="mb-3 text-2xl font-bold">
-          <span className="inline-block rounded bg-[#44813c] p-2 text-white">{title}</span>
-        </h3>
-        <p className="text-2xl font-medium text-gray-600">{description}</p>
-      </div>
-    </div>
+              {slides.slice(1).map((_, index) => (
+                <div
+                  key={index + 1}
+                  className={`h-4 w-4 rounded-full ${index + 1 === currentSlide ? "bg-[#108b2d]" : "bg-[#f8fff8]"}`}
+                />
+              ))}
+            </div>
+          )}
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
