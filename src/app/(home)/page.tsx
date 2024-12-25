@@ -255,23 +255,29 @@ export default function LandingPage() {
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.8 }}
                   >
-                    {/* 이미지 섹션 */}
-                    <motion.div
-                      className="relative mb-8 w-full max-w-[600px]"
-                      initial={{ scale: 0.95 }}
-                      animate={{ scale: 1 }}
-                      transition={{ duration: 0.5 }}
-                    >
+                    {/* 이미지/애니메이션 섹션 */}
+                    <motion.div className="relative mb-8 w-full max-w-[600px]">
                       <div className="relative w-full overflow-hidden rounded-2xl">
-                        <div style={{ paddingBottom: "56.25%" }}>
-                          <Image
-                            src={slides[currentSlide].blackAreaImage || ""}
-                            alt={slides[currentSlide].blackAreaTitle || ""}
-                            fill
-                            className="object-contain transition-transform duration-500 hover:scale-105"
-                            sizes="(max-width: 768px) 100vw, 600px"
-                          />
-                        </div>
+                        {currentSlide === 5 ? (
+                          <div style={{ paddingBottom: "56.25%" }} className="relative">
+                            <Player
+                              autoplay
+                              loop
+                              src="/images/land/step3-1.json"
+                              style={{ position: "absolute", width: "100%", height: "100%" }}
+                            />
+                          </div>
+                        ) : (
+                          <div style={{ paddingBottom: "56.25%" }}>
+                            <Image
+                              src={slides[currentSlide].blackAreaImage || ""}
+                              alt={slides[currentSlide].blackAreaTitle || ""}
+                              fill
+                              className="object-contain transition-transform duration-500 hover:scale-105"
+                              sizes="(max-width: 768px) 100vw, 600px"
+                            />
+                          </div>
+                        )}
                       </div>
                     </motion.div>
 
@@ -464,6 +470,15 @@ export default function LandingPage() {
                                 autoplay
                                 loop
                                 src="/images/land/s3.json"
+                                style={{ position: "absolute", width: "100%", height: "100%" }}
+                              />
+                            </div>
+                          ) : currentSlide === 5 ? (
+                            <div style={{ paddingBottom: "56.25%" }} className="relative">
+                              <Player
+                                autoplay
+                                loop
+                                src="/images/land/step3-2.json"
                                 style={{ position: "absolute", width: "100%", height: "100%" }}
                               />
                             </div>
