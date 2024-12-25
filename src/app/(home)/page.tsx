@@ -449,7 +449,16 @@ export default function LandingPage() {
                         transition={{ duration: 0.5 }}
                       >
                         <div className="relative w-full overflow-hidden rounded-2xl">
-                          {currentSlide === 2 ? (
+                          {currentSlide === 1 ? (
+                            <div style={{ paddingBottom: "56.25%" }} className="relative">
+                              <Player
+                                autoplay
+                                loop
+                                src="/images/land/s2.json"
+                                style={{ position: "absolute", width: "100%", height: "100%" }}
+                              />
+                            </div>
+                          ) : currentSlide === 2 ? (
                             <div style={{ paddingBottom: "56.25%" }} className="relative">
                               <Player
                                 autoplay
