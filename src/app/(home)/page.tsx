@@ -8,7 +8,17 @@ import { useMediaQuery } from "react-responsive";
 import TypewriterText from "../components/animation/TypewriterText";
 import { IoIosArrowDown } from "react-icons/io";
 import LeafAnimation from "../components/animation/LeafAnimation";
+import { Player } from "@lottiefiles/react-lottie-player";
 
+// 버튼 타입 정의
+interface ButtonType {
+  text: string;
+  href: string;
+  primary: boolean;
+  icon?: string; // 선택적 아이콘
+}
+
+// slides 배열 수정
 const slides = [
   {
     id: 1,
@@ -46,11 +56,35 @@ const slides = [
   {
     id: 6,
     title: "",
-    content: "마이페이지에서 스크랩한 공고를 분석하고\n지원 계획을 세우세요",
+    content: "마이페이지에서 스크랩한 공고를\n분석하고 지원 계획을 세우세요",
     image: "/images/land/step3-2.png",
     blackAreaTitle: "",
     blackAreaContent: "내 워크폼에서 작성한 공고를\n손쉽게 수정하고 삭제할 수 있어요",
     blackAreaImage: "/images/land/step3-1.png",
+  },
+  {
+    id: 7,
+    title: "쉽고 빨라요",
+    content: "1분만에 알바폼을 만들어 보세요!\n링크를 복사하여 어디서든지 사용하세요.",
+    image: "/images/land/s2.png",
+  },
+  {
+    id: 9,
+    title: "지금 바로 시작하세요",
+    content: "더 나은 채용의 시작,\nWorkroot가 함께합니다",
+    image: "/images/land/start.png",
+    buttons: [
+      {
+        text: "채용 공고 구경하기",
+        href: "/work-list",
+        primary: true,
+      },
+      {
+        text: "서비스 더 알아보기",
+        href: "/signup",
+        primary: false,
+      },
+    ],
   },
 ];
 
@@ -186,7 +220,12 @@ export default function LandingPage() {
                 isLargeScreen ? "w-1/2" : "flex h-1/2 w-full items-center justify-center overflow-hidden"
               }`}
               animate={{
-                width: currentSlide === 0 ? "100%" : isLargeScreen ? "50%" : "100%",
+                width:
+                  currentSlide === 0 || currentSlide === 7 || currentSlide === 9
+                    ? "100%"
+                    : isLargeScreen
+                      ? "50%"
+                      : "100%",
                 height: currentSlide === 0 ? "100%" : isLargeScreen ? "100%" : "50%",
               }}
               transition={{ duration: 0.8, ease: "easeInOut" }}
@@ -239,7 +278,7 @@ export default function LandingPage() {
                     {/* 텍스트 섹션 - 장식 요소 제거 */}
                     <motion.div className="relative">
                       <motion.h2
-                        className="text-center font-sans text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
+                        className="text-center font-hakgyo text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
                         style={{
                           background: "linear-gradient(to right, #71db77, #56c45d)",
                           WebkitBackgroundClip: "text",
@@ -256,18 +295,94 @@ export default function LandingPage() {
                       </motion.h2>
 
                       <motion.div
-                        className="mt-4 max-w-2xl"
+                        className="mt-6 max-w-2xl"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.3 }}
                       >
-                        <p className="whitespace-pre-wrap text-balance text-center font-sans text-xl leading-relaxed text-white/90 md:text-2xl lg:text-3xl">
+                        <p className="whitespace-pre-wrap text-balance text-center font-hakgyo text-xl leading-relaxed text-white/90 md:text-xl lg:text-3xl">
                           <TypewriterText
                             text={slides[currentSlide].blackAreaContent || ""}
                             className="relative z-10"
                           />
                         </p>
                       </motion.div>
+                    </motion.div>
+                  </motion.div>
+                ) : currentSlide === 7 ? (
+                  <motion.div
+                    key={currentSlide}
+                    className="flex h-full w-full flex-col items-center justify-center p-8"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.8 }}
+                  >
+                    <motion.div
+                      className="relative w-full max-w-4xl rounded-3xl bg-gradient-to-b from-slate-800/30 to-slate-900/30 p-12 backdrop-blur-sm"
+                      initial={{ scale: 0.95, y: 20 }}
+                      animate={{ scale: 1, y: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      {/* 헤더 섹션 */}
+                      <div className="text-center">
+                        <motion.h2
+                          className="font-hakgyo text-5xl font-bold tracking-tight text-white md:text-6xl lg:text-7xl"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, delay: 0.2 }}
+                        >
+                          {slides[currentSlide].title}
+                        </motion.h2>
+                        <motion.p
+                          className="mt-6 whitespace-pre-wrap text-balance text-center font-hakgyo text-xl leading-relaxed text-white/70 md:text-2xl"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, delay: 0.3 }}
+                        >
+                          {slides[currentSlide].content}
+                        </motion.p>
+                      </div>
+
+                      {/* 버튼 그룹 */}
+                      <motion.div
+                        className="mt-12 flex flex-col items-center justify-center gap-4 md:flex-row md:gap-6"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.4 }}
+                      >
+                        {slides[currentSlide].buttons?.map((button: ButtonType, index) => (
+                          <motion.a
+                            key={index}
+                            href={button.href}
+                            className={`group relative flex min-w-[200px] items-center justify-center gap-2 overflow-hidden rounded-full px-8 py-4 transition-all duration-300 ease-out ${
+                              button.primary ? "bg-[#71db77] hover:bg-[#56c45d]" : "bg-white/10 hover:bg-white/20"
+                            }`}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            {button.icon && <span className="text-xl">{button.icon}</span>}
+                            <span
+                              className={`font-hakgyo text-lg font-medium ${
+                                button.primary ? "text-slate-900" : "text-white"
+                              }`}
+                            >
+                              {button.text}
+                            </span>
+                            <motion.div
+                              className="absolute inset-0 -z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-20"
+                              style={{
+                                background: "radial-gradient(circle at center, white 0%, transparent 70%)",
+                              }}
+                            />
+                          </motion.a>
+                        ))}
+                      </motion.div>
+
+                      {/* 장식 요소 */}
+                      <div className="pointer-events-none absolute -inset-px rounded-3xl">
+                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-white/5 to-transparent" />
+                      </div>
                     </motion.div>
                   </motion.div>
                 ) : (
@@ -298,7 +413,7 @@ export default function LandingPage() {
                 >
                   <div className="flex flex-col items-center rounded-full bg-white/10 p-3 backdrop-blur-sm">
                     <IoIosArrowDown className="text-2xl text-[#71db77]" />
-                    <span className="mt-1 text-xs font-semibold text-[#71db77]">scroll</span>
+                    <span className="mt-1 font-hakgyo text-xs font-semibold text-[#71db77]">scroll</span>
                   </div>
                 </motion.div>
               )}
@@ -306,7 +421,8 @@ export default function LandingPage() {
 
             {/* 콘텐츠 섹션에 새로운 디자인 요소 추가 */}
             <AnimatePresence mode="wait">
-              {currentSlide > 0 && (
+              {/* 초록색 영역 - currentSlide가 0이나 7이 아닐 때만 표시 */}
+              {currentSlide !== 0 && currentSlide !== 7 && currentSlide !== 9 && (
                 <motion.div
                   className={`relative z-40 flex ${isLargeScreen ? "w-1/2" : "h-1/2 w-full"}`}
                   style={{
@@ -325,7 +441,7 @@ export default function LandingPage() {
                       exit={{ opacity: 0, y: -20 }}
                       transition={{ duration: 0.8 }}
                     >
-                      {/* 이미지 섹션 */}
+                      {/* 이미지/애니메이션 섹션 */}
                       <motion.div
                         className="relative mb-8 w-full max-w-[600px]"
                         initial={{ scale: 0.95 }}
@@ -333,27 +449,36 @@ export default function LandingPage() {
                         transition={{ duration: 0.5 }}
                       >
                         <div className="relative w-full overflow-hidden rounded-2xl">
-                          <div style={{ paddingBottom: "56.25%" }}>
-                            <Image
-                              src={slides[currentSlide].image}
-                              alt={slides[currentSlide].title}
-                              fill
-                              className="object-contain transition-transform duration-500 hover:scale-105"
-                              sizes="(max-width: 768px) 100vw, 600px"
-                            />
-                          </div>
+                          {currentSlide === 2 ? (
+                            <div style={{ paddingBottom: "56.25%" }} className="relative">
+                              <Player
+                                autoplay
+                                loop
+                                src="/images/land/s3.json"
+                                style={{ position: "absolute", width: "100%", height: "100%" }}
+                              />
+                            </div>
+                          ) : (
+                            <div style={{ paddingBottom: "56.25%" }}>
+                              <Image
+                                src={slides[currentSlide].image}
+                                alt={slides[currentSlide].title}
+                                fill
+                                className="object-contain transition-transform duration-500 hover:scale-105"
+                                sizes="(max-width: 768px) 100vw, 600px"
+                              />
+                            </div>
+                          )}
                         </div>
                       </motion.div>
 
                       {/* 텍스트 섹션 */}
                       <motion.div className="relative">
                         <motion.h2
-                          className="text-center font-sans text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
+                          className="text-center font-hakgyo text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
                           style={{
-                            background: "linear-gradient(to right, #71db77, #56c45d)",
-                            WebkitBackgroundClip: "text",
-                            WebkitTextFillColor: "transparent",
-                            textShadow: "0 2px 30px rgba(113,219,119,0.2)",
+                            color: "#ffffff",
+                            letterSpacing: "-0.02em",
                           }}
                         >
                           <motion.span
@@ -366,17 +491,12 @@ export default function LandingPage() {
                         </motion.h2>
 
                         <motion.div
-                          className="mt-4 max-w-2xl"
+                          className="mt-6 max-w-2xl"
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.5, delay: 0.3 }}
                         >
-                          <p
-                            className="whitespace-pre-wrap text-balance text-center font-sans text-xl leading-relaxed text-white/90 md:text-2xl lg:text-3xl"
-                            style={{
-                              textShadow: "0 2px 20px rgba(0,0,0,0.2)",
-                            }}
-                          >
+                          <p className="whitespace-pre-wrap text-balance text-center font-hakgyo text-lg leading-relaxed text-white/80 md:text-xl lg:text-3xl">
                             <TypewriterText text={slides[currentSlide].content} className="relative z-10" />
                           </p>
                         </motion.div>
@@ -435,7 +555,7 @@ export default function LandingPage() {
             </AnimatePresence>
           </motion.div>
 
-          {/* 네비게이션 도트 개선 */}
+          {/* 네비게이션 도트 선 */}
           {currentSlide > 0 && (
             <motion.div
               className={`fixed ${
