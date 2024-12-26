@@ -23,7 +23,7 @@ const slides = [
   {
     id: 1,
     title: "쉽고 빨라요",
-    content: "1분만에 알바폼을 만들어 보세요!\n링크를 복사하여 어디서든지 사용하세요.",
+    content: "1분만에 워크폼을 만들어 보세요!\n링크를 복사하여 어디서든지 사용하세요.",
     image: "/images/land/s2.svg",
   },
   {
@@ -65,7 +65,7 @@ const slides = [
   {
     id: 7,
     title: "쉽고 빨라요",
-    content: "1분만에 알바폼을 만들어 보세요!\n링크를 복사하여 어디서든지 사용하세요.",
+    content: "1분만에 워크폼을 만들어 보세요!\n링크를 복사하여 어디서든지 사용하세요.",
     image: "/images/land/s2.png",
   },
   {
