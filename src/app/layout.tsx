@@ -7,6 +7,7 @@ import { viewport } from "./viewport";
 import { hakgyoFont, nexonFont } from "./fonts";
 import MouseTrail from "./components/mouseTrail/MouseTrail";
 import CustomCursor from "./components/mouseTrail/CustomCursor";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 export { metadata, viewport };
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Header />
           <main className="min-h-[80vh] pt-16">{children}</main>
         </ClientLayout>
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />
       </body>
     </html>
   );
