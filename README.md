@@ -51,6 +51,7 @@
 [![React DatePicker](https://img.shields.io/badge/React%20DatePicker-7.5.0-216BA5)](https://reactdatepicker.com/)
 [![React Icons](https://img.shields.io/badge/React%20Icons-5.3.0-E91E63)](https://react-icons.github.io/react-icons)
 [![React Hot Toast](https://img.shields.io/badge/React%20Hot%20Toast-2.4.1-FF4444)](https://react-hot-toast.com/)
+[![Yet Another React Lightbox](https://img.shields.io/badge/Yet%20Another%20React%20Lightbox-3.17.0-00A5E0)](https://yet-another-react-lightbox.com/)
 [![Hello Pangea DnD](https://img.shields.io/badge/Hello%20Pangea%20DnD-17.0.0-yellow)](https://github.com/hello-pangea/dnd)
 
 ### 지도 & 소셜

@@ -36,10 +36,11 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   // 채널톡을 표시하지 않을 경로들
   const excludePaths = ["/login", "/signup", "/auth/callback"];
   const showChannelTalk = !excludePaths.some((path) => pathname.startsWith(path));
+  const isHome = pathname === "/";
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="relative">
+      <div className={`relative min-h-[80vh] ${!isHome ? "pt-16" : ""}`}>
         {children}
         <MouseTrail />
         <Toaster

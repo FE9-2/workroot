@@ -22,21 +22,29 @@ export default function Header() {
 
   if (pathname === "/") {
     return (
-      <header className="fixed left-0 right-0 top-0 z-40" data-slide-header>
+      <header className="fixed right-8 top-0 z-40" data-slide-header>
         <nav className="mx-auto flex h-16 min-w-[327px] max-w-screen-xl items-center justify-end px-6">
           <div className="flex items-center gap-4 md:gap-6">
             <Link
               href="/work-list"
-              className="text-sm text-white transition-colors hover:text-lime-400 md:text-base lg:text-lg"
+              className="text-sm text-white transition-colors hover:text-primary-orange-300 md:text-base lg:text-lg"
             >
               워크 채널
             </Link>
             <Link
               href="/work-talk"
-              className="text-sm text-white transition-colors hover:text-lime-400 md:text-base lg:text-lg"
+              className="text-sm text-white transition-colors hover:text-primary-orange-300 md:text-base lg:text-lg"
             >
               워크톡
             </Link>
+            {!user && !isLoading && (
+              <Link
+                href="/login"
+                className="text-sm text-white transition-colors hover:text-primary-orange-300 md:text-base lg:text-lg"
+              >
+                로그인
+              </Link>
+            )}
           </div>
         </nav>
       </header>
@@ -62,7 +70,7 @@ export default function Header() {
 
     return cn(
       "font-medium transition-colors h-16 flex items-center",
-      "hover:text-lime-900 hover:font-bold hover:opacity-70",
+      "hover:font-bold hover:text-primary-orange-300",
       isActive
         ? "text-lime-900 text-sm md:text-base lg:text-lg font-bold"
         : "text-primary-orange-400 text-sm md:text-base"
