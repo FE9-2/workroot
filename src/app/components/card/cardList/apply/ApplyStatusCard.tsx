@@ -103,7 +103,7 @@ const ApplyStatusCard = ({ formId }: ApplyStatusCardProps) => {
               <button
                 type="button"
                 onClick={() => handleApplicationClick(application)}
-                className="col-span-3 grid grid-cols-[1fr_2fr_1fr] px-6 py-4 text-left transition-colors hover:bg-gray-50"
+                className="col-span-3 grid grid-cols-[1fr_2fr_1fr] items-center px-6 py-4 text-left transition-colors hover:bg-gray-50"
                 aria-label={`${application.name}님의 지원 정보 보기`}
               >
                 <span className="w-2/5">{application.name}</span>

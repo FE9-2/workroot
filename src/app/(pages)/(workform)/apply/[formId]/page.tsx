@@ -102,7 +102,7 @@ export default function Apply() {
     "absolute -bottom-[26px] right-1 text-[13px] text-sm font-medium leading-[22px] text-state-error lg:text-base lg:leading-[26px]";
 
   return (
-    <form className="my-8 flex flex-col gap-4" onSubmit={handleSubmit(() => mutation.mutate())}>
+    <form className="flex flex-col gap-4" onSubmit={handleSubmit(() => mutation.mutate())}>
       <Label>이름</Label>
       <BaseInput
         {...register("name", { required: "이름은 필수입니다" })}
