@@ -22,7 +22,7 @@ export default function Header() {
 
   if (pathname === "/") {
     return (
-      <header className="fixed left-0 right-0 top-0 z-40" data-slide-header>
+      <header className="fixed right-8 top-0 z-40" data-slide-header>
         <nav className="mx-auto flex h-16 min-w-[327px] max-w-screen-xl items-center justify-end px-6">
           <div className="flex items-center gap-4 md:gap-6">
             <Link
