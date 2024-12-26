@@ -14,6 +14,7 @@ import Image from "next/image";
 import { useUser } from "@/hooks/queries/user/me/useUser";
 import { useGuestApplication } from "@/hooks/queries/user/me/useGuestApplication";
 import Chip from "@/app/components/chip/Chip";
+import { FaCheckCircle } from "react-icons/fa";
 
 const ModalOverlay = ({ onClick }: { onClick: (e: React.MouseEvent) => void }) => (
   <div className="bg-black fixed inset-0 z-50 bg-opacity-50" role="presentation">
@@ -56,7 +57,7 @@ const ModalHeader = () => {
 };
 
 const ResumeDownloadButton = ({ resumeId, resumeName }: ResumeDownloadProps) => {
-  const { downloadResume } = useResumeDownLoad();
+  const { downloadResume, downloading } = useResumeDownLoad();
 
   const handleResumeDownload = () => {
     downloadResume({ resumeId, resumeName });
@@ -66,7 +67,7 @@ const ResumeDownloadButton = ({ resumeId, resumeName }: ResumeDownloadProps) => 
     <div className="flex w-full items-center justify-between border-b pb-2">
       <span className="text-grayscale-400">이력서 다운로드</span>
       <button onClick={handleResumeDownload} className="hover:text-primary-orange-500 transition-colors">
-        <FiDownload className="text-2xl" />
+        {downloading ? <FaCheckCircle className="text-2xl" /> : <FiDownload className="text-2xl" />}
       </button>
     </div>
   );
