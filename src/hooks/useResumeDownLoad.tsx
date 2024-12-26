@@ -1,4 +1,6 @@
+"use client";
 import axios from "axios";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 interface UseResumeDownloadProps {
@@ -7,8 +9,10 @@ interface UseResumeDownloadProps {
 }
 
 export const useResumeDownLoad = () => {
+  const [downloading, setDownloading] = useState(false);
   const downloadResume = async ({ resumeId, resumeName }: UseResumeDownloadProps) => {
     try {
+      setDownloading(true);
       // API를 통해 이력서 파일을 다운로드
       const response = await axios.get(`/api/resume/${resumeId}/download`, {
         responseType: "blob",
@@ -36,5 +40,5 @@ export const useResumeDownLoad = () => {
     }
   };
 
-  return { downloadResume };
+  return { downloadResume, downloading };
 };
