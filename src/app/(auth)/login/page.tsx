@@ -86,7 +86,7 @@ export default function LoginPage() {
         <div className="text-grayscale-900 text-center text-3xl font-bold tracking-tight">로그인</div>
         <p className="text-grayscale-600 mt-2 text-center text-sm">
           아직 계정이 없으신가요?{" "}
-          <Link href="/signup" className="font-medium text-primary-orange-300 hover:text-primary-orange-200">
+          <Link href="/signup" className="font-bold text-primary-orange-300 hover:text-primary-orange-200">
             회원가입하기
           </Link>
         </p>
