@@ -58,7 +58,6 @@ const ModalHeader = () => {
 
 const ResumeDownloadButton = ({ resumeId, resumeName }: ResumeDownloadProps) => {
   const { downloadResume, downloading } = useResumeDownLoad();
-
   const handleResumeDownload = () => {
     downloadResume({ resumeId, resumeName });
   };
@@ -83,6 +82,8 @@ const ApplicationContent = ({
   introduction,
   createdAt,
 }: ApplicationResponse) => {
+  const user = useUser();
+
   return (
     <div className="space-y-4">
       <Chip label={getStatusMap(status)} variant="positive" />
@@ -93,7 +94,7 @@ const ApplicationContent = ({
       {resumeName && (
         <>
           <InfoRow label="이력서" value="제출됨" />
-          <ResumeDownloadButton resumeId={resumeId} resumeName={resumeName} />
+          {user && <ResumeDownloadButton resumeId={resumeId} resumeName={resumeName} />}
         </>
       )}
       <InfoRow label="자기소개" value={introduction} isIntroduction />

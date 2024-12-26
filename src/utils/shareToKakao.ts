@@ -16,7 +16,7 @@ const shareToKakao = (content?: ShareContent) => {
     title: getMetaContentByProperty("og:title") || "WorkRoot",
     description:
       getMetaContentByProperty("og:description") || "🌳 일을 통해 자신의 뿌리를 내리며 성장하는 구인구직 사이트",
-    imageUrl: getMetaContentByProperty("og:image") || "/logo.svg",
+    imageUrl: getMetaContentByProperty("og:image") || "/logo.png",
     buttonText: "자세히 보기",
   };
 

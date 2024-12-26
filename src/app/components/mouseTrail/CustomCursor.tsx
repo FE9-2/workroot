@@ -9,27 +9,45 @@ interface CursorPosition {
 
 export default function CustomCursor() {
   const [position, setPosition] = useState<CursorPosition>({ x: 0, y: 0 });
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     const updatePosition = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
     };
 
+    // Lightbox 요소 감시
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.addedNodes.length) {
+          const lightbox = document.querySelector('[role="dialog"]');
+          if (lightbox) {
+            setIsVisible(true);
+          }
+        }
+      });
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
     window.addEventListener("mousemove", updatePosition);
 
     return () => {
+      observer.disconnect();
       window.removeEventListener("mousemove", updatePosition);
     };
   }, []);
 
   return (
     <div
+      data-custom-cursor
       style={{
         position: "fixed",
         left: position.x,
         top: position.y,
-        zIndex: 9999,
+        zIndex: 99999,
         pointerEvents: "none",
+        opacity: isVisible ? 1 : 0,
+        transform: "translate(-50%, -50%)",
       }}
     >
       <TreeSVG />

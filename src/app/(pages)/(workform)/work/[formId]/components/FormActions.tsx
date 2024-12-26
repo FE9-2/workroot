@@ -29,6 +29,7 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
   const isMyAlbaForm = user?.id === albaFormDetailData.ownerId;
   const isOwnerRole = user?.role === "OWNER";
   const buttonStyle = "h-10 lg:h-16 w-full rounded-lg font-bold lg:mb-4";
+  const buttonWrapStyle = "flex flex-col gap-2 text-2xl lg:gap-0";
 
   const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
@@ -78,26 +79,28 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
   // 비회원일 때
   if (!user) {
     return (
-      <div>
-        <Link href={`/apply/${formId}`}>
-          <FloatingBtn className={`${buttonStyle}`} icon={<HiMail />}>
-            지원하기
+      <div className={buttonWrapStyle}>
+        <div>
+          <Link href={`/apply/${formId}`}>
+            <FloatingBtn className={`${buttonStyle}`} icon={<HiMail />}>
+              지원하기
+            </FloatingBtn>
+          </Link>
+          <FloatingBtn
+            variant="white"
+            className={buttonStyle}
+            icon={<HiDocumentText />}
+            onClick={() =>
+              openModal("verifyMyApplication", {
+                formId,
+                isOpen: true,
+                onVerify: handleVerifySuccess,
+              })
+            }
+          >
+            내 지원내역 조회
           </FloatingBtn>
-        </Link>
-        <FloatingBtn
-          variant="white"
-          className={buttonStyle}
-          icon={<HiDocumentText />}
-          onClick={() =>
-            openModal("verifyMyApplication", {
-              formId,
-              isOpen: true,
-              onVerify: handleVerifySuccess,
-            })
-          }
-        >
-          내 지원내역 조회
-        </FloatingBtn>
+        </div>
       </div>
     );
   }
@@ -106,7 +109,7 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
   if (isOwnerRole) {
     if (!isMyAlbaForm) return null;
     return (
-      <div className="flex flex-col gap-2 text-2xl lg:gap-0">
+      <div className={buttonWrapStyle}>
         <Link href={`/work/${formId}/edit`}>
           <FloatingBtn className={buttonStyle} icon={<FaEdit />} disabled={isLoading}>
             {isLoading ? <DotLoadingSpinner /> : "수정하기"}
@@ -127,7 +130,7 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
 
   // 사장님이 아니면 지원하기/내 지원내역 보기 버튼
   return (
-    <div className="flex flex-col gap-2 text-2xl lg:gap-0">
+    <div className={buttonWrapStyle}>
       {isApplicationLoading ? (
         <>
           <FloatingBtn className={`${buttonStyle}`} variant="white">

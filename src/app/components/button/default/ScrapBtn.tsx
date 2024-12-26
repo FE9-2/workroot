@@ -49,7 +49,7 @@ const ScrapBtn = ({ className = "", formId }: ScrapBtnProps) => {
   return (
     <button
       className={cn(
-        "inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary-orange-50 p-2 transition-colors",
+        "inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary-blue-50 p-2 transition-colors",
         className
       )}
       onClick={toggleScrap}
