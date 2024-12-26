@@ -37,10 +37,12 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const excludePaths = ["/login", "/signup", "/auth/callback"];
   const showChannelTalk = !excludePaths.some((path) => pathname.startsWith(path));
   const isHome = pathname === "/";
-
+  const isLogin = pathname === "/login";
+  const isSignupA = pathname === "/signup/applicant";
+  const isSignupO = pathname === "/signup/owner";
   return (
     <QueryClientProvider client={queryClient}>
-      <div className={`relative min-h-[80vh] ${!isHome ? "pt-16" : ""}`}>
+      <div className={`relative min-h-[80vh] ${!(isHome || isLogin || isSignupA || isSignupO) ? "pt-16" : ""}`}>
         {children}
         <MouseTrail />
         <Toaster
