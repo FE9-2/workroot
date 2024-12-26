@@ -19,7 +19,7 @@ export default function LoginPage() {
   // 로그인 훅과 로딩 상태 관리
   const { login, isPending } = useLogin();
   const [isSocialLogin, setIsSocialLogin] = useState(false);
-  const [currentProvider, setCurrentProvider] = useState<OAuthProvider>(oauthProviders.GOOGLE);
+  const [, setCurrentProvider] = useState<OAuthProvider>(oauthProviders.GOOGLE);
 
   // 폼 유효성 검사 및 상태 관리
   const {
