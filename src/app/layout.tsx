@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <CustomCursor />
           <MouseTrail />
           <Header />
-          <main className="min-h-[80vh] pt-16">{children}</main>
+          <main className="min-h-[80vh] has-[header]:pt-16">{children}</main>
         </ClientLayout>
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />
       </body>

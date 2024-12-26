@@ -82,14 +82,14 @@ const FilterDropdown = ({ options, className = "", onChange, initialValue, readO
         }}
         disabled={readOnly}
       >
-        <span className={selectedLabel === options[0] ? "text-black-100" : "text-primary-orange-300"}>
+        <span className={selectedLabel === options[0] ? "text-black-100" : "text-primary-orange-500"}>
           {selectedLabel}
         </span>
         <IoIosArrowDown
           className={cn(
             "text-orange-400 transition-transform duration-200",
             isOpen && "rotate-180",
-            selectedLabel === options[0] ? "text-grayscale-200" : "text-primary-orange-300"
+            selectedLabel === options[0] ? "text-grayscale-200" : "text-primary-orange-500"
           )}
         />
       </button>

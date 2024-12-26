@@ -31,12 +31,16 @@ const config: Config = {
         primary: {
           orange: {
             50: "#fbfffd",
-            100: "#8ab08c",
-            200: "#64a466",
-            300: "#388e3c",
-            400: "#156719",
+            100: "#bde3bf",
+            200: "#94d597",
+            300: "#5ebd63", // 사용자 브랜드 색상
+            400: "#4b9f4d",
+            500: "#008957",
           },
           blue: {
+            50: "#ebf2ff",
+            60: "#f1fcff",
+            70: "#effffe",
             100: "#535779",
             200: "#3E415B",
             300: "#2A2C3D",
@@ -53,6 +57,9 @@ const config: Config = {
         },
         state: {
           error: "#FC4100",
+        },
+        header: {
+          100: "#7eca82",
         },
       },
       fontFamily: {
