@@ -4,7 +4,11 @@ import Image from "next/image";
 import Indicator from "@/app/components/pagination/Indicator";
 import { isValidS3Url } from "@/utils/checkS3Url";
 import { useState } from "react";
-import ImageViewerModal from "./ImageViewerModal";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import Counter from "yet-another-react-lightbox/plugins/counter";
+import "yet-another-react-lightbox/plugins/counter.css";
 
 interface FormImageProps {
   imageUrls: string[];
@@ -13,15 +17,15 @@ interface FormImageProps {
 }
 
 export default function FormImage({ imageUrls, currentPage, onPageChange }: FormImageProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleImageClick = () => {
-    setIsModalOpen(true);
+    setIsOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  const slides = imageUrls.map((url) => ({
+    src: url,
+  }));
 
   return (
     <>
@@ -34,6 +38,13 @@ export default function FormImage({ imageUrls, currentPage, onPageChange }: Form
               index === currentPage ? "opacity-100" : "opacity-0"
             }`}
             onClick={handleImageClick}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                handleImageClick();
+              }
+            }}
           >
             <Image
               src={imageUrl}
@@ -53,15 +64,18 @@ export default function FormImage({ imageUrls, currentPage, onPageChange }: Form
         )}
       </div>
 
-      {/* 이미지 뷰어 모달 */}
-      {isModalOpen && (
-        <ImageViewerModal
-          imageUrls={imageUrls}
-          currentPage={currentPage}
-          onPageChange={onPageChange}
-          onClose={handleCloseModal}
-        />
-      )}
+      {/* Lightbox */}
+      <Lightbox
+        open={isOpen}
+        close={() => setIsOpen(false)}
+        slides={slides}
+        index={currentPage}
+        plugins={[Zoom, Counter]}
+        counter={{ container: { style: { top: "unset", bottom: 0 } } }}
+        on={{
+          view: ({ index }) => onPageChange(index),
+        }}
+      />
     </>
   );
 }
