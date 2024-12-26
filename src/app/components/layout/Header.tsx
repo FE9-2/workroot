@@ -68,7 +68,7 @@ export default function Header() {
 
     return cn(
       "font-medium transition-colors h-16 flex items-center",
-      "hover:text-lime-900 hover:font-bold hover:opacity-70",
+      "hover:font-bold hover:text-primary-orange-300",
       isActive
         ? "text-lime-900 text-sm md:text-base lg:text-lg font-bold"
         : "text-primary-orange-400 text-sm md:text-base"
