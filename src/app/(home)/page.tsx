@@ -23,7 +23,7 @@ const slides = [
   {
     id: 1,
     title: "쉽고 빨라요",
-    content: "1분만에 알바폼을 만들어 보세요!\n링크를 복사하여 어디서든지 사용하세요.",
+    content: "1분만에 워크폼을 만들어 보세요!\n링크를 복사하여 어디서든지 사용하세요.",
     image: "/images/land/s2.svg",
   },
   {
@@ -65,7 +65,7 @@ const slides = [
   {
     id: 7,
     title: "쉽고 빨라요",
-    content: "1분만에 알바폼을 만들어 보세요!\n링크를 복사하여 어디서든지 사용하세요.",
+    content: "1분만에 워크폼을 만들어 보세요!\n링크를 복사하여 어디서든지 사용하세요.",
     image: "/images/land/s2.png",
   },
   {
@@ -284,7 +284,7 @@ export default function LandingPage() {
                     {/* 텍스트 섹션 - 장식 요소 제거 */}
                     <motion.div className="relative">
                       <motion.h2
-                        className="text-center font-hakgyo text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
+                        className="text-center font-hakgyo text-4xl font-bold tracking-tight md:text-4xl lg:text-6xl"
                         style={{
                           background: "linear-gradient(to right, #71db77, #56c45d)",
                           WebkitBackgroundClip: "text",
@@ -499,7 +499,7 @@ export default function LandingPage() {
                       {/* 텍스트 섹션 */}
                       <motion.div className="relative">
                         <motion.h2
-                          className="text-center font-hakgyo text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
+                          className="text-center font-hakgyo text-4xl font-bold tracking-tight md:text-4xl lg:text-6xl"
                           style={{
                             color: "#ffffff",
                             letterSpacing: "-0.02em",
@@ -585,7 +585,7 @@ export default function LandingPage() {
               className={`fixed ${
                 isLargeScreen
                   ? "right-12 top-1/2 -translate-y-1/2 space-y-4"
-                  : "bottom-12 left-1/2 flex -translate-x-1/2 space-x-4"
+                  : "bottom-12 left-12 flex flex-col space-y-4"
               }`}
             >
               {slides.slice(1).map((_, index) => (
