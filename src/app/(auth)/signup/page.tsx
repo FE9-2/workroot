@@ -22,7 +22,7 @@ export default function SignupPage() {
           {/* 지원자 회원가입 카드 */}
           <Link
             href="/signup/applicant"
-            className="bg-primary-blue-50 flex flex-1 flex-col items-center rounded-lg border-2 border-transparent p-8 transition-all hover:scale-105 hover:border-primary-orange-300 hover:shadow-xl"
+            className="flex flex-1 flex-col items-center rounded-lg border-2 border-transparent bg-primary-blue-50 p-8 transition-all hover:scale-105 hover:border-primary-orange-300 hover:shadow-lg"
           >
             <div className="flex h-24 w-24 items-center justify-center rounded-full bg-primary-orange-50">
               <FaUser className="h-12 w-12 text-primary-orange-300" />
@@ -41,7 +41,7 @@ export default function SignupPage() {
           {/* 사장님 회원가입 카드 */}
           <Link
             href="/signup/owner"
-            className="bg-primary-blue-50 flex flex-1 flex-col items-center rounded-lg border-2 border-transparent p-8 transition-all hover:scale-105 hover:border-primary-orange-300 hover:shadow-lg"
+            className="flex flex-1 flex-col items-center rounded-lg border-2 border-transparent bg-primary-blue-50 p-8 transition-all hover:scale-105 hover:border-primary-orange-300 hover:shadow-lg"
           >
             <div className="flex h-24 w-24 items-center justify-center rounded-full bg-primary-orange-50">
               <MdStorefront className="h-14 w-14 text-primary-orange-300" />

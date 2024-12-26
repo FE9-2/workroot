@@ -36,7 +36,7 @@ const InfoRow = ({ label, value, isIntroduction }: InfoRowProps) => {
   return (
     <div className="flex justify-between border-b pb-2">
       <span className="text-grayscale-400">{label}</span>
-      <span className={label === "지원 상태" ? "text-primary-orange-500 font-medium" : ""}>{value}</span>
+      <span className={label === "지원 상태" ? "font-medium text-primary-orange-500" : ""}>{value}</span>
     </div>
   );
 };
@@ -66,7 +66,7 @@ const ResumeDownloadButton = ({ resumeId, resumeName }: ResumeDownloadProps) => 
   return (
     <div className="flex w-full items-center justify-between border-b pb-2">
       <span className="text-grayscale-400">이력서 다운로드</span>
-      <button onClick={handleResumeDownload} className="hover:text-primary-orange-500 transition-colors">
+      <button onClick={handleResumeDownload} className="transition-colors hover:text-primary-orange-500">
         {downloading ? <FaCheckCircle className="text-2xl" /> : <FiDownload className="text-2xl" />}
       </button>
     </div>

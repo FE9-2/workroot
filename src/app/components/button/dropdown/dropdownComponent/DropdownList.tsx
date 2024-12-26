@@ -21,7 +21,7 @@ const DropdownItem = ({
     <li
       onClick={handleClick}
       className={cn(
-        "hover:bg-primary-blue-50 flex w-full cursor-pointer bg-grayscale-50 px-[10px] py-2 text-sm font-normal leading-[18px] text-black-100 lg:text-lg lg:leading-[26px]",
+        "flex w-full cursor-pointer bg-grayscale-50 px-[10px] py-2 text-sm font-normal leading-[18px] text-black-100 hover:bg-primary-blue-50 lg:text-lg lg:leading-[26px]",
         itemStyle
       )}
     >
