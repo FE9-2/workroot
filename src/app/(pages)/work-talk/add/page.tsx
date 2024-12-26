@@ -166,7 +166,7 @@ export default function AddTalk() {
                 render={({ field }) => (
                   <textarea
                     {...field}
-                    className="h-[240px] w-full resize-none rounded-lg bg-background-200 p-[14px] text-[16px] placeholder:text-grayscale-400 focus:outline-none focus:ring-2 focus:ring-primary-orange-300 md:text-[18px] lg:text-[20px]"
+                    className="h-[240px] w-full resize-none rounded-lg bg-background-200 p-[14px] text-[16px] placeholder:text-grayscale-400 focus:border-[0.5px] focus:border-primary-orange-300 focus:outline-none md:text-[18px] lg:text-[20px]"
                     placeholder="내용을 입력하세요"
                   />
                 )}
