@@ -6,14 +6,12 @@ import CommentsSection from "./components/sections/CommentsSection";
 import ScrapsSection from "./components/sections/ScrapsSection";
 import { userRoles } from "@/constants/userRoles";
 import { useUser } from "@/hooks/queries/user/me/useUser";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import DotLoadingSpinner from "@/app/components/loading-spinner/DotLoadingSpinner";
 
 export default function MyPage() {
   const searchParams = useSearchParams();
   const currentTab = searchParams.get("tab") || "posts";
-  const router = useRouter();
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
   const isApplicant = user?.role === userRoles.APPLICANT;
 
   const TabContent = {
@@ -22,10 +20,15 @@ export default function MyPage() {
     ...(isApplicant && { scrap: <ScrapsSection /> }),
   }[currentTab];
 
-  if (!user) {
-    toast.error("로그인이 필요한 페이지입니다.");
-    router.push("/login");
+  if (isLoading) {
+    return (
+      <div className="flex h-[calc(100vh-80px)] items-center justify-center">
+        <DotLoadingSpinner />
+      </div>
+    );
   }
+
+  if (!user) return null;
 
   return TabContent;
 }
