@@ -19,10 +19,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="scrollbar-custom relative">
         <ClientLayout>
+          <Header />
+          <main>{children}</main>
           <CustomCursor />
           <MouseTrail />
-          <Header />
-          <main className="min-h-[80vh] has-[header]:pt-16">{children}</main>
         </ClientLayout>
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />
       </body>

@@ -37,6 +37,14 @@ export default function Header() {
             >
               워크톡
             </Link>
+            {!user && !isLoading && (
+              <Link
+                href="/login"
+                className="text-sm text-white transition-colors hover:text-lime-400 md:text-base lg:text-lg"
+              >
+                로그인
+              </Link>
+            )}
           </div>
         </nav>
       </header>
