@@ -273,7 +273,7 @@ export default function LandingPage() {
                               src={slides[currentSlide].blackAreaImage || ""}
                               alt={slides[currentSlide].blackAreaTitle || ""}
                               fill
-                              className="object-contain transition-transform duration-500 hover:scale-105"
+                              className="object-contain transition-transform duration-500"
                               sizes="(max-width: 768px) 100vw, 600px"
                             />
                           </div>
@@ -488,7 +488,7 @@ export default function LandingPage() {
                                 src={slides[currentSlide].image}
                                 alt={slides[currentSlide].title}
                                 fill
-                                className="object-contain transition-transform duration-500 hover:scale-105"
+                                className="object-contain transition-transform duration-500"
                                 sizes="(max-width: 768px) 100vw, 600px"
                               />
                             </div>

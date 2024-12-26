@@ -27,15 +27,21 @@ export default function Header() {
           <div className="flex items-center gap-4 md:gap-6">
             <Link
               href="/work-list"
-              className="text-sm text-white transition-colors hover:text-lime-400 md:text-base lg:text-lg"
+              className="text-sm text-white transition-colors hover:text-primary-orange-300 md:text-base lg:text-lg"
             >
               워크 채널
             </Link>
             <Link
               href="/work-talk"
-              className="text-sm text-white transition-colors hover:text-lime-400 md:text-base lg:text-lg"
+              className="text-sm text-white transition-colors hover:text-primary-orange-300 md:text-base lg:text-lg"
             >
               워크톡
+            </Link>
+            <Link
+              href="/login"
+              className="text-sm text-white transition-colors hover:text-primary-orange-300 md:text-base lg:text-lg"
+            >
+              로그인
             </Link>
           </div>
         </nav>
