@@ -12,7 +12,7 @@ export default function SignupPage() {
           <h2 className="text-grayscale-900 text-center text-3xl font-bold tracking-tight">회원 유형 선택</h2>
           <p className="text-grayscale-600 mt-2 text-center text-sm">
             이미 계정이 있으신가요?{" "}
-            <Link href="/login" className="font-medium text-primary-orange-300 hover:text-primary-orange-200">
+            <Link href="/login" className="font-bold text-primary-orange-300 hover:text-primary-orange-200">
               로그인하기
             </Link>
           </p>
@@ -22,7 +22,7 @@ export default function SignupPage() {
           {/* 지원자 회원가입 카드 */}
           <Link
             href="/signup/applicant"
-            className="flex flex-1 flex-col items-center rounded-lg border-2 border-transparent bg-primary-blue-50 p-8 transition-all hover:scale-105 hover:border-primary-orange-300 hover:shadow-lg"
+            className="flex flex-1 flex-col items-center rounded-lg border-2 border-transparent bg-[#ebfdeb] p-8 transition-all hover:scale-105 hover:border-primary-orange-300 hover:shadow-xl"
           >
             <div className="flex h-24 w-24 items-center justify-center rounded-full bg-primary-orange-50">
               <FaUser className="h-12 w-12 text-primary-orange-300" />
