@@ -79,8 +79,8 @@ export default function FormActions({ formId, albaFormDetailData }: FormActionsP
   // 비회원일 때
   if (!user) {
     return (
-      <div className={buttonWrapStyle}>
-        <div>
+      <div>
+        <div className={buttonWrapStyle}>
           <Link href={`/apply/${formId}`}>
             <FloatingBtn className={`${buttonStyle}`} icon={<HiMail />}>
               지원하기
