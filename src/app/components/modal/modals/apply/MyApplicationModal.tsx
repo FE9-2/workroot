@@ -94,7 +94,7 @@ const ApplicationContent = ({
       {resumeName && (
         <>
           <InfoRow label="이력서" value="제출됨" />
-          {user && <ResumeDownloadButton resumeId={resumeId} resumeName={resumeName} />}
+          {user.user !== null && <ResumeDownloadButton resumeId={resumeId} resumeName={resumeName} />}
         </>
       )}
       <InfoRow label="자기소개" value={introduction} isIntroduction />
