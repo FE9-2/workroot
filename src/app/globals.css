@@ -200,7 +200,7 @@ input[type="checkbox"]:disabled {
 .react-datepicker__year-text--in-selecting-range,
 .react-datepicker__year-text--in-range,
 .react-datepicker__day--in-selecting-range:not(.react-datepicker__day--outside-month) {
-  @apply bg-primary-orange-50 text-black-400 opacity-80 !important;
+  @apply bg-[#fff7eb] text-black-400 opacity-80 !important;
 }
 /* 범위의 첫 날짜에 대한 스타일 */
 .react-datepicker__day--range-start.react-datepicker__day--in-range {
@@ -210,7 +210,7 @@ input[type="checkbox"]:disabled {
 
 /* 범위의 마지막 날짜에 대한 스타일 */
 .react-datepicker__day--range-end.react-datepicker__day--in-range {
-  @apply bg-primary-orange-50 !important;
+  @apply bg-[#fff7eb] !important;
   background: linear-gradient(to right, #fff7eb 50%, transparent 50%) !important;
 }
 
